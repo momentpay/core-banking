@@ -33,3 +33,7 @@ Thumbs.db
 # Parity harness output (reports, downloaded Fineract builds)
 /parity/.cache/
 /parity/reports/
+
+# Python bytecode (parity tools)
+__pycache__/
+*.pyc
