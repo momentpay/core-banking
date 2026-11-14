@@ -1,0 +1,408 @@
+{
+ "name": "offices_create_invalid",
+ "reset": [
+  "offices"
+ ],
+ "steps": [
+  {
+   "method": "POST",
+   "path": "/v1/offices",
+   "body": {},
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.office.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `openingDate` is mandatory.",
+      "defaultUserMessage": "The parameter `openingDate` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.office.openingDate.cannot.be.blank",
+      "parameterName": "openingDate",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/offices",
+   "status": 400,
+   "response": {
+    "developerMessage": "The JSON provided in the body of the request is invalid or missing.",
+    "defaultUserMessage": "The JSON provided in the body of the request is invalid or missing.",
+    "userMessageGlobalisationCode": "error.msg.invalid.request.body",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/offices",
+   "body": {
+    "name": "",
+    "parentId": 1,
+    "openingDate": "01 March 2020",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.office.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/offices",
+   "body": {
+    "name": "Z",
+    "parentId": 1,
+    "openingDate": "01 March 2020",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "bogus": 1,
+    "bogus2": 2
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter bogus is not supported.",
+      "defaultUserMessage": "bogus",
+      "userMessageGlobalisationCode": "error.msg.parameter.unsupported",
+      "parameterName": "bogus",
+      "args": []
+     },
+     {
+      "developerMessage": "The parameter bogus2 is not supported.",
+      "defaultUserMessage": "bogus2",
+      "userMessageGlobalisationCode": "error.msg.parameter.unsupported",
+      "parameterName": "bogus2",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/offices",
+   "body": {
+    "name": "Z",
+    "parentId": 1,
+    "openingDate": "2020-03-01",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `openingDate` is invalid based on the dateFormat: `dd MMMM yyyy` and locale: `en` provided:",
+      "defaultUserMessage": "The parameter `openingDate` is invalid based on the dateFormat: `dd MMMM yyyy` and locale: `en` provided:",
+      "userMessageGlobalisationCode": "validation.msg.invalid.dateFormat.format",
+      "parameterName": "openingDate",
+      "args": [
+       {},
+       {
+        "value": "dd MMMM yyyy"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/offices",
+   "body": {
+    "name": "Z",
+    "parentId": 1,
+    "openingDate": "01 March 2020"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `openingDate` requires a `dateFormat` parameter to be passed with it.",
+      "defaultUserMessage": "The parameter `openingDate` requires a `dateFormat` parameter to be passed with it.",
+      "userMessageGlobalisationCode": "validation.msg.missing.dateFormat.parameter",
+      "parameterName": "openingDate",
+      "args": []
+     },
+     {
+      "developerMessage": "The parameter `openingDate` requires a `locale` parameter to be passed with it.",
+      "defaultUserMessage": "The parameter `openingDate` requires a `locale` parameter to be passed with it.",
+      "userMessageGlobalisationCode": "validation.msg.missing.locale.parameter",
+      "parameterName": "openingDate",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/offices",
+   "body": {
+    "name": "Z",
+    "parentId": 1,
+    "openingDate": "29 February 2021",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `openingDate` is invalid based on the dateFormat: `dd MMMM yyyy` and locale: `en` provided:",
+      "defaultUserMessage": "The parameter `openingDate` is invalid based on the dateFormat: `dd MMMM yyyy` and locale: `en` provided:",
+      "userMessageGlobalisationCode": "validation.msg.invalid.dateFormat.format",
+      "parameterName": "openingDate",
+      "args": [
+       {},
+       {
+        "value": "dd MMMM yyyy"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/offices",
+   "body": {
+    "name": "Z",
+    "parentId": 1,
+    "openingDate": "01 March 2020",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": ""
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `locale` is invalid. It cannot be blank.",
+      "defaultUserMessage": "The parameter `locale` is invalid. It cannot be blank.",
+      "userMessageGlobalisationCode": "validation.msg.invalid.locale.format",
+      "parameterName": "locale",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/offices",
+   "body": {
+    "name": "Z",
+    "parentId": 0,
+    "openingDate": "01 March 2020",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `parentId` must be greater than 0.",
+      "defaultUserMessage": "The parameter `parentId` must be greater than 0.",
+      "userMessageGlobalisationCode": "validation.msg.office.parentId.not.greater.than.zero",
+      "parameterName": "parentId",
+      "args": [
+       {
+        "value": 0
+       },
+       {
+        "value": 0
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/offices",
+   "body": {
+    "name": "Z",
+    "parentId": null,
+    "openingDate": "01 March 2020",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `parentId` is mandatory.",
+      "defaultUserMessage": "The parameter `parentId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.office.parentId.cannot.be.blank",
+      "parameterName": "parentId",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/offices",
+   "body": {
+    "name": "Z",
+    "openingDate": "01 March 2020",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "The user associated with credentials passed on this request does not have sufficient privileges to perform this action.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Insufficient privileges to perform this action.",
+    "userMessageGlobalisationCode": "error.msg.not.authorized",
+    "errors": [
+     {
+      "developerMessage": "User does not have sufficient priviledges to act on the provided office.",
+      "defaultUserMessage": "User does not have sufficient priviledges to act on the provided office.",
+      "userMessageGlobalisationCode": "error.msg.not.authorized",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/offices",
+   "body": {
+    "name": "Z",
+    "parentId": 99,
+    "openingDate": "01 March 2020",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "The user associated with credentials passed on this request does not have sufficient privileges to perform this action.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Insufficient privileges to perform this action.",
+    "userMessageGlobalisationCode": "error.msg.not.authorized",
+    "errors": [
+     {
+      "developerMessage": "User does not have sufficient priviledges to act on the provided office.",
+      "defaultUserMessage": "User does not have sufficient priviledges to act on the provided office.",
+      "userMessageGlobalisationCode": "error.msg.not.authorized",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/offices",
+   "body": {
+    "name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "parentId": 1,
+    "openingDate": "01 March 2020",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` exceeds max length of 100.",
+      "defaultUserMessage": "The parameter `name` exceeds max length of 100.",
+      "userMessageGlobalisationCode": "validation.msg.office.name.exceeds.max.length",
+      "parameterName": "name",
+      "args": [
+       {
+        "value": 100
+       },
+       {
+        "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/offices",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "name": "Head Office",
+     "nameDecorated": "Head Office",
+     "externalId": "1",
+     "openingDate": [
+      2009,
+      1,
+      1
+     ],
+     "hierarchy": "."
+    }
+   ]
+  }
+ ]
+}

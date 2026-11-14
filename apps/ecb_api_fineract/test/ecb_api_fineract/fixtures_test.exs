@@ -49,6 +49,7 @@ defmodule ECBApiFineract.FixturesTest do
       |> Enum.map(&Path.basename(&1, ".json"))
       |> MapSet.new()
       |> MapSet.delete("manifest")
+      |> MapSet.delete("scenarios")
 
     assert MapSet.difference(files, names) == MapSet.new(), "fixture files not in the manifest"
 
@@ -72,32 +73,4 @@ defmodule ECBApiFineract.FixturesTest do
 
   defp normalize(list, keys) when is_list(list), do: Enum.map(list, &normalize(&1, keys))
   defp normalize(other, _keys), do: other
-
-  # The first place two JSON values differ, or nil when they are equal.
-  defp first_difference(same, same, _path), do: nil
-
-  defp first_difference(%{} = want, %{} = got, path) do
-    keys = MapSet.union(MapSet.new(Map.keys(want)), MapSet.new(Map.keys(got))) |> Enum.sort()
-
-    Enum.find_value(keys, fn key ->
-      cond do
-        not Map.has_key?(got, key) -> {"#{path}.#{key}", Map.fetch!(want, key), :missing}
-        not Map.has_key?(want, key) -> {"#{path}.#{key}", :missing, Map.fetch!(got, key)}
-        true -> first_difference(Map.fetch!(want, key), Map.fetch!(got, key), "#{path}.#{key}")
-      end
-    end)
-  end
-
-  defp first_difference(want, got, path) when is_list(want) and is_list(got) do
-    if length(want) != length(got) do
-      {path <> " (list length)", length(want), length(got)}
-    else
-      want
-      |> Enum.zip(got)
-      |> Enum.with_index()
-      |> Enum.find_value(fn {{w, g}, i} -> first_difference(w, g, "#{path}[#{i}]") end)
-    end
-  end
-
-  defp first_difference(want, got, path), do: {path, want, got}
 end

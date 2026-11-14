@@ -57,11 +57,15 @@ defmodule ECBPlatform.CommandPartsTest do
 
       assert Result.to_api_map(result) == %{
                "resourceId" => 5,
-               "resourceIdentifier" => "5",
                "officeId" => 1,
                "clientId" => 9,
                "changes" => %{"name" => "x"}
              }
+    end
+
+    test "resource/2 also reports the id as text, as Fineract's resourceResult does" do
+      assert Result.to_api_map(Result.resource(5, office_id: 1)) ==
+               %{"resourceId" => 5, "resourceIdentifier" => "5", "officeId" => 1}
     end
 
     test "every field has a Fineract name" do

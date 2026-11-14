@@ -16,9 +16,9 @@ defmodule ECBOrg.MixProject do
     ]
   end
 
-  # A library of contexts: no supervision tree of its own.
+  # No processes of its own; the application registers the organisation's commands at start.
   def application do
-    [extra_applications: [:logger]]
+    [mod: {ECBOrg.Application, []}, extra_applications: [:logger]]
   end
 
   defp elixirc_paths(:test), do: ["lib", "test/support"]

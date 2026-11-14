@@ -43,6 +43,9 @@ defmodule ECBApiFineract.ApiCase do
 
   @doc "Removes the users, roles and offices tests create, leaving the seeded rows."
   def clean_test_data do
+    # commands are committed on their own as they run, so they outlive a test; they refer to users
+    TenantRepo.query!("DELETE FROM m_portfolio_command_source")
+
     TenantRepo.query!(
       "DELETE FROM m_appuser_role WHERE appuser_id IN (SELECT id FROM m_appuser WHERE username LIKE 'apitest-%')"
     )
@@ -55,6 +58,9 @@ defmodule ECBApiFineract.ApiCase do
 
     TenantRepo.query!("DELETE FROM m_role WHERE name LIKE 'apitest-%'")
     TenantRepo.query!("DELETE FROM m_office WHERE id > 1")
+
+    # ids start again from 2, as they do on a freshly seeded Fineract (what the recorded scenarios assume)
+    TenantRepo.query!("SELECT setval(pg_get_serial_sequence('m_office', 'id'), 1)")
   end
 
   @doc """
@@ -144,4 +150,32 @@ defmodule ECBApiFineract.ApiCase do
     do:
       "{SHA-256}{#{salt}}" <>
         (:crypto.hash(:sha256, password <> "{#{salt}}") |> Base.encode16(case: :lower))
+
+  @doc "The first place two JSON values differ, as `{path, wanted, got}`, or `nil` when they are equal. Object key order is not compared; list order is."
+  def first_difference(same, same, _path), do: nil
+
+  def first_difference(%{} = want, %{} = got, path) do
+    keys = MapSet.union(MapSet.new(Map.keys(want)), MapSet.new(Map.keys(got))) |> Enum.sort()
+
+    Enum.find_value(keys, fn key ->
+      cond do
+        not Map.has_key?(got, key) -> {"#{path}.#{key}", Map.fetch!(want, key), :missing}
+        not Map.has_key?(want, key) -> {"#{path}.#{key}", :missing, Map.fetch!(got, key)}
+        true -> first_difference(Map.fetch!(want, key), Map.fetch!(got, key), "#{path}.#{key}")
+      end
+    end)
+  end
+
+  def first_difference(want, got, path) when is_list(want) and is_list(got) do
+    if length(want) != length(got) do
+      {path <> " (list length)", length(want), length(got)}
+    else
+      want
+      |> Enum.zip(got)
+      |> Enum.with_index()
+      |> Enum.find_value(fn {{w, g}, i} -> first_difference(w, g, "#{path}[#{i}]") end)
+    end
+  end
+
+  def first_difference(want, got, path), do: {path, want, got}
 end

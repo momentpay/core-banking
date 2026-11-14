@@ -122,9 +122,6 @@ defmodule ECBApiFineract.Errors do
   def render(conn, %ECBOrg.Errors.OfficeNotFound{office_id: id} = error),
     do: not_found(conn, "error.msg.office.id.invalid", Exception.message(error), [id])
 
-  def render(conn, %ECBPlatform.Errors.ResourceNotFound{} = error),
-    do: not_found(conn, error.code, error.message, error.args)
-
   def render(conn, %ECBOrg.Errors.InvalidOrdering{} = error),
     do:
       domain_rule_violation(
@@ -140,7 +137,45 @@ defmodule ECBApiFineract.Errors do
     Response.json(conn, 202, %{"commandId" => error.command_id, "resourceId" => error.resource_id})
   end
 
+  # A body that is not JSON.
+  def render(conn, %Plug.Parsers.ParseError{exception: exception}),
+    do: render(conn, %ECBPlatform.Errors.InvalidJson{detail: Exception.message(exception)})
+
+  # A request that already ran: the stored outcome is sent again.
+  def render(conn, %ECBPlatform.Commands.Errors.IdempotentSucceeded{command_source: source}) do
+    conn
+    |> put_resp_header("x-served-from-cache", "true")
+    |> send_stored(200, source.result)
+  end
+
+  def render(conn, %ECBPlatform.Commands.Errors.IdempotentFailed{command_source: source}) do
+    conn
+    |> put_resp_header("x-served-from-cache", "true")
+    |> send_stored(source.result_status_code || 500, source.result)
+  end
+
   def render(conn, error) do
+    case ECBPlatform.Errors.to_api(error) do
+      {status, body} -> Response.json(conn, status, body)
+      nil -> render_other(conn, error)
+    end
+  end
+
+  defp send_stored(conn, status, json) do
+    conn
+    |> put_resp_content_type("application/json")
+    |> send_resp(status, json || "{}")
+  end
+
+  defp render_other(conn, %ECBPlatform.Commands.Errors.IdempotentUnderProcessing{} = error) do
+    Response.json(
+      conn,
+      409,
+      ECBPlatform.Commands.Errors.to_api_map(error) |> Map.put("httpStatusCode", "409")
+    )
+  end
+
+  defp render_other(conn, error) do
     require Logger
     Logger.error("unhandled API error: #{Exception.format(:error, error)}")
 

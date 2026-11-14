@@ -31,17 +31,20 @@ defmodule ECBPlatform.Commands.Result do
   @type t :: %__MODULE__{}
 
   @doc """
-  Builds a result from keyword options named as the fields. When `:resource_id` is given and
-  `:resource_identifier` is not, the identifier is the id as text, as in Fineract.
+  Builds a result from keyword options named as the fields. Only what is given is set: most Fineract
+  handlers answer with `resourceId` and `officeId` alone.
   """
   @spec new(keyword) :: t()
-  def new(opts \\ []) do
-    result = struct!(__MODULE__, opts)
+  def new(opts \\ []), do: struct!(__MODULE__, opts)
 
-    if result.resource_id && is_nil(result.resource_identifier),
-      do: %{result | resource_identifier: Integer.to_string(result.resource_id)},
-      else: result
-  end
+  @doc """
+  A result for a handler that also reports the id as text (`resourceIdentifier`), as the handlers that
+  use Fineract's `CommandProcessingResult.resourceResult` do.
+  """
+  @spec resource(integer, keyword) :: t()
+  def resource(resource_id, opts \\ []),
+    do:
+      new([resource_id: resource_id, resource_identifier: Integer.to_string(resource_id)] ++ opts)
 
   @json_keys [
     command_id: "commandId",

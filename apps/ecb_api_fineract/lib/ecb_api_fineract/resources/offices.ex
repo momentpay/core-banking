@@ -1,10 +1,12 @@
 defmodule ECBApiFineract.Resources.Offices do
   @moduledoc """
-  `/v1/offices`: list, one office, and the new-office template. Reading needs `READ_OFFICE`.
+  `/v1/offices`: list, one office, the new-office template, and create and update. Reading needs
+  `READ_OFFICE`; writing goes through the command pipeline (`CREATE_OFFICE`, `UPDATE_OFFICE`).
 
   Query parameters of the list: `includeAllOffices` (true or false), `orderBy` and `sortOrder`.
   """
   alias ECBApiFineract.{Errors, Response}
+  alias ECBApiFineract.Resources.Write
   alias ECBOrg.Offices
   alias ECBPlatform.Security
 
@@ -35,6 +37,19 @@ defmodule ECBApiFineract.Resources.Offices do
     else
       {:error, error} -> Errors.render(conn, error)
       _not_a_number -> Errors.render(conn, %ECBOrg.Errors.OfficeNotFound{office_id: raw_id})
+    end
+  end
+
+  @doc "`POST /offices`"
+  @spec create(Plug.Conn.t()) :: Plug.Conn.t()
+  def create(conn), do: Write.execute(conn, "OFFICE", "CREATE")
+
+  @doc "`PUT /offices/:id`"
+  @spec update(Plug.Conn.t(), String.t()) :: Plug.Conn.t()
+  def update(conn, raw_id) do
+    case Write.parse_id(raw_id) do
+      nil -> Errors.render(conn, %ECBOrg.Errors.OfficeNotFound{office_id: raw_id})
+      id -> Write.execute(conn, "OFFICE", "UPDATE", id: id, office_id: id)
     end
   end
 

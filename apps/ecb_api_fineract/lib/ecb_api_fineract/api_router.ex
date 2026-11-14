@@ -15,12 +15,14 @@ defmodule ECBApiFineract.ApiRouter do
 
   plug :match
 
-  plug(Plug.Parsers,
-    parsers: [:json],
-    pass: ["*/*"],
-    json_decoder: Jason,
-    body_reader: {ECBApiFineract.BodyReader, :read_body, []}
-  )
+  @parser_options Plug.Parsers.init(
+                    parsers: [:json],
+                    pass: ["*/*"],
+                    json_decoder: Jason,
+                    body_reader: {ECBApiFineract.BodyReader, :read_body, []}
+                  )
+
+  plug :parse_body
 
   plug ECBApiFineract.Plugs.Tenant
   plug ECBApiFineract.Plugs.Authenticate
@@ -31,6 +33,8 @@ defmodule ECBApiFineract.ApiRouter do
   get "/v1/offices/template", do: Offices.template(conn)
   get "/v1/offices", do: Offices.index(conn)
   get "/v1/offices/:id", do: Offices.show(conn, id)
+  post "/v1/offices", do: Offices.create(conn)
+  put "/v1/offices/:id", do: Offices.update(conn, id)
 
   get "/v1/currencies", do: Organisation.currencies(conn)
   get "/v1/codes", do: Organisation.codes(conn)
@@ -57,6 +61,15 @@ defmodule ECBApiFineract.ApiRouter do
 
   match _ do
     Errors.not_implemented(conn, conn.method, conn.request_path)
+  end
+
+  # Reads the JSON body. A body that is not JSON is answered here, as Fineract does, rather than
+  # crashing the request.
+  defp parse_body(conn, _opts) do
+    Plug.Parsers.call(conn, @parser_options)
+  rescue
+    error in Plug.Parsers.ParseError ->
+      conn |> Errors.render(error) |> halt()
   end
 
   @impl Plug.ErrorHandler

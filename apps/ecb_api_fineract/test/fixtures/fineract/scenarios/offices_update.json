@@ -1,0 +1,346 @@
+{
+ "name": "offices_update",
+ "reset": [
+  "offices"
+ ],
+ "steps": [
+  {
+   "method": "POST",
+   "path": "/v1/offices",
+   "body": {
+    "name": "Nairobi",
+    "parentId": 1,
+    "openingDate": "01 March 2020",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 2,
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/offices",
+   "body": {
+    "name": "Kisumu",
+    "parentId": 1,
+    "openingDate": "01 March 2020",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 3,
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/offices/2",
+   "body": {
+    "name": "Nairobi HQ"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 2,
+    "resourceId": 2,
+    "changes": {
+     "name": "Nairobi HQ"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/offices/2",
+   "body": {
+    "name": "Nairobi HQ"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 2,
+    "resourceId": 2,
+    "changes": {}
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/offices/2",
+   "body": {
+    "openingDate": "05 May 2021",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "externalId": "N2"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 2,
+    "resourceId": 2,
+    "changes": {
+     "openingDate": "05 May 2021",
+     "dateFormat": "dd MMMM yyyy",
+     "locale": "en",
+     "externalId": "N2"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/offices/2",
+   "body": {
+    "externalId": ""
+   },
+   "status": 200,
+   "response": {
+    "officeId": 2,
+    "resourceId": 2,
+    "changes": {
+     "externalId": ""
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/offices/2",
+   "body": {},
+   "status": 200,
+   "response": {
+    "officeId": 2,
+    "resourceId": 2,
+    "changes": {}
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/offices/2",
+   "body": {
+    "parentId": 3
+   },
+   "status": 200,
+   "response": {
+    "officeId": 2,
+    "resourceId": 2,
+    "changes": {
+     "parentId": 3
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/offices/2",
+   "body": {
+    "parentId": 2
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Cannot update office with parent same as self.",
+      "defaultUserMessage": "Cannot update office with parent same as self.",
+      "userMessageGlobalisationCode": "error.msg.office.parentId.same.as.id",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 2
+       },
+       {
+        "value": 2
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/offices/1",
+   "body": {
+    "parentId": 2
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "The root office must not be set with a parent office.",
+      "defaultUserMessage": "The root office must not be set with a parent office.",
+      "userMessageGlobalisationCode": "error.msg.office.cannot.update.parent.office.of.root.office",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/offices/1",
+   "body": {
+    "name": "Head Office"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 1,
+    "changes": {}
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/offices/77",
+   "body": {
+    "name": "x"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "The user associated with credentials passed on this request does not have sufficient privileges to perform this action.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Insufficient privileges to perform this action.",
+    "userMessageGlobalisationCode": "error.msg.not.authorized",
+    "errors": [
+     {
+      "developerMessage": "User does not have sufficient priviledges to act on the provided office.",
+      "defaultUserMessage": "User does not have sufficient priviledges to act on the provided office.",
+      "userMessageGlobalisationCode": "error.msg.not.authorized",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/offices/2",
+   "body": {
+    "name": ""
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.office.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/offices/2",
+   "body": {
+    "parentId": 77
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "The user associated with credentials passed on this request does not have sufficient privileges to perform this action.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Insufficient privileges to perform this action.",
+    "userMessageGlobalisationCode": "error.msg.not.authorized",
+    "errors": [
+     {
+      "developerMessage": "User does not have sufficient priviledges to act on the provided office.",
+      "defaultUserMessage": "User does not have sufficient priviledges to act on the provided office.",
+      "userMessageGlobalisationCode": "error.msg.not.authorized",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/offices/2",
+   "body": {
+    "bogus": true
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter bogus is not supported.",
+      "defaultUserMessage": "bogus",
+      "userMessageGlobalisationCode": "error.msg.parameter.unsupported",
+      "parameterName": "bogus",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/offices/2",
+   "status": 400,
+   "response": {
+    "developerMessage": "The JSON provided in the body of the request is invalid or missing.",
+    "defaultUserMessage": "The JSON provided in the body of the request is invalid or missing.",
+    "userMessageGlobalisationCode": "error.msg.invalid.request.body",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "path": "/v1/offices",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "name": "Head Office",
+     "nameDecorated": "Head Office",
+     "externalId": "1",
+     "openingDate": [
+      2009,
+      1,
+      1
+     ],
+     "hierarchy": "."
+    },
+    {
+     "id": 3,
+     "name": "Kisumu",
+     "nameDecorated": "....Kisumu",
+     "openingDate": [
+      2020,
+      3,
+      1
+     ],
+     "hierarchy": ".3.",
+     "parentId": 1,
+     "parentName": "Head Office"
+    },
+    {
+     "id": 2,
+     "name": "Nairobi HQ",
+     "nameDecorated": "........Nairobi HQ",
+     "openingDate": [
+      2021,
+      5,
+      5
+     ],
+     "hierarchy": ".3.2.",
+     "parentId": 3,
+     "parentName": "Kisumu"
+    }
+   ]
+  }
+ ]
+}

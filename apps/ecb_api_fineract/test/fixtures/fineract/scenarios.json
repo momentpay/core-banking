@@ -1,0 +1,61 @@
+{
+  "notes": "Sequences of writes whose every response is recorded from Apache Fineract (parity/tools/capture_fixtures.py scenarios) and required, exactly, from E-CoreBank (ECBApiFineract.ScenariosTest). Each scenario starts from the seeded data after its reset.",
+  "scenarios": [
+    {
+      "name": "offices_create",
+      "reset": ["offices"],
+      "steps": [
+        {"method": "POST", "path": "/v1/offices", "body": {"name": "Nairobi", "parentId": 1, "openingDate": "01 March 2020", "dateFormat": "dd MMMM yyyy", "locale": "en", "externalId": "NBO"}},
+        {"method": "POST", "path": "/v1/offices", "body": {"name": "Westlands", "parentId": 2, "openingDate": "2021-02-03", "dateFormat": "yyyy-MM-dd", "locale": "en"}},
+        {"path": "/v1/offices"},
+        {"path": "/v1/offices/3"},
+        {"method": "POST", "path": "/v1/offices", "body": {"name": "Mombasa", "parentId": 1, "openingDate": "1/3/20", "dateFormat": "d/M/yy", "locale": "en"}},
+        {"method": "POST", "path": "/v1/offices", "body": {"name": "Kisumu", "parentId": 1, "openingDate": "05 sep 2022", "dateFormat": "dd MMM yyyy", "locale": "en"}},
+        {"path": "/v1/offices?orderBy=name&sortOrder=desc"}
+      ]
+    },
+    {
+      "name": "offices_create_invalid",
+      "reset": ["offices"],
+      "steps": [
+        {"method": "POST", "path": "/v1/offices", "body": {}},
+        {"method": "POST", "path": "/v1/offices"},
+        {"method": "POST", "path": "/v1/offices", "body": {"name": "", "parentId": 1, "openingDate": "01 March 2020", "dateFormat": "dd MMMM yyyy", "locale": "en"}},
+        {"method": "POST", "path": "/v1/offices", "body": {"name": "Z", "parentId": 1, "openingDate": "01 March 2020", "dateFormat": "dd MMMM yyyy", "locale": "en", "bogus": 1, "bogus2": 2}},
+        {"method": "POST", "path": "/v1/offices", "body": {"name": "Z", "parentId": 1, "openingDate": "2020-03-01", "dateFormat": "dd MMMM yyyy", "locale": "en"}},
+        {"method": "POST", "path": "/v1/offices", "body": {"name": "Z", "parentId": 1, "openingDate": "01 March 2020"}},
+        {"method": "POST", "path": "/v1/offices", "body": {"name": "Z", "parentId": 1, "openingDate": "29 February 2021", "dateFormat": "dd MMMM yyyy", "locale": "en"}},
+        {"method": "POST", "path": "/v1/offices", "body": {"name": "Z", "parentId": 1, "openingDate": "01 March 2020", "dateFormat": "dd MMMM yyyy", "locale": ""}},
+        {"method": "POST", "path": "/v1/offices", "body": {"name": "Z", "parentId": 0, "openingDate": "01 March 2020", "dateFormat": "dd MMMM yyyy", "locale": "en"}},
+        {"method": "POST", "path": "/v1/offices", "body": {"name": "Z", "parentId": null, "openingDate": "01 March 2020", "dateFormat": "dd MMMM yyyy", "locale": "en"}},
+        {"method": "POST", "path": "/v1/offices", "body": {"name": "Z", "openingDate": "01 March 2020", "dateFormat": "dd MMMM yyyy", "locale": "en"}},
+        {"method": "POST", "path": "/v1/offices", "body": {"name": "Z", "parentId": 99, "openingDate": "01 March 2020", "dateFormat": "dd MMMM yyyy", "locale": "en"}},
+        {"method": "POST", "path": "/v1/offices", "body": {"name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "parentId": 1, "openingDate": "01 March 2020", "dateFormat": "dd MMMM yyyy", "locale": "en"}},
+        {"path": "/v1/offices"}
+      ]
+    },
+    {
+      "name": "offices_update",
+      "reset": ["offices"],
+      "steps": [
+        {"method": "POST", "path": "/v1/offices", "body": {"name": "Nairobi", "parentId": 1, "openingDate": "01 March 2020", "dateFormat": "dd MMMM yyyy", "locale": "en"}},
+        {"method": "POST", "path": "/v1/offices", "body": {"name": "Kisumu", "parentId": 1, "openingDate": "01 March 2020", "dateFormat": "dd MMMM yyyy", "locale": "en"}},
+        {"method": "PUT", "path": "/v1/offices/2", "body": {"name": "Nairobi HQ"}},
+        {"method": "PUT", "path": "/v1/offices/2", "body": {"name": "Nairobi HQ"}},
+        {"method": "PUT", "path": "/v1/offices/2", "body": {"openingDate": "05 May 2021", "dateFormat": "dd MMMM yyyy", "locale": "en", "externalId": "N2"}},
+        {"method": "PUT", "path": "/v1/offices/2", "body": {"externalId": ""}},
+        {"method": "PUT", "path": "/v1/offices/2", "body": {}},
+        {"method": "PUT", "path": "/v1/offices/2", "body": {"parentId": 3}},
+        {"method": "PUT", "path": "/v1/offices/2", "body": {"parentId": 2}},
+        {"method": "PUT", "path": "/v1/offices/1", "body": {"parentId": 2}},
+        {"method": "PUT", "path": "/v1/offices/1", "body": {"name": "Head Office"}},
+        {"method": "PUT", "path": "/v1/offices/77", "body": {"name": "x"}},
+        {"method": "PUT", "path": "/v1/offices/2", "body": {"name": ""}},
+        {"method": "PUT", "path": "/v1/offices/2", "body": {"parentId": 77}},
+        {"method": "PUT", "path": "/v1/offices/2", "body": {"bogus": true}},
+        {"method": "PUT", "path": "/v1/offices/2"},
+        {"path": "/v1/offices"}
+      ]
+    }
+  ]
+}

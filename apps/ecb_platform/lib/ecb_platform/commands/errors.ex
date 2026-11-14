@@ -137,7 +137,12 @@ defmodule ECBPlatform.Commands.Errors do
       when is_integer(code),
       do: code
 
-  def http_status(_other), do: 500
+  def http_status(other) do
+    case ECBPlatform.Errors.to_api(other) do
+      {status, _body} -> status
+      nil -> 500
+    end
+  end
 
   @doc """
   The body Fineract sends for an error and stores with a failed command: `developerMessage`,
@@ -145,6 +150,13 @@ defmodule ECBPlatform.Commands.Errors do
   """
   @spec to_api_map(Exception.t()) :: map
   def to_api_map(exception) do
+    case ECBPlatform.Errors.to_api(exception) do
+      {_status, body} -> body
+      nil -> generic_api_map(exception)
+    end
+  end
+
+  defp generic_api_map(exception) do
     message = Exception.message(exception)
 
     %{

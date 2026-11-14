@@ -3,6 +3,7 @@
 
   capture_fixtures.py capture [--only NAME ...]   fetch each manifest entry from the running oracle
   capture_fixtures.py status                      show what is captured, built and pending
+  capture_fixtures.py scenarios [--only NAME ...] replay write scenarios on the oracle and record every response
 
 The manifest (apps/ecb_api_fineract/test/fixtures/fineract/manifest.json) lists the requests. Each
 entry has a `name`, a `path` (under /fineract-provider/api) and a `status` to expect, and may set
@@ -13,6 +14,12 @@ The fixture holds the response of the oracle on its seeded data, which E-CoreBan
 `ECBApiFineract.FixturesTest` can require the same JSON from E-CoreBank. That checks exact values, not just
 shape: the contract probe checks shape across the whole API, fixtures check the details of what is built.
 
+Write scenarios (`scenarios.json`) are sequences of requests that change data (create an office, then
+update it, then try a bad update). Each names the `reset` of the oracle's data that makes ids repeatable
+(offices are removed and their id sequence restarted), and the capture records the status and body of every
+step into `scenarios/<name>.json`. `ECBApiFineract.ScenariosTest` replays them on E-CoreBank. The oracle's
+own database is reached with `psql` (set ORACLE_PSQL, ORACLE_PG_PORT to override the defaults).
+
 Standard library only. Python 3.9 or newer.
 """
 from __future__ import annotations
@@ -20,7 +27,9 @@ from __future__ import annotations
 import argparse
 import base64
 import json
+import os
 import ssl
+import subprocess
 import sys
 import urllib.error
 import urllib.request
@@ -40,18 +49,20 @@ def load_manifest() -> dict:
     return json.loads(MANIFEST.read_text(encoding="utf-8"))
 
 
-def fetch(path: str) -> tuple[int, object]:
-    req = urllib.request.Request(
-        ORACLE + path,
-        headers={
-            "Authorization": "Basic " + base64.b64encode(b"mifos:password").decode(),
-            "Fineract-Platform-TenantId": "default",
-            "Accept": "application/json",
-        },
-    )
+def fetch(path: str, method: str = "GET", body: str | None = None) -> tuple[int, object]:
+    headers = {
+        "Authorization": "Basic " + base64.b64encode(b"mifos:password").decode(),
+        "Fineract-Platform-TenantId": "default",
+        "Accept": "application/json",
+    }
+    data = None
+    if body is not None:
+        data = body.encode("utf-8")
+        headers["Content-Type"] = "application/json"
+    req = urllib.request.Request(ORACLE + path, data=data, method=method, headers=headers)
     try:
         with urllib.request.urlopen(req, context=CTX, timeout=60) as resp:  # noqa: S310 (local oracle)
-            return resp.status, json.loads(resp.read().decode("utf-8"))
+            return resp.status, json.loads(resp.read().decode("utf-8") or "null")
     except urllib.error.HTTPError as err:
         return err.code, json.loads(err.read().decode("utf-8") or "null")
 
@@ -89,6 +100,63 @@ def cmd_capture(args) -> int:
     return 0
 
 
+# --- write scenarios --------------------------------------------------------------------------
+
+SCENARIOS = FIXTURES / "scenarios.json"
+SCENARIO_DIR = FIXTURES / "scenarios"
+
+# SQL that returns a part of the oracle's data to its seeded state, so ids repeat from run to run.
+RESETS = {
+    "offices": [
+        "DELETE FROM m_office WHERE id > 1",
+        "SELECT setval(pg_get_serial_sequence('m_office', 'id'), 1)",
+    ],
+}
+
+
+def oracle_sql(statements: list[str]) -> None:
+    psql = os.environ.get("ORACLE_PSQL", r"D:\Program Files\PostgreSQL\18\bin\psql.exe")
+    port = os.environ.get("ORACLE_PG_PORT", "54330")
+    for sql in statements:
+        subprocess.run(
+            [psql, "-h", "127.0.0.1", "-p", port, "-U", "postgres", "-d", "fineract_default", "-v", "ON_ERROR_STOP=1", "-qtAc", sql],
+            check=True, capture_output=True, text=True)
+
+
+def step_body(step: dict) -> str | None:
+    """A step's body as text: `raw` is sent as is (for malformed JSON), `body` is encoded."""
+    if "raw" in step:
+        return step["raw"]
+    if "body" in step:
+        return json.dumps(step["body"])
+    return None
+
+
+def cmd_scenarios(args) -> int:
+    definitions = json.loads(SCENARIOS.read_text(encoding="utf-8"))["scenarios"]
+    SCENARIO_DIR.mkdir(exist_ok=True)
+    count = 0
+    for scenario in definitions:
+        if args.only and scenario["name"] not in args.only:
+            continue
+        for reset in scenario.get("reset", []):
+            oracle_sql(RESETS[reset])
+        steps = []
+        for step in scenario["steps"]:
+            status, body = fetch(step["path"], step.get("method", "GET"), step_body(step))
+            recorded = {k: v for k, v in step.items() if k in ("method", "path", "body", "raw")}
+            recorded.update({"status": status, "response": body})
+            steps.append(recorded)
+        (SCENARIO_DIR / f"{scenario['name']}.json").write_text(
+            json.dumps({"name": scenario["name"], "reset": scenario.get("reset", []), "steps": steps}, indent=1, ensure_ascii=False) + "\n",
+            encoding="utf-8", newline="\n")
+        for reset in scenario.get("reset", []):
+            oracle_sql(RESETS[reset])  # leave the oracle as it was seeded
+        count += 1
+    print(f"Captured {count} scenario(s) into {SCENARIO_DIR}")
+    return 0
+
+
 def cmd_status(_args) -> int:
     manifest = load_manifest()
     entries = manifest["entries"]
@@ -107,6 +175,9 @@ def main(argv=None) -> int:
     c = sub.add_parser("capture")
     c.add_argument("--only", nargs="*")
     c.set_defaults(func=cmd_capture)
+    sc = sub.add_parser("scenarios")
+    sc.add_argument("--only", nargs="*")
+    sc.set_defaults(func=cmd_scenarios)
     sub.add_parser("status").set_defaults(func=cmd_status)
     args = p.parse_args(argv)
     return args.func(args)
