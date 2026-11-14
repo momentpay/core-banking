@@ -1,0 +1,26 @@
+# Local development services. Nothing here is for production.
+#
+#   docker compose up -d db
+#
+# Then point the app at it:
+#   export ECB_DB_HOST=localhost ECB_DB_PORT=5432 ECB_DB_USER=postgres ECB_DB_PASSWORD=postgres
+#
+# The Apache Fineract oracle (used for parity testing) is added under parity/ in Phase 0.
+services:
+  db:
+    image: postgres:17
+    environment:
+      # Local development only.
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - ecb-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  ecb-pgdata:

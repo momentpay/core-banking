@@ -1,0 +1,91 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* This file is for your main application CSS */
+.inner-container {
+	width:100%;
+}
+
+/* Tab button styling for Update Statistics filters */
+.tab-btn {
+	@apply px-3 py-1 rounded text-sm font-medium border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 transition-colors;
+}
+
+.tab-btn.active {
+	@apply bg-blue-600 text-white border-blue-600 hover:bg-blue-700;
+}
+
+/* AG Grid filter popup styling fixes */
+.ag-theme-alpine .ag-filter-popup {
+	z-index: 9999 !important;
+	min-width: 250px !important;
+	max-width: 350px !important;
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+	border: 1px solid #e5e7eb !important;
+	border-radius: 6px !important;
+	background: white !important;
+}
+
+.ag-theme-alpine .ag-filter-popup .ag-filter-body {
+	padding: 12px !important;
+	min-height: auto !important;
+}
+
+.ag-theme-alpine .ag-filter-popup .ag-filter-condition {
+	margin-bottom: 8px !important;
+}
+
+.ag-theme-alpine .ag-filter-popup .ag-input-wrapper {
+	width: 100% !important;
+	margin-bottom: 8px !important;
+}
+
+.ag-theme-alpine .ag-filter-popup input {
+	width: 100% !important;
+	padding: 6px 8px !important;
+	padding-left: 32px !important;
+	border: 1px solid #d1d5db !important;
+	border-radius: 4px !important;
+	font-size: 14px !important;
+	text-indent: 4px !important;
+}
+
+/* Fix spacing for AG Grid's built-in filter icon */
+.ag-theme-alpine .ag-text-field-input-wrapper {
+	position: relative !important;
+}
+
+.ag-theme-alpine .ag-text-field-input-wrapper .ag-input-field-input {
+	padding-left: 28px !important;
+	text-indent: 4px !important;
+}
+
+.ag-theme-alpine .ag-filter-popup .ag-icon {
+	margin-right: 6px !important;
+	margin-left: 2px !important;
+}
+
+.ag-theme-alpine .ag-filter-popup select {
+	width: 100% !important;
+	padding: 6px 8px !important;
+	border: 1px solid #d1d5db !important;
+	border-radius: 4px !important;
+	font-size: 14px !important;
+	background: white !important;
+}
+
+.ag-theme-alpine .ag-filter-popup .ag-filter-apply-panel {
+	padding-top: 8px !important;
+	border-top: 1px solid #e5e7eb !important;
+	margin-top: 8px !important;
+}
+
+/* Ensure popup doesn't get clipped by container */
+.ag-table-container {
+	overflow: visible !important;
+}
+
+.ag-theme-alpine {
+	overflow: visible !important;
+}

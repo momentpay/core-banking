@@ -1,0 +1,26 @@
+import BaseAgGridHook from '../base/BaseAgGridHook';
+
+export default {
+  ...BaseAgGridHook,
+  mounted() {
+    const config = {
+      columnDefs: [
+        { headerName: "Serial Number", field: "serial_number" },
+        { headerName: "OID", field: "oid" },
+        { headerName: "Status", field: "status" },
+        { headerName: "Model", field: "model" },
+        { headerName: "Vendor", field: "vendor" },
+        { headerName: "IMEI", field: "imei" },
+        { headerName: "App Version", field: "app_version" },
+        { headerName: "Firmware Version", field: "firmware_version" },
+        { headerName: "Last Seen", field: "last_seen_at" },
+        { headerName: "Battery", field: "battery" },
+        { headerName: "CPU", field: "cpu" },
+        { headerName: "Memory", field: "memory" }
+      ],
+      rowData: JSON.parse(this.el.dataset.rows || '[]')
+    };
+    this.setupGrid(config);
+  }
+}
+
