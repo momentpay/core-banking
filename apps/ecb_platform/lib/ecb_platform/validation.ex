@@ -292,6 +292,22 @@ defmodule ECBPlatform.Validation do
   def fail_with_code(v, code),
     do: add(v, code, "Failed data validation due to: #{code}.", [v.value, []])
 
+  @doc """
+  Records that an update carried nothing to change: `validation.msg.<resource>.no.parameters.for.update`,
+  against the parameter `id`, as Fineract's `anyOfNotNull` does.
+  """
+  @spec no_parameters_for_update(t) :: t
+  def no_parameters_for_update(%__MODULE__{} = v) do
+    error =
+      Errors.parameter_error(
+        "validation.msg.#{v.resource}.no.parameters.for.update",
+        "No parameters passed for update.",
+        "id"
+      )
+
+    %{v | errors: [error | v.errors]}
+  end
+
   @doc "Records a problem with a code and message of your own: `validation.msg.<resource>.<parameter>.<code>`."
   @spec fail(t, String.t(), String.t(), [term]) :: t
   def fail(v, code, message, args \\ []), do: add(v, code, message, args)

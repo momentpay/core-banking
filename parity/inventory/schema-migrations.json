@@ -123,6 +123,22 @@
       "tables": [
         "m_business_date"
       ]
+    },
+    {
+      "kind": "schema",
+      "app": "ecb_ledger",
+      "version": "20261115100000",
+      "name": "create_accounting_tables",
+      "tables": [
+        "acc_gl_account",
+        "acc_gl_closure",
+        "acc_gl_financial_activity_account",
+        "acc_gl_journal_entry",
+        "acc_gl_journal_entry_annual_summary",
+        "acc_accounting_rule",
+        "acc_rule_tags",
+        "acc_product_mapping"
+      ]
     }
   ],
   "deferred_foreign_keys": [
@@ -131,6 +147,42 @@
       "references": "m_image",
       "sql": "ALTER TABLE ONLY public.m_staff\n    ADD CONSTRAINT \"FK_m_staff_m_image\" FOREIGN KEY (image_id) REFERENCES public.m_image(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
       "migration": "create_office_and_staff_tables"
+    },
+    {
+      "table": "acc_gl_journal_entry",
+      "references": "m_client_transaction",
+      "sql": "ALTER TABLE ONLY public.acc_gl_journal_entry\n    ADD CONSTRAINT \"FK_acc_gl_journal_entry_m_client_transaction\" FOREIGN KEY (client_transaction_id) REFERENCES public.m_client_transaction(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
+      "migration": "create_accounting_tables"
+    },
+    {
+      "table": "acc_gl_journal_entry",
+      "references": "m_loan_transaction",
+      "sql": "ALTER TABLE ONLY public.acc_gl_journal_entry\n    ADD CONSTRAINT \"FK_acc_gl_journal_entry_m_loan_transaction\" FOREIGN KEY (loan_transaction_id) REFERENCES public.m_loan_transaction(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
+      "migration": "create_accounting_tables"
+    },
+    {
+      "table": "acc_gl_journal_entry",
+      "references": "m_payment_detail",
+      "sql": "ALTER TABLE ONLY public.acc_gl_journal_entry\n    ADD CONSTRAINT \"FK_acc_gl_journal_entry_m_payment_detail\" FOREIGN KEY (payment_details_id) REFERENCES public.m_payment_detail(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
+      "migration": "create_accounting_tables"
+    },
+    {
+      "table": "acc_gl_journal_entry",
+      "references": "m_savings_account_transaction",
+      "sql": "ALTER TABLE ONLY public.acc_gl_journal_entry\n    ADD CONSTRAINT \"FK_acc_gl_journal_entry_m_savings_account_transaction\" FOREIGN KEY (savings_transaction_id) REFERENCES public.m_savings_account_transaction(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
+      "migration": "create_accounting_tables"
+    },
+    {
+      "table": "acc_gl_journal_entry",
+      "references": "m_share_account_transactions",
+      "sql": "ALTER TABLE ONLY public.acc_gl_journal_entry\n    ADD CONSTRAINT \"FK_acc_gl_journal_entry_m_share_account_transaction\" FOREIGN KEY (share_transaction_id) REFERENCES public.m_share_account_transactions(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
+      "migration": "create_accounting_tables"
+    },
+    {
+      "table": "acc_product_mapping",
+      "references": "m_charge",
+      "sql": "ALTER TABLE ONLY public.acc_product_mapping\n    ADD CONSTRAINT \"FK_acc_product_mapping_m_charge\" FOREIGN KEY (charge_id) REFERENCES public.m_charge(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
+      "migration": "create_accounting_tables"
     }
   ]
 }

@@ -28,6 +28,7 @@ defmodule ECBApiFineract.MixProject do
     [
       {:ecb_platform, in_umbrella: true},
       {:ecb_org, in_umbrella: true},
+      {:ecb_ledger, in_umbrella: true},
       {:plug, "~> 1.16"},
       {:jason, "~> 1.2"},
       {:ecto_sql, "~> 3.10"}

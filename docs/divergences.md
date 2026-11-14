@@ -60,6 +60,10 @@ No stored value differs: command rows, statuses, result codes and result JSON fi
 | 24 | `GET /businessdate/{type}` for an unknown type shows a Java stack trace in the error's arguments | The arguments are the type and an empty list | A stack trace in a response is a leak, not a contract | Scenario ignores `args` |
 | 25 | The validation errors of `POST /businessdate` come in an order Java leaves open | Listed in the order dateFormat, type, date, locale, local date | Order carries no meaning; the codes and messages are Fineract's | `AdministrationWriteTest` (compared as a set) |
 | 26 | `GET /businessdate` lists the rows in the database's physical order | Listed by id | Stable and predictable | Not compared after an update |
+| 27 | A GL code already in use answers a generic data-integrity error when Fineract runs on PostgreSQL | `error.msg.glaccount.glcode.duplicate` (the exception Fineract meant to throw) | As row 8 | `GLAccountWriteTest` |
+| 28 | Moving a GL account rewrites only its own path | Everything beneath it moves too | As row 9 | `GLAccountWriteTest` |
+| 29 | `GET /glaccounts?searchParam=` and `?fetchRunningBalance=true` answer HTTP 500 | `searchParam` works (part of the name or code); the running balance arrives with journal entries | A 500 on a documented filter is a defect | `GLAccountWriteTest` |
+| 30 | A bad `type` filter on the account list is reported as a bad *usage* (wrong message code and text, and `null` for a bad usage) | The same, kept so clients keyed on it behave the same | Recorded from Fineract | `ScenariosTest` (glaccounts) |
 
 **Security note:** the seeded users (`mifos`, `system`, `interopUser`) and the password `password` are Fineract's published defaults. They exist so the compatible API and Fineract's own tests work out of the box. A real deployment must change those passwords, or remove the users, before it holds real data. A password can now be changed with `PUT /users/{id}` or `POST /users/{id}/pwd`; the active password policy applies (the default policy asks for 12 to 50 characters with upper and lower case, a digit and a symbol).
 

@@ -19,6 +19,7 @@ defmodule ECBApiFineract.ApiRouter do
     BusinessDate,
     Codes,
     Funds,
+    GLAccounts,
     Holidays,
     MakerCheckers,
     Offices,
@@ -115,6 +116,12 @@ defmodule ECBApiFineract.ApiRouter do
   put "/v1/users/:id", do: Administration.update_user(conn, id)
   delete "/v1/users/:id", do: Administration.delete_user(conn, id)
   post "/v1/users/:id/pwd", do: Administration.change_user_password(conn, id)
+  get "/v1/glaccounts/template", do: GLAccounts.template(conn)
+  get "/v1/glaccounts", do: GLAccounts.index(conn)
+  post "/v1/glaccounts", do: GLAccounts.create(conn)
+  get "/v1/glaccounts/:id", do: GLAccounts.show(conn, id)
+  put "/v1/glaccounts/:id", do: GLAccounts.update(conn, id)
+  delete "/v1/glaccounts/:id", do: GLAccounts.delete(conn, id)
   get "/v1/businessdate", do: BusinessDate.index(conn)
   get "/v1/businessdate/:type", do: BusinessDate.show(conn, type)
   post "/v1/businessdate", do: BusinessDate.update(conn)

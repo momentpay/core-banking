@@ -73,6 +73,23 @@ defmodule ECBApiFineract.ApiCase do
     TenantRepo.query!("DELETE FROM m_appuser WHERE id > 3")
     TenantRepo.query!("UPDATE m_appuser SET username = 'system' WHERE id = 2")
     TenantRepo.query!("SELECT setval(pg_get_serial_sequence('m_appuser', 'id'), 3)")
+
+    for sql <- [
+          "DELETE FROM acc_gl_journal_entry",
+          "DELETE FROM acc_product_mapping",
+          "DELETE FROM acc_gl_financial_activity_account",
+          "DELETE FROM acc_rule_tags",
+          "DELETE FROM acc_accounting_rule",
+          "DELETE FROM acc_gl_closure",
+          "DELETE FROM acc_gl_account",
+          "SELECT setval(pg_get_serial_sequence('acc_gl_account', 'id'), 1, false)",
+          "SELECT setval(pg_get_serial_sequence('acc_gl_closure', 'id'), 1, false)",
+          "SELECT setval(pg_get_serial_sequence('acc_gl_financial_activity_account', 'id'), 1, false)",
+          "SELECT setval(pg_get_serial_sequence('acc_accounting_rule', 'id'), 1, false)"
+        ] do
+      TenantRepo.query!(sql)
+    end
+
     TenantRepo.query!("DELETE FROM m_code_value WHERE id > 22")
     TenantRepo.query!("DELETE FROM m_code WHERE is_system_defined = false")
     TenantRepo.query!("SELECT setval(pg_get_serial_sequence('m_code', 'id'), 49)")
@@ -89,6 +106,7 @@ defmodule ECBApiFineract.ApiCase do
     TenantRepo.query!("DELETE FROM m_role_permission WHERE role_id > 2")
     TenantRepo.query!("DELETE FROM m_role WHERE id > 2")
     TenantRepo.query!("SELECT setval(pg_get_serial_sequence('m_role', 'id'), 2)")
+
     TenantRepo.query!("DELETE FROM m_holiday_office")
     TenantRepo.query!("DELETE FROM m_holiday")
     TenantRepo.query!("SELECT setval(pg_get_serial_sequence('m_holiday', 'id'), 1, false)")

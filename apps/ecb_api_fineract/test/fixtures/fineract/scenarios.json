@@ -2780,6 +2780,489 @@
           }
         }
       ]
+    },
+    {
+      "name": "glaccounts",
+      "reset": [
+        "glaccounts",
+        "codes"
+      ],
+      "steps": [
+        {
+          "method": "POST",
+          "path": "/v1/codes/7/codevalues",
+          "body": {
+            "name": "Current assets"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/8/codevalues",
+          "body": {
+            "name": "Other"
+          }
+        },
+        {
+          "path": "/v1/glaccounts"
+        },
+        {
+          "path": "/v1/glaccounts/template"
+        },
+        {
+          "path": "/v1/glaccounts/template?type=4"
+        },
+        {
+          "path": "/v1/glaccounts/template?type=9"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Assets",
+            "glCode": "1",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Cash",
+            "glCode": "1000",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "parentId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Bank",
+            "glCode": "1100",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "parentId": 1,
+            "tagId": 23,
+            "description": "Main bank account"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Liabilities",
+            "glCode": "2",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Deposits",
+            "glCode": "2000",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 1,
+            "parentId": 4
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Interest income",
+            "glCode": "4000",
+            "manualEntriesAllowed": true,
+            "type": 4,
+            "usage": 1,
+            "disabled": true
+          }
+        },
+        {
+          "path": "/v1/glaccounts"
+        },
+        {
+          "path": "/v1/glaccounts/2"
+        },
+        {
+          "path": "/v1/glaccounts/3"
+        },
+        {
+          "path": "/v1/glaccounts/99"
+        },
+        {
+          "path": "/v1/glaccounts/2?template=true"
+        },
+        {
+          "path": "/v1/glaccounts?type=1"
+        },
+        {
+          "path": "/v1/glaccounts?usage=2"
+        },
+        {
+          "path": "/v1/glaccounts?disabled=true"
+        },
+        {
+          "path": "/v1/glaccounts?manualEntriesAllowed=true&type=2"
+        },
+        {
+          "path": "/v1/glaccounts?type=9"
+        },
+        {
+          "path": "/v1/glaccounts?usage=9"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/2",
+          "body": {
+            "name": "Petty cash"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/2",
+          "body": {
+            "name": "Petty cash"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/2",
+          "body": {
+            "glCode": "1001",
+            "description": "Small cash",
+            "manualEntriesAllowed": false
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/2",
+          "body": {
+            "parentId": 4
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/2",
+          "body": {
+            "parentId": 3
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/2",
+          "body": {
+            "parentId": 2
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/2",
+          "body": {
+            "parentId": 99
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/2",
+          "body": {
+            "parentId": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/3",
+          "body": {
+            "tagId": 24
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/3",
+          "body": {
+            "tagId": 99
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/3",
+          "body": {
+            "tagId": 23
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/3",
+          "body": {
+            "disabled": true
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/3",
+          "body": {
+            "disabled": false
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/1",
+          "body": {
+            "usage": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/99",
+          "body": {
+            "name": "x"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/2",
+          "body": {}
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/2",
+          "body": {
+            "type": 9
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/2",
+          "body": {
+            "name": ""
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Cash",
+            "glCode": "1000",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Again",
+            "glCode": "1002",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "parentId": 2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Again",
+            "glCode": "1002",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "parentId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Cash",
+            "glCode": "1000",
+            "manualEntriesAllowed": true,
+            "type": 9,
+            "usage": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Cash",
+            "glCode": "1000",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 9
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+            "glCode": "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Cash",
+            "glCode": "1003",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 1,
+            "tagId": 23
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Cash",
+            "glCode": "1004",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "tagId": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Cash",
+            "glCode": "1005",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "parentId": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "x",
+            "glCode": "9",
+            "type": 1,
+            "usage": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Cash",
+            "glCode": "1006",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "bogus": 1
+          }
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/glaccounts/1"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/glaccounts/2"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/glaccounts/2"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/glaccounts/99"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/3",
+          "body": {
+            "name": "Bank",
+            "tagId": 23
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/3",
+          "body": {
+            "name": "Bank 2",
+            "tagId": 24
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/3",
+          "body": {
+            "name": "Bank 2",
+            "tagId": 99
+          }
+        },
+        {
+          "path": "/v1/glaccounts/3"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/3",
+          "body": {
+            "name": "Bank 2",
+            "tagId": null
+          }
+        },
+        {
+          "path": "/v1/glaccounts/3"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/5",
+          "body": {
+            "parentId": 1,
+            "type": 1
+          }
+        },
+        {
+          "path": "/v1/glaccounts/5"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/1",
+          "body": {
+            "description": "Top",
+            "usage": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/4",
+          "body": {
+            "parentId": null
+          }
+        },
+        {
+          "path": "/v1/glaccounts/template"
+        },
+        {
+          "path": "/v1/glaccounts"
+        }
+      ]
     }
   ]
 }

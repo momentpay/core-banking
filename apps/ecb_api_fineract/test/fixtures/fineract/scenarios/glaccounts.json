@@ -1,0 +1,2312 @@
+{
+ "name": "glaccounts",
+ "reset": [
+  "glaccounts",
+  "codes"
+ ],
+ "steps": [
+  {
+   "method": "POST",
+   "path": "/v1/codes/7/codevalues",
+   "body": {
+    "name": "Current assets"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 7,
+    "subResourceId": 23
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes/8/codevalues",
+   "body": {
+    "name": "Other"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 8,
+    "subResourceId": 24
+   }
+  },
+  {
+   "path": "/v1/glaccounts",
+   "status": 200,
+   "response": []
+  },
+  {
+   "path": "/v1/glaccounts/template",
+   "status": 200,
+   "response": {
+    "disabled": false,
+    "manualEntriesAllowed": true,
+    "type": {
+     "id": 1,
+     "code": "accountType.asset",
+     "value": "ASSET"
+    },
+    "usage": {
+     "id": 1,
+     "code": "accountUsage.detail",
+     "value": "DETAIL"
+    },
+    "accountTypeOptions": [
+     {
+      "id": 1,
+      "code": "accountType.asset",
+      "value": "ASSET"
+     },
+     {
+      "id": 2,
+      "code": "accountType.liability",
+      "value": "LIABILITY"
+     },
+     {
+      "id": 3,
+      "code": "accountType.equity",
+      "value": "EQUITY"
+     },
+     {
+      "id": 4,
+      "code": "accountType.income",
+      "value": "INCOME"
+     },
+     {
+      "id": 5,
+      "code": "accountType.expense",
+      "value": "EXPENSE"
+     }
+    ],
+    "usageOptions": [
+     {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     {
+      "id": 2,
+      "code": "accountUsage.header",
+      "value": "HEADER"
+     }
+    ],
+    "allowedAssetsTagOptions": [
+     {
+      "id": 23,
+      "name": "Current assets",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     }
+    ],
+    "allowedLiabilitiesTagOptions": [
+     {
+      "id": 24,
+      "name": "Other",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     }
+    ],
+    "allowedEquityTagOptions": [],
+    "allowedIncomeTagOptions": [],
+    "allowedExpensesTagOptions": []
+   }
+  },
+  {
+   "path": "/v1/glaccounts/template?type=4",
+   "status": 200,
+   "response": {
+    "disabled": false,
+    "manualEntriesAllowed": true,
+    "type": {
+     "id": 4,
+     "code": "accountType.income",
+     "value": "INCOME"
+    },
+    "usage": {
+     "id": 1,
+     "code": "accountUsage.detail",
+     "value": "DETAIL"
+    },
+    "accountTypeOptions": [
+     {
+      "id": 1,
+      "code": "accountType.asset",
+      "value": "ASSET"
+     },
+     {
+      "id": 2,
+      "code": "accountType.liability",
+      "value": "LIABILITY"
+     },
+     {
+      "id": 3,
+      "code": "accountType.equity",
+      "value": "EQUITY"
+     },
+     {
+      "id": 4,
+      "code": "accountType.income",
+      "value": "INCOME"
+     },
+     {
+      "id": 5,
+      "code": "accountType.expense",
+      "value": "EXPENSE"
+     }
+    ],
+    "usageOptions": [
+     {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     {
+      "id": 2,
+      "code": "accountUsage.header",
+      "value": "HEADER"
+     }
+    ],
+    "allowedAssetsTagOptions": [
+     {
+      "id": 23,
+      "name": "Current assets",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     }
+    ],
+    "allowedLiabilitiesTagOptions": [
+     {
+      "id": 24,
+      "name": "Other",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     }
+    ],
+    "allowedEquityTagOptions": [],
+    "allowedIncomeTagOptions": [],
+    "allowedExpensesTagOptions": []
+   }
+  },
+  {
+   "path": "/v1/glaccounts/template?type=9",
+   "status": 200,
+   "response": {
+    "disabled": false,
+    "manualEntriesAllowed": true,
+    "type": {
+     "id": 1,
+     "code": "accountType.asset",
+     "value": "ASSET"
+    },
+    "usage": {
+     "id": 1,
+     "code": "accountUsage.detail",
+     "value": "DETAIL"
+    },
+    "accountTypeOptions": [
+     {
+      "id": 1,
+      "code": "accountType.asset",
+      "value": "ASSET"
+     },
+     {
+      "id": 2,
+      "code": "accountType.liability",
+      "value": "LIABILITY"
+     },
+     {
+      "id": 3,
+      "code": "accountType.equity",
+      "value": "EQUITY"
+     },
+     {
+      "id": 4,
+      "code": "accountType.income",
+      "value": "INCOME"
+     },
+     {
+      "id": 5,
+      "code": "accountType.expense",
+      "value": "EXPENSE"
+     }
+    ],
+    "usageOptions": [
+     {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     {
+      "id": 2,
+      "code": "accountUsage.header",
+      "value": "HEADER"
+     }
+    ],
+    "allowedAssetsTagOptions": [
+     {
+      "id": 23,
+      "name": "Current assets",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     }
+    ],
+    "allowedLiabilitiesTagOptions": [
+     {
+      "id": 24,
+      "name": "Other",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     }
+    ],
+    "allowedEquityTagOptions": [],
+    "allowedIncomeTagOptions": [],
+    "allowedExpensesTagOptions": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Assets",
+    "glCode": "1",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 2
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Cash",
+    "glCode": "1000",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1,
+    "parentId": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Bank",
+    "glCode": "1100",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1,
+    "parentId": 1,
+    "tagId": 23,
+    "description": "Main bank account"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Liabilities",
+    "glCode": "2",
+    "manualEntriesAllowed": true,
+    "type": 2,
+    "usage": 2
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Deposits",
+    "glCode": "2000",
+    "manualEntriesAllowed": true,
+    "type": 2,
+    "usage": 1,
+    "parentId": 4
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 5
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Interest income",
+    "glCode": "4000",
+    "manualEntriesAllowed": true,
+    "type": 4,
+    "usage": 1,
+    "disabled": true
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 6
+   }
+  },
+  {
+   "path": "/v1/glaccounts",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "name": "Assets",
+     "glCode": "1",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 1,
+      "code": "accountType.asset",
+      "value": "ASSET"
+     },
+     "usage": {
+      "id": 2,
+      "code": "accountUsage.header",
+      "value": "HEADER"
+     },
+     "description": "",
+     "nameDecorated": "Assets",
+     "tagId": {
+      "id": 0
+     }
+    },
+    {
+     "id": 2,
+     "name": "Cash",
+     "parentId": 1,
+     "glCode": "1000",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 1,
+      "code": "accountType.asset",
+      "value": "ASSET"
+     },
+     "usage": {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     "description": "",
+     "nameDecorated": "....Cash",
+     "tagId": {
+      "id": 0
+     }
+    },
+    {
+     "id": 3,
+     "name": "Bank",
+     "parentId": 1,
+     "glCode": "1100",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 1,
+      "code": "accountType.asset",
+      "value": "ASSET"
+     },
+     "usage": {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     "description": "Main bank account",
+     "nameDecorated": "....Bank",
+     "tagId": {
+      "id": 23,
+      "name": "Current assets"
+     }
+    },
+    {
+     "id": 4,
+     "name": "Liabilities",
+     "glCode": "2",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 2,
+      "code": "accountType.liability",
+      "value": "LIABILITY"
+     },
+     "usage": {
+      "id": 2,
+      "code": "accountUsage.header",
+      "value": "HEADER"
+     },
+     "description": "",
+     "nameDecorated": "Liabilities",
+     "tagId": {
+      "id": 0
+     }
+    },
+    {
+     "id": 5,
+     "name": "Deposits",
+     "parentId": 4,
+     "glCode": "2000",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 2,
+      "code": "accountType.liability",
+      "value": "LIABILITY"
+     },
+     "usage": {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     "description": "",
+     "nameDecorated": "....Deposits",
+     "tagId": {
+      "id": 0
+     }
+    },
+    {
+     "id": 6,
+     "name": "Interest income",
+     "glCode": "4000",
+     "disabled": true,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 4,
+      "code": "accountType.income",
+      "value": "INCOME"
+     },
+     "usage": {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     "description": "",
+     "nameDecorated": "Interest income",
+     "tagId": {
+      "id": 0
+     }
+    }
+   ]
+  },
+  {
+   "path": "/v1/glaccounts/2",
+   "status": 200,
+   "response": {
+    "id": 2,
+    "name": "Cash",
+    "parentId": 1,
+    "glCode": "1000",
+    "disabled": false,
+    "manualEntriesAllowed": true,
+    "type": {
+     "id": 1,
+     "code": "accountType.asset",
+     "value": "ASSET"
+    },
+    "usage": {
+     "id": 1,
+     "code": "accountUsage.detail",
+     "value": "DETAIL"
+    },
+    "description": "",
+    "nameDecorated": "....Cash",
+    "tagId": {
+     "id": 0
+    }
+   }
+  },
+  {
+   "path": "/v1/glaccounts/3",
+   "status": 200,
+   "response": {
+    "id": 3,
+    "name": "Bank",
+    "parentId": 1,
+    "glCode": "1100",
+    "disabled": false,
+    "manualEntriesAllowed": true,
+    "type": {
+     "id": 1,
+     "code": "accountType.asset",
+     "value": "ASSET"
+    },
+    "usage": {
+     "id": 1,
+     "code": "accountUsage.detail",
+     "value": "DETAIL"
+    },
+    "description": "Main bank account",
+    "nameDecorated": "....Bank",
+    "tagId": {
+     "id": 23,
+     "name": "Current assets"
+    }
+   }
+  },
+  {
+   "path": "/v1/glaccounts/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "General Ledger account with identifier 99 does not exist ",
+      "defaultUserMessage": "General Ledger account with identifier 99 does not exist ",
+      "userMessageGlobalisationCode": "error.msg.glaccount.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/glaccounts/2?template=true",
+   "status": 200,
+   "response": {
+    "id": 2,
+    "name": "Cash",
+    "parentId": 1,
+    "glCode": "1000",
+    "disabled": false,
+    "manualEntriesAllowed": true,
+    "type": {
+     "id": 1,
+     "code": "accountType.asset",
+     "value": "ASSET"
+    },
+    "usage": {
+     "id": 1,
+     "code": "accountUsage.detail",
+     "value": "DETAIL"
+    },
+    "description": "",
+    "nameDecorated": "....Cash",
+    "tagId": {
+     "id": 0
+    },
+    "accountTypeOptions": [
+     {
+      "id": 1,
+      "code": "accountType.asset",
+      "value": "ASSET"
+     },
+     {
+      "id": 2,
+      "code": "accountType.liability",
+      "value": "LIABILITY"
+     },
+     {
+      "id": 3,
+      "code": "accountType.equity",
+      "value": "EQUITY"
+     },
+     {
+      "id": 4,
+      "code": "accountType.income",
+      "value": "INCOME"
+     },
+     {
+      "id": 5,
+      "code": "accountType.expense",
+      "value": "EXPENSE"
+     }
+    ],
+    "usageOptions": [
+     {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     {
+      "id": 2,
+      "code": "accountUsage.header",
+      "value": "HEADER"
+     }
+    ],
+    "assetHeaderAccountOptions": [
+     {
+      "id": 1,
+      "name": "Assets",
+      "glCode": "1",
+      "disabled": false,
+      "manualEntriesAllowed": true,
+      "type": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "usage": {
+       "id": 2,
+       "code": "accountUsage.header",
+       "value": "HEADER"
+      },
+      "description": "",
+      "nameDecorated": "Assets",
+      "tagId": {
+       "id": 0
+      }
+     }
+    ],
+    "liabilityHeaderAccountOptions": [
+     {
+      "id": 4,
+      "name": "Liabilities",
+      "glCode": "2",
+      "disabled": false,
+      "manualEntriesAllowed": true,
+      "type": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "usage": {
+       "id": 2,
+       "code": "accountUsage.header",
+       "value": "HEADER"
+      },
+      "description": "",
+      "nameDecorated": "Liabilities",
+      "tagId": {
+       "id": 0
+      }
+     }
+    ],
+    "allowedAssetsTagOptions": [
+     {
+      "id": 23,
+      "name": "Current assets",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     }
+    ],
+    "allowedLiabilitiesTagOptions": [
+     {
+      "id": 24,
+      "name": "Other",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     }
+    ],
+    "allowedEquityTagOptions": [],
+    "allowedIncomeTagOptions": [],
+    "allowedExpensesTagOptions": []
+   }
+  },
+  {
+   "path": "/v1/glaccounts?type=1",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "name": "Assets",
+     "glCode": "1",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 1,
+      "code": "accountType.asset",
+      "value": "ASSET"
+     },
+     "usage": {
+      "id": 2,
+      "code": "accountUsage.header",
+      "value": "HEADER"
+     },
+     "description": "",
+     "nameDecorated": "Assets",
+     "tagId": {
+      "id": 0
+     }
+    },
+    {
+     "id": 2,
+     "name": "Cash",
+     "parentId": 1,
+     "glCode": "1000",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 1,
+      "code": "accountType.asset",
+      "value": "ASSET"
+     },
+     "usage": {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     "description": "",
+     "nameDecorated": "....Cash",
+     "tagId": {
+      "id": 0
+     }
+    },
+    {
+     "id": 3,
+     "name": "Bank",
+     "parentId": 1,
+     "glCode": "1100",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 1,
+      "code": "accountType.asset",
+      "value": "ASSET"
+     },
+     "usage": {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     "description": "Main bank account",
+     "nameDecorated": "....Bank",
+     "tagId": {
+      "id": 23,
+      "name": "Current assets"
+     }
+    }
+   ]
+  },
+  {
+   "path": "/v1/glaccounts?usage=2",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "name": "Assets",
+     "glCode": "1",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 1,
+      "code": "accountType.asset",
+      "value": "ASSET"
+     },
+     "usage": {
+      "id": 2,
+      "code": "accountUsage.header",
+      "value": "HEADER"
+     },
+     "description": "",
+     "nameDecorated": "Assets",
+     "tagId": {
+      "id": 0
+     }
+    },
+    {
+     "id": 4,
+     "name": "Liabilities",
+     "glCode": "2",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 2,
+      "code": "accountType.liability",
+      "value": "LIABILITY"
+     },
+     "usage": {
+      "id": 2,
+      "code": "accountUsage.header",
+      "value": "HEADER"
+     },
+     "description": "",
+     "nameDecorated": "Liabilities",
+     "tagId": {
+      "id": 0
+     }
+    }
+   ]
+  },
+  {
+   "path": "/v1/glaccounts?disabled=true",
+   "status": 200,
+   "response": [
+    {
+     "id": 6,
+     "name": "Interest income",
+     "glCode": "4000",
+     "disabled": true,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 4,
+      "code": "accountType.income",
+      "value": "INCOME"
+     },
+     "usage": {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     "description": "",
+     "nameDecorated": "Interest income",
+     "tagId": {
+      "id": 0
+     }
+    }
+   ]
+  },
+  {
+   "path": "/v1/glaccounts?manualEntriesAllowed=true&type=2",
+   "status": 200,
+   "response": [
+    {
+     "id": 4,
+     "name": "Liabilities",
+     "glCode": "2",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 2,
+      "code": "accountType.liability",
+      "value": "LIABILITY"
+     },
+     "usage": {
+      "id": 2,
+      "code": "accountUsage.header",
+      "value": "HEADER"
+     },
+     "description": "",
+     "nameDecorated": "Liabilities",
+     "tagId": {
+      "id": 0
+     }
+    },
+    {
+     "id": 5,
+     "name": "Deposits",
+     "parentId": 4,
+     "glCode": "2000",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 2,
+      "code": "accountType.liability",
+      "value": "LIABILITY"
+     },
+     "usage": {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     "description": "",
+     "nameDecorated": "....Deposits",
+     "tagId": {
+      "id": 0
+     }
+    }
+   ]
+  },
+  {
+   "path": "/v1/glaccounts?type=9",
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "The following COA usage is invalid: 9",
+      "defaultUserMessage": "The following COA usage is invalid: 9",
+      "userMessageGlobalisationCode": "error.msg.glaccount.usage.invalid",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/glaccounts?usage=9",
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "The following COA usage is invalid: null",
+      "defaultUserMessage": "The following COA usage is invalid: null",
+      "userMessageGlobalisationCode": "error.msg.glaccount.usage.invalid",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/2",
+   "body": {
+    "name": "Petty cash"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2,
+    "changes": {
+     "name": "Petty cash"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/2",
+   "body": {
+    "name": "Petty cash"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/2",
+   "body": {
+    "glCode": "1001",
+    "description": "Small cash",
+    "manualEntriesAllowed": false
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2,
+    "changes": {
+     "description": "Small cash",
+     "glCode": "1001",
+     "manualEntriesAllowed": false
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/2",
+   "body": {
+    "parentId": 4
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2,
+    "changes": {
+     "parentId": 4
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/2",
+   "body": {
+    "parentId": 3
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "The account with id 3 is a 'Detail' account and cannot be used as a parent",
+      "defaultUserMessage": "The account with id 3 is a 'Detail' account and cannot be used as a parent",
+      "userMessageGlobalisationCode": "error.msg.glaccount.parent.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 3
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/2",
+   "body": {
+    "parentId": 2
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "parentId:2, id2 should not be same",
+      "defaultUserMessage": "parentId:2, id2 should not be same",
+      "userMessageGlobalisationCode": "error.msg.glaccount.id.and.parentid.must.not.same",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 2
+       },
+       {
+        "value": 2
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/2",
+   "body": {
+    "parentId": 99
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "General Ledger account with identifier 99 does not exist ",
+      "defaultUserMessage": "General Ledger account with identifier 99 does not exist ",
+      "userMessageGlobalisationCode": "error.msg.glaccount.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/2",
+   "body": {
+    "parentId": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2,
+    "changes": {
+     "parentId": 1
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/3",
+   "body": {
+    "tagId": 24
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "No parameters passed for update.",
+      "defaultUserMessage": "No parameters passed for update.",
+      "userMessageGlobalisationCode": "validation.msg.GLAccount.no.parameters.for.update",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/3",
+   "body": {
+    "tagId": 99
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "No parameters passed for update.",
+      "defaultUserMessage": "No parameters passed for update.",
+      "userMessageGlobalisationCode": "validation.msg.GLAccount.no.parameters.for.update",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/3",
+   "body": {
+    "tagId": 23
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "No parameters passed for update.",
+      "defaultUserMessage": "No parameters passed for update.",
+      "userMessageGlobalisationCode": "validation.msg.GLAccount.no.parameters.for.update",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/3",
+   "body": {
+    "disabled": true
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3,
+    "changes": {
+     "disabled": true
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/3",
+   "body": {
+    "disabled": false
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3,
+    "changes": {
+     "disabled": false
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/1",
+   "body": {
+    "usage": 1
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "No parameters passed for update.",
+      "defaultUserMessage": "No parameters passed for update.",
+      "userMessageGlobalisationCode": "validation.msg.GLAccount.no.parameters.for.update",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/99",
+   "body": {
+    "name": "x"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "General Ledger account with identifier 99 does not exist ",
+      "defaultUserMessage": "General Ledger account with identifier 99 does not exist ",
+      "userMessageGlobalisationCode": "error.msg.glaccount.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/2",
+   "body": {},
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "No parameters passed for update.",
+      "defaultUserMessage": "No parameters passed for update.",
+      "userMessageGlobalisationCode": "validation.msg.GLAccount.no.parameters.for.update",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/2",
+   "body": {
+    "type": 9
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `type` must be between 1 and 5.",
+      "defaultUserMessage": "The parameter `type` must be between 1 and 5.",
+      "userMessageGlobalisationCode": "validation.msg.GLAccount.type.is.not.within.expected.range",
+      "parameterName": "type",
+      "args": [
+       {
+        "value": 9
+       },
+       {
+        "value": 1
+       },
+       {
+        "value": 5
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/2",
+   "body": {
+    "name": ""
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "No parameters passed for update.",
+      "defaultUserMessage": "No parameters passed for update.",
+      "userMessageGlobalisationCode": "validation.msg.GLAccount.no.parameters.for.update",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Cash",
+    "glCode": "1000",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 7
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Again",
+    "glCode": "1002",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1,
+    "parentId": 2
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "The account with id 2 is a 'Detail' account and cannot be used as a parent",
+      "defaultUserMessage": "The account with id 2 is a 'Detail' account and cannot be used as a parent",
+      "userMessageGlobalisationCode": "error.msg.glaccount.parent.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 2
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Again",
+    "glCode": "1002",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1,
+    "parentId": 99
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "General Ledger account with identifier 99 does not exist ",
+      "defaultUserMessage": "General Ledger account with identifier 99 does not exist ",
+      "userMessageGlobalisationCode": "error.msg.glaccount.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {},
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.GLAccount.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `glCode` is mandatory.",
+      "defaultUserMessage": "The parameter `glCode` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.GLAccount.glCode.cannot.be.blank",
+      "parameterName": "glCode",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `type` is mandatory.",
+      "defaultUserMessage": "The parameter `type` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.GLAccount.type.cannot.be.blank",
+      "parameterName": "type",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `manualEntriesAllowed` is mandatory.",
+      "defaultUserMessage": "The parameter `manualEntriesAllowed` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.GLAccount.manualEntriesAllowed.cannot.be.blank",
+      "parameterName": "manualEntriesAllowed",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Cash",
+    "glCode": "1000",
+    "manualEntriesAllowed": true,
+    "type": 9,
+    "usage": 1
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `type` must be between 1 and 5.",
+      "defaultUserMessage": "The parameter `type` must be between 1 and 5.",
+      "userMessageGlobalisationCode": "validation.msg.GLAccount.type.is.not.within.expected.range",
+      "parameterName": "type",
+      "args": [
+       {
+        "value": 9
+       },
+       {
+        "value": 1
+       },
+       {
+        "value": 5
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Cash",
+    "glCode": "1000",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 9
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `usage` must be between 1 and 2.",
+      "defaultUserMessage": "The parameter `usage` must be between 1 and 2.",
+      "userMessageGlobalisationCode": "validation.msg.GLAccount.usage.is.not.within.expected.range",
+      "parameterName": "usage",
+      "args": [
+       {
+        "value": 9
+       },
+       {
+        "value": 1
+       },
+       {
+        "value": 2
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+    "glCode": "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `glCode` exceeds max length of 45.",
+      "defaultUserMessage": "The parameter `glCode` exceeds max length of 45.",
+      "userMessageGlobalisationCode": "validation.msg.GLAccount.glCode.exceeds.max.length",
+      "parameterName": "glCode",
+      "args": [
+       {
+        "value": 45
+       },
+       {
+        "value": "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Cash",
+    "glCode": "1003",
+    "manualEntriesAllowed": true,
+    "type": 2,
+    "usage": 1,
+    "tagId": 23
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Code value with identifier 23 does not exist for a code with name LiabilityAccountTags",
+      "defaultUserMessage": "Code value with identifier 23 does not exist for a code with name LiabilityAccountTags",
+      "userMessageGlobalisationCode": "error.msg.codevalue.codename.id.combination.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 23
+       },
+       {
+        "value": "LiabilityAccountTags"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Cash",
+    "glCode": "1004",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1,
+    "tagId": 0
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `tagId` must be greater than 0.",
+      "defaultUserMessage": "The parameter `tagId` must be greater than 0.",
+      "userMessageGlobalisationCode": "validation.msg.GLAccount.tagId.not.greater.than.zero",
+      "parameterName": "tagId",
+      "args": [
+       {
+        "value": 0
+       },
+       {
+        "value": 0
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Cash",
+    "glCode": "1005",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1,
+    "parentId": 0
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `parentId` must be greater than 0.",
+      "defaultUserMessage": "The parameter `parentId` must be greater than 0.",
+      "userMessageGlobalisationCode": "validation.msg.GLAccount.parentId.not.greater.than.zero",
+      "parameterName": "parentId",
+      "args": [
+       {
+        "value": 0
+       },
+       {
+        "value": 0
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "x",
+    "glCode": "9",
+    "type": 1,
+    "usage": 1
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `manualEntriesAllowed` is mandatory.",
+      "defaultUserMessage": "The parameter `manualEntriesAllowed` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.GLAccount.manualEntriesAllowed.cannot.be.blank",
+      "parameterName": "manualEntriesAllowed",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Cash",
+    "glCode": "1006",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1,
+    "bogus": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 8
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/glaccounts/1",
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Cannot delete this Header GL Account without first deleting or reassigning its children",
+      "defaultUserMessage": "Cannot delete this Header GL Account without first deleting or reassigning its children",
+      "userMessageGlobalisationCode": "error.msg.glaccount.glcode.invalid.delete.has.children",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 1
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/glaccounts/2",
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/glaccounts/2",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "General Ledger account with identifier 2 does not exist ",
+      "defaultUserMessage": "General Ledger account with identifier 2 does not exist ",
+      "userMessageGlobalisationCode": "error.msg.glaccount.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 2
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/glaccounts/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "General Ledger account with identifier 99 does not exist ",
+      "defaultUserMessage": "General Ledger account with identifier 99 does not exist ",
+      "userMessageGlobalisationCode": "error.msg.glaccount.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/3",
+   "body": {
+    "name": "Bank",
+    "tagId": 23
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/3",
+   "body": {
+    "name": "Bank 2",
+    "tagId": 24
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Code value with identifier 24 does not exist for a code with name AssetAccountTags",
+      "defaultUserMessage": "Code value with identifier 24 does not exist for a code with name AssetAccountTags",
+      "userMessageGlobalisationCode": "error.msg.codevalue.codename.id.combination.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 24
+       },
+       {
+        "value": "AssetAccountTags"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/3",
+   "body": {
+    "name": "Bank 2",
+    "tagId": 99
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Code value with identifier 99 does not exist for a code with name AssetAccountTags",
+      "defaultUserMessage": "Code value with identifier 99 does not exist for a code with name AssetAccountTags",
+      "userMessageGlobalisationCode": "error.msg.codevalue.codename.id.combination.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       },
+       {
+        "value": "AssetAccountTags"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/glaccounts/3",
+   "status": 200,
+   "response": {
+    "id": 3,
+    "name": "Bank",
+    "parentId": 1,
+    "glCode": "1100",
+    "disabled": false,
+    "manualEntriesAllowed": true,
+    "type": {
+     "id": 1,
+     "code": "accountType.asset",
+     "value": "ASSET"
+    },
+    "usage": {
+     "id": 1,
+     "code": "accountUsage.detail",
+     "value": "DETAIL"
+    },
+    "description": "Main bank account",
+    "nameDecorated": "....Bank",
+    "tagId": {
+     "id": 23,
+     "name": "Current assets"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/3",
+   "body": {
+    "name": "Bank 2",
+    "tagId": null
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3,
+    "changes": {
+     "name": "Bank 2"
+    }
+   }
+  },
+  {
+   "path": "/v1/glaccounts/3",
+   "status": 200,
+   "response": {
+    "id": 3,
+    "name": "Bank 2",
+    "parentId": 1,
+    "glCode": "1100",
+    "disabled": false,
+    "manualEntriesAllowed": true,
+    "type": {
+     "id": 1,
+     "code": "accountType.asset",
+     "value": "ASSET"
+    },
+    "usage": {
+     "id": 1,
+     "code": "accountUsage.detail",
+     "value": "DETAIL"
+    },
+    "description": "Main bank account",
+    "nameDecorated": "....Bank 2",
+    "tagId": {
+     "id": 23,
+     "name": "Current assets"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/5",
+   "body": {
+    "parentId": 1,
+    "type": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 5,
+    "changes": {
+     "parentId": 1,
+     "type": 1
+    }
+   }
+  },
+  {
+   "path": "/v1/glaccounts/5",
+   "status": 200,
+   "response": {
+    "id": 5,
+    "name": "Deposits",
+    "parentId": 1,
+    "glCode": "2000",
+    "disabled": false,
+    "manualEntriesAllowed": true,
+    "type": {
+     "id": 1,
+     "code": "accountType.asset",
+     "value": "ASSET"
+    },
+    "usage": {
+     "id": 1,
+     "code": "accountUsage.detail",
+     "value": "DETAIL"
+    },
+    "description": "",
+    "nameDecorated": "....Deposits",
+    "tagId": {
+     "id": 0
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/1",
+   "body": {
+    "description": "Top",
+    "usage": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "description": "Top",
+     "usage": 1
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/4",
+   "body": {
+    "parentId": null
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "No parameters passed for update.",
+      "defaultUserMessage": "No parameters passed for update.",
+      "userMessageGlobalisationCode": "validation.msg.GLAccount.no.parameters.for.update",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/glaccounts/template",
+   "status": 200,
+   "response": {
+    "disabled": false,
+    "manualEntriesAllowed": true,
+    "type": {
+     "id": 1,
+     "code": "accountType.asset",
+     "value": "ASSET"
+    },
+    "usage": {
+     "id": 1,
+     "code": "accountUsage.detail",
+     "value": "DETAIL"
+    },
+    "accountTypeOptions": [
+     {
+      "id": 1,
+      "code": "accountType.asset",
+      "value": "ASSET"
+     },
+     {
+      "id": 2,
+      "code": "accountType.liability",
+      "value": "LIABILITY"
+     },
+     {
+      "id": 3,
+      "code": "accountType.equity",
+      "value": "EQUITY"
+     },
+     {
+      "id": 4,
+      "code": "accountType.income",
+      "value": "INCOME"
+     },
+     {
+      "id": 5,
+      "code": "accountType.expense",
+      "value": "EXPENSE"
+     }
+    ],
+    "usageOptions": [
+     {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     {
+      "id": 2,
+      "code": "accountUsage.header",
+      "value": "HEADER"
+     }
+    ],
+    "liabilityHeaderAccountOptions": [
+     {
+      "id": 4,
+      "name": "Liabilities",
+      "glCode": "2",
+      "disabled": false,
+      "manualEntriesAllowed": true,
+      "type": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "usage": {
+       "id": 2,
+       "code": "accountUsage.header",
+       "value": "HEADER"
+      },
+      "description": "",
+      "nameDecorated": "Liabilities",
+      "tagId": {
+       "id": 0
+      }
+     }
+    ],
+    "allowedAssetsTagOptions": [
+     {
+      "id": 23,
+      "name": "Current assets",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     }
+    ],
+    "allowedLiabilitiesTagOptions": [
+     {
+      "id": 24,
+      "name": "Other",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     }
+    ],
+    "allowedEquityTagOptions": [],
+    "allowedIncomeTagOptions": [],
+    "allowedExpensesTagOptions": []
+   }
+  },
+  {
+   "path": "/v1/glaccounts",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "name": "Assets",
+     "glCode": "1",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 1,
+      "code": "accountType.asset",
+      "value": "ASSET"
+     },
+     "usage": {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     "description": "Top",
+     "nameDecorated": "Assets",
+     "tagId": {
+      "id": 0
+     }
+    },
+    {
+     "id": 7,
+     "name": "Cash",
+     "glCode": "1000",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 1,
+      "code": "accountType.asset",
+      "value": "ASSET"
+     },
+     "usage": {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     "description": "",
+     "nameDecorated": "Cash",
+     "tagId": {
+      "id": 0
+     }
+    },
+    {
+     "id": 8,
+     "name": "Cash",
+     "glCode": "1006",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 1,
+      "code": "accountType.asset",
+      "value": "ASSET"
+     },
+     "usage": {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     "description": "",
+     "nameDecorated": "Cash",
+     "tagId": {
+      "id": 0
+     }
+    },
+    {
+     "id": 3,
+     "name": "Bank 2",
+     "parentId": 1,
+     "glCode": "1100",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 1,
+      "code": "accountType.asset",
+      "value": "ASSET"
+     },
+     "usage": {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     "description": "Main bank account",
+     "nameDecorated": "....Bank 2",
+     "tagId": {
+      "id": 23,
+      "name": "Current assets"
+     }
+    },
+    {
+     "id": 4,
+     "name": "Liabilities",
+     "glCode": "2",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 2,
+      "code": "accountType.liability",
+      "value": "LIABILITY"
+     },
+     "usage": {
+      "id": 2,
+      "code": "accountUsage.header",
+      "value": "HEADER"
+     },
+     "description": "",
+     "nameDecorated": "Liabilities",
+     "tagId": {
+      "id": 0
+     }
+    },
+    {
+     "id": 5,
+     "name": "Deposits",
+     "parentId": 1,
+     "glCode": "2000",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 1,
+      "code": "accountType.asset",
+      "value": "ASSET"
+     },
+     "usage": {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     "description": "",
+     "nameDecorated": "....Deposits",
+     "tagId": {
+      "id": 0
+     }
+    },
+    {
+     "id": 6,
+     "name": "Interest income",
+     "glCode": "4000",
+     "disabled": true,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 4,
+      "code": "accountType.income",
+      "value": "INCOME"
+     },
+     "usage": {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     "description": "",
+     "nameDecorated": "Interest income",
+     "tagId": {
+      "id": 0
+     }
+    }
+   ]
+  }
+ ]
+}
