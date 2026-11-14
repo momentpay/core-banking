@@ -113,10 +113,24 @@ dependencies and output), so the script refuses to start without a JDK 25 and 8 
 end:** the pre-flight checks are tested, the Gradle build is not, because the author's machine has about
 2.5 GB free.
 
+### Design artifacts: the Fineract data model
+
+[inventory/SCHEMA.md](inventory/SCHEMA.md) groups the 280 tables of the oracle's schema by functional area and
+owning E-CoreBank app (rules in `inventory/schema-areas.json`). The raw column and key exports are
+`inventory/fineract-schema-<version>-columns.csv` and `-keys.csv`.
+
+```sh
+parity/scripts/export-schema.sh              # needs the oracle's PostgreSQL running; read-only
+python parity/tools/schema_summary.py check  # fail if a table has no owning area
+python parity/tools/schema_summary.py build  # regenerate SCHEMA.md
+```
+
+How this feeds the design: [docs/design/00-fineract-design-reference.md](../docs/design/00-fineract-design-reference.md).
+
 ### Tests for the tools
 
 ```sh
-python -m unittest discover -s parity/tools -v     # 26 tests; also run in CI
+python -m unittest discover -s parity/tools -v     # 28 tests; also run in CI
 ```
 
 ## Layout

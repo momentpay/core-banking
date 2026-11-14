@@ -9,6 +9,7 @@ Status: plan draft v3 (14 Nov 2026). Supersedes `Core-Banking/04-fineract-mifos-
 | Product name | **E-CoreBank**. OTP apps `ecb_*`, module namespaces `ECB<App>` (for example `ECBPlatform`, `ECBWeb`, `ECBLoans`). | "Fineract" and "Mifos" appear only in docs and in "compatible with" statements, never in the product UI or branding (check trademark rules before any marketing use). |
 | Repository | `github.com/momentpay/core-banking` (exists, empty). No path dependencies on any sibling repo. | |
 | Approach | **Clean rewrite** of Fineract and Mifos. Koṣa is *not* the base. | |
+| Design source | **Fineract's own design is followed** (command/query separation, maker-checker, idempotency, business date, COB steps, loan locking, event outbox, accounting) **including its data model** (same table and column names). Direction given 14 Nov 2026. | Replaces "own domain model and schema". Details and planned departures: [design/00-fineract-design-reference.md](design/00-fineract-design-reference.md), [ADR-0001](adr/0001-follow-fineract-design.md). The data-model part is my reading of "design" and is open to correction. |
 | Base app | The Phoenix 1.7 app in `core-banking-product\core-banking` (MySQL, single app). | Convert to **PostgreSQL** and an **umbrella** (section 4.4). |
 | Parity | API, features and UIs. | |
 | Structure | **Umbrella**. | |
@@ -22,9 +23,9 @@ Status: plan draft v3 (14 Nov 2026). Supersedes `Core-Banking/04-fineract-mifos-
 
 ## 2. What "clean rewrite" means here
 
-- **Rewrite the behaviour, not the code.** Fineract is the specification and the test oracle. We do not translate Java. We re-derive each feature from its documented behaviour, its API and observed results.
+- **Rewrite in Elixir, following Fineract's design.** Fineract is the specification, the design reference and the test oracle. We do not machine-translate Java: each feature is re-implemented in Elixir idioms from Fineract's documented design, its source, its API and observed results. Where Fineract documents a weakness (eager fetching, cross-feature entanglement, a convoluted legacy command path) we copy the capability, not the weakness.
 - **Wire-compatible API.** The Fineract REST surface (`/fineract-provider/api/v1/...`, `?command=` actions, templates, pagination, error format, tenant header) is reproduced so existing clients keep working. This is a compatibility layer on top of our own domain model, not our internal model.
-- **Own domain model and schema.** We do not copy Fineract's `m_*` tables. A one-way migration tool brings Fineract data in.
+- **Fineract's data model.** The in-scope tables keep Fineract's names, columns, types and constraints (`parity/inventory/SCHEMA.md`: 280 tables, 2,970 columns). Migration from a Fineract database is therefore a data copy, and Fineract's SQL reports and data tables keep working. Departures need an ADR.
 - **Koṣa as reference only.** Its ADRs and patterns (tenant isolation, posting rules as data, parameter cascade, maker-checker, HSM-backed keys) are free design input because it is the same organisation's work. Anything reused is copied deliberately into this repo and owned here. Koṣa and this product later integrate by API only (for example, debit cards funded from deposit accounts).
 - **Licences.** Fineract is Apache-2.0. Reimplementing behaviour is fine. If any code or test is copied, keep the licence and NOTICE. Check each Mifos repository's licence before copying anything (some are MPL-2.0, which is file-level copyleft). The product is called E-CoreBank. Do not use the Mifos or Apache Fineract names or logos in product branding. "Compatible with" statements need a trademark check before external use.
 
@@ -137,6 +138,7 @@ Exit gate for every phase: contract-suite pass rate for the phase's endpoints, z
 ### Phase 0: Foundations and contract (6–8 weeks)
 - Repo bootstrap: convert the base app to a PostgreSQL umbrella (4.4), CI, quality gates, docker compose, ADR template, contribution rules.
 - `parity/` harness running the pinned Fineract and the baseline suite.
+- Design reference. **Done:** [design/00-fineract-design-reference.md](design/00-fineract-design-reference.md) maps each Fineract design element to its E-CoreBank equivalent, and `parity/inventory/SCHEMA.md` assigns all 280 tables of the oracle's schema to an area and an owning app.
 - Endpoint inventory and must/should/cut list. **Done (14 Nov 2026):** `parity/inventory/` classifies all 968 operations of Fineract 1.16.1 (535 must, 255 should, 158 defer, 18 test-support, 2 ignore) from the approved cut list. `inventory.py check` fails when a Fineract upgrade adds an unclassified tag.
 - Contract measurements. **Done:** the OpenAPI-driven contract probe (`parity/tools/contract_probe.py`) compares status and JSON shape for the 150 read-only `must` and `should` operations that need no setup, and passes 146 of 146 counted operations when the oracle is probed against itself. **Written, not yet run end to end:** the runner for Fineract's own integration tests (`parity/scripts/run-contract-suite.sh`). It needs a JDK 25 and about 8 GB of free disk for the Gradle build, and the development machine has about 2.5 GB free. Its pre-flight checks are tested.
 - ADRs: umbrella and boundaries, database-per-tenant, money and rounding, command bus, schema strategy, Fineract-style accounting with a later Finacle adapter, UI approach, versions pinned, native API, naming.

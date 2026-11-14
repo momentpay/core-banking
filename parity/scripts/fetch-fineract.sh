@@ -71,8 +71,8 @@ if [ "$kind" = bin ]; then
 else
   if [ ! -d "$FINERACT_SRC" ]; then
     info "Extracting to $FINERACT_SRC"
-    mkdir -p "$CACHE_DIR/src"
-    tar -xzf "$ARCHIVE" -C "$CACHE_DIR/src"
+    mkdir -p "$(dirname "$FINERACT_SRC")"
+    tar -xzf "$ARCHIVE" -C "$(dirname "$FINERACT_SRC")"
   fi
   [ -f "$FINERACT_SRC/gradlew" ] || die "unexpected source layout under $FINERACT_SRC"
   info "Ready: $FINERACT_SRC (integration tests in integration-tests/)"

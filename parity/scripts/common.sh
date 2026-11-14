@@ -10,7 +10,10 @@ CACHE_DIR="$PARITY_DIR/.cache"
 
 ARCHIVE="apache-fineract-bin-${FINERACT_VERSION}.tar.gz"
 FINERACT_HOME="$CACHE_DIR/fineract-${FINERACT_VERSION}"
-FINERACT_SRC="$CACHE_DIR/src/apache-fineract-src-${FINERACT_VERSION}"
+# Where the Fineract source release is extracted and built. Override PARITY_SRC_DIR with a SHORT path
+# (for example /d/fsrc): Fineract builds deeply nested paths, and Windows stops at 260 characters
+# unless long paths are enabled, which fails the build in confusing ways.
+FINERACT_SRC="${PARITY_SRC_DIR:-$CACHE_DIR/src}/apache-fineract-src-${FINERACT_VERSION}"
 FINERACT_PID_FILE="$CACHE_DIR/fineract.pid"
 FINERACT_LOG="$CACHE_DIR/fineract.log"
 FINERACT_PORT="${FINERACT_PORT:-8443}"

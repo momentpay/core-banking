@@ -1,0 +1,2971 @@
+table_name,position,column_name,data_type,max_length,precision,scale,nullable,has_default
+acc_accounting_rule,1,id,bigint,,64,0,NO,f
+acc_accounting_rule,2,name,character varying,100,,,YES,f
+acc_accounting_rule,3,office_id,bigint,,64,0,YES,f
+acc_accounting_rule,4,debit_account_id,bigint,,64,0,YES,f
+acc_accounting_rule,5,allow_multiple_debits,boolean,,,,NO,t
+acc_accounting_rule,6,credit_account_id,bigint,,64,0,YES,f
+acc_accounting_rule,7,allow_multiple_credits,boolean,,,,NO,t
+acc_accounting_rule,8,description,character varying,500,,,YES,f
+acc_accounting_rule,9,system_defined,boolean,,,,NO,t
+acc_gl_account,1,id,bigint,,64,0,NO,f
+acc_gl_account,2,name,character varying,200,,,NO,f
+acc_gl_account,3,parent_id,bigint,,64,0,YES,f
+acc_gl_account,4,hierarchy,character varying,50,,,YES,f
+acc_gl_account,5,gl_code,character varying,45,,,NO,f
+acc_gl_account,6,disabled,boolean,,,,NO,t
+acc_gl_account,7,manual_journal_entries_allowed,boolean,,,,NO,t
+acc_gl_account,8,account_usage,smallint,,16,0,NO,t
+acc_gl_account,9,classification_enum,smallint,,16,0,NO,f
+acc_gl_account,10,tag_id,integer,,32,0,YES,f
+acc_gl_account,11,description,character varying,500,,,YES,f
+acc_gl_closure,1,id,bigint,,64,0,NO,f
+acc_gl_closure,2,office_id,bigint,,64,0,NO,f
+acc_gl_closure,3,closing_date,date,,,,NO,f
+acc_gl_closure,4,is_deleted,boolean,,,,NO,t
+acc_gl_closure,5,createdby_id,bigint,,64,0,YES,f
+acc_gl_closure,6,lastmodifiedby_id,bigint,,64,0,YES,f
+acc_gl_closure,7,created_date,timestamp without time zone,,,,YES,f
+acc_gl_closure,8,lastmodified_date,timestamp without time zone,,,,YES,f
+acc_gl_closure,9,comments,character varying,500,,,YES,f
+acc_gl_financial_activity_account,1,id,bigint,,64,0,NO,f
+acc_gl_financial_activity_account,2,gl_account_id,bigint,,64,0,NO,t
+acc_gl_financial_activity_account,3,financial_activity_type,smallint,,16,0,NO,f
+acc_gl_journal_entry,1,id,bigint,,64,0,NO,f
+acc_gl_journal_entry,2,account_id,bigint,,64,0,NO,f
+acc_gl_journal_entry,3,office_id,bigint,,64,0,NO,f
+acc_gl_journal_entry,4,reversal_id,bigint,,64,0,YES,f
+acc_gl_journal_entry,5,currency_code,character varying,3,,,NO,f
+acc_gl_journal_entry,6,transaction_id,character varying,50,,,NO,f
+acc_gl_journal_entry,7,loan_transaction_id,bigint,,64,0,YES,f
+acc_gl_journal_entry,8,savings_transaction_id,bigint,,64,0,YES,f
+acc_gl_journal_entry,9,client_transaction_id,bigint,,64,0,YES,f
+acc_gl_journal_entry,10,reversed,boolean,,,,NO,t
+acc_gl_journal_entry,11,ref_num,character varying,100,,,YES,f
+acc_gl_journal_entry,12,manual_entry,boolean,,,,NO,t
+acc_gl_journal_entry,13,entry_date,date,,,,NO,f
+acc_gl_journal_entry,14,type_enum,smallint,,16,0,NO,f
+acc_gl_journal_entry,15,amount,numeric,,19,6,NO,f
+acc_gl_journal_entry,16,description,character varying,500,,,YES,f
+acc_gl_journal_entry,17,entity_type_enum,smallint,,16,0,YES,f
+acc_gl_journal_entry,18,entity_id,bigint,,64,0,YES,f
+acc_gl_journal_entry,19,created_by,bigint,,64,0,NO,f
+acc_gl_journal_entry,20,last_modified_by,bigint,,64,0,NO,f
+acc_gl_journal_entry,21,created_date,timestamp without time zone,,,,YES,f
+acc_gl_journal_entry,22,lastmodified_date,timestamp without time zone,,,,YES,f
+acc_gl_journal_entry,23,is_running_balance_calculated,boolean,,,,NO,t
+acc_gl_journal_entry,24,office_running_balance,numeric,,19,6,NO,t
+acc_gl_journal_entry,25,organization_running_balance,numeric,,19,6,NO,t
+acc_gl_journal_entry,26,payment_details_id,bigint,,64,0,YES,f
+acc_gl_journal_entry,27,share_transaction_id,bigint,,64,0,YES,f
+acc_gl_journal_entry,28,transaction_date,date,,,,YES,f
+acc_gl_journal_entry,29,created_on_utc,timestamp with time zone,,,,NO,f
+acc_gl_journal_entry,30,last_modified_on_utc,timestamp with time zone,,,,NO,f
+acc_gl_journal_entry,31,submitted_on_date,date,,,,NO,f
+acc_gl_journal_entry_annual_summary,1,id,bigint,,64,0,NO,f
+acc_gl_journal_entry_annual_summary,2,gl_code,character varying,45,,,NO,f
+acc_gl_journal_entry_annual_summary,3,product_id,bigint,,64,0,NO,f
+acc_gl_journal_entry_annual_summary,4,office_id,bigint,,64,0,NO,f
+acc_gl_journal_entry_annual_summary,5,opening_balance_amount,numeric,,19,6,NO,f
+acc_gl_journal_entry_annual_summary,6,currency_code,character varying,3,,,NO,f
+acc_gl_journal_entry_annual_summary,7,owner_external_id,character varying,100,,,YES,f
+acc_gl_journal_entry_annual_summary,8,manual_entry,boolean,,,,NO,t
+acc_gl_journal_entry_annual_summary,9,year_end_date,date,,,,NO,f
+acc_gl_journal_entry_annual_summary,10,created_by,bigint,,64,0,YES,f
+acc_gl_journal_entry_annual_summary,11,created_on_utc,timestamp with time zone,,,,YES,f
+acc_gl_journal_entry_annual_summary,12,last_modified_by,bigint,,64,0,YES,f
+acc_gl_journal_entry_annual_summary,13,last_modified_on_utc,timestamp with time zone,,,,YES,f
+acc_gl_journal_entry_annual_summary,14,originator_external_ids,character varying,1000,,,YES,f
+acc_gl_journal_entry_annual_summary,15,product_type,smallint,,16,0,NO,f
+acc_product_mapping,1,id,bigint,,64,0,NO,f
+acc_product_mapping,2,gl_account_id,bigint,,64,0,YES,f
+acc_product_mapping,3,product_id,bigint,,64,0,YES,f
+acc_product_mapping,4,product_type,smallint,,16,0,YES,f
+acc_product_mapping,5,payment_type,integer,,32,0,YES,f
+acc_product_mapping,6,charge_id,bigint,,64,0,YES,f
+acc_product_mapping,7,financial_account_type,smallint,,16,0,YES,f
+acc_product_mapping,8,charge_off_reason_id,integer,,32,0,YES,f
+acc_product_mapping,9,capitalized_income_classification_id,integer,,32,0,YES,f
+acc_product_mapping,10,buydown_fee_classification_id,integer,,32,0,YES,f
+acc_product_mapping,11,write_off_reason_id,bigint,,64,0,YES,f
+acc_rule_tags,1,id,bigint,,64,0,NO,f
+acc_rule_tags,2,acc_rule_id,bigint,,64,0,NO,f
+acc_rule_tags,3,tag_id,integer,,32,0,NO,f
+acc_rule_tags,4,acc_type_enum,smallint,,16,0,NO,f
+batch_custom_job_parameters,1,id,bigint,,64,0,NO,f
+batch_custom_job_parameters,2,parameter_json,json,,,,NO,f
+batch_job_execution,1,job_execution_id,bigint,,64,0,NO,f
+batch_job_execution,2,version,bigint,,64,0,YES,f
+batch_job_execution,3,job_instance_id,bigint,,64,0,NO,f
+batch_job_execution,4,create_time,timestamp without time zone,,,,NO,f
+batch_job_execution,5,start_time,timestamp without time zone,,,,YES,f
+batch_job_execution,6,end_time,timestamp without time zone,,,,YES,f
+batch_job_execution,7,status,character varying,10,,,YES,f
+batch_job_execution,8,exit_code,character varying,2500,,,YES,f
+batch_job_execution,9,exit_message,character varying,2500,,,YES,f
+batch_job_execution,10,last_updated,timestamp without time zone,,,,YES,f
+batch_job_execution_context,1,job_execution_id,bigint,,64,0,NO,f
+batch_job_execution_context,2,short_context,character varying,2500,,,NO,f
+batch_job_execution_context,3,serialized_context,text,,,,YES,f
+batch_job_execution_params,1,job_execution_id,bigint,,64,0,NO,f
+batch_job_execution_params,2,parameter_type,character varying,100,,,NO,f
+batch_job_execution_params,3,parameter_name,character varying,100,,,NO,f
+batch_job_execution_params,4,parameter_value,character varying,2500,,,YES,f
+batch_job_execution_params,8,identifying,character,1,,,NO,f
+batch_job_instance,1,job_instance_id,bigint,,64,0,NO,f
+batch_job_instance,2,version,bigint,,64,0,YES,f
+batch_job_instance,3,job_name,character varying,100,,,NO,f
+batch_job_instance,4,job_key,character varying,32,,,NO,f
+batch_step_execution,1,step_execution_id,bigint,,64,0,NO,f
+batch_step_execution,2,version,bigint,,64,0,NO,f
+batch_step_execution,3,step_name,character varying,100,,,NO,f
+batch_step_execution,4,job_execution_id,bigint,,64,0,NO,f
+batch_step_execution,5,start_time,timestamp without time zone,,,,YES,f
+batch_step_execution,6,end_time,timestamp without time zone,,,,YES,f
+batch_step_execution,7,status,character varying,10,,,YES,f
+batch_step_execution,8,commit_count,bigint,,64,0,YES,f
+batch_step_execution,9,read_count,bigint,,64,0,YES,f
+batch_step_execution,10,filter_count,bigint,,64,0,YES,f
+batch_step_execution,11,write_count,bigint,,64,0,YES,f
+batch_step_execution,12,read_skip_count,bigint,,64,0,YES,f
+batch_step_execution,13,write_skip_count,bigint,,64,0,YES,f
+batch_step_execution,14,process_skip_count,bigint,,64,0,YES,f
+batch_step_execution,15,rollback_count,bigint,,64,0,YES,f
+batch_step_execution,16,exit_code,character varying,2500,,,YES,f
+batch_step_execution,17,exit_message,character varying,2500,,,YES,f
+batch_step_execution,18,last_updated,timestamp without time zone,,,,YES,f
+batch_step_execution,19,create_time,timestamp without time zone,,,,NO,t
+batch_step_execution_context,1,step_execution_id,bigint,,64,0,NO,f
+batch_step_execution_context,2,short_context,character varying,2500,,,NO,f
+batch_step_execution_context,3,serialized_context,text,,,,YES,f
+c_account_number_format,1,id,bigint,,64,0,NO,f
+c_account_number_format,2,account_type_enum,smallint,,16,0,NO,f
+c_account_number_format,3,prefix_type_enum,smallint,,16,0,YES,f
+c_account_number_format,4,prefix_character,character varying,50,,,YES,f
+c_cache,1,id,bigint,,64,0,NO,f
+c_cache,2,cache_type_enum,smallint,,16,0,NO,t
+c_configuration,1,id,bigint,,64,0,NO,f
+c_configuration,2,name,character varying,100,,,YES,f
+c_configuration,3,value,integer,,32,0,YES,f
+c_configuration,4,date_value,date,,,,YES,f
+c_configuration,5,string_value,character varying,100,,,YES,f
+c_configuration,6,enabled,boolean,,,,NO,t
+c_configuration,7,is_trap_door,boolean,,,,NO,t
+c_configuration,8,description,character varying,300,,,YES,f
+c_external_service,1,id,bigint,,64,0,NO,f
+c_external_service,2,name,character varying,100,,,YES,f
+c_external_service_properties,1,name,character varying,150,,,NO,f
+c_external_service_properties,2,value,character varying,250,,,YES,f
+c_external_service_properties,3,external_service_id,bigint,,64,0,NO,f
+databasechangelog,1,id,character varying,255,,,NO,f
+databasechangelog,2,author,character varying,255,,,NO,f
+databasechangelog,3,filename,character varying,255,,,NO,f
+databasechangelog,4,dateexecuted,timestamp without time zone,,,,NO,f
+databasechangelog,5,orderexecuted,integer,,32,0,NO,f
+databasechangelog,6,exectype,character varying,10,,,NO,f
+databasechangelog,7,md5sum,character varying,35,,,YES,f
+databasechangelog,8,description,character varying,255,,,YES,f
+databasechangelog,9,comments,character varying,255,,,YES,f
+databasechangelog,10,tag,character varying,255,,,YES,f
+databasechangelog,11,liquibase,character varying,20,,,YES,f
+databasechangelog,12,contexts,character varying,255,,,YES,f
+databasechangelog,13,labels,character varying,255,,,YES,f
+databasechangelog,14,deployment_id,character varying,10,,,YES,f
+databasechangeloglock,1,id,integer,,32,0,NO,f
+databasechangeloglock,2,locked,boolean,,,,NO,f
+databasechangeloglock,3,lockgranted,timestamp without time zone,,,,YES,f
+databasechangeloglock,4,lockedby,character varying,255,,,YES,f
+glim_accounts,1,id,bigint,,64,0,NO,f
+glim_accounts,2,group_id,bigint,,64,0,NO,t
+glim_accounts,3,account_number,character varying,50,,,NO,f
+glim_accounts,4,principal_amount,numeric,,19,6,NO,t
+glim_accounts,5,child_accounts_count,integer,,32,0,NO,f
+glim_accounts,6,accepting_child,boolean,,,,NO,t
+glim_accounts,7,loan_status_id,smallint,,16,0,NO,t
+glim_accounts,8,application_id,numeric,,10,0,YES,t
+gsim_accounts,1,id,bigint,,64,0,NO,f
+gsim_accounts,2,group_id,bigint,,64,0,NO,t
+gsim_accounts,3,account_number,character varying,50,,,NO,f
+gsim_accounts,4,parent_deposit,numeric,,19,6,NO,t
+gsim_accounts,5,child_accounts_count,integer,,32,0,NO,f
+gsim_accounts,6,accepting_child,boolean,,,,NO,t
+gsim_accounts,7,savings_status_id,smallint,,16,0,NO,t
+gsim_accounts,8,application_id,numeric,,10,0,YES,t
+interop_identifier,1,id,bigint,,64,0,NO,f
+interop_identifier,2,account_id,bigint,,64,0,NO,f
+interop_identifier,3,type,character varying,32,,,NO,f
+interop_identifier,4,a_value,character varying,128,,,NO,f
+interop_identifier,5,sub_value_or_type,character varying,128,,,YES,f
+interop_identifier,6,created_by,character varying,32,,,NO,f
+interop_identifier,7,created_on,timestamp without time zone,,,,NO,t
+interop_identifier,8,modified_by,character varying,32,,,YES,f
+interop_identifier,9,modified_on,timestamp without time zone,,,,YES,f
+job,1,id,bigint,,64,0,NO,f
+job,2,name,character varying,100,,,NO,f
+job,3,display_name,character varying,100,,,NO,f
+job,4,cron_expression,character varying,20,,,NO,f
+job,5,create_time,timestamp without time zone,,,,NO,f
+job,6,task_priority,smallint,,16,0,NO,t
+job,7,group_name,character varying,50,,,YES,f
+job,8,previous_run_start_time,timestamp without time zone,,,,YES,f
+job,9,next_run_time,timestamp without time zone,,,,YES,f
+job,10,job_key,character varying,500,,,YES,f
+job,11,initializing_errorlog,text,,,,YES,f
+job,12,is_active,boolean,,,,NO,t
+job,13,currently_running,boolean,,,,NO,t
+job,14,updates_allowed,boolean,,,,NO,t
+job,15,scheduler_group,smallint,,16,0,NO,t
+job,16,is_misfired,boolean,,,,NO,t
+job,17,node_id,integer,,32,0,YES,f
+job,18,is_mismatched_job,boolean,,,,YES,t
+job,19,short_name,character varying,8,,,NO,f
+job_parameters,1,id,bigint,,64,0,NO,f
+job_parameters,2,job_id,bigint,,64,0,NO,f
+job_parameters,3,parameter_name,character varying,100,,,NO,f
+job_parameters,4,parameter_value,text,,,,NO,f
+job_run_history,1,id,bigint,,64,0,NO,f
+job_run_history,2,job_id,bigint,,64,0,NO,f
+job_run_history,3,version,bigint,,64,0,NO,f
+job_run_history,4,start_time,timestamp without time zone,,,,NO,f
+job_run_history,5,end_time,timestamp without time zone,,,,NO,f
+job_run_history,6,status,character varying,10,,,NO,f
+job_run_history,7,error_message,text,,,,YES,f
+job_run_history,8,trigger_type,character varying,25,,,NO,f
+job_run_history,9,error_log,text,,,,YES,f
+m_account_transfer_details,1,id,bigint,,64,0,NO,f
+m_account_transfer_details,2,from_office_id,bigint,,64,0,NO,f
+m_account_transfer_details,3,to_office_id,bigint,,64,0,NO,f
+m_account_transfer_details,4,from_client_id,bigint,,64,0,YES,f
+m_account_transfer_details,5,to_client_id,bigint,,64,0,YES,f
+m_account_transfer_details,6,from_savings_account_id,bigint,,64,0,YES,f
+m_account_transfer_details,7,to_savings_account_id,bigint,,64,0,YES,f
+m_account_transfer_details,8,from_loan_account_id,bigint,,64,0,YES,f
+m_account_transfer_details,9,to_loan_account_id,bigint,,64,0,YES,f
+m_account_transfer_details,10,transfer_type,smallint,,16,0,YES,f
+m_account_transfer_standing_instructions,1,id,bigint,,64,0,NO,f
+m_account_transfer_standing_instructions,2,name,character varying,250,,,NO,f
+m_account_transfer_standing_instructions,3,account_transfer_details_id,bigint,,64,0,NO,f
+m_account_transfer_standing_instructions,4,priority,smallint,,16,0,NO,f
+m_account_transfer_standing_instructions,5,status,smallint,,16,0,NO,f
+m_account_transfer_standing_instructions,6,instruction_type,smallint,,16,0,NO,f
+m_account_transfer_standing_instructions,7,amount,numeric,,19,6,YES,t
+m_account_transfer_standing_instructions,8,valid_from,date,,,,NO,f
+m_account_transfer_standing_instructions,9,valid_till,date,,,,YES,f
+m_account_transfer_standing_instructions,10,recurrence_type,smallint,,16,0,NO,f
+m_account_transfer_standing_instructions,11,recurrence_frequency,smallint,,16,0,YES,f
+m_account_transfer_standing_instructions,12,recurrence_interval,smallint,,16,0,YES,f
+m_account_transfer_standing_instructions,13,recurrence_on_day,smallint,,16,0,YES,f
+m_account_transfer_standing_instructions,14,recurrence_on_month,smallint,,16,0,YES,f
+m_account_transfer_standing_instructions,15,last_run_date,date,,,,YES,f
+m_account_transfer_standing_instructions_history,1,id,bigint,,64,0,NO,f
+m_account_transfer_standing_instructions_history,2,standing_instruction_id,bigint,,64,0,NO,f
+m_account_transfer_standing_instructions_history,3,status,character varying,20,,,NO,f
+m_account_transfer_standing_instructions_history,4,execution_time,timestamp without time zone,,,,NO,f
+m_account_transfer_standing_instructions_history,5,amount,numeric,,19,6,NO,f
+m_account_transfer_standing_instructions_history,6,error_log,character varying,500,,,YES,f
+m_account_transfer_transaction,1,id,bigint,,64,0,NO,f
+m_account_transfer_transaction,2,account_transfer_details_id,bigint,,64,0,NO,f
+m_account_transfer_transaction,3,from_savings_transaction_id,bigint,,64,0,YES,f
+m_account_transfer_transaction,4,from_loan_transaction_id,bigint,,64,0,YES,f
+m_account_transfer_transaction,5,to_savings_transaction_id,bigint,,64,0,YES,f
+m_account_transfer_transaction,6,to_loan_transaction_id,bigint,,64,0,YES,f
+m_account_transfer_transaction,7,is_reversed,boolean,,,,NO,f
+m_account_transfer_transaction,8,transaction_date,date,,,,NO,f
+m_account_transfer_transaction,9,currency_code,character varying,3,,,NO,f
+m_account_transfer_transaction,10,currency_digits,smallint,,16,0,NO,f
+m_account_transfer_transaction,11,currency_multiplesof,smallint,,16,0,YES,f
+m_account_transfer_transaction,12,amount,numeric,,19,6,NO,f
+m_account_transfer_transaction,13,description,character varying,200,,,NO,f
+m_account_transfer_transaction,14,payment_detail_id,bigint,,64,0,YES,f
+m_address,1,id,bigint,,64,0,NO,f
+m_address,2,street,character varying,100,,,YES,f
+m_address,3,address_line_1,character varying,100,,,YES,f
+m_address,4,address_line_2,character varying,100,,,YES,f
+m_address,5,address_line_3,character varying,100,,,YES,f
+m_address,6,town_village,character varying,100,,,YES,f
+m_address,7,city,character varying,100,,,YES,f
+m_address,8,county_district,character varying,100,,,YES,f
+m_address,9,state_province_id,integer,,32,0,YES,f
+m_address,10,country_id,integer,,32,0,YES,f
+m_address,11,postal_code,character varying,10,,,YES,f
+m_address,12,latitude,numeric,,10,8,YES,t
+m_address,13,longitude,numeric,,10,8,YES,t
+m_address,14,created_by,character varying,100,,,YES,f
+m_address,15,created_on,date,,,,YES,f
+m_address,16,updated_by,character varying,100,,,YES,f
+m_address,17,updated_on,date,,,,YES,f
+m_adhoc,1,id,bigint,,64,0,NO,f
+m_adhoc,2,name,character varying,100,,,YES,f
+m_adhoc,3,query,character varying,2000,,,YES,f
+m_adhoc,4,table_name,character varying,100,,,YES,f
+m_adhoc,5,table_fields,character varying,1000,,,YES,f
+m_adhoc,6,email,character varying,500,,,YES,f
+m_adhoc,7,is_active,boolean,,,,NO,t
+m_adhoc,8,created_date,timestamp without time zone,,,,YES,f
+m_adhoc,9,createdby_id,bigint,,64,0,NO,f
+m_adhoc,10,lastmodifiedby_id,bigint,,64,0,NO,f
+m_adhoc,11,lastmodified_date,timestamp without time zone,,,,YES,f
+m_adhoc,12,report_run_frequency_code,integer,,32,0,YES,f
+m_adhoc,13,report_run_every,integer,,32,0,YES,f
+m_adhoc,14,last_run,timestamp without time zone,,,,YES,f
+m_appuser,1,id,bigint,,64,0,NO,f
+m_appuser,2,is_deleted,boolean,,,,NO,t
+m_appuser,3,office_id,bigint,,64,0,YES,f
+m_appuser,4,staff_id,bigint,,64,0,YES,f
+m_appuser,5,username,character varying,100,,,NO,f
+m_appuser,6,firstname,character varying,100,,,NO,f
+m_appuser,7,lastname,character varying,100,,,NO,f
+m_appuser,8,password,character varying,255,,,NO,f
+m_appuser,9,email,character varying,254,,,NO,f
+m_appuser,10,firsttime_login_remaining,boolean,,,,NO,f
+m_appuser,11,nonexpired,boolean,,,,NO,f
+m_appuser,12,nonlocked,boolean,,,,NO,f
+m_appuser,13,nonexpired_credentials,boolean,,,,NO,f
+m_appuser,14,enabled,boolean,,,,NO,f
+m_appuser,15,last_time_password_updated,date,,,,NO,t
+m_appuser,16,password_never_expires,boolean,,,,NO,t
+m_appuser,18,cannot_change_password,boolean,,,,YES,t
+m_appuser,19,password_reset_required,boolean,,,,NO,t
+m_appuser,20,failed_login_attempts,integer,,32,0,NO,t
+m_appuser,21,is_login_retries_enabled,boolean,,,,NO,t
+m_appuser,22,temporary_password,character varying,255,,,YES,f
+m_appuser,23,temporary_password_expiry_time,timestamp with time zone,,,,YES,f
+m_appuser,24,is_password_reset_enabled,boolean,,,,NO,t
+m_appuser_previous_password,1,id,bigint,,64,0,NO,f
+m_appuser_previous_password,2,user_id,bigint,,64,0,NO,f
+m_appuser_previous_password,3,password,character varying,255,,,NO,f
+m_appuser_previous_password,4,removal_date,date,,,,NO,f
+m_appuser_role,1,appuser_id,bigint,,64,0,NO,f
+m_appuser_role,2,role_id,bigint,,64,0,NO,f
+m_batch_business_steps,1,id,bigint,,64,0,NO,f
+m_batch_business_steps,2,job_name,character varying,100,,,NO,f
+m_batch_business_steps,3,step_name,character varying,100,,,NO,f
+m_batch_business_steps,4,step_order,smallint,,16,0,NO,f
+m_business_date,1,id,bigint,,64,0,NO,f
+m_business_date,2,type,character varying,100,,,NO,f
+m_business_date,3,date,date,,,,NO,f
+m_business_date,4,created_by,bigint,,64,0,NO,f
+m_business_date,5,created_date,timestamp without time zone,,,,YES,f
+m_business_date,6,version,bigint,,64,0,NO,f
+m_business_date,7,last_modified_by,bigint,,64,0,NO,f
+m_business_date,8,lastmodified_date,timestamp without time zone,,,,YES,f
+m_business_date,9,created_on_utc,timestamp with time zone,,,,NO,f
+m_business_date,10,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_calendar,1,id,bigint,,64,0,NO,f
+m_calendar,2,title,character varying,70,,,NO,f
+m_calendar,3,description,character varying,100,,,YES,f
+m_calendar,4,location,character varying,50,,,YES,f
+m_calendar,5,start_date,date,,,,NO,f
+m_calendar,6,end_date,date,,,,YES,f
+m_calendar,7,duration,smallint,,16,0,YES,f
+m_calendar,8,calendar_type_enum,smallint,,16,0,NO,f
+m_calendar,9,repeating,boolean,,,,NO,t
+m_calendar,10,recurrence,character varying,100,,,YES,f
+m_calendar,11,remind_by_enum,smallint,,16,0,YES,f
+m_calendar,12,first_reminder,smallint,,16,0,YES,f
+m_calendar,13,second_reminder,smallint,,16,0,YES,f
+m_calendar,14,created_by,bigint,,64,0,NO,f
+m_calendar,15,last_modified_by,bigint,,64,0,NO,f
+m_calendar,16,created_date,timestamp without time zone,,,,YES,f
+m_calendar,17,lastmodified_date,timestamp without time zone,,,,YES,f
+m_calendar,18,meeting_time,time without time zone,,,,YES,f
+m_calendar,19,created_on_utc,timestamp with time zone,,,,NO,f
+m_calendar,20,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_calendar_history,1,id,bigint,,64,0,NO,f
+m_calendar_history,2,calendar_id,bigint,,64,0,NO,f
+m_calendar_history,3,title,character varying,70,,,NO,f
+m_calendar_history,4,description,character varying,100,,,YES,f
+m_calendar_history,5,location,character varying,50,,,YES,f
+m_calendar_history,6,start_date,date,,,,NO,f
+m_calendar_history,7,end_date,date,,,,YES,f
+m_calendar_history,8,duration,smallint,,16,0,YES,f
+m_calendar_history,9,calendar_type_enum,smallint,,16,0,NO,f
+m_calendar_history,10,repeating,boolean,,,,NO,t
+m_calendar_history,11,recurrence,character varying,100,,,YES,f
+m_calendar_history,12,remind_by_enum,smallint,,16,0,YES,f
+m_calendar_history,13,first_reminder,smallint,,16,0,YES,f
+m_calendar_history,14,second_reminder,smallint,,16,0,YES,f
+m_calendar_instance,1,id,bigint,,64,0,NO,f
+m_calendar_instance,2,calendar_id,bigint,,64,0,NO,f
+m_calendar_instance,3,entity_id,bigint,,64,0,NO,f
+m_calendar_instance,4,entity_type_enum,smallint,,16,0,NO,f
+m_cashier_transactions,1,id,bigint,,64,0,NO,f
+m_cashier_transactions,2,cashier_id,bigint,,64,0,NO,f
+m_cashier_transactions,3,txn_type,smallint,,16,0,NO,f
+m_cashier_transactions,4,txn_amount,numeric,,19,6,NO,f
+m_cashier_transactions,5,txn_date,date,,,,NO,f
+m_cashier_transactions,6,created_date,timestamp without time zone,,,,NO,f
+m_cashier_transactions,7,entity_type,character varying,50,,,YES,f
+m_cashier_transactions,8,entity_id,bigint,,64,0,YES,f
+m_cashier_transactions,9,txn_note,character varying,200,,,YES,f
+m_cashier_transactions,10,currency_code,character varying,3,,,YES,f
+m_cashiers,1,id,bigint,,64,0,NO,f
+m_cashiers,2,staff_id,bigint,,64,0,YES,f
+m_cashiers,3,teller_id,bigint,,64,0,YES,f
+m_cashiers,4,description,character varying,100,,,YES,f
+m_cashiers,5,start_date,date,,,,YES,f
+m_cashiers,6,end_date,date,,,,YES,f
+m_cashiers,7,start_time,character varying,10,,,YES,f
+m_cashiers,8,end_time,character varying,10,,,YES,f
+m_cashiers,9,full_day,boolean,,,,YES,f
+m_charge,1,id,bigint,,64,0,NO,f
+m_charge,2,name,character varying,100,,,YES,f
+m_charge,3,currency_code,character varying,3,,,NO,f
+m_charge,4,charge_applies_to_enum,smallint,,16,0,NO,f
+m_charge,5,charge_time_enum,smallint,,16,0,NO,f
+m_charge,6,charge_calculation_enum,smallint,,16,0,NO,f
+m_charge,7,charge_payment_mode_enum,smallint,,16,0,YES,f
+m_charge,8,amount,numeric,,19,6,NO,f
+m_charge,9,fee_on_day,smallint,,16,0,YES,f
+m_charge,10,fee_interval,smallint,,16,0,YES,f
+m_charge,11,fee_on_month,smallint,,16,0,YES,f
+m_charge,12,is_penalty,boolean,,,,NO,t
+m_charge,13,is_active,boolean,,,,NO,f
+m_charge,14,is_deleted,boolean,,,,NO,t
+m_charge,15,min_cap,numeric,,19,6,YES,t
+m_charge,16,max_cap,numeric,,19,6,YES,t
+m_charge,17,fee_frequency,smallint,,16,0,YES,f
+m_charge,18,is_free_withdrawal,boolean,,,,NO,t
+m_charge,19,free_withdrawal_charge_frequency,integer,,32,0,YES,t
+m_charge,20,restart_frequency,integer,,32,0,YES,t
+m_charge,21,restart_frequency_enum,integer,,32,0,YES,t
+m_charge,22,is_payment_type,boolean,,,,YES,t
+m_charge,23,payment_type_id,integer,,32,0,YES,f
+m_charge,24,income_or_liability_account_id,bigint,,64,0,YES,f
+m_charge,25,tax_group_id,bigint,,64,0,YES,f
+m_client,1,id,bigint,,64,0,NO,f
+m_client,2,account_no,character varying,20,,,NO,f
+m_client,3,external_id,character varying,100,,,YES,f
+m_client,4,status_enum,integer,,32,0,NO,t
+m_client,5,sub_status,integer,,32,0,YES,f
+m_client,6,activation_date,date,,,,YES,f
+m_client,7,office_joining_date,date,,,,YES,f
+m_client,8,office_id,bigint,,64,0,NO,f
+m_client,9,transfer_to_office_id,bigint,,64,0,YES,f
+m_client,10,staff_id,bigint,,64,0,YES,f
+m_client,11,firstname,character varying,50,,,YES,f
+m_client,12,middlename,character varying,50,,,YES,f
+m_client,13,lastname,character varying,50,,,YES,f
+m_client,14,fullname,character varying,160,,,YES,f
+m_client,15,display_name,character varying,160,,,NO,f
+m_client,16,mobile_no,character varying,50,,,YES,f
+m_client,17,is_staff,boolean,,,,NO,t
+m_client,18,gender_cv_id,integer,,32,0,YES,f
+m_client,19,date_of_birth,date,,,,YES,f
+m_client,20,image_id,bigint,,64,0,YES,f
+m_client,21,closure_reason_cv_id,integer,,32,0,YES,f
+m_client,22,closedon_date,date,,,,YES,f
+m_client,23,updated_by,bigint,,64,0,YES,f
+m_client,24,updated_on,date,,,,YES,f
+m_client,25,submittedon_date,date,,,,YES,f
+m_client,27,activatedon_userid,bigint,,64,0,YES,f
+m_client,28,closedon_userid,bigint,,64,0,YES,f
+m_client,29,default_savings_product,bigint,,64,0,YES,f
+m_client,30,default_savings_account,bigint,,64,0,YES,f
+m_client,31,client_type_cv_id,integer,,32,0,YES,f
+m_client,32,client_classification_cv_id,integer,,32,0,YES,f
+m_client,33,reject_reason_cv_id,integer,,32,0,YES,f
+m_client,34,rejectedon_date,date,,,,YES,f
+m_client,35,rejectedon_userid,bigint,,64,0,YES,f
+m_client,36,withdraw_reason_cv_id,integer,,32,0,YES,f
+m_client,37,withdrawn_on_date,date,,,,YES,f
+m_client,38,withdraw_on_userid,bigint,,64,0,YES,f
+m_client,39,reactivated_on_date,date,,,,YES,f
+m_client,40,reactivated_on_userid,bigint,,64,0,YES,f
+m_client,41,legal_form_enum,integer,,32,0,YES,f
+m_client,42,reopened_on_date,date,,,,YES,f
+m_client,43,reopened_by_userid,bigint,,64,0,YES,f
+m_client,44,email_address,character varying,254,,,YES,f
+m_client,45,proposed_transfer_date,date,,,,YES,f
+m_client,46,created_on_utc,timestamp with time zone,,,,NO,f
+m_client,47,created_by,bigint,,64,0,NO,f
+m_client,48,last_modified_by,bigint,,64,0,NO,f
+m_client,49,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_client_address,1,id,bigint,,64,0,NO,f
+m_client_address,2,client_id,bigint,,64,0,NO,t
+m_client_address,3,address_id,bigint,,64,0,NO,t
+m_client_address,4,address_type_id,integer,,32,0,NO,t
+m_client_address,5,is_active,boolean,,,,NO,t
+m_client_attendance,1,id,bigint,,64,0,NO,f
+m_client_attendance,2,client_id,bigint,,64,0,NO,t
+m_client_attendance,3,meeting_id,bigint,,64,0,NO,f
+m_client_attendance,4,attendance_type_enum,smallint,,16,0,NO,f
+m_client_charge,1,id,bigint,,64,0,NO,f
+m_client_charge,2,client_id,bigint,,64,0,NO,f
+m_client_charge,3,charge_id,bigint,,64,0,NO,f
+m_client_charge,4,is_penalty,boolean,,,,NO,f
+m_client_charge,5,charge_time_enum,smallint,,16,0,NO,f
+m_client_charge,6,charge_due_date,date,,,,YES,f
+m_client_charge,7,charge_calculation_enum,smallint,,16,0,NO,f
+m_client_charge,8,amount,numeric,,19,6,NO,f
+m_client_charge,9,amount_paid_derived,numeric,,19,6,YES,t
+m_client_charge,10,amount_waived_derived,numeric,,19,6,YES,t
+m_client_charge,11,amount_writtenoff_derived,numeric,,19,6,YES,t
+m_client_charge,12,amount_outstanding_derived,numeric,,19,6,NO,f
+m_client_charge,13,is_paid_derived,boolean,,,,YES,f
+m_client_charge,14,waived,boolean,,,,YES,f
+m_client_charge,15,is_active,boolean,,,,YES,f
+m_client_charge,16,inactivated_on_date,date,,,,YES,f
+m_client_charge_paid_by,1,id,bigint,,64,0,NO,f
+m_client_charge_paid_by,2,client_transaction_id,bigint,,64,0,NO,f
+m_client_charge_paid_by,3,client_charge_id,bigint,,64,0,NO,f
+m_client_charge_paid_by,4,amount,numeric,,19,6,NO,f
+m_client_collateral_management,1,id,bigint,,64,0,NO,f
+m_client_collateral_management,2,quantity,numeric,,20,5,NO,f
+m_client_collateral_management,3,client_id,bigint,,64,0,YES,f
+m_client_collateral_management,4,collateral_id,bigint,,64,0,YES,f
+m_client_identifier,1,id,bigint,,64,0,NO,f
+m_client_identifier,2,client_id,bigint,,64,0,NO,f
+m_client_identifier,3,document_type_id,integer,,32,0,NO,f
+m_client_identifier,4,document_key,character varying,50,,,NO,f
+m_client_identifier,5,status,integer,,32,0,NO,t
+m_client_identifier,6,active,integer,,32,0,YES,f
+m_client_identifier,7,description,character varying,500,,,YES,f
+m_client_identifier,8,created_by,bigint,,64,0,NO,f
+m_client_identifier,9,last_modified_by,bigint,,64,0,NO,f
+m_client_identifier,10,created_date,timestamp without time zone,,,,YES,f
+m_client_identifier,11,lastmodified_date,timestamp without time zone,,,,YES,f
+m_client_identifier,12,created_on_utc,timestamp with time zone,,,,NO,f
+m_client_identifier,13,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_client_identifier,14,issuance_date,date,,,,YES,f
+m_client_identifier,15,expiry_date,date,,,,YES,f
+m_client_non_person,1,id,bigint,,64,0,NO,f
+m_client_non_person,2,client_id,bigint,,64,0,NO,f
+m_client_non_person,3,constitution_cv_id,integer,,32,0,NO,f
+m_client_non_person,4,incorp_no,character varying,50,,,YES,f
+m_client_non_person,5,incorp_validity_till,date,,,,YES,f
+m_client_non_person,6,main_business_line_cv_id,integer,,32,0,YES,f
+m_client_non_person,7,remarks,character varying,150,,,YES,f
+m_client_transaction,1,id,bigint,,64,0,NO,f
+m_client_transaction,2,client_id,bigint,,64,0,NO,f
+m_client_transaction,3,office_id,bigint,,64,0,NO,f
+m_client_transaction,4,currency_code,character varying,3,,,NO,f
+m_client_transaction,5,payment_detail_id,bigint,,64,0,YES,f
+m_client_transaction,6,is_reversed,boolean,,,,NO,f
+m_client_transaction,7,external_id,character varying,50,,,YES,f
+m_client_transaction,8,transaction_date,date,,,,NO,f
+m_client_transaction,9,transaction_type_enum,smallint,,16,0,NO,f
+m_client_transaction,10,amount,numeric,,19,6,NO,f
+m_client_transaction,11,created_date,timestamp without time zone,,,,YES,f
+m_client_transaction,13,created_on_utc,timestamp with time zone,,,,NO,f
+m_client_transaction,14,created_by,bigint,,64,0,NO,f
+m_client_transaction,15,last_modified_by,bigint,,64,0,NO,f
+m_client_transaction,16,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_client_transaction,17,submitted_on_date,date,,,,NO,f
+m_client_transfer_details,1,id,bigint,,64,0,NO,f
+m_client_transfer_details,2,client_id,bigint,,64,0,NO,f
+m_client_transfer_details,3,from_office_id,bigint,,64,0,NO,f
+m_client_transfer_details,4,to_office_id,bigint,,64,0,NO,f
+m_client_transfer_details,5,proposed_transfer_date,date,,,,YES,f
+m_client_transfer_details,6,transfer_type,smallint,,16,0,NO,f
+m_client_transfer_details,7,submitted_on,date,,,,NO,f
+m_client_transfer_details,8,submitted_by,bigint,,64,0,NO,f
+m_code,1,id,integer,,32,0,NO,f
+m_code,2,code_name,character varying,100,,,YES,f
+m_code,3,is_system_defined,boolean,,,,NO,t
+m_code_value,1,id,integer,,32,0,NO,f
+m_code_value,2,code_id,integer,,32,0,NO,f
+m_code_value,3,code_value,character varying,100,,,YES,f
+m_code_value,4,code_description,character varying,500,,,YES,f
+m_code_value,5,order_position,integer,,32,0,NO,t
+m_code_value,6,code_score,integer,,32,0,YES,f
+m_code_value,7,is_active,boolean,,,,NO,t
+m_code_value,8,is_mandatory,boolean,,,,NO,t
+m_collateral_management,1,id,bigint,,64,0,NO,f
+m_collateral_management,2,name,character varying,50,,,NO,f
+m_collateral_management,3,quality,character varying,40,,,NO,f
+m_collateral_management,4,base_price,numeric,,20,5,NO,f
+m_collateral_management,5,unit_type,character varying,10,,,NO,f
+m_collateral_management,6,pct_to_base,numeric,,20,5,NO,f
+m_collateral_management,7,currency,bigint,,64,0,YES,f
+m_command,1,id,bigint,,64,0,NO,f
+m_command,2,created_at,timestamp with time zone,,,,YES,f
+m_command,3,command_id,uuid,,,,YES,f
+m_command,4,tenant_id,character varying,255,,,YES,f
+m_command,5,initiated_by_username,character varying,255,,,YES,f
+m_command,6,request,text,,,,YES,f
+m_command,7,updated_at,timestamp with time zone,,,,YES,f
+m_command,8,executed_at,timestamp with time zone,,,,YES,f
+m_command,9,approved_at,timestamp with time zone,,,,YES,f
+m_command,10,rejected_at,timestamp with time zone,,,,YES,f
+m_command,11,idempotency_key,character varying,255,,,YES,f
+m_command,12,executed_by_username,character varying,255,,,YES,f
+m_command,13,approved_by_username,character varying,255,,,YES,f
+m_command,14,rejected_by_username,character varying,255,,,YES,f
+m_command,15,ip_address,character varying,255,,,YES,f
+m_command,16,state,character varying,255,,,YES,f
+m_command,17,response,text,,,,YES,f
+m_command,18,error,text,,,,YES,f
+m_creditbureau,1,id,bigint,,64,0,NO,f
+m_creditbureau,2,name,character varying,100,,,NO,f
+m_creditbureau,3,product,character varying,100,,,NO,f
+m_creditbureau,4,country,character varying,100,,,NO,f
+m_creditbureau,5,implementation_key,character varying,100,,,NO,f
+m_creditbureau_configuration,1,id,bigint,,64,0,NO,f
+m_creditbureau_configuration,2,configkey,character varying,50,,,YES,f
+m_creditbureau_configuration,3,value,text,,,,YES,f
+m_creditbureau_configuration,4,organisation_creditbureau_id,bigint,,64,0,YES,f
+m_creditbureau_configuration,5,description,character varying,50,,,YES,f
+m_creditbureau_loanproduct_mapping,1,id,bigint,,64,0,NO,f
+m_creditbureau_loanproduct_mapping,2,organisation_creditbureau_id,bigint,,64,0,NO,f
+m_creditbureau_loanproduct_mapping,3,loan_product_id,bigint,,64,0,NO,f
+m_creditbureau_loanproduct_mapping,4,is_creditcheck_mandatory,boolean,,,,YES,f
+m_creditbureau_loanproduct_mapping,5,skip_creditcheck_in_failure,boolean,,,,YES,f
+m_creditbureau_loanproduct_mapping,6,stale_period,integer,,32,0,YES,f
+m_creditbureau_loanproduct_mapping,7,is_active,boolean,,,,YES,f
+m_creditbureau_token,1,id,integer,,32,0,NO,f
+m_creditbureau_token,2,username,character varying,128,,,YES,f
+m_creditbureau_token,3,token,text,,,,YES,f
+m_creditbureau_token,4,token_type,character varying,128,,,YES,f
+m_creditbureau_token,5,expires_in,character varying,128,,,YES,f
+m_creditbureau_token,6,issued,character varying,128,,,YES,f
+m_creditbureau_token,7,expiry_date,date,,,,YES,f
+m_creditreport,1,id,integer,,32,0,NO,f
+m_creditreport,2,credit_bureau_id,bigint,,64,0,YES,f
+m_creditreport,3,national_id,character varying,128,,,YES,f
+m_creditreport,4,credit_reports,oid,,,,YES,f
+m_currency,1,id,bigint,,64,0,NO,f
+m_currency,2,code,character varying,3,,,NO,f
+m_currency,3,decimal_places,smallint,,16,0,NO,f
+m_currency,4,currency_multiplesof,smallint,,16,0,YES,f
+m_currency,5,display_symbol,character varying,10,,,YES,f
+m_currency,6,name,character varying,50,,,NO,f
+m_currency,7,internationalized_name_code,character varying,50,,,NO,f
+m_delinquency_bucket,1,id,bigint,,64,0,NO,f
+m_delinquency_bucket,2,name,character varying,100,,,NO,f
+m_delinquency_bucket,3,created_by,bigint,,64,0,NO,f
+m_delinquency_bucket,4,created_on_utc,timestamp with time zone,,,,NO,f
+m_delinquency_bucket,5,version,bigint,,64,0,NO,f
+m_delinquency_bucket,6,last_modified_by,bigint,,64,0,NO,f
+m_delinquency_bucket,7,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_delinquency_bucket,8,bucket_type,character varying,50,,,NO,t
+m_delinquency_bucket_mappings,1,id,bigint,,64,0,NO,f
+m_delinquency_bucket_mappings,2,delinquency_range_id,bigint,,64,0,NO,f
+m_delinquency_bucket_mappings,3,delinquency_bucket_id,bigint,,64,0,NO,f
+m_delinquency_bucket_mappings,4,created_by,bigint,,64,0,NO,f
+m_delinquency_bucket_mappings,5,created_on_utc,timestamp with time zone,,,,NO,f
+m_delinquency_bucket_mappings,6,version,bigint,,64,0,NO,f
+m_delinquency_bucket_mappings,7,last_modified_by,bigint,,64,0,NO,f
+m_delinquency_bucket_mappings,8,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_delinquency_range,1,id,bigint,,64,0,NO,f
+m_delinquency_range,2,classification,character varying,100,,,NO,f
+m_delinquency_range,3,min_age_days,bigint,,64,0,NO,f
+m_delinquency_range,4,max_age_days,bigint,,64,0,YES,f
+m_delinquency_range,5,created_by,bigint,,64,0,NO,f
+m_delinquency_range,6,created_on_utc,timestamp with time zone,,,,NO,f
+m_delinquency_range,7,version,bigint,,64,0,NO,f
+m_delinquency_range,8,last_modified_by,bigint,,64,0,NO,f
+m_delinquency_range,9,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_deposit_account_on_hold_transaction,1,id,bigint,,64,0,NO,f
+m_deposit_account_on_hold_transaction,2,savings_account_id,bigint,,64,0,NO,f
+m_deposit_account_on_hold_transaction,3,amount,numeric,,19,6,NO,f
+m_deposit_account_on_hold_transaction,4,transaction_type_enum,smallint,,16,0,NO,f
+m_deposit_account_on_hold_transaction,5,transaction_date,date,,,,NO,f
+m_deposit_account_on_hold_transaction,6,is_reversed,boolean,,,,NO,t
+m_deposit_account_on_hold_transaction,7,created_date,timestamp without time zone,,,,YES,f
+m_deposit_account_on_hold_transaction,8,created_by,bigint,,64,0,NO,f
+m_deposit_account_on_hold_transaction,9,last_modified_by,bigint,,64,0,NO,f
+m_deposit_account_on_hold_transaction,10,created_on_utc,timestamp with time zone,,,,NO,f
+m_deposit_account_on_hold_transaction,11,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_deposit_account_recurring_detail,1,id,bigint,,64,0,NO,f
+m_deposit_account_recurring_detail,2,savings_account_id,bigint,,64,0,NO,t
+m_deposit_account_recurring_detail,3,mandatory_recommended_deposit_amount,numeric,,19,6,YES,t
+m_deposit_account_recurring_detail,4,is_mandatory,boolean,,,,NO,t
+m_deposit_account_recurring_detail,5,allow_withdrawal,boolean,,,,NO,t
+m_deposit_account_recurring_detail,6,adjust_advance_towards_future_payments,boolean,,,,NO,t
+m_deposit_account_recurring_detail,7,is_calendar_inherited,boolean,,,,NO,t
+m_deposit_account_recurring_detail,8,total_overdue_amount,numeric,,19,6,YES,t
+m_deposit_account_recurring_detail,9,no_of_overdue_installments,integer,,32,0,YES,f
+m_deposit_account_term_and_preclosure,1,id,bigint,,64,0,NO,f
+m_deposit_account_term_and_preclosure,2,savings_account_id,bigint,,64,0,NO,t
+m_deposit_account_term_and_preclosure,3,min_deposit_term,integer,,32,0,YES,f
+m_deposit_account_term_and_preclosure,4,max_deposit_term,integer,,32,0,YES,f
+m_deposit_account_term_and_preclosure,5,min_deposit_term_type_enum,smallint,,16,0,YES,f
+m_deposit_account_term_and_preclosure,6,max_deposit_term_type_enum,smallint,,16,0,YES,f
+m_deposit_account_term_and_preclosure,7,in_multiples_of_deposit_term,integer,,32,0,YES,f
+m_deposit_account_term_and_preclosure,8,in_multiples_of_deposit_term_type_enum,smallint,,16,0,YES,f
+m_deposit_account_term_and_preclosure,9,pre_closure_penal_applicable,boolean,,,,YES,f
+m_deposit_account_term_and_preclosure,10,pre_closure_penal_interest,numeric,,19,6,YES,t
+m_deposit_account_term_and_preclosure,11,pre_closure_penal_interest_on_enum,smallint,,16,0,YES,f
+m_deposit_account_term_and_preclosure,12,deposit_period,integer,,32,0,YES,f
+m_deposit_account_term_and_preclosure,13,deposit_period_frequency_enum,smallint,,16,0,YES,f
+m_deposit_account_term_and_preclosure,14,deposit_amount,numeric,,19,6,YES,t
+m_deposit_account_term_and_preclosure,15,maturity_amount,numeric,,19,6,YES,t
+m_deposit_account_term_and_preclosure,16,maturity_date,date,,,,YES,f
+m_deposit_account_term_and_preclosure,17,on_account_closure_enum,smallint,,16,0,YES,f
+m_deposit_account_term_and_preclosure,18,expected_firstdepositon_date,date,,,,YES,f
+m_deposit_account_term_and_preclosure,19,transfer_interest_to_linked_account,boolean,,,,NO,t
+m_deposit_account_term_and_preclosure,20,transfer_to_savings_account_id,bigint,,64,0,YES,f
+m_deposit_product_interest_rate_chart,1,deposit_product_id,bigint,,64,0,NO,f
+m_deposit_product_interest_rate_chart,2,interest_rate_chart_id,bigint,,64,0,NO,f
+m_deposit_product_recurring_detail,1,id,bigint,,64,0,NO,f
+m_deposit_product_recurring_detail,2,savings_product_id,bigint,,64,0,NO,t
+m_deposit_product_recurring_detail,3,is_mandatory,boolean,,,,NO,t
+m_deposit_product_recurring_detail,4,allow_withdrawal,boolean,,,,NO,t
+m_deposit_product_recurring_detail,5,adjust_advance_towards_future_payments,boolean,,,,NO,t
+m_deposit_product_term_and_preclosure,1,id,bigint,,64,0,NO,f
+m_deposit_product_term_and_preclosure,2,savings_product_id,bigint,,64,0,NO,t
+m_deposit_product_term_and_preclosure,3,min_deposit_term,integer,,32,0,YES,f
+m_deposit_product_term_and_preclosure,4,max_deposit_term,integer,,32,0,YES,f
+m_deposit_product_term_and_preclosure,5,min_deposit_term_type_enum,smallint,,16,0,YES,f
+m_deposit_product_term_and_preclosure,6,max_deposit_term_type_enum,smallint,,16,0,YES,f
+m_deposit_product_term_and_preclosure,7,in_multiples_of_deposit_term,integer,,32,0,YES,f
+m_deposit_product_term_and_preclosure,8,in_multiples_of_deposit_term_type_enum,smallint,,16,0,YES,f
+m_deposit_product_term_and_preclosure,9,pre_closure_penal_applicable,boolean,,,,YES,f
+m_deposit_product_term_and_preclosure,10,pre_closure_penal_interest,numeric,,19,6,YES,t
+m_deposit_product_term_and_preclosure,11,pre_closure_penal_interest_on_enum,smallint,,16,0,YES,f
+m_deposit_product_term_and_preclosure,12,min_deposit_amount,numeric,,19,6,YES,t
+m_deposit_product_term_and_preclosure,13,max_deposit_amount,numeric,,19,6,YES,t
+m_deposit_product_term_and_preclosure,14,deposit_amount,numeric,,19,6,YES,t
+m_document,1,id,integer,,32,0,NO,f
+m_document,2,parent_entity_type,character varying,50,,,NO,f
+m_document,3,parent_entity_id,integer,,32,0,NO,t
+m_document,4,name,character varying,250,,,NO,f
+m_document,5,file_name,character varying,250,,,NO,f
+m_document,6,size,integer,,32,0,YES,t
+m_document,7,type,character varying,500,,,YES,f
+m_document,8,description,character varying,1000,,,YES,f
+m_document,9,location,character varying,500,,,NO,t
+m_document,10,storage_type_enum,smallint,,16,0,YES,f
+m_document,11,issuance_date,date,,,,YES,f
+m_document,12,expiry_date,date,,,,YES,f
+m_entity_datatable_check,1,id,integer,,32,0,NO,f
+m_entity_datatable_check,2,application_table_name,character varying,200,,,NO,f
+m_entity_datatable_check,3,x_registered_table_name,character varying,50,,,NO,f
+m_entity_datatable_check,4,status_enum,integer,,32,0,NO,f
+m_entity_datatable_check,5,system_defined,boolean,,,,NO,t
+m_entity_datatable_check,6,product_id,bigint,,64,0,YES,f
+m_entity_relation,1,id,bigint,,64,0,NO,f
+m_entity_relation,2,from_entity_type,integer,,32,0,NO,f
+m_entity_relation,3,to_entity_type,integer,,32,0,NO,f
+m_entity_relation,4,code_name,character varying,50,,,NO,f
+m_entity_to_entity_mapping,1,id,bigint,,64,0,NO,f
+m_entity_to_entity_mapping,2,rel_id,bigint,,64,0,NO,t
+m_entity_to_entity_mapping,3,from_id,bigint,,64,0,NO,t
+m_entity_to_entity_mapping,4,to_id,bigint,,64,0,NO,f
+m_entity_to_entity_mapping,5,start_date,date,,,,YES,f
+m_entity_to_entity_mapping,6,end_date,date,,,,YES,f
+m_external_asset_owner,1,id,bigint,,64,0,NO,f
+m_external_asset_owner,2,external_id,character varying,100,,,NO,f
+m_external_asset_owner,3,created_by,bigint,,64,0,YES,f
+m_external_asset_owner,4,created_on_utc,timestamp with time zone,,,,YES,f
+m_external_asset_owner,5,last_modified_by,bigint,,64,0,YES,f
+m_external_asset_owner,6,last_modified_on_utc,timestamp with time zone,,,,YES,f
+m_external_asset_owner_journal_entry_mapping,1,id,bigint,,64,0,NO,f
+m_external_asset_owner_journal_entry_mapping,2,journal_entry_id,bigint,,64,0,NO,f
+m_external_asset_owner_journal_entry_mapping,3,owner_id,bigint,,64,0,YES,f
+m_external_asset_owner_journal_entry_mapping,4,created_by,bigint,,64,0,YES,f
+m_external_asset_owner_journal_entry_mapping,5,created_on_utc,timestamp with time zone,,,,YES,f
+m_external_asset_owner_journal_entry_mapping,6,last_modified_by,bigint,,64,0,YES,f
+m_external_asset_owner_journal_entry_mapping,7,last_modified_on_utc,timestamp with time zone,,,,YES,f
+m_external_asset_owner_loan_product_configurable_attributes,1,id,bigint,,64,0,NO,f
+m_external_asset_owner_loan_product_configurable_attributes,2,loan_product_id,bigint,,64,0,NO,f
+m_external_asset_owner_loan_product_configurable_attributes,3,attribute_key,character varying,255,,,NO,f
+m_external_asset_owner_loan_product_configurable_attributes,4,attribute_value,character varying,2000,,,NO,f
+m_external_asset_owner_loan_product_configurable_attributes,5,created_by,bigint,,64,0,YES,f
+m_external_asset_owner_loan_product_configurable_attributes,6,created_on_utc,timestamp with time zone,,,,YES,f
+m_external_asset_owner_loan_product_configurable_attributes,7,last_modified_by,bigint,,64,0,YES,f
+m_external_asset_owner_loan_product_configurable_attributes,8,last_modified_on_utc,timestamp with time zone,,,,YES,f
+m_external_asset_owner_transfer,1,id,bigint,,64,0,NO,f
+m_external_asset_owner_transfer,2,owner_id,bigint,,64,0,NO,f
+m_external_asset_owner_transfer,3,external_id,character varying,100,,,NO,f
+m_external_asset_owner_transfer,4,status,character varying,50,,,NO,f
+m_external_asset_owner_transfer,5,purchase_price_ratio,character varying,50,,,NO,f
+m_external_asset_owner_transfer,6,settlement_date,date,,,,NO,f
+m_external_asset_owner_transfer,7,effective_date_from,date,,,,NO,f
+m_external_asset_owner_transfer,8,effective_date_to,date,,,,NO,f
+m_external_asset_owner_transfer,9,created_by,bigint,,64,0,YES,f
+m_external_asset_owner_transfer,10,created_on_utc,timestamp with time zone,,,,YES,f
+m_external_asset_owner_transfer,11,last_modified_by,bigint,,64,0,YES,f
+m_external_asset_owner_transfer,12,last_modified_on_utc,timestamp with time zone,,,,YES,f
+m_external_asset_owner_transfer,13,external_loan_id,character varying,100,,,YES,f
+m_external_asset_owner_transfer,14,loan_id,bigint,,64,0,NO,f
+m_external_asset_owner_transfer,15,sub_status,character varying,50,,,YES,f
+m_external_asset_owner_transfer,16,external_group_id,character varying,100,,,YES,f
+m_external_asset_owner_transfer,17,previous_owner_id,bigint,,64,0,YES,f
+m_external_asset_owner_transfer_details,1,id,bigint,,64,0,NO,f
+m_external_asset_owner_transfer_details,2,asset_owner_transfer_id,bigint,,64,0,NO,f
+m_external_asset_owner_transfer_details,3,total_outstanding_derived,numeric,,19,6,NO,f
+m_external_asset_owner_transfer_details,4,principal_outstanding_derived,numeric,,19,6,NO,f
+m_external_asset_owner_transfer_details,5,interest_outstanding_derived,numeric,,19,6,NO,f
+m_external_asset_owner_transfer_details,6,fee_charges_outstanding_derived,numeric,,19,6,NO,f
+m_external_asset_owner_transfer_details,7,penalty_charges_outstanding_derived,numeric,,19,6,NO,f
+m_external_asset_owner_transfer_details,8,total_overpaid_derived,numeric,,19,6,NO,f
+m_external_asset_owner_transfer_details,9,created_by,bigint,,64,0,YES,f
+m_external_asset_owner_transfer_details,10,created_on_utc,timestamp with time zone,,,,YES,f
+m_external_asset_owner_transfer_details,11,last_modified_by,bigint,,64,0,YES,f
+m_external_asset_owner_transfer_details,12,last_modified_on_utc,timestamp with time zone,,,,YES,f
+m_external_asset_owner_transfer_journal_entry_mapping,1,id,bigint,,64,0,NO,f
+m_external_asset_owner_transfer_journal_entry_mapping,2,journal_entry_id,bigint,,64,0,NO,f
+m_external_asset_owner_transfer_journal_entry_mapping,3,owner_transfer_id,bigint,,64,0,YES,f
+m_external_asset_owner_transfer_journal_entry_mapping,4,created_by,bigint,,64,0,YES,f
+m_external_asset_owner_transfer_journal_entry_mapping,5,created_on_utc,timestamp with time zone,,,,YES,f
+m_external_asset_owner_transfer_journal_entry_mapping,6,last_modified_by,bigint,,64,0,YES,f
+m_external_asset_owner_transfer_journal_entry_mapping,7,last_modified_on_utc,timestamp with time zone,,,,YES,f
+m_external_asset_owner_transfer_loan_mapping,1,id,bigint,,64,0,NO,f
+m_external_asset_owner_transfer_loan_mapping,2,loan_id,bigint,,64,0,NO,f
+m_external_asset_owner_transfer_loan_mapping,3,owner_transfer_id,bigint,,64,0,NO,f
+m_external_asset_owner_transfer_loan_mapping,4,created_by,bigint,,64,0,YES,f
+m_external_asset_owner_transfer_loan_mapping,5,created_on_utc,timestamp with time zone,,,,YES,f
+m_external_asset_owner_transfer_loan_mapping,6,last_modified_by,bigint,,64,0,YES,f
+m_external_asset_owner_transfer_loan_mapping,7,last_modified_on_utc,timestamp with time zone,,,,YES,f
+m_external_event,1,id,bigint,,64,0,NO,f
+m_external_event,2,type,character varying,100,,,NO,f
+m_external_event,4,created_at,timestamp without time zone,,,,NO,f
+m_external_event,5,status,character varying,100,,,NO,f
+m_external_event,8,business_date,date,,,,NO,f
+m_external_event,9,data,bytea,,,,NO,f
+m_external_event,10,idempotency_key,character varying,100,,,NO,f
+m_external_event,11,sent_at,timestamp without time zone,,,,YES,f
+m_external_event,12,schema,character varying,300,,,NO,f
+m_external_event,13,category,character varying,100,,,NO,f
+m_external_event,14,aggregate_root_id,bigint,,64,0,YES,f
+m_external_event_configuration,1,type,character varying,100,,,NO,f
+m_external_event_configuration,2,enabled,boolean,,,,NO,f
+m_family_members,1,id,bigint,,64,0,NO,f
+m_family_members,2,client_id,bigint,,64,0,NO,f
+m_family_members,3,firstname,character varying,50,,,NO,f
+m_family_members,4,middlename,character varying,50,,,YES,f
+m_family_members,5,lastname,character varying,50,,,YES,f
+m_family_members,6,qualification,character varying,50,,,YES,f
+m_family_members,7,relationship_cv_id,integer,,32,0,NO,f
+m_family_members,8,marital_status_cv_id,integer,,32,0,YES,f
+m_family_members,9,gender_cv_id,integer,,32,0,YES,f
+m_family_members,10,date_of_birth,date,,,,YES,f
+m_family_members,11,age,integer,,32,0,YES,f
+m_family_members,12,profession_cv_id,integer,,32,0,YES,f
+m_family_members,13,mobile_number,character varying,50,,,YES,f
+m_family_members,14,is_dependent,boolean,,,,YES,f
+m_field_configuration,1,id,bigint,,64,0,NO,f
+m_field_configuration,2,entity,character varying,100,,,NO,f
+m_field_configuration,3,subentity,character varying,100,,,NO,f
+m_field_configuration,4,field,character varying,100,,,NO,f
+m_field_configuration,5,is_enabled,boolean,,,,NO,f
+m_field_configuration,6,is_mandatory,boolean,,,,NO,f
+m_field_configuration,7,validation_regex,character varying,50,,,YES,f
+m_floating_rates,1,id,bigint,,64,0,NO,f
+m_floating_rates,2,name,character varying,200,,,NO,f
+m_floating_rates,3,is_base_lending_rate,boolean,,,,NO,t
+m_floating_rates,4,is_active,boolean,,,,NO,t
+m_floating_rates,5,created_by,bigint,,64,0,NO,f
+m_floating_rates,6,created_date,timestamp without time zone,,,,YES,f
+m_floating_rates,7,last_modified_by,bigint,,64,0,NO,f
+m_floating_rates,8,lastmodified_date,timestamp without time zone,,,,YES,f
+m_floating_rates,9,created_on_utc,timestamp with time zone,,,,NO,f
+m_floating_rates,10,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_floating_rates_periods,1,id,bigint,,64,0,NO,f
+m_floating_rates_periods,2,floating_rates_id,bigint,,64,0,NO,f
+m_floating_rates_periods,3,from_date,date,,,,NO,f
+m_floating_rates_periods,4,interest_rate,numeric,,19,6,NO,f
+m_floating_rates_periods,5,is_differential_to_base_lending_rate,boolean,,,,NO,t
+m_floating_rates_periods,6,is_active,boolean,,,,NO,t
+m_floating_rates_periods,7,created_by,bigint,,64,0,NO,f
+m_floating_rates_periods,8,created_date,timestamp without time zone,,,,YES,f
+m_floating_rates_periods,9,last_modified_by,bigint,,64,0,NO,f
+m_floating_rates_periods,10,lastmodified_date,timestamp without time zone,,,,YES,f
+m_floating_rates_periods,11,created_on_utc,timestamp with time zone,,,,NO,f
+m_floating_rates_periods,12,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_fund,1,id,bigint,,64,0,NO,f
+m_fund,2,name,character varying,255,,,YES,f
+m_fund,3,external_id,character varying,100,,,YES,f
+m_group,1,id,bigint,,64,0,NO,f
+m_group,2,external_id,character varying,100,,,YES,f
+m_group,3,status_enum,integer,,32,0,NO,t
+m_group,4,activation_date,date,,,,YES,f
+m_group,5,office_id,bigint,,64,0,NO,f
+m_group,6,staff_id,bigint,,64,0,YES,f
+m_group,7,parent_id,bigint,,64,0,YES,f
+m_group,8,level_id,integer,,32,0,NO,f
+m_group,9,display_name,character varying,100,,,NO,f
+m_group,10,hierarchy,character varying,100,,,YES,f
+m_group,11,closure_reason_cv_id,integer,,32,0,YES,f
+m_group,12,closedon_date,date,,,,YES,f
+m_group,13,activatedon_userid,bigint,,64,0,YES,f
+m_group,14,submittedon_date,date,,,,YES,f
+m_group,15,submittedon_userid,bigint,,64,0,YES,f
+m_group,16,closedon_userid,bigint,,64,0,YES,f
+m_group,17,account_no,character varying,20,,,NO,f
+m_group_client,1,group_id,bigint,,64,0,NO,f
+m_group_client,2,client_id,bigint,,64,0,NO,f
+m_group_level,1,id,integer,,32,0,NO,f
+m_group_level,2,parent_id,integer,,32,0,YES,f
+m_group_level,3,super_parent,boolean,,,,NO,f
+m_group_level,4,level_name,character varying,100,,,NO,f
+m_group_level,5,recursable,boolean,,,,NO,f
+m_group_level,6,can_have_clients,boolean,,,,NO,f
+m_group_roles,1,id,bigint,,64,0,NO,f
+m_group_roles,2,client_id,bigint,,64,0,YES,f
+m_group_roles,3,group_id,bigint,,64,0,YES,f
+m_group_roles,4,role_cv_id,integer,,32,0,YES,f
+m_guarantor,1,id,bigint,,64,0,NO,f
+m_guarantor,2,loan_id,bigint,,64,0,NO,f
+m_guarantor,3,client_reln_cv_id,integer,,32,0,YES,f
+m_guarantor,4,type_enum,smallint,,16,0,NO,f
+m_guarantor,5,entity_id,bigint,,64,0,YES,f
+m_guarantor,6,firstname,character varying,50,,,YES,f
+m_guarantor,7,lastname,character varying,50,,,YES,f
+m_guarantor,8,dob,date,,,,YES,f
+m_guarantor,9,address_line_1,character varying,500,,,YES,f
+m_guarantor,10,address_line_2,character varying,500,,,YES,f
+m_guarantor,11,city,character varying,50,,,YES,f
+m_guarantor,12,state,character varying,50,,,YES,f
+m_guarantor,13,country,character varying,50,,,YES,f
+m_guarantor,14,zip,character varying,20,,,YES,f
+m_guarantor,15,house_phone_number,character varying,20,,,YES,f
+m_guarantor,16,mobile_number,character varying,20,,,YES,f
+m_guarantor,17,comment,character varying,500,,,YES,f
+m_guarantor,18,is_active,boolean,,,,NO,t
+m_guarantor_funding_details,1,id,bigint,,64,0,NO,f
+m_guarantor_funding_details,2,guarantor_id,bigint,,64,0,NO,f
+m_guarantor_funding_details,3,account_associations_id,bigint,,64,0,NO,f
+m_guarantor_funding_details,4,amount,numeric,,19,6,NO,f
+m_guarantor_funding_details,5,amount_released_derived,numeric,,19,6,YES,t
+m_guarantor_funding_details,6,amount_remaining_derived,numeric,,19,6,YES,t
+m_guarantor_funding_details,7,amount_transfered_derived,numeric,,19,6,YES,t
+m_guarantor_funding_details,8,status_enum,smallint,,16,0,NO,f
+m_guarantor_transaction,1,id,bigint,,64,0,NO,f
+m_guarantor_transaction,2,guarantor_fund_detail_id,bigint,,64,0,NO,f
+m_guarantor_transaction,3,loan_transaction_id,bigint,,64,0,YES,f
+m_guarantor_transaction,4,deposit_on_hold_transaction_id,bigint,,64,0,NO,f
+m_guarantor_transaction,5,is_reversed,boolean,,,,NO,t
+m_holiday,1,id,bigint,,64,0,NO,f
+m_holiday,2,name,character varying,100,,,NO,f
+m_holiday,3,from_date,date,,,,NO,f
+m_holiday,4,to_date,date,,,,NO,f
+m_holiday,5,repayments_rescheduled_to,date,,,,YES,f
+m_holiday,6,status_enum,integer,,32,0,NO,t
+m_holiday,7,processed,boolean,,,,NO,t
+m_holiday,8,description,character varying,100,,,YES,f
+m_holiday,9,rescheduling_type,integer,,32,0,NO,t
+m_holiday_office,1,holiday_id,bigint,,64,0,NO,f
+m_holiday_office,2,office_id,bigint,,64,0,NO,f
+m_hook,1,id,bigint,,64,0,NO,f
+m_hook,2,template_id,smallint,,16,0,NO,f
+m_hook,3,is_active,boolean,,,,NO,t
+m_hook,4,name,character varying,45,,,NO,f
+m_hook,5,createdby_id,bigint,,64,0,YES,f
+m_hook,6,created_date,timestamp without time zone,,,,YES,f
+m_hook,7,lastmodifiedby_id,bigint,,64,0,YES,f
+m_hook,8,lastmodified_date,timestamp without time zone,,,,YES,f
+m_hook,9,ugd_template_id,bigint,,64,0,YES,f
+m_hook_configuration,1,id,bigint,,64,0,NO,f
+m_hook_configuration,2,hook_id,bigint,,64,0,YES,f
+m_hook_configuration,3,field_type,character varying,45,,,NO,f
+m_hook_configuration,4,field_name,character varying,100,,,NO,f
+m_hook_configuration,5,field_value,character varying,100,,,NO,f
+m_hook_registered_events,1,id,bigint,,64,0,NO,f
+m_hook_registered_events,2,hook_id,bigint,,64,0,NO,f
+m_hook_registered_events,3,entity_name,character varying,45,,,NO,f
+m_hook_registered_events,4,action_name,character varying,45,,,NO,f
+m_hook_schema,1,id,smallint,,16,0,NO,f
+m_hook_schema,2,hook_template_id,smallint,,16,0,NO,f
+m_hook_schema,3,field_type,character varying,45,,,NO,f
+m_hook_schema,4,field_name,character varying,100,,,NO,f
+m_hook_schema,5,placeholder,character varying,100,,,YES,f
+m_hook_schema,6,optional,boolean,,,,NO,t
+m_hook_templates,1,id,smallint,,16,0,NO,f
+m_hook_templates,2,name,character varying,45,,,NO,f
+m_image,1,id,bigint,,64,0,NO,f
+m_image,2,location,character varying,500,,,YES,f
+m_image,3,storage_type_enum,smallint,,16,0,YES,f
+m_import_document,1,id,bigint,,64,0,NO,f
+m_import_document,2,document_id,integer,,32,0,NO,f
+m_import_document,3,import_time,timestamp without time zone,,,,NO,f
+m_import_document,4,end_time,timestamp without time zone,,,,YES,f
+m_import_document,5,entity_type,smallint,,16,0,NO,f
+m_import_document,6,completed,boolean,,,,YES,t
+m_import_document,7,total_records,bigint,,64,0,YES,t
+m_import_document,8,success_count,bigint,,64,0,YES,t
+m_import_document,9,failure_count,bigint,,64,0,YES,t
+m_import_document,10,createdby_id,bigint,,64,0,YES,f
+m_interest_incentives,1,id,bigint,,64,0,NO,f
+m_interest_incentives,2,interest_rate_slab_id,bigint,,64,0,NO,f
+m_interest_incentives,3,entiry_type,smallint,,16,0,NO,f
+m_interest_incentives,4,attribute_name,smallint,,16,0,NO,f
+m_interest_incentives,5,condition_type,smallint,,16,0,NO,f
+m_interest_incentives,6,attribute_value,character varying,50,,,NO,f
+m_interest_incentives,7,incentive_type,smallint,,16,0,NO,f
+m_interest_incentives,8,amount,numeric,,19,6,NO,f
+m_interest_rate_chart,1,id,bigint,,64,0,NO,f
+m_interest_rate_chart,2,name,character varying,100,,,YES,f
+m_interest_rate_chart,3,description,character varying,200,,,YES,f
+m_interest_rate_chart,4,from_date,date,,,,NO,f
+m_interest_rate_chart,5,end_date,date,,,,YES,f
+m_interest_rate_chart,6,is_primary_grouping_by_amount,boolean,,,,NO,t
+m_interest_rate_slab,1,id,bigint,,64,0,NO,f
+m_interest_rate_slab,2,interest_rate_chart_id,bigint,,64,0,NO,f
+m_interest_rate_slab,3,description,character varying,200,,,YES,f
+m_interest_rate_slab,4,period_type_enum,smallint,,16,0,YES,f
+m_interest_rate_slab,5,from_period,integer,,32,0,YES,f
+m_interest_rate_slab,6,to_period,integer,,32,0,YES,f
+m_interest_rate_slab,7,amount_range_from,numeric,,19,6,YES,t
+m_interest_rate_slab,8,amount_range_to,numeric,,19,6,YES,t
+m_interest_rate_slab,9,annual_interest_rate,numeric,,19,6,NO,f
+m_interest_rate_slab,10,currency_code,character varying,3,,,NO,f
+m_journal_entry_aggregation_summary,1,id,bigint,,64,0,NO,f
+m_journal_entry_aggregation_summary,2,gl_account_id,bigint,,64,0,NO,f
+m_journal_entry_aggregation_summary,3,product_id,bigint,,64,0,NO,f
+m_journal_entry_aggregation_summary,4,office_id,bigint,,64,0,NO,f
+m_journal_entry_aggregation_summary,5,entity_type_enum,smallint,,16,0,NO,f
+m_journal_entry_aggregation_summary,6,aggregated_on_date,date,,,,NO,f
+m_journal_entry_aggregation_summary,7,submitted_on_date,date,,,,NO,f
+m_journal_entry_aggregation_summary,8,external_owner_id,bigint,,64,0,YES,f
+m_journal_entry_aggregation_summary,9,debit_amount,numeric,,19,6,YES,f
+m_journal_entry_aggregation_summary,10,credit_amount,numeric,,19,6,YES,f
+m_journal_entry_aggregation_summary,11,manual_entry,boolean,,,,NO,t
+m_journal_entry_aggregation_summary,12,job_execution_id,bigint,,64,0,NO,f
+m_journal_entry_aggregation_summary,13,created_by,bigint,,64,0,YES,f
+m_journal_entry_aggregation_summary,14,created_on_utc,timestamp with time zone,,,,YES,f
+m_journal_entry_aggregation_summary,15,last_modified_by,bigint,,64,0,YES,f
+m_journal_entry_aggregation_summary,16,last_modified_on_utc,timestamp with time zone,,,,YES,f
+m_journal_entry_aggregation_summary,17,originator_external_ids,character varying,1000,,,YES,f
+m_journal_entry_aggregation_tracking,1,id,bigint,,64,0,NO,f
+m_journal_entry_aggregation_tracking,2,aggregated_on_date_from,date,,,,NO,f
+m_journal_entry_aggregation_tracking,3,aggregated_on_date_to,date,,,,NO,f
+m_journal_entry_aggregation_tracking,4,submitted_on_date,date,,,,NO,f
+m_journal_entry_aggregation_tracking,5,job_execution_id,bigint,,64,0,NO,f
+m_journal_entry_aggregation_tracking,6,created_by,bigint,,64,0,YES,f
+m_journal_entry_aggregation_tracking,7,created_on_utc,timestamp with time zone,,,,YES,f
+m_journal_entry_aggregation_tracking,8,last_modified_by,bigint,,64,0,YES,f
+m_journal_entry_aggregation_tracking,9,last_modified_on_utc,timestamp with time zone,,,,YES,f
+m_loan,1,id,bigint,,64,0,NO,f
+m_loan,2,account_no,character varying,20,,,NO,f
+m_loan,3,external_id,character varying,100,,,YES,f
+m_loan,4,client_id,bigint,,64,0,YES,f
+m_loan,5,group_id,bigint,,64,0,YES,f
+m_loan,6,glim_id,bigint,,64,0,YES,f
+m_loan,7,product_id,bigint,,64,0,YES,f
+m_loan,8,fund_id,bigint,,64,0,YES,f
+m_loan,9,loan_officer_id,bigint,,64,0,YES,f
+m_loan,10,loanpurpose_cv_id,integer,,32,0,YES,f
+m_loan,11,loan_status_id,smallint,,16,0,NO,f
+m_loan,12,loan_type_enum,smallint,,16,0,NO,f
+m_loan,13,currency_code,character varying,3,,,NO,f
+m_loan,14,currency_digits,smallint,,16,0,NO,f
+m_loan,15,currency_multiplesof,smallint,,16,0,YES,f
+m_loan,16,principal_amount_proposed,numeric,,19,6,NO,f
+m_loan,17,principal_amount,numeric,,19,6,NO,f
+m_loan,18,approved_principal,numeric,,19,6,NO,f
+m_loan,19,net_disbursal_amount,numeric,,19,6,NO,f
+m_loan,20,arrearstolerance_amount,numeric,,19,6,YES,t
+m_loan,21,is_floating_interest_rate,boolean,,,,YES,t
+m_loan,22,interest_rate_differential,numeric,,19,6,YES,t
+m_loan,23,nominal_interest_rate_per_period,numeric,,19,6,YES,t
+m_loan,24,interest_period_frequency_enum,smallint,,16,0,YES,f
+m_loan,25,annual_nominal_interest_rate,numeric,,19,6,YES,t
+m_loan,26,interest_method_enum,smallint,,16,0,NO,f
+m_loan,27,interest_calculated_in_period_enum,smallint,,16,0,NO,t
+m_loan,28,allow_partial_period_interest_calcualtion,boolean,,,,NO,t
+m_loan,29,term_frequency,smallint,,16,0,NO,t
+m_loan,30,term_period_frequency_enum,smallint,,16,0,NO,t
+m_loan,31,repay_every,smallint,,16,0,NO,f
+m_loan,32,repayment_period_frequency_enum,smallint,,16,0,NO,f
+m_loan,33,number_of_repayments,smallint,,16,0,NO,f
+m_loan,34,grace_on_principal_periods,smallint,,16,0,YES,f
+m_loan,35,recurring_moratorium_principal_periods,smallint,,16,0,YES,f
+m_loan,36,grace_on_interest_periods,smallint,,16,0,YES,f
+m_loan,37,grace_interest_free_periods,smallint,,16,0,YES,f
+m_loan,38,amortization_method_enum,smallint,,16,0,NO,f
+m_loan,39,submittedon_date,date,,,,YES,f
+m_loan,41,approvedon_date,date,,,,YES,f
+m_loan,42,approvedon_userid,bigint,,64,0,YES,f
+m_loan,43,expected_disbursedon_date,date,,,,YES,f
+m_loan,44,expected_firstrepaymenton_date,date,,,,YES,f
+m_loan,45,interest_calculated_from_date,date,,,,YES,f
+m_loan,46,disbursedon_date,date,,,,YES,f
+m_loan,47,disbursedon_userid,bigint,,64,0,YES,f
+m_loan,48,expected_maturedon_date,date,,,,YES,f
+m_loan,49,maturedon_date,date,,,,YES,f
+m_loan,50,closedon_date,date,,,,YES,f
+m_loan,51,closedon_userid,bigint,,64,0,YES,f
+m_loan,52,total_charges_due_at_disbursement_derived,numeric,,19,6,YES,t
+m_loan,53,principal_disbursed_derived,numeric,,19,6,NO,t
+m_loan,54,principal_repaid_derived,numeric,,19,6,NO,t
+m_loan,55,principal_writtenoff_derived,numeric,,19,6,NO,t
+m_loan,56,principal_outstanding_derived,numeric,,19,6,NO,t
+m_loan,57,interest_charged_derived,numeric,,19,6,NO,t
+m_loan,58,interest_repaid_derived,numeric,,19,6,NO,t
+m_loan,59,interest_waived_derived,numeric,,19,6,NO,t
+m_loan,60,interest_writtenoff_derived,numeric,,19,6,NO,t
+m_loan,61,interest_outstanding_derived,numeric,,19,6,NO,t
+m_loan,62,fee_charges_charged_derived,numeric,,19,6,NO,t
+m_loan,63,fee_charges_repaid_derived,numeric,,19,6,NO,t
+m_loan,64,fee_charges_waived_derived,numeric,,19,6,NO,t
+m_loan,65,fee_charges_writtenoff_derived,numeric,,19,6,NO,t
+m_loan,66,fee_charges_outstanding_derived,numeric,,19,6,NO,t
+m_loan,67,penalty_charges_charged_derived,numeric,,19,6,NO,t
+m_loan,68,penalty_charges_repaid_derived,numeric,,19,6,NO,t
+m_loan,69,penalty_charges_waived_derived,numeric,,19,6,NO,t
+m_loan,70,penalty_charges_writtenoff_derived,numeric,,19,6,NO,t
+m_loan,71,penalty_charges_outstanding_derived,numeric,,19,6,NO,t
+m_loan,72,total_expected_repayment_derived,numeric,,19,6,NO,t
+m_loan,73,total_repayment_derived,numeric,,19,6,NO,t
+m_loan,74,total_expected_costofloan_derived,numeric,,19,6,NO,t
+m_loan,75,total_costofloan_derived,numeric,,19,6,NO,t
+m_loan,76,total_waived_derived,numeric,,19,6,NO,t
+m_loan,77,total_writtenoff_derived,numeric,,19,6,NO,t
+m_loan,78,total_outstanding_derived,numeric,,19,6,NO,t
+m_loan,79,total_overpaid_derived,numeric,,19,6,YES,t
+m_loan,80,rejectedon_date,date,,,,YES,f
+m_loan,81,rejectedon_userid,bigint,,64,0,YES,f
+m_loan,82,rescheduledon_date,date,,,,YES,f
+m_loan,83,rescheduledon_userid,bigint,,64,0,YES,f
+m_loan,84,withdrawnon_date,date,,,,YES,f
+m_loan,85,withdrawnon_userid,bigint,,64,0,YES,f
+m_loan,86,writtenoffon_date,date,,,,YES,f
+m_loan,87,loan_transaction_strategy_id,bigint,,64,0,YES,f
+m_loan,88,sync_disbursement_with_meeting,boolean,,,,YES,f
+m_loan,89,loan_counter,smallint,,16,0,YES,f
+m_loan,90,loan_product_counter,smallint,,16,0,YES,f
+m_loan,91,fixed_emi_amount,numeric,,19,6,YES,t
+m_loan,92,max_outstanding_loan_balance,numeric,,19,6,YES,t
+m_loan,93,grace_on_arrears_ageing,smallint,,16,0,YES,f
+m_loan,94,is_npa,boolean,,,,NO,t
+m_loan,95,total_recovered_derived,numeric,,19,6,YES,t
+m_loan,96,accrued_till,date,,,,YES,f
+m_loan,97,interest_recalcualated_on,date,,,,YES,f
+m_loan,98,days_in_month_enum,smallint,,16,0,NO,t
+m_loan,99,days_in_year_enum,smallint,,16,0,NO,t
+m_loan,100,interest_recalculation_enabled,boolean,,,,NO,t
+m_loan,101,guarantee_amount_derived,numeric,,19,6,YES,t
+m_loan,102,create_standing_instruction_at_disbursement,boolean,,,,YES,f
+m_loan,103,version,integer,,32,0,NO,t
+m_loan,104,writeoff_reason_cv_id,integer,,32,0,YES,f
+m_loan,105,loan_sub_status_id,smallint,,16,0,YES,f
+m_loan,106,is_topup,boolean,,,,NO,t
+m_loan,107,is_equal_amortization,boolean,,,,NO,t
+m_loan,108,fixed_principal_percentage_per_installment,numeric,,5,2,YES,t
+m_loan,109,created_on_utc,timestamp with time zone,,,,NO,f
+m_loan,110,created_by,bigint,,64,0,NO,f
+m_loan,111,last_modified_by,bigint,,64,0,NO,f
+m_loan,112,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_loan,113,principal_adjustments_derived,numeric,,19,6,NO,t
+m_loan,114,is_fraud,boolean,,,,NO,t
+m_loan,115,loan_transaction_strategy_code,character varying,100,,,NO,t
+m_loan,116,loan_transaction_strategy_name,character varying,100,,,NO,t
+m_loan,117,last_closed_business_date,date,,,,YES,f
+m_loan,118,overpaidon_date,date,,,,YES,f
+m_loan,119,is_charged_off,boolean,,,,NO,t
+m_loan,120,charged_off_on_date,date,,,,YES,f
+m_loan,121,charge_off_reason_cv_id,bigint,,64,0,YES,f
+m_loan,122,charged_off_by_userid,bigint,,64,0,YES,f
+m_loan,123,enable_down_payment,boolean,,,,NO,t
+m_loan,124,disbursed_amount_percentage_for_down_payment,numeric,,9,6,YES,t
+m_loan,125,enable_installment_level_delinquency,boolean,,,,NO,t
+m_loan,126,enable_accrual_activity_posting,boolean,,,,NO,t
+m_loan,127,days_in_year_custom_strategy,character varying,100,,,YES,f
+m_loan,128,enable_income_capitalization,boolean,,,,NO,t
+m_loan,129,capitalized_income_calculation_type,character varying,100,,,YES,f
+m_loan,130,capitalized_income_strategy,character varying,100,,,YES,f
+m_loan,131,capitalized_income_type,character varying,10,,,YES,f
+m_loan,132,capitalized_income_derived,numeric,,19,6,NO,t
+m_loan,133,capitalized_income_adjustment_derived,numeric,,19,6,NO,t
+m_loan,134,total_principal_derived,numeric,,19,6,NO,t
+m_loan,135,enable_buy_down_fee,boolean,,,,NO,t
+m_loan,136,buy_down_fee_calculation_type,character varying,100,,,YES,f
+m_loan,137,buy_down_fee_strategy,character varying,100,,,YES,f
+m_loan,138,buy_down_fee_income_type,character varying,100,,,YES,f
+m_loan,139,allow_full_term_for_tranche,boolean,,,,NO,t
+m_loan,140,repayment_start_date_type_enum,smallint,,16,0,YES,f
+m_loan,141,enable_auto_repayment_for_down_payment,boolean,,,,NO,t
+m_loan,143,loan_schedule_type,character varying,20,,,NO,t
+m_loan,144,loan_schedule_processing_type,character varying,20,,,NO,t
+m_loan,145,fee_adjustments_derived,numeric,,19,6,NO,t
+m_loan,146,penalty_adjustments_derived,numeric,,19,6,NO,t
+m_loan,147,fixed_length,smallint,,16,0,YES,f
+m_loan,148,supported_interest_refund_types,text,,,,YES,f
+m_loan,149,charge_off_behaviour,character varying,20,,,YES,t
+m_loan,150,interest_recognition_on_disbursement_date,boolean,,,,NO,t
+m_loan,151,installment_amount_in_multiples_of,numeric,,19,6,YES,t
+m_loan,152,is_merchant_buy_down_fee,boolean,,,,NO,t
+m_loan_account_locks,1,loan_id,bigint,,64,0,NO,f
+m_loan_account_locks,2,lock_owner,character varying,100,,,NO,f
+m_loan_account_locks,4,error,character varying,255,,,YES,f
+m_loan_account_locks,6,version,bigint,,64,0,NO,f
+m_loan_account_locks,7,stacktrace,text,,,,YES,f
+m_loan_account_locks,8,lock_placed_on,timestamp with time zone,,,,NO,f
+m_loan_account_locks,9,lock_placed_on_cob_business_date,date,,,,YES,f
+m_loan_amortization_allocation_mapping,1,id,bigint,,64,0,NO,f
+m_loan_amortization_allocation_mapping,2,loan_id,bigint,,64,0,NO,f
+m_loan_amortization_allocation_mapping,3,base_loan_transaction_id,bigint,,64,0,NO,f
+m_loan_amortization_allocation_mapping,4,date,date,,,,NO,f
+m_loan_amortization_allocation_mapping,5,amortization_loan_transaction_id,bigint,,64,0,NO,f
+m_loan_amortization_allocation_mapping,6,amortization_type,character varying,20,,,NO,f
+m_loan_amortization_allocation_mapping,7,amount,numeric,,19,6,NO,f
+m_loan_amortization_allocation_mapping,8,created_by,bigint,,64,0,YES,f
+m_loan_amortization_allocation_mapping,9,created_on_utc,timestamp with time zone,,,,YES,f
+m_loan_amortization_allocation_mapping,10,last_modified_by,bigint,,64,0,YES,f
+m_loan_amortization_allocation_mapping,11,last_modified_on_utc,timestamp with time zone,,,,YES,f
+m_loan_approved_amount_history,1,id,bigint,,64,0,NO,f
+m_loan_approved_amount_history,2,loan_id,bigint,,64,0,NO,f
+m_loan_approved_amount_history,3,new_approved_amount,numeric,,19,6,NO,f
+m_loan_approved_amount_history,4,old_approved_amount,numeric,,19,6,NO,f
+m_loan_approved_amount_history,5,created_by,bigint,,64,0,YES,f
+m_loan_approved_amount_history,6,created_on_utc,timestamp with time zone,,,,YES,f
+m_loan_approved_amount_history,7,last_modified_by,bigint,,64,0,YES,f
+m_loan_approved_amount_history,8,last_modified_on_utc,timestamp with time zone,,,,YES,f
+m_loan_arrears_aging,1,loan_id,bigint,,64,0,NO,f
+m_loan_arrears_aging,2,principal_overdue_derived,numeric,,19,6,NO,t
+m_loan_arrears_aging,3,interest_overdue_derived,numeric,,19,6,NO,t
+m_loan_arrears_aging,4,fee_charges_overdue_derived,numeric,,19,6,NO,t
+m_loan_arrears_aging,5,penalty_charges_overdue_derived,numeric,,19,6,NO,t
+m_loan_arrears_aging,6,total_overdue_derived,numeric,,19,6,NO,t
+m_loan_arrears_aging,7,overdue_since_date_derived,date,,,,YES,f
+m_loan_buy_down_fee_balance,1,id,bigint,,64,0,NO,f
+m_loan_buy_down_fee_balance,2,version,bigint,,64,0,NO,f
+m_loan_buy_down_fee_balance,3,loan_id,bigint,,64,0,NO,f
+m_loan_buy_down_fee_balance,4,loan_transaction_id,bigint,,64,0,NO,f
+m_loan_buy_down_fee_balance,5,amount,numeric,,19,6,NO,f
+m_loan_buy_down_fee_balance,6,date,date,,,,NO,f
+m_loan_buy_down_fee_balance,7,unrecognized_amount,numeric,,19,6,NO,f
+m_loan_buy_down_fee_balance,8,charged_off_amount,numeric,,19,6,YES,f
+m_loan_buy_down_fee_balance,9,amount_adjustment,numeric,,19,6,YES,f
+m_loan_buy_down_fee_balance,10,created_by,bigint,,64,0,YES,f
+m_loan_buy_down_fee_balance,11,created_on_utc,timestamp with time zone,,,,YES,f
+m_loan_buy_down_fee_balance,12,last_modified_by,bigint,,64,0,YES,f
+m_loan_buy_down_fee_balance,13,last_modified_on_utc,timestamp with time zone,,,,YES,f
+m_loan_buy_down_fee_balance,14,is_deleted,boolean,,,,NO,t
+m_loan_buy_down_fee_balance,15,is_closed,boolean,,,,NO,t
+m_loan_capitalized_income_balance,1,id,bigint,,64,0,NO,f
+m_loan_capitalized_income_balance,2,version,bigint,,64,0,NO,f
+m_loan_capitalized_income_balance,3,loan_id,bigint,,64,0,NO,f
+m_loan_capitalized_income_balance,4,loan_transaction_id,bigint,,64,0,NO,f
+m_loan_capitalized_income_balance,5,amount,numeric,,19,6,NO,f
+m_loan_capitalized_income_balance,6,date,date,,,,NO,f
+m_loan_capitalized_income_balance,7,unrecognized_amount,numeric,,19,6,NO,f
+m_loan_capitalized_income_balance,8,charged_off_amount,numeric,,19,6,YES,f
+m_loan_capitalized_income_balance,9,amount_adjustment,numeric,,19,6,YES,f
+m_loan_capitalized_income_balance,10,created_by,bigint,,64,0,YES,f
+m_loan_capitalized_income_balance,11,created_on_utc,timestamp with time zone,,,,YES,f
+m_loan_capitalized_income_balance,12,last_modified_by,bigint,,64,0,YES,f
+m_loan_capitalized_income_balance,13,last_modified_on_utc,timestamp with time zone,,,,YES,f
+m_loan_capitalized_income_balance,14,is_deleted,boolean,,,,NO,t
+m_loan_capitalized_income_balance,15,is_closed,boolean,,,,NO,t
+m_loan_charge,1,id,bigint,,64,0,NO,f
+m_loan_charge,2,loan_id,bigint,,64,0,NO,f
+m_loan_charge,3,charge_id,bigint,,64,0,NO,f
+m_loan_charge,4,is_penalty,boolean,,,,NO,t
+m_loan_charge,5,charge_time_enum,smallint,,16,0,NO,f
+m_loan_charge,6,due_for_collection_as_of_date,date,,,,YES,f
+m_loan_charge,7,charge_calculation_enum,smallint,,16,0,NO,f
+m_loan_charge,8,charge_payment_mode_enum,smallint,,16,0,NO,t
+m_loan_charge,9,calculation_percentage,numeric,,19,6,YES,t
+m_loan_charge,10,calculation_on_amount,numeric,,19,6,YES,t
+m_loan_charge,11,charge_amount_or_percentage,numeric,,19,6,YES,t
+m_loan_charge,12,amount,numeric,,19,6,NO,f
+m_loan_charge,13,amount_paid_derived,numeric,,19,6,YES,t
+m_loan_charge,14,amount_waived_derived,numeric,,19,6,YES,t
+m_loan_charge,15,amount_writtenoff_derived,numeric,,19,6,YES,t
+m_loan_charge,16,amount_outstanding_derived,numeric,,19,6,NO,t
+m_loan_charge,17,is_paid_derived,boolean,,,,NO,t
+m_loan_charge,18,waived,boolean,,,,NO,t
+m_loan_charge,19,min_cap,numeric,,19,6,YES,t
+m_loan_charge,20,max_cap,numeric,,19,6,YES,t
+m_loan_charge,21,is_active,boolean,,,,NO,t
+m_loan_charge,22,external_id,character varying,100,,,YES,f
+m_loan_charge,23,submitted_on_date,date,,,,YES,f
+m_loan_charge,24,created_on_utc,timestamp with time zone,,,,NO,f
+m_loan_charge,25,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_loan_charge,26,created_by,bigint,,64,0,NO,f
+m_loan_charge,27,last_modified_by,bigint,,64,0,NO,f
+m_loan_charge,28,tax_amount,numeric,,19,6,YES,f
+m_loan_charge_paid_by,1,id,bigint,,64,0,NO,f
+m_loan_charge_paid_by,2,loan_transaction_id,bigint,,64,0,NO,f
+m_loan_charge_paid_by,3,loan_charge_id,bigint,,64,0,NO,f
+m_loan_charge_paid_by,4,amount,numeric,,19,6,NO,f
+m_loan_charge_paid_by,5,installment_number,smallint,,16,0,YES,f
+m_loan_charge_tax_details,1,id,bigint,,64,0,NO,f
+m_loan_charge_tax_details,2,loan_charge_id,bigint,,64,0,NO,f
+m_loan_charge_tax_details,3,tax_component_id,bigint,,64,0,NO,f
+m_loan_charge_tax_details,4,amount,numeric,,19,6,NO,f
+m_loan_collateral,1,id,bigint,,64,0,NO,f
+m_loan_collateral,2,loan_id,bigint,,64,0,NO,f
+m_loan_collateral,3,type_cv_id,integer,,32,0,NO,f
+m_loan_collateral,4,value,numeric,,19,6,YES,t
+m_loan_collateral,5,description,character varying,500,,,YES,f
+m_loan_collateral_management,1,id,bigint,,64,0,NO,f
+m_loan_collateral_management,2,quantity,numeric,,20,5,NO,f
+m_loan_collateral_management,3,loan_id,bigint,,64,0,YES,f
+m_loan_collateral_management,4,client_collateral_id,bigint,,64,0,YES,f
+m_loan_collateral_management,5,is_released,boolean,,,,YES,t
+m_loan_collateral_management,6,transaction_id,bigint,,64,0,YES,f
+m_loan_credit_allocation_rule,1,id,bigint,,64,0,NO,f
+m_loan_credit_allocation_rule,2,loan_id,bigint,,64,0,NO,f
+m_loan_credit_allocation_rule,3,transaction_type,character varying,255,,,NO,f
+m_loan_credit_allocation_rule,4,allocation_types,text,,,,NO,f
+m_loan_credit_allocation_rule,5,created_by,bigint,,64,0,NO,f
+m_loan_credit_allocation_rule,6,last_modified_by,bigint,,64,0,NO,f
+m_loan_credit_allocation_rule,7,created_on_utc,timestamp with time zone,,,,NO,f
+m_loan_credit_allocation_rule,8,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_loan_delinquency_action,1,id,bigint,,64,0,NO,f
+m_loan_delinquency_action,2,loan_id,bigint,,64,0,NO,f
+m_loan_delinquency_action,3,action,character varying,128,,,NO,f
+m_loan_delinquency_action,4,start_date,date,,,,NO,f
+m_loan_delinquency_action,5,end_date,date,,,,YES,f
+m_loan_delinquency_action,6,created_by,bigint,,64,0,NO,f
+m_loan_delinquency_action,7,last_modified_by,bigint,,64,0,NO,f
+m_loan_delinquency_action,8,created_on_utc,timestamp with time zone,,,,NO,f
+m_loan_delinquency_action,9,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_loan_delinquency_tag_history,1,id,bigint,,64,0,NO,f
+m_loan_delinquency_tag_history,2,delinquency_range_id,bigint,,64,0,NO,f
+m_loan_delinquency_tag_history,3,loan_id,bigint,,64,0,NO,f
+m_loan_delinquency_tag_history,4,addedon_date,date,,,,NO,f
+m_loan_delinquency_tag_history,5,liftedon_date,date,,,,YES,f
+m_loan_delinquency_tag_history,6,created_by,bigint,,64,0,NO,f
+m_loan_delinquency_tag_history,7,created_on_utc,timestamp with time zone,,,,NO,f
+m_loan_delinquency_tag_history,8,version,bigint,,64,0,NO,f
+m_loan_delinquency_tag_history,9,last_modified_by,bigint,,64,0,NO,f
+m_loan_delinquency_tag_history,10,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_loan_disbursement_detail,1,id,bigint,,64,0,NO,f
+m_loan_disbursement_detail,2,loan_id,bigint,,64,0,NO,f
+m_loan_disbursement_detail,3,expected_disburse_date,date,,,,NO,f
+m_loan_disbursement_detail,4,disbursedon_date,date,,,,YES,f
+m_loan_disbursement_detail,5,principal,numeric,,19,6,NO,f
+m_loan_disbursement_detail,6,net_disbursal_amount,numeric,,19,6,YES,t
+m_loan_disbursement_detail,7,is_reversed,boolean,,,,NO,t
+m_loan_installment_charge,1,id,bigint,,64,0,NO,f
+m_loan_installment_charge,2,loan_charge_id,bigint,,64,0,NO,f
+m_loan_installment_charge,3,loan_schedule_id,bigint,,64,0,NO,f
+m_loan_installment_charge,4,due_date,date,,,,YES,f
+m_loan_installment_charge,5,amount,numeric,,19,6,NO,f
+m_loan_installment_charge,6,amount_paid_derived,numeric,,19,6,YES,t
+m_loan_installment_charge,7,amount_waived_derived,numeric,,19,6,YES,t
+m_loan_installment_charge,8,amount_writtenoff_derived,numeric,,19,6,YES,t
+m_loan_installment_charge,9,amount_outstanding_derived,numeric,,19,6,NO,t
+m_loan_installment_charge,10,is_paid_derived,boolean,,,,NO,t
+m_loan_installment_charge,11,waived,boolean,,,,NO,t
+m_loan_installment_charge,12,amount_through_charge_payment,numeric,,19,6,YES,t
+m_loan_installment_delinquency_tag,1,id,bigint,,64,0,NO,f
+m_loan_installment_delinquency_tag,2,delinquency_range_id,bigint,,64,0,NO,f
+m_loan_installment_delinquency_tag,3,loan_id,bigint,,64,0,NO,f
+m_loan_installment_delinquency_tag,4,installment_id,bigint,,64,0,NO,f
+m_loan_installment_delinquency_tag,5,addedon_date,date,,,,NO,f
+m_loan_installment_delinquency_tag,6,first_overdue_date,date,,,,NO,f
+m_loan_installment_delinquency_tag,7,outstanding_amount,numeric,,19,6,NO,f
+m_loan_installment_delinquency_tag,8,liftedon_date,date,,,,YES,f
+m_loan_installment_delinquency_tag,9,created_by,bigint,,64,0,NO,f
+m_loan_installment_delinquency_tag,10,version,bigint,,64,0,NO,f
+m_loan_installment_delinquency_tag,11,last_modified_by,bigint,,64,0,NO,f
+m_loan_installment_delinquency_tag,12,created_on_utc,timestamp with time zone,,,,NO,f
+m_loan_installment_delinquency_tag,13,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_loan_interest_recalculation_additional_details,1,id,bigint,,64,0,NO,f
+m_loan_interest_recalculation_additional_details,2,loan_repayment_schedule_id,bigint,,64,0,NO,f
+m_loan_interest_recalculation_additional_details,3,effective_date,date,,,,NO,f
+m_loan_interest_recalculation_additional_details,4,amount,numeric,,19,6,NO,f
+m_loan_officer_assignment_history,1,id,bigint,,64,0,NO,f
+m_loan_officer_assignment_history,2,loan_id,bigint,,64,0,NO,f
+m_loan_officer_assignment_history,3,loan_officer_id,bigint,,64,0,YES,f
+m_loan_officer_assignment_history,4,start_date,date,,,,NO,f
+m_loan_officer_assignment_history,5,end_date,date,,,,YES,f
+m_loan_officer_assignment_history,6,createdby_id,bigint,,64,0,YES,f
+m_loan_officer_assignment_history,7,created_date,timestamp without time zone,,,,YES,f
+m_loan_officer_assignment_history,8,lastmodified_date,timestamp without time zone,,,,YES,f
+m_loan_officer_assignment_history,9,lastmodifiedby_id,bigint,,64,0,YES,f
+m_loan_originator,1,id,bigint,,64,0,NO,f
+m_loan_originator,2,external_id,character varying,100,,,NO,f
+m_loan_originator,3,name,character varying,255,,,YES,f
+m_loan_originator,4,status,character varying,20,,,NO,f
+m_loan_originator,5,originator_type_cv_id,integer,,32,0,YES,f
+m_loan_originator,6,channel_type_cv_id,integer,,32,0,YES,f
+m_loan_originator,7,created_on_utc,timestamp with time zone,,,,NO,f
+m_loan_originator,8,created_by,bigint,,64,0,NO,f
+m_loan_originator,9,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_loan_originator,10,last_modified_by,bigint,,64,0,NO,f
+m_loan_originator_mapping,1,id,bigint,,64,0,NO,f
+m_loan_originator_mapping,2,loan_id,bigint,,64,0,NO,f
+m_loan_originator_mapping,3,originator_id,bigint,,64,0,NO,f
+m_loan_originator_mapping,4,created_on_utc,timestamp with time zone,,,,NO,f
+m_loan_originator_mapping,5,created_by,bigint,,64,0,NO,f
+m_loan_originator_mapping,6,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_loan_originator_mapping,7,last_modified_by,bigint,,64,0,NO,f
+m_loan_overdue_installment_charge,1,id,bigint,,64,0,NO,f
+m_loan_overdue_installment_charge,2,loan_charge_id,bigint,,64,0,NO,f
+m_loan_overdue_installment_charge,3,loan_schedule_id,bigint,,64,0,NO,f
+m_loan_overdue_installment_charge,4,frequency_number,integer,,32,0,NO,f
+m_loan_payment_allocation_rule,1,id,bigint,,64,0,NO,f
+m_loan_payment_allocation_rule,2,loan_id,bigint,,64,0,NO,f
+m_loan_payment_allocation_rule,3,transaction_type,character varying,255,,,NO,f
+m_loan_payment_allocation_rule,4,allocation_types,text,,,,NO,f
+m_loan_payment_allocation_rule,5,future_installment_allocation_rule,character varying,255,,,NO,f
+m_loan_payment_allocation_rule,6,created_by,bigint,,64,0,NO,f
+m_loan_payment_allocation_rule,7,last_modified_by,bigint,,64,0,NO,f
+m_loan_payment_allocation_rule,8,created_on_utc,timestamp with time zone,,,,NO,f
+m_loan_payment_allocation_rule,9,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_loan_product_credit_allocation_rule,1,id,bigint,,64,0,NO,f
+m_loan_product_credit_allocation_rule,2,loan_product_id,bigint,,64,0,NO,f
+m_loan_product_credit_allocation_rule,3,transaction_type,character varying,255,,,NO,f
+m_loan_product_credit_allocation_rule,4,allocation_types,text,,,,NO,f
+m_loan_product_credit_allocation_rule,5,created_by,bigint,,64,0,NO,f
+m_loan_product_credit_allocation_rule,6,last_modified_by,bigint,,64,0,NO,f
+m_loan_product_credit_allocation_rule,7,created_on_utc,timestamp with time zone,,,,NO,f
+m_loan_product_credit_allocation_rule,8,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_loan_product_payment_allocation_rule,1,id,bigint,,64,0,NO,f
+m_loan_product_payment_allocation_rule,2,loan_product_id,bigint,,64,0,NO,f
+m_loan_product_payment_allocation_rule,3,transaction_type,character varying,255,,,NO,f
+m_loan_product_payment_allocation_rule,4,allocation_types,text,,,,NO,f
+m_loan_product_payment_allocation_rule,5,future_installment_allocation_rule,character varying,255,,,NO,f
+m_loan_product_payment_allocation_rule,6,created_by,bigint,,64,0,NO,f
+m_loan_product_payment_allocation_rule,7,last_modified_by,bigint,,64,0,NO,f
+m_loan_product_payment_allocation_rule,8,created_on_utc,timestamp with time zone,,,,NO,f
+m_loan_product_payment_allocation_rule,9,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_loan_progressive_model,1,id,bigint,,64,0,NO,f
+m_loan_progressive_model,2,version,integer,,32,0,NO,f
+m_loan_progressive_model,3,loan_id,bigint,,64,0,NO,f
+m_loan_progressive_model,4,json_model,text,,,,NO,f
+m_loan_progressive_model,5,business_date,date,,,,NO,f
+m_loan_progressive_model,6,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_loan_progressive_model,7,json_model_version,character varying,100,,,NO,t
+m_loan_rate,1,loan_id,bigint,,64,0,NO,f
+m_loan_rate,2,rate_id,bigint,,64,0,NO,f
+m_loan_reage_parameter,1,id,bigint,,64,0,NO,f
+m_loan_reage_parameter,2,frequency_type,character varying,100,,,NO,f
+m_loan_reage_parameter,3,number_of_installments,smallint,,16,0,NO,f
+m_loan_reage_parameter,4,start_date,date,,,,NO,f
+m_loan_reage_parameter,5,created_by,bigint,,64,0,NO,f
+m_loan_reage_parameter,6,last_modified_by,bigint,,64,0,NO,f
+m_loan_reage_parameter,7,created_on_utc,timestamp with time zone,,,,NO,f
+m_loan_reage_parameter,8,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_loan_reage_parameter,9,loan_transaction_id,bigint,,64,0,NO,f
+m_loan_reage_parameter,10,frequency_number,smallint,,16,0,NO,t
+m_loan_reage_parameter,11,interest_handling_type,character varying,40,,,NO,t
+m_loan_reage_parameter,12,reage_reason_code_value_id,integer,,32,0,YES,f
+m_loan_reamortization_parameter,1,id,bigint,,64,0,NO,f
+m_loan_reamortization_parameter,2,loan_transaction_id,bigint,,64,0,NO,f
+m_loan_reamortization_parameter,3,interest_handling_type,character varying,40,,,NO,t
+m_loan_reamortization_parameter,4,reamortization_reason_code_value_id,integer,,32,0,YES,f
+m_loan_reamortization_parameter,5,created_by,bigint,,64,0,NO,f
+m_loan_reamortization_parameter,6,last_modified_by,bigint,,64,0,NO,f
+m_loan_reamortization_parameter,7,created_on_utc,timestamp with time zone,,,,NO,f
+m_loan_reamortization_parameter,8,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_loan_recalculation_details,1,id,bigint,,64,0,NO,f
+m_loan_recalculation_details,2,loan_id,bigint,,64,0,NO,f
+m_loan_recalculation_details,3,compound_type_enum,smallint,,16,0,NO,f
+m_loan_recalculation_details,4,reschedule_strategy_enum,smallint,,16,0,NO,f
+m_loan_recalculation_details,5,rest_frequency_type_enum,smallint,,16,0,NO,f
+m_loan_recalculation_details,6,rest_frequency_interval,smallint,,16,0,NO,t
+m_loan_recalculation_details,7,compounding_frequency_type_enum,smallint,,16,0,YES,f
+m_loan_recalculation_details,8,compounding_frequency_interval,smallint,,16,0,YES,f
+m_loan_recalculation_details,9,rest_frequency_nth_day_enum,integer,,32,0,YES,f
+m_loan_recalculation_details,10,rest_frequency_on_day,integer,,32,0,YES,f
+m_loan_recalculation_details,11,rest_frequency_weekday_enum,integer,,32,0,YES,f
+m_loan_recalculation_details,12,compounding_frequency_nth_day_enum,integer,,32,0,YES,f
+m_loan_recalculation_details,13,compounding_frequency_on_day,integer,,32,0,YES,f
+m_loan_recalculation_details,14,is_compounding_to_be_posted_as_transaction,boolean,,,,NO,t
+m_loan_recalculation_details,15,compounding_frequency_weekday_enum,integer,,32,0,YES,f
+m_loan_recalculation_details,16,allow_compounding_on_eod,boolean,,,,NO,t
+m_loan_recalculation_details,17,disallow_interest_calc_on_past_due,boolean,,,,NO,t
+m_loan_recalculation_details,18,pre_close_interest_calculation_strategy,smallint,,16,0,NO,t
+m_loan_repayment_schedule,1,id,bigint,,64,0,NO,f
+m_loan_repayment_schedule,2,loan_id,bigint,,64,0,NO,f
+m_loan_repayment_schedule,3,fromdate,date,,,,YES,f
+m_loan_repayment_schedule,4,duedate,date,,,,NO,f
+m_loan_repayment_schedule,5,installment,smallint,,16,0,NO,f
+m_loan_repayment_schedule,6,principal_amount,numeric,,19,6,YES,t
+m_loan_repayment_schedule,7,principal_completed_derived,numeric,,19,6,YES,t
+m_loan_repayment_schedule,8,principal_writtenoff_derived,numeric,,19,6,YES,t
+m_loan_repayment_schedule,9,interest_amount,numeric,,19,6,YES,t
+m_loan_repayment_schedule,10,interest_completed_derived,numeric,,19,6,YES,t
+m_loan_repayment_schedule,11,interest_writtenoff_derived,numeric,,19,6,YES,t
+m_loan_repayment_schedule,12,interest_waived_derived,numeric,,19,6,YES,t
+m_loan_repayment_schedule,13,accrual_interest_derived,numeric,,19,6,YES,t
+m_loan_repayment_schedule,14,reschedule_interest_portion,numeric,,19,6,YES,t
+m_loan_repayment_schedule,15,fee_charges_amount,numeric,,19,6,YES,t
+m_loan_repayment_schedule,16,fee_charges_completed_derived,numeric,,19,6,YES,t
+m_loan_repayment_schedule,17,fee_charges_writtenoff_derived,numeric,,19,6,YES,t
+m_loan_repayment_schedule,18,fee_charges_waived_derived,numeric,,19,6,YES,t
+m_loan_repayment_schedule,19,accrual_fee_charges_derived,numeric,,19,6,YES,t
+m_loan_repayment_schedule,20,penalty_charges_amount,numeric,,19,6,YES,t
+m_loan_repayment_schedule,21,penalty_charges_completed_derived,numeric,,19,6,YES,t
+m_loan_repayment_schedule,22,penalty_charges_writtenoff_derived,numeric,,19,6,YES,t
+m_loan_repayment_schedule,23,penalty_charges_waived_derived,numeric,,19,6,YES,t
+m_loan_repayment_schedule,24,accrual_penalty_charges_derived,numeric,,19,6,YES,t
+m_loan_repayment_schedule,25,total_paid_in_advance_derived,numeric,,19,6,YES,t
+m_loan_repayment_schedule,26,total_paid_late_derived,numeric,,19,6,YES,t
+m_loan_repayment_schedule,27,completed_derived,boolean,,,,NO,f
+m_loan_repayment_schedule,28,obligations_met_on_date,date,,,,YES,f
+m_loan_repayment_schedule,29,created_by,bigint,,64,0,NO,f
+m_loan_repayment_schedule,30,created_date,timestamp without time zone,,,,YES,f
+m_loan_repayment_schedule,31,lastmodified_date,timestamp without time zone,,,,YES,f
+m_loan_repayment_schedule,32,last_modified_by,bigint,,64,0,NO,f
+m_loan_repayment_schedule,33,recalculated_interest_component,boolean,,,,NO,t
+m_loan_repayment_schedule,34,created_on_utc,timestamp with time zone,,,,NO,f
+m_loan_repayment_schedule,35,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_loan_repayment_schedule,36,is_additional,boolean,,,,NO,t
+m_loan_repayment_schedule,37,credits_amount,numeric,,19,6,YES,t
+m_loan_repayment_schedule,38,is_down_payment,boolean,,,,NO,t
+m_loan_repayment_schedule,39,credited_interest,numeric,,19,6,YES,f
+m_loan_repayment_schedule,40,credited_fee,numeric,,19,6,YES,t
+m_loan_repayment_schedule,41,credited_penalty,numeric,,19,6,YES,t
+m_loan_repayment_schedule,42,is_re_aged,boolean,,,,NO,t
+m_loan_repayment_schedule_history,1,id,bigint,,64,0,NO,f
+m_loan_repayment_schedule_history,2,loan_id,bigint,,64,0,NO,f
+m_loan_repayment_schedule_history,3,loan_reschedule_request_id,bigint,,64,0,YES,f
+m_loan_repayment_schedule_history,4,fromdate,date,,,,YES,f
+m_loan_repayment_schedule_history,5,duedate,date,,,,NO,f
+m_loan_repayment_schedule_history,6,installment,smallint,,16,0,NO,f
+m_loan_repayment_schedule_history,7,principal_amount,numeric,,19,6,YES,t
+m_loan_repayment_schedule_history,8,interest_amount,numeric,,19,6,YES,t
+m_loan_repayment_schedule_history,9,fee_charges_amount,numeric,,19,6,YES,t
+m_loan_repayment_schedule_history,10,penalty_charges_amount,numeric,,19,6,YES,t
+m_loan_repayment_schedule_history,11,createdby_id,bigint,,64,0,YES,f
+m_loan_repayment_schedule_history,12,created_date,timestamp without time zone,,,,YES,f
+m_loan_repayment_schedule_history,13,lastmodified_date,timestamp without time zone,,,,YES,f
+m_loan_repayment_schedule_history,14,lastmodifiedby_id,bigint,,64,0,YES,f
+m_loan_repayment_schedule_history,15,version,integer,,32,0,NO,f
+m_loan_repayment_schedule_history,16,created_on_utc,timestamp with time zone,,,,NO,f
+m_loan_repayment_schedule_history,17,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_loan_reschedule_request,1,id,bigint,,64,0,NO,f
+m_loan_reschedule_request,2,loan_id,bigint,,64,0,NO,f
+m_loan_reschedule_request,3,status_enum,smallint,,16,0,NO,f
+m_loan_reschedule_request,4,reschedule_from_installment,smallint,,16,0,NO,f
+m_loan_reschedule_request,5,reschedule_from_date,date,,,,NO,f
+m_loan_reschedule_request,6,recalculate_interest,boolean,,,,YES,f
+m_loan_reschedule_request,7,reschedule_reason_cv_id,integer,,32,0,YES,f
+m_loan_reschedule_request,8,reschedule_reason_comment,character varying,500,,,YES,f
+m_loan_reschedule_request,9,submitted_on_date,date,,,,NO,f
+m_loan_reschedule_request,10,submitted_by_user_id,bigint,,64,0,NO,f
+m_loan_reschedule_request,11,approved_on_date,date,,,,YES,f
+m_loan_reschedule_request,12,approved_by_user_id,bigint,,64,0,YES,f
+m_loan_reschedule_request,13,rejected_on_date,date,,,,YES,f
+m_loan_reschedule_request,14,rejected_by_user_id,bigint,,64,0,YES,f
+m_loan_reschedule_request_term_variations_mapping,1,id,bigint,,64,0,NO,f
+m_loan_reschedule_request_term_variations_mapping,2,loan_reschedule_request_id,bigint,,64,0,NO,f
+m_loan_reschedule_request_term_variations_mapping,3,loan_term_variations_id,bigint,,64,0,NO,f
+m_loan_status_change_history,1,id,bigint,,64,0,NO,f
+m_loan_status_change_history,2,loan_id,bigint,,64,0,NO,f
+m_loan_status_change_history,3,status_code,character varying,255,,,NO,f
+m_loan_status_change_history,4,status_change_business_date,date,,,,NO,f
+m_loan_status_change_history,5,created_by,bigint,,64,0,NO,f
+m_loan_status_change_history,6,last_modified_by,bigint,,64,0,NO,f
+m_loan_status_change_history,7,created_on_utc,timestamp with time zone,,,,NO,f
+m_loan_status_change_history,8,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_loan_term_variations,1,id,bigint,,64,0,NO,f
+m_loan_term_variations,2,loan_id,bigint,,64,0,NO,f
+m_loan_term_variations,3,term_type,smallint,,16,0,NO,f
+m_loan_term_variations,4,applicable_date,date,,,,NO,f
+m_loan_term_variations,5,decimal_value,numeric,,19,6,YES,t
+m_loan_term_variations,6,date_value,date,,,,YES,f
+m_loan_term_variations,7,is_specific_to_installment,boolean,,,,NO,t
+m_loan_term_variations,8,applied_on_loan_status,smallint,,16,0,NO,f
+m_loan_term_variations,9,is_active,boolean,,,,NO,t
+m_loan_term_variations,10,parent_id,bigint,,64,0,YES,f
+m_loan_term_variations,15,created_on_utc,timestamp with time zone,,,,YES,f
+m_loan_term_variations,16,created_by,bigint,,64,0,YES,f
+m_loan_term_variations,17,last_modified_by,bigint,,64,0,YES,f
+m_loan_term_variations,18,last_modified_on_utc,timestamp with time zone,,,,YES,f
+m_loan_topup,1,id,bigint,,64,0,NO,f
+m_loan_topup,2,loan_id,bigint,,64,0,NO,f
+m_loan_topup,3,closure_loan_id,bigint,,64,0,NO,f
+m_loan_topup,4,account_transfer_details_id,bigint,,64,0,YES,f
+m_loan_topup,5,topup_amount,numeric,,19,6,YES,t
+m_loan_tranche_charges,1,id,bigint,,64,0,NO,f
+m_loan_tranche_charges,2,loan_id,bigint,,64,0,NO,f
+m_loan_tranche_charges,3,charge_id,bigint,,64,0,NO,f
+m_loan_tranche_disbursement_charge,1,id,bigint,,64,0,NO,f
+m_loan_tranche_disbursement_charge,2,loan_charge_id,bigint,,64,0,NO,f
+m_loan_tranche_disbursement_charge,3,disbursement_detail_id,bigint,,64,0,YES,f
+m_loan_transaction,1,id,bigint,,64,0,NO,f
+m_loan_transaction,2,loan_id,bigint,,64,0,NO,f
+m_loan_transaction,3,office_id,bigint,,64,0,NO,f
+m_loan_transaction,4,payment_detail_id,bigint,,64,0,YES,f
+m_loan_transaction,5,is_reversed,boolean,,,,NO,f
+m_loan_transaction,6,external_id,character varying,100,,,YES,f
+m_loan_transaction,7,transaction_type_enum,smallint,,16,0,NO,f
+m_loan_transaction,8,transaction_date,date,,,,NO,f
+m_loan_transaction,9,amount,numeric,,19,6,NO,f
+m_loan_transaction,10,principal_portion_derived,numeric,,19,6,YES,t
+m_loan_transaction,11,interest_portion_derived,numeric,,19,6,YES,t
+m_loan_transaction,12,fee_charges_portion_derived,numeric,,19,6,YES,t
+m_loan_transaction,13,penalty_charges_portion_derived,numeric,,19,6,YES,t
+m_loan_transaction,14,overpayment_portion_derived,numeric,,19,6,YES,t
+m_loan_transaction,15,unrecognized_income_portion,numeric,,19,6,YES,t
+m_loan_transaction,16,outstanding_loan_balance_derived,numeric,,19,6,YES,t
+m_loan_transaction,17,submitted_on_date,date,,,,NO,f
+m_loan_transaction,18,manually_adjusted_or_reversed,boolean,,,,YES,t
+m_loan_transaction,19,created_date,timestamp without time zone,,,,YES,f
+m_loan_transaction,21,created_by,bigint,,64,0,NO,f
+m_loan_transaction,22,last_modified_by,bigint,,64,0,NO,f
+m_loan_transaction,23,created_on_utc,timestamp with time zone,,,,NO,f
+m_loan_transaction,24,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_loan_transaction,25,charge_refund_charge_type,character varying,1,,,YES,f
+m_loan_transaction,26,reversal_external_id,character varying,100,,,YES,t
+m_loan_transaction,27,reversed_on_date,date,,,,YES,f
+m_loan_transaction,28,version,bigint,,64,0,NO,t
+m_loan_transaction,29,classification_cv_id,bigint,,64,0,YES,f
+m_loan_transaction_relation,1,id,bigint,,64,0,NO,f
+m_loan_transaction_relation,2,from_loan_transaction_id,bigint,,64,0,NO,f
+m_loan_transaction_relation,3,to_loan_transaction_id,bigint,,64,0,YES,f
+m_loan_transaction_relation,4,relation_type_enum,integer,,32,0,NO,f
+m_loan_transaction_relation,5,created_by,bigint,,64,0,NO,f
+m_loan_transaction_relation,6,created_on_utc,timestamp with time zone,,,,NO,f
+m_loan_transaction_relation,8,last_modified_by,bigint,,64,0,NO,f
+m_loan_transaction_relation,9,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_loan_transaction_relation,10,to_loan_charge_id,bigint,,64,0,YES,f
+m_loan_transaction_repayment_schedule_mapping,1,id,bigint,,64,0,NO,f
+m_loan_transaction_repayment_schedule_mapping,2,loan_transaction_id,bigint,,64,0,NO,f
+m_loan_transaction_repayment_schedule_mapping,3,loan_repayment_schedule_id,bigint,,64,0,NO,f
+m_loan_transaction_repayment_schedule_mapping,4,amount,numeric,,19,6,NO,f
+m_loan_transaction_repayment_schedule_mapping,5,principal_portion_derived,numeric,,19,6,YES,t
+m_loan_transaction_repayment_schedule_mapping,6,interest_portion_derived,numeric,,19,6,YES,t
+m_loan_transaction_repayment_schedule_mapping,7,fee_charges_portion_derived,numeric,,19,6,YES,t
+m_loan_transaction_repayment_schedule_mapping,8,penalty_charges_portion_derived,numeric,,19,6,YES,t
+m_loanproduct_provisioning_entry,1,id,bigint,,64,0,NO,f
+m_loanproduct_provisioning_entry,2,history_id,bigint,,64,0,NO,f
+m_loanproduct_provisioning_entry,3,criteria_id,bigint,,64,0,NO,f
+m_loanproduct_provisioning_entry,4,currency_code,character varying,3,,,NO,f
+m_loanproduct_provisioning_entry,5,office_id,bigint,,64,0,NO,f
+m_loanproduct_provisioning_entry,6,product_id,bigint,,64,0,NO,f
+m_loanproduct_provisioning_entry,7,category_id,bigint,,64,0,NO,f
+m_loanproduct_provisioning_entry,8,overdue_in_days,bigint,,64,0,YES,t
+m_loanproduct_provisioning_entry,9,reseve_amount,numeric,,20,6,YES,t
+m_loanproduct_provisioning_entry,10,liability_account,bigint,,64,0,YES,f
+m_loanproduct_provisioning_entry,11,expense_account,bigint,,64,0,YES,f
+m_loanproduct_provisioning_mapping,1,id,bigint,,64,0,NO,f
+m_loanproduct_provisioning_mapping,2,product_id,bigint,,64,0,NO,f
+m_loanproduct_provisioning_mapping,3,criteria_id,bigint,,64,0,NO,f
+m_mandatory_savings_schedule,1,id,bigint,,64,0,NO,f
+m_mandatory_savings_schedule,2,savings_account_id,bigint,,64,0,NO,f
+m_mandatory_savings_schedule,3,fromdate,date,,,,YES,f
+m_mandatory_savings_schedule,4,duedate,date,,,,NO,f
+m_mandatory_savings_schedule,5,installment,smallint,,16,0,NO,f
+m_mandatory_savings_schedule,6,deposit_amount,numeric,,19,6,YES,t
+m_mandatory_savings_schedule,7,deposit_amount_completed_derived,numeric,,19,6,YES,t
+m_mandatory_savings_schedule,8,total_paid_in_advance_derived,numeric,,19,6,YES,t
+m_mandatory_savings_schedule,9,total_paid_late_derived,numeric,,19,6,YES,t
+m_mandatory_savings_schedule,10,completed_derived,boolean,,,,NO,f
+m_mandatory_savings_schedule,11,obligations_met_on_date,date,,,,YES,f
+m_mandatory_savings_schedule,12,created_by,bigint,,64,0,NO,f
+m_mandatory_savings_schedule,13,created_date,timestamp without time zone,,,,YES,f
+m_mandatory_savings_schedule,14,lastmodified_date,timestamp without time zone,,,,YES,f
+m_mandatory_savings_schedule,15,last_modified_by,bigint,,64,0,NO,f
+m_mandatory_savings_schedule,16,created_on_utc,timestamp with time zone,,,,NO,f
+m_mandatory_savings_schedule,17,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_meeting,1,id,bigint,,64,0,NO,f
+m_meeting,2,calendar_instance_id,bigint,,64,0,NO,f
+m_meeting,3,meeting_date,date,,,,NO,f
+m_note,1,id,bigint,,64,0,NO,f
+m_note,2,client_id,bigint,,64,0,YES,f
+m_note,3,group_id,bigint,,64,0,YES,f
+m_note,4,loan_id,bigint,,64,0,YES,f
+m_note,5,loan_transaction_id,bigint,,64,0,YES,f
+m_note,6,savings_account_id,bigint,,64,0,YES,f
+m_note,7,savings_account_transaction_id,bigint,,64,0,YES,f
+m_note,8,share_account_id,bigint,,64,0,YES,f
+m_note,9,note_type_enum,smallint,,16,0,NO,f
+m_note,10,note,text,,,,YES,f
+m_note,11,created_date,timestamp without time zone,,,,YES,f
+m_note,12,created_by,bigint,,64,0,NO,f
+m_note,13,lastmodified_date,timestamp without time zone,,,,YES,f
+m_note,14,last_modified_by,bigint,,64,0,NO,f
+m_note,15,created_on_utc,timestamp with time zone,,,,NO,f
+m_note,16,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_office,1,id,bigint,,64,0,NO,f
+m_office,2,parent_id,bigint,,64,0,YES,f
+m_office,3,hierarchy,character varying,100,,,YES,f
+m_office,4,external_id,character varying,100,,,YES,f
+m_office,5,name,character varying,50,,,NO,f
+m_office,6,opening_date,date,,,,NO,f
+m_office_transaction,1,id,bigint,,64,0,NO,f
+m_office_transaction,2,from_office_id,bigint,,64,0,YES,f
+m_office_transaction,3,to_office_id,bigint,,64,0,YES,f
+m_office_transaction,4,currency_code,character varying,3,,,NO,f
+m_office_transaction,5,currency_digits,integer,,32,0,NO,f
+m_office_transaction,6,transaction_amount,numeric,,19,6,NO,f
+m_office_transaction,7,transaction_date,date,,,,NO,f
+m_office_transaction,8,description,character varying,100,,,YES,f
+m_organisation_creditbureau,1,id,bigint,,64,0,NO,f
+m_organisation_creditbureau,2,alias,character varying,50,,,NO,f
+m_organisation_creditbureau,3,creditbureau_id,bigint,,64,0,NO,f
+m_organisation_creditbureau,4,is_active,boolean,,,,NO,f
+m_organisation_currency,1,id,bigint,,64,0,NO,f
+m_organisation_currency,2,code,character varying,3,,,NO,f
+m_organisation_currency,3,decimal_places,smallint,,16,0,NO,f
+m_organisation_currency,4,currency_multiplesof,smallint,,16,0,YES,f
+m_organisation_currency,5,name,character varying,50,,,NO,f
+m_organisation_currency,6,display_symbol,character varying,10,,,YES,f
+m_organisation_currency,7,internationalized_name_code,character varying,50,,,NO,f
+m_password_validation_policy,1,id,integer,,32,0,NO,f
+m_password_validation_policy,2,regex,text,,,,NO,f
+m_password_validation_policy,3,description,text,,,,NO,f
+m_password_validation_policy,4,active,boolean,,,,NO,t
+m_password_validation_policy,5,key,character varying,255,,,NO,f
+m_payment_detail,1,id,bigint,,64,0,NO,f
+m_payment_detail,2,payment_type_id,integer,,32,0,YES,f
+m_payment_detail,3,account_number,character varying,100,,,YES,f
+m_payment_detail,4,check_number,character varying,100,,,YES,f
+m_payment_detail,5,receipt_number,character varying,100,,,YES,f
+m_payment_detail,6,bank_number,character varying,100,,,YES,f
+m_payment_detail,7,routing_code,character varying,100,,,YES,f
+m_payment_type,1,id,integer,,32,0,NO,f
+m_payment_type,2,value,character varying,100,,,YES,f
+m_payment_type,3,description,character varying,500,,,YES,f
+m_payment_type,4,is_cash_payment,boolean,,,,YES,t
+m_payment_type,5,order_position,integer,,32,0,NO,t
+m_payment_type,6,code_name,character varying,100,,,YES,f
+m_payment_type,7,is_system_defined,boolean,,,,NO,t
+m_permission,1,id,bigint,,64,0,NO,f
+m_permission,2,grouping,character varying,45,,,YES,f
+m_permission,3,code,character varying,100,,,NO,f
+m_permission,4,entity_name,character varying,100,,,YES,f
+m_permission,5,action_name,character varying,100,,,YES,f
+m_permission,6,can_maker_checker,boolean,,,,NO,t
+m_portfolio_account_associations,1,id,bigint,,64,0,NO,f
+m_portfolio_account_associations,2,loan_account_id,bigint,,64,0,YES,f
+m_portfolio_account_associations,3,savings_account_id,bigint,,64,0,YES,f
+m_portfolio_account_associations,4,linked_loan_account_id,bigint,,64,0,YES,f
+m_portfolio_account_associations,5,linked_savings_account_id,bigint,,64,0,YES,f
+m_portfolio_account_associations,6,association_type_enum,smallint,,16,0,NO,t
+m_portfolio_account_associations,7,is_active,boolean,,,,NO,t
+m_portfolio_command_source,1,id,bigint,,64,0,NO,f
+m_portfolio_command_source,2,action_name,character varying,50,,,NO,f
+m_portfolio_command_source,3,entity_name,character varying,50,,,NO,f
+m_portfolio_command_source,4,office_id,bigint,,64,0,YES,f
+m_portfolio_command_source,5,group_id,bigint,,64,0,YES,f
+m_portfolio_command_source,6,client_id,bigint,,64,0,YES,f
+m_portfolio_command_source,7,loan_id,bigint,,64,0,YES,f
+m_portfolio_command_source,8,savings_account_id,bigint,,64,0,YES,f
+m_portfolio_command_source,9,api_get_url,character varying,100,,,NO,f
+m_portfolio_command_source,10,resource_id,bigint,,64,0,YES,f
+m_portfolio_command_source,11,subresource_id,bigint,,64,0,YES,f
+m_portfolio_command_source,12,command_as_json,text,,,,NO,f
+m_portfolio_command_source,13,maker_id,bigint,,64,0,NO,f
+m_portfolio_command_source,14,made_on_date,timestamp without time zone,,,,YES,f
+m_portfolio_command_source,15,checker_id,bigint,,64,0,YES,f
+m_portfolio_command_source,16,checked_on_date,timestamp without time zone,,,,YES,f
+m_portfolio_command_source,17,status,smallint,,16,0,NO,f
+m_portfolio_command_source,18,product_id,bigint,,64,0,YES,f
+m_portfolio_command_source,19,transaction_id,character varying,100,,,YES,f
+m_portfolio_command_source,20,creditbureau_id,bigint,,64,0,YES,f
+m_portfolio_command_source,21,organisation_creditbureau_id,bigint,,64,0,YES,f
+m_portfolio_command_source,22,made_on_date_utc,timestamp with time zone,,,,NO,f
+m_portfolio_command_source,23,checked_on_date_utc,timestamp with time zone,,,,YES,f
+m_portfolio_command_source,24,job_name,character varying,100,,,YES,f
+m_portfolio_command_source,25,idempotency_key,character varying,50,,,NO,t
+m_portfolio_command_source,26,resource_external_id,character varying,100,,,YES,f
+m_portfolio_command_source,27,subresource_external_id,character varying,100,,,YES,f
+m_portfolio_command_source,28,result,text,,,,YES,f
+m_portfolio_command_source,29,result_status_code,integer,,32,0,YES,f
+m_portfolio_command_source,30,loan_external_id,character varying,100,,,YES,f
+m_portfolio_command_source,31,is_sanitized,boolean,,,,NO,t
+m_portfolio_command_source,32,client_ip,character varying,100,,,YES,f
+m_product_loan,1,id,bigint,,64,0,NO,f
+m_product_loan,2,short_name,character varying,4,,,NO,f
+m_product_loan,3,currency_code,character varying,3,,,NO,f
+m_product_loan,4,currency_digits,smallint,,16,0,NO,f
+m_product_loan,5,currency_multiplesof,smallint,,16,0,YES,f
+m_product_loan,6,principal_amount,numeric,,19,6,YES,t
+m_product_loan,7,min_principal_amount,numeric,,19,6,YES,t
+m_product_loan,8,max_principal_amount,numeric,,19,6,YES,t
+m_product_loan,9,arrearstolerance_amount,numeric,,19,6,YES,t
+m_product_loan,10,name,character varying,100,,,NO,f
+m_product_loan,11,description,character varying,500,,,YES,f
+m_product_loan,12,fund_id,bigint,,64,0,YES,f
+m_product_loan,13,is_linked_to_floating_interest_rates,boolean,,,,NO,t
+m_product_loan,14,allow_variabe_installments,boolean,,,,NO,t
+m_product_loan,15,nominal_interest_rate_per_period,numeric,,19,6,YES,t
+m_product_loan,16,min_nominal_interest_rate_per_period,numeric,,19,6,YES,t
+m_product_loan,17,max_nominal_interest_rate_per_period,numeric,,19,6,YES,t
+m_product_loan,18,interest_period_frequency_enum,smallint,,16,0,YES,f
+m_product_loan,19,annual_nominal_interest_rate,numeric,,19,6,YES,t
+m_product_loan,20,interest_method_enum,smallint,,16,0,NO,f
+m_product_loan,21,interest_calculated_in_period_enum,smallint,,16,0,NO,t
+m_product_loan,22,allow_partial_period_interest_calcualtion,boolean,,,,NO,t
+m_product_loan,23,repay_every,smallint,,16,0,NO,f
+m_product_loan,24,repayment_period_frequency_enum,smallint,,16,0,NO,f
+m_product_loan,25,number_of_repayments,smallint,,16,0,NO,f
+m_product_loan,26,min_number_of_repayments,smallint,,16,0,YES,f
+m_product_loan,27,max_number_of_repayments,smallint,,16,0,YES,f
+m_product_loan,28,grace_on_principal_periods,smallint,,16,0,YES,f
+m_product_loan,29,recurring_moratorium_principal_periods,smallint,,16,0,YES,f
+m_product_loan,30,grace_on_interest_periods,smallint,,16,0,YES,f
+m_product_loan,31,grace_interest_free_periods,smallint,,16,0,YES,f
+m_product_loan,32,amortization_method_enum,smallint,,16,0,NO,f
+m_product_loan,33,accounting_type,smallint,,16,0,NO,f
+m_product_loan,34,loan_transaction_strategy_id,bigint,,64,0,YES,f
+m_product_loan,35,external_id,character varying,100,,,YES,f
+m_product_loan,36,include_in_borrower_cycle,boolean,,,,NO,t
+m_product_loan,37,use_borrower_cycle,boolean,,,,NO,t
+m_product_loan,38,start_date,date,,,,YES,f
+m_product_loan,39,close_date,date,,,,YES,f
+m_product_loan,40,allow_multiple_disbursals,boolean,,,,NO,t
+m_product_loan,41,max_disbursals,integer,,32,0,YES,f
+m_product_loan,42,max_outstanding_loan_balance,numeric,,19,6,YES,t
+m_product_loan,43,grace_on_arrears_ageing,smallint,,16,0,YES,f
+m_product_loan,44,overdue_days_for_npa,smallint,,16,0,YES,f
+m_product_loan,45,days_in_month_enum,smallint,,16,0,NO,t
+m_product_loan,46,days_in_year_enum,smallint,,16,0,NO,t
+m_product_loan,47,interest_recalculation_enabled,boolean,,,,NO,t
+m_product_loan,48,min_days_between_disbursal_and_first_repayment,integer,,32,0,YES,f
+m_product_loan,49,hold_guarantee_funds,boolean,,,,NO,t
+m_product_loan,50,principal_threshold_for_last_installment,numeric,,5,2,NO,t
+m_product_loan,51,account_moves_out_of_npa_only_on_arrears_completion,boolean,,,,NO,t
+m_product_loan,52,can_define_fixed_emi_amount,boolean,,,,NO,t
+m_product_loan,53,installment_amount_in_multiples_of,numeric,,19,6,YES,t
+m_product_loan,54,can_use_for_topup,boolean,,,,NO,t
+m_product_loan,55,sync_expected_with_disbursement_date,boolean,,,,YES,t
+m_product_loan,56,is_equal_amortization,boolean,,,,NO,t
+m_product_loan,57,fixed_principal_percentage_per_installment,numeric,,5,2,YES,t
+m_product_loan,58,disallow_expected_disbursements,boolean,,,,NO,t
+m_product_loan,59,allow_approved_disbursed_amounts_over_applied,boolean,,,,NO,t
+m_product_loan,60,over_applied_calculation_type,character varying,10,,,YES,f
+m_product_loan,61,over_applied_number,integer,,32,0,YES,f
+m_product_loan,62,delinquency_bucket_id,bigint,,64,0,YES,f
+m_product_loan,63,loan_transaction_strategy_code,character varying,100,,,NO,t
+m_product_loan,64,loan_transaction_strategy_name,character varying,100,,,NO,t
+m_product_loan,65,due_days_for_repayment_event,integer,,32,0,YES,f
+m_product_loan,66,overdue_days_for_repayment_event,integer,,32,0,YES,f
+m_product_loan,67,enable_down_payment,boolean,,,,NO,t
+m_product_loan,68,disbursed_amount_percentage_for_down_payment,numeric,,9,6,YES,t
+m_product_loan,69,enable_installment_level_delinquency,boolean,,,,NO,t
+m_product_loan,70,enable_accrual_activity_posting,boolean,,,,NO,t
+m_product_loan,71,days_in_year_custom_strategy,character varying,100,,,YES,f
+m_product_loan,72,enable_income_capitalization,boolean,,,,NO,t
+m_product_loan,73,capitalized_income_calculation_type,character varying,100,,,YES,f
+m_product_loan,74,capitalized_income_strategy,character varying,100,,,YES,f
+m_product_loan,75,capitalized_income_type,character varying,10,,,YES,f
+m_product_loan,76,enable_buy_down_fee,boolean,,,,NO,t
+m_product_loan,77,buy_down_fee_calculation_type,character varying,100,,,YES,f
+m_product_loan,78,buy_down_fee_strategy,character varying,100,,,YES,f
+m_product_loan,79,buy_down_fee_income_type,character varying,100,,,YES,f
+m_product_loan,80,allow_full_term_for_tranche,boolean,,,,NO,t
+m_product_loan,81,enable_auto_repayment_for_down_payment,boolean,,,,NO,t
+m_product_loan,82,repayment_start_date_type_enum,smallint,,16,0,NO,t
+m_product_loan,84,loan_schedule_type,character varying,20,,,NO,t
+m_product_loan,85,loan_schedule_processing_type,character varying,20,,,NO,t
+m_product_loan,86,fixed_length,smallint,,16,0,YES,f
+m_product_loan,87,supported_interest_refund_types,text,,,,YES,f
+m_product_loan,88,charge_off_behaviour,character varying,20,,,YES,t
+m_product_loan,89,interest_recognition_on_disbursement_date,boolean,,,,NO,t
+m_product_loan,90,is_merchant_buy_down_fee,boolean,,,,NO,t
+m_product_loan_charge,1,product_loan_id,bigint,,64,0,NO,f
+m_product_loan_charge,2,charge_id,bigint,,64,0,NO,f
+m_product_loan_configurable_attributes,1,id,bigint,,64,0,NO,f
+m_product_loan_configurable_attributes,2,loan_product_id,bigint,,64,0,NO,f
+m_product_loan_configurable_attributes,3,amortization_method_enum,boolean,,,,NO,t
+m_product_loan_configurable_attributes,4,interest_method_enum,boolean,,,,NO,t
+m_product_loan_configurable_attributes,5,loan_transaction_strategy_code,boolean,,,,NO,t
+m_product_loan_configurable_attributes,6,interest_calculated_in_period_enum,boolean,,,,NO,t
+m_product_loan_configurable_attributes,7,arrearstolerance_amount,boolean,,,,NO,t
+m_product_loan_configurable_attributes,8,repay_every,boolean,,,,NO,t
+m_product_loan_configurable_attributes,9,moratorium,boolean,,,,NO,t
+m_product_loan_configurable_attributes,10,grace_on_arrears_ageing,boolean,,,,NO,t
+m_product_loan_floating_rates,1,id,bigint,,64,0,NO,f
+m_product_loan_floating_rates,2,loan_product_id,bigint,,64,0,NO,f
+m_product_loan_floating_rates,3,floating_rates_id,bigint,,64,0,NO,f
+m_product_loan_floating_rates,4,interest_rate_differential,numeric,,19,6,NO,t
+m_product_loan_floating_rates,5,min_differential_lending_rate,numeric,,19,6,NO,t
+m_product_loan_floating_rates,6,default_differential_lending_rate,numeric,,19,6,NO,t
+m_product_loan_floating_rates,7,max_differential_lending_rate,numeric,,19,6,NO,t
+m_product_loan_floating_rates,8,is_floating_interest_rate_calculation_allowed,boolean,,,,NO,t
+m_product_loan_guarantee_details,1,id,bigint,,64,0,NO,f
+m_product_loan_guarantee_details,2,loan_product_id,bigint,,64,0,NO,f
+m_product_loan_guarantee_details,3,mandatory_guarantee,numeric,,19,5,NO,f
+m_product_loan_guarantee_details,4,minimum_guarantee_from_own_funds,numeric,,19,5,YES,t
+m_product_loan_guarantee_details,5,minimum_guarantee_from_guarantor_funds,numeric,,19,5,YES,t
+m_product_loan_rate,1,product_loan_id,bigint,,64,0,NO,f
+m_product_loan_rate,2,rate_id,bigint,,64,0,NO,f
+m_product_loan_recalculation_details,1,id,bigint,,64,0,NO,f
+m_product_loan_recalculation_details,2,product_id,bigint,,64,0,NO,f
+m_product_loan_recalculation_details,3,compound_type_enum,smallint,,16,0,NO,f
+m_product_loan_recalculation_details,4,reschedule_strategy_enum,smallint,,16,0,NO,f
+m_product_loan_recalculation_details,5,rest_frequency_type_enum,smallint,,16,0,NO,f
+m_product_loan_recalculation_details,6,rest_frequency_interval,smallint,,16,0,NO,t
+m_product_loan_recalculation_details,7,arrears_based_on_original_schedule,boolean,,,,NO,t
+m_product_loan_recalculation_details,8,pre_close_interest_calculation_strategy,smallint,,16,0,NO,t
+m_product_loan_recalculation_details,9,compounding_frequency_type_enum,smallint,,16,0,YES,f
+m_product_loan_recalculation_details,10,compounding_frequency_interval,smallint,,16,0,YES,f
+m_product_loan_recalculation_details,11,rest_frequency_nth_day_enum,integer,,32,0,YES,f
+m_product_loan_recalculation_details,12,rest_frequency_on_day,integer,,32,0,YES,f
+m_product_loan_recalculation_details,13,rest_frequency_weekday_enum,integer,,32,0,YES,f
+m_product_loan_recalculation_details,14,compounding_frequency_nth_day_enum,integer,,32,0,YES,f
+m_product_loan_recalculation_details,15,compounding_frequency_on_day,integer,,32,0,YES,f
+m_product_loan_recalculation_details,16,compounding_frequency_weekday_enum,integer,,32,0,YES,f
+m_product_loan_recalculation_details,17,is_compounding_to_be_posted_as_transaction,boolean,,,,NO,t
+m_product_loan_recalculation_details,18,allow_compounding_on_eod,boolean,,,,NO,t
+m_product_loan_recalculation_details,19,disallow_interest_calc_on_past_due,boolean,,,,NO,t
+m_product_loan_variable_installment_config,1,id,bigint,,64,0,NO,f
+m_product_loan_variable_installment_config,2,loan_product_id,bigint,,64,0,NO,f
+m_product_loan_variable_installment_config,3,minimum_gap,integer,,32,0,NO,f
+m_product_loan_variable_installment_config,4,maximum_gap,integer,,32,0,NO,f
+m_product_loan_variations_borrower_cycle,1,id,bigint,,64,0,NO,f
+m_product_loan_variations_borrower_cycle,2,loan_product_id,bigint,,64,0,NO,t
+m_product_loan_variations_borrower_cycle,3,borrower_cycle_number,integer,,32,0,NO,t
+m_product_loan_variations_borrower_cycle,4,value_condition,integer,,32,0,NO,t
+m_product_loan_variations_borrower_cycle,5,param_type,integer,,32,0,NO,t
+m_product_loan_variations_borrower_cycle,6,default_value,numeric,,19,6,NO,t
+m_product_loan_variations_borrower_cycle,7,max_value,numeric,,19,6,YES,t
+m_product_loan_variations_borrower_cycle,8,min_value,numeric,,19,6,YES,t
+m_product_mix,1,id,bigint,,64,0,NO,f
+m_product_mix,2,product_id,bigint,,64,0,NO,f
+m_product_mix,3,restricted_product_id,bigint,,64,0,NO,f
+m_provision_category,1,id,bigint,,64,0,NO,f
+m_provision_category,2,category_name,character varying,100,,,NO,f
+m_provision_category,3,description,character varying,300,,,YES,f
+m_provisioning_criteria,1,id,bigint,,64,0,NO,f
+m_provisioning_criteria,2,criteria_name,character varying,200,,,NO,f
+m_provisioning_criteria,3,createdby_id,bigint,,64,0,YES,f
+m_provisioning_criteria,4,created_date,timestamp without time zone,,,,YES,f
+m_provisioning_criteria,5,lastmodifiedby_id,bigint,,64,0,YES,f
+m_provisioning_criteria,6,lastmodified_date,timestamp without time zone,,,,YES,f
+m_provisioning_criteria_definition,1,id,bigint,,64,0,NO,f
+m_provisioning_criteria_definition,2,criteria_id,bigint,,64,0,NO,f
+m_provisioning_criteria_definition,3,category_id,bigint,,64,0,NO,f
+m_provisioning_criteria_definition,4,min_age,bigint,,64,0,NO,f
+m_provisioning_criteria_definition,5,max_age,bigint,,64,0,NO,f
+m_provisioning_criteria_definition,6,provision_percentage,numeric,,5,2,NO,f
+m_provisioning_criteria_definition,7,liability_account,bigint,,64,0,YES,f
+m_provisioning_criteria_definition,8,expense_account,bigint,,64,0,YES,f
+m_provisioning_history,1,id,bigint,,64,0,NO,f
+m_provisioning_history,2,journal_entry_created,boolean,,,,YES,t
+m_provisioning_history,3,createdby_id,bigint,,64,0,YES,f
+m_provisioning_history,4,created_date,date,,,,YES,f
+m_provisioning_history,5,lastmodifiedby_id,bigint,,64,0,YES,f
+m_provisioning_history,6,lastmodified_date,date,,,,YES,f
+m_rate,1,id,bigint,,64,0,NO,f
+m_rate,2,name,character varying,250,,,NO,f
+m_rate,3,percentage,numeric,,10,2,NO,f
+m_rate,4,active,boolean,,,,YES,t
+m_rate,5,product_apply,smallint,,16,0,NO,f
+m_rate,6,created_date,timestamp without time zone,,,,YES,f
+m_rate,7,createdby_id,bigint,,64,0,NO,f
+m_rate,8,lastmodifiedby_id,bigint,,64,0,NO,f
+m_rate,9,lastmodified_date,timestamp without time zone,,,,YES,f
+m_rate,10,approve_user,bigint,,64,0,YES,f
+m_repayment_with_post_dated_checks,1,id,bigint,,64,0,NO,f
+m_repayment_with_post_dated_checks,2,check_no,bigint,,64,0,NO,f
+m_repayment_with_post_dated_checks,3,amount,numeric,,20,5,NO,f
+m_repayment_with_post_dated_checks,4,loan_id,bigint,,64,0,YES,f
+m_repayment_with_post_dated_checks,5,repayment_id,bigint,,64,0,YES,f
+m_repayment_with_post_dated_checks,6,account_no,bigint,,64,0,NO,f
+m_repayment_with_post_dated_checks,7,bank_name,character varying,200,,,NO,f
+m_repayment_with_post_dated_checks,8,repayment_date,date,,,,NO,f
+m_repayment_with_post_dated_checks,9,status,smallint,,16,0,YES,t
+m_report_mailing_job,1,id,bigint,,64,0,NO,f
+m_report_mailing_job,2,name,character varying,100,,,NO,f
+m_report_mailing_job,3,description,text,,,,YES,f
+m_report_mailing_job,4,start_datetime,timestamp without time zone,,,,NO,f
+m_report_mailing_job,5,recurrence,character varying,100,,,YES,f
+m_report_mailing_job,6,created_date,date,,,,NO,f
+m_report_mailing_job,7,createdby_id,bigint,,64,0,NO,f
+m_report_mailing_job,8,lastmodified_date,date,,,,YES,f
+m_report_mailing_job,9,lastmodifiedby_id,bigint,,64,0,YES,f
+m_report_mailing_job,10,email_recipients,text,,,,NO,f
+m_report_mailing_job,11,email_subject,character varying,100,,,NO,f
+m_report_mailing_job,12,email_message,text,,,,NO,f
+m_report_mailing_job,13,email_attachment_file_format,character varying,10,,,NO,f
+m_report_mailing_job,14,stretchy_report_id,integer,,32,0,NO,f
+m_report_mailing_job,15,stretchy_report_param_map,text,,,,YES,f
+m_report_mailing_job,16,previous_run_datetime,timestamp without time zone,,,,YES,f
+m_report_mailing_job,17,next_run_datetime,timestamp without time zone,,,,YES,f
+m_report_mailing_job,18,previous_run_status,character varying,10,,,YES,f
+m_report_mailing_job,19,previous_run_error_log,text,,,,YES,f
+m_report_mailing_job,20,previous_run_error_message,text,,,,YES,f
+m_report_mailing_job,21,number_of_runs,integer,,32,0,NO,t
+m_report_mailing_job,22,is_active,boolean,,,,NO,t
+m_report_mailing_job,23,is_deleted,boolean,,,,NO,t
+m_report_mailing_job,24,run_as_userid,bigint,,64,0,NO,f
+m_report_mailing_job_configuration,1,id,integer,,32,0,NO,f
+m_report_mailing_job_configuration,2,name,character varying,50,,,NO,f
+m_report_mailing_job_configuration,3,value,character varying,200,,,NO,f
+m_report_mailing_job_run_history,1,id,bigint,,64,0,NO,f
+m_report_mailing_job_run_history,2,job_id,bigint,,64,0,NO,f
+m_report_mailing_job_run_history,3,start_datetime,timestamp without time zone,,,,NO,f
+m_report_mailing_job_run_history,4,end_datetime,timestamp without time zone,,,,NO,f
+m_report_mailing_job_run_history,5,status,character varying,10,,,NO,f
+m_report_mailing_job_run_history,6,error_message,text,,,,YES,f
+m_report_mailing_job_run_history,7,error_log,text,,,,YES,f
+m_role,1,id,bigint,,64,0,NO,f
+m_role,2,name,character varying,100,,,NO,f
+m_role,3,description,character varying,500,,,NO,f
+m_role,4,is_disabled,boolean,,,,NO,t
+m_role_permission,1,role_id,bigint,,64,0,NO,f
+m_role_permission,2,permission_id,bigint,,64,0,NO,f
+m_savings_account,1,id,bigint,,64,0,NO,f
+m_savings_account,2,account_no,character varying,20,,,NO,f
+m_savings_account,3,external_id,character varying,100,,,YES,f
+m_savings_account,4,client_id,bigint,,64,0,YES,f
+m_savings_account,5,group_id,bigint,,64,0,YES,f
+m_savings_account,6,gsim_id,bigint,,64,0,YES,f
+m_savings_account,7,product_id,bigint,,64,0,YES,f
+m_savings_account,8,field_officer_id,bigint,,64,0,YES,f
+m_savings_account,9,status_enum,smallint,,16,0,NO,t
+m_savings_account,10,sub_status_enum,smallint,,16,0,NO,t
+m_savings_account,11,account_type_enum,smallint,,16,0,NO,t
+m_savings_account,12,deposit_type_enum,smallint,,16,0,NO,t
+m_savings_account,13,submittedon_date,date,,,,NO,f
+m_savings_account,14,submittedon_userid,bigint,,64,0,YES,f
+m_savings_account,15,approvedon_date,date,,,,YES,f
+m_savings_account,16,approvedon_userid,bigint,,64,0,YES,f
+m_savings_account,17,rejectedon_date,date,,,,YES,f
+m_savings_account,18,rejectedon_userid,bigint,,64,0,YES,f
+m_savings_account,19,withdrawnon_date,date,,,,YES,f
+m_savings_account,20,withdrawnon_userid,bigint,,64,0,YES,f
+m_savings_account,21,activatedon_date,date,,,,YES,f
+m_savings_account,22,activatedon_userid,bigint,,64,0,YES,f
+m_savings_account,23,closedon_date,date,,,,YES,f
+m_savings_account,24,closedon_userid,bigint,,64,0,YES,f
+m_savings_account,25,currency_code,character varying,3,,,NO,f
+m_savings_account,26,currency_digits,smallint,,16,0,NO,f
+m_savings_account,27,currency_multiplesof,smallint,,16,0,YES,f
+m_savings_account,28,nominal_annual_interest_rate,numeric,,19,6,NO,f
+m_savings_account,29,interest_compounding_period_enum,smallint,,16,0,NO,f
+m_savings_account,30,interest_posting_period_enum,smallint,,16,0,NO,t
+m_savings_account,31,interest_calculation_type_enum,smallint,,16,0,NO,f
+m_savings_account,32,interest_calculation_days_in_year_type_enum,smallint,,16,0,NO,f
+m_savings_account,33,min_required_opening_balance,numeric,,19,6,YES,t
+m_savings_account,34,lockin_period_frequency,numeric,,19,6,YES,t
+m_savings_account,35,lockin_period_frequency_enum,smallint,,16,0,YES,f
+m_savings_account,36,withdrawal_fee_for_transfer,boolean,,,,YES,t
+m_savings_account,37,allow_overdraft,boolean,,,,NO,t
+m_savings_account,38,overdraft_limit,numeric,,19,6,YES,t
+m_savings_account,39,nominal_annual_interest_rate_overdraft,numeric,,19,6,YES,t
+m_savings_account,40,min_overdraft_for_interest_calculation,numeric,,19,6,YES,t
+m_savings_account,41,lockedin_until_date_derived,date,,,,YES,f
+m_savings_account,42,total_deposits_derived,numeric,,19,6,YES,t
+m_savings_account,43,total_withdrawals_derived,numeric,,19,6,YES,t
+m_savings_account,44,total_withdrawal_fees_derived,numeric,,19,6,YES,t
+m_savings_account,45,total_fees_charge_derived,numeric,,19,6,YES,t
+m_savings_account,46,total_penalty_charge_derived,numeric,,19,6,YES,t
+m_savings_account,47,total_annual_fees_derived,numeric,,19,6,YES,t
+m_savings_account,48,total_interest_earned_derived,numeric,,19,6,YES,t
+m_savings_account,49,total_interest_posted_derived,numeric,,19,6,YES,t
+m_savings_account,50,total_overdraft_interest_derived,numeric,,19,6,YES,t
+m_savings_account,51,total_withhold_tax_derived,numeric,,19,6,YES,t
+m_savings_account,52,account_balance_derived,numeric,,19,6,NO,t
+m_savings_account,53,min_required_balance,numeric,,19,6,YES,t
+m_savings_account,54,enforce_min_required_balance,boolean,,,,NO,t
+m_savings_account,55,min_balance_for_interest_calculation,numeric,,19,6,YES,t
+m_savings_account,56,start_interest_calculation_date,date,,,,YES,f
+m_savings_account,57,on_hold_funds_derived,numeric,,19,6,YES,t
+m_savings_account,58,version,integer,,32,0,NO,t
+m_savings_account,59,withhold_tax,boolean,,,,NO,t
+m_savings_account,60,tax_group_id,bigint,,64,0,YES,f
+m_savings_account,61,last_interest_calculation_date,date,,,,YES,f
+m_savings_account,62,total_savings_amount_on_hold,numeric,,19,6,YES,t
+m_savings_account,63,interest_posted_till_date,date,,,,YES,f
+m_savings_account,64,reason_for_block,character varying,256,,,YES,f
+m_savings_account,65,max_allowed_lien_limit,numeric,,19,6,YES,t
+m_savings_account,66,is_lien_allowed,boolean,,,,NO,t
+m_savings_account,67,created_by,bigint,,64,0,NO,f
+m_savings_account,68,last_modified_by,bigint,,64,0,NO,f
+m_savings_account,69,created_on_utc,timestamp with time zone,,,,NO,f
+m_savings_account,70,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_savings_account,71,accrued_till_date,date,,,,YES,f
+m_savings_account,72,last_closed_business_date,date,,,,YES,f
+m_savings_account_charge,1,id,bigint,,64,0,NO,f
+m_savings_account_charge,2,savings_account_id,bigint,,64,0,NO,f
+m_savings_account_charge,3,charge_id,bigint,,64,0,NO,f
+m_savings_account_charge,4,is_penalty,boolean,,,,NO,t
+m_savings_account_charge,5,charge_time_enum,smallint,,16,0,NO,f
+m_savings_account_charge,6,charge_due_date,date,,,,YES,f
+m_savings_account_charge,7,fee_on_month,smallint,,16,0,YES,f
+m_savings_account_charge,8,fee_on_day,smallint,,16,0,YES,f
+m_savings_account_charge,9,fee_interval,smallint,,16,0,YES,f
+m_savings_account_charge,10,free_withdrawal_count,integer,,32,0,YES,t
+m_savings_account_charge,11,charge_reset_date,date,,,,YES,f
+m_savings_account_charge,12,charge_calculation_enum,smallint,,16,0,NO,f
+m_savings_account_charge,13,calculation_percentage,numeric,,19,6,YES,t
+m_savings_account_charge,14,calculation_on_amount,numeric,,19,6,YES,t
+m_savings_account_charge,15,amount,numeric,,19,6,NO,f
+m_savings_account_charge,16,amount_paid_derived,numeric,,19,6,YES,t
+m_savings_account_charge,17,amount_waived_derived,numeric,,19,6,YES,t
+m_savings_account_charge,18,amount_writtenoff_derived,numeric,,19,6,YES,t
+m_savings_account_charge,19,amount_outstanding_derived,numeric,,19,6,NO,t
+m_savings_account_charge,20,is_paid_derived,boolean,,,,NO,t
+m_savings_account_charge,21,waived,boolean,,,,NO,t
+m_savings_account_charge,22,is_active,boolean,,,,NO,t
+m_savings_account_charge,23,inactivated_on_date,date,,,,YES,f
+m_savings_account_charge,24,created_by,bigint,,64,0,NO,f
+m_savings_account_charge,25,last_modified_by,bigint,,64,0,NO,f
+m_savings_account_charge,26,created_on_utc,timestamp with time zone,,,,NO,f
+m_savings_account_charge,27,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_savings_account_charge_paid_by,1,id,bigint,,64,0,NO,f
+m_savings_account_charge_paid_by,2,savings_account_transaction_id,bigint,,64,0,NO,f
+m_savings_account_charge_paid_by,3,savings_account_charge_id,bigint,,64,0,NO,f
+m_savings_account_charge_paid_by,4,amount,numeric,,19,6,NO,f
+m_savings_account_interest_rate_chart,1,id,bigint,,64,0,NO,f
+m_savings_account_interest_rate_chart,2,savings_account_id,bigint,,64,0,NO,f
+m_savings_account_interest_rate_chart,3,name,character varying,100,,,YES,f
+m_savings_account_interest_rate_chart,4,description,character varying,200,,,YES,f
+m_savings_account_interest_rate_chart,5,from_date,date,,,,NO,f
+m_savings_account_interest_rate_chart,6,end_date,date,,,,YES,f
+m_savings_account_interest_rate_chart,7,is_primary_grouping_by_amount,boolean,,,,NO,t
+m_savings_account_interest_rate_slab,1,id,bigint,,64,0,NO,f
+m_savings_account_interest_rate_slab,2,savings_account_interest_rate_chart_id,bigint,,64,0,NO,f
+m_savings_account_interest_rate_slab,3,description,character varying,200,,,YES,f
+m_savings_account_interest_rate_slab,4,period_type_enum,smallint,,16,0,YES,f
+m_savings_account_interest_rate_slab,5,from_period,integer,,32,0,YES,f
+m_savings_account_interest_rate_slab,6,to_period,integer,,32,0,YES,f
+m_savings_account_interest_rate_slab,7,amount_range_from,numeric,,19,6,YES,t
+m_savings_account_interest_rate_slab,8,amount_range_to,numeric,,19,6,YES,t
+m_savings_account_interest_rate_slab,9,annual_interest_rate,numeric,,19,6,NO,f
+m_savings_account_interest_rate_slab,10,currency_code,character varying,3,,,NO,f
+m_savings_account_transaction,1,id,bigint,,64,0,NO,f
+m_savings_account_transaction,2,savings_account_id,bigint,,64,0,NO,f
+m_savings_account_transaction,3,office_id,bigint,,64,0,NO,f
+m_savings_account_transaction,4,payment_detail_id,bigint,,64,0,YES,f
+m_savings_account_transaction,5,transaction_type_enum,smallint,,16,0,NO,f
+m_savings_account_transaction,6,is_reversed,boolean,,,,NO,f
+m_savings_account_transaction,7,transaction_date,date,,,,NO,f
+m_savings_account_transaction,8,amount,numeric,,19,6,NO,f
+m_savings_account_transaction,9,overdraft_amount_derived,numeric,,19,6,YES,t
+m_savings_account_transaction,10,balance_end_date_derived,date,,,,YES,f
+m_savings_account_transaction,11,balance_number_of_days_derived,integer,,32,0,YES,f
+m_savings_account_transaction,12,running_balance_derived,numeric,,19,6,YES,t
+m_savings_account_transaction,13,cumulative_balance_derived,numeric,,19,6,YES,t
+m_savings_account_transaction,14,created_date,timestamp without time zone,,,,YES,f
+m_savings_account_transaction,15,created_by,bigint,,64,0,NO,f
+m_savings_account_transaction,16,is_manual,boolean,,,,YES,t
+m_savings_account_transaction,17,release_id_of_hold_amount,bigint,,64,0,YES,f
+m_savings_account_transaction,18,is_loan_disbursement,boolean,,,,YES,f
+m_savings_account_transaction,19,ref_no,character varying,128,,,YES,f
+m_savings_account_transaction,20,original_transaction_id,bigint,,64,0,YES,f
+m_savings_account_transaction,21,is_reversal,boolean,,,,NO,t
+m_savings_account_transaction,22,reason_for_block,character varying,256,,,YES,f
+m_savings_account_transaction,23,is_lien_transaction,boolean,,,,NO,t
+m_savings_account_transaction,24,submitted_on_date,date,,,,NO,f
+m_savings_account_transaction,25,last_modified_by,bigint,,64,0,NO,f
+m_savings_account_transaction,26,created_on_utc,timestamp with time zone,,,,NO,f
+m_savings_account_transaction,27,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_savings_account_transaction,28,external_id,character varying,100,,,YES,f
+m_savings_account_transaction_tax_details,1,id,bigint,,64,0,NO,f
+m_savings_account_transaction_tax_details,2,savings_transaction_id,bigint,,64,0,NO,f
+m_savings_account_transaction_tax_details,3,tax_component_id,bigint,,64,0,NO,f
+m_savings_account_transaction_tax_details,4,amount,numeric,,19,6,NO,f
+m_savings_interest_incentives,1,id,bigint,,64,0,NO,f
+m_savings_interest_incentives,2,deposit_account_interest_rate_slab_id,bigint,,64,0,NO,f
+m_savings_interest_incentives,3,entiry_type,smallint,,16,0,NO,f
+m_savings_interest_incentives,4,attribute_name,smallint,,16,0,NO,f
+m_savings_interest_incentives,5,condition_type,smallint,,16,0,NO,f
+m_savings_interest_incentives,6,attribute_value,character varying,50,,,NO,f
+m_savings_interest_incentives,7,incentive_type,smallint,,16,0,NO,f
+m_savings_interest_incentives,8,amount,numeric,,19,6,NO,f
+m_savings_officer_assignment_history,1,id,bigint,,64,0,NO,f
+m_savings_officer_assignment_history,2,account_id,bigint,,64,0,NO,f
+m_savings_officer_assignment_history,3,savings_officer_id,bigint,,64,0,YES,f
+m_savings_officer_assignment_history,4,start_date,date,,,,NO,f
+m_savings_officer_assignment_history,5,end_date,date,,,,YES,f
+m_savings_officer_assignment_history,6,created_by,bigint,,64,0,NO,f
+m_savings_officer_assignment_history,7,created_date,timestamp without time zone,,,,YES,f
+m_savings_officer_assignment_history,8,lastmodified_date,timestamp without time zone,,,,YES,f
+m_savings_officer_assignment_history,9,last_modified_by,bigint,,64,0,NO,f
+m_savings_officer_assignment_history,10,created_on_utc,timestamp with time zone,,,,NO,f
+m_savings_officer_assignment_history,11,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_savings_product,1,id,bigint,,64,0,NO,f
+m_savings_product,2,name,character varying,100,,,NO,f
+m_savings_product,3,short_name,character varying,4,,,NO,f
+m_savings_product,4,description,character varying,500,,,YES,f
+m_savings_product,5,deposit_type_enum,smallint,,16,0,NO,t
+m_savings_product,6,currency_code,character varying,3,,,NO,f
+m_savings_product,7,currency_digits,smallint,,16,0,NO,f
+m_savings_product,8,currency_multiplesof,smallint,,16,0,YES,f
+m_savings_product,9,nominal_annual_interest_rate,numeric,,19,6,NO,f
+m_savings_product,10,interest_compounding_period_enum,smallint,,16,0,NO,f
+m_savings_product,11,interest_posting_period_enum,smallint,,16,0,NO,t
+m_savings_product,12,interest_calculation_type_enum,smallint,,16,0,NO,f
+m_savings_product,13,interest_calculation_days_in_year_type_enum,smallint,,16,0,NO,f
+m_savings_product,14,min_required_opening_balance,numeric,,19,6,YES,t
+m_savings_product,15,lockin_period_frequency,numeric,,19,6,YES,t
+m_savings_product,16,lockin_period_frequency_enum,smallint,,16,0,YES,f
+m_savings_product,17,accounting_type,smallint,,16,0,NO,f
+m_savings_product,18,withdrawal_fee_amount,numeric,,19,6,YES,t
+m_savings_product,19,withdrawal_fee_type_enum,smallint,,16,0,YES,f
+m_savings_product,20,withdrawal_fee_for_transfer,boolean,,,,YES,t
+m_savings_product,21,allow_overdraft,boolean,,,,NO,t
+m_savings_product,22,overdraft_limit,numeric,,19,6,YES,t
+m_savings_product,23,nominal_annual_interest_rate_overdraft,numeric,,19,6,YES,t
+m_savings_product,24,min_overdraft_for_interest_calculation,numeric,,19,6,YES,t
+m_savings_product,25,min_required_balance,numeric,,19,6,YES,t
+m_savings_product,26,enforce_min_required_balance,boolean,,,,NO,t
+m_savings_product,27,min_balance_for_interest_calculation,numeric,,19,6,YES,t
+m_savings_product,28,withhold_tax,boolean,,,,NO,t
+m_savings_product,29,tax_group_id,bigint,,64,0,YES,f
+m_savings_product,30,is_dormancy_tracking_active,boolean,,,,YES,f
+m_savings_product,31,days_to_inactive,integer,,32,0,YES,f
+m_savings_product,32,days_to_dormancy,integer,,32,0,YES,f
+m_savings_product,33,days_to_escheat,integer,,32,0,YES,f
+m_savings_product,34,max_allowed_lien_limit,numeric,,19,6,YES,t
+m_savings_product,35,is_lien_allowed,boolean,,,,NO,t
+m_savings_product_charge,1,savings_product_id,bigint,,64,0,NO,f
+m_savings_product_charge,2,charge_id,bigint,,64,0,NO,f
+m_share_account,1,id,bigint,,64,0,NO,f
+m_share_account,2,account_no,character varying,50,,,NO,f
+m_share_account,3,product_id,bigint,,64,0,NO,f
+m_share_account,4,client_id,bigint,,64,0,NO,f
+m_share_account,5,external_id,character varying,100,,,YES,f
+m_share_account,6,status_enum,smallint,,16,0,NO,t
+m_share_account,7,total_approved_shares,bigint,,64,0,YES,f
+m_share_account,8,total_pending_shares,bigint,,64,0,YES,f
+m_share_account,9,submitted_date,date,,,,NO,f
+m_share_account,10,submitted_userid,bigint,,64,0,YES,f
+m_share_account,11,approved_date,date,,,,YES,f
+m_share_account,12,approved_userid,bigint,,64,0,YES,f
+m_share_account,13,rejected_date,date,,,,YES,f
+m_share_account,14,rejected_userid,bigint,,64,0,YES,f
+m_share_account,15,activated_date,date,,,,YES,f
+m_share_account,16,activated_userid,bigint,,64,0,YES,f
+m_share_account,17,closed_date,date,,,,YES,f
+m_share_account,18,closed_userid,bigint,,64,0,YES,f
+m_share_account,19,currency_code,character varying,3,,,NO,f
+m_share_account,20,currency_digits,smallint,,16,0,NO,f
+m_share_account,21,currency_multiplesof,smallint,,16,0,YES,f
+m_share_account,22,savings_account_id,bigint,,64,0,NO,f
+m_share_account,23,minimum_active_period_frequency,numeric,,19,6,YES,t
+m_share_account,24,minimum_active_period_frequency_enum,smallint,,16,0,YES,f
+m_share_account,25,lockin_period_frequency,numeric,,19,6,YES,t
+m_share_account,26,lockin_period_frequency_enum,smallint,,16,0,YES,f
+m_share_account,27,allow_dividends_inactive_clients,boolean,,,,YES,t
+m_share_account,28,created_date,timestamp without time zone,,,,YES,f
+m_share_account,29,lastmodifiedby_id,bigint,,64,0,YES,f
+m_share_account,30,lastmodified_date,timestamp without time zone,,,,YES,f
+m_share_account_charge,1,id,bigint,,64,0,NO,f
+m_share_account_charge,2,account_id,bigint,,64,0,NO,f
+m_share_account_charge,3,charge_id,bigint,,64,0,NO,f
+m_share_account_charge,4,charge_time_enum,smallint,,16,0,NO,f
+m_share_account_charge,5,charge_calculation_enum,smallint,,16,0,NO,f
+m_share_account_charge,6,charge_payment_mode_enum,smallint,,16,0,NO,t
+m_share_account_charge,7,calculation_percentage,numeric,,19,6,YES,t
+m_share_account_charge,8,calculation_on_amount,numeric,,19,6,YES,t
+m_share_account_charge,9,charge_amount_or_percentage,numeric,,19,6,YES,t
+m_share_account_charge,10,amount,numeric,,19,6,NO,f
+m_share_account_charge,11,amount_paid_derived,numeric,,19,6,YES,t
+m_share_account_charge,12,amount_waived_derived,numeric,,19,6,YES,t
+m_share_account_charge,13,amount_writtenoff_derived,numeric,,19,6,YES,t
+m_share_account_charge,14,amount_outstanding_derived,numeric,,19,6,NO,t
+m_share_account_charge,15,is_paid_derived,boolean,,,,NO,t
+m_share_account_charge,16,waived,boolean,,,,NO,t
+m_share_account_charge,17,min_cap,numeric,,19,6,YES,t
+m_share_account_charge,18,max_cap,numeric,,19,6,YES,t
+m_share_account_charge,19,is_active,boolean,,,,NO,t
+m_share_account_charge_paid_by,1,id,bigint,,64,0,NO,f
+m_share_account_charge_paid_by,2,share_transaction_id,bigint,,64,0,YES,f
+m_share_account_charge_paid_by,3,charge_transaction_id,bigint,,64,0,YES,f
+m_share_account_charge_paid_by,4,amount,numeric,,20,2,NO,f
+m_share_account_dividend_details,1,id,bigint,,64,0,NO,f
+m_share_account_dividend_details,2,dividend_pay_out_id,bigint,,64,0,NO,f
+m_share_account_dividend_details,3,account_id,bigint,,64,0,NO,f
+m_share_account_dividend_details,4,amount,numeric,,19,6,NO,f
+m_share_account_dividend_details,5,status,smallint,,16,0,NO,f
+m_share_account_dividend_details,6,savings_transaction_id,bigint,,64,0,YES,f
+m_share_account_transactions,1,id,bigint,,64,0,NO,f
+m_share_account_transactions,2,account_id,bigint,,64,0,NO,f
+m_share_account_transactions,3,transaction_date,date,,,,YES,f
+m_share_account_transactions,4,total_shares,bigint,,64,0,YES,f
+m_share_account_transactions,5,unit_price,numeric,,10,2,YES,t
+m_share_account_transactions,6,amount,numeric,,20,2,YES,t
+m_share_account_transactions,7,charge_amount,numeric,,20,2,YES,t
+m_share_account_transactions,8,amount_paid,numeric,,20,2,YES,t
+m_share_account_transactions,9,status_enum,smallint,,16,0,NO,t
+m_share_account_transactions,10,type_enum,smallint,,16,0,YES,f
+m_share_account_transactions,11,is_active,boolean,,,,NO,t
+m_share_product,1,id,bigint,,64,0,NO,f
+m_share_product,2,name,character varying,200,,,NO,f
+m_share_product,3,short_name,character varying,4,,,NO,f
+m_share_product,4,external_id,character varying,100,,,YES,f
+m_share_product,5,description,character varying,500,,,NO,f
+m_share_product,6,start_date,date,,,,YES,f
+m_share_product,7,end_date,date,,,,YES,f
+m_share_product,8,currency_code,character varying,3,,,NO,f
+m_share_product,9,currency_digits,smallint,,16,0,NO,f
+m_share_product,10,currency_multiplesof,smallint,,16,0,YES,f
+m_share_product,11,total_shares,bigint,,64,0,NO,f
+m_share_product,12,issued_shares,bigint,,64,0,YES,f
+m_share_product,13,totalsubscribed_shares,bigint,,64,0,YES,f
+m_share_product,14,unit_price,numeric,,10,2,NO,f
+m_share_product,15,capital_amount,numeric,,20,2,NO,f
+m_share_product,16,minimum_client_shares,bigint,,64,0,YES,f
+m_share_product,17,nominal_client_shares,bigint,,64,0,NO,f
+m_share_product,18,maximum_client_shares,bigint,,64,0,YES,f
+m_share_product,19,minimum_active_period_frequency,numeric,,19,6,YES,t
+m_share_product,20,minimum_active_period_frequency_enum,smallint,,16,0,YES,f
+m_share_product,21,lockin_period_frequency,numeric,,19,6,YES,t
+m_share_product,22,lockin_period_frequency_enum,smallint,,16,0,YES,f
+m_share_product,23,allow_dividends_inactive_clients,boolean,,,,YES,t
+m_share_product,24,createdby_id,bigint,,64,0,YES,f
+m_share_product,25,created_date,timestamp without time zone,,,,YES,f
+m_share_product,26,lastmodifiedby_id,bigint,,64,0,YES,f
+m_share_product,27,lastmodified_date,timestamp without time zone,,,,YES,f
+m_share_product,28,accounting_type,smallint,,16,0,NO,f
+m_share_product_charge,1,product_id,bigint,,64,0,NO,f
+m_share_product_charge,2,charge_id,bigint,,64,0,NO,f
+m_share_product_dividend_pay_out,1,id,bigint,,64,0,NO,f
+m_share_product_dividend_pay_out,2,product_id,bigint,,64,0,NO,f
+m_share_product_dividend_pay_out,3,amount,numeric,,19,6,NO,f
+m_share_product_dividend_pay_out,4,dividend_period_start_date,date,,,,NO,f
+m_share_product_dividend_pay_out,5,dividend_period_end_date,date,,,,NO,f
+m_share_product_dividend_pay_out,6,status,smallint,,16,0,NO,f
+m_share_product_dividend_pay_out,7,createdby_id,bigint,,64,0,YES,f
+m_share_product_dividend_pay_out,8,created_date,timestamp without time zone,,,,YES,f
+m_share_product_dividend_pay_out,9,lastmodifiedby_id,bigint,,64,0,YES,f
+m_share_product_dividend_pay_out,10,lastmodified_date,timestamp without time zone,,,,YES,f
+m_share_product_market_price,1,id,bigint,,64,0,NO,f
+m_share_product_market_price,2,product_id,bigint,,64,0,NO,f
+m_share_product_market_price,3,from_date,date,,,,YES,f
+m_share_product_market_price,4,share_value,numeric,,10,2,NO,f
+m_staff,1,id,bigint,,64,0,NO,f
+m_staff,2,is_loan_officer,boolean,,,,NO,t
+m_staff,3,office_id,bigint,,64,0,YES,f
+m_staff,4,firstname,character varying,50,,,YES,f
+m_staff,5,lastname,character varying,50,,,YES,f
+m_staff,6,display_name,character varying,102,,,NO,f
+m_staff,7,mobile_no,character varying,50,,,YES,f
+m_staff,8,external_id,character varying,100,,,YES,f
+m_staff,9,organisational_role_enum,smallint,,16,0,YES,f
+m_staff,10,organisational_role_parent_staff_id,bigint,,64,0,YES,f
+m_staff,11,is_active,boolean,,,,NO,t
+m_staff,12,joining_date,date,,,,YES,f
+m_staff,13,image_id,bigint,,64,0,YES,f
+m_staff,14,email_address,character varying,254,,,YES,f
+m_staff_assignment_history,1,id,bigint,,64,0,NO,f
+m_staff_assignment_history,2,centre_id,bigint,,64,0,YES,f
+m_staff_assignment_history,3,staff_id,bigint,,64,0,NO,f
+m_staff_assignment_history,4,start_date,date,,,,NO,f
+m_staff_assignment_history,5,end_date,date,,,,YES,f
+m_staff_assignment_history,6,createdby_id,bigint,,64,0,YES,f
+m_staff_assignment_history,7,created_date,timestamp without time zone,,,,YES,f
+m_staff_assignment_history,8,lastmodified_date,timestamp without time zone,,,,YES,f
+m_staff_assignment_history,9,lastmodifiedby_id,bigint,,64,0,YES,f
+m_survey_components,1,id,bigint,,64,0,NO,f
+m_survey_components,2,survey_id,bigint,,64,0,NO,f
+m_survey_components,3,a_key,character varying,32,,,NO,f
+m_survey_components,4,a_text,character varying,255,,,NO,f
+m_survey_components,5,description,character varying,4000,,,YES,f
+m_survey_components,6,sequence_no,integer,,32,0,NO,f
+m_survey_lookup_tables,1,id,bigint,,64,0,NO,f
+m_survey_lookup_tables,2,survey_id,bigint,,64,0,NO,f
+m_survey_lookup_tables,3,a_key,character varying,255,,,NO,f
+m_survey_lookup_tables,4,description,integer,,32,0,YES,f
+m_survey_lookup_tables,5,value_from,integer,,32,0,NO,f
+m_survey_lookup_tables,6,value_to,integer,,32,0,NO,f
+m_survey_lookup_tables,7,score,numeric,,5,2,NO,f
+m_survey_questions,1,id,bigint,,64,0,NO,f
+m_survey_questions,2,survey_id,bigint,,64,0,NO,f
+m_survey_questions,3,component_key,character varying,32,,,YES,f
+m_survey_questions,4,a_key,character varying,32,,,NO,f
+m_survey_questions,5,a_text,character varying,255,,,NO,f
+m_survey_questions,6,description,character varying,4000,,,YES,f
+m_survey_questions,7,sequence_no,integer,,32,0,NO,f
+m_survey_responses,1,id,bigint,,64,0,NO,f
+m_survey_responses,2,question_id,bigint,,64,0,NO,f
+m_survey_responses,3,a_text,character varying,255,,,NO,f
+m_survey_responses,4,a_value,integer,,32,0,NO,f
+m_survey_responses,5,sequence_no,integer,,32,0,NO,f
+m_survey_scorecards,1,id,bigint,,64,0,NO,f
+m_survey_scorecards,2,survey_id,bigint,,64,0,NO,f
+m_survey_scorecards,3,question_id,bigint,,64,0,NO,f
+m_survey_scorecards,4,response_id,bigint,,64,0,NO,f
+m_survey_scorecards,5,user_id,bigint,,64,0,NO,f
+m_survey_scorecards,6,client_id,bigint,,64,0,NO,f
+m_survey_scorecards,7,created_on,timestamp without time zone,,,,YES,f
+m_survey_scorecards,8,a_value,integer,,32,0,NO,f
+m_surveys,1,id,bigint,,64,0,NO,f
+m_surveys,2,a_key,character varying,32,,,NO,f
+m_surveys,3,a_name,character varying,255,,,NO,f
+m_surveys,4,description,character varying,4000,,,YES,f
+m_surveys,5,country_code,character varying,2,,,NO,f
+m_surveys,6,valid_from,date,,,,YES,f
+m_surveys,7,valid_to,date,,,,YES,f
+m_tax_component,1,id,bigint,,64,0,NO,f
+m_tax_component,2,name,character varying,50,,,NO,f
+m_tax_component,3,percentage,numeric,,19,6,NO,f
+m_tax_component,4,debit_account_type_enum,smallint,,16,0,YES,f
+m_tax_component,5,debit_account_id,bigint,,64,0,YES,f
+m_tax_component,6,credit_account_type_enum,smallint,,16,0,YES,f
+m_tax_component,7,credit_account_id,bigint,,64,0,YES,f
+m_tax_component,8,start_date,date,,,,NO,f
+m_tax_component,9,createdby_id,bigint,,64,0,NO,f
+m_tax_component,10,created_date,timestamp without time zone,,,,NO,f
+m_tax_component,11,lastmodifiedby_id,bigint,,64,0,NO,f
+m_tax_component,12,lastmodified_date,timestamp without time zone,,,,NO,f
+m_tax_component_history,1,id,bigint,,64,0,NO,f
+m_tax_component_history,2,tax_component_id,bigint,,64,0,NO,f
+m_tax_component_history,3,percentage,numeric,,19,6,NO,f
+m_tax_component_history,4,start_date,date,,,,NO,f
+m_tax_component_history,5,end_date,date,,,,NO,f
+m_tax_component_history,6,createdby_id,bigint,,64,0,NO,f
+m_tax_component_history,7,created_date,timestamp without time zone,,,,NO,f
+m_tax_component_history,8,lastmodifiedby_id,bigint,,64,0,NO,f
+m_tax_component_history,9,lastmodified_date,timestamp without time zone,,,,NO,f
+m_tax_group,1,id,bigint,,64,0,NO,f
+m_tax_group,2,name,character varying,50,,,NO,f
+m_tax_group,3,createdby_id,bigint,,64,0,NO,f
+m_tax_group,4,created_date,timestamp without time zone,,,,NO,f
+m_tax_group,5,lastmodifiedby_id,bigint,,64,0,NO,f
+m_tax_group,6,lastmodified_date,timestamp without time zone,,,,NO,f
+m_tax_group_mappings,1,id,bigint,,64,0,NO,f
+m_tax_group_mappings,2,tax_group_id,bigint,,64,0,NO,f
+m_tax_group_mappings,3,tax_component_id,bigint,,64,0,NO,f
+m_tax_group_mappings,4,start_date,date,,,,NO,f
+m_tax_group_mappings,5,end_date,date,,,,YES,f
+m_tax_group_mappings,6,createdby_id,bigint,,64,0,NO,f
+m_tax_group_mappings,7,created_date,timestamp without time zone,,,,NO,f
+m_tax_group_mappings,8,lastmodifiedby_id,bigint,,64,0,NO,f
+m_tax_group_mappings,9,lastmodified_date,timestamp without time zone,,,,NO,f
+m_tellers,1,id,bigint,,64,0,NO,f
+m_tellers,2,office_id,bigint,,64,0,NO,f
+m_tellers,3,debit_account_id,bigint,,64,0,YES,f
+m_tellers,4,credit_account_id,bigint,,64,0,YES,f
+m_tellers,5,name,character varying,50,,,NO,f
+m_tellers,6,description,character varying,100,,,YES,f
+m_tellers,7,valid_from,date,,,,YES,f
+m_tellers,8,valid_to,date,,,,YES,f
+m_tellers,9,state,smallint,,16,0,YES,f
+m_template,1,id,bigint,,64,0,NO,f
+m_template,2,name,character varying,255,,,NO,f
+m_template,3,text,text,,,,NO,f
+m_template,4,entity,integer,,32,0,YES,f
+m_template,5,type,integer,,32,0,YES,f
+m_template_m_templatemappers,1,m_template_id,bigint,,64,0,NO,f
+m_template_m_templatemappers,2,mappers_id,bigint,,64,0,NO,f
+m_templatemappers,1,id,bigint,,64,0,NO,f
+m_templatemappers,2,mapperkey,character varying,255,,,YES,f
+m_templatemappers,3,mapperorder,integer,,32,0,YES,f
+m_templatemappers,4,mappervalue,character varying,255,,,YES,f
+m_trial_balance,1,office_id,bigint,,64,0,NO,f
+m_trial_balance,2,account_id,bigint,,64,0,NO,f
+m_trial_balance,3,amount,numeric,,19,6,NO,f
+m_trial_balance,4,entry_date,date,,,,NO,f
+m_trial_balance,5,created_date,date,,,,YES,f
+m_trial_balance,6,closing_balance,numeric,,19,6,NO,f
+m_wc_breach_configuration,1,id,bigint,,64,0,NO,f
+m_wc_breach_configuration,2,name,character varying,100,,,NO,f
+m_wc_breach_configuration,3,breach_frequency,integer,,32,0,YES,f
+m_wc_breach_configuration,4,breach_frequency_type,character varying,50,,,YES,f
+m_wc_breach_configuration,5,breach_amount_calculation_type,character varying,50,,,YES,f
+m_wc_breach_configuration,6,breach_amount,numeric,,19,6,YES,f
+m_wc_delinquency_configuration,1,id,bigint,,64,0,NO,f
+m_wc_delinquency_configuration,2,created_by,bigint,,64,0,NO,f
+m_wc_delinquency_configuration,3,last_modified_by,bigint,,64,0,NO,f
+m_wc_delinquency_configuration,4,bucket_id,bigint,,64,0,NO,f
+m_wc_delinquency_configuration,5,frequency,integer,,32,0,NO,f
+m_wc_delinquency_configuration,6,frequency_type,character varying,50,,,NO,f
+m_wc_delinquency_configuration,7,minimum_payment,numeric,,19,6,NO,f
+m_wc_delinquency_configuration,8,minimum_payment_type,character varying,50,,,NO,f
+m_wc_delinquency_configuration,9,created_on_utc,timestamp with time zone,,,,YES,f
+m_wc_delinquency_configuration,10,last_modified_on_utc,timestamp with time zone,,,,YES,f
+m_wc_loan,1,id,bigint,,64,0,NO,f
+m_wc_loan,2,version,integer,,32,0,NO,f
+m_wc_loan,3,created_by,bigint,,64,0,NO,f
+m_wc_loan,4,last_modified_by,bigint,,64,0,NO,f
+m_wc_loan,5,created_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan,6,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan,7,loan_status_id,smallint,,16,0,NO,t
+m_wc_loan,8,last_closed_business_date,date,,,,YES,f
+m_wc_loan,9,account_no,character varying,20,,,YES,f
+m_wc_loan,10,external_id,character varying,100,,,YES,f
+m_wc_loan,11,disbursedon_date,date,,,,YES,f
+m_wc_loan,12,client_id,bigint,,64,0,YES,f
+m_wc_loan,13,fund_id,bigint,,64,0,YES,f
+m_wc_loan,14,product_id,bigint,,64,0,NO,f
+m_wc_loan,15,submittedon_date,date,,,,YES,f
+m_wc_loan,16,rejectedon_date,date,,,,YES,f
+m_wc_loan,17,rejectedon_userid,bigint,,64,0,YES,f
+m_wc_loan,18,approvedon_date,date,,,,YES,f
+m_wc_loan,19,approvedon_userid,bigint,,64,0,YES,f
+m_wc_loan,20,closedon_date,date,,,,YES,f
+m_wc_loan,21,closedon_userid,bigint,,64,0,YES,f
+m_wc_loan,22,expected_maturedon_date,date,,,,YES,f
+m_wc_loan,23,maturedon_date,date,,,,YES,f
+m_wc_loan,24,principal_amount_proposed,numeric,,19,6,NO,f
+m_wc_loan,25,approved_principal,numeric,,19,6,NO,f
+m_wc_loan,26,currency_code,character varying,3,,,YES,t
+m_wc_loan,27,currency_digits,smallint,,16,0,YES,f
+m_wc_loan,28,currency_multiplesof,smallint,,16,0,YES,f
+m_wc_loan,29,principal_amount,numeric,,19,6,YES,t
+m_wc_loan,30,period_payment_rate,numeric,,19,6,YES,t
+m_wc_loan,31,repayment_every,integer,,32,0,YES,f
+m_wc_loan,32,repayment_frequency_enum,character varying,50,,,YES,t
+m_wc_loan,33,amortization_type,character varying,50,,,YES,t
+m_wc_loan,34,npv_day_count,integer,,32,0,YES,f
+m_wc_loan,35,discount,numeric,,19,6,YES,t
+m_wc_loan,36,delinquency_bucket_classification_id,bigint,,64,0,YES,f
+m_wc_loan,37,loan_counter,integer,,32,0,YES,f
+m_wc_loan,38,loan_product_counter,integer,,32,0,YES,f
+m_wc_loan,39,delinquency_grace_days,integer,,32,0,YES,f
+m_wc_loan,40,delinquency_start_type,character varying,20,,,YES,f
+m_wc_loan,41,wc_loan_product_id,bigint,,64,0,YES,f
+m_wc_loan,42,breach_id,bigint,,64,0,YES,f
+m_wc_loan,43,near_breach_id,bigint,,64,0,YES,f
+m_wc_loan,44,discount_proposed,numeric,,19,6,YES,f
+m_wc_loan,45,discount_approved,numeric,,19,6,YES,f
+m_wc_loan,46,total_payment_volume,numeric,,19,6,YES,f
+m_wc_loan,47,breach_grace_days,integer,,32,0,YES,f
+m_wc_loan,48,breach_start_type,character varying,20,,,YES,f
+m_wc_loan,49,is_charged_off,boolean,,,,NO,t
+m_wc_loan,50,charged_off_on_date,date,,,,YES,f
+m_wc_loan,51,charge_off_reason_cv_id,integer,,32,0,YES,f
+m_wc_loan,52,charged_off_by_userid,bigint,,64,0,YES,f
+m_wc_loan,53,is_fraud,boolean,,,,NO,t
+m_wc_loan,54,written_off_on_date,date,,,,YES,f
+m_wc_loan,55,write_off_reason_cv_id,integer,,32,0,YES,f
+m_wc_loan,56,overpaid_on_date,date,,,,YES,f
+m_wc_loan,57,payment_amount_calculation_strategy,character varying,20,,,NO,t
+m_wc_loan,58,annual_eir,numeric,,19,6,YES,f
+m_wc_loan,59,payment_amount,numeric,,19,6,YES,f
+m_wc_loan_account_locks,1,loan_id,bigint,,64,0,NO,f
+m_wc_loan_account_locks,2,version,bigint,,64,0,YES,f
+m_wc_loan_account_locks,3,lock_owner,character varying,100,,,NO,f
+m_wc_loan_account_locks,4,lock_placed_on,timestamp without time zone,,,,NO,f
+m_wc_loan_account_locks,5,error,character varying,255,,,YES,f
+m_wc_loan_account_locks,6,stacktrace,text,,,,YES,f
+m_wc_loan_account_locks,7,lock_placed_on_cob_business_date,date,,,,YES,f
+m_wc_loan_amortization_model,1,id,bigint,,64,0,NO,f
+m_wc_loan_amortization_model,2,version,integer,,32,0,NO,f
+m_wc_loan_amortization_model,3,loan_id,bigint,,64,0,NO,f
+m_wc_loan_amortization_model,4,json_model,text,,,,NO,f
+m_wc_loan_amortization_model,5,business_date,date,,,,NO,f
+m_wc_loan_amortization_model,6,json_model_version,character varying,10,,,NO,f
+m_wc_loan_amortization_model,7,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_balance,1,id,bigint,,64,0,NO,f
+m_wc_loan_balance,2,wc_loan_id,bigint,,64,0,NO,f
+m_wc_loan_balance,4,principal_paid,numeric,,19,6,NO,f
+m_wc_loan_balance,6,realized_income_from_discount_fee,numeric,,19,6,NO,f
+m_wc_loan_balance,8,version,integer,,32,0,NO,f
+m_wc_loan_balance,9,created_by,bigint,,64,0,NO,f
+m_wc_loan_balance,10,last_modified_by,bigint,,64,0,NO,f
+m_wc_loan_balance,11,created_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_balance,12,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_balance,13,overpayment_amount,numeric,,19,6,NO,t
+m_wc_loan_balance,14,principal,numeric,,19,6,NO,t
+m_wc_loan_balance,15,fee,numeric,,19,6,NO,t
+m_wc_loan_balance,16,fee_paid,numeric,,19,6,NO,t
+m_wc_loan_balance,17,penalty,numeric,,19,6,NO,t
+m_wc_loan_balance,18,penalty_paid,numeric,,19,6,NO,t
+m_wc_loan_balance,19,total_disbursement,numeric,,19,6,NO,t
+m_wc_loan_balance,20,total_discount_fee,numeric,,19,6,NO,t
+m_wc_loan_balance,21,total_discount_fee_adjustment,numeric,,19,6,NO,t
+m_wc_loan_balance,22,breach_pastdue_amount,numeric,,19,6,NO,t
+m_wc_loan_balance,23,principal_adjustment,numeric,,19,6,NO,t
+m_wc_loan_balance,24,principal_written_off,numeric,,19,6,NO,t
+m_wc_loan_balance,25,fee_written_off,numeric,,19,6,NO,t
+m_wc_loan_balance,26,penalty_written_off,numeric,,19,6,NO,t
+m_wc_loan_balance,27,total_recovered,numeric,,19,6,NO,t
+m_wc_loan_balance,28,fee_waived,numeric,,19,6,NO,t
+m_wc_loan_balance,29,penalty_waived,numeric,,19,6,NO,t
+m_wc_loan_breach_action,1,id,bigint,,64,0,NO,f
+m_wc_loan_breach_action,2,wc_loan_id,bigint,,64,0,NO,f
+m_wc_loan_breach_action,3,action,character varying,128,,,NO,f
+m_wc_loan_breach_action,4,start_date,date,,,,NO,f
+m_wc_loan_breach_action,5,end_date,date,,,,YES,f
+m_wc_loan_breach_action,6,created_by,bigint,,64,0,NO,f
+m_wc_loan_breach_action,7,last_modified_by,bigint,,64,0,NO,f
+m_wc_loan_breach_action,8,created_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_breach_action,9,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_breach_action,10,minimum_payment,numeric,,19,6,YES,f
+m_wc_loan_breach_action,11,minimum_payment_type,character varying,50,,,YES,f
+m_wc_loan_breach_action,12,frequency,integer,,32,0,YES,f
+m_wc_loan_breach_action,13,frequency_type,character varying,50,,,YES,f
+m_wc_loan_breach_action,14,restart_period_from_reset_date,boolean,,,,YES,f
+m_wc_loan_breach_schedule,1,id,bigint,,64,0,NO,f
+m_wc_loan_breach_schedule,2,wc_loan_id,bigint,,64,0,NO,f
+m_wc_loan_breach_schedule,3,period_number,integer,,32,0,NO,f
+m_wc_loan_breach_schedule,4,from_date,date,,,,NO,f
+m_wc_loan_breach_schedule,5,to_date,date,,,,NO,f
+m_wc_loan_breach_schedule,6,number_of_days,integer,,32,0,YES,f
+m_wc_loan_breach_schedule,7,min_payment_amount,numeric,,19,6,YES,f
+m_wc_loan_breach_schedule,8,paid_amount,numeric,,19,6,YES,f
+m_wc_loan_breach_schedule,9,outstanding_amount,numeric,,19,6,YES,f
+m_wc_loan_breach_schedule,10,near_breach,boolean,,,,YES,f
+m_wc_loan_breach_schedule,11,breach,boolean,,,,YES,f
+m_wc_loan_breach_schedule,12,created_by,bigint,,64,0,NO,f
+m_wc_loan_breach_schedule,13,last_modified_by,bigint,,64,0,NO,f
+m_wc_loan_breach_schedule,14,created_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_breach_schedule,15,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_breach_schedule,16,reset,boolean,,,,NO,t
+m_wc_loan_breach_schedule,17,base_min_payment_amount,numeric,,19,6,YES,f
+m_wc_loan_charge,1,id,bigint,,64,0,NO,f
+m_wc_loan_charge,2,loan_id,bigint,,64,0,NO,f
+m_wc_loan_charge,3,charge_id,bigint,,64,0,NO,f
+m_wc_loan_charge,4,is_penalty,boolean,,,,NO,t
+m_wc_loan_charge,5,charge_time_type,smallint,,16,0,NO,f
+m_wc_loan_charge,6,charge_calculation_type,smallint,,16,0,NO,f
+m_wc_loan_charge,7,charge_payment_mode,smallint,,16,0,NO,t
+m_wc_loan_charge,9,amount_paid,numeric,,19,6,YES,t
+m_wc_loan_charge,10,amount,numeric,,19,6,YES,t
+m_wc_loan_charge,11,is_paid,boolean,,,,NO,t
+m_wc_loan_charge,12,is_active,boolean,,,,NO,t
+m_wc_loan_charge,13,due_date,date,,,,YES,f
+m_wc_loan_charge,14,created_by,bigint,,64,0,NO,f
+m_wc_loan_charge,15,last_modified_by,bigint,,64,0,NO,f
+m_wc_loan_charge,16,external_id,character varying,100,,,YES,f
+m_wc_loan_charge,17,submitted_on_date,date,,,,NO,f
+m_wc_loan_charge,18,created_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_charge,19,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_charge,20,amount_written_off,numeric,,19,6,NO,t
+m_wc_loan_charge,21,amount_waived,numeric,,19,6,NO,t
+m_wc_loan_charge_paid_by,1,id,bigint,,64,0,NO,f
+m_wc_loan_charge_paid_by,2,wc_loan_transaction_id,bigint,,64,0,NO,f
+m_wc_loan_charge_paid_by,3,wc_loan_charge_id,bigint,,64,0,NO,f
+m_wc_loan_charge_paid_by,4,amount,numeric,,19,6,NO,f
+m_wc_loan_delinquency_action,1,id,bigint,,64,0,NO,f
+m_wc_loan_delinquency_action,2,wc_loan_id,bigint,,64,0,NO,f
+m_wc_loan_delinquency_action,3,action,character varying,128,,,NO,f
+m_wc_loan_delinquency_action,4,start_date,date,,,,NO,f
+m_wc_loan_delinquency_action,5,end_date,date,,,,YES,f
+m_wc_loan_delinquency_action,6,created_by,bigint,,64,0,NO,f
+m_wc_loan_delinquency_action,7,last_modified_by,bigint,,64,0,NO,f
+m_wc_loan_delinquency_action,8,created_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_delinquency_action,9,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_delinquency_action,10,minimum_payment,numeric,,19,6,YES,f
+m_wc_loan_delinquency_action,11,minimum_payment_type,character varying,50,,,YES,f
+m_wc_loan_delinquency_action,12,frequency,integer,,32,0,YES,f
+m_wc_loan_delinquency_action,13,frequency_type,character varying,50,,,YES,f
+m_wc_loan_delinquency_action,14,start_new_period,boolean,,,,YES,f
+m_wc_loan_delinquency_range_schedule,1,id,bigint,,64,0,NO,f
+m_wc_loan_delinquency_range_schedule,2,wc_loan_id,bigint,,64,0,NO,f
+m_wc_loan_delinquency_range_schedule,3,period_number,integer,,32,0,NO,f
+m_wc_loan_delinquency_range_schedule,4,from_date,date,,,,NO,f
+m_wc_loan_delinquency_range_schedule,5,to_date,date,,,,NO,f
+m_wc_loan_delinquency_range_schedule,6,expected_amount,numeric,,19,6,YES,f
+m_wc_loan_delinquency_range_schedule,7,paid_amount,numeric,,19,6,YES,f
+m_wc_loan_delinquency_range_schedule,8,outstanding_amount,numeric,,19,6,YES,f
+m_wc_loan_delinquency_range_schedule,9,min_payment_criteria_met,boolean,,,,YES,f
+m_wc_loan_delinquency_range_schedule,10,created_by,bigint,,64,0,NO,f
+m_wc_loan_delinquency_range_schedule,11,last_modified_by,bigint,,64,0,NO,f
+m_wc_loan_delinquency_range_schedule,12,created_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_delinquency_range_schedule,13,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_delinquency_range_schedule,14,delinquent_days,bigint,,64,0,YES,f
+m_wc_loan_delinquency_range_schedule,15,delinquent_amount,numeric,,19,6,YES,f
+m_wc_loan_delinquency_range_schedule,16,version,integer,,32,0,NO,t
+m_wc_loan_delinquency_range_schedule,17,base_expected_amount,numeric,,19,6,YES,f
+m_wc_loan_delinquency_range_schedule,18,reset,boolean,,,,NO,t
+m_wc_loan_disbursement_detail,1,id,bigint,,64,0,NO,f
+m_wc_loan_disbursement_detail,2,wc_loan_id,bigint,,64,0,NO,f
+m_wc_loan_disbursement_detail,3,expected_disburse_date,date,,,,YES,f
+m_wc_loan_disbursement_detail,4,expected_amount,numeric,,19,6,YES,f
+m_wc_loan_disbursement_detail,5,expected_maturity_date,date,,,,YES,f
+m_wc_loan_disbursement_detail,6,actual_disburse_date,date,,,,YES,f
+m_wc_loan_disbursement_detail,7,actual_amount,numeric,,19,6,YES,f
+m_wc_loan_disbursement_detail,8,disbursedon_userid,bigint,,64,0,YES,f
+m_wc_loan_near_breach_action,1,id,bigint,,64,0,NO,f
+m_wc_loan_near_breach_action,2,wc_loan_id,bigint,,64,0,NO,f
+m_wc_loan_near_breach_action,3,action,character varying,50,,,NO,f
+m_wc_loan_near_breach_action,4,threshold,numeric,,19,6,YES,f
+m_wc_loan_near_breach_action,5,frequency,integer,,32,0,YES,f
+m_wc_loan_near_breach_action,6,frequency_type,character varying,50,,,YES,f
+m_wc_loan_near_breach_action,7,created_by,bigint,,64,0,NO,f
+m_wc_loan_near_breach_action,8,last_modified_by,bigint,,64,0,NO,f
+m_wc_loan_near_breach_action,9,created_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_near_breach_action,10,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_near_breach_action,11,submitted_on_date,date,,,,NO,t
+m_wc_loan_note,1,id,bigint,,64,0,NO,f
+m_wc_loan_note,2,wc_loan_id,bigint,,64,0,NO,f
+m_wc_loan_note,3,note,character varying,1000,,,YES,f
+m_wc_loan_note,4,created_by,bigint,,64,0,NO,f
+m_wc_loan_note,5,last_modified_by,bigint,,64,0,NO,f
+m_wc_loan_note,6,created_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_note,7,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_originator_mapping,1,id,bigint,,64,0,NO,f
+m_wc_loan_originator_mapping,2,loan_id,bigint,,64,0,NO,f
+m_wc_loan_originator_mapping,3,originator_id,bigint,,64,0,NO,f
+m_wc_loan_originator_mapping,4,created_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_originator_mapping,5,created_by,bigint,,64,0,NO,f
+m_wc_loan_originator_mapping,6,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_originator_mapping,7,last_modified_by,bigint,,64,0,NO,f
+m_wc_loan_payment_allocation_rule,1,id,bigint,,64,0,NO,f
+m_wc_loan_payment_allocation_rule,2,wc_loan_id,bigint,,64,0,NO,f
+m_wc_loan_payment_allocation_rule,3,transaction_type,character varying,255,,,NO,f
+m_wc_loan_payment_allocation_rule,4,allocation_types,text,,,,NO,f
+m_wc_loan_payment_allocation_rule,5,created_by,bigint,,64,0,NO,f
+m_wc_loan_payment_allocation_rule,6,last_modified_by,bigint,,64,0,NO,f
+m_wc_loan_payment_allocation_rule,7,created_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_payment_allocation_rule,8,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_period_payment_rate_change,1,id,bigint,,64,0,NO,f
+m_wc_loan_period_payment_rate_change,2,wc_loan_id,bigint,,64,0,NO,f
+m_wc_loan_period_payment_rate_change,3,effective_date,date,,,,NO,f
+m_wc_loan_period_payment_rate_change,4,previous_rate,numeric,,19,6,NO,f
+m_wc_loan_period_payment_rate_change,5,new_rate,numeric,,19,6,NO,f
+m_wc_loan_period_payment_rate_change,6,is_reversed,boolean,,,,NO,t
+m_wc_loan_period_payment_rate_change,7,reversed_on_date,date,,,,YES,f
+m_wc_loan_period_payment_rate_change,8,created_by,bigint,,64,0,NO,f
+m_wc_loan_period_payment_rate_change,9,last_modified_by,bigint,,64,0,NO,f
+m_wc_loan_period_payment_rate_change,10,version,integer,,32,0,NO,t
+m_wc_loan_period_payment_rate_change,11,created_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_period_payment_rate_change,12,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_period_payment_rate_change,13,submitted_on_date,date,,,,NO,t
+m_wc_loan_period_payment_rate_change,14,calculated_annual_eir,numeric,,19,6,YES,f
+m_wc_loan_period_payment_rate_change,15,daily_payment_amount,numeric,,19,6,YES,f
+m_wc_loan_period_payment_rate_change,16,segment_term,integer,,32,0,YES,f
+m_wc_loan_product,1,id,bigint,,64,0,NO,f
+m_wc_loan_product,2,name,character varying,100,,,NO,f
+m_wc_loan_product,3,short_name,character varying,4,,,NO,f
+m_wc_loan_product,4,external_id,character varying,100,,,YES,f
+m_wc_loan_product,5,fund_id,bigint,,64,0,YES,f
+m_wc_loan_product,6,start_date,date,,,,YES,f
+m_wc_loan_product,7,close_date,date,,,,YES,f
+m_wc_loan_product,8,description,character varying,500,,,YES,f
+m_wc_loan_product,9,currency_code,character varying,3,,,NO,f
+m_wc_loan_product,10,currency_digits,smallint,,16,0,NO,f
+m_wc_loan_product,11,currency_multiplesof,smallint,,16,0,YES,f
+m_wc_loan_product,12,amortization_type,character varying,50,,,NO,f
+m_wc_loan_product,14,delinquency_bucket_classification_id,bigint,,64,0,YES,f
+m_wc_loan_product,15,npv_day_count,integer,,32,0,NO,f
+m_wc_loan_product,16,min_principal_amount,numeric,,19,6,YES,t
+m_wc_loan_product,17,principal_amount,numeric,,19,6,NO,f
+m_wc_loan_product,18,max_principal_amount,numeric,,19,6,YES,t
+m_wc_loan_product,19,min_period_payment_rate,numeric,,19,6,YES,t
+m_wc_loan_product,20,period_payment_rate,numeric,,19,6,YES,f
+m_wc_loan_product,21,max_period_payment_rate,numeric,,19,6,YES,t
+m_wc_loan_product,22,discount,numeric,,19,6,YES,t
+m_wc_loan_product,23,repayment_every,integer,,32,0,NO,f
+m_wc_loan_product,24,repayment_frequency_enum,character varying,50,,,NO,f
+m_wc_loan_product,25,delinquency_grace_days,integer,,32,0,YES,f
+m_wc_loan_product,26,delinquency_start_type,character varying,20,,,YES,f
+m_wc_loan_product,27,breach_id,bigint,,64,0,YES,f
+m_wc_loan_product,28,accounting_type,character varying,20,,,NO,t
+m_wc_loan_product,29,near_breach_id,bigint,,64,0,YES,f
+m_wc_loan_product,30,breach_grace_days,integer,,32,0,YES,f
+m_wc_loan_product,31,breach_start_type,character varying,20,,,YES,f
+m_wc_loan_product,32,payment_amount_calculation_strategy,character varying,20,,,NO,t
+m_wc_loan_product,33,annual_eir,numeric,,19,6,YES,f
+m_wc_loan_product,34,min_annual_eir,numeric,,19,6,YES,f
+m_wc_loan_product,35,max_annual_eir,numeric,,19,6,YES,f
+m_wc_loan_product,36,payment_amount,numeric,,19,6,YES,f
+m_wc_loan_product,37,min_payment_amount,numeric,,19,6,YES,f
+m_wc_loan_product,38,max_payment_amount,numeric,,19,6,YES,f
+m_wc_loan_product_configurable_attributes,1,id,bigint,,64,0,NO,f
+m_wc_loan_product_configurable_attributes,2,wc_loan_product_id,bigint,,64,0,NO,f
+m_wc_loan_product_configurable_attributes,4,delinquency_bucket_classification_overridable,boolean,,,,YES,t
+m_wc_loan_product_configurable_attributes,5,discount_default_overridable,boolean,,,,YES,t
+m_wc_loan_product_configurable_attributes,6,period_payment_frequency_overridable,boolean,,,,YES,t
+m_wc_loan_product_configurable_attributes,7,period_payment_frequency_type_overridable,boolean,,,,YES,t
+m_wc_loan_product_configurable_attributes,8,breach_overridable,boolean,,,,YES,t
+m_wc_loan_product_payment_allocation_rule,1,id,bigint,,64,0,NO,f
+m_wc_loan_product_payment_allocation_rule,2,wc_loan_product_id,bigint,,64,0,NO,f
+m_wc_loan_product_payment_allocation_rule,3,transaction_type,character varying,255,,,NO,f
+m_wc_loan_product_payment_allocation_rule,4,allocation_types,text,,,,NO,f
+m_wc_loan_product_payment_allocation_rule,5,created_by,bigint,,64,0,NO,f
+m_wc_loan_product_payment_allocation_rule,6,last_modified_by,bigint,,64,0,NO,f
+m_wc_loan_product_payment_allocation_rule,7,created_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_product_payment_allocation_rule,8,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_range_delinquency_tag,1,id,bigint,,64,0,NO,f
+m_wc_loan_range_delinquency_tag,2,created_by,bigint,,64,0,NO,f
+m_wc_loan_range_delinquency_tag,3,last_modified_by,bigint,,64,0,NO,f
+m_wc_loan_range_delinquency_tag,4,delinquency_range_id,bigint,,64,0,NO,f
+m_wc_loan_range_delinquency_tag,5,loan_id,bigint,,64,0,NO,f
+m_wc_loan_range_delinquency_tag,6,range_id,bigint,,64,0,NO,f
+m_wc_loan_range_delinquency_tag,7,addedon_date,date,,,,NO,f
+m_wc_loan_range_delinquency_tag,8,liftedon_date,date,,,,YES,f
+m_wc_loan_range_delinquency_tag,9,outstanding_amount,numeric,,19,6,YES,f
+m_wc_loan_range_delinquency_tag,10,version,bigint,,64,0,YES,f
+m_wc_loan_range_delinquency_tag,11,created_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_range_delinquency_tag,12,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_transaction,1,id,bigint,,64,0,NO,f
+m_wc_loan_transaction,2,wc_loan_id,bigint,,64,0,NO,f
+m_wc_loan_transaction,3,payment_detail_id,bigint,,64,0,YES,f
+m_wc_loan_transaction,4,classification_cv_id,integer,,32,0,YES,f
+m_wc_loan_transaction,5,external_id,character varying,100,,,YES,f
+m_wc_loan_transaction,6,transaction_type_id,smallint,,16,0,NO,f
+m_wc_loan_transaction,7,transaction_date,date,,,,NO,f
+m_wc_loan_transaction,8,submitted_on_date,date,,,,NO,f
+m_wc_loan_transaction,9,transaction_amount,numeric,,19,6,NO,f
+m_wc_loan_transaction,10,version,smallint,,16,0,NO,t
+m_wc_loan_transaction,11,created_by,bigint,,64,0,NO,f
+m_wc_loan_transaction,12,last_modified_by,bigint,,64,0,NO,f
+m_wc_loan_transaction,13,created_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_transaction,14,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_transaction,15,is_reversed,boolean,,,,NO,t
+m_wc_loan_transaction,16,reversal_external_id,character varying,100,,,YES,f
+m_wc_loan_transaction,17,reversed_on_date,date,,,,YES,f
+m_wc_loan_transaction_allocation,1,id,bigint,,64,0,NO,f
+m_wc_loan_transaction_allocation,2,wc_loan_transaction_id,bigint,,64,0,NO,f
+m_wc_loan_transaction_allocation,3,principal_portion,numeric,,19,6,YES,f
+m_wc_loan_transaction_allocation,4,fee_charges_portion,numeric,,19,6,YES,f
+m_wc_loan_transaction_allocation,5,penalty_charges_portion,numeric,,19,6,YES,f
+m_wc_loan_transaction_allocation,6,version,smallint,,16,0,NO,t
+m_wc_loan_transaction_allocation,7,created_by,bigint,,64,0,NO,f
+m_wc_loan_transaction_allocation,8,last_modified_by,bigint,,64,0,NO,f
+m_wc_loan_transaction_allocation,9,created_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_transaction_allocation,10,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_transaction_allocation,11,overpayment_portion,numeric,,19,6,NO,t
+m_wc_loan_transaction_relation,1,id,bigint,,64,0,NO,f
+m_wc_loan_transaction_relation,2,created_by,bigint,,64,0,NO,f
+m_wc_loan_transaction_relation,3,last_modified_by,bigint,,64,0,NO,f
+m_wc_loan_transaction_relation,4,from_loan_transaction_id,bigint,,64,0,NO,f
+m_wc_loan_transaction_relation,5,to_loan_transaction_id,bigint,,64,0,YES,f
+m_wc_loan_transaction_relation,6,relation_type_enum,smallint,,16,0,NO,f
+m_wc_loan_transaction_relation,7,created_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_transaction_relation,8,last_modified_on_utc,timestamp with time zone,,,,NO,f
+m_wc_loan_transaction_relation,9,to_loan_charge_id,bigint,,64,0,YES,f
+m_wc_near_breach,1,id,bigint,,64,0,NO,f
+m_wc_near_breach,2,near_breach_name,character varying,100,,,NO,f
+m_wc_near_breach,3,near_breach_frequency,integer,,32,0,NO,f
+m_wc_near_breach,4,near_breach_frequency_type,character varying,50,,,NO,f
+m_wc_near_breach,5,near_breach_threshold,numeric,,19,6,NO,f
+m_working_days,1,id,bigint,,64,0,NO,f
+m_working_days,2,recurrence,character varying,100,,,YES,f
+m_working_days,3,repayment_rescheduling_enum,smallint,,16,0,YES,f
+m_working_days,4,extend_term_daily_repayments,boolean,,,,YES,t
+m_working_days,5,extend_term_holiday_repayment,boolean,,,,NO,t
+notification_generator,1,id,bigint,,64,0,NO,f
+notification_generator,2,object_type,text,,,,YES,f
+notification_generator,3,object_identifier,bigint,,64,0,YES,f
+notification_generator,4,action,text,,,,YES,f
+notification_generator,5,actor,bigint,,64,0,YES,f
+notification_generator,6,is_system_generated,boolean,,,,YES,t
+notification_generator,7,notification_content,text,,,,YES,f
+notification_generator,8,created_at,timestamp without time zone,,,,YES,f
+notification_mapper,1,id,bigint,,64,0,NO,f
+notification_mapper,2,notification_id,bigint,,64,0,YES,f
+notification_mapper,3,user_id,bigint,,64,0,YES,f
+notification_mapper,4,is_read,boolean,,,,YES,t
+notification_mapper,5,created_at,timestamp without time zone,,,,YES,f
+oauth_access_token,1,token_id,character varying,256,,,YES,f
+oauth_access_token,2,token,oid,,,,YES,f
+oauth_access_token,3,authentication_id,character varying,256,,,YES,f
+oauth_access_token,4,user_name,character varying,256,,,YES,f
+oauth_access_token,5,client_id,character varying,256,,,YES,f
+oauth_access_token,6,authentication,oid,,,,YES,f
+oauth_access_token,7,refresh_token,character varying,256,,,YES,f
+oauth_client_details,1,client_id,character varying,128,,,NO,f
+oauth_client_details,2,resource_ids,character varying,256,,,YES,f
+oauth_client_details,3,client_secret,character varying,256,,,YES,f
+oauth_client_details,4,scope,character varying,256,,,YES,f
+oauth_client_details,5,authorized_grant_types,character varying,256,,,YES,f
+oauth_client_details,6,web_server_redirect_uri,character varying,256,,,YES,f
+oauth_client_details,7,authorities,character varying,256,,,YES,f
+oauth_client_details,8,access_token_validity,integer,,32,0,YES,f
+oauth_client_details,9,refresh_token_validity,integer,,32,0,YES,f
+oauth_client_details,10,additional_information,character varying,4096,,,YES,f
+oauth_client_details,11,autoapprove,boolean,,,,YES,t
+oauth_refresh_token,1,token_id,character varying,256,,,YES,f
+oauth_refresh_token,2,token,oid,,,,YES,f
+oauth_refresh_token,3,authentication,oid,,,,YES,f
+ppi_likelihoods,1,id,bigint,,64,0,NO,f
+ppi_likelihoods,2,code,character varying,100,,,NO,f
+ppi_likelihoods,3,name,character varying,250,,,NO,f
+ppi_likelihoods_ppi,1,id,bigint,,64,0,NO,f
+ppi_likelihoods_ppi,2,likelihood_id,bigint,,64,0,NO,f
+ppi_likelihoods_ppi,3,ppi_name,character varying,250,,,NO,f
+ppi_likelihoods_ppi,4,enabled,integer,,32,0,NO,t
+ppi_scores,1,id,bigint,,64,0,NO,f
+ppi_scores,2,score_from,integer,,32,0,NO,f
+ppi_scores,3,score_to,integer,,32,0,NO,f
+r_enum_value,1,enum_name,character varying,100,,,NO,f
+r_enum_value,2,enum_id,integer,,32,0,NO,f
+r_enum_value,3,enum_message_property,character varying,100,,,NO,f
+r_enum_value,4,enum_value,character varying,100,,,NO,f
+r_enum_value,5,enum_type,boolean,,,,NO,f
+ref_loan_transaction_processing_strategy,1,id,bigint,,64,0,NO,f
+ref_loan_transaction_processing_strategy,2,code,character varying,100,,,YES,f
+ref_loan_transaction_processing_strategy,3,name,character varying,255,,,YES,f
+ref_loan_transaction_processing_strategy,4,sort_order,integer,,32,0,YES,f
+rpt_sequence,1,id,integer,,32,0,NO,f
+scheduled_email_campaign,1,id,bigint,,64,0,NO,f
+scheduled_email_campaign,2,campaign_name,character varying,100,,,NO,f
+scheduled_email_campaign,3,campaign_type,integer,,32,0,NO,f
+scheduled_email_campaign,4,business_rule_id,integer,,32,0,NO,f
+scheduled_email_campaign,5,param_value,text,,,,YES,f
+scheduled_email_campaign,6,status_enum,integer,,32,0,NO,f
+scheduled_email_campaign,7,email_subject,character varying,100,,,NO,f
+scheduled_email_campaign,8,email_message,text,,,,NO,f
+scheduled_email_campaign,9,email_attachment_file_format,character varying,10,,,YES,f
+scheduled_email_campaign,10,stretchy_report_id,integer,,32,0,YES,f
+scheduled_email_campaign,11,stretchy_report_param_map,text,,,,YES,f
+scheduled_email_campaign,12,closedon_date,date,,,,YES,f
+scheduled_email_campaign,13,closedon_userid,bigint,,64,0,YES,f
+scheduled_email_campaign,14,submittedon_date,date,,,,YES,f
+scheduled_email_campaign,15,submittedon_userid,bigint,,64,0,YES,f
+scheduled_email_campaign,16,approvedon_date,date,,,,YES,f
+scheduled_email_campaign,17,approvedon_userid,bigint,,64,0,YES,f
+scheduled_email_campaign,18,recurrence,character varying,100,,,YES,f
+scheduled_email_campaign,19,next_trigger_date,timestamp without time zone,,,,YES,f
+scheduled_email_campaign,20,last_trigger_date,timestamp without time zone,,,,YES,f
+scheduled_email_campaign,21,recurrence_start_date,timestamp without time zone,,,,YES,f
+scheduled_email_campaign,22,is_visible,boolean,,,,YES,t
+scheduled_email_campaign,23,previous_run_error_log,text,,,,YES,f
+scheduled_email_campaign,24,previous_run_error_message,text,,,,YES,f
+scheduled_email_campaign,25,previous_run_status,character varying,10,,,YES,f
+scheduled_email_configuration,1,id,integer,,32,0,NO,f
+scheduled_email_configuration,2,name,character varying,50,,,NO,f
+scheduled_email_configuration,3,value,character varying,200,,,YES,f
+scheduled_email_messages_outbound,1,id,bigint,,64,0,NO,f
+scheduled_email_messages_outbound,2,group_id,bigint,,64,0,YES,f
+scheduled_email_messages_outbound,3,client_id,bigint,,64,0,YES,f
+scheduled_email_messages_outbound,4,staff_id,bigint,,64,0,YES,f
+scheduled_email_messages_outbound,5,email_campaign_id,bigint,,64,0,YES,f
+scheduled_email_messages_outbound,6,status_enum,integer,,32,0,NO,t
+scheduled_email_messages_outbound,7,email_address,character varying,254,,,NO,f
+scheduled_email_messages_outbound,8,email_subject,character varying,50,,,NO,f
+scheduled_email_messages_outbound,9,message,text,,,,NO,f
+scheduled_email_messages_outbound,10,campaign_name,character varying,200,,,YES,f
+scheduled_email_messages_outbound,11,submittedon_date,date,,,,YES,f
+scheduled_email_messages_outbound,12,error_message,text,,,,YES,f
+scheduler_detail,1,id,smallint,,16,0,NO,f
+scheduler_detail,2,is_suspended,boolean,,,,NO,t
+scheduler_detail,3,execute_misfired_jobs,boolean,,,,NO,t
+scheduler_detail,4,reset_scheduler_on_bootup,boolean,,,,NO,t
+sms_campaign,1,id,bigint,,64,0,NO,f
+sms_campaign,2,campaign_name,character varying,100,,,NO,f
+sms_campaign,3,campaign_type,integer,,32,0,NO,f
+sms_campaign,4,campaign_trigger_type,integer,,32,0,NO,f
+sms_campaign,5,report_id,integer,,32,0,NO,f
+sms_campaign,6,provider_id,bigint,,64,0,YES,f
+sms_campaign,7,param_value,text,,,,YES,f
+sms_campaign,8,status_enum,integer,,32,0,NO,f
+sms_campaign,9,message,text,,,,NO,f
+sms_campaign,10,submittedon_date,date,,,,YES,f
+sms_campaign,11,submittedon_userid,bigint,,64,0,YES,f
+sms_campaign,12,approvedon_date,date,,,,YES,f
+sms_campaign,13,approvedon_userid,bigint,,64,0,YES,f
+sms_campaign,14,closedon_date,date,,,,YES,f
+sms_campaign,15,closedon_userid,bigint,,64,0,YES,f
+sms_campaign,16,recurrence,character varying,100,,,YES,f
+sms_campaign,17,next_trigger_date,timestamp without time zone,,,,YES,f
+sms_campaign,18,last_trigger_date,timestamp without time zone,,,,YES,f
+sms_campaign,19,recurrence_start_date,timestamp without time zone,,,,YES,f
+sms_campaign,20,is_visible,boolean,,,,YES,t
+sms_campaign,21,is_notification,boolean,,,,YES,t
+sms_messages_outbound,1,id,bigint,,64,0,NO,f
+sms_messages_outbound,2,group_id,bigint,,64,0,YES,f
+sms_messages_outbound,3,client_id,bigint,,64,0,YES,f
+sms_messages_outbound,4,staff_id,bigint,,64,0,YES,f
+sms_messages_outbound,5,status_enum,integer,,32,0,NO,t
+sms_messages_outbound,6,mobile_no,character varying,50,,,YES,f
+sms_messages_outbound,7,message,character varying,1000,,,NO,f
+sms_messages_outbound,8,campaign_id,bigint,,64,0,YES,f
+sms_messages_outbound,9,external_id,character varying,100,,,YES,f
+sms_messages_outbound,10,submittedon_date,date,,,,YES,f
+sms_messages_outbound,11,delivered_on_date,timestamp without time zone,,,,YES,f
+sms_messages_outbound,12,is_notification,boolean,,,,NO,t
+stretchy_parameter,1,id,integer,,32,0,NO,f
+stretchy_parameter,2,parameter_name,character varying,45,,,NO,f
+stretchy_parameter,3,parameter_variable,character varying,45,,,YES,f
+stretchy_parameter,4,parameter_label,character varying,45,,,NO,f
+stretchy_parameter,5,parameter_displayType,character varying,45,,,NO,f
+stretchy_parameter,6,parameter_FormatType,character varying,10,,,NO,f
+stretchy_parameter,7,parameter_default,character varying,45,,,NO,f
+stretchy_parameter,8,special,character varying,1,,,YES,f
+stretchy_parameter,9,selectOne,character varying,1,,,YES,f
+stretchy_parameter,10,selectAll,character varying,1,,,YES,f
+stretchy_parameter,11,parameter_sql,text,,,,YES,f
+stretchy_parameter,12,parent_id,integer,,32,0,YES,f
+stretchy_report,1,id,integer,,32,0,NO,f
+stretchy_report,2,report_name,character varying,100,,,NO,f
+stretchy_report,3,report_type,character varying,20,,,NO,f
+stretchy_report,4,report_subtype,character varying,20,,,YES,f
+stretchy_report,5,report_category,character varying,45,,,YES,f
+stretchy_report,6,report_sql,text,,,,YES,f
+stretchy_report,7,description,text,,,,YES,f
+stretchy_report,8,core_report,boolean,,,,YES,t
+stretchy_report,9,use_report,boolean,,,,YES,t
+stretchy_report,10,self_service_user_report,boolean,,,,NO,t
+stretchy_report_parameter,1,id,integer,,32,0,NO,f
+stretchy_report_parameter,2,report_id,integer,,32,0,NO,f
+stretchy_report_parameter,3,parameter_id,integer,,32,0,NO,f
+stretchy_report_parameter,4,report_parameter_name,character varying,45,,,YES,f
+twofactor_access_token,1,id,bigint,,64,0,NO,f
+twofactor_access_token,2,token,character varying,32,,,NO,f
+twofactor_access_token,3,appuser_id,bigint,,64,0,NO,f
+twofactor_access_token,4,valid_from,timestamp without time zone,,,,NO,f
+twofactor_access_token,5,valid_to,timestamp without time zone,,,,NO,f
+twofactor_access_token,6,enabled,boolean,,,,NO,f
+twofactor_configuration,1,id,bigint,,64,0,NO,f
+twofactor_configuration,2,name,character varying,40,,,NO,f
+twofactor_configuration,3,value,character varying,1024,,,YES,f
+x_registered_table,1,registered_table_name,character varying,50,,,NO,f
+x_registered_table,2,application_table_name,character varying,50,,,NO,f
+x_registered_table,3,entity_subtype,character varying,50,,,YES,f
+x_registered_table,4,category,integer,,32,0,NO,t
+x_table_column_code_mappings,1,column_alias_name,character varying,50,,,NO,f
+x_table_column_code_mappings,2,code_id,integer,,32,0,NO,f

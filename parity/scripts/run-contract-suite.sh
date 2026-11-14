@@ -53,12 +53,25 @@ fi
 
 GRADLE_USER_HOME="${GRADLE_USER_HOME:-$CACHE_DIR/gradle}"; export GRADLE_USER_HOME
 mkdir -p "$GRADLE_USER_HOME"
-min_gb="${ECB_MIN_FREE_GB:-8}"
-free_kb="$(df -Pk "$GRADLE_USER_HOME" | awk 'NR==2 {print $4}')"
-free_gb=$(( free_kb / 1024 / 1024 ))
-if [ "$free_gb" -lt "$min_gb" ]; then
-  die "only ${free_gb} GB free where Gradle would store its cache ($GRADLE_USER_HOME); at least ${min_gb} GB is required. Free some space, set GRADLE_USER_HOME to a drive with more room, or lower ECB_MIN_FREE_GB if you accept the risk."
+
+# Free space, in MB, on the filesystem holding a path.
+free_mb() { df -Pk "$1" | awk 'NR==2 {print int($4 / 1024)}'; }
+
+# Two places grow: Gradle's dependency cache and temp files (GRADLE_USER_HOME), and the build output
+# inside the Fineract source tree. They can sit on different drives, so each gets its own threshold.
+cache_min_gb="${ECB_MIN_FREE_GB_CACHE:-${ECB_MIN_FREE_GB:-4}}"
+build_min_gb="${ECB_MIN_FREE_GB_BUILD:-${ECB_MIN_FREE_GB:-2}}"
+cache_free_mb="$(free_mb "$GRADLE_USER_HOME")"
+build_free_mb="$(free_mb "$FINERACT_SRC")"
+if [ "$cache_free_mb" -lt $(( cache_min_gb * 1024 )) ]; then
+  die "only $(( cache_free_mb / 1024 )) GB free where Gradle would keep its cache ($GRADLE_USER_HOME); at least ${cache_min_gb} GB is required. Free space, point GRADLE_USER_HOME at a roomier drive, or lower ECB_MIN_FREE_GB_CACHE if you accept the risk."
 fi
+if [ "$build_free_mb" -lt $(( build_min_gb * 1024 )) ]; then
+  die "only $(( build_free_mb / 1024 )) GB free where the build output goes ($FINERACT_SRC); at least ${build_min_gb} GB is required. Free space or move the source with PARITY_SRC_DIR (use a short path), or lower ECB_MIN_FREE_GB_BUILD if you accept the risk."
+fi
+# While the build runs, stop it if either drive falls below this many MB. A full system drive is
+# worse than a failed build.
+abort_free_mb="${ECB_ABORT_FREE_MB:-1024}"
 
 if ! curl -ksf --max-time 10 "$TARGET/actuator/health" 2>/dev/null | grep -q '"status":"UP"'; then
   die "the target is not answering at $TARGET/actuator/health. Fineract's tests need a running server."
@@ -69,7 +82,7 @@ OUT="$PARITY_DIR/reports/contract-$LABEL-$STAMP"
 CMD=(./gradlew --no-daemon --continue "-Porg.gradle.java.installations.paths=$JDK" :integration-tests:test)
 [ -n "$TESTS" ] && CMD+=(--tests "$TESTS")
 
-info "Target: $TARGET   JDK: $JDK   free disk: ${free_gb} GB"
+info "Target: $TARGET   JDK: $JDK   free: cache drive $(( cache_free_mb / 1024 )) GB, build drive $(( build_free_mb / 1024 )) GB"
 info "Command: (cd $FINERACT_SRC && BACKEND_PROTOCOL=$proto BACKEND_HOST=$host BACKEND_PORT=$port ${CMD[*]})"
 if [ "$DRY_RUN" = 1 ]; then info "Dry run: pre-flight passed, nothing executed"; exit 0; fi
 
@@ -78,8 +91,32 @@ export JAVA_HOME="$JDK"
 export BACKEND_PROTOCOL="$proto" BACKEND_HOST="$host" BACKEND_PORT="$port"
 export BACKEND_USERNAME="${BACKEND_USERNAME:-mifos}" BACKEND_PASSWORD="${BACKEND_PASSWORD:-password}" BACKEND_TENANT="${BACKEND_TENANT:-default}"
 
+# Keep temp files next to the Gradle cache rather than on the system drive.
+mkdir -p "$GRADLE_USER_HOME/tmp"
+export TMPDIR="$GRADLE_USER_HOME/tmp" TMP="$GRADLE_USER_HOME/tmp" TEMP="$GRADLE_USER_HOME/tmp"
+export GRADLE_OPTS="${GRADLE_OPTS:-} -Djava.io.tmpdir=$GRADLE_USER_HOME/tmp"
+
+kill_tree() { # kill_tree <pid>: Git Bash starts native Windows processes, so use taskkill when available
+  local winpid
+  winpid="$(ps -p "$1" 2>/dev/null | awk 'NR==2 {print $4}')"
+  if command -v taskkill >/dev/null 2>&1 && [ -n "$winpid" ]; then taskkill //F //T //PID "$winpid" >/dev/null 2>&1 || true
+  else kill -TERM "$1" 2>/dev/null || true; fi
+}
+
 status=0
-( cd "$FINERACT_SRC" && "${CMD[@]}" ) || status=$?
+( cd "$FINERACT_SRC" && exec "${CMD[@]}" ) &
+gradle_pid=$!
+aborted=0
+while kill -0 "$gradle_pid" 2>/dev/null; do
+  sleep 15
+  c="$(free_mb "$GRADLE_USER_HOME")"; b="$(free_mb "$FINERACT_SRC")"
+  if [ "$c" -lt "$abort_free_mb" ] || [ "$b" -lt "$abort_free_mb" ]; then
+    echo "ABORT: free disk fell below ${abort_free_mb} MB (cache drive ${c} MB, build drive ${b} MB). Stopping Gradle." >&2
+    kill_tree "$gradle_pid"; aborted=1; break
+  fi
+done
+wait "$gradle_pid" 2>/dev/null || status=$?
+[ "$aborted" = 1 ] && { echo "Stopped to protect the disk. Free space, then re-run: Gradle resumes from its cache." >&2; exit 3; }
 
 RESULTS="$FINERACT_SRC/integration-tests/build/test-results/test"
 if [ -d "$RESULTS" ]; then

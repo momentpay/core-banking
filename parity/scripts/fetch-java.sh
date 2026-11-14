@@ -61,7 +61,13 @@ case "$name" in
   *.tar.gz) tar -xzf "$name" -C "$dest.tmp" ;;
 esac
 # The archive holds a single top-level directory (for example jdk-25.0.5+8-jre).
-mv "$dest.tmp"/* "$dest"
+# On Windows, antivirus can briefly lock freshly extracted files, so retry the move.
+moved=0
+for _ in 1 2 3 4 5 6 7 8 9 10; do
+  if mv "$dest.tmp"/* "$dest" 2>/dev/null; then moved=1; break; fi
+  sleep 3
+done
+[ "$moved" = 1 ] || die "could not move the extracted Java into $dest (files locked?). Re-run the script."
 rmdir "$dest.tmp"
 rm -f "$name"
 if [ "$image" = jdk ]; then info "Ready: $(local_jdk)"; else info "Ready: $(local_java)"; fi

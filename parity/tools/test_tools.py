@@ -10,6 +10,7 @@ from pathlib import Path
 import contract_probe as probe
 import inventory as inv
 import junit_report as jr
+import schema_summary as ss
 
 
 class ShapeComparison(unittest.TestCase):
@@ -135,6 +136,24 @@ class RealInventory(unittest.TestCase):
         rows = inv.build_rows(spec, groups)
         committed = (inv.INVENTORY_DIR / "endpoints.csv").read_text(encoding="utf-8").splitlines()
         self.assertEqual(len(committed) - 1, len(rows), "endpoints.csv is stale: run inventory.py build")
+
+
+class SchemaAreas(unittest.TestCase):
+    """Every table in the committed Fineract schema export must have an owning area."""
+
+    def test_every_table_is_assigned(self):
+        columns, constraints = ss.load(ss.version())
+        tables = ss.analyse(columns, constraints, ss.load_rules())
+        unassigned = sorted(n for n, t in tables.items() if t["area"] == "unassigned")
+        self.assertEqual(unassigned, [])
+        self.assertGreater(len(tables), 250)
+
+    def test_known_tables_land_in_the_expected_app(self):
+        rules = ss.load_rules()
+        self.assertEqual(ss.assign("m_loan_transaction", rules), ("loans", "ecb_loans"))
+        self.assertEqual(ss.assign("acc_gl_journal_entry", rules), ("accounting", "ecb_ledger"))
+        self.assertEqual(ss.assign("m_savings_account", rules), ("deposits", "ecb_deposits"))
+        self.assertEqual(ss.assign("m_portfolio_command_source", rules), ("security-and-commands", "ecb_platform"))
 
 
 JUNIT = """<?xml version="1.0" encoding="UTF-8"?>
