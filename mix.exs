@@ -45,6 +45,7 @@ defmodule ECoreBank.MixProject do
     [
       e_core_bank: [
         applications: [
+          ecb_money: :permanent,
           ecb_platform: :permanent,
           ecb_web: :permanent
         ]

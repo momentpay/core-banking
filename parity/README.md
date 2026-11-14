@@ -138,6 +138,18 @@ python parity/tools/module_docs.py check                    # every endpoint, ta
 python parity/tools/module_docs.py build                    # regenerate docs/modules/*.md
 ```
 
+### Golden master for ecb_money
+
+`apps/ecb_money` is checked against Fineract's own `Money` class. `gen-money-golden.sh` runs that class
+(unpacked from the 1.16.1 binary release) on 130,144 generated cases and writes a compressed fixture to
+`apps/ecb_money/test/fixtures/`; the Elixir test replays every case and requires identical text. The fixture
+is committed, so the tests need none of this. Run it only to refresh the fixture after changing the pinned version.
+
+```sh
+parity/scripts/fetch-fineract.sh && parity/scripts/fetch-java.sh --jdk
+PARITY_CLASSPATH_DIR=/c/ecb-parity-classpath parity/scripts/gen-money-golden.sh   # unpacks about 200 MB once
+```
+
 ### Tests for the tools
 
 ```sh
