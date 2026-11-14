@@ -57,16 +57,81 @@ BASE=http://localhost:24000/fineract-provider parity/scripts/smoke.sh
 It will fail until the compatibility API exists (Phase 1 and 2 in the plan). That is the point: it
 is the first contract test.
 
+## The parity measurements
+
+Three layers, cheapest first. All of them compare against the oracle, never against our own idea of
+what Fineract does.
+
+### 1. Endpoint inventory: what has to exist
+
+[inventory/SUMMARY.md](inventory/SUMMARY.md) and [inventory/endpoints.csv](inventory/endpoints.csv)
+list every operation in Fineract 1.16.1's OpenAPI document (968 operations, 603 paths) with a
+functional group and a priority: **must** (bank pilot), **should** (after the pilot core), **defer**
+(not built early; returns a documented "not implemented" error), **test-support** (internal endpoints
+Fineract's own tests call) or **ignore**. The classification lives in
+[inventory/groups.json](inventory/groups.json) and encodes the approved cut list.
+
+```sh
+python parity/tools/inventory.py fetch   # snapshot the OpenAPI document from the running oracle
+python parity/tools/inventory.py check   # fail if any operation is unclassified
+python parity/tools/inventory.py build   # regenerate endpoints.csv and SUMMARY.md
+```
+
+When Fineract is upgraded, `check` fails on any new tag until someone classifies it.
+
+### 2. Contract probe: does the target answer like Fineract? (no build, no data)
+
+```sh
+python parity/tools/contract_probe.py --target http://localhost:24000/fineract-provider --priority must
+```
+
+Calls every read-only operation that needs no path parameters (150 `must` and `should` operations today)
+on both the oracle and the target, then compares the HTTP status and the **shape** of the JSON (fields and
+types, not values). Operations where the oracle itself answers 5xx are skipped, not counted. Reports go to
+`parity/reports/probe-<time>/` (`report.md`, `results.json`). The exit code is 1 below `--fail-under`
+(default 100). Use `--no-oracle` to count any 2xx as a pass. Shape comparison is only meaningful when both
+servers hold comparable data: fields under an empty array are not compared.
+
+Probing the oracle against itself passes 146 of 146 counted operations (4 skipped, oracle 5xx), which is the
+baseline for the tool itself. This layer does not exercise writes, workflows or calculations.
+
+### 3. Fineract's own integration tests: the strict contract
+
+```sh
+parity/scripts/fetch-fineract.sh --source    # the source release holds integration-tests/
+parity/scripts/fetch-java.sh --jdk           # Gradle needs a JDK, not a JRE
+parity/scripts/run-contract-suite.sh --dry-run                            # pre-flight only
+parity/scripts/run-contract-suite.sh --tests '*ClientTest'                # one class, against the oracle
+parity/scripts/run-contract-suite.sh --target http://localhost:24000/fineract-provider
+```
+
+Runs Fineract's unmodified tests (about 390 classes) against the target via the `BACKEND_*` environment
+variables and summarises JUnit results per functional group (`tools/junit_report.py`, grouping rules in
+`inventory/test-groups.json`). **This builds Fineract's whole project with Gradle** (several GB of
+dependencies and output), so the script refuses to start without a JDK 25 and 8 GB of free disk
+(`ECB_MIN_FREE_GB` overrides, `GRADLE_USER_HOME` moves the cache to another drive). **Not yet run end to
+end:** the pre-flight checks are tested, the Gradle build is not, because the author's machine has about
+2.5 GB free.
+
+### Tests for the tools
+
+```sh
+python -m unittest discover -s parity/tools -v     # 26 tests; also run in CI
+```
+
 ## Layout
 
 ```
 parity/
   VERSION             pinned release and download locations
-  scripts/            fetch, start, stop, smoke (bash)
+  scripts/            fetch-fineract, fetch-java, start/stop-oracle, smoke, run-contract-suite (bash)
+  tools/              inventory.py, contract_probe.py, junit_report.py, test_tools.py (Python, stdlib only)
+  inventory/          openapi-<version>.json, groups.json, endpoints.csv, SUMMARY.md, test-groups.json
   docker/             Dockerfile, init script and env for Option B
   docker-compose.yml  Option B
-  .cache/             downloads, extracted release, database cluster, logs (git-ignored)
+  reports/            probe and contract-suite output (git-ignored)
+  .cache/             downloads, extracted release, JRE/JDK, database cluster, logs (git-ignored)
 ```
 
-Coming next in Phase 0: the contract-suite runner (Fineract's integration tests against our base
-URL), the endpoint inventory from the OpenAPI spec, and the differential runner.
+Still to come: the differential runner (the same generated scenarios replayed against both servers) and
+running the Gradle contract suite once there is disk space for it.

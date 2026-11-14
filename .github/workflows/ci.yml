@@ -49,3 +49,12 @@ jobs:
       - run: mix deps.audit
       - run: mix hex.audit
       - run: mix test
+
+      - name: Parity tools (inventory, contract probe, JUnit report)
+        run: python3 -m unittest discover -s parity/tools -v
+
+      - name: Endpoint inventory is complete and committed files are current
+        run: |
+          python3 parity/tools/inventory.py check
+          python3 parity/tools/inventory.py build
+          git diff --exit-code parity/inventory

@@ -10,6 +10,7 @@ CACHE_DIR="$PARITY_DIR/.cache"
 
 ARCHIVE="apache-fineract-bin-${FINERACT_VERSION}.tar.gz"
 FINERACT_HOME="$CACHE_DIR/fineract-${FINERACT_VERSION}"
+FINERACT_SRC="$CACHE_DIR/src/apache-fineract-src-${FINERACT_VERSION}"
 FINERACT_PID_FILE="$CACHE_DIR/fineract.pid"
 FINERACT_LOG="$CACHE_DIR/fineract.log"
 FINERACT_PORT="${FINERACT_PORT:-8443}"
@@ -44,6 +45,13 @@ local_java() {
   for j in "$CACHE_DIR/java/bin/java" "$CACHE_DIR/java/bin/java.exe"; do
     if [ -x "$j" ]; then echo "$j"; return; fi
   done
+  return 0
+}
+
+# The JDK (with a compiler) downloaded by `fetch-java.sh --jdk`, if present. Prints its home directory.
+local_jdk() {
+  local d="$CACHE_DIR/jdk"
+  if [ -x "$d/bin/javac" ] || [ -x "$d/bin/javac.exe" ]; then echo "$d"; fi
   return 0
 }
 

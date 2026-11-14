@@ -1,0 +1,232 @@
+{
+  "version": 1,
+  "spec": "openapi-1.16.1.json",
+  "notes": [
+    "Priorities: must = needed for the bank pilot; should = after the pilot core; defer = not built in early releases (endpoint returns a documented 'not implemented' error and the contract suite marks it skipped); test-support = internal endpoints that Fineract's own integration tests call, so they are needed to run that suite against E-CoreBank; ignore = not part of the API contract.",
+    "Defaults follow the cut list approved on 14 Nov 2026 (docs/00-rewrite-plan.md, section 9). Change a priority here, run `python parity/tools/inventory.py build`, and commit the regenerated files.",
+    "Every tag in the spec must be classified. `inventory.py check` fails when a new Fineract release adds a tag that is not listed here."
+  ],
+  "groups": {
+    "platform-security": {
+      "description": "Authentication, users, roles, permissions, maker-checker, two-factor, OIDC",
+      "tags": {
+        "must": [
+          "Authentication HTTP Basic",
+          "Fetch authenticated user details",
+          "Users",
+          "Roles",
+          "Permissions",
+          "Password Management",
+          "Password preferences",
+          "Maker Checker (or 4-eye) functionality"
+        ],
+        "should": ["Two Factor", "Tenant OIDC Configuration"]
+      }
+    },
+    "platform-ops": {
+      "description": "Scheduler and jobs, close of business, business date, audit, batch, caches, bulk import",
+      "tags": {
+        "must": [
+          "SCHEDULER JOB",
+          "Scheduler",
+          "Business Step Configuration",
+          "Business Date Management",
+          "Audits",
+          "AuditsV2",
+          "Batch API",
+          "Global Configuration",
+          "Instance Mode"
+        ],
+        "should": ["Inline Job", "Cache", "Bulk Import", "AdhocQuery Api", "templates"]
+      }
+    },
+    "org-reference": {
+      "description": "Offices, staff, currencies, codes, holidays, working days, payment types, funds, notes, documents, search, data tables",
+      "tags": {
+        "must": [
+          "Offices",
+          "Staff",
+          "Currency",
+          "Codes",
+          "Code Values",
+          "Holidays",
+          "Working days",
+          "Payment Type",
+          "Funds",
+          "Account number format",
+          "Data Tables",
+          "Entity Data Table",
+          "Entity Field Configuration",
+          "Notes",
+          "Documents",
+          "Search API"
+        ],
+        "defer": ["Calendar", "Meetings", "Fineract Entity"]
+      }
+    },
+    "clients": {
+      "description": "Customer master: individual and entity clients, identifiers, addresses, family, charges, transactions",
+      "tags": {
+        "must": [
+          "Client",
+          "ClientSearchV2",
+          "Client Identifier",
+          "Clients Address",
+          "Client Family Member",
+          "Client Charges",
+          "Client Transaction"
+        ],
+        "should": ["Client Collateral Management"]
+      }
+    },
+    "catalog": {
+      "description": "Charges, taxes, rates and other product building blocks",
+      "tags": {
+        "must": ["Charges", "Tax Components", "Tax Group", "Rate", "Interest Rate Chart", "Interest Rate Slab (A.K.A interest bands)"],
+        "should": ["Floating Rates"]
+      }
+    },
+    "deposits": {
+      "description": "Savings and current accounts, fixed and recurring deposits, transfers, standing instructions",
+      "tags": {
+        "must": [
+          "Savings Account",
+          "Savings Account Transactions",
+          "Savings Charges",
+          "Savings Product",
+          "Deposit Account On Hold Fund Transactions",
+          "Fixed Deposit Account",
+          "Fixed Deposit Account Transactions",
+          "Fixed Deposit Product",
+          "FixedDepositAccountsV2",
+          "Recurring Deposit Account",
+          "Recurring Deposit Account Transactions",
+          "Recurring Deposit Product",
+          "RecurringDepositAccountsV2",
+          "Account Transfers",
+          "Standing Instructions",
+          "Standing Instructions History"
+        ]
+      }
+    },
+    "loans": {
+      "description": "Individual loans: products, schedules, disbursement, repayment, charges, collateral, guarantors, reschedule",
+      "tags": {
+        "must": [
+          "Loans",
+          "Loan Products",
+          "Loan Products Details",
+          "Loan Charges",
+          "Loan Transactions",
+          "Loan Disbursement Details",
+          "Loan Rescheduling",
+          "Reschedule Loans",
+          "Loan Collateral",
+          "Loan Collateral Management",
+          "Collateral Management",
+          "Guarantors",
+          "Loan COB Catch Up"
+        ],
+        "should": [
+          "LoansPointInTime",
+          "Bulk Loans",
+          "Product Mix",
+          "Payoff Schedule Preview",
+          "Loan Buy Down Fees",
+          "Loan Capitalized Income",
+          "Loan Interest Pause",
+          "Progressive Loan",
+          "Loan Originators",
+          "Delinquency Range and Buckets Management",
+          "Credit Bureau Configuration",
+          "Credit Bureau Integration",
+          "repayment with post dated checks"
+        ]
+      }
+    },
+    "working-capital": {
+      "description": "Working-capital loans (newer Fineract lending): products, accounts, breach and delinquency handling",
+      "tags": {
+        "should": [
+          "Working Capital Breach",
+          "Working Capital Loan Breach Actions",
+          "Working Capital Loan Breach Schedule",
+          "Working Capital Loan COB Catch Up",
+          "Working Capital Loan Charges",
+          "Working Capital Loan Delinquency Actions",
+          "Working Capital Loan Delinquency Range Schedule",
+          "Working Capital Loan Near Breach Actions",
+          "Working Capital Loan Originators",
+          "Working Capital Loan Products",
+          "Working Capital Loan Transactions",
+          "Working Capital Loans",
+          "Working Capital Near Breach"
+        ],
+        "test-support": ["Working Capital Loan Account Lock", "Working Capital Loan Internal COB Api"]
+      }
+    },
+    "accounting": {
+      "description": "General ledger, accounting rules, journal entries, closures, accruals, provisioning (strict parity: Fineract-style accounting is ported)",
+      "tags": {
+        "must": [
+          "General Ledger Account",
+          "Journal Entries",
+          "Accounting Rules",
+          "Accounting Closure",
+          "Mapping Financial Activities to Accounts",
+          "Periodic Accrual Accounting",
+          "Provisioning Category",
+          "Provisioning Criteria",
+          "Provisioning Entries"
+        ]
+      }
+    },
+    "branch-cash": {
+      "description": "Tellers, cashiers and cash management",
+      "tags": { "must": ["Teller Cash Management"] }
+    },
+    "reporting": {
+      "description": "Report engine, run reports, report mailing",
+      "tags": {
+        "must": ["Reports", "Run Reports"],
+        "should": ["Report Mailing Jobs", "List Report Mailing Job History"]
+      }
+    },
+    "integration": {
+      "description": "Hooks, external events and services, notifications, messaging, interoperation",
+      "tags": {
+        "should": ["Hooks", "External event configuration", "External Services", "Notification"],
+        "defer": ["SMS", "Inter Operation"]
+      }
+    },
+    "microfinance-groups": {
+      "description": "Group-based microfinance: groups, centers, collection sheets",
+      "tags": { "defer": ["Groups", "GroupsV2", "Groups Level", "Centers", "CentersV2", "Collection Sheet"] }
+    },
+    "shares": {
+      "description": "Cooperative share products and accounts, dividends",
+      "tags": { "defer": ["Share Account", "Products", "Self Dividend"] }
+    },
+    "surveys": {
+      "description": "Surveys, scorecards, poverty-probability index",
+      "tags": { "defer": ["Spm-Surveys", "SPM API - LookUp Table", "Survey", "Score Card", "Likelihood", "Poverty Line"] }
+    },
+    "investor": {
+      "description": "Selling loan portions to external asset owners",
+      "tags": { "defer": ["External Asset Owners", "External Asset Owner Loan Product Attributes"] }
+    },
+    "test-support": {
+      "description": "Internal endpoints used by Fineract's own integration tests",
+      "tags": { "test-support": ["Internal COB", "Loan Account Lock"] }
+    }
+  },
+  "path_overrides": [
+    { "prefix": "/application.wadl", "group": "n/a", "priority": "ignore", "note": "WADL leftover, not part of the API contract" },
+    { "prefix": "/v1/internal", "group": "test-support", "priority": "test-support" },
+    { "prefix": "/v1/email", "group": "integration", "priority": "defer", "note": "Email campaigns" },
+    { "prefix": "/v1/smscampaigns", "group": "integration", "priority": "defer", "note": "SMS campaigns" },
+    { "prefix": "/v1/twofactor", "group": "platform-security", "priority": "should" },
+    { "prefix": "/v1/officetransactions", "group": "branch-cash", "priority": "should", "note": "Inter-office cash transfers" },
+    { "prefix": "/v1/{entityType}", "group": "org-reference", "priority": "should" }
+  ]
+}

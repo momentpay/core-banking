@@ -137,7 +137,8 @@ Exit gate for every phase: contract-suite pass rate for the phase's endpoints, z
 ### Phase 0: Foundations and contract (6–8 weeks)
 - Repo bootstrap: convert the base app to a PostgreSQL umbrella (4.4), CI, quality gates, docker compose, ADR template, contribution rules.
 - `parity/` harness running the pinned Fineract and the baseline suite.
-- Endpoint inventory and must/should/cut list.
+- Endpoint inventory and must/should/cut list. **Done (14 Nov 2026):** `parity/inventory/` classifies all 968 operations of Fineract 1.16.1 (535 must, 255 should, 158 defer, 18 test-support, 2 ignore) from the approved cut list. `inventory.py check` fails when a Fineract upgrade adds an unclassified tag.
+- Contract measurements. **Done:** the OpenAPI-driven contract probe (`parity/tools/contract_probe.py`) compares status and JSON shape for the 150 read-only `must` and `should` operations that need no setup, and passes 146 of 146 counted operations when the oracle is probed against itself. **Written, not yet run end to end:** the runner for Fineract's own integration tests (`parity/scripts/run-contract-suite.sh`). It needs a JDK 25 and about 8 GB of free disk for the Gradle build, and the development machine has about 2.5 GB free. Its pre-flight checks are tested.
 - ADRs: umbrella and boundaries, database-per-tenant, money and rounding, command bus, schema strategy, Fineract-style accounting with a later Finacle adapter, UI approach, versions pinned, native API, naming.
 - Confirm the Fineract and Docker image versions and the Mifos web-app tag.
 
