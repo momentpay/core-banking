@@ -109,6 +109,17 @@ defmodule ECBApiFineract.Errors do
     })
   end
 
+  @doc "The web container's plain HTTP 403, for an operation guarded by a role check rather than the platform's own."
+  def forbidden(conn) do
+    Response.json(conn, 403, %{
+      "timestamp" =>
+        DateTime.utc_now() |> DateTime.truncate(:millisecond) |> DateTime.to_iso8601(),
+      "status" => 403,
+      "error" => "Forbidden",
+      "path" => conn.request_path
+    })
+  end
+
   @doc "HTTP 401 with no body, sent when no credentials were given at all."
   def challenge(conn) do
     conn

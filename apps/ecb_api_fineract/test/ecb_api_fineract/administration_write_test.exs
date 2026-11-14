@@ -299,4 +299,59 @@ defmodule ECBApiFineract.AdministrationWriteTest do
       assert new_user("ada", [role], %{"password" => "a", "repeatPassword" => "a"}).status == 200
     end
   end
+
+  describe "business date" do
+    defp codes(conn),
+      do: body(conn)["errors"] |> Enum.map(& &1["userMessageGlobalisationCode"]) |> Enum.sort()
+
+    test "an empty request lists every problem (Fineract lists them in an order Java leaves open)" do
+      conn = send_json(:post, "/v1/businessdate", %{})
+
+      assert conn.status == 400
+
+      assert codes(conn) ==
+               Enum.sort([
+                 "org.apache.fineract.businessdate.date-format.not-blank",
+                 "org.apache.fineract.businessdate.type.invalid",
+                 "org.apache.fineract.businessdate.type.not-blank",
+                 "org.apache.fineract.businessdate.date.not-blank",
+                 "org.apache.fineract.businessdate.locale.not-blank",
+                 "org.apache.fineract.validation.locale",
+                 "org.apache.fineract.validation.local-date"
+               ])
+    end
+
+    test "current/0 is today until the feature is on, then the stored business date" do
+      TenantRepo.query!("DELETE FROM m_business_date")
+
+      TenantRepo.query!(
+        "UPDATE c_configuration SET enabled = false WHERE name = 'enable-business-date'"
+      )
+
+      ECBPlatform.Tenancy.with_tenant("apitest", fn ->
+        assert ECBPlatform.BusinessDate.current() == Date.utc_today()
+      end)
+
+      send_json(:put, "/v1/configurations/name/enable-business-date", %{"enabled" => true})
+
+      send_json(:post, "/v1/businessdate", %{
+        "type" => "BUSINESS_DATE",
+        "date" => "2020-02-03",
+        "dateFormat" => "yyyy-MM-dd",
+        "locale" => "en"
+      })
+
+      ECBPlatform.Tenancy.with_tenant("apitest", fn ->
+        assert ECBPlatform.BusinessDate.current() == ~D[2020-02-03]
+        assert ECBPlatform.BusinessDate.current(type: "COB_DATE") == ~D[2020-02-02]
+      end)
+    end
+
+    test "a user without UPDATE_BUSINESS_DATE is refused with the web container's 403" do
+      reader = make_user("bd-reader", ["READ_OFFICE"])
+      conn = send_json(:post, "/v1/businessdate", %{}, reader)
+      assert conn.status == 403
+      assert body(conn)["error"] == "Forbidden"
+    end
+  end
 end

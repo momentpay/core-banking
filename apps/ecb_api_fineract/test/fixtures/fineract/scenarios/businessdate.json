@@ -1,0 +1,2015 @@
+{
+ "name": "businessdate",
+ "reset": [
+  "roles",
+  "configuration"
+ ],
+ "steps": [
+  {
+   "method": "POST",
+   "path": "/v1/roles",
+   "body": {
+    "name": "Clerk",
+    "description": "Enters data"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/roles/3/permissions",
+   "body": {
+    "permissions": {
+     "READ_OFFICE": true
+    }
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3,
+    "changes": {
+     "permissions": {
+      "READ_OFFICE": true
+     }
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/users",
+   "body": {
+    "username": "clerk",
+    "firstname": "C",
+    "lastname": "Lerk",
+    "email": "c@example.test",
+    "officeId": 1,
+    "roles": [
+     3
+    ],
+    "sendPasswordToEmail": false,
+    "password": "Zebra7-Mango#Quilt",
+    "repeatPassword": "Zebra7-Mango#Quilt"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 4
+   }
+  },
+  {
+   "path": "/v1/businessdate",
+   "status": 200,
+   "response": []
+  },
+  {
+   "path": "/v1/businessdate/BUSINESS_DATE",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Business date with type `BUSINESS_DATE` is not found.",
+      "defaultUserMessage": "Business date with type `BUSINESS_DATE` is not found.",
+      "userMessageGlobalisationCode": "error.msg.businessdate.not.found",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "BUSINESS_DATE"
+       },
+       {
+        "value": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en",
+    "type": "BUSINESS_DATE",
+    "date": "2026-11-10"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Business date functionality is not enabled",
+      "defaultUserMessage": "Business date functionality is not enabled",
+      "userMessageGlobalisationCode": "business.date.is.not.enabled",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "business.date.is.not.enabled"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/configurations/44",
+   "body": {
+    "enabled": true
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 44,
+    "changes": {
+     "enabled": true
+    }
+   }
+  },
+  {
+   "path": "/v1/businessdate",
+   "status": 200,
+   "response": []
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en",
+    "type": "BUSINESS_DATE",
+    "date": "2026-11-10"
+   },
+   "status": 200,
+   "response": {
+    "description": "Business Date",
+    "type": "BUSINESS_DATE",
+    "date": [
+     2026,
+     11,
+     10
+    ],
+    "changes": {
+     "BUSINESS_DATE": [
+      2026,
+      11,
+      10
+     ],
+     "COB_DATE": [
+      2026,
+      11,
+      9
+     ]
+    }
+   }
+  },
+  {
+   "path": "/v1/businessdate",
+   "status": 200,
+   "response": [
+    {
+     "description": "Business Date",
+     "type": "BUSINESS_DATE",
+     "date": [
+      2026,
+      11,
+      10
+     ]
+    },
+    {
+     "description": "Close of Business Date",
+     "type": "COB_DATE",
+     "date": [
+      2026,
+      11,
+      9
+     ]
+    }
+   ]
+  },
+  {
+   "path": "/v1/businessdate/BUSINESS_DATE",
+   "status": 200,
+   "response": {
+    "description": "Business Date",
+    "type": "BUSINESS_DATE",
+    "date": [
+     2026,
+     11,
+     10
+    ]
+   }
+  },
+  {
+   "path": "/v1/businessdate/COB_DATE",
+   "status": 200,
+   "response": {
+    "description": "Close of Business Date",
+    "type": "COB_DATE",
+    "date": [
+     2026,
+     11,
+     9
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en",
+    "type": "BUSINESS_DATE",
+    "date": "2026-11-10"
+   },
+   "status": 200,
+   "response": {
+    "description": "Business Date",
+    "type": "BUSINESS_DATE",
+    "date": [
+     2026,
+     11,
+     10
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en",
+    "type": "COB_DATE",
+    "date": "2026-11-01"
+   },
+   "status": 200,
+   "response": {
+    "description": "Close of Business Date",
+    "type": "COB_DATE",
+    "date": [
+     2026,
+     11,
+     1
+    ],
+    "changes": {
+     "COB_DATE": [
+      2026,
+      11,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "type": "BUSINESS_DATE",
+    "date": "11 November 2026",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "description": "Business Date",
+    "type": "BUSINESS_DATE",
+    "date": [
+     2026,
+     11,
+     11
+    ],
+    "changes": {
+     "BUSINESS_DATE": [
+      2026,
+      11,
+      11
+     ],
+     "COB_DATE": [
+      2026,
+      11,
+      10
+     ]
+    }
+   }
+  },
+  {
+   "path": "/v1/businessdate",
+   "status": 200,
+   "response": [
+    {
+     "description": "Business Date",
+     "type": "BUSINESS_DATE",
+     "date": [
+      2026,
+      11,
+      11
+     ]
+    },
+    {
+     "description": "Close of Business Date",
+     "type": "COB_DATE",
+     "date": [
+      2026,
+      11,
+      10
+     ]
+    }
+   ]
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/configurations/45",
+   "body": {
+    "enabled": false
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 45,
+    "changes": {
+     "enabled": false
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en",
+    "type": "BUSINESS_DATE",
+    "date": "2026-11-20"
+   },
+   "status": 200,
+   "response": {
+    "description": "Business Date",
+    "type": "BUSINESS_DATE",
+    "date": [
+     2026,
+     11,
+     20
+    ],
+    "changes": {
+     "BUSINESS_DATE": [
+      2026,
+      11,
+      20
+     ]
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en",
+    "type": "BOGUS",
+    "date": "2026-11-20"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter 'type' must be valid BusinessDateType value. Provided value: 'BOGUS'.",
+      "defaultUserMessage": "The parameter 'type' must be valid BusinessDateType value. Provided value: 'BOGUS'.",
+      "userMessageGlobalisationCode": "org.apache.fineract.businessdate.type.invalid",
+      "parameterName": "updateBusinessDate.request.type",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en",
+    "type": "COB_DATE",
+    "date": "20 Nov 2026"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "Wrong local date fields.",
+      "defaultUserMessage": "Wrong local date fields.",
+      "userMessageGlobalisationCode": "org.apache.fineract.validation.local-date",
+      "parameterName": "updateBusinessDate.request",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/businessdate/NOPE",
+   "ignore": [
+    "args"
+   ],
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Business date with type `NOPE` does not exist.",
+      "defaultUserMessage": "Business date with type `NOPE` does not exist.",
+      "userMessageGlobalisationCode": "error.msg.businessdate.type.not.exist",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "NOPE"
+       },
+       {
+        "value": [
+         {
+          "stackTrace": [
+           {
+            "moduleName": "java.base",
+            "moduleVersion": "25.0.5",
+            "methodName": "valueOf",
+            "lineNumber": -1,
+            "className": "java.lang.Enum",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "valueOf",
+            "fileName": "BusinessDateType.java",
+            "lineNumber": 24,
+            "className": "org.apache.fineract.infrastructure.businessdate.domain.BusinessDateType",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "findByType",
+            "fileName": "BusinessDateReadPlatformServiceImpl.java",
+            "lineNumber": 58,
+            "className": "org.apache.fineract.infrastructure.businessdate.service.BusinessDateReadPlatformServiceImpl",
+            "nativeMethod": false
+           },
+           {
+            "moduleName": "java.base",
+            "moduleVersion": "25.0.5",
+            "methodName": "invoke",
+            "lineNumber": -1,
+            "className": "jdk.internal.reflect.DirectMethodHandleAccessor",
+            "nativeMethod": false
+           },
+           {
+            "moduleName": "java.base",
+            "moduleVersion": "25.0.5",
+            "methodName": "invoke",
+            "lineNumber": -1,
+            "className": "java.lang.reflect.Method",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "invokeJoinpointUsingReflection",
+            "fileName": "AopUtils.java",
+            "lineNumber": 359,
+            "className": "org.springframework.aop.support.AopUtils",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "invokeJoinpoint",
+            "fileName": "ReflectiveMethodInvocation.java",
+            "lineNumber": 190,
+            "className": "org.springframework.aop.framework.ReflectiveMethodInvocation",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "proceed",
+            "fileName": "ReflectiveMethodInvocation.java",
+            "lineNumber": 158,
+            "className": "org.springframework.aop.framework.ReflectiveMethodInvocation",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "proceedWithInvocation",
+            "fileName": "TransactionInterceptor.java",
+            "lineNumber": 133,
+            "className": "org.springframework.transaction.interceptor.TransactionInterceptor$1",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "invokeWithinTransaction",
+            "fileName": "TransactionAspectSupport.java",
+            "lineNumber": 371,
+            "className": "org.springframework.transaction.interceptor.TransactionAspectSupport",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "invoke",
+            "fileName": "TransactionInterceptor.java",
+            "lineNumber": 130,
+            "className": "org.springframework.transaction.interceptor.TransactionInterceptor",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "proceed",
+            "fileName": "ReflectiveMethodInvocation.java",
+            "lineNumber": 179,
+            "className": "org.springframework.aop.framework.ReflectiveMethodInvocation",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "intercept",
+            "fileName": "CglibAopProxy.java",
+            "lineNumber": 719,
+            "className": "org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "findByType",
+            "fileName": "<generated>",
+            "lineNumber": -1,
+            "className": "org.apache.fineract.infrastructure.businessdate.service.BusinessDateReadPlatformServiceImpl$$SpringCGLIB$$0",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "getBusinessDate",
+            "fileName": "BusinessDateApiResource.java",
+            "lineNumber": 66,
+            "className": "org.apache.fineract.infrastructure.businessdate.api.BusinessDateApiResource",
+            "nativeMethod": false
+           },
+           {
+            "moduleName": "java.base",
+            "moduleVersion": "25.0.5",
+            "methodName": "invoke",
+            "lineNumber": -1,
+            "className": "jdk.internal.reflect.DirectMethodHandleAccessor",
+            "nativeMethod": false
+           },
+           {
+            "moduleName": "java.base",
+            "moduleVersion": "25.0.5",
+            "methodName": "invoke",
+            "lineNumber": -1,
+            "className": "java.lang.reflect.Method",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "lambda$static$0",
+            "fileName": "ResourceMethodInvocationHandlerFactory.java",
+            "lineNumber": 52,
+            "className": "org.glassfish.jersey.server.model.internal.ResourceMethodInvocationHandlerFactory",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "run",
+            "fileName": "AbstractJavaResourceMethodDispatcher.java",
+            "lineNumber": 146,
+            "className": "org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher$1",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "invoke",
+            "fileName": "AbstractJavaResourceMethodDispatcher.java",
+            "lineNumber": 189,
+            "className": "org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doDispatch",
+            "fileName": "JavaResourceMethodDispatcherProvider.java",
+            "lineNumber": 219,
+            "className": "org.glassfish.jersey.server.model.internal.JavaResourceMethodDispatcherProvider$TypeOutInvoker",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "dispatch",
+            "fileName": "AbstractJavaResourceMethodDispatcher.java",
+            "lineNumber": 93,
+            "className": "org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "invoke",
+            "fileName": "ResourceMethodInvoker.java",
+            "lineNumber": 470,
+            "className": "org.glassfish.jersey.server.model.ResourceMethodInvoker",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "apply",
+            "fileName": "ResourceMethodInvoker.java",
+            "lineNumber": 394,
+            "className": "org.glassfish.jersey.server.model.ResourceMethodInvoker",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "apply",
+            "fileName": "ResourceMethodInvoker.java",
+            "lineNumber": 80,
+            "className": "org.glassfish.jersey.server.model.ResourceMethodInvoker",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "run",
+            "fileName": "ServerRuntime.java",
+            "lineNumber": 274,
+            "className": "org.glassfish.jersey.server.ServerRuntime$1",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "call",
+            "fileName": "Errors.java",
+            "lineNumber": 248,
+            "className": "org.glassfish.jersey.internal.Errors$1",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "call",
+            "fileName": "Errors.java",
+            "lineNumber": 244,
+            "className": "org.glassfish.jersey.internal.Errors$1",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "process",
+            "fileName": "Errors.java",
+            "lineNumber": 292,
+            "className": "org.glassfish.jersey.internal.Errors",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "process",
+            "fileName": "Errors.java",
+            "lineNumber": 274,
+            "className": "org.glassfish.jersey.internal.Errors",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "process",
+            "fileName": "Errors.java",
+            "lineNumber": 244,
+            "className": "org.glassfish.jersey.internal.Errors",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "runInScope",
+            "fileName": "RequestScope.java",
+            "lineNumber": 266,
+            "className": "org.glassfish.jersey.process.internal.RequestScope",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "process",
+            "fileName": "ServerRuntime.java",
+            "lineNumber": 253,
+            "className": "org.glassfish.jersey.server.ServerRuntime",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "handle",
+            "fileName": "ApplicationHandler.java",
+            "lineNumber": 703,
+            "className": "org.glassfish.jersey.server.ApplicationHandler",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "serviceImpl",
+            "fileName": "WebComponent.java",
+            "lineNumber": 422,
+            "className": "org.glassfish.jersey.servlet.WebComponent",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "service",
+            "fileName": "WebComponent.java",
+            "lineNumber": 374,
+            "className": "org.glassfish.jersey.servlet.WebComponent",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "service",
+            "fileName": "ServletContainer.java",
+            "lineNumber": 355,
+            "className": "org.glassfish.jersey.servlet.ServletContainer",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "service",
+            "fileName": "ServletContainer.java",
+            "lineNumber": 309,
+            "className": "org.glassfish.jersey.servlet.ServletContainer",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "service",
+            "fileName": "ServletContainer.java",
+            "lineNumber": 202,
+            "className": "org.glassfish.jersey.servlet.ServletContainer",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ApplicationFilterChain.java",
+            "lineNumber": 132,
+            "className": "org.apache.catalina.core.ApplicationFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "WsFilter.java",
+            "lineNumber": 59,
+            "className": "org.apache.tomcat.websocket.server.WsFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ApplicationFilterChain.java",
+            "lineNumber": 111,
+            "className": "org.apache.catalina.core.ApplicationFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "OncePerRequestFilter.java",
+            "lineNumber": 110,
+            "className": "org.springframework.web.filter.OncePerRequestFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ApplicationFilterChain.java",
+            "lineNumber": 111,
+            "className": "org.apache.catalina.core.ApplicationFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "OncePerRequestFilter.java",
+            "lineNumber": 110,
+            "className": "org.springframework.web.filter.OncePerRequestFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ApplicationFilterChain.java",
+            "lineNumber": 111,
+            "className": "org.apache.catalina.core.ApplicationFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ResourceUrlEncodingFilter.java",
+            "lineNumber": 66,
+            "className": "org.springframework.web.servlet.resource.ResourceUrlEncodingFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ApplicationFilterChain.java",
+            "lineNumber": 111,
+            "className": "org.apache.catalina.core.ApplicationFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilterInternal",
+            "fileName": "RequestContextFilter.java",
+            "lineNumber": 100,
+            "className": "org.springframework.web.filter.RequestContextFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "OncePerRequestFilter.java",
+            "lineNumber": 116,
+            "className": "org.springframework.web.filter.OncePerRequestFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ApplicationFilterChain.java",
+            "lineNumber": 111,
+            "className": "org.apache.catalina.core.ApplicationFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "CompositeFilter.java",
+            "lineNumber": 108,
+            "className": "org.springframework.web.filter.CompositeFilter$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "lambda$doFilterInternal$2",
+            "fileName": "FilterChainProxy.java",
+            "lineNumber": 235,
+            "className": "org.springframework.security.web.FilterChainProxy",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "lambda$wrap$1",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 491,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$FilterObservation$SimpleFilterObservation",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "lambda$wrap$1",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 353,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$AroundFilterObservation$SimpleAroundFilterObservation",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "lambda$wrapSecured$0",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 84,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 131,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "AuthorizationFilter.java",
+            "lineNumber": 101,
+            "className": "org.springframework.security.web.access.intercept.AuthorizationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "wrapFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 243,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 230,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 140,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilterInternal",
+            "fileName": "IdempotencyStoreFilter.java",
+            "lineNumber": 60,
+            "className": "org.apache.fineract.infrastructure.core.filters.IdempotencyStoreFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "OncePerRequestFilter.java",
+            "lineNumber": 116,
+            "className": "org.springframework.web.filter.OncePerRequestFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "wrapFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 243,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 230,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 140,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "proceed",
+            "fileName": "COBApiFilter.java",
+            "lineNumber": 94,
+            "className": "org.apache.fineract.infrastructure.jobs.filter.COBApiFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilterInternal",
+            "fileName": "COBApiFilter.java",
+            "lineNumber": 69,
+            "className": "org.apache.fineract.infrastructure.jobs.filter.COBApiFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "OncePerRequestFilter.java",
+            "lineNumber": 116,
+            "className": "org.springframework.web.filter.OncePerRequestFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "wrapFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 243,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 230,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 140,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilterInternal",
+            "fileName": "WorkingCapitalLoanModelCheckerFilter.java",
+            "lineNumber": 61,
+            "className": "org.apache.fineract.infrastructure.jobs.filter.WorkingCapitalLoanModelCheckerFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "OncePerRequestFilter.java",
+            "lineNumber": 116,
+            "className": "org.springframework.web.filter.OncePerRequestFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "wrapFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 243,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 230,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 140,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "proceed",
+            "fileName": "COBApiFilter.java",
+            "lineNumber": 94,
+            "className": "org.apache.fineract.infrastructure.jobs.filter.COBApiFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilterInternal",
+            "fileName": "COBApiFilter.java",
+            "lineNumber": 69,
+            "className": "org.apache.fineract.infrastructure.jobs.filter.COBApiFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "OncePerRequestFilter.java",
+            "lineNumber": 116,
+            "className": "org.springframework.web.filter.OncePerRequestFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "wrapFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 243,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 230,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 140,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "proceed",
+            "fileName": "ProgressiveLoanModelCheckerFilter.java",
+            "lineNumber": 61,
+            "className": "org.apache.fineract.infrastructure.jobs.filter.ProgressiveLoanModelCheckerFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilterInternal",
+            "fileName": "ProgressiveLoanModelCheckerFilter.java",
+            "lineNumber": 47,
+            "className": "org.apache.fineract.infrastructure.jobs.filter.ProgressiveLoanModelCheckerFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "OncePerRequestFilter.java",
+            "lineNumber": 116,
+            "className": "org.springframework.web.filter.OncePerRequestFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "wrapFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 243,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 230,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 140,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "proceed",
+            "fileName": "FineractInstanceModeApiFilter.java",
+            "lineNumber": 84,
+            "className": "org.apache.fineract.infrastructure.instancemode.filter.FineractInstanceModeApiFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilterInternal",
+            "fileName": "FineractInstanceModeApiFilter.java",
+            "lineNumber": 65,
+            "className": "org.apache.fineract.infrastructure.instancemode.filter.FineractInstanceModeApiFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "OncePerRequestFilter.java",
+            "lineNumber": 116,
+            "className": "org.springframework.web.filter.OncePerRequestFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "wrapFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 243,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 230,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 140,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilterInternal",
+            "fileName": "CorrelationHeaderFilter.java",
+            "lineNumber": 51,
+            "className": "org.apache.fineract.infrastructure.core.filters.CorrelationHeaderFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "OncePerRequestFilter.java",
+            "lineNumber": 116,
+            "className": "org.springframework.web.filter.OncePerRequestFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "wrapFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 243,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 230,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 140,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilterInternal",
+            "fileName": "RequestResponseFilter.java",
+            "lineNumber": 39,
+            "className": "org.apache.fineract.infrastructure.core.filters.RequestResponseFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "OncePerRequestFilter.java",
+            "lineNumber": 116,
+            "className": "org.springframework.web.filter.OncePerRequestFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "wrapFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 243,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 230,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 140,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ExceptionTranslationFilter.java",
+            "lineNumber": 126,
+            "className": "org.springframework.security.web.access.ExceptionTranslationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ExceptionTranslationFilter.java",
+            "lineNumber": 120,
+            "className": "org.springframework.security.web.access.ExceptionTranslationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "wrapFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 243,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 230,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 140,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "SessionManagementFilter.java",
+            "lineNumber": 132,
+            "className": "org.springframework.security.web.session.SessionManagementFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "SessionManagementFilter.java",
+            "lineNumber": 86,
+            "className": "org.springframework.security.web.session.SessionManagementFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "wrapFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 243,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 230,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 140,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "AnonymousAuthenticationFilter.java",
+            "lineNumber": 100,
+            "className": "org.springframework.security.web.authentication.AnonymousAuthenticationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "wrapFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 243,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 230,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 140,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "SecurityContextHolderAwareRequestFilter.java",
+            "lineNumber": 181,
+            "className": "org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "wrapFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 243,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 230,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 140,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "RequestCacheAwareFilter.java",
+            "lineNumber": 63,
+            "className": "org.springframework.security.web.savedrequest.RequestCacheAwareFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "wrapFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 243,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 230,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 140,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilterInternal",
+            "fileName": "BasicAuthenticationFilter.java",
+            "lineNumber": 247,
+            "className": "org.springframework.security.web.authentication.www.BasicAuthenticationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "OncePerRequestFilter.java",
+            "lineNumber": 116,
+            "className": "org.springframework.web.filter.OncePerRequestFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "wrapFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 243,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 230,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 140,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "LogoutFilter.java",
+            "lineNumber": 110,
+            "className": "org.springframework.security.web.authentication.logout.LogoutFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "LogoutFilter.java",
+            "lineNumber": 96,
+            "className": "org.springframework.security.web.authentication.logout.LogoutFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "wrapFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 243,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 230,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 140,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilterInternal",
+            "fileName": "CorsFilter.java",
+            "lineNumber": 91,
+            "className": "org.springframework.web.filter.CorsFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "OncePerRequestFilter.java",
+            "lineNumber": 116,
+            "className": "org.springframework.web.filter.OncePerRequestFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "wrapFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 243,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 230,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 140,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doHeadersAfter",
+            "fileName": "HeaderWriterFilter.java",
+            "lineNumber": 90,
+            "className": "org.springframework.security.web.header.HeaderWriterFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilterInternal",
+            "fileName": "HeaderWriterFilter.java",
+            "lineNumber": 75,
+            "className": "org.springframework.security.web.header.HeaderWriterFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "OncePerRequestFilter.java",
+            "lineNumber": 116,
+            "className": "org.springframework.web.filter.OncePerRequestFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "wrapFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 243,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 230,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 140,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "SecurityContextHolderFilter.java",
+            "lineNumber": 82,
+            "className": "org.springframework.security.web.context.SecurityContextHolderFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "SecurityContextHolderFilter.java",
+            "lineNumber": 69,
+            "className": "org.springframework.security.web.context.SecurityContextHolderFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "wrapFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 243,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 230,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 140,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilterInternal",
+            "fileName": "BasicAuthenticationFilter.java",
+            "lineNumber": 247,
+            "className": "org.springframework.security.web.authentication.www.BasicAuthenticationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilterInternal",
+            "fileName": "TenantAwareBasicAuthenticationFilter.java",
+            "lineNumber": 153,
+            "className": "org.apache.fineract.infrastructure.security.filter.TenantAwareBasicAuthenticationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "OncePerRequestFilter.java",
+            "lineNumber": 116,
+            "className": "org.springframework.web.filter.OncePerRequestFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "wrapFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 243,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 230,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 140,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilterInternal",
+            "fileName": "WebAsyncManagerIntegrationFilter.java",
+            "lineNumber": 62,
+            "className": "org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "OncePerRequestFilter.java",
+            "lineNumber": 116,
+            "className": "org.springframework.web.filter.OncePerRequestFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "wrapFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 243,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 230,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 140,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilterInternal",
+            "fileName": "HttpsRedirectFilter.java",
+            "lineNumber": 63,
+            "className": "org.springframework.security.web.transport.HttpsRedirectFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "OncePerRequestFilter.java",
+            "lineNumber": 116,
+            "className": "org.springframework.web.filter.OncePerRequestFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "wrapFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 243,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 230,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 140,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilterInternal",
+            "fileName": "DisableEncodeUrlFilter.java",
+            "lineNumber": 42,
+            "className": "org.springframework.security.web.session.DisableEncodeUrlFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "OncePerRequestFilter.java",
+            "lineNumber": 116,
+            "className": "org.springframework.web.filter.OncePerRequestFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "wrapFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 243,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "lambda$wrap$0",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 336,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$AroundFilterObservation$SimpleAroundFilterObservation",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 227,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ObservationFilterChainDecorator.java",
+            "lineNumber": 140,
+            "className": "org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilterInternal",
+            "fileName": "FilterChainProxy.java",
+            "lineNumber": 237,
+            "className": "org.springframework.security.web.FilterChainProxy",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "FilterChainProxy.java",
+            "lineNumber": 195,
+            "className": "org.springframework.security.web.FilterChainProxy",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "CompositeFilter.java",
+            "lineNumber": 113,
+            "className": "org.springframework.web.filter.CompositeFilter$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ServletRequestPathFilter.java",
+            "lineNumber": 52,
+            "className": "org.springframework.web.filter.ServletRequestPathFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "CompositeFilter.java",
+            "lineNumber": 113,
+            "className": "org.springframework.web.filter.CompositeFilter$VirtualFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "CompositeFilter.java",
+            "lineNumber": 74,
+            "className": "org.springframework.web.filter.CompositeFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "WebSecurityConfiguration.java",
+            "lineNumber": 317,
+            "className": "org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "invokeDelegate",
+            "fileName": "DelegatingFilterProxy.java",
+            "lineNumber": 355,
+            "className": "org.springframework.web.filter.DelegatingFilterProxy",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "DelegatingFilterProxy.java",
+            "lineNumber": 272,
+            "className": "org.springframework.web.filter.DelegatingFilterProxy",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ApplicationFilterChain.java",
+            "lineNumber": 111,
+            "className": "org.apache.catalina.core.ApplicationFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilterInternal",
+            "fileName": "FormContentFilter.java",
+            "lineNumber": 93,
+            "className": "org.springframework.web.filter.FormContentFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "OncePerRequestFilter.java",
+            "lineNumber": 116,
+            "className": "org.springframework.web.filter.OncePerRequestFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ApplicationFilterChain.java",
+            "lineNumber": 111,
+            "className": "org.apache.catalina.core.ApplicationFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilterInternal",
+            "fileName": "ServerHttpObservationFilter.java",
+            "lineNumber": 110,
+            "className": "org.springframework.web.filter.ServerHttpObservationFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "OncePerRequestFilter.java",
+            "lineNumber": 116,
+            "className": "org.springframework.web.filter.OncePerRequestFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ApplicationFilterChain.java",
+            "lineNumber": 111,
+            "className": "org.apache.catalina.core.ApplicationFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilterInternal",
+            "fileName": "CharacterEncodingFilter.java",
+            "lineNumber": 199,
+            "className": "org.springframework.web.filter.CharacterEncodingFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "OncePerRequestFilter.java",
+            "lineNumber": 116,
+            "className": "org.springframework.web.filter.OncePerRequestFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ApplicationFilterChain.java",
+            "lineNumber": 111,
+            "className": "org.apache.catalina.core.ApplicationFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "OncePerRequestFilter.java",
+            "lineNumber": 101,
+            "className": "org.springframework.web.filter.OncePerRequestFilter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doFilter",
+            "fileName": "ApplicationFilterChain.java",
+            "lineNumber": 111,
+            "className": "org.apache.catalina.core.ApplicationFilterChain",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "invoke",
+            "fileName": "StandardWrapperValve.java",
+            "lineNumber": 166,
+            "className": "org.apache.catalina.core.StandardWrapperValve",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "invoke",
+            "fileName": "StandardContextValve.java",
+            "lineNumber": 77,
+            "className": "org.apache.catalina.core.StandardContextValve",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "invoke",
+            "fileName": "AuthenticatorBase.java",
+            "lineNumber": 540,
+            "className": "org.apache.catalina.authenticator.AuthenticatorBase",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "invoke",
+            "fileName": "StandardHostValve.java",
+            "lineNumber": 115,
+            "className": "org.apache.catalina.core.StandardHostValve",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "invoke",
+            "fileName": "ErrorReportValve.java",
+            "lineNumber": 86,
+            "className": "org.apache.catalina.valves.ErrorReportValve",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "invoke",
+            "fileName": "StandardEngineValve.java",
+            "lineNumber": 71,
+            "className": "org.apache.catalina.core.StandardEngineValve",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "service",
+            "fileName": "CoyoteAdapter.java",
+            "lineNumber": 347,
+            "className": "org.apache.catalina.connector.CoyoteAdapter",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "service",
+            "fileName": "Http11Processor.java",
+            "lineNumber": 408,
+            "className": "org.apache.coyote.http11.Http11Processor",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "process",
+            "fileName": "AbstractProcessorLight.java",
+            "lineNumber": 71,
+            "className": "org.apache.coyote.AbstractProcessorLight",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "process",
+            "fileName": "AbstractProtocol.java",
+            "lineNumber": 1307,
+            "className": "org.apache.coyote.AbstractProtocol$ConnectionHandler",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "doRun",
+            "fileName": "NioEndpoint.java",
+            "lineNumber": 2201,
+            "className": "org.apache.tomcat.util.net.NioEndpoint$SocketProcessor",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "run",
+            "fileName": "SocketProcessorBase.java",
+            "lineNumber": 74,
+            "className": "org.apache.tomcat.util.net.SocketProcessorBase",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "runWorker",
+            "fileName": "ThreadPoolExecutor.java",
+            "lineNumber": 949,
+            "className": "org.apache.tomcat.util.threads.ThreadPoolExecutor",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "run",
+            "fileName": "ThreadPoolExecutor.java",
+            "lineNumber": 483,
+            "className": "org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker",
+            "nativeMethod": false
+           },
+           {
+            "methodName": "run",
+            "fileName": "TaskThread.java",
+            "lineNumber": 74,
+            "className": "org.apache.tomcat.util.threads.TaskThread$WrappingRunnable",
+            "nativeMethod": false
+           },
+           {
+            "moduleName": "java.base",
+            "moduleVersion": "25.0.5",
+            "methodName": "run",
+            "lineNumber": -1,
+            "className": "java.lang.Thread",
+            "nativeMethod": false
+           }
+          ],
+          "message": "No enum constant org.apache.fineract.infrastructure.businessdate.domain.BusinessDateType.NOPE",
+          "suppressed": [],
+          "localizedMessage": "No enum constant org.apache.fineract.infrastructure.businessdate.domain.BusinessDateType.NOPE"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en",
+    "type": "COB_DATE",
+    "date": "2026-11-19"
+   },
+   "auth": [
+    "clerk",
+    "Zebra7-Mango#Quilt"
+   ],
+   "ignore": [
+    "timestamp",
+    "path"
+   ],
+   "status": 403,
+   "response": {
+    "timestamp": "2026-11-14T18:39:14.127Z",
+    "status": 403,
+    "error": "Forbidden",
+    "path": "/fineract-provider/api/v1/businessdate"
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/configurations/44",
+   "body": {
+    "enabled": false
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 44,
+    "changes": {
+     "enabled": false
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en",
+    "type": "COB_DATE",
+    "date": "2026-11-19"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Business date functionality is not enabled",
+      "defaultUserMessage": "Business date functionality is not enabled",
+      "userMessageGlobalisationCode": "business.date.is.not.enabled",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "business.date.is.not.enabled"
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}

@@ -114,6 +114,15 @@
       "tables": [
         "m_appuser_previous_password"
       ]
+    },
+    {
+      "kind": "schema",
+      "app": "ecb_platform",
+      "version": "20261114140000",
+      "name": "create_business_date_table",
+      "tables": [
+        "m_business_date"
+      ]
     }
   ],
   "deferred_foreign_keys": [

@@ -155,7 +155,7 @@
       "app": "ecb_platform",
       "title": "Platform: tenancy, security, commands, audit, business date",
       "phase": 1,
-      "status": "in progress (14 Nov 2026). Built: tenant registry and per-tenant repos; the command pipeline (permissions, maker-checker, idempotency, stored commands with passwords masked, hooks); the read and write sides of roles (with their permissions), users (create, update, delete, change password, `{bcrypt}` hashes, password policy and reuse check), global configuration, password preferences and the maker-checker permission flags; authentication against the user table; tenant migrations generated from Fineract's schema with its seed data; the maker-checker inbox and audit trail (list, approve, reject, delete, search template; the URL Fineract records with each command), and the request handling the write side shares (Params, Validation, Changes, Integrity, RecurrenceRule). Still to do: business date, instance mode, Batch API, data tables, two-factor authentication, password reset by e-mail, sending a generated password.",
+      "status": "in progress (14 Nov 2026). Built: tenant registry and per-tenant repos; the command pipeline (permissions, maker-checker, idempotency, stored commands with passwords masked, hooks); the read and write sides of roles (with their permissions), users (create, update, delete, change password, `{bcrypt}` hashes, password policy and reuse check), global configuration, password preferences and the maker-checker permission flags; authentication against the user table; tenant migrations generated from Fineract's schema with its seed data; the maker-checker inbox and audit trail (list, approve, reject, delete, search template; the URL Fineract records with each command), and the request handling the write side shares (Params, Validation, Changes, Integrity, RecurrenceRule). Business date is built (the feature switch, the two dates and the automatic close-of-business adjustment; `BusinessDate.current/0` gives the date to work on). Still to do: instance mode, Batch API, data tables, two-factor authentication, password reset by e-mail, sending a generated password.",
       "depends_on": [
         "ecb_money"
       ],
@@ -252,7 +252,7 @@
       "build_order": [
         "Tenant registry, command pipeline, authentication, read model (done)",
         "Request handling for writes, roles, users, configuration, password preferences, maker-checker permissions (done)",
-        "Maker-checker inbox API (list, approve, reject), business date (next)",
+        "Maker-checker inbox, audit trail and business date (done)",
         "Batch API, data tables, jobs scheduler hooks",
         "Two-factor authentication, password reset and e-mail"
       ],
@@ -1023,7 +1023,7 @@
       "app": "ecb_api_fineract",
       "title": "Fineract-compatible REST API",
       "phase": 1,
-      "status": "in progress (14 Nov 2026). Built: tenant resolution, HTTP basic authentication, `POST /authentication`, the read and write endpoints of offices, funds, payment types, staff, codes and code values, working days, holidays, roles, users, maker-checker inbox, audits, configurations, password preferences and permissions, the read endpoints of currencies and account-number formats, the health check, Fineract's error shapes and an HTTP 501 for operations not built yet. 33 recorded Fineract responses and 14 recorded write scenarios (about 340 requests) are matched exactly. Contract probe against Fineract: 20 of 146 counted `must` and `should` read operations pass (13.7%).",
+      "status": "in progress (14 Nov 2026). Built: tenant resolution, HTTP basic authentication, `POST /authentication`, the read and write endpoints of offices, funds, payment types, staff, codes and code values, working days, holidays, roles, users, maker-checker inbox, audits, business date, configurations, password preferences and permissions, the read endpoints of currencies and account-number formats, the health check, Fineract's error shapes and an HTTP 501 for operations not built yet. 33 recorded Fineract responses and 15 recorded write scenarios (about 360 requests) are matched exactly. Contract probe against Fineract: 20 of 146 counted `must` and `should` read operations pass (13.7%).",
       "depends_on": [
         "ecb_platform",
         "ecb_org",

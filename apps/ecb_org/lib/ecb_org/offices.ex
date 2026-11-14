@@ -111,7 +111,7 @@ defmodule ECBOrg.Offices do
         %{id: o.id, name: o.name, name_decorated: name_decorated(o.hierarchy, o.name)}
       end)
 
-    %{opening_date: Date.utc_today(), allowed_parents: parents}
+    %{opening_date: ECBPlatform.BusinessDate.current(), allowed_parents: parents}
   end
 
   @doc """

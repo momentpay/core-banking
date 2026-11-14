@@ -2581,6 +2581,205 @@
           }
         }
       ]
+    },
+    {
+      "name": "businessdate",
+      "reset": [
+        "roles",
+        "configuration"
+      ],
+      "steps": [
+        {
+          "method": "POST",
+          "path": "/v1/roles",
+          "body": {
+            "name": "Clerk",
+            "description": "Enters data"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/roles/3/permissions",
+          "body": {
+            "permissions": {
+              "READ_OFFICE": true
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/users",
+          "body": {
+            "username": "clerk",
+            "firstname": "C",
+            "lastname": "Lerk",
+            "email": "c@example.test",
+            "officeId": 1,
+            "roles": [
+              3
+            ],
+            "sendPasswordToEmail": false,
+            "password": "Zebra7-Mango#Quilt",
+            "repeatPassword": "Zebra7-Mango#Quilt"
+          }
+        },
+        {
+          "path": "/v1/businessdate"
+        },
+        {
+          "path": "/v1/businessdate/BUSINESS_DATE"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en",
+            "type": "BUSINESS_DATE",
+            "date": "2026-11-10"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/44",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "path": "/v1/businessdate"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en",
+            "type": "BUSINESS_DATE",
+            "date": "2026-11-10"
+          }
+        },
+        {
+          "path": "/v1/businessdate"
+        },
+        {
+          "path": "/v1/businessdate/BUSINESS_DATE"
+        },
+        {
+          "path": "/v1/businessdate/COB_DATE"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en",
+            "type": "BUSINESS_DATE",
+            "date": "2026-11-10"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en",
+            "type": "COB_DATE",
+            "date": "2026-11-01"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "11 November 2026",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "path": "/v1/businessdate"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/45",
+          "body": {
+            "enabled": false
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en",
+            "type": "BUSINESS_DATE",
+            "date": "2026-11-20"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en",
+            "type": "BOGUS",
+            "date": "2026-11-20"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en",
+            "type": "COB_DATE",
+            "date": "20 Nov 2026"
+          }
+        },
+        {
+          "path": "/v1/businessdate/NOPE",
+          "ignore": [
+            "args"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en",
+            "type": "COB_DATE",
+            "date": "2026-11-19"
+          },
+          "auth": [
+            "clerk",
+            "Zebra7-Mango#Quilt"
+          ],
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/44",
+          "body": {
+            "enabled": false
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en",
+            "type": "COB_DATE",
+            "date": "2026-11-19"
+          }
+        }
+      ]
     }
   ]
 }
