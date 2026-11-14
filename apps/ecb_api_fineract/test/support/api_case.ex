@@ -46,17 +46,26 @@ defmodule ECBApiFineract.ApiCase do
     # commands are committed on their own as they run, so they outlive a test; they refer to users
     TenantRepo.query!("DELETE FROM m_portfolio_command_source")
 
-    TenantRepo.query!(
-      "DELETE FROM m_appuser_role WHERE appuser_id IN (SELECT id FROM m_appuser WHERE username LIKE 'apitest-%')"
-    )
+    # configuration, password policy and maker-checker flags that tests change
+    for sql <- [
+          "UPDATE c_configuration SET enabled = false, value = NULL, string_value = NULL, date_value = NULL WHERE id = 1",
+          "UPDATE c_configuration SET enabled = true, value = 2 WHERE id = 10",
+          "UPDATE c_configuration SET enabled = false, value = 0 WHERE id = 11",
+          "UPDATE c_configuration SET enabled = true, value = 6 WHERE id = 23",
+          "UPDATE c_configuration SET enabled = true, string_value = 'Asset' WHERE id = 35",
+          "UPDATE c_configuration SET enabled = false, value = 3 WHERE id = 62",
+          "UPDATE m_password_validation_policy SET active = (id = 3)",
+          "UPDATE m_permission SET can_maker_checker = false WHERE code IN ('CREATE_OFFICE', 'UPDATE_OFFICE', 'CREATE_CLIENT', 'DELETE_FUND')"
+        ] do
+      TenantRepo.query!(sql)
+    end
 
-    TenantRepo.query!("DELETE FROM m_appuser WHERE username LIKE 'apitest-%'")
-
-    TenantRepo.query!(
-      "DELETE FROM m_role_permission WHERE role_id IN (SELECT id FROM m_role WHERE name LIKE 'apitest-%')"
-    )
-
-    TenantRepo.query!("DELETE FROM m_role WHERE name LIKE 'apitest-%'")
+    # users beyond the three seeded ones, and what hangs on them
+    TenantRepo.query!("DELETE FROM m_appuser_previous_password")
+    TenantRepo.query!("DELETE FROM m_appuser_role WHERE appuser_id > 3")
+    TenantRepo.query!("DELETE FROM m_appuser WHERE id > 3")
+    TenantRepo.query!("UPDATE m_appuser SET username = 'system' WHERE id = 2")
+    TenantRepo.query!("SELECT setval(pg_get_serial_sequence('m_appuser', 'id'), 3)")
     TenantRepo.query!("DELETE FROM m_code_value WHERE id > 22")
     TenantRepo.query!("DELETE FROM m_code WHERE is_system_defined = false")
     TenantRepo.query!("SELECT setval(pg_get_serial_sequence('m_code', 'id'), 49)")
@@ -70,6 +79,9 @@ defmodule ECBApiFineract.ApiCase do
       "UPDATE m_working_days SET recurrence = 'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA,SU', repayment_rescheduling_enum = 2, extend_term_daily_repayments = false, extend_term_holiday_repayment = false"
     )
 
+    TenantRepo.query!("DELETE FROM m_role_permission WHERE role_id > 2")
+    TenantRepo.query!("DELETE FROM m_role WHERE id > 2")
+    TenantRepo.query!("SELECT setval(pg_get_serial_sequence('m_role', 'id'), 2)")
     TenantRepo.query!("DELETE FROM m_holiday_office")
     TenantRepo.query!("DELETE FROM m_holiday")
     TenantRepo.query!("SELECT setval(pg_get_serial_sequence('m_holiday', 'id'), 1, false)")
@@ -124,6 +136,7 @@ defmodule ECBApiFineract.ApiCase do
   def admin, do: {"mifos", "password"}
 
   @doc "The response body, decoded."
+  def body(%{resp_body: ""}), do: nil
   def body(conn), do: Jason.decode!(conn.resp_body)
 
   @doc "A user in the test tenant with the given permissions; returns `{username, password}`."

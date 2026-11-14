@@ -32,7 +32,16 @@ defmodule ECBPlatform.Commands do
 
   require Logger
 
-  alias ECBPlatform.Commands.{Command, CommandSource, Errors, Handlers, Result, ResultType}
+  alias ECBPlatform.Commands.{
+    Command,
+    CommandSource,
+    Errors,
+    Handlers,
+    Result,
+    ResultType,
+    Sanitizer
+  }
+
   alias ECBPlatform.Configuration
   alias ECBPlatform.Security
   alias ECBPlatform.Security.User
@@ -82,11 +91,23 @@ defmodule ECBPlatform.Commands do
   @spec approve(integer, User.t()) :: outcome()
   def approve(command_source_id, %User{} = user) do
     rescue_known(fn ->
-      with {:ok, source} <- validate_maker_checker_transaction(command_source_id, user) do
+      with {:ok, source} <- validate_maker_checker_transaction(command_source_id, user),
+           :ok <- check_not_sanitized(source) do
         run(command_from_source(source), user, true, [])
       end
     end)
   end
+
+  # A command whose secrets were masked cannot be run again from its stored copy.
+  defp check_not_sanitized(%CommandSource{is_sanitized: true} = source) do
+    {:error,
+     %Errors.UnsupportedCommand{
+       command: "#{source.action_name}_#{source.entity_name}",
+       detail: "its stored copy holds no secrets, so it cannot be approved later"
+     }}
+  end
+
+  defp check_not_sanitized(_source), do: :ok
 
   @doc "Rejects a command that is awaiting approval. Returns the command id."
   @spec reject(integer, User.t()) :: {:ok, integer} | {:error, Exception.t()}
@@ -296,6 +317,9 @@ defmodule ECBPlatform.Commands do
   end
 
   defp save_initial(command, user, key) do
+    {stored_json, sanitized?} =
+      Sanitizer.sanitize(command.entity_name, Command.stored_json(command))
+
     attrs = %{
       action_name: command.action_name,
       entity_name: command.entity_name,
@@ -307,7 +331,7 @@ defmodule ECBPlatform.Commands do
       api_get_url: command.href || "",
       resource_id: command.entity_id,
       subresource_id: command.subentity_id,
-      command_as_json: Command.stored_json(command),
+      command_as_json: stored_json,
       maker_id: user.id,
       made_on_date: NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second),
       made_on_date_utc: DateTime.utc_now(),
@@ -321,7 +345,7 @@ defmodule ECBPlatform.Commands do
       resource_external_id: command.resource_external_id,
       subresource_external_id: command.subresource_external_id,
       loan_external_id: command.loan_external_id,
-      is_sanitized: false,
+      is_sanitized: sanitized?,
       client_ip: command.client_ip
     }
 

@@ -16,6 +16,12 @@ defmodule ECBPlatform.PasswordPolicies do
 
   defp base do
     from p in "m_password_validation_policy",
-      select: %{id: p.id, description: p.description, active: p.active, key: p.key}
+      select: %{
+        id: p.id,
+        description: p.description,
+        active: p.active,
+        key: p.key,
+        regex: p.regex
+      }
   end
 end

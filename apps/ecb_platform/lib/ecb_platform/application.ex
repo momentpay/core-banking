@@ -3,8 +3,28 @@ defmodule ECBPlatform.Application do
 
   use Application
 
+  alias ECBPlatform.Commands.Handlers
+
+  @commands [
+    {"ROLE", "CREATE", ECBPlatform.Handlers.CreateRole},
+    {"ROLE", "UPDATE", ECBPlatform.Handlers.UpdateRole},
+    {"ROLE", "DELETE", ECBPlatform.Handlers.DeleteRole},
+    {"ROLE", "ENABLE", ECBPlatform.Handlers.EnableRole},
+    {"ROLE", "DISABLE", ECBPlatform.Handlers.DisableRole},
+    {"ROLE", "PERMISSIONS", ECBPlatform.Handlers.UpdateRolePermissions},
+    {"USER", "CREATE", ECBPlatform.Handlers.CreateUser},
+    {"USER", "UPDATE", ECBPlatform.Handlers.UpdateUser},
+    {"USER", "DELETE", ECBPlatform.Handlers.DeleteUser},
+    {"USER", "CHANGEPWD", ECBPlatform.Handlers.ChangeUserPassword},
+    {"CONFIGURATION", "UPDATE", ECBPlatform.Handlers.UpdateConfiguration},
+    {"PASSWORD_PREFERENCES", "UPDATE", ECBPlatform.Handlers.UpdatePasswordPreferences},
+    {"PERMISSION", "UPDATE", ECBPlatform.Handlers.UpdateMakerCheckerPermissions}
+  ]
+
   @impl true
   def start(_type, _args) do
+    for {entity, action, handler} <- @commands, do: Handlers.register(entity, action, handler)
+
     children = [
       {DNSCluster, query: Application.get_env(:ecb_platform, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: ECBPlatform.PubSub},

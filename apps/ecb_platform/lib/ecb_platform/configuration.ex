@@ -67,6 +67,38 @@ defmodule ECBPlatform.Configuration do
     end
   end
 
+  @doc "One property by id, or `{:error, ResourceNotFound}`."
+  @spec get_by_id(integer) :: {:ok, map} | {:error, Exception.t()}
+  def get_by_id(id) when is_integer(id) do
+    case TenantRepo.one(from(c in "c_configuration", where: c.id == ^id, select: ^fields())) do
+      nil ->
+        {:error,
+         ResourceNotFound.new(
+           "error.msg.configuration.id.invalid",
+           "Configuration identifier `#{id}` does not exist",
+           [id]
+         )}
+
+      row ->
+        {:ok, with_options(row)}
+    end
+  end
+
+  @doc """
+  The values a restricted text property may take, as `%{values: [...], multiple: boolean}`, or `nil` for a
+  property that takes any text.
+  """
+  @spec allowed_values(String.t()) :: %{values: [String.t()], multiple: boolean} | nil
+  def allowed_values(name) do
+    case Map.get(@options, name) do
+      nil ->
+        nil
+
+      %{"allowedValues" => values, "multipleValuesAllowed" => multiple} ->
+        %{values: values, multiple: multiple}
+    end
+  end
+
   defp fields do
     dynamic(
       [c],

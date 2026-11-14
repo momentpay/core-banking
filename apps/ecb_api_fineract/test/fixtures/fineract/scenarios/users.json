@@ -1,0 +1,1483 @@
+{
+ "name": "users",
+ "reset": [
+  "roles"
+ ],
+ "steps": [
+  {
+   "method": "POST",
+   "path": "/v1/roles",
+   "body": {
+    "name": "Teller",
+    "description": "Handles cash"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/roles",
+   "body": {
+    "name": "Auditor",
+    "description": "Reads"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/users",
+   "body": {
+    "username": "ada",
+    "firstname": "Ada",
+    "lastname": "Lovelace",
+    "email": "ada@example.test",
+    "officeId": 1,
+    "roles": [
+     3
+    ],
+    "sendPasswordToEmail": false,
+    "password": "Zebra7-Mango#Quilt",
+    "repeatPassword": "Zebra7-Mango#Quilt"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 4
+   }
+  },
+  {
+   "path": "/v1/users/4",
+   "status": 200,
+   "response": {
+    "id": 4,
+    "username": "ada",
+    "officeId": 1,
+    "officeName": "Head Office",
+    "firstname": "Ada",
+    "lastname": "Lovelace",
+    "email": "ada@example.test",
+    "passwordNeverExpires": false,
+    "availableRoles": [
+     {
+      "id": 1,
+      "name": "Super user",
+      "description": "This role provides all application permissions.",
+      "disabled": false
+     },
+     {
+      "id": 2,
+      "name": "Self Service User",
+      "description": "self service user role",
+      "disabled": true
+     },
+     {
+      "id": 4,
+      "name": "Auditor",
+      "description": "Reads",
+      "disabled": false
+     }
+    ],
+    "selectedRoles": [
+     {
+      "id": 3,
+      "name": "Teller",
+      "description": "Handles cash",
+      "disabled": false
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/users",
+   "status": 200,
+   "response": [
+    {
+     "id": 4,
+     "username": "ada",
+     "officeId": 1,
+     "officeName": "Head Office",
+     "firstname": "Ada",
+     "lastname": "Lovelace",
+     "email": "ada@example.test",
+     "passwordNeverExpires": false,
+     "selectedRoles": [
+      {
+       "id": 3,
+       "name": "Teller",
+       "description": "Handles cash",
+       "disabled": false
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "username": "interopUser",
+     "officeId": 1,
+     "officeName": "Head Office",
+     "firstname": "Interop",
+     "lastname": "User",
+     "email": "email@email.com",
+     "passwordNeverExpires": false,
+     "selectedRoles": [
+      {
+       "id": 1,
+       "name": "Super user",
+       "description": "This role provides all application permissions.",
+       "disabled": false
+      }
+     ]
+    },
+    {
+     "id": 1,
+     "username": "mifos",
+     "officeId": 1,
+     "officeName": "Head Office",
+     "firstname": "App",
+     "lastname": "Administrator",
+     "email": "demomfi@mifos.org",
+     "passwordNeverExpires": false,
+     "selectedRoles": [
+      {
+       "id": 1,
+       "name": "Super user",
+       "description": "This role provides all application permissions.",
+       "disabled": false
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "username": "system",
+     "officeId": 1,
+     "officeName": "Head Office",
+     "firstname": "system",
+     "lastname": "system",
+     "email": "demomfi@mifos.org",
+     "passwordNeverExpires": false,
+     "selectedRoles": []
+    }
+   ]
+  },
+  {
+   "path": "/v1/users/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "User with ID 99 does not exist",
+      "defaultUserMessage": "User with ID 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.user.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/users",
+   "body": {
+    "username": "ada2",
+    "firstname": "Ada",
+    "lastname": "Lovelace",
+    "email": "ada@example.test",
+    "officeId": 1,
+    "roles": [
+     3
+    ],
+    "sendPasswordToEmail": false,
+    "password": "Zebra7-Mango#Quilt",
+    "repeatPassword": "Zebra7-Mango#Quilt"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 5
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/users",
+   "body": {},
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `username` is mandatory.",
+      "defaultUserMessage": "The parameter `username` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.user.username.cannot.be.blank",
+      "parameterName": "username",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `firstname` is mandatory.",
+      "defaultUserMessage": "The parameter `firstname` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.user.firstname.cannot.be.blank",
+      "parameterName": "firstname",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `lastname` is mandatory.",
+      "defaultUserMessage": "The parameter `lastname` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.user.lastname.cannot.be.blank",
+      "parameterName": "lastname",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `officeId` is mandatory.",
+      "defaultUserMessage": "The parameter `officeId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.user.officeId.cannot.be.blank",
+      "parameterName": "officeId",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `roles` cannot be empty. You must select at least one.",
+      "defaultUserMessage": "The parameter `roles` cannot be empty. You must select at least one.",
+      "userMessageGlobalisationCode": "validation.msg.user.roles.cannot.be.empty",
+      "parameterName": "roles",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/users",
+   "body": {
+    "username": "x1",
+    "firstname": "Ada",
+    "lastname": "Lovelace",
+    "email": "ada@example.test",
+    "officeId": 1,
+    "roles": [
+     3
+    ],
+    "sendPasswordToEmail": false,
+    "password": "weak",
+    "repeatPassword": "weak"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "Password must be 12 to 50 characters long, containing at least one uppercase letter, one lowercase letter, one numeric digit, and one special character, with no spaces or consecutive repeating characters",
+      "defaultUserMessage": "Password must be 12 to 50 characters long, containing at least one uppercase letter, one lowercase letter, one numeric digit, and one special character, with no spaces or consecutive repeating characters",
+      "userMessageGlobalisationCode": "validation.msg.user.password.does.not.match.regexp",
+      "parameterName": "password",
+      "args": [
+       {
+        "value": "weak"
+       },
+       {
+        "value": "^(?!.*(.)\\1)(?!.*\\s)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\\w\\s]).{12,50}$"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/users",
+   "body": {
+    "username": "x2",
+    "firstname": "Ada",
+    "lastname": "Lovelace",
+    "email": "ada@example.test",
+    "officeId": 1,
+    "roles": [
+     3
+    ],
+    "sendPasswordToEmail": false,
+    "password": "Zebra7-Mango#Quilt",
+    "repeatPassword": "Different7-Mango#Quilt"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `repeatPassword` is not equal to password.",
+      "defaultUserMessage": "The parameter `repeatPassword` is not equal to password.",
+      "userMessageGlobalisationCode": "validation.msg.user.repeatPassword.not.equal.to.password",
+      "parameterName": "repeatPassword",
+      "args": [
+       {
+        "value": "Different7-Mango#Quilt"
+       },
+       {
+        "value": "Zebra7-Mango#Quilt"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/users",
+   "body": {
+    "username": "x3",
+    "firstname": "Ada",
+    "lastname": "Lovelace",
+    "email": "ada@example.test",
+    "officeId": 99,
+    "roles": [
+     3
+    ],
+    "sendPasswordToEmail": false,
+    "password": "Zebra7-Mango#Quilt",
+    "repeatPassword": "Zebra7-Mango#Quilt"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Office with identifier 99 does not exist",
+      "defaultUserMessage": "Office with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.office.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/users",
+   "body": {
+    "username": "x4",
+    "firstname": "Ada",
+    "lastname": "Lovelace",
+    "email": "ada@example.test",
+    "officeId": 1,
+    "roles": [
+     99
+    ],
+    "sendPasswordToEmail": false,
+    "password": "Zebra7-Mango#Quilt",
+    "repeatPassword": "Zebra7-Mango#Quilt"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Role with identifier 99 does not exist",
+      "defaultUserMessage": "Role with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.role.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/users",
+   "body": {
+    "username": "x5",
+    "firstname": "Ada",
+    "lastname": "Lovelace",
+    "email": "ada@example.test",
+    "officeId": 1,
+    "roles": [],
+    "sendPasswordToEmail": false,
+    "password": "Zebra7-Mango#Quilt",
+    "repeatPassword": "Zebra7-Mango#Quilt"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `roles` cannot be empty. You must select at least one.",
+      "defaultUserMessage": "The parameter `roles` cannot be empty. You must select at least one.",
+      "userMessageGlobalisationCode": "validation.msg.user.roles.cannot.be.empty",
+      "parameterName": "roles",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/users",
+   "body": {
+    "username": "x6",
+    "firstname": "Ada",
+    "lastname": "Lovelace",
+    "email": "ada@example.test",
+    "officeId": 1,
+    "roles": [
+     3
+    ],
+    "sendPasswordToEmail": false,
+    "password": "Zebra7-Mango#Quilt",
+    "repeatPassword": "Zebra7-Mango#Quilt",
+    "staffId": 99
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Staff with identifier 99 does not exist",
+      "defaultUserMessage": "Staff with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.staff.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/users",
+   "body": {
+    "username": "x7",
+    "firstname": "Ada",
+    "lastname": "Lovelace",
+    "email": "ada@example.test",
+    "officeId": 1,
+    "roles": [
+     3
+    ],
+    "sendPasswordToEmail": false,
+    "password": "Zebra7-Mango#Quilt",
+    "repeatPassword": "Zebra7-Mango#Quilt",
+    "bogus": 1
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter bogus is not supported.",
+      "defaultUserMessage": "bogus",
+      "userMessageGlobalisationCode": "error.msg.parameter.unsupported",
+      "parameterName": "bogus",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/users",
+   "body": {
+    "username": "uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu",
+    "firstname": "Ada",
+    "lastname": "Lovelace",
+    "email": "ada@example.test",
+    "officeId": 1,
+    "roles": [
+     3
+    ],
+    "sendPasswordToEmail": false,
+    "password": "Zebra7-Mango#Quilt",
+    "repeatPassword": "Zebra7-Mango#Quilt"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `username` exceeds max length of 100.",
+      "defaultUserMessage": "The parameter `username` exceeds max length of 100.",
+      "userMessageGlobalisationCode": "validation.msg.user.username.exceeds.max.length",
+      "parameterName": "username",
+      "args": [
+       {
+        "value": 100
+       },
+       {
+        "value": "uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/users",
+   "body": {
+    "username": "x8",
+    "firstname": "Ada",
+    "lastname": "Lovelace",
+    "email": "ada@example.test",
+    "officeId": 0,
+    "roles": [
+     3
+    ],
+    "sendPasswordToEmail": false,
+    "password": "Zebra7-Mango#Quilt",
+    "repeatPassword": "Zebra7-Mango#Quilt"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `officeId` must be greater than 0.",
+      "defaultUserMessage": "The parameter `officeId` must be greater than 0.",
+      "userMessageGlobalisationCode": "validation.msg.user.officeId.not.greater.than.zero",
+      "parameterName": "officeId",
+      "args": [
+       {
+        "value": 0
+       },
+       {
+        "value": 0
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/users/4",
+   "body": {
+    "firstname": "Augusta"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 4,
+    "changes": {
+     "firstname": "Augusta"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/users/4",
+   "body": {
+    "firstname": "Augusta"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 4,
+    "changes": {}
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/users/4",
+   "body": {
+    "roles": [
+     3,
+     4
+    ]
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 4,
+    "changes": {
+     "roles": [
+      "3",
+      "4"
+     ]
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/users/4",
+   "body": {
+    "roles": [
+     4,
+     3
+    ]
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 4,
+    "changes": {}
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/users/4",
+   "body": {
+    "email": "augusta@example.test",
+    "lastname": "King"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 4,
+    "changes": {
+     "lastname": "King",
+     "email": "augusta@example.test"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/users/4",
+   "body": {
+    "password": "Quartz9-Lemon!Brook",
+    "repeatPassword": "Quartz9-Lemon!Brook"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "Password must be 12 to 50 characters long, containing at least one uppercase letter, one lowercase letter, one numeric digit, and one special character, with no spaces or consecutive repeating characters",
+      "defaultUserMessage": "Password must be 12 to 50 characters long, containing at least one uppercase letter, one lowercase letter, one numeric digit, and one special character, with no spaces or consecutive repeating characters",
+      "userMessageGlobalisationCode": "validation.msg.user.password.does.not.match.regexp",
+      "parameterName": "password",
+      "args": [
+       {
+        "value": "Quartz9-Lemon!Brook"
+       },
+       {
+        "value": "^(?!.*(.)\\1)(?!.*\\s)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\\w\\s]).{12,50}$"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/users/4",
+   "body": {
+    "password": "Quartz9-Lemon!Brook",
+    "repeatPassword": "Quartz9-Lemon!Brook"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "Password must be 12 to 50 characters long, containing at least one uppercase letter, one lowercase letter, one numeric digit, and one special character, with no spaces or consecutive repeating characters",
+      "defaultUserMessage": "Password must be 12 to 50 characters long, containing at least one uppercase letter, one lowercase letter, one numeric digit, and one special character, with no spaces or consecutive repeating characters",
+      "userMessageGlobalisationCode": "validation.msg.user.password.does.not.match.regexp",
+      "parameterName": "password",
+      "args": [
+       {
+        "value": "Quartz9-Lemon!Brook"
+       },
+       {
+        "value": "^(?!.*(.)\\1)(?!.*\\s)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\\w\\s]).{12,50}$"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/users/4",
+   "body": {
+    "password": "weak",
+    "repeatPassword": "weak"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "Password must be 12 to 50 characters long, containing at least one uppercase letter, one lowercase letter, one numeric digit, and one special character, with no spaces or consecutive repeating characters",
+      "defaultUserMessage": "Password must be 12 to 50 characters long, containing at least one uppercase letter, one lowercase letter, one numeric digit, and one special character, with no spaces or consecutive repeating characters",
+      "userMessageGlobalisationCode": "validation.msg.user.password.does.not.match.regexp",
+      "parameterName": "password",
+      "args": [
+       {
+        "value": "weak"
+       },
+       {
+        "value": "^(?!.*(.)\\1)(?!.*\\s)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\\w\\s]).{12,50}$"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/users/4",
+   "body": {
+    "password": "Zebra7-Mango#Quilt",
+    "repeatPassword": "nope"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `repeatPassword` is not equal to password.",
+      "defaultUserMessage": "The parameter `repeatPassword` is not equal to password.",
+      "userMessageGlobalisationCode": "validation.msg.user.repeatPassword.not.equal.to.password",
+      "parameterName": "repeatPassword",
+      "args": [
+       {
+        "value": "nope"
+       },
+       {
+        "value": "Zebra7-Mango#Quilt"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/users/4",
+   "body": {
+    "username": "augusta"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 4,
+    "changes": {
+     "username": "augusta"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/users/4",
+   "body": {
+    "passwordNeverExpires": true,
+    "isLoginRetriesEnabled": true,
+    "isPasswordResetAllowed": true
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 4,
+    "changes": {
+     "passwordNeverExpires": true,
+     "isLoginRetriesEnabled": true,
+     "isPasswordResetAllowed": true
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/users/4",
+   "body": {
+    "officeId": 99
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Office with identifier 99 does not exist",
+      "defaultUserMessage": "Office with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.office.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/users/4",
+   "body": {
+    "roles": []
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `roles` cannot be empty. You must select at least one.",
+      "defaultUserMessage": "The parameter `roles` cannot be empty. You must select at least one.",
+      "userMessageGlobalisationCode": "validation.msg.user.roles.cannot.be.empty",
+      "parameterName": "roles",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/users/4",
+   "body": {
+    "roles": [
+     99
+    ]
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Role with identifier 99 does not exist",
+      "defaultUserMessage": "Role with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.role.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/users/4",
+   "body": {
+    "username": ""
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `username` is mandatory.",
+      "defaultUserMessage": "The parameter `username` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.user.username.cannot.be.blank",
+      "parameterName": "username",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/users/4",
+   "body": {},
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 4,
+    "changes": {}
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/users/4",
+   "body": {
+    "bogus": 1
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter bogus is not supported.",
+      "defaultUserMessage": "bogus",
+      "userMessageGlobalisationCode": "error.msg.parameter.unsupported",
+      "parameterName": "bogus",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/users/99",
+   "body": {
+    "firstname": "x"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "User with ID 99 does not exist",
+      "defaultUserMessage": "User with ID 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.user.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/users/2",
+   "body": {
+    "username": "renamed"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "The user associated with credentials passed on this request does not have sufficient privileges to perform this action.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Insufficient privileges to perform this action.",
+    "userMessageGlobalisationCode": "error.msg.not.authorized",
+    "errors": [
+     {
+      "developerMessage": "User name of current system user may not be modified",
+      "defaultUserMessage": "User name of current system user may not be modified",
+      "userMessageGlobalisationCode": "error.msg.not.authorized",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/users/4",
+   "body": {
+    "roles": [
+     3
+    ]
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 4,
+    "changes": {
+     "roles": [
+      "3"
+     ]
+    }
+   }
+  },
+  {
+   "path": "/v1/users/4",
+   "status": 200,
+   "response": {
+    "id": 4,
+    "username": "augusta",
+    "officeId": 1,
+    "officeName": "Head Office",
+    "firstname": "Augusta",
+    "lastname": "King",
+    "email": "augusta@example.test",
+    "passwordNeverExpires": true,
+    "availableRoles": [
+     {
+      "id": 1,
+      "name": "Super user",
+      "description": "This role provides all application permissions.",
+      "disabled": false
+     },
+     {
+      "id": 2,
+      "name": "Self Service User",
+      "description": "self service user role",
+      "disabled": true
+     },
+     {
+      "id": 4,
+      "name": "Auditor",
+      "description": "Reads",
+      "disabled": false
+     }
+    ],
+    "selectedRoles": [
+     {
+      "id": 3,
+      "name": "Teller",
+      "description": "Handles cash",
+      "disabled": false
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/users/4/pwd",
+   "body": {
+    "password": "Zebra7-Mango#Quilt",
+    "repeatPassword": "Zebra7-Mango#Quilt"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 4,
+    "changes": {
+     "password": true
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/users/4/pwd",
+   "body": {
+    "password": "Zebra7-Mango#Quilt",
+    "repeatPassword": "Zebra7-Mango#Quilt"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 4,
+    "changes": {
+     "password": true
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/users/4/pwd",
+   "body": {
+    "password": "weak",
+    "repeatPassword": "weak"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "Password must be 12 to 50 characters long, containing at least one uppercase letter, one lowercase letter, one numeric digit, and one special character, with no spaces or consecutive repeating characters",
+      "defaultUserMessage": "Password must be 12 to 50 characters long, containing at least one uppercase letter, one lowercase letter, one numeric digit, and one special character, with no spaces or consecutive repeating characters",
+      "userMessageGlobalisationCode": "validation.msg.user.password.does.not.match.regexp",
+      "parameterName": "password",
+      "args": [
+       {
+        "value": "weak"
+       },
+       {
+        "value": "^(?!.*(.)\\1)(?!.*\\s)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\\w\\s]).{12,50}$"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/users/4/pwd",
+   "body": {
+    "password": "Quartz9-Lemon!Brook",
+    "repeatPassword": "nope"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "Password must be 12 to 50 characters long, containing at least one uppercase letter, one lowercase letter, one numeric digit, and one special character, with no spaces or consecutive repeating characters",
+      "defaultUserMessage": "Password must be 12 to 50 characters long, containing at least one uppercase letter, one lowercase letter, one numeric digit, and one special character, with no spaces or consecutive repeating characters",
+      "userMessageGlobalisationCode": "validation.msg.user.password.does.not.match.regexp",
+      "parameterName": "password",
+      "args": [
+       {
+        "value": "Quartz9-Lemon!Brook"
+       },
+       {
+        "value": "^(?!.*(.)\\1)(?!.*\\s)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\\w\\s]).{12,50}$"
+       }
+      ]
+     },
+     {
+      "developerMessage": "The parameter `repeatPassword` is not equal to password.",
+      "defaultUserMessage": "The parameter `repeatPassword` is not equal to password.",
+      "userMessageGlobalisationCode": "validation.msg.user.repeatPassword.not.equal.to.password",
+      "parameterName": "repeatPassword",
+      "args": [
+       {
+        "value": "nope"
+       },
+       {
+        "value": "Quartz9-Lemon!Brook"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/users/4/pwd",
+   "body": {
+    "password": "Zebra7-Mango#Quilt",
+    "repeatPassword": "Zebra7-Mango#Quilt",
+    "bogus": 1
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter bogus is not supported.",
+      "defaultUserMessage": "bogus",
+      "userMessageGlobalisationCode": "error.msg.parameter.unsupported",
+      "parameterName": "bogus",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/users/99/pwd",
+   "body": {
+    "password": "Zebra7-Mango#Quilt",
+    "repeatPassword": "Zebra7-Mango#Quilt"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "User with ID 99 does not exist",
+      "defaultUserMessage": "User with ID 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.user.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/users/2",
+   "status": 403,
+   "response": {
+    "developerMessage": "The user associated with credentials passed on this request does not have sufficient privileges to perform this action.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Insufficient privileges to perform this action.",
+    "userMessageGlobalisationCode": "error.msg.not.authorized",
+    "errors": [
+     {
+      "developerMessage": "User configured as the system user cannot be deleted",
+      "defaultUserMessage": "User configured as the system user cannot be deleted",
+      "userMessageGlobalisationCode": "error.msg.not.authorized",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/users/4",
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/users/4",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "User with ID 4 does not exist",
+      "defaultUserMessage": "User with ID 4 does not exist",
+      "userMessageGlobalisationCode": "error.msg.user.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 4
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/users/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "User with ID 99 does not exist",
+      "defaultUserMessage": "User with ID 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.user.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/users/4",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "User with ID 4 does not exist",
+      "defaultUserMessage": "User with ID 4 does not exist",
+      "userMessageGlobalisationCode": "error.msg.user.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 4
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/users",
+   "status": 200,
+   "response": [
+    {
+     "id": 5,
+     "username": "ada2",
+     "officeId": 1,
+     "officeName": "Head Office",
+     "firstname": "Ada",
+     "lastname": "Lovelace",
+     "email": "ada@example.test",
+     "passwordNeverExpires": false,
+     "selectedRoles": [
+      {
+       "id": 3,
+       "name": "Teller",
+       "description": "Handles cash",
+       "disabled": false
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "username": "interopUser",
+     "officeId": 1,
+     "officeName": "Head Office",
+     "firstname": "Interop",
+     "lastname": "User",
+     "email": "email@email.com",
+     "passwordNeverExpires": false,
+     "selectedRoles": [
+      {
+       "id": 1,
+       "name": "Super user",
+       "description": "This role provides all application permissions.",
+       "disabled": false
+      }
+     ]
+    },
+    {
+     "id": 1,
+     "username": "mifos",
+     "officeId": 1,
+     "officeName": "Head Office",
+     "firstname": "App",
+     "lastname": "Administrator",
+     "email": "demomfi@mifos.org",
+     "passwordNeverExpires": false,
+     "selectedRoles": [
+      {
+       "id": 1,
+       "name": "Super user",
+       "description": "This role provides all application permissions.",
+       "disabled": false
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "username": "system",
+     "officeId": 1,
+     "officeName": "Head Office",
+     "firstname": "system",
+     "lastname": "system",
+     "email": "demomfi@mifos.org",
+     "passwordNeverExpires": false,
+     "selectedRoles": []
+    }
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/users",
+   "body": {
+    "username": "ada",
+    "firstname": "Ada",
+    "lastname": "Lovelace",
+    "email": "ada@example.test",
+    "officeId": 1,
+    "roles": [
+     3
+    ],
+    "sendPasswordToEmail": false,
+    "password": "Zebra7-Mango#Quilt",
+    "repeatPassword": "Zebra7-Mango#Quilt"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 6
+   }
+  },
+  {
+   "path": "/v1/roles/3",
+   "status": 200,
+   "response": {
+    "id": 3,
+    "name": "Teller",
+    "description": "Handles cash",
+    "disabled": false
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/roles/3",
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Role with identifier 3 associated with users",
+      "defaultUserMessage": "Role with identifier 3 associated with users",
+      "userMessageGlobalisationCode": "error.msg.role.associated.with.users.deleted",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 3
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}

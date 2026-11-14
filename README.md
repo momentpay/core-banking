@@ -33,6 +33,9 @@ The database password is never stored in the registry. A tenant row names an env
 
 - Elixir 1.18 and Erlang/OTP 27
 - PostgreSQL 15 or newer (`docker compose up -d db` starts one)
+- A C compiler and `make`, to build the password hashing library (`bcrypt_elixir`): `build-essential` on Debian and
+  Ubuntu, the Xcode command line tools on macOS, and on Windows the Visual Studio Build Tools run from an
+  "x64 Native Tools" prompt (or after `vcvars64.bat`)
 - Node is **not** required: Phoenix downloads the esbuild and Tailwind binaries
 
 ## Getting started

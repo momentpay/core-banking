@@ -36,6 +36,7 @@ defmodule ECBPlatform.MixProject do
       {:swoosh, "~> 1.5"},
       {:finch, "~> 0.13"},
       {:jason, "~> 1.2"},
+      {:bcrypt_elixir, "~> 3.2"},
       {:dns_cluster, "~> 0.1.1"}
     ]
   end

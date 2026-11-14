@@ -13,12 +13,15 @@ defmodule ECBPlatform.Permissions do
 
   alias ECBPlatform.TenantRepo
 
-  @doc "Lists permissions. Pass `maker_checkerable: true` for the maker-checker view."
+  @doc """
+  Lists permissions. Pass `maker_checkerable: true` for the maker-checker view, or `with_checkers: true`
+  to include the `*_CHECKER` permissions too (a role's own list shows them).
+  """
   @spec list(keyword) :: [map]
   def list(opts \\ []) do
     query =
       from p in "m_permission",
-        where: not like(p.code, "%\\_CHECKER"),
+        where: ^checker_filter(opts),
         order_by: [
           asc: fragment("? COLLATE \"C\"", p.grouping),
           asc: fragment("? COLLATE \"C\"", coalesce(p.entity_name, "")),
@@ -40,5 +43,11 @@ defmodule ECBPlatform.Permissions do
     else
       query |> TenantRepo.all() |> Enum.map(&Map.put(&1, :selected, true))
     end
+  end
+
+  defp checker_filter(opts) do
+    if opts[:with_checkers],
+      do: dynamic([p], true),
+      else: dynamic([p], not like(p.code, "%\\_CHECKER"))
   end
 end

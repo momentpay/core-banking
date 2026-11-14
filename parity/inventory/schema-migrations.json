@@ -105,6 +105,15 @@
       "tables": [
         "m_password_validation_policy"
       ]
+    },
+    {
+      "kind": "schema",
+      "app": "ecb_platform",
+      "version": "20261114130000",
+      "name": "create_previous_password_table",
+      "tables": [
+        "m_appuser_previous_password"
+      ]
     }
   ],
   "deferred_foreign_keys": [

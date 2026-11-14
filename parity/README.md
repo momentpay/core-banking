@@ -117,8 +117,9 @@ replayed against E-CoreBank by the tests of `ecb_api_fineract`:
   its seeded data. 33 today.
 * **Scenarios** (`scenarios`, `ECBApiFineract.ScenariosTest`): a *sequence* of writes and reads (create an office,
   update it, try every bad request, read it back). The oracle's data is reset first (the resets are in the tool) so ids
-  repeat; every step's status and body must match. 10 scenarios today, covering offices, funds, payment types, staff,
-  codes, code values, working days and holidays. They are how the validation messages, error codes and the odd corners
+  repeat; every step's status and body must match. 13 scenarios (306 requests) today, covering offices, funds, payment types, staff,
+  codes, code values, working days, holidays, roles, users, configuration, password preferences and
+  maker-checker permissions. They are how the validation messages, error codes and the odd corners
   of Fineract (a response that echoes the request, a status code of 600 for "deleted") are found and kept.
 
 Requests whose answer holds text from a Java library (a JSON syntax error, an iCalendar parse error) are left out of the

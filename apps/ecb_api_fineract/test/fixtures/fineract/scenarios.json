@@ -1309,6 +1309,996 @@
           }
         }
       ]
+    },
+    {
+      "name": "roles",
+      "reset": [
+        "roles"
+      ],
+      "steps": [
+        {
+          "method": "POST",
+          "path": "/v1/roles",
+          "body": {
+            "name": "Teller",
+            "description": "Handles cash"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/roles",
+          "body": {
+            "name": "Auditor",
+            "description": "Reads everything"
+          }
+        },
+        {
+          "path": "/v1/roles"
+        },
+        {
+          "path": "/v1/roles/3"
+        },
+        {
+          "path": "/v1/roles/99"
+        },
+        {
+          "path": "/v1/roles/3/permissions"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/roles/3/permissions",
+          "body": {
+            "permissions": {
+              "READ_OFFICE": true,
+              "READ_CLIENT": true,
+              "CREATE_CLIENT": true
+            }
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/roles/3/permissions",
+          "body": {
+            "permissions": {
+              "READ_OFFICE": true,
+              "READ_CLIENT": false
+            }
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/roles/3/permissions",
+          "body": {
+            "permissions": {
+              "NO_SUCH_CODE": true
+            }
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/roles/3/permissions",
+          "body": {
+            "permissions": {}
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/roles/3/permissions",
+          "body": {
+            "bogus": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/roles/99/permissions",
+          "body": {
+            "permissions": {
+              "READ_OFFICE": true
+            }
+          }
+        },
+        {
+          "path": "/v1/roles/3/permissions"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/roles/3",
+          "body": {
+            "name": "Cashier",
+            "description": "Handles cash and cheques"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/roles/3",
+          "body": {
+            "name": "Cashier"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/roles/3",
+          "body": {}
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/roles/99",
+          "body": {
+            "name": "x"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/roles",
+          "body": {
+            "name": "Auditor2"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/roles",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/roles",
+          "body": {
+            "name": "x",
+            "description": "y",
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/roles",
+          "body": {
+            "name": "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+            "description": "ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/roles/3",
+          "body": {
+            "name": ""
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/roles/3?command=disable"
+        },
+        {
+          "path": "/v1/roles/3"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/roles/3?command=disable"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/roles/3?command=enable"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/roles/3?command=enable"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/roles/3?command=bogus"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/roles/99?command=enable"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/roles/4"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/roles/4"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/roles/99"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/roles/1"
+        },
+        {
+          "path": "/v1/roles"
+        }
+      ]
+    },
+    {
+      "name": "users",
+      "reset": [
+        "roles"
+      ],
+      "steps": [
+        {
+          "method": "POST",
+          "path": "/v1/roles",
+          "body": {
+            "name": "Teller",
+            "description": "Handles cash"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/roles",
+          "body": {
+            "name": "Auditor",
+            "description": "Reads"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/users",
+          "body": {
+            "username": "ada",
+            "firstname": "Ada",
+            "lastname": "Lovelace",
+            "email": "ada@example.test",
+            "officeId": 1,
+            "roles": [
+              3
+            ],
+            "sendPasswordToEmail": false,
+            "password": "Zebra7-Mango#Quilt",
+            "repeatPassword": "Zebra7-Mango#Quilt"
+          }
+        },
+        {
+          "path": "/v1/users/4"
+        },
+        {
+          "path": "/v1/users"
+        },
+        {
+          "path": "/v1/users/99"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/users",
+          "body": {
+            "username": "ada2",
+            "firstname": "Ada",
+            "lastname": "Lovelace",
+            "email": "ada@example.test",
+            "officeId": 1,
+            "roles": [
+              3
+            ],
+            "sendPasswordToEmail": false,
+            "password": "Zebra7-Mango#Quilt",
+            "repeatPassword": "Zebra7-Mango#Quilt"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/users",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/users",
+          "body": {
+            "username": "x1",
+            "firstname": "Ada",
+            "lastname": "Lovelace",
+            "email": "ada@example.test",
+            "officeId": 1,
+            "roles": [
+              3
+            ],
+            "sendPasswordToEmail": false,
+            "password": "weak",
+            "repeatPassword": "weak"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/users",
+          "body": {
+            "username": "x2",
+            "firstname": "Ada",
+            "lastname": "Lovelace",
+            "email": "ada@example.test",
+            "officeId": 1,
+            "roles": [
+              3
+            ],
+            "sendPasswordToEmail": false,
+            "password": "Zebra7-Mango#Quilt",
+            "repeatPassword": "Different7-Mango#Quilt"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/users",
+          "body": {
+            "username": "x3",
+            "firstname": "Ada",
+            "lastname": "Lovelace",
+            "email": "ada@example.test",
+            "officeId": 99,
+            "roles": [
+              3
+            ],
+            "sendPasswordToEmail": false,
+            "password": "Zebra7-Mango#Quilt",
+            "repeatPassword": "Zebra7-Mango#Quilt"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/users",
+          "body": {
+            "username": "x4",
+            "firstname": "Ada",
+            "lastname": "Lovelace",
+            "email": "ada@example.test",
+            "officeId": 1,
+            "roles": [
+              99
+            ],
+            "sendPasswordToEmail": false,
+            "password": "Zebra7-Mango#Quilt",
+            "repeatPassword": "Zebra7-Mango#Quilt"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/users",
+          "body": {
+            "username": "x5",
+            "firstname": "Ada",
+            "lastname": "Lovelace",
+            "email": "ada@example.test",
+            "officeId": 1,
+            "roles": [],
+            "sendPasswordToEmail": false,
+            "password": "Zebra7-Mango#Quilt",
+            "repeatPassword": "Zebra7-Mango#Quilt"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/users",
+          "body": {
+            "username": "x6",
+            "firstname": "Ada",
+            "lastname": "Lovelace",
+            "email": "ada@example.test",
+            "officeId": 1,
+            "roles": [
+              3
+            ],
+            "sendPasswordToEmail": false,
+            "password": "Zebra7-Mango#Quilt",
+            "repeatPassword": "Zebra7-Mango#Quilt",
+            "staffId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/users",
+          "body": {
+            "username": "x7",
+            "firstname": "Ada",
+            "lastname": "Lovelace",
+            "email": "ada@example.test",
+            "officeId": 1,
+            "roles": [
+              3
+            ],
+            "sendPasswordToEmail": false,
+            "password": "Zebra7-Mango#Quilt",
+            "repeatPassword": "Zebra7-Mango#Quilt",
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/users",
+          "body": {
+            "username": "uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu",
+            "firstname": "Ada",
+            "lastname": "Lovelace",
+            "email": "ada@example.test",
+            "officeId": 1,
+            "roles": [
+              3
+            ],
+            "sendPasswordToEmail": false,
+            "password": "Zebra7-Mango#Quilt",
+            "repeatPassword": "Zebra7-Mango#Quilt"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/users",
+          "body": {
+            "username": "x8",
+            "firstname": "Ada",
+            "lastname": "Lovelace",
+            "email": "ada@example.test",
+            "officeId": 0,
+            "roles": [
+              3
+            ],
+            "sendPasswordToEmail": false,
+            "password": "Zebra7-Mango#Quilt",
+            "repeatPassword": "Zebra7-Mango#Quilt"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/users/4",
+          "body": {
+            "firstname": "Augusta"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/users/4",
+          "body": {
+            "firstname": "Augusta"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/users/4",
+          "body": {
+            "roles": [
+              3,
+              4
+            ]
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/users/4",
+          "body": {
+            "roles": [
+              4,
+              3
+            ]
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/users/4",
+          "body": {
+            "email": "augusta@example.test",
+            "lastname": "King"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/users/4",
+          "body": {
+            "password": "Quartz9-Lemon!Brook",
+            "repeatPassword": "Quartz9-Lemon!Brook"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/users/4",
+          "body": {
+            "password": "Quartz9-Lemon!Brook",
+            "repeatPassword": "Quartz9-Lemon!Brook"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/users/4",
+          "body": {
+            "password": "weak",
+            "repeatPassword": "weak"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/users/4",
+          "body": {
+            "password": "Zebra7-Mango#Quilt",
+            "repeatPassword": "nope"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/users/4",
+          "body": {
+            "username": "augusta"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/users/4",
+          "body": {
+            "passwordNeverExpires": true,
+            "isLoginRetriesEnabled": true,
+            "isPasswordResetAllowed": true
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/users/4",
+          "body": {
+            "officeId": 99
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/users/4",
+          "body": {
+            "roles": []
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/users/4",
+          "body": {
+            "roles": [
+              99
+            ]
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/users/4",
+          "body": {
+            "username": ""
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/users/4",
+          "body": {}
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/users/4",
+          "body": {
+            "bogus": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/users/99",
+          "body": {
+            "firstname": "x"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/users/2",
+          "body": {
+            "username": "renamed"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/users/4",
+          "body": {
+            "roles": [
+              3
+            ]
+          }
+        },
+        {
+          "path": "/v1/users/4"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/users/4/pwd",
+          "body": {
+            "password": "Zebra7-Mango#Quilt",
+            "repeatPassword": "Zebra7-Mango#Quilt"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/users/4/pwd",
+          "body": {
+            "password": "Zebra7-Mango#Quilt",
+            "repeatPassword": "Zebra7-Mango#Quilt"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/users/4/pwd",
+          "body": {
+            "password": "weak",
+            "repeatPassword": "weak"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/users/4/pwd",
+          "body": {
+            "password": "Quartz9-Lemon!Brook",
+            "repeatPassword": "nope"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/users/4/pwd",
+          "body": {
+            "password": "Zebra7-Mango#Quilt",
+            "repeatPassword": "Zebra7-Mango#Quilt",
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/users/99/pwd",
+          "body": {
+            "password": "Zebra7-Mango#Quilt",
+            "repeatPassword": "Zebra7-Mango#Quilt"
+          }
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/users/2"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/users/4"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/users/4"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/users/99"
+        },
+        {
+          "path": "/v1/users/4"
+        },
+        {
+          "path": "/v1/users"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/users",
+          "body": {
+            "username": "ada",
+            "firstname": "Ada",
+            "lastname": "Lovelace",
+            "email": "ada@example.test",
+            "officeId": 1,
+            "roles": [
+              3
+            ],
+            "sendPasswordToEmail": false,
+            "password": "Zebra7-Mango#Quilt",
+            "repeatPassword": "Zebra7-Mango#Quilt"
+          }
+        },
+        {
+          "path": "/v1/roles/3"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/roles/3"
+        }
+      ]
+    },
+    {
+      "name": "configuration",
+      "reset": [
+        "configuration"
+      ],
+      "steps": [
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/10",
+          "body": {
+            "value": 5
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/10",
+          "body": {
+            "value": 5
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/10",
+          "body": {
+            "enabled": false,
+            "value": 7
+          }
+        },
+        {
+          "path": "/v1/configurations/10"
+        },
+        {
+          "path": "/v1/configurations/name/penalty-wait-period"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/penalty-wait-period",
+          "body": {
+            "enabled": true,
+            "value": 2
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/no-such-config",
+          "body": {
+            "value": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/999",
+          "body": {
+            "value": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/10",
+          "body": {
+            "value": -1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/10",
+          "body": {
+            "enabled": "maybe"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/10",
+          "body": {
+            "bogus": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/10",
+          "body": {}
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/10",
+          "body": {
+            "stringValue": ""
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/35",
+          "body": {
+            "stringValue": "liability, ASSET,Liability"
+          }
+        },
+        {
+          "path": "/v1/configurations/35"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/35",
+          "body": {
+            "stringValue": "Asset,Bogus"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/35",
+          "body": {
+            "stringValue": ""
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/23",
+          "body": {
+            "value": 4
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/11",
+          "body": {
+            "enabled": true,
+            "value": 0
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/11",
+          "body": {
+            "enabled": true,
+            "value": 30
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/1",
+          "body": {
+            "dateValue": "01 March 2020",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/1",
+          "body": {
+            "dateValue": "01 March 2020",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/1",
+          "body": {
+            "dateValue": "bad",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "path": "/v1/configurations/1"
+        },
+        {
+          "path": "/v1/passwordpreferences"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/passwordpreferences",
+          "body": {
+            "validationPolicyId": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/passwordpreferences",
+          "body": {
+            "validationPolicyId": 1
+          }
+        },
+        {
+          "path": "/v1/passwordpreferences"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/passwordpreferences",
+          "body": {
+            "validationPolicyId": 99
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/passwordpreferences",
+          "body": {
+            "validationPolicyId": 0
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/passwordpreferences",
+          "body": {}
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/passwordpreferences",
+          "body": {
+            "bogus": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/passwordpreferences",
+          "body": {
+            "validationPolicyId": 3
+          }
+        },
+        {
+          "path": "/v1/permissions?makerCheckerable=true"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/permissions",
+          "body": {
+            "permissions": {
+              "CREATE_OFFICE": true,
+              "DELETE_FUND": true
+            }
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/permissions",
+          "body": {
+            "permissions": {
+              "CREATE_OFFICE": true
+            }
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/permissions",
+          "body": {
+            "permissions": {
+              "CREATE_OFFICE": false
+            }
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/permissions",
+          "body": {
+            "permissions": {
+              "READ_OFFICE": true
+            }
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/permissions",
+          "body": {
+            "permissions": {
+              "CREATE_OFFICE_CHECKER": true
+            }
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/permissions",
+          "body": {
+            "permissions": {
+              "ALL_FUNCTIONS": true
+            }
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/permissions",
+          "body": {
+            "permissions": {
+              "NO_SUCH": true
+            }
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/permissions",
+          "body": {
+            "permissions": {}
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/permissions",
+          "body": {
+            "bogus": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/permissions",
+          "body": {
+            "permissions": {
+              "DELETE_FUND": false
+            }
+          }
+        }
+      ]
     }
   ]
 }

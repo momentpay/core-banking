@@ -92,21 +92,66 @@ defmodule ECBPlatform.Validation do
       else: v
   end
 
-  @doc "The text must match `regex`."
-  @spec matches(t, Regex.t()) :: t
-  def matches(%{value: nil} = v, _regex), do: v
+  @doc """
+  The whole text must match the regular expression `source` (a string in Java/PCRE syntax). `message`
+  replaces the standard text, as Fineract does for a password policy.
+  """
+  @spec matches(t, String.t(), String.t() | nil) :: t
+  def matches(v, source, message \\ nil)
+  def matches(%{value: nil} = v, _source, _message), do: v
 
-  def matches(%{value: value} = v, regex) do
+  def matches(%{value: value} = v, source, message) do
+    {:ok, regex} = Regex.compile("\\A(?:" <> source <> ")\\z")
+
     if Regex.match?(regex, to_string(value)),
       do: v,
       else:
         add(
           v,
           "does.not.match.regexp",
-          "The parameter `#{v.parameter}` must match the provided regular expression [ #{Regex.source(regex)} ] .",
-          [Regex.source(regex), value]
+          message ||
+            "The parameter `#{v.parameter}` must match the provided regular expression [ #{source} ] .",
+          [value, source]
         )
   end
+
+  @doc """
+  The current value must equal `linked_value`, the value of another parameter. The problem is recorded
+  against the other parameter: `validation.msg.<resource>.<linked>.not.equal.to.<parameter>`.
+  """
+  @spec equal_to_parameter(t, String.t(), term) :: t
+  def equal_to_parameter(%{value: nil} = v, _linked, _linked_value), do: v
+
+  def equal_to_parameter(%{value: value} = v, linked, linked_value) do
+    if value == linked_value do
+      v
+    else
+      error =
+        Errors.parameter_error(
+          "validation.msg.#{v.resource}.#{linked}.not.equal.to.#{v.parameter}",
+          "The parameter `#{linked}` is not equal to #{v.parameter}.",
+          linked,
+          [linked_value, value]
+        )
+
+      %{v | errors: [error | v.errors]}
+    end
+  end
+
+  @doc "A list that has at least one entry."
+  @spec array_not_empty(t) :: t
+  def array_not_empty(%{value: nil, ignore_null: true} = v), do: v
+
+  def array_not_empty(%{value: value} = v) when value in [nil, []],
+    do:
+      add(
+        v,
+        "cannot.be.empty",
+        "The parameter `#{v.parameter}` cannot be empty. You must select at least one.",
+        []
+      )
+
+  def array_not_empty(v), do: v
 
   @doc "The value must be one of `allowed`."
   @spec one_of(t, [term]) :: t
@@ -152,6 +197,24 @@ defmodule ECBPlatform.Validation do
       ])
 
   def greater_than_zero(v), do: v
+
+  @doc """
+  A number of 0 or more, shown as a decimal in the problem's arguments (`-1.0`), as Fineract shows
+  amounts. Used where Fineract validates a whole number as an amount.
+  """
+  @spec zero_or_positive_amount(t) :: t
+  def zero_or_positive_amount(%{value: nil} = v), do: v
+
+  def zero_or_positive_amount(%{value: value} = v) when is_number(value) and value < 0,
+    do:
+      add(
+        v,
+        "not.zero.or.greater",
+        "The parameter `#{v.parameter}` must be greater than or equal to 0.",
+        [value * 1.0, 0]
+      )
+
+  def zero_or_positive_amount(v), do: v
 
   @doc "A whole number of 0 or more."
   @spec zero_or_greater(t) :: t

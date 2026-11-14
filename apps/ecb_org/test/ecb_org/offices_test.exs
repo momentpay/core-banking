@@ -156,11 +156,11 @@ defmodule ECBOrg.OfficesTest do
       template = Offices.template(head_office_user())
       assert template.opening_date == Date.utc_today()
 
-      assert Enum.map(template.allowed_parents, & &1.name) == [
-               "Head Office",
-               "Nairobi",
-               "Mombasa"
-             ]
+      # the head office first; the branches follow in the order of their hierarchy text, which is the
+      # order of their ids only until an id has two digits, so the test does not rely on it
+      [first | branches] = Enum.map(template.allowed_parents, & &1.name)
+      assert first == "Head Office"
+      assert Enum.sort(branches) == ["Mombasa", "Nairobi"]
 
       assert hd(template.allowed_parents) == %{
                id: 1,
