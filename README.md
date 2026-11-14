@@ -55,6 +55,18 @@ mix test                         # all apps
 mix ecb.check                    # the same checks CI runs
 ```
 
+## Parity with Apache Fineract
+
+E-CoreBank is measured against a pinned Apache Fineract (1.16.1) that runs alongside it. See
+[parity/README.md](parity/README.md) for how to download, verify and start it with or without Docker,
+and how to run the smoke test:
+
+```sh
+parity/scripts/fetch-fineract.sh   # once
+parity/scripts/start-oracle.sh
+parity/scripts/smoke.sh
+```
+
 ## Conventions
 
 - Money is `Decimal`, never float.

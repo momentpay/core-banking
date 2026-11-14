@@ -1,0 +1,13 @@
+# The Apache Fineract release used as the parity oracle. Shell-sourceable.
+# Change this only through an ADR: parity is always measured against one pinned version.
+#
+# 1.16.1 was the latest release in the ASF release catalog on 2026-11-14. There is no
+# published apache/fineract:1.16.1 Docker image (Docker Hub has only develop, latest,
+# commit-SHA tags and 1.10.1 - 1.12.1), so we use the ASF binary release and verify it
+# with the published SHA-512 and PGP signature.
+FINERACT_VERSION=1.16.1
+# Fineract 1.16.1 is compiled for Java 25 (class file version 69). Java 21 and 23 fail at start-up.
+FINERACT_JAVA_MIN=25
+FINERACT_DIST_URL=https://downloads.apache.org/fineract/1.16.1
+FINERACT_ARCHIVE_URL=https://archive.apache.org/dist/fineract/1.16.1
+FINERACT_KEYS_URL=https://downloads.apache.org/fineract/KEYS
