@@ -127,6 +127,22 @@ python parity/tools/schema_summary.py build  # regenerate SCHEMA.md
 
 How this feeds the design: [docs/design/00-fineract-design-reference.md](../docs/design/00-fineract-design-reference.md).
 
+### Tenant migrations generated from the oracle
+
+E-CoreBank's tenant tables are Fineract's (ADR-0001). `ddl_export.py` asks the running oracle for a table's
+definition with `pg_dump` and writes an Ecto migration into the owning app, so nothing is retyped. A foreign
+key to a table that does not exist yet is held back and added automatically by the migration that creates
+that table. Seed rows (permissions, configuration, roles) are generated the same way.
+
+```sh
+python parity/tools/ddl_export.py schema --app ecb_platform --name create_security_tables --version 20261114100000 --tables m_permission,m_role
+python parity/tools/ddl_export.py data   --app ecb_platform --name seed_permissions --version 20261114100100 --tables m_permission
+python parity/tools/ddl_export.py status   # what exists and which foreign keys are waiting
+```
+
+What has been generated is recorded in `inventory/schema-migrations.json`. The migrations are derived from
+Apache Fineract and listed in [NOTICE](../NOTICE).
+
 ### Module documents
 
 `docs/modules/` holds one design document per E-CoreBank module. Their facts (API operations, tables, test classes,
@@ -153,7 +169,7 @@ PARITY_CLASSPATH_DIR=/c/ecb-parity-classpath parity/scripts/gen-money-golden.sh 
 ### Tests for the tools
 
 ```sh
-python -m unittest discover -s parity/tools -v     # 32 tests; also run in CI
+python -m unittest discover -s parity/tools -v     # 38 tests; also run in CI
 ```
 
 ## Layout

@@ -1,0 +1,45 @@
+{
+  "migrations": [
+    {
+      "kind": "schema",
+      "app": "ecb_platform",
+      "version": "20261114100000",
+      "name": "create_security_and_command_tables",
+      "tables": [
+        "m_permission",
+        "m_role",
+        "m_role_permission",
+        "m_appuser",
+        "m_appuser_role",
+        "m_portfolio_command_source",
+        "c_configuration"
+      ]
+    },
+    {
+      "kind": "data",
+      "app": "ecb_platform",
+      "version": "20261114100100",
+      "name": "seed_permissions_roles_and_configuration",
+      "tables": [
+        "m_permission",
+        "m_role",
+        "m_role_permission",
+        "c_configuration"
+      ]
+    }
+  ],
+  "deferred_foreign_keys": [
+    {
+      "table": "m_appuser",
+      "references": "m_staff",
+      "sql": "ALTER TABLE ONLY public.m_appuser\n    ADD CONSTRAINT fk_m_appuser_002 FOREIGN KEY (staff_id) REFERENCES public.m_staff(id);",
+      "migration": "create_security_and_command_tables"
+    },
+    {
+      "table": "m_appuser",
+      "references": "m_office",
+      "sql": "ALTER TABLE ONLY public.m_appuser\n    ADD CONSTRAINT fkb3d587ce0dd567a FOREIGN KEY (office_id) REFERENCES public.m_office(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
+      "migration": "create_security_and_command_tables"
+    }
+  ]
+}

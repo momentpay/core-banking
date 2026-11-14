@@ -1,0 +1,16 @@
+E-CoreBank
+Copyright (c) MomentPay
+
+This product includes material derived from Apache Fineract (https://fineract.apache.org/),
+which is licensed under the Apache License, Version 2.0:
+
+  * The database schema. The tenant migrations in apps/*/priv/tenant_repo/migrations are generated from the
+    schema and initial data of Apache Fineract 1.16.1 by parity/tools/ddl_export.py, and keep Fineract's
+    table and column names, types, constraints and seed rows (permissions, roles, configuration).
+  * The OpenAPI document snapshot, endpoint inventory and schema inventory under parity/inventory.
+  * Design, behaviour and algorithms that E-CoreBank re-implements in Elixir from Fineract's published
+    documentation and source, for example the command pipeline, maker-checker, idempotency and the
+    Money rounding rules. Each module's document (docs/modules) names the Fineract code it follows.
+
+Apache Fineract, Fineract and the Apache feather logo are trademarks of the Apache Software Foundation.
+E-CoreBank is not affiliated with or endorsed by the Apache Software Foundation.

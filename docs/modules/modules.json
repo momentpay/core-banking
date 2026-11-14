@@ -155,7 +155,7 @@
       "app": "ecb_platform",
       "title": "Platform: tenancy, security, commands, audit, business date",
       "phase": 1,
-      "status": "tenant registry and per-tenant repos are built; everything else not started",
+      "status": "in progress (14 Nov 2026). Built: tenant registry and per-tenant repos; the command pipeline (permissions, maker-checker, idempotency, stored commands, hooks); users, roles, permissions and configuration reads; tenant migrations generated from Fineract's schema with its seed data (984 permissions, 79 configuration rows). Still to do: business date, authentication, the maker-checker and configuration APIs, global configuration admin, instance mode, Batch API, data tables.",
       "depends_on": [
         "ecb_money"
       ],
@@ -250,21 +250,21 @@
         "Business date is a logical date separate from the calendar. Components never call the system clock for business logic; they ask the `Clock` behaviour"
       ],
       "build_order": [
-        "Command struct, handler registry, pipeline and command store with audit columns (extends the existing tenancy code)",
-        "Idempotency table and the replay and 409 rules",
-        "Permissions, roles, users, password policy, and the `/authentication` endpoint with basic auth",
-        "Maker-checker: the pending/approve/reject flow and the `/makercheckers` API",
-        "Business date and `Clock`, with the business-date API",
-        "Global configuration and instance mode",
+        "Command struct, handler registry, pipeline and command store with audit columns (done)",
+        "Idempotency table and the replay and 409 rules (done, inside the pipeline: the unique key on `m_portfolio_command_source`)",
+        "Permissions, roles and users in the tenant schema with Fineract's seed data (done); the `/authentication` endpoint with basic auth (next)",
+        "Maker-checker: the pending, approve, reject and delete flow (done in `Commands`); the `/makercheckers` API (next, with the API layer)",
+        "Business date and `Clock`, with the business-date API (next)",
+        "Global configuration admin and instance mode",
         "Batch API",
         "Data tables engine (entities are registered by name, so no dependency on ecb_org), bulk import, ad-hoc query, templates",
         "OAuth2 and OIDC, two-factor"
       ],
       "acceptance": [
-        "A write sent twice with the same `Idempotency-Key` executes once; the second response is served from the stored result",
-        "A maker-checker command leaves a `Pending` entry and no data change; approval applies it exactly once",
-        "Cross-tenant isolation test: a command run for tenant A is invisible in tenant B's database",
-        "The Fineract classes for authentication, roles, users, password preferences, maker-checker, global configuration, idempotency and the Batch API pass"
+        "A write sent twice with the same `Idempotency-Key` executes once; the second response is served from the stored result (done: tested, including eight concurrent identical requests)",
+        "A maker-checker command leaves a `Pending` entry and no data change; approval applies it exactly once (done: tested)",
+        "Cross-tenant isolation test: a command run for tenant A is invisible in tenant B's database (to do: needs a second tenant database)",
+        "The Fineract classes for authentication, roles, users, password preferences, maker-checker, global configuration, idempotency and the Batch API pass (to do: needs the API layer)"
       ],
       "open_questions": [
         "Whether to adopt the async dispatcher variants (Disruptor, Chronicle Queue) or stay synchronous plus Oban",

@@ -57,32 +57,47 @@ defmodule ECBPlatform.Tenancy do
     end
   end
 
-  @doc "Directory of the migrations applied to every tenant database."
-  def tenant_migrations_path,
-    do: Application.app_dir(:ecb_platform, "priv/tenant_repo/migrations")
+  @doc """
+  Directories of the migrations applied to every tenant database: `priv/tenant_repo/migrations` of
+  every `ecb_*` app. Each domain app brings its own tables, and all of them run in version order.
+  """
+  @spec tenant_migration_paths() :: [String.t()]
+  def tenant_migration_paths do
+    for {app, _description, _version} <- Application.loaded_applications(),
+        String.starts_with?(Atom.to_string(app), "ecb_"),
+        dir = Path.join(to_string(:code.priv_dir(app)), "tenant_repo/migrations"),
+        File.dir?(dir),
+        do: dir
+  end
 
   @doc """
-  Creates the tenant's database if it does not exist, then applies all tenant migrations.
+  Creates the tenant's database if it does not exist, then applies all pending tenant migrations.
+
+  Runs on a connection of its own (not the shared pool), because migrating is an administrative
+  operation and must not depend on how the shared pool is configured.
   """
   @spec migrate(Tenant.t()) :: :ok | {:error, term}
   def migrate(%Tenant{} = tenant) do
     storage_opts = Tenant.repo_opts(tenant)
 
     case TenantRepo.__adapter__().storage_up(storage_opts) do
-      :ok -> :ok
-      {:error, :already_up} -> :ok
-      {:error, reason} -> throw({:storage_up_failed, reason})
+      :ok -> run_migrations(storage_opts)
+      {:error, :already_up} -> run_migrations(storage_opts)
+      {:error, reason} -> {:error, reason}
     end
+  end
 
-    with {:ok, pool} <- Pools.ensure_started(tenant) do
-      Ecto.Migrator.run(TenantRepo, tenant_migrations_path(), :up,
-        all: true,
-        dynamic_repo: pool
+  defp run_migrations(opts) do
+    {:ok, pid} =
+      TenantRepo.start_link(
+        Keyword.merge(opts, name: nil, pool_size: 2, pool: DBConnection.ConnectionPool)
       )
 
+    try do
+      Ecto.Migrator.run(TenantRepo, tenant_migration_paths(), :up, all: true, dynamic_repo: pid)
       :ok
+    after
+      Supervisor.stop(pid)
     end
-  catch
-    {:storage_up_failed, reason} -> {:error, reason}
   end
 end

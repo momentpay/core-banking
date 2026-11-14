@@ -10,7 +10,9 @@
       checks: %{
         disabled: [
           # Too noisy for Phoenix-generated components and test support modules.
-          {Credo.Check.Design.AliasUsage, []}
+          {Credo.Check.Design.AliasUsage, []},
+          # Error modules are named for the business condition (NoAuthorization, CommandNotFound), not by one prefix.
+          {Credo.Check.Consistency.ExceptionNames, []}
         ]
       }
     }

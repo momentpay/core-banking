@@ -8,6 +8,7 @@ import unittest
 from pathlib import Path
 
 import contract_probe as probe
+import ddl_export as ddl
 import inventory as inv
 import junit_report as jr
 import module_docs as md
@@ -155,6 +156,63 @@ class SchemaAreas(unittest.TestCase):
         self.assertEqual(ss.assign("acc_gl_journal_entry", rules), ("accounting", "ecb_ledger"))
         self.assertEqual(ss.assign("m_savings_account", rules), ("deposits", "ecb_deposits"))
         self.assertEqual(ss.assign("m_portfolio_command_source", rules), ("security-and-commands", "ecb_platform"))
+
+
+class DdlExport(unittest.TestCase):
+    DUMP = """--
+-- comment
+SET statement_timeout = 0;
+
+CREATE TABLE public.m_thing (
+    id bigint NOT NULL,
+    office_id bigint
+);
+
+ALTER TABLE ONLY public.m_thing
+    ADD CONSTRAINT m_thing_pkey PRIMARY KEY (id);
+
+ALTER TABLE ONLY public.m_thing
+    ADD CONSTRAINT fk_thing_office FOREIGN KEY (office_id) REFERENCES public.m_office(id);
+
+CREATE INDEX idx_thing ON public.m_thing USING btree (office_id);
+"""
+
+    def test_splits_statements_and_skips_comments(self):
+        statements = ddl.split_statements(self.DUMP)
+        self.assertEqual(len(statements), 5)
+        self.assertTrue(statements[0].startswith("SET "))
+        self.assertTrue(statements[1].startswith("CREATE TABLE public.m_thing"))
+
+    def test_finds_the_table_and_the_referenced_table(self):
+        statements = ddl.split_statements(self.DUMP)
+        self.assertEqual(ddl.table_of(statements[1]), "m_thing")
+        self.assertEqual(ddl.table_of(statements[3]), "m_thing")
+        self.assertEqual(ddl.table_of(statements[4]), "m_thing")
+        self.assertEqual(ddl.fk_reference(statements[3]), "m_office")
+        self.assertIsNone(ddl.fk_reference(statements[2]))
+
+    def test_noise_is_recognised(self):
+        self.assertTrue(ddl.NOISE.match("SET statement_timeout = 0;"))
+        self.assertTrue(ddl.NOISE.match("SELECT pg_catalog.set_config('search_path', '', false);"))
+        self.assertFalse(ddl.NOISE.match("CREATE TABLE public.x (id bigint);"))
+
+    def test_module_name_follows_the_app_namespace(self):
+        self.assertEqual(ddl.module_name("ecb_platform", "create_tables"), "ECBPlatform.TenantRepo.Migrations.CreateTables")
+        self.assertEqual(ddl.module_name("ecb_org", "seed_office"), "ECBOrg.TenantRepo.Migrations.SeedOffice")
+
+    def test_rendered_migration_carries_the_attribution_header(self):
+        text = ddl.render_migration("ecb_platform", "create_tables", "20261114100000", ["CREATE TABLE public.x (id bigint)"], ["DROP TABLE IF EXISTS public.x CASCADE"], "Creates: x.")
+        self.assertIn("Apache Fineract", text)
+        self.assertIn("Apache License 2.0", text)
+        self.assertIn("def up do", text)
+        self.assertIn("def down do", text)
+        self.assertIn("CREATE TABLE public.x", text)
+
+    def test_registered_migrations_exist_on_disk(self):
+        reg = ddl.load_registry()
+        for m in reg["migrations"]:
+            path = ddl.REPO / "apps" / m["app"] / "priv" / "tenant_repo" / "migrations" / f"{m['version']}_{m['name']}.exs"
+            self.assertTrue(path.exists(), f"{path} is registered but missing")
 
 
 class _Stub:
