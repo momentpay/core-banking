@@ -1,0 +1,11 @@
+{
+ "path": "/v1/configurations/name/penalty-wait-period",
+ "status": 200,
+ "body": {
+  "name": "penalty-wait-period",
+  "enabled": true,
+  "value": 2,
+  "id": 10,
+  "trapDoor": false
+ }
+}

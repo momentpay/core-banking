@@ -11,7 +11,7 @@ defmodule ECBApiFineract.ApiRouter do
   use Plug.ErrorHandler
 
   alias ECBApiFineract.Errors
-  alias ECBApiFineract.Resources.{Authentication, Offices}
+  alias ECBApiFineract.Resources.{Administration, Authentication, Offices, Organisation}
 
   plug :match
 
@@ -31,6 +31,29 @@ defmodule ECBApiFineract.ApiRouter do
   get "/v1/offices/template", do: Offices.template(conn)
   get "/v1/offices", do: Offices.index(conn)
   get "/v1/offices/:id", do: Offices.show(conn, id)
+
+  get "/v1/currencies", do: Organisation.currencies(conn)
+  get "/v1/codes", do: Organisation.codes(conn)
+  get "/v1/paymenttypes", do: Organisation.payment_types(conn)
+  get "/v1/workingdays/template", do: Organisation.working_days_template(conn)
+  get "/v1/workingdays", do: Organisation.working_days(conn)
+  get "/v1/funds", do: Organisation.funds(conn)
+  get "/v1/holidays/template", do: Organisation.holidays_template(conn)
+  get "/v1/holidays", do: Organisation.holidays(conn)
+  get "/v1/staff", do: Organisation.staff(conn)
+  get "/v1/accountnumberformats/template", do: Organisation.account_number_formats_template(conn)
+  get "/v1/accountnumberformats", do: Organisation.account_number_formats(conn)
+
+  get "/v1/configurations/name/:name", do: Administration.configuration_by_name(conn, name)
+  get "/v1/configurations", do: Administration.configurations(conn)
+  get "/v1/permissions", do: Administration.permissions(conn)
+  get "/v1/roles/:id", do: Administration.role_by_id(conn, id)
+  get "/v1/roles", do: Administration.roles(conn)
+  get "/v1/users/template", do: Administration.users_template(conn)
+  get "/v1/users", do: Administration.users(conn)
+  get "/v1/users/:id", do: Administration.user_by_id(conn, id)
+  get "/v1/passwordpreferences/template", do: Administration.password_preferences_template(conn)
+  get "/v1/passwordpreferences", do: Administration.password_preferences(conn)
 
   match _ do
     Errors.not_implemented(conn, conn.method, conn.request_path)

@@ -1,0 +1,16 @@
+{
+ "path": "/v1/holidays/template",
+ "status": 200,
+ "body": [
+  {
+   "id": 2,
+   "code": "rescheduletype.rescheduletospecificdate",
+   "value": "Reschedule to specified date"
+  },
+  {
+   "id": 1,
+   "code": "rescheduletype.rescheduletonextrepaymentdate",
+   "value": "Reschedule to next repayment date"
+  }
+ ]
+}

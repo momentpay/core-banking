@@ -1,0 +1,145 @@
+{
+  "notes": "Requests whose responses are recorded from Apache Fineract (parity/tools/capture_fixtures.py) and required, exactly, from E-CoreBank (ECBApiFineract.FixturesTest). Set pending to true until the endpoint is built.",
+  "entries": [
+    {
+      "name": "offices",
+      "path": "/v1/offices"
+    },
+    {
+      "name": "offices_1",
+      "path": "/v1/offices/1"
+    },
+    {
+      "name": "offices_999",
+      "path": "/v1/offices/999",
+      "status": 404
+    },
+    {
+      "name": "offices_template",
+      "path": "/v1/offices/template",
+      "today_keys": [
+        "openingDate"
+      ]
+    },
+    {
+      "name": "currencies",
+      "path": "/v1/currencies"
+    },
+    {
+      "name": "codes",
+      "path": "/v1/codes"
+    },
+    {
+      "name": "paymenttypes",
+      "path": "/v1/paymenttypes"
+    },
+    {
+      "name": "workingdays",
+      "path": "/v1/workingdays"
+    },
+    {
+      "name": "workingdays_template",
+      "path": "/v1/workingdays/template"
+    },
+    {
+      "name": "funds",
+      "path": "/v1/funds"
+    },
+    {
+      "name": "holidays",
+      "path": "/v1/holidays"
+    },
+    {
+      "name": "holidays_template",
+      "path": "/v1/holidays/template"
+    },
+    {
+      "name": "staff",
+      "path": "/v1/staff"
+    },
+    {
+      "name": "accountnumberformats",
+      "path": "/v1/accountnumberformats"
+    },
+    {
+      "name": "accountnumberformats_template",
+      "path": "/v1/accountnumberformats/template"
+    },
+    {
+      "name": "configurations",
+      "path": "/v1/configurations"
+    },
+    {
+      "name": "configurations_maker_checker",
+      "path": "/v1/configurations/name/maker-checker"
+    },
+    {
+      "name": "permissions",
+      "path": "/v1/permissions"
+    },
+    {
+      "name": "permissions_makercheckerable",
+      "path": "/v1/permissions?makerCheckerable=true"
+    },
+    {
+      "name": "roles",
+      "path": "/v1/roles"
+    },
+    {
+      "name": "roles_1",
+      "path": "/v1/roles/1"
+    },
+    {
+      "name": "users",
+      "path": "/v1/users"
+    },
+    {
+      "name": "users_template",
+      "path": "/v1/users/template"
+    },
+    {
+      "name": "passwordpreferences",
+      "path": "/v1/passwordpreferences"
+    },
+    {
+      "name": "passwordpreferences_template",
+      "path": "/v1/passwordpreferences/template"
+    },
+    {
+      "name": "roles_99",
+      "path": "/v1/roles/99",
+      "status": 404
+    },
+    {
+      "name": "configurations_unknown",
+      "path": "/v1/configurations/name/nope",
+      "status": 404
+    },
+    {
+      "name": "configurations_penalty_wait_period",
+      "path": "/v1/configurations/name/penalty-wait-period"
+    },
+    {
+      "name": "configurations_account_mapping_for_charge",
+      "path": "/v1/configurations/name/account-mapping-for-charge"
+    },
+    {
+      "name": "users_1",
+      "path": "/v1/users/1"
+    },
+    {
+      "name": "staff_loan_officers",
+      "path": "/v1/staff?loanOfficersOnly=true"
+    },
+    {
+      "name": "offices_bad_order",
+      "path": "/v1/offices?orderBy=nope",
+      "status": 403
+    },
+    {
+      "name": "users_99",
+      "path": "/v1/users/99",
+      "status": 404
+    }
+  ]
+}

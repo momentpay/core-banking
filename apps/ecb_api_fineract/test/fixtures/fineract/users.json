@@ -1,0 +1,53 @@
+{
+ "path": "/v1/users",
+ "status": 200,
+ "body": [
+  {
+   "id": 3,
+   "username": "interopUser",
+   "officeId": 1,
+   "officeName": "Head Office",
+   "firstname": "Interop",
+   "lastname": "User",
+   "email": "email@email.com",
+   "passwordNeverExpires": false,
+   "selectedRoles": [
+    {
+     "id": 1,
+     "name": "Super user",
+     "description": "This role provides all application permissions.",
+     "disabled": false
+    }
+   ]
+  },
+  {
+   "id": 1,
+   "username": "mifos",
+   "officeId": 1,
+   "officeName": "Head Office",
+   "firstname": "App",
+   "lastname": "Administrator",
+   "email": "demomfi@mifos.org",
+   "passwordNeverExpires": false,
+   "selectedRoles": [
+    {
+     "id": 1,
+     "name": "Super user",
+     "description": "This role provides all application permissions.",
+     "disabled": false
+    }
+   ]
+  },
+  {
+   "id": 2,
+   "username": "system",
+   "officeId": 1,
+   "officeName": "Head Office",
+   "firstname": "system",
+   "lastname": "system",
+   "email": "demomfi@mifos.org",
+   "passwordNeverExpires": false,
+   "selectedRoles": []
+  }
+ ]
+}

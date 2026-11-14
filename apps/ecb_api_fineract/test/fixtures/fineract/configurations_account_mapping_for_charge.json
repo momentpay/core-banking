@@ -1,0 +1,18 @@
+{
+ "path": "/v1/configurations/name/account-mapping-for-charge",
+ "status": 200,
+ "body": {
+  "name": "account-mapping-for-charge",
+  "enabled": true,
+  "stringValue": "Income",
+  "id": 36,
+  "description": "Income: default for Income, Use comma seperated values for Income, Liability and Expense accounts",
+  "trapDoor": false,
+  "allowedValues": [
+   "Income",
+   "Liability",
+   "Expense"
+  ],
+  "multipleValuesAllowed": true
+ }
+}

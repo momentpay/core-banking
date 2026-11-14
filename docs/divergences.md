@@ -39,6 +39,8 @@ No stored value differs: command rows, statuses, result codes and result JSON fi
 | 3 | Passwords of new users are written as `{bcrypt}` | Only the legacy `{SHA-256}{salt}hash` scheme is checked so far; anything else fails closed | `{bcrypt}` arrives with user administration | Unit test |
 | 4 | `shouldRenewPassword` and two-factor reflect the user's state | Both are always false for now | They arrive with user administration and two-factor authentication | Planned |
 | 5 | The default tenant timezone and business date set a new office's default opening date | `GET /offices/template` uses today's UTC date | Business date arrives with ecb_platform part 2 | Planned |
+| 6 | `orderBy=nameDecorated` on offices sorts by the decorated name | Sorts by the plain name | Same order for every real hierarchy of names; rarely used | Planned |
+| 7 | The permission lists are ordered by the database collation | Sorted in byte (C) order explicitly | Makes the order identical on every PostgreSQL installation | Fixture test |
 
 **Security note:** the seeded users (`mifos`, `system`, `interopUser`) and the password `password` are Fineract's published defaults. They exist so the compatible API and Fineract's own tests work out of the box. A real deployment must change those passwords, or remove the users, before it holds real data. Password changes arrive with user administration.
 

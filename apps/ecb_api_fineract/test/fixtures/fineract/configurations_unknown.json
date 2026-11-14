@@ -1,0 +1,23 @@
+{
+ "path": "/v1/configurations/name/nope",
+ "status": 404,
+ "body": {
+  "developerMessage": "The requested resource is not available.",
+  "httpStatusCode": "404",
+  "defaultUserMessage": "The requested resource is not available.",
+  "userMessageGlobalisationCode": "error.msg.resource.not.found",
+  "errors": [
+   {
+    "developerMessage": "Configuration property `nope` does not exist",
+    "defaultUserMessage": "Configuration property `nope` does not exist",
+    "userMessageGlobalisationCode": "error.msg.configuration.property.invalid",
+    "parameterName": "id",
+    "args": [
+     {
+      "value": "nope"
+     }
+    ]
+   }
+  ]
+ }
+}

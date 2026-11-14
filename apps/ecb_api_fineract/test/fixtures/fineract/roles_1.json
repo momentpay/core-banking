@@ -1,0 +1,10 @@
+{
+ "path": "/v1/roles/1",
+ "status": 200,
+ "body": {
+  "id": 1,
+  "name": "Super user",
+  "description": "This role provides all application permissions.",
+  "disabled": false
+ }
+}

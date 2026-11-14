@@ -155,7 +155,7 @@
       "app": "ecb_platform",
       "title": "Platform: tenancy, security, commands, audit, business date",
       "phase": 1,
-      "status": "in progress (14 Nov 2026). Built: tenant registry and per-tenant repos; the command pipeline (permissions, maker-checker, idempotency, stored commands, hooks); users, roles, permissions and configuration reads; tenant migrations generated from Fineract's schema with its seed data (984 permissions, 79 configuration rows). Also built: password verification for Fineract's `{SHA-256}` hashes, authentication against the user table, the default users, the read-permission check. Still to do: business date, `{bcrypt}` passwords and user administration, the maker-checker and configuration APIs, global configuration admin, instance mode, Batch API, data tables.",
+      "status": "in progress (14 Nov 2026). Built: tenant registry and per-tenant repos; the command pipeline (permissions, maker-checker, idempotency, stored commands, hooks); read endpoints for configuration, permissions, roles, users and password preferences; tenant migrations generated from Fineract's schema with its seed data (984 permissions, 79 configuration rows). Also built: password verification for Fineract's `{SHA-256}` hashes, authentication against the user table, the default users, the read-permission check. Still to do: business date, `{bcrypt}` passwords and user administration, the maker-checker and configuration APIs, global configuration admin, instance mode, Batch API, data tables.",
       "depends_on": [
         "ecb_money"
       ],
@@ -401,7 +401,7 @@
       "app": "ecb_org",
       "title": "Organisation and reference data",
       "phase": 2,
-      "status": "in progress (14 Nov 2026). Built: offices (list, one, template; scoped to the user's branch of the hierarchy, same name decoration and ordering rules as Fineract) on Fineract's `m_office` and `m_staff` tables, with the head-office seed row. Still to do: create and update offices, staff, currencies, codes, holidays, working days, payment types, funds, documents, notes, search and the rest.",
+      "status": "in progress (14 Nov 2026). Read side built: offices (list, one, template), currencies, codes, payment types, working days (and template), funds, holidays (and template), staff and account-number formats (and template), on Fineract's own tables with its seed data. Each answers exactly what Fineract answers on the same data. Still to do: creating and updating all of these, code values, documents, notes, images, search and the rest.",
       "depends_on": [
         "ecb_money",
         "ecb_platform"
@@ -457,12 +457,11 @@
         "Document storage sits behind a behaviour with a file-system adapter and an S3 adapter, as in Fineract's content store"
       ],
       "build_order": [
-        "Currencies and the organisation currency selection (next)",
-        "Offices with the hierarchy and visibility rule; `GET /offices` is the first endpoint the contract probe checks (read side done: list, one, template)",
-        "Staff, codes and code values, payment types, funds",
-        "Holidays and working days",
+        "Read side of the reference data: offices, currencies, codes, payment types, working days, funds, holidays, staff, account-number formats (done)",
+        "Create, update and delete for offices, staff, funds, payment types, holidays, working days and codes (next, through the command pipeline)",
+        "Code values and the organisation currency selection",
         "Notes, documents, images and the content store",
-        "Global search and account-number formats"
+        "Global search"
       ],
       "acceptance": [
         "Office hierarchy queries and the user visibility rule match Fineract on a generated tree",
@@ -1028,7 +1027,7 @@
       "app": "ecb_api_fineract",
       "title": "Fineract-compatible REST API",
       "phase": 1,
-      "status": "in progress (14 Nov 2026). Built: tenant resolution, HTTP basic authentication, `POST /authentication`, `GET /offices`, `/offices/{id}`, `/offices/template`, the health check, Fineract's error shapes and an HTTP 501 for operations not built yet. Contract probe against Fineract: 2 of 146 counted `must` and `should` read operations pass (1.4%).",
+      "status": "in progress (14 Nov 2026). Built: tenant resolution, HTTP basic authentication, `POST /authentication`, the read endpoints of offices, currencies, codes, payment types, working days, funds, holidays, staff, account-number formats, configurations, permissions, roles, users and password preferences, the health check, Fineract's error shapes and an HTTP 501 for operations not built yet. 33 recorded Fineract responses are matched exactly. Contract probe against Fineract: 20 of 146 counted `must` and `should` read operations pass (13.7%).",
       "depends_on": [
         "ecb_platform",
         "ecb_org",
@@ -1080,14 +1079,14 @@
       ],
       "build_order": [
         "Tenant header, authentication, error format, `GET /offices` (done)",
-        "Reference-data resources as ecb_org lands (next: currencies, codes, staff)",
-        "Clients and catalog resources",
+        "Read endpoints of the reference data and administration resources (done)",
+        "Write endpoints of those resources as their commands land, then clients and catalog resources (next)",
         "Deposits resources, then loans resources",
         "Accounting, reports, hooks and the remaining `must` operations",
         "The `should` operations; the deferred operations return 'not implemented'"
       ],
       "acceptance": [
-        "Contract probe pass rate rises monotonically and reaches 100% of counted `must` read operations (now 2 of 146)",
+        "Contract probe pass rate rises monotonically and reaches 100% of counted `must` read operations (now 20 of 146)",
         "Fineract's integration suite pass rate per module meets that module's acceptance criteria",
         "The stock Mifos web app logs in and browses every implemented area"
       ],

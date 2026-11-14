@@ -3,13 +3,9 @@ defmodule ECBApiFineract.ApiTest do
   The expected responses below were captured from a running Apache Fineract 1.16.1 (the oracle), so
   these tests pin E-CoreBank to what Fineract actually sends, including its failure cases.
   """
-  use ECBPlatform.TenantCase, database: "ecb_api_test", reset: false
-
-  import Plug.Conn
-  import Plug.Test
+  use ECBApiFineract.ApiCase
 
   alias ECBApiFineract.Router
-  alias ECBPlatform.Tenancy.Tenant
 
   @head_office %{
     "id" => 1,
@@ -19,115 +15,6 @@ defmodule ECBApiFineract.ApiTest do
     "openingDate" => [2009, 1, 1],
     "hierarchy" => "."
   }
-
-  setup do
-    # the tenant registry lives in its own database, isolated per test by the SQL sandbox
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(ECBPlatform.Repo)
-    tenant = ECBPlatform.TenantCase.tenant("ecb_api_test")
-
-    {:ok, _} =
-      ECBPlatform.Tenancy.create_tenant(%{
-        identifier: "apitest",
-        name: "API test tenant",
-        db_host: tenant.db_host,
-        db_port: tenant.db_port,
-        db_name: tenant.db_name,
-        db_username: tenant.db_username,
-        pool_size: 5
-      })
-
-    TenantRepo.query!(
-      "DELETE FROM m_appuser_role WHERE appuser_id IN (SELECT id FROM m_appuser WHERE username LIKE 'apitest-%')"
-    )
-
-    TenantRepo.query!("DELETE FROM m_appuser WHERE username LIKE 'apitest-%'")
-
-    TenantRepo.query!(
-      "DELETE FROM m_role_permission WHERE role_id IN (SELECT id FROM m_role WHERE name LIKE 'apitest-%')"
-    )
-
-    TenantRepo.query!("DELETE FROM m_role WHERE name LIKE 'apitest-%'")
-    TenantRepo.query!("DELETE FROM m_office WHERE id > 1")
-    :ok
-  end
-
-  # --- helpers --------------------------------------------------------------------------------
-
-  defp call(method, path, opts \\ []) do
-    headers = Keyword.get(opts, :headers, [{"fineract-platform-tenantid", "apitest"}])
-    body = opts[:body]
-
-    conn =
-      if body,
-        do:
-          conn(method, path, Jason.encode!(body))
-          |> put_req_header("content-type", "application/json"),
-        else: conn(method, path)
-
-    conn = Enum.reduce(headers, conn, fn {k, v}, c -> put_req_header(c, k, v) end)
-
-    conn =
-      if opts[:auth],
-        do:
-          put_req_header(
-            conn,
-            "authorization",
-            "Basic " <> Base.encode64(elem(opts[:auth], 0) <> ":" <> elem(opts[:auth], 1))
-          ),
-        else: conn
-
-    Router.call(conn, Router.init([]))
-  end
-
-  defp admin, do: {"mifos", "password"}
-  defp body(conn), do: Jason.decode!(conn.resp_body)
-
-  defp hash(password, salt \\ "7"),
-    do:
-      "{SHA-256}{#{salt}}" <>
-        (:crypto.hash(:sha256, password <> "{#{salt}}") |> Base.encode16(case: :lower))
-
-  # A user in the test tenant with the given permissions; returns {username, password}.
-  defp make_user(name, permissions, opts \\ []) do
-    username = "apitest-" <> name
-
-    %{rows: [[role_id]]} =
-      TenantRepo.query!(
-        "INSERT INTO m_role (name, description, is_disabled) VALUES ($1, 'test', false) RETURNING id",
-        ["apitest-" <> name]
-      )
-
-    for code <- permissions do
-      TenantRepo.query!(
-        "INSERT INTO m_role_permission (role_id, permission_id) SELECT $1, id FROM m_permission WHERE code = $2",
-        [role_id, code]
-      )
-    end
-
-    %{rows: [[user_id]]} =
-      TenantRepo.query!(
-        """
-        INSERT INTO m_appuser (office_id, username, firstname, lastname, password, email, firsttime_login_remaining,
-                               nonexpired, nonlocked, nonexpired_credentials, enabled)
-        VALUES (1, $1, 'T', 'T', $2, 't@example.test', false, $3, $4, $5, $6) RETURNING id
-        """,
-        [
-          username,
-          hash("secret"),
-          Keyword.get(opts, :nonexpired, true),
-          Keyword.get(opts, :nonlocked, true),
-          true,
-          Keyword.get(opts, :enabled, true)
-        ]
-      )
-
-    TenantRepo.query!("INSERT INTO m_appuser_role (appuser_id, role_id) VALUES ($1, $2)", [
-      user_id,
-      role_id
-    ])
-
-    {username, "secret"}
-  end
 
   # --- health ---------------------------------------------------------------------------------
 
@@ -301,7 +188,7 @@ defmodule ECBApiFineract.ApiTest do
 
     test "leaves out null fields and writes dates as arrays" do
       TenantRepo.query!(
-        "INSERT INTO m_office (parent_id, hierarchy, name, opening_date) VALUES (1, '.2.', 'Nairobi', '2020-01-15')"
+        "INSERT INTO m_office (id, parent_id, hierarchy, name, opening_date) VALUES (2, 1, '.2.', 'Nairobi', '2020-01-15')"
       )
 
       [_, nairobi] = call(:get, "/api/v1/offices", auth: admin()) |> body()
@@ -455,6 +342,4 @@ defmodule ECBApiFineract.ApiTest do
     assert conn.status == 200
     assert conn.assigns.raw_body == raw
   end
-
-  _ = Tenant
 end

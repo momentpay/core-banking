@@ -122,8 +122,16 @@ defmodule ECBApiFineract.Errors do
   def render(conn, %ECBOrg.Errors.OfficeNotFound{office_id: id} = error),
     do: not_found(conn, "error.msg.office.id.invalid", Exception.message(error), [id])
 
+  def render(conn, %ECBPlatform.Errors.ResourceNotFound{} = error),
+    do: not_found(conn, error.code, error.message, error.args)
+
   def render(conn, %ECBOrg.Errors.InvalidOrdering{} = error),
-    do: domain_rule_violation(conn, "error.msg.invalid.input", Exception.message(error))
+    do:
+      domain_rule_violation(
+        conn,
+        "error.msg.input.validation",
+        "Input validation error: " <> Exception.message(error)
+      )
 
   def render(conn, %ECBPlatform.Commands.Errors.NoAuthorization{} = error),
     do: not_authorized(conn, Exception.message(error))

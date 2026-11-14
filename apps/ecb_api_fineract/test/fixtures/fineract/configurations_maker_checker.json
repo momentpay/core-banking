@@ -1,0 +1,10 @@
+{
+ "path": "/v1/configurations/name/maker-checker",
+ "status": 200,
+ "body": {
+  "name": "maker-checker",
+  "enabled": false,
+  "id": 1,
+  "trapDoor": false
+ }
+}

@@ -101,7 +101,7 @@ defmodule ECBOrg.OfficesTest do
     test "every documented order field works" do
       add_office("Alpha", 1)
 
-      for field <- ~w(id name externalId openingDate hierarchy parentId parentName) do
+      for field <- ~w(id name nameDecorated externalId openingDate hierarchy) do
         assert {:ok, [_ | _]} = Offices.list(head_office_user(), order_by: field),
                "orderBy #{field}"
       end
@@ -109,8 +109,11 @@ defmodule ECBOrg.OfficesTest do
 
     test "refuses an order field or direction that is not allowed" do
       assert {:error,
-              %InvalidOrdering{detail: "invalid orderBy value 'name; DROP TABLE m_office'"}} =
+              %InvalidOrdering{detail: "invalid input for profile 'office-order-by'" <> _}} =
                Offices.list(head_office_user(), order_by: "name; DROP TABLE m_office")
+
+      assert {:error, %InvalidOrdering{}} =
+               Offices.list(head_office_user(), order_by: "parentName")
 
       assert {:error, %InvalidOrdering{detail: "invalid sortOrder value 'sideways'"}} =
                Offices.list(head_office_user(), order_by: "name", sort_order: "sideways")

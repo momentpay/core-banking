@@ -13,6 +13,7 @@ defmodule ECBPlatform.Configuration do
   import Ecto.Query
 
   alias ECBPlatform.Commands.Errors.PermissionNotFound
+  alias ECBPlatform.Errors.ResourceNotFound
   alias ECBPlatform.TenantRepo
 
   @maker_checker "maker-checker"
@@ -32,6 +33,64 @@ defmodule ECBPlatform.Configuration do
           date_value: c.date_value
         }
     )
+  end
+
+  @options_file Path.expand("../../priv/configuration_options.json", __DIR__)
+  @external_resource @options_file
+  @options @options_file |> File.read!() |> Jason.decode!()
+
+  @doc """
+  Every global configuration property as the configuration API lists it: the row plus, for the few
+  string-valued properties, the values they may take.
+  """
+  @spec list() :: [map]
+  def list do
+    from(c in "c_configuration", order_by: c.id, select: ^fields())
+    |> TenantRepo.all()
+    |> Enum.map(&with_options/1)
+  end
+
+  @doc "One property by name, or `{:error, ResourceNotFound}`."
+  @spec get_by_name(String.t()) :: {:ok, map} | {:error, Exception.t()}
+  def get_by_name(name) when is_binary(name) do
+    case TenantRepo.one(from(c in "c_configuration", where: c.name == ^name, select: ^fields())) do
+      nil ->
+        {:error,
+         ResourceNotFound.new(
+           "error.msg.configuration.property.invalid",
+           "Configuration property `#{name}` does not exist",
+           [name]
+         )}
+
+      row ->
+        {:ok, with_options(row)}
+    end
+  end
+
+  defp fields do
+    dynamic(
+      [c],
+      %{
+        id: c.id,
+        name: c.name,
+        enabled: c.enabled,
+        value: c.value,
+        string_value: c.string_value,
+        date_value: c.date_value,
+        trap_door: c.is_trap_door,
+        description: c.description
+      }
+    )
+  end
+
+  defp with_options(row) do
+    case Map.get(@options, row.name) do
+      nil ->
+        row
+
+      %{"allowedValues" => allowed, "multipleValuesAllowed" => multiple} ->
+        Map.merge(row, %{allowed_values: allowed, multiple_values_allowed: multiple})
+    end
   end
 
   @doc "True when the configuration exists and is enabled. A missing row is treated as disabled."

@@ -55,6 +55,56 @@
         "m_appuser",
         "m_appuser_role"
       ]
+    },
+    {
+      "kind": "schema",
+      "app": "ecb_org",
+      "version": "20261114120000",
+      "name": "create_reference_data_tables",
+      "tables": [
+        "m_currency",
+        "m_organisation_currency",
+        "m_code",
+        "m_code_value",
+        "m_payment_type",
+        "m_working_days",
+        "m_fund",
+        "m_holiday",
+        "m_holiday_office",
+        "c_account_number_format"
+      ]
+    },
+    {
+      "kind": "data",
+      "app": "ecb_org",
+      "version": "20261114120100",
+      "name": "seed_reference_data",
+      "tables": [
+        "m_currency",
+        "m_organisation_currency",
+        "m_code",
+        "m_code_value",
+        "m_payment_type",
+        "m_working_days"
+      ]
+    },
+    {
+      "kind": "schema",
+      "app": "ecb_platform",
+      "version": "20261114120200",
+      "name": "create_password_policy_table",
+      "tables": [
+        "m_password_validation_policy"
+      ]
+    },
+    {
+      "kind": "data",
+      "app": "ecb_platform",
+      "version": "20261114120300",
+      "name": "seed_password_policies",
+      "tables": [
+        "m_password_validation_policy"
+      ]
     }
   ],
   "deferred_foreign_keys": [

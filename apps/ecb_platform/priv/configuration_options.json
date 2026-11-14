@@ -1,0 +1,85 @@
+{
+ "account-mapping-for-payment-type": {
+  "allowedValues": [
+   "Asset",
+   "Liability",
+   "Expense"
+  ],
+  "multipleValuesAllowed": true
+ },
+ "account-mapping-for-charge": {
+  "allowedValues": [
+   "Income",
+   "Liability",
+   "Expense"
+  ],
+  "multipleValuesAllowed": true
+ },
+ "charge-accrual-date": {
+  "allowedValues": [
+   "due-date",
+   "submitted-date"
+  ],
+  "multipleValuesAllowed": false
+ },
+ "next-payment-due-date": {
+  "allowedValues": [
+   "earliest-unpaid-date",
+   "next-unpaid-due-date"
+  ],
+  "multipleValuesAllowed": false
+ },
+ "pl-charge-accrual-time": {
+  "allowedValues": [
+   "eod",
+   "real-time"
+  ],
+  "multipleValuesAllowed": false
+ },
+ "outstanding-interest-calculation-strategy-for-external-asset-transfer": {
+  "allowedValues": [
+   "TOTAL_OUTSTANDING_INTEREST",
+   "PAYABLE_OUTSTANDING_INTEREST"
+  ],
+  "multipleValuesAllowed": false
+ },
+ "allowed-loan-statuses-for-external-asset-transfer": {
+  "allowedValues": [
+   "SUBMITTED_AND_PENDING_APPROVAL",
+   "APPROVED",
+   "ACTIVE",
+   "TRANSFER_IN_PROGRESS",
+   "TRANSFER_ON_HOLD",
+   "WITHDRAWN_BY_CLIENT",
+   "REJECTED",
+   "CLOSED_OBLIGATIONS_MET",
+   "CLOSED_WRITTEN_OFF",
+   "CLOSED_RESCHEDULE_OUTSTANDING_AMOUNT",
+   "OVERPAID"
+  ],
+  "multipleValuesAllowed": true
+ },
+ "allowed-loan-statuses-of-delayed-settlement-for-external-asset-transfer": {
+  "allowedValues": [
+   "SUBMITTED_AND_PENDING_APPROVAL",
+   "APPROVED",
+   "ACTIVE",
+   "TRANSFER_IN_PROGRESS",
+   "TRANSFER_ON_HOLD",
+   "WITHDRAWN_BY_CLIENT",
+   "REJECTED",
+   "CLOSED_OBLIGATIONS_MET",
+   "CLOSED_WRITTEN_OFF",
+   "CLOSED_RESCHEDULE_OUTSTANDING_AMOUNT",
+   "OVERPAID"
+  ],
+  "multipleValuesAllowed": true
+ },
+ "wcl-charge-accrual-time": {
+  "allowedValues": [
+   "eod",
+   "real-time"
+  ],
+  "multipleValuesAllowed": false
+ }
+}

@@ -1,0 +1,4966 @@
+{
+ "path": "/v1/permissions",
+ "status": 200,
+ "body": [
+  {
+   "grouping": "LOAN_PROVISIONING",
+   "code": "CREATE_PROVISIONCATEGORY",
+   "entityName": "PROVISIONCATEGORY",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "LOAN_PROVISIONING",
+   "code": "DELETE_PROVISIONCATEGORY",
+   "entityName": "PROVISIONCATEGORY",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "LOAN_PROVISIONING",
+   "code": "UPDATE_PROVISIONCATEGORY",
+   "entityName": "PROVISIONCATEGORY",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "LOAN_PROVISIONING",
+   "code": "CREATE_PROVISIONCRITERIA",
+   "entityName": "PROVISIONINGCRITERIA",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "LOAN_PROVISIONING",
+   "code": "DELETE_PROVISIONCRITERIA",
+   "entityName": "PROVISIONINGCRITERIA",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "LOAN_PROVISIONING",
+   "code": "UPDATE_PROVISIONCRITERIA",
+   "entityName": "PROVISIONINGCRITERIA",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "LOAN_PROVISIONING",
+   "code": "CREATE_PROVISIONENTRIES",
+   "entityName": "PROVISIONINGENTRIES",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "LOAN_PROVISIONING",
+   "code": "CREATE_PROVISIONJOURNALENTRIES",
+   "entityName": "PROVISIONINGENTRIES",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "LOAN_PROVISIONING",
+   "code": "RECREATE_PROVISIONENTRIES",
+   "entityName": "PROVISIONINGENTRIES",
+   "actionName": "RECREATE",
+   "selected": true
+  },
+  {
+   "grouping": "SHAREACCOUNT",
+   "code": "ACTIVATE_SHAREACCOUNT",
+   "entityName": "SHAREACCOUNT",
+   "actionName": "ACTIVATE",
+   "selected": true
+  },
+  {
+   "grouping": "SHAREACCOUNT",
+   "code": "APPLYADDITIONALSHARES_SHAREACCOUNT",
+   "entityName": "SHAREACCOUNT",
+   "actionName": "APPLYADDITIONALSHARES",
+   "selected": true
+  },
+  {
+   "grouping": "SHAREACCOUNT",
+   "code": "APPROVEADDITIONALSHARES_SHAREACCOUNT",
+   "entityName": "SHAREACCOUNT",
+   "actionName": "APPROVEADDITIONALSHARES",
+   "selected": true
+  },
+  {
+   "grouping": "SHAREACCOUNT",
+   "code": "APPROVE_SHAREACCOUNT",
+   "entityName": "SHAREACCOUNT",
+   "actionName": "APPROVE",
+   "selected": true
+  },
+  {
+   "grouping": "SHAREACCOUNT",
+   "code": "CLOSE_SHAREACCOUNT",
+   "entityName": "SHAREACCOUNT",
+   "actionName": "CLOSE",
+   "selected": true
+  },
+  {
+   "grouping": "SHAREACCOUNT",
+   "code": "CREATE_SHAREACCOUNT",
+   "entityName": "SHAREACCOUNT",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "SHAREACCOUNT",
+   "code": "REDEEMSHARES_SHAREACCOUNT",
+   "entityName": "SHAREACCOUNT",
+   "actionName": "REDEEMSHARES",
+   "selected": true
+  },
+  {
+   "grouping": "SHAREACCOUNT",
+   "code": "REJECTADDITIONALSHARES_SHAREACCOUNT",
+   "entityName": "SHAREACCOUNT",
+   "actionName": "REJECTADDITIONALSHARES",
+   "selected": true
+  },
+  {
+   "grouping": "SHAREACCOUNT",
+   "code": "REJECT_SHAREACCOUNT",
+   "entityName": "SHAREACCOUNT",
+   "actionName": "REJECT",
+   "selected": true
+  },
+  {
+   "grouping": "SHAREACCOUNT",
+   "code": "UNDOAPPROVAL_SHAREACCOUNT",
+   "entityName": "SHAREACCOUNT",
+   "actionName": "UNDOAPPROVAL",
+   "selected": true
+  },
+  {
+   "grouping": "SHAREACCOUNT",
+   "code": "UPDATE_SHAREACCOUNT",
+   "entityName": "SHAREACCOUNT",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "SHAREPRODUCT",
+   "code": "APPROVE_DIVIDEND_SHAREPRODUCT",
+   "entityName": "SHAREPRODUCT",
+   "actionName": "APPROVE_DIVIDEND",
+   "selected": true
+  },
+  {
+   "grouping": "SHAREPRODUCT",
+   "code": "CREATE_DIVIDEND_SHAREPRODUCT",
+   "entityName": "SHAREPRODUCT",
+   "actionName": "CREATE_DIVIDEND",
+   "selected": true
+  },
+  {
+   "grouping": "SHAREPRODUCT",
+   "code": "CREATE_SHAREPRODUCT",
+   "entityName": "SHAREPRODUCT",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "SHAREPRODUCT",
+   "code": "DELETE_DIVIDEND_SHAREPRODUCT",
+   "entityName": "SHAREPRODUCT",
+   "actionName": "DELETE_DIVIDEND",
+   "selected": true
+  },
+  {
+   "grouping": "SHAREPRODUCT",
+   "code": "READ_DIVIDEND_SHAREPRODUCT",
+   "entityName": "SHAREPRODUCT",
+   "actionName": "READ_DIVIDEND",
+   "selected": true
+  },
+  {
+   "grouping": "SHAREPRODUCT",
+   "code": "UPDATE_SHAREPRODUCT",
+   "entityName": "SHAREPRODUCT",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "SSBENEFICIARYTPT",
+   "code": "CREATE_SSBENEFICIARYTPT",
+   "entityName": "SSBENEFICIARYTPT",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "SSBENEFICIARYTPT",
+   "code": "DELETE_SSBENEFICIARYTPT",
+   "entityName": "SSBENEFICIARYTPT",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "SSBENEFICIARYTPT",
+   "code": "READ_SSBENEFICIARYTPT",
+   "entityName": "SSBENEFICIARYTPT",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "SSBENEFICIARYTPT",
+   "code": "UPDATE_SSBENEFICIARYTPT",
+   "entityName": "SSBENEFICIARYTPT",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "account_transfer",
+   "code": "CREATE_STANDINGINSTRUCTION",
+   "entityName": "STANDINGINSTRUCTION",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "account_transfer",
+   "code": "DELETE_STANDINGINSTRUCTION",
+   "entityName": "STANDINGINSTRUCTION",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "account_transfer",
+   "code": "READ_STANDINGINSTRUCTION",
+   "entityName": "STANDINGINSTRUCTION",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "account_transfer",
+   "code": "UPDATE_STANDINGINSTRUCTION",
+   "entityName": "STANDINGINSTRUCTION",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "accounting",
+   "code": "CREATE_ACCOUNTINGRULE",
+   "entityName": "ACCOUNTINGRULE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "accounting",
+   "code": "DELETE_ACCOUNTINGRULE",
+   "entityName": "ACCOUNTINGRULE",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "accounting",
+   "code": "READ_ACCOUNTINGRULE",
+   "entityName": "ACCOUNTINGRULE",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "accounting",
+   "code": "UPDATE_ACCOUNTINGRULE",
+   "entityName": "ACCOUNTINGRULE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "accounting",
+   "code": "CREATE_FINANCIALACTIVITYACCOUNT",
+   "entityName": "FINANCIALACTIVITYACCOUNT",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "accounting",
+   "code": "DELETE_FINANCIALACTIVITYACCOUNT",
+   "entityName": "FINANCIALACTIVITYACCOUNT",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "accounting",
+   "code": "READ_FINANCIALACTIVITYACCOUNT",
+   "entityName": "FINANCIALACTIVITYACCOUNT",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "accounting",
+   "code": "UPDATE_FINANCIALACTIVITYACCOUNT",
+   "entityName": "FINANCIALACTIVITYACCOUNT",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "accounting",
+   "code": "CREATE_GLACCOUNT",
+   "entityName": "GLACCOUNT",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "accounting",
+   "code": "DELETE_GLACCOUNT",
+   "entityName": "GLACCOUNT",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "accounting",
+   "code": "READ_GLACCOUNT",
+   "entityName": "GLACCOUNT",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "accounting",
+   "code": "UPDATE_GLACCOUNT",
+   "entityName": "GLACCOUNT",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "accounting",
+   "code": "CREATE_GLCLOSURE",
+   "entityName": "GLCLOSURE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "accounting",
+   "code": "DELETE_GLCLOSURE",
+   "entityName": "GLCLOSURE",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "accounting",
+   "code": "READ_GLCLOSURE",
+   "entityName": "GLCLOSURE",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "accounting",
+   "code": "UPDATE_GLCLOSURE",
+   "entityName": "GLCLOSURE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "accounting",
+   "code": "CREATE_JOURNALENTRY",
+   "entityName": "JOURNALENTRY",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "accounting",
+   "code": "DEFINEOPENINGBALANCE_JOURNALENTRY",
+   "entityName": "JOURNALENTRY",
+   "actionName": "DEFINEOPENINGBALANCE",
+   "selected": true
+  },
+  {
+   "grouping": "accounting",
+   "code": "READ_JOURNALENTRY",
+   "entityName": "JOURNALENTRY",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "accounting",
+   "code": "REVERSE_JOURNALENTRY",
+   "entityName": "JOURNALENTRY",
+   "actionName": "REVERSE",
+   "selected": true
+  },
+  {
+   "grouping": "accounting",
+   "code": "UPDATEOPENINGBALANCE_JOURNALENTRY",
+   "entityName": "JOURNALENTRY",
+   "actionName": "UPDATEOPENINGBALANCE",
+   "selected": true
+  },
+  {
+   "grouping": "accounting",
+   "code": "UPDATERUNNINGBALANCE_JOURNALENTRY",
+   "entityName": "JOURNALENTRY",
+   "actionName": "UPDATERUNNINGBALANCE",
+   "selected": true
+  },
+  {
+   "grouping": "accounting",
+   "code": "EXECUTE_PERIODICACCRUALACCOUNTING",
+   "entityName": "PERIODICACCRUALACCOUNTING",
+   "actionName": "EXECUTE",
+   "selected": true
+  },
+  {
+   "grouping": "accounting",
+   "code": "EXECUTEFORSAVINGS",
+   "entityName": "PERIODICACCRUALACCOUNTINGFORSAVINGS",
+   "actionName": "EXECUTE",
+   "selected": true
+  },
+  {
+   "grouping": "authorisation",
+   "code": "CREATE_ADHOC",
+   "entityName": "ADHOC",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "authorisation",
+   "code": "DELETE_ADHOC",
+   "entityName": "ADHOC",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "authorisation",
+   "code": "UPDATE_ADHOC",
+   "entityName": "ADHOC",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "authorisation",
+   "code": "READ_PASSWORD_PREFERENCES",
+   "entityName": "PASSWORD_PREFERENCES",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "authorisation",
+   "code": "UPDATE_PASSWORD_PREFERENCES",
+   "entityName": "PASSWORD_PREFERENCES",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "authorisation",
+   "code": "READ_PERMISSION",
+   "entityName": "PERMISSION",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "authorisation",
+   "code": "CREATE_ROLE",
+   "entityName": "ROLE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "authorisation",
+   "code": "DELETE_ROLE",
+   "entityName": "ROLE",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "authorisation",
+   "code": "DISABLE_ROLE",
+   "entityName": "ROLE",
+   "actionName": "DISABLE",
+   "selected": true
+  },
+  {
+   "grouping": "authorisation",
+   "code": "ENABLE_ROLE",
+   "entityName": "ROLE",
+   "actionName": "ENABLE",
+   "selected": true
+  },
+  {
+   "grouping": "authorisation",
+   "code": "PERMISSIONS_ROLE",
+   "entityName": "ROLE",
+   "actionName": "PERMISSIONS",
+   "selected": true
+  },
+  {
+   "grouping": "authorisation",
+   "code": "READ_ROLE",
+   "entityName": "ROLE",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "authorisation",
+   "code": "UPDATE_ROLE",
+   "entityName": "ROLE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "authorisation",
+   "code": "INVALIDATE_TWOFACTOR_ACCESSTOKEN",
+   "entityName": "TWOFACTOR_ACCESSTOKEN",
+   "actionName": "INVALIDATE",
+   "selected": true
+  },
+  {
+   "grouping": "authorisation",
+   "code": "CHANGEPWD_USER",
+   "entityName": "USER",
+   "actionName": "CHANGEPWD",
+   "selected": true
+  },
+  {
+   "grouping": "authorisation",
+   "code": "CREATE_USER",
+   "entityName": "USER",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "authorisation",
+   "code": "DELETE_USER",
+   "entityName": "USER",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "authorisation",
+   "code": "READ_USER",
+   "entityName": "USER",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "authorisation",
+   "code": "UPDATE_USER",
+   "entityName": "USER",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "cash_mgmt",
+   "code": "ALLOCATECASHIER_TELLER",
+   "entityName": "TELLER",
+   "actionName": "ALLOCATE",
+   "selected": true
+  },
+  {
+   "grouping": "cash_mgmt",
+   "code": "ALLOCATECASHTOCASHIER_TELLER",
+   "entityName": "TELLER",
+   "actionName": "ALLOCATECASHTOCASHIER",
+   "selected": true
+  },
+  {
+   "grouping": "cash_mgmt",
+   "code": "CREATE_TELLER",
+   "entityName": "TELLER",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "cash_mgmt",
+   "code": "DELETECASHIERALLOCATION_TELLER",
+   "entityName": "TELLER",
+   "actionName": "DELETECASHIERALLOCATION",
+   "selected": true
+  },
+  {
+   "grouping": "cash_mgmt",
+   "code": "DELETE_TELLER",
+   "entityName": "TELLER",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "cash_mgmt",
+   "code": "SETTLECASHFROMCASHIER_TELLER",
+   "entityName": "TELLER",
+   "actionName": "SETTLECASHFROMCASHIER",
+   "selected": true
+  },
+  {
+   "grouping": "cash_mgmt",
+   "code": "UPDATECASHIERALLOCATION_TELLER",
+   "entityName": "TELLER",
+   "actionName": "UPDATECASHIERALLOCATION",
+   "selected": true
+  },
+  {
+   "grouping": "cash_mgmt",
+   "code": "UPDATE_TELLER",
+   "entityName": "TELLER",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "collection_sheet",
+   "code": "READ_COLLECTIONSHEET",
+   "entityName": "COLLECTIONSHEET",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "collection_sheet",
+   "code": "SAVE_COLLECTIONSHEET",
+   "entityName": "COLLECTIONSHEET",
+   "actionName": "SAVE",
+   "selected": true
+  },
+  {
+   "grouping": "collection_sheet",
+   "code": "UPDATE_COLLECTIONSHEET",
+   "entityName": "COLLECTIONSHEET",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "CREATE_ACCOUNTNUMBERFORMAT",
+   "entityName": "ACCOUNTNUMBERFORMAT",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "READ_ACCOUNTNUMBERFORMAT",
+   "entityName": "ACCOUNTNUMBERFORMAT",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "UPDATE_ACCOUNTNUMBERFORMAT",
+   "entityName": "ACCOUNTNUMBERFORMAT",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "READ_AUDIT",
+   "entityName": "AUDIT",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "READ_CACHE",
+   "entityName": "CACHE",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "UPDATE_CACHE",
+   "entityName": "CACHE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "CREATE_CALENDAR",
+   "entityName": "CALENDAR",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "DELETE_CALENDAR",
+   "entityName": "CALENDAR",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "READ_CALENDAR",
+   "entityName": "CALENDAR",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "UPDATE_CALENDAR",
+   "entityName": "CALENDAR",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "CREATE_CODE",
+   "entityName": "CODE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "DELETE_CODE",
+   "entityName": "CODE",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "READ_CODE",
+   "entityName": "CODE",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "UPDATE_CODE",
+   "entityName": "CODE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "CREATE_CODEVALUE",
+   "entityName": "CODEVALUE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "DELETE_CODEVALUE",
+   "entityName": "CODEVALUE",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "READ_CODEVALUE",
+   "entityName": "CODEVALUE",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "UPDATE_CODEVALUE",
+   "entityName": "CODEVALUE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "READ_CONFIGURATION",
+   "entityName": "CONFIGURATION",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "UPDATE_CONFIGURATION",
+   "entityName": "CONFIGURATION",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "CREATE_CREDITBUREAU_CONFIGURATION",
+   "entityName": "CREDITBUREAU_CONFIGURATION",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "UPDATE_CREDITBUREAU_CONFIGURATION",
+   "entityName": "CREDITBUREAU_CONFIGURATION",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "CREATE_CREDITBUREAU_LOANPRODUCT_MAPPING",
+   "entityName": "CREDITBUREAU_LOANPRODUCT_MAPPING",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "UPDATE_CREDITBUREAU_LOANPRODUCT_MAPPING",
+   "entityName": "CREDITBUREAU_LOANPRODUCT_MAPPING",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "DELETE_CREDITREPORT",
+   "entityName": "CREDITREPORT",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "GET_CREDITREPORT",
+   "entityName": "CREDITREPORT",
+   "actionName": "GET",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "SAVE_CREDITREPORT",
+   "entityName": "CREDITREPORT",
+   "actionName": "SAVE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "READ_CURRENCY",
+   "entityName": "CURRENCY",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "UPDATE_CURRENCY",
+   "entityName": "CURRENCY",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "CREATE_DATATABLE",
+   "entityName": "DATATABLE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "DELETE_DATATABLE",
+   "entityName": "DATATABLE",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "DEREGISTER_DATATABLE",
+   "entityName": "DATATABLE",
+   "actionName": "DEREGISTER",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "READ_DATATABLE",
+   "entityName": "DATATABLE",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "REGISTER_DATATABLE",
+   "entityName": "DATATABLE",
+   "actionName": "REGISTER",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "UPDATE_DATATABLE",
+   "entityName": "DATATABLE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "READ_EXTERNAL_EVENT_CONFIGURATION",
+   "entityName": "EXTERNAL_EVENT_CONFIGURATION",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "UPDATE_EXTERNAL_EVENT_CONFIGURATION",
+   "entityName": "EXTERNAL_EVENT_CONFIGURATION",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "CREATE_HOOK",
+   "entityName": "HOOK",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "DELETE_ACCOUNTNUMBERFORMAT",
+   "entityName": "HOOK",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "DELETE_HOOK",
+   "entityName": "HOOK",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "READ_HOOK",
+   "entityName": "HOOK",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "UPDATE_HOOK",
+   "entityName": "HOOK",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "CREATE_ORGANISATIONCREDITBUREAU",
+   "entityName": "ORGANISATIONCREDITBUREAU",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "UPDATE_ORGANISATIONCREDITBUREAU",
+   "entityName": "ORGANISATIONCREDITBUREAU",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "UPDATE_PERMISSION",
+   "entityName": "PERMISSION",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "CREATE_REPORT",
+   "entityName": "REPORT",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "DELETE_REPORT",
+   "entityName": "REPORT",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "READ_REPORT",
+   "entityName": "REPORT",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "UPDATE_REPORT",
+   "entityName": "REPORT",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "READ_TWOFACTOR_CONFIGURATION",
+   "entityName": "TWOFACTOR_CONFIGURATION",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "configuration",
+   "code": "UPDATE_TWOFACTOR_CONFIGURATION",
+   "entityName": "TWOFACTOR_CONFIGURATION",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "datatable",
+   "code": "CREATE_ENTITY_DATATABLE_CHECK",
+   "entityName": "ENTITY_DATATABLE_CHECK",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "datatable",
+   "code": "DELETE_ENTITY_DATATABLE_CHECK",
+   "entityName": "ENTITY_DATATABLE_CHECK",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "datatable",
+   "code": "READ_ENTITY_DATATABLE_CHECK",
+   "entityName": "ENTITY_DATATABLE_CHECK",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "datatable",
+   "code": "UPDATE_LIKELIHOOD",
+   "entityName": "likelihood",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "externalservices",
+   "code": "UPDATE_EXTERNALSERVICES",
+   "entityName": "EXTERNALSERVICES",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "infrastructure",
+   "code": "CREATE_ENTITYMAPPING",
+   "entityName": "ENTITYMAPPING",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "infrastructure",
+   "code": "DELETE_ENTITYMAPPING",
+   "entityName": "ENTITYMAPPING",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "infrastructure",
+   "code": "READ_ENTITYMAPPING",
+   "entityName": "ENTITYMAPPING",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "infrastructure",
+   "code": "UPDATE_ENTITYMAPPING",
+   "entityName": "ENTITYMAPPING",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "infrastructure",
+   "code": "READ_IMPORT",
+   "entityName": "IMPORT",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "interop",
+   "code": "CREATE_INTERID",
+   "entityName": "INTERID",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "interop",
+   "code": "DELETE_INTERID",
+   "entityName": "INTERID",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "interop",
+   "code": "READ_INTERID",
+   "entityName": "INTERID",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "interop",
+   "code": "CREATE_INTERQUOTE",
+   "entityName": "INTERQUOTE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "interop",
+   "code": "READ_INTERQUOTE",
+   "entityName": "INTERQUOTE",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "interop",
+   "code": "CREATE_INTERREQUEST",
+   "entityName": "INTERREQUEST",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "interop",
+   "code": "READ_INTERREQUEST",
+   "entityName": "INTERREQUEST",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "interop",
+   "code": "CREATE_INTERTRANSFER",
+   "entityName": "INTERTRANSFER",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "interop",
+   "code": "PREPARE_INTERTRANSFER",
+   "entityName": "INTERTRANSFER",
+   "actionName": "PREPARE",
+   "selected": true
+  },
+  {
+   "grouping": "interop",
+   "code": "READ_INTERTRANSFER",
+   "entityName": "INTERTRANSFER",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "interop",
+   "code": "RELEASE_INTERTRANSFER",
+   "entityName": "INTERTRANSFER",
+   "actionName": "RELEASE",
+   "selected": true
+  },
+  {
+   "grouping": "investor",
+   "code": "CANCEL_ASSET_OWNER_TRANSACTION",
+   "entityName": "ASSET_OWNER_TRANSACTION",
+   "actionName": "CANCEL",
+   "selected": true
+  },
+  {
+   "grouping": "investor",
+   "code": "CREATE_EXTERNAL_ASSET_OWNER",
+   "entityName": "EXTERNAL_ASSET_OWNER",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "jobs",
+   "code": "CREATE_REPORTMAILINGJOB",
+   "entityName": "REPORTMAILINGJOB",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "jobs",
+   "code": "DELETE_REPORTMAILINGJOB",
+   "entityName": "REPORTMAILINGJOB",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "jobs",
+   "code": "READ_REPORTMAILINGJOB",
+   "entityName": "REPORTMAILINGJOB",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "jobs",
+   "code": "UPDATE_REPORTMAILINGJOB",
+   "entityName": "REPORTMAILINGJOB",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "jobs",
+   "code": "EXECUTEJOB_SCHEDULER",
+   "entityName": "SCHEDULER",
+   "actionName": "EXECUTEJOB",
+   "selected": true
+  },
+  {
+   "grouping": "jobs",
+   "code": "READ_SCHEDULER",
+   "entityName": "SCHEDULER",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "jobs",
+   "code": "UPDATE_SCHEDULER",
+   "entityName": "SCHEDULER",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "loan_product_attribute",
+   "code": "CREATE_EXTERNAL_ASSET_OWNER_LOAN_PRODUCT_ATTRIBUTE",
+   "entityName": "EXTERNAL_ASSET_OWNER_LOAN_PRODUCT_ATTRIBUTE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "loan_product_attribute",
+   "code": "DELETE_EXTERNAL_ASSET_OWNER_LOAN_PRODUCT_ATTRIBUTE",
+   "entityName": "EXTERNAL_ASSET_OWNER_LOAN_PRODUCT_ATTRIBUTE",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "loan_product_attribute",
+   "code": "UPDATE_EXTERNAL_ASSET_OWNER_LOAN_PRODUCT_ATTRIBUTE",
+   "entityName": "EXTERNAL_ASSET_OWNER_LOAN_PRODUCT_ATTRIBUTE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "loan_reschedule",
+   "code": "APPROVE_RESCHEDULELOAN",
+   "entityName": "RESCHEDULELOAN",
+   "actionName": "APPROVE",
+   "selected": true
+  },
+  {
+   "grouping": "loan_reschedule",
+   "code": "CREATE_RESCHEDULELOAN",
+   "entityName": "RESCHEDULELOAN",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "loan_reschedule",
+   "code": "READ_RESCHEDULELOAN",
+   "entityName": "RESCHEDULELOAN",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "loan_reschedule",
+   "code": "REJECT_RESCHEDULELOAN",
+   "entityName": "RESCHEDULELOAN",
+   "actionName": "REJECT",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_BATCH_BUSINESS_STEP",
+   "entityName": "BATCH_BUSINESS_STEP",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_BUSINESS_DATE",
+   "entityName": "BUSINESS_DATE",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_BUSINESS_DATE",
+   "entityName": "BUSINESS_DATE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CREATE_CHARGE",
+   "entityName": "CHARGE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "DELETE_CHARGE",
+   "entityName": "CHARGE",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_CHARGE",
+   "entityName": "CHARGE",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_CHARGE",
+   "entityName": "CHARGE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CREATE_DELINQUENCY_ACTION",
+   "entityName": "DELINQUENCY_ACTION",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CREATE_DELINQUENCY_BUCKET",
+   "entityName": "DELINQUENCY_BUCKET",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "DELETE_DELINQUENCY_BUCKET",
+   "entityName": "DELINQUENCY_BUCKET",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_DELINQUENCY_BUCKET",
+   "entityName": "DELINQUENCY_BUCKET",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_DELINQUENCY_BUCKET",
+   "entityName": "DELINQUENCY_BUCKET",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CREATE_DELINQUENCY_RANGE",
+   "entityName": "DELINQUENCY_RANGE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "DELETE_DELINQUENCY_RANGE",
+   "entityName": "DELINQUENCY_RANGE",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_DELINQUENCY_RANGE",
+   "entityName": "DELINQUENCY_RANGE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_DELINQUENCY_TAGS",
+   "entityName": "DELINQUENCY_TAGS",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_DELINQUENCY_TAGS",
+   "entityName": "DELINQUENCY_TAGS",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CREATE_EMAIL",
+   "entityName": "EMAIL",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "DELETE_EMAIL",
+   "entityName": "EMAIL",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_EMAIL",
+   "entityName": "EMAIL",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_EMAIL",
+   "entityName": "EMAIL",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "ACTIVATE_EMAIL_CAMPAIGN",
+   "entityName": "EMAIL_CAMPAIGN",
+   "actionName": "ACTIVATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CLOSE_EMAIL_CAMPAIGN",
+   "entityName": "EMAIL_CAMPAIGN",
+   "actionName": "CLOSE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CREATE_EMAIL_CAMPAIGN",
+   "entityName": "EMAIL_CAMPAIGN",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "DELETE_EMAIL_CAMPAIGN",
+   "entityName": "EMAIL_CAMPAIGN",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "REACTIVATE_EMAIL_CAMPAIGN",
+   "entityName": "EMAIL_CAMPAIGN",
+   "actionName": "REACTIVATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_EMAIL_CAMPAIGN",
+   "entityName": "EMAIL_CAMPAIGN",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_EMAIL_CAMPAIGN",
+   "entityName": "EMAIL_CAMPAIGN",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_EMAIL_CONFIGURATION",
+   "entityName": "EMAIL_CONFIGURATION",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_EMAIL_CONFIGURATION",
+   "entityName": "EMAIL_CONFIGURATION",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_FIXEDDEPOSITPRODUCT",
+   "entityName": "FIXEDDEPOSITPRODUCT",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CREATE_FUND",
+   "entityName": "FUND",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "DELETE_FUND",
+   "entityName": "FUND",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_FUND",
+   "entityName": "FUND",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_FUND",
+   "entityName": "FUND",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "ACTIVATE_HOLIDAY",
+   "entityName": "HOLIDAY",
+   "actionName": "ACTIVATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CREATE_HOLIDAY",
+   "entityName": "HOLIDAY",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "DELETE_HOLIDAY",
+   "entityName": "HOLIDAY",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_HOLIDAY",
+   "entityName": "HOLIDAY",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_HOLIDAY",
+   "entityName": "HOLIDAY",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "EXECUTE_INLINE_JOB",
+   "entityName": "INLINE_JOB",
+   "actionName": "EXECUTE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATEDELINQUENCY_LOAN",
+   "entityName": "LOAN",
+   "actionName": "UPDATEDELINQUENCY",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CREATE_LOANPRODUCT",
+   "entityName": "LOANPRODUCT",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "DELETE_LOANPRODUCT",
+   "entityName": "LOANPRODUCT",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_LOANPRODUCT",
+   "entityName": "LOANPRODUCT",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_LOANPRODUCT",
+   "entityName": "LOANPRODUCT",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CREATE_OFFICE",
+   "entityName": "OFFICE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_OFFICE",
+   "entityName": "OFFICE",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_OFFICE",
+   "entityName": "OFFICE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CREATE_OFFICETRANSACTION",
+   "entityName": "OFFICETRANSACTION",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "DELETE_OFFICETRANSACTION",
+   "entityName": "OFFICETRANSACTION",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_OFFICETRANSACTION",
+   "entityName": "OFFICETRANSACTION",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CREATE_RATE",
+   "entityName": "RATE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_RATE",
+   "entityName": "RATE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_RATE",
+   "entityName": "RATE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_RECURRINGDEPOSITPRODUCT",
+   "entityName": "RECURRINGDEPOSITPRODUCT",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CREATE_SAVINGSPRODUCT",
+   "entityName": "SAVINGSPRODUCT",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "DELETE_SAVINGSPRODUCT",
+   "entityName": "SAVINGSPRODUCT",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_SAVINGSPRODUCT",
+   "entityName": "SAVINGSPRODUCT",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_SAVINGSPRODUCT",
+   "entityName": "SAVINGSPRODUCT",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CREATE_SMS",
+   "entityName": "SMS",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "DELETE_SMS",
+   "entityName": "SMS",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_SMS",
+   "entityName": "SMS",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_SMS",
+   "entityName": "SMS",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "ACTIVATE_SMSCAMPAIGN",
+   "entityName": "SMSCAMPAIGN",
+   "actionName": "ACTIVATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CLOSE_SMSCAMPAIGN",
+   "entityName": "SMSCAMPAIGN",
+   "actionName": "CLOSE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CREATE_SMSCAMPAIGN",
+   "entityName": "SMSCAMPAIGN",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "DELETE_SMSCAMPAIGN",
+   "entityName": "SMSCAMPAIGN",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "REACTIVATE_SMSCAMPAIGN",
+   "entityName": "SMSCAMPAIGN",
+   "actionName": "REACTIVATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_SMSCAMPAIGN",
+   "entityName": "SMSCAMPAIGN",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_SMSCAMPAIGN",
+   "entityName": "SMSCAMPAIGN",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CREATE_STAFF",
+   "entityName": "STAFF",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "DELETE_STAFF",
+   "entityName": "STAFF",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_STAFF",
+   "entityName": "STAFF",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_STAFF",
+   "entityName": "STAFF",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CREATE_TAXCOMPONENT",
+   "entityName": "TAXCOMPONENT",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_TAXCOMPONENT",
+   "entityName": "TAXCOMPONENT",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_TAXCOMPONENT",
+   "entityName": "TAXCOMPONENT",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CREATE_TAXGROUP",
+   "entityName": "TAXGROUP",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_TAXGROUP",
+   "entityName": "TAXGROUP",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_TAXGROUP",
+   "entityName": "TAXGROUP",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CREATE_TEMPLATE",
+   "entityName": "TEMPLATE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "DELETE_TEMPLATE",
+   "entityName": "TEMPLATE",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_TEMPLATE",
+   "entityName": "TEMPLATE",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_TEMPLATE",
+   "entityName": "TEMPLATE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CREATE_WORKINGCAPITALBREACH",
+   "entityName": "WORKINGCAPITALBREACH",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "DELETE_WORKINGCAPITALBREACH",
+   "entityName": "WORKINGCAPITALBREACH",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_WORKINGCAPITALBREACH",
+   "entityName": "WORKINGCAPITALBREACH",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_WORKINGCAPITALBREACH",
+   "entityName": "WORKINGCAPITALBREACH",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CREATE_WORKINGCAPITALLOAN",
+   "entityName": "WORKINGCAPITALLOAN",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "DELETE_WORKINGCAPITALLOAN",
+   "entityName": "WORKINGCAPITALLOAN",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_WORKINGCAPITALLOAN",
+   "entityName": "WORKINGCAPITALLOAN",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_WORKINGCAPITALLOAN",
+   "entityName": "WORKINGCAPITALLOAN",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CREATE_WORKINGCAPITALLOANPRODUCT",
+   "entityName": "WORKINGCAPITALLOANPRODUCT",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "DELETE_WORKINGCAPITALLOANPRODUCT",
+   "entityName": "WORKINGCAPITALLOANPRODUCT",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_WORKINGCAPITALLOANPRODUCT",
+   "entityName": "WORKINGCAPITALLOANPRODUCT",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_WORKINGCAPITALLOANPRODUCT",
+   "entityName": "WORKINGCAPITALLOANPRODUCT",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "CREATE_WORKINGCAPITALNEARBREACH",
+   "entityName": "WORKINGCAPITALNEARBREACH",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "DELETE_WORKINGCAPITALNEARBREACH",
+   "entityName": "WORKINGCAPITALNEARBREACH",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_WORKINGCAPITALNEARBREACH",
+   "entityName": "WORKINGCAPITALNEARBREACH",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_WORKINGCAPITALNEARBREACH",
+   "entityName": "WORKINGCAPITALNEARBREACH",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "READ_WORKINGDAYS",
+   "entityName": "WORKINGDAYS",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "organisation",
+   "code": "UPDATE_WORKINGDAYS",
+   "entityName": "WORKINGDAYS",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_ADDRESS",
+   "entityName": "ADDRESS",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_ADDRESS",
+   "entityName": "ADDRESS",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_ADDRESS",
+   "entityName": "ADDRESS",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_ADDRESS",
+   "entityName": "ADDRESS",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CLOSE_CENTER",
+   "entityName": "CENTER",
+   "actionName": "CLOSE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_CHARTSLAB",
+   "entityName": "CHARTSLAB",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_CHARTSLAB",
+   "entityName": "CHARTSLAB",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_CHARTSLAB",
+   "entityName": "CHARTSLAB",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "ACCEPTTRANSFER_CLIENT",
+   "entityName": "CLIENT",
+   "actionName": "ACCEPTTRANSFER",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "ACTIVATE_CLIENT",
+   "entityName": "CLIENT",
+   "actionName": "ACTIVATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "ASSIGNSTAFF_CLIENT",
+   "entityName": "CLIENT",
+   "actionName": "ASSIGNSTAFF",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CLOSE_CLIENT",
+   "entityName": "CLIENT",
+   "actionName": "CLOSE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_CLIENT",
+   "entityName": "CLIENT",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_CLIENT",
+   "entityName": "CLIENT",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "PROPOSEANDACCEPTTRANSFER_CLIENT",
+   "entityName": "CLIENT",
+   "actionName": "PROPOSEANDACCEPTTRANSFER",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "PROPOSETRANSFER_CLIENT",
+   "entityName": "CLIENT",
+   "actionName": "PROPOSETRANSFER",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "REACTIVATE_CLIENT",
+   "entityName": "CLIENT",
+   "actionName": "REACTIVATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_CLIENT",
+   "entityName": "CLIENT",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "REJECTTRANSFER_CLIENT",
+   "entityName": "CLIENT",
+   "actionName": "REJECTTRANSFER",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "REJECT_CLIENT",
+   "entityName": "CLIENT",
+   "actionName": "REJECT",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UNASSIGNSTAFF_CLIENT",
+   "entityName": "CLIENT",
+   "actionName": "UNASSIGNSTAFF",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UNDOREJECT_CLIENT",
+   "entityName": "CLIENT",
+   "actionName": "UNDOREJECT",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UNDOWITHDRAWAL_CLIENT",
+   "entityName": "CLIENT",
+   "actionName": "UNDOWITHDRAWAL",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATESAVINGSACCOUNT_CLIENT",
+   "entityName": "CLIENT",
+   "actionName": "UPDATESAVINGSACCOUNT",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_CLIENT",
+   "entityName": "CLIENT",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "WITHDRAWTRANSFER_CLIENT",
+   "entityName": "CLIENT",
+   "actionName": "WITHDRAWTRANSFER",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "WITHDRAW_CLIENT",
+   "entityName": "CLIENT",
+   "actionName": "WITHDRAW",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_CLIENTCHARGE",
+   "entityName": "CLIENTCHARGE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_CLIENTCHARGE",
+   "entityName": "CLIENTCHARGE",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "PAY_CLIENTCHARGE",
+   "entityName": "CLIENTCHARGE",
+   "actionName": "PAY",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_CLIENTCHARGE",
+   "entityName": "CLIENTCHARGE",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_CLIENTCHARGE",
+   "entityName": "CLIENTCHARGE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "WAIVE_CLIENTCHARGE",
+   "entityName": "CLIENTCHARGE",
+   "actionName": "WAIVE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_CLIENTIDENTIFIER",
+   "entityName": "CLIENTIDENTIFIER",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_CLIENTIDENTIFIER",
+   "entityName": "CLIENTIDENTIFIER",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_CLIENTIDENTIFIER",
+   "entityName": "CLIENTIDENTIFIER",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_CLIENTIDENTIFIER",
+   "entityName": "CLIENTIDENTIFIER",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_CLIENTIMAGE",
+   "entityName": "CLIENTIMAGE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_CLIENTIMAGE",
+   "entityName": "CLIENTIMAGE",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_CLIENTIMAGE",
+   "entityName": "CLIENTIMAGE",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_CLIENTNOTE",
+   "entityName": "CLIENTNOTE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_CLIENTNOTE",
+   "entityName": "CLIENTNOTE",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_CLIENTNOTE",
+   "entityName": "CLIENTNOTE",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_CLIENTNOTE",
+   "entityName": "CLIENTNOTE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_CLIENT_COLLATERAL_PRODUCT",
+   "entityName": "CLIENT_COLLATERAL_PRODUCT",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_CLIENT_COLLATERAL_PRODUCT",
+   "entityName": "CLIENT_COLLATERAL_PRODUCT",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_CLIENT_COLLATERAL_PRODUCT",
+   "entityName": "CLIENT_COLLATERAL_PRODUCT",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_COLLATERAL",
+   "entityName": "COLLATERAL",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_COLLATERAL",
+   "entityName": "COLLATERAL",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_COLLATERAL",
+   "entityName": "COLLATERAL",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_COLLATERAL",
+   "entityName": "COLLATERAL",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_COLLATERAL_PRODUCT",
+   "entityName": "COLLATERAL_PRODUCT",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_COLLATERAL_PRODUCT",
+   "entityName": "COLLATERAL_PRODUCT",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_COLLATERAL_PRODUCT",
+   "entityName": "COLLATERAL_PRODUCT",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_DISBURSEMENTDETAIL",
+   "entityName": "DISBURSEMENTDETAIL",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_DOCUMENT",
+   "entityName": "DOCUMENT",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_DOCUMENT",
+   "entityName": "DOCUMENT",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_DOCUMENT",
+   "entityName": "DOCUMENT",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_DOCUMENT",
+   "entityName": "DOCUMENT",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_FAMILYMEMBERS",
+   "entityName": "FAMILYMEMBERS",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_FAMILYMEMBERS",
+   "entityName": "FAMILYMEMBERS",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_FAMILYMEMBERS",
+   "entityName": "FAMILYMEMBERS",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_FAMILYMEMBERS",
+   "entityName": "FAMILYMEMBERS",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_FIXEDDEPOSITACCOUNT",
+   "entityName": "FIXEDDEPOSITACCOUNT",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_FIXEDDEPOSITACCOUNT",
+   "entityName": "FIXEDDEPOSITACCOUNT",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_FIXEDDEPOSITACCOUNT",
+   "entityName": "FIXEDDEPOSITACCOUNT",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_FIXEDDEPOSITACCOUNT",
+   "entityName": "FIXEDDEPOSITACCOUNT",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_FIXEDDEPOSITPRODUCT",
+   "entityName": "FIXEDDEPOSITPRODUCT",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_FIXEDDEPOSITPRODUCT",
+   "entityName": "FIXEDDEPOSITPRODUCT",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_FIXEDDEPOSITPRODUCT",
+   "entityName": "FIXEDDEPOSITPRODUCT",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_FLOATINGRATE",
+   "entityName": "FLOATINGRATE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_FLOATINGRATE",
+   "entityName": "FLOATINGRATE",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_FLOATINGRATE",
+   "entityName": "FLOATINGRATE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "APPROVE_GLIMLOAN",
+   "entityName": "GLIMLOAN",
+   "actionName": "APPROVE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DISBURSE_GLIMLOAN",
+   "entityName": "GLIMLOAN",
+   "actionName": "DISBURSE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "REJECT_GLIMLOAN",
+   "entityName": "GLIMLOAN",
+   "actionName": "REJECT",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "REPAYMENT_GLIMLOAN",
+   "entityName": "GLIMLOAN",
+   "actionName": "REPAYMENT",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UNDOAPPROVAL_GLIMLOAN",
+   "entityName": "GLIMLOAN",
+   "actionName": "UNDOAPPROVAL",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UNDODISBURSAL_GLIMLOAN",
+   "entityName": "GLIMLOAN",
+   "actionName": "UNDODISBURSAL",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CLOSE_GROUP",
+   "entityName": "GROUP",
+   "actionName": "CLOSE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "ACTIVATE_GSIMACCOUNT",
+   "entityName": "GSIMACCOUNT",
+   "actionName": "ACTIVATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "APPROVALUNDO_GSIMACCOUNT",
+   "entityName": "GSIMACCOUNT",
+   "actionName": "APPROVALUNDO",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "APPROVE_GSIMACCOUNT",
+   "entityName": "GSIMACCOUNT",
+   "actionName": "APPROVE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CLOSE_GSIMACCOUNT",
+   "entityName": "GSIMACCOUNT",
+   "actionName": "CLOSE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_GSIMACCOUNT",
+   "entityName": "GSIMACCOUNT",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DEPOSIT_GSIMACCOUNT",
+   "entityName": "GSIMACCOUNT",
+   "actionName": "DEPOSIT",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "REJECT_GSIMACCOUNT",
+   "entityName": "GSIMACCOUNT",
+   "actionName": "REJECT",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_GSIMACCOUNT",
+   "entityName": "GSIMACCOUNT",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_GUARANTOR",
+   "entityName": "GUARANTOR",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_GUARANTOR",
+   "entityName": "GUARANTOR",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_GUARANTOR",
+   "entityName": "GUARANTOR",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_GUARANTOR",
+   "entityName": "GUARANTOR",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_INTERESTRATECHART",
+   "entityName": "INTERESTRATECHART",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_INTERESTRATECHART",
+   "entityName": "INTERESTRATECHART",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_INTERESTRATECHART",
+   "entityName": "INTERESTRATECHART",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_INTEREST_PAUSE",
+   "entityName": "INTEREST_PAUSE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_INTEREST_PAUSE",
+   "entityName": "INTEREST_PAUSE",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_INTEREST_PAUSE",
+   "entityName": "INTEREST_PAUSE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CONTRACT_TERMINATION_LOAN",
+   "entityName": "LOAN",
+   "actionName": "CONTRACT_TERMINATION",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CONTRACT_TERMINATION_UNDO_LOAN",
+   "entityName": "LOAN",
+   "actionName": "CONTRACT_TERMINATION_UNDO",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATESCHEDULEEXCEPTIONS_LOAN",
+   "entityName": "LOAN",
+   "actionName": "CREATESCHEDULEEXCEPTIONS",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_LOAN",
+   "entityName": "LOAN",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETESCHEDULEEXCEPTIONS_LOAN",
+   "entityName": "LOAN",
+   "actionName": "DELETESCHEDULEEXCEPTIONS",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_LOAN",
+   "entityName": "LOAN",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "FORECLOSURE_LOAN",
+   "entityName": "LOAN",
+   "actionName": "FORECLOSURE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "LOAN_WITHDRAWAL_LOAN",
+   "entityName": "LOAN",
+   "actionName": "LOAN_WITHDRAWAL",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "LOAN_WITHDRAWAL_UNDO_LOAN",
+   "entityName": "LOAN",
+   "actionName": "LOAN_WITHDRAWAL_UNDO",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_LOAN",
+   "entityName": "LOAN",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "REAGE_LOAN",
+   "entityName": "LOAN",
+   "actionName": "REAGE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "REAMORTIZE_LOAN",
+   "entityName": "LOAN",
+   "actionName": "REAMORTIZE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "RECOVERGUARANTEES_LOAN",
+   "entityName": "LOAN",
+   "actionName": "RECOVERGUARANTEES",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "SETFRAUD_LOAN",
+   "entityName": "LOAN",
+   "actionName": "SETFRAUD",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UNDO_REAGE_LOAN",
+   "entityName": "LOAN",
+   "actionName": "UNDO_REAGE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UNDO_REAMORTIZE_LOAN",
+   "entityName": "LOAN",
+   "actionName": "UNDO_REAMORTIZE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_LOAN",
+   "entityName": "LOAN",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_LOANCHARGE",
+   "entityName": "LOANCHARGE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DEACTIVATEOVERDUE_LOANCHARGE",
+   "entityName": "LOANCHARGE",
+   "actionName": "DEACTIVATEOVERDUE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_LOANCHARGE",
+   "entityName": "LOANCHARGE",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_LOANCHARGE",
+   "entityName": "LOANCHARGE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "WAIVE_LOANCHARGE",
+   "entityName": "LOANCHARGE",
+   "actionName": "WAIVE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_LOANNOTE",
+   "entityName": "LOANNOTE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_LOANNOTE",
+   "entityName": "LOANNOTE",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_LOANNOTE",
+   "entityName": "LOANNOTE",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_LOANNOTE",
+   "entityName": "LOANNOTE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_LOANTRANSACTIONNOTE",
+   "entityName": "LOANTRANSACTIONNOTE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_LOANTRANSACTIONNOTE",
+   "entityName": "LOANTRANSACTIONNOTE",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_LOANTRANSACTIONNOTE",
+   "entityName": "LOANTRANSACTIONNOTE",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_LOANTRANSACTIONNOTE",
+   "entityName": "LOANTRANSACTIONNOTE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_LOAN_COLLATERAL_PRODUCT",
+   "entityName": "LOAN_COLLATERAL_PRODUCT",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "ATTACH_LOAN_ORIGINATOR",
+   "entityName": "LOAN_ORIGINATOR",
+   "actionName": "ATTACH",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_LOAN_ORIGINATOR",
+   "entityName": "LOAN_ORIGINATOR",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_LOAN_ORIGINATOR",
+   "entityName": "LOAN_ORIGINATOR",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DETACH_LOAN_ORIGINATOR",
+   "entityName": "LOAN_ORIGINATOR",
+   "actionName": "DETACH",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_LOAN_ORIGINATOR",
+   "entityName": "LOAN_ORIGINATOR",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_LOAN_ORIGINATOR",
+   "entityName": "LOAN_ORIGINATOR",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_MEETING",
+   "entityName": "MEETING",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_MEETING",
+   "entityName": "MEETING",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_MEETING",
+   "entityName": "MEETING",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "SAVEORUPDATEATTENDANCE_MEETING",
+   "entityName": "MEETING",
+   "actionName": "SAVEORUPDATEATTENDANCE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_MEETING",
+   "entityName": "MEETING",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_PAYMENTTYPE",
+   "entityName": "PAYMENTTYPE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_PAYMENTTYPE",
+   "entityName": "PAYMENTTYPE",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_PAYMENTTYPE",
+   "entityName": "PAYMENTTYPE",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_PAYMENTTYPE",
+   "entityName": "PAYMENTTYPE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELINK_ACCOUNT_FROM_POCKET",
+   "entityName": "POCKET",
+   "actionName": "DELINK_ACCOUNT_FROM",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "LINK_ACCOUNT_TO_POCKET",
+   "entityName": "POCKET",
+   "actionName": "LINK_ACCOUNT_TO",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_PRODUCTMIX",
+   "entityName": "PRODUCTMIX",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_PRODUCTMIX",
+   "entityName": "PRODUCTMIX",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_PRODUCTMIX",
+   "entityName": "PRODUCTMIX",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_PRODUCTMIX",
+   "entityName": "PRODUCTMIX",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_RECURRINGDEPOSITACCOUNT",
+   "entityName": "RECURRINGDEPOSITACCOUNT",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_RECURRINGDEPOSITACCOUNT",
+   "entityName": "RECURRINGDEPOSITACCOUNT",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_RECURRINGDEPOSITACCOUNT",
+   "entityName": "RECURRINGDEPOSITACCOUNT",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_RECURRINGDEPOSITACCOUNT",
+   "entityName": "RECURRINGDEPOSITACCOUNT",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_RECURRINGDEPOSITPRODUCT",
+   "entityName": "RECURRINGDEPOSITPRODUCT",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_RECURRINGDEPOSITPRODUCT",
+   "entityName": "RECURRINGDEPOSITPRODUCT",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_RECURRINGDEPOSITPRODUCT",
+   "entityName": "RECURRINGDEPOSITPRODUCT",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "BOUNCE_REPAYMENT_WITH_POSTDATEDCHECKS",
+   "entityName": "REPAYMENT_WITH_POSTDATEDCHECKS",
+   "actionName": "BOUNCE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_REPAYMENT_WITH_POSTDATEDCHECKS",
+   "entityName": "REPAYMENT_WITH_POSTDATEDCHECKS",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_REPAYMENT_WITH_POSTDATEDCHECKS",
+   "entityName": "REPAYMENT_WITH_POSTDATEDCHECKS",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_SAVINGNOTE",
+   "entityName": "SAVINGNOTE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_SAVINGNOTE",
+   "entityName": "SAVINGNOTE",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_SAVINGNOTE",
+   "entityName": "SAVINGNOTE",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_SAVINGNOTE",
+   "entityName": "SAVINGNOTE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "FORCE_WITHDRAWAL_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "FORCE_WITHDRAWAL",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "REMOVESAVINGSOFFICER_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "REMOVESAVINGSOFFICER",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATESAVINGSOFFICER_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "UPDATESAVINGSOFFICER",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATEWITHHOLDTAX_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "UPDATEWITHHOLDTAX",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_SAVINGSACCOUNTCHARGE",
+   "entityName": "SAVINGSACCOUNTCHARGE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_SAVINGSACCOUNTCHARGE",
+   "entityName": "SAVINGSACCOUNTCHARGE",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "INACTIVATE_SAVINGSACCOUNTCHARGE",
+   "entityName": "SAVINGSACCOUNTCHARGE",
+   "actionName": "INACTIVATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "PAY_SAVINGSACCOUNTCHARGE",
+   "entityName": "SAVINGSACCOUNTCHARGE",
+   "actionName": "PAY",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_SAVINGSACCOUNTCHARGE",
+   "entityName": "SAVINGSACCOUNTCHARGE",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATE_SAVINGSACCOUNTCHARGE",
+   "entityName": "SAVINGSACCOUNTCHARGE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "WAIVE_SAVINGSACCOUNTCHARGE",
+   "entityName": "SAVINGSACCOUNTCHARGE",
+   "actionName": "WAIVE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_STAFFIMAGE",
+   "entityName": "STAFFIMAGE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DELETE_STAFFIMAGE",
+   "entityName": "STAFFIMAGE",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_STAFFIMAGE",
+   "entityName": "STAFFIMAGE",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_WC_BREACH_ACTION",
+   "entityName": "WC_BREACH_ACTION",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_WC_BREACH_ACTION",
+   "entityName": "WC_BREACH_ACTION",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_WC_BREACH_DISABLE",
+   "entityName": "WC_BREACH_DISABLE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_WC_BREACH_RESET",
+   "entityName": "WC_BREACH_RESET",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_WC_DELINQUENCY_ACTION",
+   "entityName": "WC_DELINQUENCY_ACTION",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_WC_DELINQUENCY_ACTION",
+   "entityName": "WC_DELINQUENCY_ACTION",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_WC_DELINQUENCY_DISABLE",
+   "entityName": "WC_DELINQUENCY_DISABLE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_WC_DELINQUENCY_RESET",
+   "entityName": "WC_DELINQUENCY_RESET",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "CREATE_WC_NEAR_BREACH_ACTION",
+   "entityName": "WC_NEAR_BREACH_ACTION",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "READ_WC_NEAR_BREACH_ACTION",
+   "entityName": "WC_NEAR_BREACH_ACTION",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "APPROVALUNDO_WORKINGCAPITALLOAN",
+   "entityName": "WORKINGCAPITALLOAN",
+   "actionName": "APPROVALUNDO",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "APPROVE_WORKINGCAPITALLOAN",
+   "entityName": "WORKINGCAPITALLOAN",
+   "actionName": "APPROVE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DISBURSALUNDO_WORKINGCAPITALLOAN",
+   "entityName": "WORKINGCAPITALLOAN",
+   "actionName": "DISBURSALUNDO",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DISBURSE_WORKINGCAPITALLOAN",
+   "entityName": "WORKINGCAPITALLOAN",
+   "actionName": "DISBURSE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "REJECT_WORKINGCAPITALLOAN",
+   "entityName": "WORKINGCAPITALLOAN",
+   "actionName": "REJECT",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "SETFRAUD_WORKINGCAPITALLOAN",
+   "entityName": "WORKINGCAPITALLOAN",
+   "actionName": "SETFRAUD",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATEDISCOUNT_WORKINGCAPITALLOAN",
+   "entityName": "WORKINGCAPITALLOAN",
+   "actionName": "UPDATEDISCOUNT",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "UPDATERATE_WORKINGCAPITALLOAN",
+   "entityName": "WORKINGCAPITALLOAN",
+   "actionName": "UPDATERATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "ATTACH_WORKING_CAPITAL_LOAN_ORIGINATOR",
+   "entityName": "WORKING_CAPITAL_LOAN_ORIGINATOR",
+   "actionName": "ATTACH",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio",
+   "code": "DETACH_WORKING_CAPITAL_LOAN_ORIGINATOR",
+   "entityName": "WORKING_CAPITAL_LOAN_ORIGINATOR",
+   "actionName": "DETACH",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_center",
+   "code": "ACTIVATE_CENTER",
+   "entityName": "CENTER",
+   "actionName": "ACTIVATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_center",
+   "code": "ASSOCIATEGROUPS_CENTER",
+   "entityName": "CENTER",
+   "actionName": "ASSOCIATEGROUPS",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_center",
+   "code": "CREATE_CENTER",
+   "entityName": "CENTER",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_center",
+   "code": "DELETE_CENTER",
+   "entityName": "CENTER",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_center",
+   "code": "DISASSOCIATEGROUPS_CENTER",
+   "entityName": "CENTER",
+   "actionName": "DISASSOCIATEGROUPS",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_center",
+   "code": "READ_CENTER",
+   "entityName": "CENTER",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_center",
+   "code": "SAVECOLLECTIONSHEET_CENTER",
+   "entityName": "CENTER",
+   "actionName": "SAVECOLLECTIONSHEET",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_center",
+   "code": "UPDATE_CENTER",
+   "entityName": "CENTER",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_group",
+   "code": "ACTIVATE_GROUP",
+   "entityName": "GROUP",
+   "actionName": "ACTIVATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_group",
+   "code": "ASSIGNROLE_GROUP",
+   "entityName": "GROUP",
+   "actionName": "ASSIGNROLE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_group",
+   "code": "ASSIGNSTAFF_GROUP",
+   "entityName": "GROUP",
+   "actionName": "ASSIGNSTAFF",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_group",
+   "code": "ASSOCIATECLIENTS_GROUP",
+   "entityName": "GROUP",
+   "actionName": "ASSOCIATECLIENTS",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_group",
+   "code": "CREATE_GROUP",
+   "entityName": "GROUP",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_group",
+   "code": "DELETE_GROUP",
+   "entityName": "GROUP",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_group",
+   "code": "DISASSOCIATECLIENTS_GROUP",
+   "entityName": "GROUP",
+   "actionName": "DISASSOCIATECLIENTS",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_group",
+   "code": "READ_GROUP",
+   "entityName": "GROUP",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_group",
+   "code": "SAVECOLLECTIONSHEET_GROUP",
+   "entityName": "GROUP",
+   "actionName": "SAVECOLLECTIONSHEET",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_group",
+   "code": "TRANSFERCLIENTS_GROUP",
+   "entityName": "GROUP",
+   "actionName": "TRANSFERCLIENTS",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_group",
+   "code": "UNASSIGNROLE_GROUP",
+   "entityName": "GROUP",
+   "actionName": "UNASSIGNROLE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_group",
+   "code": "UNASSIGNSTAFF_GROUP",
+   "entityName": "GROUP",
+   "actionName": "UNASSIGNSTAFF",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_group",
+   "code": "UPDATEROLE_GROUP",
+   "entityName": "GROUP",
+   "actionName": "UPDATEROLE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_group",
+   "code": "UPDATE_GROUP",
+   "entityName": "GROUP",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_group",
+   "code": "CREATE_GROUPNOTE",
+   "entityName": "GROUPNOTE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_group",
+   "code": "DELETE_GROUPNOTE",
+   "entityName": "GROUPNOTE",
+   "actionName": "DELETE",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_group",
+   "code": "READ_GROUPNOTE",
+   "entityName": "GROUPNOTE",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "portfolio_group",
+   "code": "UPDATE_GROUPNOTE",
+   "entityName": "GROUPNOTE",
+   "actionName": "UPDATE",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Active Clients - Email",
+   "entityName": "Active Clients - Email",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Active Group Leaders - Email",
+   "entityName": "Active Group Leaders - Email",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Active Loan Clients - Email",
+   "entityName": "Active Loan Clients - Email",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Active Loan Summary per Branch",
+   "entityName": "Active Loan Summary per Branch",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Active Loans - Details",
+   "entityName": "Active Loans - Details",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Active Loans - Summary",
+   "entityName": "Active Loans - Summary",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Active Loans Passed Final Maturity",
+   "entityName": "Active Loans Passed Final Maturity",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Active Loans Passed Final Maturity Summary",
+   "entityName": "Active Loans Passed Final Maturity Summary",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Active Loans by Disbursal Period",
+   "entityName": "Active Loans by Disbursal Period",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Active Loans in last installment",
+   "entityName": "Active Loans in last installment",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Active Loans in last installment Summary",
+   "entityName": "Active Loans in last installment Summary",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Aging Detail",
+   "entityName": "Aging Detail",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Aging Summary (Arrears in Months)",
+   "entityName": "Aging Summary (Arrears in Months)",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Aging Summary (Arrears in Weeks)",
+   "entityName": "Aging Summary (Arrears in Weeks)",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Balance Outstanding",
+   "entityName": "Balance Outstanding",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Balance Sheet",
+   "entityName": "Balance Sheet",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Branch Expected Cash Flow",
+   "entityName": "Branch Expected Cash Flow",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_BranchManagerStats",
+   "entityName": "BranchManagerStats",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_ChildrenStaffList",
+   "entityName": "ChildrenStaffList",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Client Listing",
+   "entityName": "Client Listing",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Client Loan Account Schedule",
+   "entityName": "Client Loan Account Schedule",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Client Loans Listing",
+   "entityName": "Client Loans Listing",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Client Saving Transactions",
+   "entityName": "Client Saving Transactions",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Client Savings Summary",
+   "entityName": "Client Savings Summary",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_ClientSummary ",
+   "entityName": "ClientSummary ",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_ClientTrendsByDay",
+   "entityName": "ClientTrendsByDay",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_ClientTrendsByMonth",
+   "entityName": "ClientTrendsByMonth",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_ClientTrendsByWeek",
+   "entityName": "ClientTrendsByWeek",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Collection Report",
+   "entityName": "Collection Report",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_CoordinatorStats",
+   "entityName": "CoordinatorStats",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Demand_Vs_Collection",
+   "entityName": "Demand_Vs_Collection",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Disbursal Report",
+   "entityName": "Disbursal Report",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Disbursal_Vs_Awaitingdisbursal",
+   "entityName": "Disbursal_Vs_Awaitingdisbursal",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Dormant Prospects - Email",
+   "entityName": "Dormant Prospects - Email",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Expected Payments By Date - Basic",
+   "entityName": "Expected Payments By Date - Basic",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Expected Payments By Date - Formatted",
+   "entityName": "Expected Payments By Date - Formatted",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_FieldAgentPrograms",
+   "entityName": "FieldAgentPrograms",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_FieldAgentStats",
+   "entityName": "FieldAgentStats",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Funds Disbursed Between Dates Summary",
+   "entityName": "Funds Disbursed Between Dates Summary",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Funds Disbursed Between Dates Summary by Office",
+   "entityName": "Funds Disbursed Between Dates Summary by Office",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_General Ledger Report",
+   "entityName": "General Ledger Report",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_GroupNamesByStaff",
+   "entityName": "GroupNamesByStaff",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_GroupSavingSummary",
+   "entityName": "GroupSavingSummary",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_GroupSummaryAmounts",
+   "entityName": "GroupSummaryAmounts",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_GroupSummaryCounts",
+   "entityName": "GroupSummaryCounts",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Happy Birthday - Email",
+   "entityName": "Happy Birthday - Email",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Income Statement",
+   "entityName": "Income Statement",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Loan Account Schedule",
+   "entityName": "Loan Account Schedule",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Loan Approved - Email",
+   "entityName": "Loan Approved - Email",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Loan Fully Repaid - Email",
+   "entityName": "Loan Fully Repaid - Email",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Loan Payments Due (Overdue Loans) - Email",
+   "entityName": "Loan Payments Due (Overdue Loans) - Email",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Loan Payments Received (Active Loans) - Email",
+   "entityName": "Loan Payments Received (Active Loans) - Email",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Loan Payments Received (Overdue Loans) - Email",
+   "entityName": "Loan Payments Received (Overdue Loans)  - Email",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Loan Rejected - Email",
+   "entityName": "Loan Rejected - Email",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Loan Repayment - Email",
+   "entityName": "Loan Repayment - Email",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Loan payments due - Email",
+   "entityName": "Loan payments due - Email",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_LoanCyclePerProduct",
+   "entityName": "LoanCyclePerProduct",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_LoanTrendsByDay",
+   "entityName": "LoanTrendsByDay",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_LoanTrendsByMonth",
+   "entityName": "LoanTrendsByMonth",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_LoanTrendsByWeek",
+   "entityName": "LoanTrendsByWeek",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Loans Awaiting Disbursal",
+   "entityName": "Loans Awaiting Disbursal",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Loans Awaiting Disbursal Summary",
+   "entityName": "Loans Awaiting Disbursal Summary",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Loans Awaiting Disbursal Summary by Month",
+   "entityName": "Loans Awaiting Disbursal Summary by Month",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Loans Outstanding after final instalment date - Email",
+   "entityName": "Loans Outstanding after final instalment date - Email",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Loans Pending Approval",
+   "entityName": "Loans Pending Approval",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Loans disbursed to clients - Email",
+   "entityName": "Loans disbursed to clients - Email",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Loans in arrears - Email",
+   "entityName": "Loans in arrears - Email",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Obligation Met Loans Details",
+   "entityName": "Obligation Met Loans Details",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Obligation Met Loans Summary",
+   "entityName": "Obligation Met Loans Summary",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Portfolio at Risk",
+   "entityName": "Portfolio at Risk",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Portfolio at Risk by Branch",
+   "entityName": "Portfolio at Risk by Branch",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_ProgramDetails",
+   "entityName": "ProgramDetails",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_ProgramDirectorStats",
+   "entityName": "ProgramDirectorStats",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_ProgramStats",
+   "entityName": "ProgramStats",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Prospective Clients - Email",
+   "entityName": "Prospective Clients - Email",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Rescheduled Loans",
+   "entityName": "Rescheduled Loans",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Savings Transactions",
+   "entityName": "Savings Transactions",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Trial Balance",
+   "entityName": "Trial Balance",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_TxnRunningBalances",
+   "entityName": "TxnRunningBalances",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "report",
+   "code": "READ_Written-Off Loans",
+   "entityName": "Written-Off Loans",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "special",
+   "code": "ALL_FUNCTIONS",
+   "selected": true
+  },
+  {
+   "grouping": "special",
+   "code": "ALL_FUNCTIONS_READ",
+   "selected": true
+  },
+  {
+   "grouping": "special",
+   "code": "BYPASS_TWOFACTOR",
+   "selected": true
+  },
+  {
+   "grouping": "special",
+   "code": "CHECKER_SUPER_USER",
+   "selected": true
+  },
+  {
+   "grouping": "special",
+   "code": "REPORTING_SUPER_USER",
+   "selected": true
+  },
+  {
+   "grouping": "survey",
+   "code": "REGISTER_SURVEY",
+   "entityName": "survey",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_client",
+   "code": "READTRANSACTION_CLIENT",
+   "entityName": "CLIENT",
+   "actionName": "READTRANSACTION",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_client",
+   "code": "UNDOTRANSACTION_CLIENT",
+   "entityName": "CLIENT",
+   "actionName": "UNDOTRANSACTION",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "ADJUST_LOAN",
+   "entityName": "LOAN",
+   "actionName": "ADJUST",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "APPROVALUNDO_LOAN",
+   "entityName": "LOAN",
+   "actionName": "APPROVALUNDO",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "APPROVE_LOAN",
+   "entityName": "LOAN",
+   "actionName": "APPROVE",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "BULKREASSIGN_LOAN",
+   "entityName": "LOAN",
+   "actionName": "BULKREASSIGN",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "BUYBACK_LOAN",
+   "entityName": "LOAN",
+   "actionName": "BUYBACK",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "BUYDOWNFEEADJUSTMENT_LOAN",
+   "entityName": "LOAN",
+   "actionName": "BUYDOWNFEEADJUSTMENT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "BUYDOWNFEE_LOAN",
+   "entityName": "LOAN",
+   "actionName": "BUYDOWNFEE",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "BYPASS_LOAN_WRITE_PROTECTION",
+   "entityName": "LOAN",
+   "actionName": "BYPASS",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "CAPITALIZEDINCOMEADJUSTMENT_LOAN",
+   "entityName": "LOAN",
+   "actionName": "CAPITALIZEDINCOMEADJUSTMENT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "CAPITALIZEDINCOME_LOAN",
+   "entityName": "LOAN",
+   "actionName": "CAPITALIZEDINCOME",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "CHARGEBACK_LOAN",
+   "entityName": "LOAN",
+   "actionName": "CHARGEBACK",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "CHARGEOFF_LOAN",
+   "entityName": "LOAN",
+   "actionName": "CHARGEOFF",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "CHARGEREFUND_LOAN",
+   "entityName": "LOAN",
+   "actionName": "CHARGEREFUND",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "CLOSEASRESCHEDULED_LOAN",
+   "entityName": "LOAN",
+   "actionName": "CLOSEASRESCHEDULED",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "CLOSE_LOAN",
+   "entityName": "LOAN",
+   "actionName": "CLOSE",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "CREDITBALANCEREFUND_LOAN",
+   "entityName": "LOAN",
+   "actionName": "CREDITBALANCEREFUND",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "DISBURSALLASTUNDO_LOAN",
+   "entityName": "LOAN",
+   "actionName": "DISBURSALLASTUNDO",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "DISBURSALUNDO_LOAN",
+   "entityName": "LOAN",
+   "actionName": "DISBURSALUNDO",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "DISBURSETOSAVINGS_LOAN",
+   "entityName": "LOAN",
+   "actionName": "DISBURSETOSAVINGS",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "DISBURSEWITHOUTAUTODOWNPAYMENT_LOAN",
+   "entityName": "LOAN",
+   "actionName": "DISBURSEWITHOUTAUTODOWNPAYMENT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "DISBURSE_LOAN",
+   "entityName": "LOAN",
+   "actionName": "DISBURSE",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "DOWNPAYMENT_LOAN",
+   "entityName": "LOAN",
+   "actionName": "DOWNPAYMENT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "GOODWILLCREDIT_LOAN",
+   "entityName": "LOAN",
+   "actionName": "GOODWILLCREDIT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "INTERESTPAYMENTWAIVER_LOAN",
+   "entityName": "LOAN",
+   "actionName": "INTERESTPAYMENTWAIVER",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "INTERMEDIARYSALE_LOAN",
+   "entityName": "LOAN",
+   "actionName": "INTERMEDIARYSALE",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "MANUAL_INTEREST_REFUND_TRANSACTION_LOAN",
+   "entityName": "LOAN",
+   "actionName": "MANUAL_INTEREST_REFUND_TRANSACTION",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "MERCHANTISSUEDREFUND_LOAN",
+   "entityName": "LOAN",
+   "actionName": "MERCHANTISSUEDREFUND",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "PAYOUTREFUND_LOAN",
+   "entityName": "LOAN",
+   "actionName": "PAYOUTREFUND",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "RECOVERYPAYMENT_LOAN",
+   "entityName": "LOAN",
+   "actionName": "RECOVERYPAYMENT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "REFUNDBYCASH_LOAN",
+   "entityName": "LOAN",
+   "actionName": "REFUNDBYCASH",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "REJECT_LOAN",
+   "entityName": "LOAN",
+   "actionName": "REJECT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "REMOVELOANOFFICER_LOAN",
+   "entityName": "LOAN",
+   "actionName": "REMOVELOANOFFICER",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "REPAYMENT_LOAN",
+   "entityName": "LOAN",
+   "actionName": "REPAYMENT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "SALE_LOAN",
+   "entityName": "LOAN",
+   "actionName": "SALE",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "UNDOCHARGEOFF_LOAN",
+   "entityName": "LOAN",
+   "actionName": "UNDOCHARGEOFF",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "UNDOWRITEOFF_LOAN",
+   "entityName": "LOAN",
+   "actionName": "UNDOWRITEOFF",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "UPDATELOANOFFICER_LOAN",
+   "entityName": "LOAN",
+   "actionName": "UPDATELOANOFFICER",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "UPDATE_APPROVED_AMOUNT_LOAN",
+   "entityName": "LOAN",
+   "actionName": "UPDATE_APPROVED_AMOUNT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "WAIVEINTERESTPORTION_LOAN",
+   "entityName": "LOAN",
+   "actionName": "WAIVEINTERESTPORTION",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "WITHDRAW_LOAN",
+   "entityName": "LOAN",
+   "actionName": "WITHDRAW",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "WRITEOFF_LOAN",
+   "entityName": "LOAN",
+   "actionName": "WRITEOFF",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "ADJUSTMENT_LOANCHARGE",
+   "entityName": "LOANCHARGE",
+   "actionName": "ADJUSTMENT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "PAY_LOANCHARGE",
+   "entityName": "LOANCHARGE",
+   "actionName": "PAY",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "UNDO_WAIVECHARGE",
+   "entityName": "WAIVECHARGE",
+   "actionName": "UNDO",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "CHARGEOFF_WORKINGCAPITALLOAN",
+   "entityName": "WORKINGCAPITALLOAN",
+   "actionName": "CHARGEOFF",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "CREDITBALANCEREFUND_WORKINGCAPITALLOAN",
+   "entityName": "WORKINGCAPITALLOAN",
+   "actionName": "CREDITBALANCEREFUND",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "DISCOUNTFEEADJUSTMENT_WORKINGCAPITALLOAN",
+   "entityName": "WORKINGCAPITALLOAN",
+   "actionName": "DISCOUNTFEEADJUSTMENT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "DISCOUNTFEE_WORKINGCAPITALLOAN",
+   "entityName": "WORKINGCAPITALLOAN",
+   "actionName": "DISCOUNTFEE",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "GOODWILLCREDIT_WORKINGCAPITALLOAN",
+   "entityName": "WORKINGCAPITALLOAN",
+   "actionName": "GOODWILLCREDIT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "PAYOUTREFUND_WORKINGCAPITALLOAN",
+   "entityName": "WORKINGCAPITALLOAN",
+   "actionName": "PAYOUTREFUND",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "RECOVERYPAYMENT_WORKINGCAPITALLOAN",
+   "entityName": "WORKINGCAPITALLOAN",
+   "actionName": "RECOVERYPAYMENT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "REPAYMENT_WORKINGCAPITALLOAN",
+   "entityName": "WORKINGCAPITALLOAN",
+   "actionName": "REPAYMENT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "UNDOCHARGEOFF_WORKINGCAPITALLOAN",
+   "entityName": "WORKINGCAPITALLOAN",
+   "actionName": "UNDOCHARGEOFF",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "UNDOWRITEOFF_WORKINGCAPITALLOAN",
+   "entityName": "WORKINGCAPITALLOAN",
+   "actionName": "UNDOWRITEOFF",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "WRITEOFF_WORKINGCAPITALLOAN",
+   "entityName": "WORKINGCAPITALLOAN",
+   "actionName": "WRITEOFF",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "ADJUSTMENT_WORKINGCAPITALLOANCHARGE",
+   "entityName": "WORKINGCAPITALLOANCHARGE",
+   "actionName": "ADJUSTMENT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "CREATE_WORKINGCAPITALLOANCHARGE",
+   "entityName": "WORKINGCAPITALLOANCHARGE",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "WAIVE_WORKINGCAPITALLOANCHARGE",
+   "entityName": "WORKINGCAPITALLOANCHARGE",
+   "actionName": "WAIVE",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "ADJUSTBYDELTA_WORKINGCAPITALLOANTRANSACTION",
+   "entityName": "WORKINGCAPITALLOANTRANSACTION",
+   "actionName": "ADJUSTBYDELTA",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "ADJUST_WORKINGCAPITALLOANTRANSACTION",
+   "entityName": "WORKINGCAPITALLOANTRANSACTION",
+   "actionName": "ADJUST",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_loan",
+   "code": "UNDO_WORKINGCAPITALLOANTRANSACTION",
+   "entityName": "WORKINGCAPITALLOANTRANSACTION",
+   "actionName": "UNDO",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "CREATE_ACCOUNTTRANSFER",
+   "entityName": "ACCOUNTTRANSFER",
+   "actionName": "CREATE",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "READ_ACCOUNTTRANSFER",
+   "entityName": "ACCOUNTTRANSFER",
+   "actionName": "READ",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "REFUNDBYTRANSFER_ACCOUNTTRANSFER",
+   "entityName": "ACCOUNTTRANSFER",
+   "actionName": "REFUNDBYTRANSFER",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "UNDO_ACCOUNTTRANSFER",
+   "entityName": "ACCOUNTTRANSFER",
+   "actionName": "UNDO",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "ACTIVATE_FIXEDDEPOSITACCOUNT",
+   "entityName": "FIXEDDEPOSITACCOUNT",
+   "actionName": "ACTIVATE",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "ADJUSTTRANSACTION_FIXEDDEPOSITACCOUNT",
+   "entityName": "FIXEDDEPOSITACCOUNT",
+   "actionName": "ADJUSTTRANSACTION",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "APPROVALUNDO_FIXEDDEPOSITACCOUNT",
+   "entityName": "FIXEDDEPOSITACCOUNT",
+   "actionName": "APPROVALUNDO",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "APPROVE_FIXEDDEPOSITACCOUNT",
+   "entityName": "FIXEDDEPOSITACCOUNT",
+   "actionName": "APPROVE",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "CALCULATEINTEREST_FIXEDDEPOSITACCOUNT",
+   "entityName": "FIXEDDEPOSITACCOUNT",
+   "actionName": "CALCULATEINTEREST",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "CLOSE_FIXEDDEPOSITACCOUNT",
+   "entityName": "FIXEDDEPOSITACCOUNT",
+   "actionName": "CLOSE",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "DEPOSIT_FIXEDDEPOSITACCOUNT",
+   "entityName": "FIXEDDEPOSITACCOUNT",
+   "actionName": "DEPOSIT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "POSTINTEREST_FIXEDDEPOSITACCOUNT",
+   "entityName": "FIXEDDEPOSITACCOUNT",
+   "actionName": "POSTINTEREST",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "PREMATURECLOSE_FIXEDDEPOSITACCOUNT",
+   "entityName": "FIXEDDEPOSITACCOUNT",
+   "actionName": "PREMATURECLOSE",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "REJECT_FIXEDDEPOSITACCOUNT",
+   "entityName": "FIXEDDEPOSITACCOUNT",
+   "actionName": "REJECT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "UNDOTRANSACTION_FIXEDDEPOSITACCOUNT",
+   "entityName": "FIXEDDEPOSITACCOUNT",
+   "actionName": "UNDOTRANSACTION",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "WITHDRAWAL_FIXEDDEPOSITACCOUNT",
+   "entityName": "FIXEDDEPOSITACCOUNT",
+   "actionName": "WITHDRAWAL",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "WITHDRAW_FIXEDDEPOSITACCOUNT",
+   "entityName": "FIXEDDEPOSITACCOUNT",
+   "actionName": "WITHDRAW",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "ACTIVATE_RECURRINGDEPOSITACCOUNT",
+   "entityName": "RECURRINGDEPOSITACCOUNT",
+   "actionName": "ACTIVATE",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "ADJUSTTRANSACTION_RECURRINGDEPOSITACCOUNT",
+   "entityName": "RECURRINGDEPOSITACCOUNT",
+   "actionName": "ADJUSTTRANSACTION",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "APPROVALUNDO_RECURRINGDEPOSITACCOUNT",
+   "entityName": "RECURRINGDEPOSITACCOUNT",
+   "actionName": "APPROVALUNDO",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "APPROVE_RECURRINGDEPOSITACCOUNT",
+   "entityName": "RECURRINGDEPOSITACCOUNT",
+   "actionName": "APPROVE",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "CALCULATEINTEREST_RECURRINGDEPOSITACCOUNT",
+   "entityName": "RECURRINGDEPOSITACCOUNT",
+   "actionName": "CALCULATEINTEREST",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "CLOSE_RECURRINGDEPOSITACCOUNT",
+   "entityName": "RECURRINGDEPOSITACCOUNT",
+   "actionName": "CLOSE",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "DEPOSIT_RECURRINGDEPOSITACCOUNT",
+   "entityName": "RECURRINGDEPOSITACCOUNT",
+   "actionName": "DEPOSIT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "POSTINTEREST_RECURRINGDEPOSITACCOUNT",
+   "entityName": "RECURRINGDEPOSITACCOUNT",
+   "actionName": "POSTINTEREST",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "PREMATURECLOSE_RECURRINGDEPOSITACCOUNT",
+   "entityName": "RECURRINGDEPOSITACCOUNT",
+   "actionName": "PREMATURECLOSE",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "REJECT_RECURRINGDEPOSITACCOUNT",
+   "entityName": "RECURRINGDEPOSITACCOUNT",
+   "actionName": "REJECT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "UNDOTRANSACTION_RECURRINGDEPOSITACCOUNT",
+   "entityName": "RECURRINGDEPOSITACCOUNT",
+   "actionName": "UNDOTRANSACTION",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "UPDATEDEPOSITAMOUNT_RECURRINGDEPOSITACCOUNT",
+   "entityName": "RECURRINGDEPOSITACCOUNT",
+   "actionName": "UPDATEDEPOSITAMOUNT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "WITHDRAWAL_RECURRINGDEPOSITACCOUNT",
+   "entityName": "RECURRINGDEPOSITACCOUNT",
+   "actionName": "WITHDRAWAL",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "WITHDRAW_RECURRINGDEPOSITACCOUNT",
+   "entityName": "RECURRINGDEPOSITACCOUNT",
+   "actionName": "WITHDRAW",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "ACTIVATE_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "ACTIVATE",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "ADJUSTTRANSACTION_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "ADJUSTTRANSACTION",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "APPLYANNUALFEE_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "APPLYANNUALFEE",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "APPROVALUNDO_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "APPROVALUNDO",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "APPROVE_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "APPROVE",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "BLOCKCREDIT_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "BLOCKCREDIT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "BLOCKDEBIT_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "BLOCKDEBIT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "BLOCK_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "BLOCK",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "CALCULATEINTEREST_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "CALCULATEINTEREST",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "CLOSE_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "CLOSE",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "DEPOSIT_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "DEPOSIT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "HOLDAMOUNT_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "HOLDAMOUNT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "POSTINTERESTASONDATE_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "POSTINTERESTASONDATE",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "POSTINTEREST_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "POSTINTEREST",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "REJECT_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "REJECT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "RELEASEAMOUNT_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "RELEASEAMOUNT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "REVERSETRANSACTION_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "REVERSETRANSACTION",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "UNBLOCKCREDIT_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "UNBLOCKCREDIT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "UNBLOCKDEBIT_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "UNBLOCKDEBIT",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "UNBLOCK_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "UNBLOCK",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "UNDOTRANSACTION_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "UNDOTRANSACTION",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "WITHDRAWAL_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "WITHDRAWAL",
+   "selected": true
+  },
+  {
+   "grouping": "transaction_savings",
+   "code": "WITHDRAW_SAVINGSACCOUNT",
+   "entityName": "SAVINGSACCOUNT",
+   "actionName": "WITHDRAW",
+   "selected": true
+  }
+ ]
+}

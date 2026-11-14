@@ -1,0 +1,37 @@
+{
+ "path": "/v1/workingdays",
+ "status": 200,
+ "body": {
+  "id": 1,
+  "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA,SU",
+  "repaymentRescheduleType": {
+   "id": 2,
+   "code": "RepaymentRescheduleType.move.to.next.working.day",
+   "value": "move to next working day"
+  },
+  "extendTermForDailyRepayments": false,
+  "extendTermForRepaymentsOnHolidays": false,
+  "repaymentRescheduleOptions": [
+   {
+    "id": 1,
+    "code": "RepaymentRescheduleType.same.day",
+    "value": "same day"
+   },
+   {
+    "id": 2,
+    "code": "RepaymentRescheduleType.move.to.next.working.day",
+    "value": "move to next working day"
+   },
+   {
+    "id": 3,
+    "code": "RepaymentRescheduleType.move.to.next.repayment.meeting.day",
+    "value": "move to next repayment meeting day"
+   },
+   {
+    "id": 4,
+    "code": "RepaymentRescheduleType.move.to.previous.working.day",
+    "value": "move to previous working day"
+   }
+  ]
+ }
+}

@@ -31,7 +31,7 @@ defmodule ECBOrg.Offices do
         }
 
   # The names Fineract accepts for `orderBy` (the column aliases of its query).
-  @order_fields ~w(id name externalId openingDate hierarchy parentId parentName)
+  @order_fields ~w(id name nameDecorated externalId openingDate hierarchy)
 
   @doc """
   The offices the user can see, as a list.
@@ -39,8 +39,8 @@ defmodule ECBOrg.Offices do
   ## Options
 
     * `:include_all` - every office, not just the user's branch of the tree (default false)
-    * `:order_by` - one of `id`, `name`, `externalId`, `openingDate`, `hierarchy`, `parentId`,
-      `parentName` (default: `hierarchy`)
+    * `:order_by` - one of `id`, `name`, `nameDecorated`, `externalId`, `openingDate`,
+      `hierarchy` (default: `hierarchy`); anything else, including the parent columns, is refused as Fineract does
     * `:sort_order` - `asc` or `desc`, used with `:order_by`
   """
   @spec list(User.t(), keyword) :: {:ok, [office]} | {:error, Exception.t()}
@@ -148,8 +148,13 @@ defmodule ECBOrg.Offices do
 
   defp check_field(field) when field in @order_fields, do: :ok
 
-  defp check_field(field),
-    do: {:error, %InvalidOrdering{detail: "invalid orderBy value '#{field}'"}}
+  defp check_field(_field),
+    do:
+      {:error,
+       %InvalidOrdering{
+         detail:
+           "invalid input for profile 'office-order-by': does not match any permitted pattern"
+       }}
 
   defp direction(nil), do: {:ok, :asc}
 
@@ -163,9 +168,8 @@ defmodule ECBOrg.Offices do
 
   defp order_expression("id"), do: dynamic([o, p], o.id)
   defp order_expression("name"), do: dynamic([o, p], o.name)
+  defp order_expression("nameDecorated"), do: dynamic([o, p], o.name)
   defp order_expression("externalId"), do: dynamic([o, p], o.external_id)
   defp order_expression("openingDate"), do: dynamic([o, p], o.opening_date)
   defp order_expression("hierarchy"), do: dynamic([o, p], o.hierarchy)
-  defp order_expression("parentId"), do: dynamic([o, p], p.id)
-  defp order_expression("parentName"), do: dynamic([o, p], p.name)
 end

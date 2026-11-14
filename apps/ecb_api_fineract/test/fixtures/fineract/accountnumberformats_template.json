@@ -1,0 +1,128 @@
+{
+ "path": "/v1/accountnumberformats/template",
+ "status": 200,
+ "body": {
+  "accountTypeOptions": [
+   {
+    "id": 1,
+    "code": "accountType.client",
+    "value": "CLIENT"
+   },
+   {
+    "id": 2,
+    "code": "accountType.loan",
+    "value": "LOAN"
+   },
+   {
+    "id": 3,
+    "code": "accountType.savings",
+    "value": "SAVINGS"
+   },
+   {
+    "id": 4,
+    "code": "accountType.center",
+    "value": "CENTER"
+   },
+   {
+    "id": 5,
+    "code": "accountType.group",
+    "value": "GROUP"
+   },
+   {
+    "id": 6,
+    "code": "accountType.shares",
+    "value": "SHARES"
+   },
+   {
+    "id": 7,
+    "code": "accountType.workingCapitalLoan",
+    "value": "WORKING_CAPITAL_LOAN"
+   }
+  ],
+  "prefixTypeOptions": {
+   "accountType.workingCapitalLoan": [
+    {
+     "id": 401,
+     "code": "accountNumberPrefixType.prefixShortName",
+     "value": "PREFIX_SHORT_NAME"
+    },
+    {
+     "id": 1,
+     "code": "accountNumberPrefixType.officeName",
+     "value": "OFFICE_NAME"
+    },
+    {
+     "id": 201,
+     "code": "accountNumberPrefixType.loanProductShortName",
+     "value": "LOAN_PRODUCT_SHORT_NAME"
+    }
+   ],
+   "accountType.client": [
+    {
+     "id": 401,
+     "code": "accountNumberPrefixType.prefixShortName",
+     "value": "PREFIX_SHORT_NAME"
+    },
+    {
+     "id": 101,
+     "code": "accountNumberPrefixType.clientType",
+     "value": "CLIENT_TYPE"
+    },
+    {
+     "id": 1,
+     "code": "accountNumberPrefixType.officeName",
+     "value": "OFFICE_NAME"
+    }
+   ],
+   "accountType.group": [
+    {
+     "id": 1,
+     "code": "accountNumberPrefixType.officeName",
+     "value": "OFFICE_NAME"
+    }
+   ],
+   "accountType.loan": [
+    {
+     "id": 401,
+     "code": "accountNumberPrefixType.prefixShortName",
+     "value": "PREFIX_SHORT_NAME"
+    },
+    {
+     "id": 1,
+     "code": "accountNumberPrefixType.officeName",
+     "value": "OFFICE_NAME"
+    },
+    {
+     "id": 201,
+     "code": "accountNumberPrefixType.loanProductShortName",
+     "value": "LOAN_PRODUCT_SHORT_NAME"
+    }
+   ],
+   "accountType.center": [
+    {
+     "id": 1,
+     "code": "accountNumberPrefixType.officeName",
+     "value": "OFFICE_NAME"
+    }
+   ],
+   "accountType.savings": [
+    {
+     "id": 301,
+     "code": "accountNumberPrefixType.savingsProductShortName",
+     "value": "SAVINGS_PRODUCT_SHORT_NAME"
+    },
+    {
+     "id": 401,
+     "code": "accountNumberPrefixType.prefixShortName",
+     "value": "PREFIX_SHORT_NAME"
+    },
+    {
+     "id": 1,
+     "code": "accountNumberPrefixType.officeName",
+     "value": "OFFICE_NAME"
+    }
+   ],
+   "accountType.shares": []
+  }
+ }
+}

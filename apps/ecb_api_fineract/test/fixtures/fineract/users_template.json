@@ -1,0 +1,21 @@
+{
+ "path": "/v1/users/template",
+ "status": 200,
+ "body": {
+  "allowedOffices": [
+   {
+    "id": 1,
+    "name": "Head Office",
+    "nameDecorated": "Head Office"
+   }
+  ],
+  "availableRoles": [
+   {
+    "id": 1,
+    "name": "Super user",
+    "description": "This role provides all application permissions.",
+    "disabled": false
+   }
+  ]
+ }
+}

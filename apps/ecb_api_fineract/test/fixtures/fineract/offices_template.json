@@ -1,0 +1,14 @@
+{
+ "path": "/v1/offices/template",
+ "status": 200,
+ "body": {
+  "openingDate": "__TODAY__",
+  "allowedParents": [
+   {
+    "id": 1,
+    "name": "Head Office",
+    "nameDecorated": "Head Office"
+   }
+  ]
+ }
+}

@@ -1,0 +1,19 @@
+{
+ "path": "/v1/offices?orderBy=nope",
+ "status": 403,
+ "body": {
+  "developerMessage": "Request was understood but caused a domain rule violation.",
+  "httpStatusCode": "403",
+  "defaultUserMessage": "Errors contain reason for domain rule violation.",
+  "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+  "errors": [
+   {
+    "developerMessage": "Input validation error: invalid input for profile 'office-order-by': does not match any permitted pattern",
+    "defaultUserMessage": "Input validation error: invalid input for profile 'office-order-by': does not match any permitted pattern",
+    "userMessageGlobalisationCode": "error.msg.input.validation",
+    "parameterName": "id",
+    "args": []
+   }
+  ]
+ }
+}
