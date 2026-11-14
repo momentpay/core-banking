@@ -12,8 +12,8 @@ defmodule ECBApiFineract.Resources.Write do
   alias ECBPlatform.Commands.{Command, Result}
 
   @doc """
-  Runs `action` on `entity` and sends the outcome. Options: `:id` (the entity the path names) and
-  `:office_id`.
+  Runs `action` on `entity` and sends the outcome. Options: `:id` (the entity the path names),
+  `:subentity_id` (a second id in the path) and `:office_id`.
   """
   @spec execute(Plug.Conn.t(), String.t(), String.t(), keyword) :: Plug.Conn.t()
   def execute(conn, entity, action, opts \\ []) do
@@ -21,6 +21,7 @@ defmodule ECBApiFineract.Resources.Write do
       Command.new(action, entity,
         json: conn.assigns[:raw_body],
         entity_id: opts[:id],
+        subentity_id: opts[:subentity_id],
         office_id: opts[:office_id],
         href: conn.request_path,
         idempotency_key: idempotency_key(conn),

@@ -208,4 +208,81 @@ defmodule ECBApiFineract.ReferenceWriteTest do
       assert %{"officeName" => "Nairobi"} = call(:get, "/api/v1/staff/1", auth: admin()) |> body()
     end
   end
+
+  describe "codes" do
+    test "a duplicate name, and a duplicate value label within a code, are refused" do
+      %{"resourceId" => id} = send_json(:post, "/v1/codes", %{"name" => "Region"}) |> body()
+      assert send_json(:post, "/v1/codes", %{"name" => "Region"}).status == 403
+
+      assert send_json(:post, "/v1/codes/#{id}/codevalues", %{"name" => "North"}).status == 200
+      dup = send_json(:post, "/v1/codes/#{id}/codevalues", %{"name" => "North"})
+      assert dup.status == 403
+      assert body(dup)["userMessageGlobalisationCode"] == "error.msg.code.value.duplicate.label"
+
+      # the same label under another code is fine
+      %{"resourceId" => other} = send_json(:post, "/v1/codes", %{"name" => "Area"}) |> body()
+      assert send_json(:post, "/v1/codes/#{other}/codevalues", %{"name" => "North"}).status == 200
+    end
+
+    test "deleting a code takes its values with it" do
+      %{"resourceId" => id} = send_json(:post, "/v1/codes", %{"name" => "Region"}) |> body()
+      send_json(:post, "/v1/codes/#{id}/codevalues", %{"name" => "North"})
+
+      assert call(:delete, "/api/v1/codes/#{id}", auth: admin()).status == 200
+
+      assert %{rows: [[0]]} =
+               ECBPlatform.TenantRepo.query!(
+                 "SELECT count(*) FROM m_code_value WHERE code_id = $1",
+                 [id]
+               )
+    end
+
+    test "a code can be worked on by name" do
+      send_json(:post, "/v1/codes", %{"name" => "Region"})
+
+      assert send_json(:post, "/v1/codes/name/Region/codevalues", %{"name" => "North"}).status ==
+               200
+
+      assert [%{"name" => "North"}] =
+               call(:get, "/api/v1/codes/name/Region/codevalues", auth: admin()) |> body()
+    end
+
+    test "a user without UPDATE_CODEVALUE cannot change a value" do
+      %{"subResourceId" => value_id, "resourceId" => id} =
+        send_json(:post, "/v1/codes", %{"name" => "Region"})
+        |> body()
+        |> then(&send_json(:post, "/v1/codes/#{&1["resourceId"]}/codevalues", %{"name" => "N"}))
+        |> body()
+
+      user = make_user("code-reader", ["READ_CODEVALUE"])
+
+      assert send_json(:put, "/v1/codes/#{id}/codevalues/#{value_id}", %{"name" => "X"}, user).status ==
+               403
+    end
+  end
+
+  describe "working days" do
+    test "a rule that cannot be read is refused with the reason, and nothing changes" do
+      before_rule =
+        call(:get, "/api/v1/workingdays", auth: admin()) |> body() |> Map.fetch!("recurrence")
+
+      for bad <- ["not a rule", "FREQ=NEVER", "FREQ=WEEKLY;BYDAY=XX"] do
+        conn = send_json(:put, "/v1/workingdays", %{"recurrence" => bad})
+        assert conn.status == 403
+
+        assert body(conn)["userMessageGlobalisationCode"] ==
+                 "error.msg.recurring.rule.parsing.error"
+      end
+
+      assert call(:get, "/api/v1/workingdays", auth: admin())
+             |> body()
+             |> Map.fetch!("recurrence") == before_rule
+    end
+
+    test "a rule without a frequency is refused as not valid" do
+      conn = send_json(:put, "/v1/workingdays", %{"recurrence" => "INTERVAL=1;BYDAY=MO"})
+      assert conn.status == 403
+      assert body(conn)["userMessageGlobalisationCode"] == "error.msg.invalid.recurring.rule"
+    end
+  end
 end

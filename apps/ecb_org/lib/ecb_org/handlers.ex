@@ -75,4 +75,78 @@ defmodule ECBOrg.Handlers do
         {:ok,
          ECBOrg.Staff.Write.update!(command.entity_id, ECBPlatform.Params.parse!(command.json))}
   end
+
+  defmodule CreateCode do
+    @moduledoc "`CREATE` on `CODE`."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, _user),
+      do: {:ok, ECBOrg.Codes.Write.create!(ECBPlatform.Params.parse!(command.json))}
+  end
+
+  defmodule UpdateCode do
+    @moduledoc "`UPDATE` on `CODE`."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, _user),
+      do:
+        {:ok,
+         ECBOrg.Codes.Write.update!(command.entity_id, ECBPlatform.Params.parse!(command.json))}
+  end
+
+  defmodule DeleteCode do
+    @moduledoc "`DELETE` on `CODE`."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, _user), do: {:ok, ECBOrg.Codes.Write.delete!(command.entity_id)}
+  end
+
+  defmodule CreateCodeValue do
+    @moduledoc "`CREATE` on `CODEVALUE`; the entity is the code the value is added to."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, _user),
+      do:
+        {:ok,
+         ECBOrg.Codes.Write.create_value!(
+           command.entity_id,
+           ECBPlatform.Params.parse!(command.json)
+         )}
+  end
+
+  defmodule UpdateCodeValue do
+    @moduledoc "`UPDATE` on `CODEVALUE`; the entity is the value."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, _user),
+      do:
+        {:ok,
+         ECBOrg.Codes.Write.update_value!(
+           command.entity_id,
+           ECBPlatform.Params.parse!(command.json)
+         )}
+  end
+
+  defmodule DeleteCodeValue do
+    @moduledoc "`DELETE` on `CODEVALUE`; the entity is the code, the sub-entity the value."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, _user),
+      do: {:ok, ECBOrg.Codes.Write.delete_value!(command.entity_id, command.subentity_id)}
+  end
+
+  defmodule UpdateWorkingDays do
+    @moduledoc "`UPDATE` on `WORKINGDAYS`."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, _user),
+      do: {:ok, ECBOrg.WorkingDays.Write.update!(ECBPlatform.Params.parse!(command.json))}
+  end
 end

@@ -46,9 +46,16 @@ defmodule ECBPlatform.Errors do
       "args" => Enum.map(Map.get(error, :args, []), &arg_json/1)
     }
 
-    case Map.get(error, :parameter) do
+    base =
+      case Map.get(error, :parameter) do
+        nil -> base
+        parameter -> Map.put(base, "parameterName", parameter)
+      end
+
+    # some errors also show the value that was refused
+    case Map.get(error, :value) do
       nil -> base
-      parameter -> Map.put(base, "parameterName", parameter)
+      value -> Map.put(base, "value", value)
     end
   end
 
@@ -96,6 +103,15 @@ defmodule ECBPlatform.Errors do
 
     def message(%{detail: detail}),
       do: "The JSON syntax provided in the body of the request is invalid: " <> detail
+  end
+
+  defmodule InvalidJsonData do
+    @moduledoc """
+    A value of the wrong type in a typed request, such as text where a true or false belongs. HTTP 400,
+    with Fineract's single message.
+    """
+    defexception message:
+                   "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number"
   end
 
   defmodule DataIntegrity do
@@ -168,6 +184,17 @@ defmodule ECBPlatform.Errors do
        developer_message: message,
        default_message: message,
        code: "error.msg.invalid.request.body",
+       parameter: "id",
+       args: []
+     })}
+  end
+
+  def to_api(%InvalidJsonData{} = e) do
+    {400,
+     error_json(%{
+       developer_message: e.message,
+       default_message: e.message,
+       code: "error.msg.invalid.json.data",
        parameter: "id",
        args: []
      })}

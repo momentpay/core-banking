@@ -16,7 +16,14 @@ defmodule ECBOrg.Application do
     {"PAYMENTTYPE", "UPDATE", ECBOrg.Handlers.UpdatePaymentType},
     {"PAYMENTTYPE", "DELETE", ECBOrg.Handlers.DeletePaymentType},
     {"STAFF", "CREATE", ECBOrg.Handlers.CreateStaff},
-    {"STAFF", "UPDATE", ECBOrg.Handlers.UpdateStaff}
+    {"STAFF", "UPDATE", ECBOrg.Handlers.UpdateStaff},
+    {"CODE", "CREATE", ECBOrg.Handlers.CreateCode},
+    {"CODE", "UPDATE", ECBOrg.Handlers.UpdateCode},
+    {"CODE", "DELETE", ECBOrg.Handlers.DeleteCode},
+    {"CODEVALUE", "CREATE", ECBOrg.Handlers.CreateCodeValue},
+    {"CODEVALUE", "UPDATE", ECBOrg.Handlers.UpdateCodeValue},
+    {"CODEVALUE", "DELETE", ECBOrg.Handlers.DeleteCodeValue},
+    {"WORKINGDAYS", "UPDATE", ECBOrg.Handlers.UpdateWorkingDays}
   ]
 
   @impl true

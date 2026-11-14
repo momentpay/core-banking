@@ -3,7 +3,8 @@ defmodule ECBPlatform.Commands.Result do
   What a command handler returns: the ids of what it created or changed, and the fields that changed.
 
   Mirrors `CommandProcessingResult`. The API answer and the stored result use Fineract's field names
-  (`resourceId`, `officeId`, `changes`, ...) and leave out fields that are not set.
+  (`resourceId`, `officeId`, `changes`, ...) and leave out fields that are not set. `extra` carries any
+  further top-level members an answer needs (the working-days update echoes the request).
   """
 
   defstruct [
@@ -25,6 +26,7 @@ defmodule ECBPlatform.Commands.Result do
     :resource_external_id,
     :subresource_external_id,
     :loan_external_id,
+    :extra,
     rollback_transaction: false
   ]
 
@@ -70,11 +72,15 @@ defmodule ECBPlatform.Commands.Result do
   @doc "The map sent to API clients: Fineract's field names, unset fields left out."
   @spec to_api_map(t()) :: map
   def to_api_map(%__MODULE__{} = result) do
-    for {field, key} <- @json_keys,
-        value = Map.fetch!(result, field),
-        value != nil,
-        into: %{},
-        do: {key, value}
+    base =
+      for {field, key} <- @json_keys,
+          value = Map.fetch!(result, field),
+          value != nil,
+          into: %{},
+          do: {key, value}
+
+    # `extra` holds members some Fineract answers carry at the top level beside the usual ones
+    Map.merge(base, result.extra || %{})
   end
 
   @doc "The result as stored with the command (JSON text)."

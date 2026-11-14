@@ -620,6 +620,346 @@
           "path": "/v1/staff"
         }
       ]
+    },
+    {
+      "name": "codes",
+      "reset": [
+        "codes"
+      ],
+      "steps": [
+        {
+          "method": "POST",
+          "path": "/v1/codes",
+          "body": {
+            "name": "Branch type"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes",
+          "body": {
+            "name": "Region"
+          }
+        },
+        {
+          "path": "/v1/codes/50"
+        },
+        {
+          "path": "/v1/codes/name/Region"
+        },
+        {
+          "path": "/v1/codes/99"
+        },
+        {
+          "path": "/v1/codes/name/Nope"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/codes/50",
+          "body": {
+            "name": "Branch types"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/codes/50",
+          "body": {
+            "name": "Branch types"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/codes/50",
+          "body": {}
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/codes/1",
+          "body": {
+            "name": "Renamed"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/codes/99",
+          "body": {
+            "name": "x"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes",
+          "body": {
+            "name": "Region"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes",
+          "body": {
+            "name": ""
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes",
+          "body": {
+            "name": "x",
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes",
+          "body": {
+            "name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          }
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/codes/1"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/codes/99"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/codes/51"
+        },
+        {
+          "path": "/v1/codes/51"
+        }
+      ]
+    },
+    {
+      "name": "codevalues",
+      "reset": [
+        "codes"
+      ],
+      "steps": [
+        {
+          "method": "POST",
+          "path": "/v1/codes",
+          "body": {
+            "name": "Branch type"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/50/codevalues",
+          "body": {
+            "name": "Urban",
+            "description": "In a city",
+            "position": 1,
+            "isActive": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/50/codevalues",
+          "body": {
+            "name": "Rural"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/50/codevalues",
+          "body": {
+            "name": "Mobile",
+            "position": 5,
+            "isMandatory": true
+          }
+        },
+        {
+          "path": "/v1/codes/50/codevalues"
+        },
+        {
+          "path": "/v1/codes/50/codevalues/23"
+        },
+        {
+          "path": "/v1/codes/50/codevalues/99"
+        },
+        {
+          "path": "/v1/codes/name/Branch%20type/codevalues"
+        },
+        {
+          "path": "/v1/codes/name/Branch%20type/codevalues/24"
+        },
+        {
+          "path": "/v1/codes/99/codevalues"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/codes/50/codevalues/23",
+          "body": {
+            "name": "Urban area",
+            "isActive": false
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/codes/50/codevalues/23",
+          "body": {
+            "name": "Urban area"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/codes/50/codevalues/23",
+          "body": {
+            "position": 9,
+            "description": "Cities"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/codes/50/codevalues/99",
+          "body": {
+            "name": "x"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/99/codevalues",
+          "body": {
+            "name": "x"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/50/codevalues",
+          "body": {
+            "name": "Urban area"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/50/codevalues",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/50/codevalues",
+          "body": {
+            "name": "x",
+            "position": "abc"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/50/codevalues",
+          "body": {
+            "name": "x",
+            "isActive": "maybe"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/50/codevalues",
+          "body": {
+            "name": "x",
+            "bogus": 1
+          }
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/codes/50/codevalues/24"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/codes/50/codevalues/24"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/codes/1/codevalues/23"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/1/codevalues",
+          "body": {
+            "name": "Birth certificate"
+          }
+        },
+        {
+          "path": "/v1/codes/1/codevalues"
+        },
+        {
+          "path": "/v1/codes/50/codevalues"
+        }
+      ]
+    },
+    {
+      "name": "workingdays",
+      "reset": [
+        "workingdays"
+      ],
+      "steps": [
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR",
+            "repaymentRescheduleType": 4,
+            "extendTermForDailyRepayments": true,
+            "extendTermForRepaymentsOnHolidays": true
+          }
+        },
+        {
+          "path": "/v1/workingdays"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA",
+            "repaymentRescheduleType": 2
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {}
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "repaymentRescheduleType": 2
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO",
+            "repaymentRescheduleType": 9
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO",
+            "extendTermForDailyRepayments": "maybe"
+          }
+        },
+        {
+          "path": "/v1/workingdays"
+        }
+      ]
     }
   ]
 }

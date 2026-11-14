@@ -1,0 +1,512 @@
+{
+ "name": "codevalues",
+ "reset": [
+  "codes"
+ ],
+ "steps": [
+  {
+   "method": "POST",
+   "path": "/v1/codes",
+   "body": {
+    "name": "Branch type"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 50
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes/50/codevalues",
+   "body": {
+    "name": "Urban",
+    "description": "In a city",
+    "position": 1,
+    "isActive": true
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 50,
+    "subResourceId": 23
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes/50/codevalues",
+   "body": {
+    "name": "Rural"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 50,
+    "subResourceId": 24
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes/50/codevalues",
+   "body": {
+    "name": "Mobile",
+    "position": 5,
+    "isMandatory": true
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 50,
+    "subResourceId": 25
+   }
+  },
+  {
+   "path": "/v1/codes/50/codevalues",
+   "status": 200,
+   "response": [
+    {
+     "id": 24,
+     "name": "Rural",
+     "position": 0,
+     "description": "",
+     "active": true,
+     "mandatory": false
+    },
+    {
+     "id": 23,
+     "name": "Urban",
+     "position": 1,
+     "description": "In a city",
+     "active": true,
+     "mandatory": false
+    },
+    {
+     "id": 25,
+     "name": "Mobile",
+     "position": 5,
+     "description": "",
+     "active": true,
+     "mandatory": true
+    }
+   ]
+  },
+  {
+   "path": "/v1/codes/50/codevalues/23",
+   "status": 200,
+   "response": {
+    "id": 23,
+    "name": "Urban",
+    "position": 1,
+    "description": "In a city",
+    "active": true,
+    "mandatory": false
+   }
+  },
+  {
+   "path": "/v1/codes/50/codevalues/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Code value with identifier 99 does not exist",
+      "defaultUserMessage": "Code value with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.codevalue.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/codes/name/Branch%20type/codevalues",
+   "status": 200,
+   "response": [
+    {
+     "id": 23,
+     "name": "Urban",
+     "position": 1,
+     "description": "In a city",
+     "active": true,
+     "mandatory": false
+    },
+    {
+     "id": 24,
+     "name": "Rural",
+     "position": 0,
+     "description": "",
+     "active": true,
+     "mandatory": false
+    },
+    {
+     "id": 25,
+     "name": "Mobile",
+     "position": 5,
+     "description": "",
+     "active": true,
+     "mandatory": true
+    }
+   ]
+  },
+  {
+   "path": "/v1/codes/name/Branch%20type/codevalues/24",
+   "status": 200,
+   "response": {
+    "id": 24,
+    "name": "Rural",
+    "position": 0,
+    "description": "",
+    "active": true,
+    "mandatory": false
+   }
+  },
+  {
+   "path": "/v1/codes/99/codevalues",
+   "status": 200,
+   "response": []
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/codes/50/codevalues/23",
+   "body": {
+    "name": "Urban area",
+    "isActive": false
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 23,
+    "changes": {
+     "name": "Urban area",
+     "isActive": false
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/codes/50/codevalues/23",
+   "body": {
+    "name": "Urban area"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 23,
+    "changes": {}
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/codes/50/codevalues/23",
+   "body": {
+    "position": 9,
+    "description": "Cities"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 23,
+    "changes": {
+     "description": "Cities",
+     "position": 9
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/codes/50/codevalues/99",
+   "body": {
+    "name": "x"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Code value with identifier 99 does not exist",
+      "defaultUserMessage": "Code value with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.codevalue.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes/99/codevalues",
+   "body": {
+    "name": "x"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Code with identifier `99` does not exist",
+      "defaultUserMessage": "Code with identifier `99` does not exist",
+      "userMessageGlobalisationCode": "error.msg.code.identifier.not.found",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes/50/codevalues",
+   "body": {
+    "name": "Urban area"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "A code value with lable 'Urban area' already exists",
+    "userMessageGlobalisationCode": "error.msg.code.value.duplicate.label",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "A code value with lable 'Urban area' already exists",
+      "userMessageGlobalisationCode": "error.msg.code.value.duplicate.label",
+      "parameterName": "name",
+      "args": [
+       {
+        "value": "Urban area"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes/50/codevalues",
+   "body": {},
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.code.value.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes/50/codevalues",
+   "body": {
+    "name": "x",
+    "position": "abc"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `position` has value: abc which is invalid integer.",
+      "defaultUserMessage": "The parameter `position` has value: abc which is invalid integer.",
+      "userMessageGlobalisationCode": "validation.msg.invalid.integer",
+      "parameterName": "position",
+      "value": "abc",
+      "args": [
+       {
+        "value": "abc"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes/50/codevalues",
+   "body": {
+    "name": "x",
+    "isActive": "maybe"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 50,
+    "subResourceId": 27
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes/50/codevalues",
+   "body": {
+    "name": "x",
+    "bogus": 1
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter bogus is not supported.",
+      "defaultUserMessage": "bogus",
+      "userMessageGlobalisationCode": "error.msg.parameter.unsupported",
+      "parameterName": "bogus",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/codes/50/codevalues/24",
+   "status": 200,
+   "response": {
+    "resourceId": 50,
+    "subResourceId": 24
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/codes/50/codevalues/24",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Code value with identifier 24 does not exist",
+      "defaultUserMessage": "Code value with identifier 24 does not exist",
+      "userMessageGlobalisationCode": "error.msg.codevalue.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 24
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/codes/1/codevalues/23",
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "subResourceId": 23
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes/1/codevalues",
+   "body": {
+    "name": "Birth certificate"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "subResourceId": 28
+   }
+  },
+  {
+   "path": "/v1/codes/1/codevalues",
+   "status": 200,
+   "response": [
+    {
+     "id": 28,
+     "name": "Birth certificate",
+     "position": 0,
+     "description": "",
+     "active": true,
+     "mandatory": false
+    },
+    {
+     "id": 1,
+     "name": "Passport",
+     "position": 1,
+     "active": true,
+     "mandatory": false
+    },
+    {
+     "id": 2,
+     "name": "Id",
+     "position": 2,
+     "active": true,
+     "mandatory": false
+    },
+    {
+     "id": 3,
+     "name": "Drivers License",
+     "position": 3,
+     "active": true,
+     "mandatory": false
+    },
+    {
+     "id": 4,
+     "name": "Any Other Id Type",
+     "position": 4,
+     "active": true,
+     "mandatory": false
+    }
+   ]
+  },
+  {
+   "path": "/v1/codes/50/codevalues",
+   "status": 200,
+   "response": [
+    {
+     "id": 27,
+     "name": "x",
+     "position": 0,
+     "description": "",
+     "active": false,
+     "mandatory": false
+    },
+    {
+     "id": 25,
+     "name": "Mobile",
+     "position": 5,
+     "description": "",
+     "active": true,
+     "mandatory": true
+    },
+    {
+     "id": 23,
+     "name": "Urban area",
+     "position": 9,
+     "description": "Cities",
+     "active": false,
+     "mandatory": false
+    }
+   ]
+  }
+ ]
+}

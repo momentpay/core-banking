@@ -57,6 +57,19 @@ defmodule ECBApiFineract.ApiCase do
     )
 
     TenantRepo.query!("DELETE FROM m_role WHERE name LIKE 'apitest-%'")
+    TenantRepo.query!("DELETE FROM m_code_value WHERE id > 22")
+    TenantRepo.query!("DELETE FROM m_code WHERE is_system_defined = false")
+    TenantRepo.query!("SELECT setval(pg_get_serial_sequence('m_code', 'id'), 49)")
+    TenantRepo.query!("SELECT setval(pg_get_serial_sequence('m_code_value', 'id'), 22)")
+
+    TenantRepo.query!(
+      "UPDATE m_code_value SET code_value = 'Passport', code_description = NULL, order_position = 1, is_active = true WHERE id = 1"
+    )
+
+    TenantRepo.query!(
+      "UPDATE m_working_days SET recurrence = 'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA,SU', repayment_rescheduling_enum = 2, extend_term_daily_repayments = false, extend_term_holiday_repayment = false"
+    )
+
     TenantRepo.query!("DELETE FROM m_staff")
     TenantRepo.query!("DELETE FROM m_fund")
     TenantRepo.query!("DELETE FROM m_payment_type WHERE id > 3")

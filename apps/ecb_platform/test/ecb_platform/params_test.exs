@@ -61,11 +61,30 @@ defmodule ECBPlatform.ParamsTest do
       assert_raise PlatformApiDataValidation, fn -> Params.long(p, "c") end
     end
 
-    test "boolean/2" do
-      p = params(%{"a" => true, "b" => "false", "c" => "maybe"})
+    test "boolean/2 reads text as Fineract does: only true, in any case, is true" do
+      p = params(%{"a" => true, "b" => "false", "c" => "maybe", "d" => "TRUE", "e" => nil})
       assert Params.boolean(p, "a") == true
       assert Params.boolean(p, "b") == false
-      assert Params.boolean(p, "c") == nil
+      assert Params.boolean(p, "c") == false
+      assert Params.boolean(p, "d") == true
+      assert Params.boolean(p, "e") == nil
+      assert Params.boolean(p, "absent") == nil
+    end
+
+    test "strict_boolean/2 refuses anything that is not true or false" do
+      p = params(%{"a" => true, "b" => "maybe"})
+      assert Params.strict_boolean(p, "a") == true
+      assert Params.strict_boolean(p, "absent") == nil
+      assert_raise ECBPlatform.Errors.InvalidJsonData, fn -> Params.strict_boolean(p, "b") end
+    end
+
+    test "integer/2 refuses text that is not a whole number, showing the value" do
+      p = params(%{"a" => 7, "b" => "x"})
+      assert Params.integer(p, "a") == 7
+      assert Params.integer(p, "absent") == nil
+
+      error = assert_raise PlatformApiDataValidation, fn -> Params.integer(p, "b") end
+      assert [%{code: "validation.msg.invalid.integer", value: "x", args: ["x"]}] = error.errors
     end
 
     test "decimal/2 reads JSON numbers exactly and formatted text" do

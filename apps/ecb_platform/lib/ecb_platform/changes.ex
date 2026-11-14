@@ -56,6 +56,17 @@ defmodule ECBPlatform.Changes do
       else: c
   end
 
+  @doc """
+  A whole-number parameter read without a locale. A null value changes nothing (the stored number
+  cannot be cleared).
+  """
+  @spec integer(t, Params.t(), String.t(), atom, integer | nil) :: t
+  def integer(%__MODULE__{} = c, params, key, column, existing) do
+    new = if Params.exists?(params, key), do: Params.integer(params, key)
+
+    if new != nil and new != existing, do: put(c, key, new, column, new), else: c
+  end
+
   @doc "A true or false parameter."
   @spec boolean(t, Params.t(), String.t(), atom, boolean | nil) :: t
   def boolean(%__MODULE__{} = c, params, key, column, existing) do

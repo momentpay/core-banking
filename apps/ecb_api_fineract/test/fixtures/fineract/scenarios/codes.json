@@ -1,0 +1,384 @@
+{
+ "name": "codes",
+ "reset": [
+  "codes"
+ ],
+ "steps": [
+  {
+   "method": "POST",
+   "path": "/v1/codes",
+   "body": {
+    "name": "Branch type"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 50
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes",
+   "body": {
+    "name": "Region"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 51
+   }
+  },
+  {
+   "path": "/v1/codes/50",
+   "status": 200,
+   "response": {
+    "id": 50,
+    "name": "Branch type",
+    "systemDefined": false
+   }
+  },
+  {
+   "path": "/v1/codes/name/Region",
+   "status": 200,
+   "response": {
+    "id": 51,
+    "name": "Region",
+    "systemDefined": false
+   }
+  },
+  {
+   "path": "/v1/codes/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Code with identifier `99` does not exist",
+      "defaultUserMessage": "Code with identifier `99` does not exist",
+      "userMessageGlobalisationCode": "error.msg.code.identifier.not.found",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/codes/name/Nope",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Code with name `Nope` does not exist",
+      "defaultUserMessage": "Code with name `Nope` does not exist",
+      "userMessageGlobalisationCode": "error.msg.code.not.found",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "Nope"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/codes/50",
+   "body": {
+    "name": "Branch types"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 50,
+    "changes": {
+     "name": "Branch types"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/codes/50",
+   "body": {
+    "name": "Branch types"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 50,
+    "changes": {}
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/codes/50",
+   "body": {},
+   "status": 200,
+   "response": {
+    "resourceId": 50,
+    "changes": {}
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/codes/1",
+   "body": {
+    "name": "Renamed"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "This code is system defined and cannot be modified or deleted.",
+      "defaultUserMessage": "This code is system defined and cannot be modified or deleted.",
+      "userMessageGlobalisationCode": "error.msg.code.systemdefined",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/codes/99",
+   "body": {
+    "name": "x"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Code with name `99` does not exist",
+      "defaultUserMessage": "Code with name `99` does not exist",
+      "userMessageGlobalisationCode": "error.msg.code.not.found",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "99"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes",
+   "body": {
+    "name": "Region"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "A code with name 'Region' already exists",
+    "userMessageGlobalisationCode": "error.msg.code.duplicate.name",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "A code with name 'Region' already exists",
+      "userMessageGlobalisationCode": "error.msg.code.duplicate.name",
+      "parameterName": "name",
+      "args": [
+       {
+        "value": "Region"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes",
+   "body": {},
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.code.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes",
+   "body": {
+    "name": ""
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.code.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes",
+   "body": {
+    "name": "x",
+    "bogus": 1
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter bogus is not supported.",
+      "defaultUserMessage": "bogus",
+      "userMessageGlobalisationCode": "error.msg.parameter.unsupported",
+      "parameterName": "bogus",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes",
+   "body": {
+    "name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` exceeds max length of 100.",
+      "defaultUserMessage": "The parameter `name` exceeds max length of 100.",
+      "userMessageGlobalisationCode": "validation.msg.code.name.exceeds.max.length",
+      "parameterName": "name",
+      "args": [
+       {
+        "value": 100
+       },
+       {
+        "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/codes/1",
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "This code is system defined and cannot be modified or deleted.",
+      "defaultUserMessage": "This code is system defined and cannot be modified or deleted.",
+      "userMessageGlobalisationCode": "error.msg.code.systemdefined",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/codes/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Code with name `99` does not exist",
+      "defaultUserMessage": "Code with name `99` does not exist",
+      "userMessageGlobalisationCode": "error.msg.code.not.found",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "99"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/codes/51",
+   "status": 200,
+   "response": {
+    "resourceId": 51
+   }
+  },
+  {
+   "path": "/v1/codes/51",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Code with identifier `51` does not exist",
+      "defaultUserMessage": "Code with identifier `51` does not exist",
+      "userMessageGlobalisationCode": "error.msg.code.identifier.not.found",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 51
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}

@@ -15,6 +15,7 @@ defmodule ECBApiFineract.ApiRouter do
   alias ECBApiFineract.Resources.{
     Administration,
     Authentication,
+    Codes,
     Funds,
     Offices,
     Organisation,
@@ -46,7 +47,22 @@ defmodule ECBApiFineract.ApiRouter do
   put "/v1/offices/:id", do: Offices.update(conn, id)
 
   get "/v1/currencies", do: Organisation.currencies(conn)
-  get "/v1/codes", do: Organisation.codes(conn)
+  get "/v1/codes", do: Codes.index(conn)
+  post "/v1/codes", do: Codes.create(conn)
+  get "/v1/codes/name/:name", do: Codes.show_by_name(conn, name)
+  get "/v1/codes/name/:name/codevalues", do: Codes.values_by_name(conn, name)
+  post "/v1/codes/name/:name/codevalues", do: Codes.create_value_by_name(conn, name)
+  get "/v1/codes/name/:name/codevalues/:id", do: Codes.show_value_by_name(conn, name, id)
+  put "/v1/codes/name/:name/codevalues/:id", do: Codes.update_value_by_name(conn, name, id)
+  delete "/v1/codes/name/:name/codevalues/:id", do: Codes.delete_value_by_name(conn, name, id)
+  get "/v1/codes/:id", do: Codes.show(conn, id)
+  put "/v1/codes/:id", do: Codes.update(conn, id)
+  delete "/v1/codes/:id", do: Codes.delete(conn, id)
+  get "/v1/codes/:id/codevalues", do: Codes.values(conn, id)
+  post "/v1/codes/:id/codevalues", do: Codes.create_value(conn, id)
+  get "/v1/codes/:id/codevalues/:value_id", do: Codes.show_value(conn, id, value_id)
+  put "/v1/codes/:id/codevalues/:value_id", do: Codes.update_value(conn, id, value_id)
+  delete "/v1/codes/:id/codevalues/:value_id", do: Codes.delete_value(conn, id, value_id)
   get "/v1/paymenttypes", do: PaymentTypes.index(conn)
   get "/v1/paymenttypes/:id", do: PaymentTypes.show(conn, id)
   post "/v1/paymenttypes", do: PaymentTypes.create(conn)
@@ -54,6 +70,7 @@ defmodule ECBApiFineract.ApiRouter do
   delete "/v1/paymenttypes/:id", do: PaymentTypes.delete(conn, id)
   get "/v1/workingdays/template", do: Organisation.working_days_template(conn)
   get "/v1/workingdays", do: Organisation.working_days(conn)
+  put "/v1/workingdays", do: Organisation.update_working_days(conn)
   get "/v1/funds", do: Funds.index(conn)
   get "/v1/funds/:id", do: Funds.show(conn, id)
   post "/v1/funds", do: Funds.create(conn)

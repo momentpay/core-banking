@@ -1,0 +1,239 @@
+{
+ "name": "workingdays",
+ "reset": [
+  "workingdays"
+ ],
+ "steps": [
+  {
+   "method": "PUT",
+   "path": "/v1/workingdays",
+   "body": {
+    "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR",
+    "repaymentRescheduleType": 4,
+    "extendTermForDailyRepayments": true,
+    "extendTermForRepaymentsOnHolidays": true
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR",
+    "repaymentRescheduleType": 4,
+    "extendTermForDailyRepayments": true,
+    "extendTermForRepaymentsOnHolidays": true,
+    "changes": {
+     "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR",
+     "extendTermForRepaymentsOnHolidays": true,
+     "resourceId": 1,
+     "repaymentRescheduleType": 4,
+     "extendTermForDailyRepayments": true
+    }
+   }
+  },
+  {
+   "path": "/v1/workingdays",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR",
+    "repaymentRescheduleType": {
+     "id": 4,
+     "code": "RepaymentRescheduleType.move.to.previous.working.day",
+     "value": "move to previous working day"
+    },
+    "extendTermForDailyRepayments": true,
+    "extendTermForRepaymentsOnHolidays": true,
+    "repaymentRescheduleOptions": [
+     {
+      "id": 1,
+      "code": "RepaymentRescheduleType.same.day",
+      "value": "same day"
+     },
+     {
+      "id": 2,
+      "code": "RepaymentRescheduleType.move.to.next.working.day",
+      "value": "move to next working day"
+     },
+     {
+      "id": 3,
+      "code": "RepaymentRescheduleType.move.to.next.repayment.meeting.day",
+      "value": "move to next repayment meeting day"
+     },
+     {
+      "id": 4,
+      "code": "RepaymentRescheduleType.move.to.previous.working.day",
+      "value": "move to previous working day"
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/workingdays",
+   "body": {
+    "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR",
+    "changes": {
+     "resourceId": 1
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/workingdays",
+   "body": {
+    "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA",
+    "repaymentRescheduleType": 2
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA",
+    "repaymentRescheduleType": 2,
+    "changes": {
+     "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA",
+     "resourceId": 1,
+     "repaymentRescheduleType": 2
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/workingdays",
+   "body": {},
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `recurrence` is mandatory.",
+      "defaultUserMessage": "The parameter `recurrence` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.workingdays.recurrence.cannot.be.blank",
+      "parameterName": "recurrence",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/workingdays",
+   "body": {
+    "repaymentRescheduleType": 2
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `recurrence` is mandatory.",
+      "defaultUserMessage": "The parameter `recurrence` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.workingdays.recurrence.cannot.be.blank",
+      "parameterName": "recurrence",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/workingdays",
+   "body": {
+    "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO",
+    "repaymentRescheduleType": 9
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `repaymentRescheduleType` must be between 1 and 4.",
+      "defaultUserMessage": "The parameter `repaymentRescheduleType` must be between 1 and 4.",
+      "userMessageGlobalisationCode": "validation.msg.workingdays.repaymentRescheduleType.is.not.within.expected.range",
+      "parameterName": "repaymentRescheduleType",
+      "args": [
+       {
+        "value": 9
+       },
+       {
+        "value": 1
+       },
+       {
+        "value": 4
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/workingdays",
+   "body": {
+    "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO",
+    "extendTermForDailyRepayments": "maybe"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+    "defaultUserMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+    "userMessageGlobalisationCode": "error.msg.invalid.json.data",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "path": "/v1/workingdays",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA",
+    "repaymentRescheduleType": {
+     "id": 2,
+     "code": "RepaymentRescheduleType.move.to.next.working.day",
+     "value": "move to next working day"
+    },
+    "extendTermForDailyRepayments": true,
+    "extendTermForRepaymentsOnHolidays": true,
+    "repaymentRescheduleOptions": [
+     {
+      "id": 1,
+      "code": "RepaymentRescheduleType.same.day",
+      "value": "same day"
+     },
+     {
+      "id": 2,
+      "code": "RepaymentRescheduleType.move.to.next.working.day",
+      "value": "move to next working day"
+     },
+     {
+      "id": 3,
+      "code": "RepaymentRescheduleType.move.to.next.repayment.meeting.day",
+      "value": "move to next repayment meeting day"
+     },
+     {
+      "id": 4,
+      "code": "RepaymentRescheduleType.move.to.previous.working.day",
+      "value": "move to previous working day"
+     }
+    ]
+   }
+  }
+ ]
+}

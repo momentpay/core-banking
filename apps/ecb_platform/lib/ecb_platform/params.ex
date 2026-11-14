@@ -95,18 +95,71 @@ defmodule ECBPlatform.Params do
     end
   end
 
-  @doc "Same as `long/2`: Fineract keeps `Long` and `Integer` apart, but both are whole numbers here."
+  @doc """
+  A whole-number parameter read without a locale (`position`, `repaymentRescheduleType`). A value that
+  is not a whole number is refused with Fineract's `validation.msg.invalid.integer`, which also shows
+  the value.
+  """
   @spec integer(t, String.t()) :: integer | nil
-  def integer(params, key), do: long(params, key)
+  def integer(params, key) do
+    case string(params, key) do
+      nil ->
+        nil
 
-  @doc "A true or false parameter, or `nil`."
+      text ->
+        case Integer.parse(String.trim(text)) do
+          {number, ""} ->
+            number
+
+          _ ->
+            raise PlatformApiDataValidation,
+              errors: [
+                %{
+                  code: "validation.msg.invalid.integer",
+                  developer_message:
+                    "The parameter `#{key}` has value: #{text} which is invalid integer.",
+                  default_message:
+                    "The parameter `#{key}` has value: #{text} which is invalid integer.",
+                  parameter: key,
+                  value: text,
+                  args: [text]
+                }
+              ]
+        end
+    end
+  end
+
+  @doc """
+  A true or false parameter, or `nil` when absent or null. As Fineract's JSON reader does, text other
+  than `true` (in any case) is false.
+  """
   @spec boolean(t, String.t()) :: boolean | nil
   def boolean(%__MODULE__{map: map}, key) do
     case Map.get(map, key) do
+      nil ->
+        nil
+
+      value when is_boolean(value) ->
+        value
+
+      value when is_binary(value) or is_number(value) ->
+        String.downcase(to_string(value)) == "true"
+
+      _ ->
+        nil
+    end
+  end
+
+  @doc """
+  Like `boolean/2`, but a value that is not true or false is refused with Fineract's "invalid JSON
+  data" error, as typed requests do.
+  """
+  @spec strict_boolean(t, String.t()) :: boolean | nil
+  def strict_boolean(%__MODULE__{map: map}, key) do
+    case Map.get(map, key) do
+      nil -> nil
       value when is_boolean(value) -> value
-      "true" -> true
-      "false" -> false
-      _ -> nil
+      _ -> raise Errors.InvalidJsonData
     end
   end
 

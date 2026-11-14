@@ -1,11 +1,11 @@
 defmodule ECBApiFineract.Resources.Organisation do
   @moduledoc """
-  Read endpoints for the organisation's reference data: currencies, codes, working days, holidays and
-  account-number formats (funds, payment types and staff have their own modules). Each needs
+  Endpoints for the organisation's reference data: currencies, working days, holidays and
+  account-number formats (codes, funds, payment types and staff have their own modules). Each needs
   `READ_<RESOURCE>`.
   """
   alias ECBApiFineract.Resources.Read
-  alias ECBOrg.{AccountNumberFormats, Codes, Currencies, Holidays, WorkingDays}
+  alias ECBOrg.{AccountNumberFormats, Currencies, Holidays, WorkingDays}
 
   @doc "`GET /currencies`"
   def currencies(conn) do
@@ -16,14 +16,6 @@ defmodule ECBApiFineract.Resources.Organisation do
         "selectedCurrencyOptions" => Enum.map(selected, &currency/1),
         "currencyOptions" => Enum.map(available, &currency/1)
       }
-    end)
-  end
-
-  @doc "`GET /codes`"
-  def codes(conn) do
-    Read.respond(conn, "CODE", fn ->
-      for c <- Codes.list(),
-          do: %{"id" => c.id, "name" => c.name, "systemDefined" => c.system_defined}
     end)
   end
 
@@ -48,6 +40,10 @@ defmodule ECBApiFineract.Resources.Organisation do
       end
     end)
   end
+
+  @doc "`PUT /workingdays`"
+  def update_working_days(conn),
+    do: ECBApiFineract.Resources.Write.execute(conn, "WORKINGDAYS", "UPDATE")
 
   @doc "`GET /workingdays/template`"
   def working_days_template(conn) do
