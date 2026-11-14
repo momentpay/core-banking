@@ -30,22 +30,30 @@ defmodule ECBApiFineract.ScenariosTest do
     method = step |> Map.get("method", "GET") |> String.downcase() |> String.to_atom()
     label = "#{name} step #{number}: #{String.upcase(to_string(method))} #{step["path"]}"
 
+    auth =
+      case step["auth"] do
+        [user, password] -> {user, password}
+        nil -> admin()
+      end
+
     conn =
       case {step["raw"], step["body"]} do
         {raw, _} when is_binary(raw) ->
           call_raw(method, "/api" <> step["path"], raw)
 
         {_, body} when is_map(body) ->
-          call(method, "/api" <> step["path"], auth: admin(), body: body)
+          call(method, "/api" <> step["path"], auth: auth, body: body)
 
         _ ->
-          call(method, "/api" <> step["path"], auth: admin())
+          call(method, "/api" <> step["path"], auth: auth)
       end
+
+    ignored = step["ignore"] || []
 
     assert conn.status == step["status"],
            "#{label}: HTTP #{conn.status}, Fineract answered #{step["status"]}\n  ours: #{conn.resp_body}"
 
-    case first_difference(step["response"], body(conn), "$") do
+    case first_difference(mask(step["response"], ignored), mask(body(conn), ignored), "$") do
       nil ->
         :ok
 
@@ -55,6 +63,16 @@ defmodule ECBApiFineract.ScenariosTest do
         )
     end
   end
+
+  # Values that cannot repeat from run to run (times, the caller's address) are blanked on both sides.
+  defp mask(value, []), do: value
+
+  defp mask(%{} = map, keys) do
+    Map.new(map, fn {k, v} -> if k in keys, do: {k, :ignored}, else: {k, mask(v, keys)} end)
+  end
+
+  defp mask(list, keys) when is_list(list), do: Enum.map(list, &mask(&1, keys))
+  defp mask(other, _keys), do: other
 
   # A request whose body is sent as given (for malformed JSON), signed in as the administrator.
   defp call_raw(method, path, raw) do

@@ -1,0 +1,1584 @@
+{
+ "name": "makerchecker",
+ "reset": [
+  "commands",
+  "roles",
+  "configuration",
+  "funds",
+  "commands"
+ ],
+ "steps": [
+  {
+   "method": "POST",
+   "path": "/v1/roles",
+   "body": {
+    "name": "Clerk",
+    "description": "Enters data"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/roles/3/permissions",
+   "body": {
+    "permissions": {
+     "READ_FUND": true,
+     "CREATE_FUND": true,
+     "DELETE_FUND": true,
+     "READ_OFFICE": true
+    }
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3,
+    "changes": {
+     "permissions": {
+      "READ_OFFICE": true,
+      "READ_FUND": true,
+      "DELETE_FUND": true,
+      "CREATE_FUND": true
+     }
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/users",
+   "body": {
+    "username": "clerk",
+    "firstname": "C",
+    "lastname": "Lerk",
+    "email": "c@example.test",
+    "officeId": 1,
+    "roles": [
+     3
+    ],
+    "sendPasswordToEmail": false,
+    "password": "Zebra7-Mango#Quilt",
+    "repeatPassword": "Zebra7-Mango#Quilt"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/configurations/name/maker-checker",
+   "body": {
+    "enabled": true
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "enabled": true
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/permissions",
+   "body": {
+    "permissions": {
+     "CREATE_FUND": true,
+     "DELETE_FUND": true
+    }
+   },
+   "status": 200,
+   "response": {
+    "changes": {
+     "permissions": {
+      "DELETE_FUND": true,
+      "CREATE_FUND": true
+     }
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/funds",
+   "body": {
+    "name": "Equity",
+    "externalId": "EQ"
+   },
+   "auth": [
+    "clerk",
+    "Zebra7-Mango#Quilt"
+   ],
+   "status": 200,
+   "response": {
+    "commandId": 6,
+    "rollbackTransaction": true
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/funds",
+   "body": {
+    "name": "Debt"
+   },
+   "auth": [
+    "clerk",
+    "Zebra7-Mango#Quilt"
+   ],
+   "status": 200,
+   "response": {
+    "commandId": 7,
+    "rollbackTransaction": true
+   }
+  },
+  {
+   "path": "/v1/funds",
+   "status": 200,
+   "response": []
+  },
+  {
+   "path": "/v1/makercheckers",
+   "ignore": [
+    "madeOnDate",
+    "checkedOnDate",
+    "madeOnDateUTC",
+    "checkedOnDateUTC",
+    "timestamp",
+    "ip",
+    "commandAsJson"
+   ],
+   "status": 200,
+   "response": [
+    {
+     "id": 6,
+     "actionName": "CREATE",
+     "entityName": "FUND",
+     "maker": "clerk",
+     "madeOnDate": 1794680349.22336,
+     "processingResult": "Awaiting Approval",
+     "url": "/funds/template",
+     "ip": ""
+    },
+    {
+     "id": 7,
+     "actionName": "CREATE",
+     "entityName": "FUND",
+     "maker": "clerk",
+     "madeOnDate": 1794680349.590485,
+     "processingResult": "Awaiting Approval",
+     "url": "/funds/template",
+     "ip": ""
+    }
+   ]
+  },
+  {
+   "path": "/v1/makercheckers?includeJson=true",
+   "ignore": [
+    "madeOnDate",
+    "checkedOnDate",
+    "madeOnDateUTC",
+    "checkedOnDateUTC",
+    "timestamp",
+    "ip",
+    "commandAsJson"
+   ],
+   "status": 200,
+   "response": [
+    {
+     "id": 6,
+     "actionName": "CREATE",
+     "entityName": "FUND",
+     "maker": "clerk",
+     "madeOnDate": 1794680349.22336,
+     "processingResult": "Awaiting Approval",
+     "commandAsJson": "{\"name\":\"Equity\",\"externalId\":\"EQ\"}",
+     "url": "/funds/template",
+     "ip": ""
+    },
+    {
+     "id": 7,
+     "actionName": "CREATE",
+     "entityName": "FUND",
+     "maker": "clerk",
+     "madeOnDate": 1794680349.590485,
+     "processingResult": "Awaiting Approval",
+     "commandAsJson": "{\"name\":\"Debt\"}",
+     "url": "/funds/template",
+     "ip": ""
+    }
+   ]
+  },
+  {
+   "path": "/v1/makercheckers/searchtemplate",
+   "status": 200,
+   "response": {
+    "appUsers": [
+     {
+      "id": 4,
+      "username": "clerk"
+     },
+     {
+      "id": 3,
+      "username": "interopUser"
+     },
+     {
+      "id": 1,
+      "username": "mifos"
+     },
+     {
+      "id": 2,
+      "username": "system"
+     }
+    ],
+    "actionNames": [
+     "CREATE",
+     "DELETE",
+     "UPDATE",
+     "ACCEPTTRANSFER",
+     "ACCEPTTRANSFER_CHECKER",
+     "ACTIVATE",
+     "ACTIVATE_CHECKER",
+     "ADJUST",
+     "ADJUSTBYDELTA",
+     "ADJUSTBYDELTA_CHECKER",
+     "ADJUSTMENT",
+     "ADJUSTMENT_CHECKER",
+     "ADJUSTTRANSACTION",
+     "ADJUST_CHECKER",
+     "ALLOCATE",
+     "ALLOCATECASHTOCASHIER",
+     "APPLYADDITIONALSHARES",
+     "APPLYANNUALFEE",
+     "APPLYANNUALFEE_CHECKER",
+     "APPROVALUNDO",
+     "APPROVALUNDO_CHECKER",
+     "APPROVE",
+     "APPROVEADDITIONALSHARES",
+     "APPROVE_CHECKER",
+     "APPROVE_DIVIDEND",
+     "APPROVE_DIVIDEND_CHECKER",
+     "ASSIGNROLE",
+     "ASSIGNSTAFF",
+     "ASSOCIATECLIENTS",
+     "ASSOCIATEGROUPS",
+     "ASSOCIATEGROUPS_CHECKER",
+     "ATTACH",
+     "BLOCK",
+     "BLOCKCREDIT",
+     "BLOCKCREDIT_CHECKER",
+     "BLOCKDEBIT",
+     "BLOCKDEBIT_CHECKER",
+     "BLOCK_CHECKER",
+     "BOUNCE",
+     "BULKREASSIGN",
+     "BULKREASSIGN_CHECKER",
+     "BUYBACK",
+     "BUYDOWNFEE",
+     "BUYDOWNFEEADJUSTMENT",
+     "BYPASS",
+     "CALCULATEINTEREST",
+     "CALCULATEINTEREST_CHECKER",
+     "CANCEL",
+     "CAPITALIZEDINCOME",
+     "CAPITALIZEDINCOMEADJUSTMENT",
+     "CHANGEPWD",
+     "CHARGEBACK",
+     "CHARGEOFF",
+     "CHARGEREFUND",
+     "CLOSE",
+     "CLOSEASRESCHEDULED",
+     "CLOSEASRESCHEDULED_CHECKER",
+     "CLOSE_CHECKER",
+     "CONTRACT_TERMINATION",
+     "CONTRACT_TERMINATION_UNDO",
+     "CREATESCHEDULEEXCEPTIONS",
+     "CREATESCHEDULEEXCEPTIONS_CHECKER",
+     "CREATE_CHECKER",
+     "CREATE_DIVIDEND",
+     "CREATE_DIVIDEND_CHECKER",
+     "CREDITBALANCEREFUND",
+     "DEACTIVATEOVERDUE",
+     "DEFINEOPENINGBALANCE",
+     "DELETECASHIERALLOCATION",
+     "DELETESCHEDULEEXCEPTIONS",
+     "DELETESCHEDULEEXCEPTIONS_CHECKER",
+     "DELETE_CHECKER",
+     "DELETE_DIVIDEND",
+     "DELETE_DIVIDEND_CHECKER",
+     "DELINK_ACCOUNT_FROM",
+     "DEPOSIT",
+     "DEPOSIT_CHECKER",
+     "DEREGISTER",
+     "DEREGISTER_CHECKER",
+     "DETACH",
+     "DISABLE",
+     "DISABLE_CHECKER",
+     "DISASSOCIATECLIENTS",
+     "DISASSOCIATEGROUPS",
+     "DISASSOCIATEGROUPS_CHECKER",
+     "DISBURSALLASTUNDO",
+     "DISBURSALLASTUNDO_CHECKER",
+     "DISBURSALUNDO",
+     "DISBURSALUNDO_CHECKER",
+     "DISBURSE",
+     "DISBURSETOSAVINGS",
+     "DISBURSEWITHOUTAUTODOWNPAYMENT",
+     "DISBURSE_CHECKER",
+     "DISCOUNTFEE",
+     "DISCOUNTFEEADJUSTMENT",
+     "DOWNPAYMENT",
+     "ENABLE",
+     "ENABLE_CHECKER",
+     "EXECUTE",
+     "EXECUTEJOB",
+     "FORCE_WITHDRAWAL",
+     "FORCE_WITHDRAWAL_CHECKER",
+     "FORECLOSURE",
+     "FORECLOSURE_CHECKER",
+     "GET",
+     "GOODWILLCREDIT",
+     "HOLDAMOUNT",
+     "HOLDAMOUNT_CHECKER",
+     "INACTIVATE",
+     "INACTIVATE_CHECKER",
+     "INTERESTPAYMENTWAIVER",
+     "INTERMEDIARYSALE",
+     "INVALIDATE",
+     "LINK_ACCOUNT_TO",
+     "LOAN_WITHDRAWAL",
+     "LOAN_WITHDRAWAL_UNDO",
+     "MANUAL_INTEREST_REFUND_TRANSACTION",
+     "MERCHANTISSUEDREFUND",
+     "PAY",
+     "PAYOUTREFUND",
+     "PAY_CHECKER",
+     "PERMISSIONS",
+     "POSTINTEREST",
+     "POSTINTERESTASONDATE",
+     "POSTINTEREST_CHECKER",
+     "PREMATURECLOSE",
+     "PREMATURECLOSE_CHECKER",
+     "PREPARE",
+     "PROPOSEANDACCEPTTRANSFER",
+     "PROPOSEANDACCEPTTRANSFER_CHECKER",
+     "PROPOSETRANSFER",
+     "PROPOSETRANSFER_CHECKER",
+     "REACTIVATE",
+     "REACTIVATE_CHECKER",
+     "READTRANSACTION",
+     "READ_DIVIDEND",
+     "REAGE",
+     "REAMORTIZE",
+     "RECOVERGUARANTEES",
+     "RECOVERGUARANTEES_CHECKER",
+     "RECOVERYPAYMENT",
+     "RECREATE",
+     "REDEEMSHARES",
+     "REFUNDBYCASH",
+     "REFUNDBYTRANSFER",
+     "REGISTER",
+     "REGISTER_CHECKER",
+     "REJECT",
+     "REJECTADDITIONALSHARES",
+     "REJECTTRANSFER",
+     "REJECTTRANSFER_CHECKER",
+     "REJECT_CHECKER",
+     "RELEASE",
+     "RELEASEAMOUNT",
+     "RELEASEAMOUNT_CHECKER",
+     "REMOVELOANOFFICER",
+     "REMOVELOANOFFICER_CHECKER",
+     "REMOVESAVINGSOFFICER",
+     "REPAYMENT",
+     "REPAYMENT_CHECKER",
+     "REVERSE",
+     "REVERSETRANSACTION",
+     "REVERSETRANSACTION_CHECKER",
+     "SALE",
+     "SAVE",
+     "SAVECOLLECTIONSHEET",
+     "SAVEORUPDATEATTENDANCE",
+     "SETFRAUD",
+     "SETTLECASHFROMCASHIER",
+     "TRANSFERCLIENTS",
+     "TRANSFERCLIENTS_CHECKER",
+     "UNASSIGNROLE",
+     "UNASSIGNSTAFF",
+     "UNASSIGNSTAFF_CHECKER",
+     "UNBLOCK",
+     "UNBLOCKCREDIT",
+     "UNBLOCKCREDIT_CHECKER",
+     "UNBLOCKDEBIT",
+     "UNBLOCKDEBIT_CHECKER",
+     "UNBLOCK_CHECKER",
+     "UNDO",
+     "UNDOAPPROVAL",
+     "UNDOCHARGEOFF",
+     "UNDODISBURSAL",
+     "UNDOREJECT",
+     "UNDOREJECT_CHECKER",
+     "UNDOTRANSACTION",
+     "UNDOTRANSACTION_CHECKER",
+     "UNDOWITHDRAWAL",
+     "UNDOWITHDRAWAL_CHECKER",
+     "UNDOWRITEOFF",
+     "UNDO_CHECKER",
+     "UNDO_REAGE",
+     "UNDO_REAMORTIZE",
+     "UPDATECASHIERALLOCATION",
+     "UPDATEDELINQUENCY",
+     "UPDATEDEPOSITAMOUNT",
+     "UPDATEDISCOUNT",
+     "UPDATELOANOFFICER",
+     "UPDATELOANOFFICER_CHECKER",
+     "UPDATEOPENINGBALANCE",
+     "UPDATERATE",
+     "UPDATEROLE",
+     "UPDATERUNNINGBALANCE",
+     "UPDATESAVINGSACCOUNT",
+     "UPDATESAVINGSOFFICER",
+     "UPDATEWITHHOLDTAX",
+     "UPDATEWITHHOLDTAX_CHECKER",
+     "UPDATE_APPROVED_AMOUNT",
+     "UPDATE_CHECKER",
+     "WAIVE",
+     "WAIVEINTERESTPORTION",
+     "WAIVEINTERESTPORTION_CHECKER",
+     "WAIVE_CHECKER",
+     "WITHDRAW",
+     "WITHDRAWAL",
+     "WITHDRAWAL_CHECKER",
+     "WITHDRAWTRANSFER",
+     "WITHDRAWTRANSFER_CHECKER",
+     "WITHDRAW_CHECKER",
+     "WRITEOFF",
+     "WRITEOFF_CHECKER"
+    ],
+    "entityNames": [
+     "ACCOUNTINGRULE",
+     "ACCOUNTNUMBERFORMAT",
+     "ACCOUNTTRANSFER",
+     "ADDRESS",
+     "ADHOC",
+     "ASSET_OWNER_TRANSACTION",
+     "BATCH_BUSINESS_STEP",
+     "BUSINESS_DATE",
+     "CACHE",
+     "CALENDAR",
+     "CENTER",
+     "CHARGE",
+     "CHARTSLAB",
+     "CLIENT",
+     "CLIENTCHARGE",
+     "CLIENTIDENTIFIER",
+     "CLIENTIMAGE",
+     "CLIENTNOTE",
+     "CLIENT_COLLATERAL_PRODUCT",
+     "CODE",
+     "CODEVALUE",
+     "COLLATERAL",
+     "COLLATERAL_PRODUCT",
+     "COLLECTIONSHEET",
+     "CONFIGURATION",
+     "CREDITBUREAU_CONFIGURATION",
+     "CREDITBUREAU_LOANPRODUCT_MAPPING",
+     "CREDITREPORT",
+     "CURRENCY",
+     "DATATABLE",
+     "DELINQUENCY_ACTION",
+     "DELINQUENCY_BUCKET",
+     "DELINQUENCY_RANGE",
+     "DELINQUENCY_TAGS",
+     "DISBURSEMENTDETAIL",
+     "DOCUMENT",
+     "EMAIL",
+     "EMAIL_CAMPAIGN",
+     "EMAIL_CONFIGURATION",
+     "ENTITYMAPPING",
+     "EXTERNALSERVICES",
+     "EXTERNAL_ASSET_OWNER",
+     "EXTERNAL_ASSET_OWNER_LOAN_PRODUCT_ATTRIBUTE",
+     "EXTERNAL_EVENT_CONFIGURATION",
+     "FAMILYMEMBERS",
+     "FINANCIALACTIVITYACCOUNT",
+     "FIXEDDEPOSITACCOUNT",
+     "FIXEDDEPOSITPRODUCT",
+     "FLOATINGRATE",
+     "FUND",
+     "GLACCOUNT",
+     "GLCLOSURE",
+     "GLIMLOAN",
+     "GROUP",
+     "GROUPNOTE",
+     "GSIMACCOUNT",
+     "GUARANTOR",
+     "HOLIDAY",
+     "HOOK",
+     "INLINE_JOB",
+     "INTERESTRATECHART",
+     "INTEREST_PAUSE",
+     "INTERID",
+     "INTERQUOTE",
+     "INTERREQUEST",
+     "INTERTRANSFER",
+     "JOURNALENTRY",
+     "LOAN",
+     "LOANCHARGE",
+     "LOANNOTE",
+     "LOANPRODUCT",
+     "LOANTRANSACTIONNOTE",
+     "LOAN_COLLATERAL_PRODUCT",
+     "LOAN_ORIGINATOR",
+     "MEETING",
+     "OFFICE",
+     "OFFICETRANSACTION",
+     "ORGANISATIONCREDITBUREAU",
+     "PASSWORD_PREFERENCES",
+     "PAYMENTTYPE",
+     "PERIODICACCRUALACCOUNTING",
+     "PERIODICACCRUALACCOUNTINGFORSAVINGS",
+     "PERMISSION",
+     "POCKET",
+     "PRODUCTMIX",
+     "PROVISIONCATEGORY",
+     "PROVISIONINGCRITERIA",
+     "PROVISIONINGENTRIES",
+     "RATE",
+     "RECURRINGDEPOSITACCOUNT",
+     "RECURRINGDEPOSITPRODUCT",
+     "REPAYMENT_WITH_POSTDATEDCHECKS",
+     "REPORT",
+     "REPORTMAILINGJOB",
+     "RESCHEDULELOAN",
+     "ROLE",
+     "SAVINGNOTE",
+     "SAVINGSACCOUNT",
+     "SAVINGSACCOUNTCHARGE",
+     "SAVINGSPRODUCT",
+     "SCHEDULER",
+     "SHAREACCOUNT",
+     "SHAREPRODUCT",
+     "SMS",
+     "SMSCAMPAIGN",
+     "SSBENEFICIARYTPT",
+     "STAFF",
+     "STAFFIMAGE",
+     "STANDINGINSTRUCTION",
+     "TAXCOMPONENT",
+     "TAXGROUP",
+     "TELLER",
+     "TEMPLATE",
+     "TWOFACTOR_ACCESSTOKEN",
+     "TWOFACTOR_CONFIGURATION",
+     "USER",
+     "WAIVECHARGE",
+     "WC_BREACH_ACTION",
+     "WC_BREACH_DISABLE",
+     "WC_BREACH_RESET",
+     "WC_DELINQUENCY_ACTION",
+     "WC_DELINQUENCY_DISABLE",
+     "WC_DELINQUENCY_RESET",
+     "WC_NEAR_BREACH_ACTION",
+     "WORKINGCAPITALBREACH",
+     "WORKINGCAPITALLOAN",
+     "WORKINGCAPITALLOANCHARGE",
+     "WORKINGCAPITALLOANPRODUCT",
+     "WORKINGCAPITALLOANTRANSACTION",
+     "WORKINGCAPITALNEARBREACH",
+     "WORKINGDAYS",
+     "WORKING_CAPITAL_LOAN_ORIGINATOR",
+     "ENTITY_DATATABLE_CHECK",
+     "likelihood",
+     "survey"
+    ]
+   }
+  },
+  {
+   "path": "/v1/makercheckers",
+   "auth": [
+    "clerk",
+    "Zebra7-Mango#Quilt"
+   ],
+   "ignore": [
+    "madeOnDate",
+    "checkedOnDate",
+    "madeOnDateUTC",
+    "checkedOnDateUTC",
+    "timestamp",
+    "ip",
+    "commandAsJson"
+   ],
+   "status": 200,
+   "response": []
+  },
+  {
+   "method": "POST",
+   "path": "/v1/makercheckers/6?command=approve",
+   "auth": [
+    "clerk",
+    "Zebra7-Mango#Quilt"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "The user associated with credentials passed on this request does not have sufficient privileges to perform this action.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Insufficient privileges to perform this action.",
+    "userMessageGlobalisationCode": "error.msg.not.authorized",
+    "errors": [
+     {
+      "developerMessage": "User has no authority to be a checker for: CREATE_FUND",
+      "defaultUserMessage": "User has no authority to be a checker for: CREATE_FUND",
+      "userMessageGlobalisationCode": "error.msg.not.authorized",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/makercheckers/6?command=approve",
+   "status": 200,
+   "response": {
+    "commandId": 6,
+    "resourceId": 3
+   }
+  },
+  {
+   "path": "/v1/funds",
+   "status": 200,
+   "response": [
+    {
+     "id": 3,
+     "name": "Equity",
+     "externalId": "EQ"
+    }
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/makercheckers/6?command=approve",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Audit with identifier 6 is Not Awaiting Approval",
+      "defaultUserMessage": "Audit with identifier 6 is Not Awaiting Approval",
+      "userMessageGlobalisationCode": "error.msg.command.id.not.awaiting.approval",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 6
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/makercheckers/99?command=approve",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Audit with identifier 99 does not exist",
+      "defaultUserMessage": "Audit with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.command.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/makercheckers/6?command=bogus",
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The query parameter command has an unsupported value of: bogus",
+      "defaultUserMessage": "command",
+      "userMessageGlobalisationCode": "error.msg.query.parameter.value.unsupported",
+      "parameterName": "command",
+      "args": [
+       {
+        "value": "bogus"
+       },
+       {
+        "value": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/makercheckers",
+   "ignore": [
+    "madeOnDate",
+    "checkedOnDate",
+    "madeOnDateUTC",
+    "checkedOnDateUTC",
+    "timestamp",
+    "ip",
+    "commandAsJson"
+   ],
+   "status": 200,
+   "response": [
+    {
+     "id": 7,
+     "actionName": "CREATE",
+     "entityName": "FUND",
+     "maker": "clerk",
+     "madeOnDate": 1794680349.590485,
+     "processingResult": "Awaiting Approval",
+     "url": "/funds/template",
+     "ip": ""
+    }
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/makercheckers/7?command=reject",
+   "status": 200,
+   "response": {
+    "commandId": 7
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/makercheckers/7?command=reject",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Audit with identifier 7 is Not Awaiting Approval",
+      "defaultUserMessage": "Audit with identifier 7 is Not Awaiting Approval",
+      "userMessageGlobalisationCode": "error.msg.command.id.not.awaiting.approval",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 7
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/funds",
+   "body": {
+    "name": "Bonds"
+   },
+   "auth": [
+    "clerk",
+    "Zebra7-Mango#Quilt"
+   ],
+   "status": 200,
+   "response": {
+    "commandId": 8,
+    "rollbackTransaction": true
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/makercheckers/8",
+   "auth": [
+    "clerk",
+    "Zebra7-Mango#Quilt"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "The user associated with credentials passed on this request does not have sufficient privileges to perform this action.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Insufficient privileges to perform this action.",
+    "userMessageGlobalisationCode": "error.msg.not.authorized",
+    "errors": [
+     {
+      "developerMessage": "User has no authority to be a checker for: CREATE_FUND",
+      "defaultUserMessage": "User has no authority to be a checker for: CREATE_FUND",
+      "userMessageGlobalisationCode": "error.msg.not.authorized",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/makercheckers/8",
+   "auth": [
+    "clerk",
+    "Zebra7-Mango#Quilt"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "The user associated with credentials passed on this request does not have sufficient privileges to perform this action.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Insufficient privileges to perform this action.",
+    "userMessageGlobalisationCode": "error.msg.not.authorized",
+    "errors": [
+     {
+      "developerMessage": "User has no authority to be a checker for: CREATE_FUND",
+      "defaultUserMessage": "User has no authority to be a checker for: CREATE_FUND",
+      "userMessageGlobalisationCode": "error.msg.not.authorized",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/makercheckers/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Audit with identifier 99 does not exist",
+      "defaultUserMessage": "Audit with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.command.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/funds/1",
+   "body": {
+    "name": "Equity fund"
+   },
+   "auth": [
+    "clerk",
+    "Zebra7-Mango#Quilt"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "The user associated with credentials passed on this request does not have sufficient privileges to perform this action.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Insufficient privileges to perform this action.",
+    "userMessageGlobalisationCode": "error.msg.not.authorized",
+    "errors": [
+     {
+      "developerMessage": "User has no authority to: UPDATE_FUND",
+      "defaultUserMessage": "User has no authority to: UPDATE_FUND",
+      "userMessageGlobalisationCode": "error.msg.not.authorized",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/funds",
+   "body": {},
+   "auth": [
+    "clerk",
+    "Zebra7-Mango#Quilt"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.fund.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/audits",
+   "ignore": [
+    "madeOnDate",
+    "checkedOnDate",
+    "madeOnDateUTC",
+    "checkedOnDateUTC",
+    "timestamp",
+    "ip",
+    "commandAsJson"
+   ],
+   "status": 200,
+   "response": [
+    {
+     "id": 9,
+     "actionName": "CREATE",
+     "entityName": "FUND",
+     "maker": "clerk",
+     "madeOnDate": 1794680353064,
+     "processingResult": "Error",
+     "url": "/funds/template",
+     "ip": ""
+    },
+    {
+     "id": 8,
+     "actionName": "CREATE",
+     "entityName": "FUND",
+     "maker": "clerk",
+     "madeOnDate": 1794680351649,
+     "processingResult": "Awaiting Approval",
+     "url": "/funds/template",
+     "ip": ""
+    },
+    {
+     "id": 7,
+     "actionName": "CREATE",
+     "entityName": "FUND",
+     "maker": "clerk",
+     "madeOnDate": 1794680349590,
+     "checker": "mifos",
+     "checkedOnDate": 1794680351258,
+     "processingResult": "Rejected",
+     "url": "/funds/template",
+     "ip": ""
+    },
+    {
+     "id": 6,
+     "actionName": "CREATE",
+     "entityName": "FUND",
+     "resourceId": 3,
+     "maker": "clerk",
+     "madeOnDate": 1794680349223,
+     "checker": "mifos",
+     "checkedOnDate": 1794680350803,
+     "processingResult": "Processed",
+     "url": "/funds/template",
+     "ip": ""
+    },
+    {
+     "id": 5,
+     "actionName": "UPDATE",
+     "entityName": "PERMISSION",
+     "maker": "mifos",
+     "madeOnDate": 1794680348820,
+     "processingResult": "Processed",
+     "url": "/permissions",
+     "ip": ""
+    },
+    {
+     "id": 4,
+     "actionName": "UPDATE",
+     "entityName": "CONFIGURATION",
+     "resourceId": 1,
+     "maker": "mifos",
+     "madeOnDate": 1794680348707,
+     "processingResult": "Processed",
+     "url": "/configurations/1",
+     "ip": ""
+    },
+    {
+     "id": 3,
+     "actionName": "CREATE",
+     "entityName": "USER",
+     "resourceId": 4,
+     "maker": "mifos",
+     "madeOnDate": 1794680348352,
+     "processingResult": "Processed",
+     "officeName": "Head Office",
+     "url": "/users/template",
+     "ip": ""
+    },
+    {
+     "id": 2,
+     "actionName": "PERMISSIONS",
+     "entityName": "ROLE",
+     "resourceId": 3,
+     "maker": "mifos",
+     "madeOnDate": 1794680348192,
+     "processingResult": "Processed",
+     "url": "/roles/3/permissions",
+     "ip": ""
+    },
+    {
+     "id": 1,
+     "actionName": "CREATE",
+     "entityName": "ROLE",
+     "resourceId": 3,
+     "maker": "mifos",
+     "madeOnDate": 1794680348057,
+     "processingResult": "Processed",
+     "url": "/roles/template",
+     "ip": ""
+    }
+   ]
+  },
+  {
+   "path": "/v1/audits?actionName=CREATE&entityName=FUND",
+   "ignore": [
+    "madeOnDate",
+    "checkedOnDate",
+    "madeOnDateUTC",
+    "checkedOnDateUTC",
+    "timestamp",
+    "ip",
+    "commandAsJson"
+   ],
+   "status": 200,
+   "response": [
+    {
+     "id": 9,
+     "actionName": "CREATE",
+     "entityName": "FUND",
+     "maker": "clerk",
+     "madeOnDate": 1794680353064,
+     "processingResult": "Error",
+     "url": "/funds/template",
+     "ip": ""
+    },
+    {
+     "id": 8,
+     "actionName": "CREATE",
+     "entityName": "FUND",
+     "maker": "clerk",
+     "madeOnDate": 1794680351649,
+     "processingResult": "Awaiting Approval",
+     "url": "/funds/template",
+     "ip": ""
+    },
+    {
+     "id": 7,
+     "actionName": "CREATE",
+     "entityName": "FUND",
+     "maker": "clerk",
+     "madeOnDate": 1794680349590,
+     "checker": "mifos",
+     "checkedOnDate": 1794680351258,
+     "processingResult": "Rejected",
+     "url": "/funds/template",
+     "ip": ""
+    },
+    {
+     "id": 6,
+     "actionName": "CREATE",
+     "entityName": "FUND",
+     "resourceId": 3,
+     "maker": "clerk",
+     "madeOnDate": 1794680349223,
+     "checker": "mifos",
+     "checkedOnDate": 1794680350803,
+     "processingResult": "Processed",
+     "url": "/funds/template",
+     "ip": ""
+    }
+   ]
+  },
+  {
+   "path": "/v1/audits/6",
+   "ignore": [
+    "madeOnDate",
+    "checkedOnDate",
+    "madeOnDateUTC",
+    "checkedOnDateUTC",
+    "timestamp",
+    "ip",
+    "commandAsJson"
+   ],
+   "status": 200,
+   "response": {
+    "id": 6,
+    "actionName": "CREATE",
+    "entityName": "FUND",
+    "resourceId": 3,
+    "maker": "clerk",
+    "madeOnDate": 1794680349.22336,
+    "checker": "mifos",
+    "checkedOnDate": 1794680350.803024,
+    "processingResult": "Processed",
+    "commandAsJson": "{\"name\":\"Equity\",\"externalId\":\"EQ\"}",
+    "url": "/funds/template",
+    "ip": ""
+   }
+  },
+  {
+   "path": "/v1/audits/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Audit with identifier 99 does not exist",
+      "defaultUserMessage": "Audit with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.command.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/audits/searchtemplate",
+   "status": 200,
+   "response": {
+    "appUsers": [
+     {
+      "id": 4,
+      "username": "clerk"
+     },
+     {
+      "id": 3,
+      "username": "interopUser"
+     },
+     {
+      "id": 1,
+      "username": "mifos"
+     },
+     {
+      "id": 2,
+      "username": "system"
+     }
+    ],
+    "actionNames": [
+     "CREATE",
+     "DELETE",
+     "UPDATE",
+     "ACCEPTTRANSFER",
+     "ACCEPTTRANSFER_CHECKER",
+     "ACTIVATE",
+     "ACTIVATE_CHECKER",
+     "ADJUST",
+     "ADJUSTBYDELTA",
+     "ADJUSTBYDELTA_CHECKER",
+     "ADJUSTMENT",
+     "ADJUSTMENT_CHECKER",
+     "ADJUSTTRANSACTION",
+     "ADJUST_CHECKER",
+     "ALLOCATE",
+     "ALLOCATECASHTOCASHIER",
+     "APPLYADDITIONALSHARES",
+     "APPLYANNUALFEE",
+     "APPLYANNUALFEE_CHECKER",
+     "APPROVALUNDO",
+     "APPROVALUNDO_CHECKER",
+     "APPROVE",
+     "APPROVEADDITIONALSHARES",
+     "APPROVE_CHECKER",
+     "APPROVE_DIVIDEND",
+     "APPROVE_DIVIDEND_CHECKER",
+     "ASSIGNROLE",
+     "ASSIGNSTAFF",
+     "ASSOCIATECLIENTS",
+     "ASSOCIATEGROUPS",
+     "ASSOCIATEGROUPS_CHECKER",
+     "ATTACH",
+     "BLOCK",
+     "BLOCKCREDIT",
+     "BLOCKCREDIT_CHECKER",
+     "BLOCKDEBIT",
+     "BLOCKDEBIT_CHECKER",
+     "BLOCK_CHECKER",
+     "BOUNCE",
+     "BULKREASSIGN",
+     "BULKREASSIGN_CHECKER",
+     "BUYBACK",
+     "BUYDOWNFEE",
+     "BUYDOWNFEEADJUSTMENT",
+     "BYPASS",
+     "CALCULATEINTEREST",
+     "CALCULATEINTEREST_CHECKER",
+     "CANCEL",
+     "CAPITALIZEDINCOME",
+     "CAPITALIZEDINCOMEADJUSTMENT",
+     "CHANGEPWD",
+     "CHARGEBACK",
+     "CHARGEOFF",
+     "CHARGEREFUND",
+     "CLOSE",
+     "CLOSEASRESCHEDULED",
+     "CLOSEASRESCHEDULED_CHECKER",
+     "CLOSE_CHECKER",
+     "CONTRACT_TERMINATION",
+     "CONTRACT_TERMINATION_UNDO",
+     "CREATESCHEDULEEXCEPTIONS",
+     "CREATESCHEDULEEXCEPTIONS_CHECKER",
+     "CREATE_CHECKER",
+     "CREATE_DIVIDEND",
+     "CREATE_DIVIDEND_CHECKER",
+     "CREDITBALANCEREFUND",
+     "DEACTIVATEOVERDUE",
+     "DEFINEOPENINGBALANCE",
+     "DELETECASHIERALLOCATION",
+     "DELETESCHEDULEEXCEPTIONS",
+     "DELETESCHEDULEEXCEPTIONS_CHECKER",
+     "DELETE_CHECKER",
+     "DELETE_DIVIDEND",
+     "DELETE_DIVIDEND_CHECKER",
+     "DELINK_ACCOUNT_FROM",
+     "DEPOSIT",
+     "DEPOSIT_CHECKER",
+     "DEREGISTER",
+     "DEREGISTER_CHECKER",
+     "DETACH",
+     "DISABLE",
+     "DISABLE_CHECKER",
+     "DISASSOCIATECLIENTS",
+     "DISASSOCIATEGROUPS",
+     "DISASSOCIATEGROUPS_CHECKER",
+     "DISBURSALLASTUNDO",
+     "DISBURSALLASTUNDO_CHECKER",
+     "DISBURSALUNDO",
+     "DISBURSALUNDO_CHECKER",
+     "DISBURSE",
+     "DISBURSETOSAVINGS",
+     "DISBURSEWITHOUTAUTODOWNPAYMENT",
+     "DISBURSE_CHECKER",
+     "DISCOUNTFEE",
+     "DISCOUNTFEEADJUSTMENT",
+     "DOWNPAYMENT",
+     "ENABLE",
+     "ENABLE_CHECKER",
+     "EXECUTE",
+     "EXECUTEJOB",
+     "FORCE_WITHDRAWAL",
+     "FORCE_WITHDRAWAL_CHECKER",
+     "FORECLOSURE",
+     "FORECLOSURE_CHECKER",
+     "GET",
+     "GOODWILLCREDIT",
+     "HOLDAMOUNT",
+     "HOLDAMOUNT_CHECKER",
+     "INACTIVATE",
+     "INACTIVATE_CHECKER",
+     "INTERESTPAYMENTWAIVER",
+     "INTERMEDIARYSALE",
+     "INVALIDATE",
+     "LINK_ACCOUNT_TO",
+     "LOAN_WITHDRAWAL",
+     "LOAN_WITHDRAWAL_UNDO",
+     "MANUAL_INTEREST_REFUND_TRANSACTION",
+     "MERCHANTISSUEDREFUND",
+     "PAY",
+     "PAYOUTREFUND",
+     "PAY_CHECKER",
+     "PERMISSIONS",
+     "POSTINTEREST",
+     "POSTINTERESTASONDATE",
+     "POSTINTEREST_CHECKER",
+     "PREMATURECLOSE",
+     "PREMATURECLOSE_CHECKER",
+     "PREPARE",
+     "PROPOSEANDACCEPTTRANSFER",
+     "PROPOSEANDACCEPTTRANSFER_CHECKER",
+     "PROPOSETRANSFER",
+     "PROPOSETRANSFER_CHECKER",
+     "REACTIVATE",
+     "REACTIVATE_CHECKER",
+     "READTRANSACTION",
+     "READ_DIVIDEND",
+     "REAGE",
+     "REAMORTIZE",
+     "RECOVERGUARANTEES",
+     "RECOVERGUARANTEES_CHECKER",
+     "RECOVERYPAYMENT",
+     "RECREATE",
+     "REDEEMSHARES",
+     "REFUNDBYCASH",
+     "REFUNDBYTRANSFER",
+     "REGISTER",
+     "REGISTER_CHECKER",
+     "REJECT",
+     "REJECTADDITIONALSHARES",
+     "REJECTTRANSFER",
+     "REJECTTRANSFER_CHECKER",
+     "REJECT_CHECKER",
+     "RELEASE",
+     "RELEASEAMOUNT",
+     "RELEASEAMOUNT_CHECKER",
+     "REMOVELOANOFFICER",
+     "REMOVELOANOFFICER_CHECKER",
+     "REMOVESAVINGSOFFICER",
+     "REPAYMENT",
+     "REPAYMENT_CHECKER",
+     "REVERSE",
+     "REVERSETRANSACTION",
+     "REVERSETRANSACTION_CHECKER",
+     "SALE",
+     "SAVE",
+     "SAVECOLLECTIONSHEET",
+     "SAVEORUPDATEATTENDANCE",
+     "SETFRAUD",
+     "SETTLECASHFROMCASHIER",
+     "TRANSFERCLIENTS",
+     "TRANSFERCLIENTS_CHECKER",
+     "UNASSIGNROLE",
+     "UNASSIGNSTAFF",
+     "UNASSIGNSTAFF_CHECKER",
+     "UNBLOCK",
+     "UNBLOCKCREDIT",
+     "UNBLOCKCREDIT_CHECKER",
+     "UNBLOCKDEBIT",
+     "UNBLOCKDEBIT_CHECKER",
+     "UNBLOCK_CHECKER",
+     "UNDO",
+     "UNDOAPPROVAL",
+     "UNDOCHARGEOFF",
+     "UNDODISBURSAL",
+     "UNDOREJECT",
+     "UNDOREJECT_CHECKER",
+     "UNDOTRANSACTION",
+     "UNDOTRANSACTION_CHECKER",
+     "UNDOWITHDRAWAL",
+     "UNDOWITHDRAWAL_CHECKER",
+     "UNDOWRITEOFF",
+     "UNDO_CHECKER",
+     "UNDO_REAGE",
+     "UNDO_REAMORTIZE",
+     "UPDATECASHIERALLOCATION",
+     "UPDATEDELINQUENCY",
+     "UPDATEDEPOSITAMOUNT",
+     "UPDATEDISCOUNT",
+     "UPDATELOANOFFICER",
+     "UPDATELOANOFFICER_CHECKER",
+     "UPDATEOPENINGBALANCE",
+     "UPDATERATE",
+     "UPDATEROLE",
+     "UPDATERUNNINGBALANCE",
+     "UPDATESAVINGSACCOUNT",
+     "UPDATESAVINGSOFFICER",
+     "UPDATEWITHHOLDTAX",
+     "UPDATEWITHHOLDTAX_CHECKER",
+     "UPDATE_APPROVED_AMOUNT",
+     "UPDATE_CHECKER",
+     "WAIVE",
+     "WAIVEINTERESTPORTION",
+     "WAIVEINTERESTPORTION_CHECKER",
+     "WAIVE_CHECKER",
+     "WITHDRAW",
+     "WITHDRAWAL",
+     "WITHDRAWAL_CHECKER",
+     "WITHDRAWTRANSFER",
+     "WITHDRAWTRANSFER_CHECKER",
+     "WITHDRAW_CHECKER",
+     "WRITEOFF",
+     "WRITEOFF_CHECKER"
+    ],
+    "entityNames": [
+     "ACCOUNTINGRULE",
+     "ACCOUNTNUMBERFORMAT",
+     "ACCOUNTTRANSFER",
+     "ADDRESS",
+     "ADHOC",
+     "ASSET_OWNER_TRANSACTION",
+     "BATCH_BUSINESS_STEP",
+     "BUSINESS_DATE",
+     "CACHE",
+     "CALENDAR",
+     "CENTER",
+     "CHARGE",
+     "CHARTSLAB",
+     "CLIENT",
+     "CLIENTCHARGE",
+     "CLIENTIDENTIFIER",
+     "CLIENTIMAGE",
+     "CLIENTNOTE",
+     "CLIENT_COLLATERAL_PRODUCT",
+     "CODE",
+     "CODEVALUE",
+     "COLLATERAL",
+     "COLLATERAL_PRODUCT",
+     "COLLECTIONSHEET",
+     "CONFIGURATION",
+     "CREDITBUREAU_CONFIGURATION",
+     "CREDITBUREAU_LOANPRODUCT_MAPPING",
+     "CREDITREPORT",
+     "CURRENCY",
+     "DATATABLE",
+     "DELINQUENCY_ACTION",
+     "DELINQUENCY_BUCKET",
+     "DELINQUENCY_RANGE",
+     "DELINQUENCY_TAGS",
+     "DISBURSEMENTDETAIL",
+     "DOCUMENT",
+     "EMAIL",
+     "EMAIL_CAMPAIGN",
+     "EMAIL_CONFIGURATION",
+     "ENTITYMAPPING",
+     "EXTERNALSERVICES",
+     "EXTERNAL_ASSET_OWNER",
+     "EXTERNAL_ASSET_OWNER_LOAN_PRODUCT_ATTRIBUTE",
+     "EXTERNAL_EVENT_CONFIGURATION",
+     "FAMILYMEMBERS",
+     "FINANCIALACTIVITYACCOUNT",
+     "FIXEDDEPOSITACCOUNT",
+     "FIXEDDEPOSITPRODUCT",
+     "FLOATINGRATE",
+     "FUND",
+     "GLACCOUNT",
+     "GLCLOSURE",
+     "GLIMLOAN",
+     "GROUP",
+     "GROUPNOTE",
+     "GSIMACCOUNT",
+     "GUARANTOR",
+     "HOLIDAY",
+     "HOOK",
+     "INLINE_JOB",
+     "INTERESTRATECHART",
+     "INTEREST_PAUSE",
+     "INTERID",
+     "INTERQUOTE",
+     "INTERREQUEST",
+     "INTERTRANSFER",
+     "JOURNALENTRY",
+     "LOAN",
+     "LOANCHARGE",
+     "LOANNOTE",
+     "LOANPRODUCT",
+     "LOANTRANSACTIONNOTE",
+     "LOAN_COLLATERAL_PRODUCT",
+     "LOAN_ORIGINATOR",
+     "MEETING",
+     "OFFICE",
+     "OFFICETRANSACTION",
+     "ORGANISATIONCREDITBUREAU",
+     "PASSWORD_PREFERENCES",
+     "PAYMENTTYPE",
+     "PERIODICACCRUALACCOUNTING",
+     "PERIODICACCRUALACCOUNTINGFORSAVINGS",
+     "PERMISSION",
+     "POCKET",
+     "PRODUCTMIX",
+     "PROVISIONCATEGORY",
+     "PROVISIONINGCRITERIA",
+     "PROVISIONINGENTRIES",
+     "RATE",
+     "RECURRINGDEPOSITACCOUNT",
+     "RECURRINGDEPOSITPRODUCT",
+     "REPAYMENT_WITH_POSTDATEDCHECKS",
+     "REPORT",
+     "REPORTMAILINGJOB",
+     "RESCHEDULELOAN",
+     "ROLE",
+     "SAVINGNOTE",
+     "SAVINGSACCOUNT",
+     "SAVINGSACCOUNTCHARGE",
+     "SAVINGSPRODUCT",
+     "SCHEDULER",
+     "SHAREACCOUNT",
+     "SHAREPRODUCT",
+     "SMS",
+     "SMSCAMPAIGN",
+     "SSBENEFICIARYTPT",
+     "STAFF",
+     "STAFFIMAGE",
+     "STANDINGINSTRUCTION",
+     "TAXCOMPONENT",
+     "TAXGROUP",
+     "TELLER",
+     "TEMPLATE",
+     "TWOFACTOR_ACCESSTOKEN",
+     "TWOFACTOR_CONFIGURATION",
+     "USER",
+     "WAIVECHARGE",
+     "WC_BREACH_ACTION",
+     "WC_BREACH_DISABLE",
+     "WC_BREACH_RESET",
+     "WC_DELINQUENCY_ACTION",
+     "WC_DELINQUENCY_DISABLE",
+     "WC_DELINQUENCY_RESET",
+     "WC_NEAR_BREACH_ACTION",
+     "WORKINGCAPITALBREACH",
+     "WORKINGCAPITALLOAN",
+     "WORKINGCAPITALLOANCHARGE",
+     "WORKINGCAPITALLOANPRODUCT",
+     "WORKINGCAPITALLOANTRANSACTION",
+     "WORKINGCAPITALNEARBREACH",
+     "WORKINGDAYS",
+     "WORKING_CAPITAL_LOAN_ORIGINATOR",
+     "ENTITY_DATATABLE_CHECK",
+     "likelihood",
+     "survey"
+    ],
+    "statuses": [
+     {
+      "id": 0,
+      "processingResult": "Invalid"
+     },
+     {
+      "id": 1,
+      "processingResult": "Processed"
+     },
+     {
+      "id": 2,
+      "processingResult": "Awaiting Approval"
+     },
+     {
+      "id": 3,
+      "processingResult": "Rejected"
+     },
+     {
+      "id": 4,
+      "processingResult": "Under Processing"
+     },
+     {
+      "id": 5,
+      "processingResult": "Error"
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/configurations/name/maker-checker",
+   "body": {
+    "enabled": false
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "enabled": false
+    }
+   }
+  }
+ ]
+}

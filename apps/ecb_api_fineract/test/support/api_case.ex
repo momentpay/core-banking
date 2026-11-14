@@ -46,6 +46,10 @@ defmodule ECBApiFineract.ApiCase do
     # commands are committed on their own as they run, so they outlive a test; they refer to users
     TenantRepo.query!("DELETE FROM m_portfolio_command_source")
 
+    TenantRepo.query!(
+      "SELECT setval(pg_get_serial_sequence('m_portfolio_command_source', 'id'), 1, false)"
+    )
+
     # configuration, password policy and maker-checker flags that tests change
     for sql <- [
           "UPDATE c_configuration SET enabled = false, value = NULL, string_value = NULL, date_value = NULL WHERE id = 1",
@@ -55,7 +59,7 @@ defmodule ECBApiFineract.ApiCase do
           "UPDATE c_configuration SET enabled = true, string_value = 'Asset' WHERE id = 35",
           "UPDATE c_configuration SET enabled = false, value = 3 WHERE id = 62",
           "UPDATE m_password_validation_policy SET active = (id = 3)",
-          "UPDATE m_permission SET can_maker_checker = false WHERE code IN ('CREATE_OFFICE', 'UPDATE_OFFICE', 'CREATE_CLIENT', 'DELETE_FUND')"
+          "UPDATE m_permission SET can_maker_checker = false WHERE code IN ('CREATE_OFFICE', 'UPDATE_OFFICE', 'CREATE_CLIENT', 'DELETE_FUND', 'CREATE_FUND')"
         ] do
       TenantRepo.query!(sql)
     end

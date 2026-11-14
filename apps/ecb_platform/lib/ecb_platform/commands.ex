@@ -37,6 +37,7 @@ defmodule ECBPlatform.Commands do
     CommandSource,
     Errors,
     Handlers,
+    Hrefs,
     Result,
     ResultType,
     Sanitizer
@@ -328,7 +329,14 @@ defmodule ECBPlatform.Commands do
       client_id: command.client_id,
       loan_id: command.loan_id,
       savings_account_id: command.savings_id,
-      api_get_url: command.href || "",
+      api_get_url:
+        command.href ||
+          Hrefs.resolve(
+            command.entity_name,
+            command.action_name,
+            command.entity_id,
+            command.subentity_id
+          ),
       resource_id: command.entity_id,
       subresource_id: command.subentity_id,
       command_as_json: stored_json,
@@ -468,7 +476,7 @@ defmodule ECBPlatform.Commands do
   defp record_failure(source, %Errors.RollbackNotApproved{} = exception, attrs) do
     update_outcome(
       source,
-      Map.merge(attrs, %{result_status_code: 202, result: error_json(exception)})
+      Map.merge(attrs, %{result_status_code: 200, result: error_json(exception)})
     )
   end
 

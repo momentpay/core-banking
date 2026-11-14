@@ -133,9 +133,30 @@ defmodule ECBApiFineract.Errors do
   def render(conn, %ECBPlatform.Commands.Errors.NoAuthorization{} = error),
     do: not_authorized(conn, Exception.message(error))
 
+  # The command was valid and waits for a checker: Fineract answers 200 and says it was rolled back.
   def render(conn, %ECBPlatform.Commands.Errors.RollbackNotApproved{} = error) do
-    Response.json(conn, 202, %{"commandId" => error.command_id, "resourceId" => error.resource_id})
+    Response.json(conn, 200, %{"commandId" => error.command_id, "rollbackTransaction" => true})
   end
+
+  def render(conn, %ECBPlatform.Commands.Errors.CommandNotFound{command_id: id}),
+    do:
+      not_found(
+        conn,
+        "error.msg.command.id.invalid",
+        "Audit with identifier #{id} does not exist",
+        [
+          id
+        ]
+      )
+
+  def render(conn, %ECBPlatform.Commands.Errors.CommandNotAwaitingApproval{command_id: id}),
+    do:
+      not_found(
+        conn,
+        "error.msg.command.id.not.awaiting.approval",
+        "Audit with identifier #{id} is Not Awaiting Approval",
+        [id]
+      )
 
   # A body that is not JSON.
   def render(conn, %Plug.Parsers.ParseError{exception: exception}),

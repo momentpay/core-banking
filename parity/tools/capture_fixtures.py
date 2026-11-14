@@ -49,9 +49,9 @@ def load_manifest() -> dict:
     return json.loads(MANIFEST.read_text(encoding="utf-8"))
 
 
-def fetch(path: str, method: str = "GET", body: str | None = None) -> tuple[int, object]:
+def fetch(path: str, method: str = "GET", body: str | None = None, auth: tuple[str, str] = ("mifos", "password")) -> tuple[int, object]:
     headers = {
-        "Authorization": "Basic " + base64.b64encode(b"mifos:password").decode(),
+        "Authorization": "Basic " + base64.b64encode(f"{auth[0]}:{auth[1]}".encode()).decode(),
         "Fineract-Platform-TenantId": "default",
         "Accept": "application/json",
     }
@@ -152,7 +152,11 @@ RESETS = {
         "UPDATE c_configuration SET enabled = true, string_value = 'Asset' WHERE id = 35",
         "UPDATE c_configuration SET enabled = false, value = 3 WHERE id = 62",
         "UPDATE m_password_validation_policy SET active = (id = 3)",
-        "UPDATE m_permission SET can_maker_checker = false WHERE code IN ('CREATE_OFFICE', 'UPDATE_OFFICE', 'CREATE_CLIENT', 'DELETE_FUND')",
+        "UPDATE m_permission SET can_maker_checker = false WHERE code IN ('CREATE_OFFICE', 'UPDATE_OFFICE', 'CREATE_CLIENT', 'DELETE_FUND', 'CREATE_FUND')",
+    ],
+    "commands": [
+        "DELETE FROM m_portfolio_command_source",
+        "SELECT setval(pg_get_serial_sequence('m_portfolio_command_source', 'id'), 1, false)",
     ],
     "staff": [
         "DELETE FROM m_staff",
@@ -190,8 +194,8 @@ def cmd_scenarios(args) -> int:
             oracle_sql(RESETS[reset])
         steps = []
         for step in scenario["steps"]:
-            status, body = fetch(step["path"], step.get("method", "GET"), step_body(step))
-            recorded = {k: v for k, v in step.items() if k in ("method", "path", "body", "raw")}
+            status, body = fetch(step["path"], step.get("method", "GET"), step_body(step), tuple(step.get("auth", ("mifos", "password"))))
+            recorded = {k: v for k, v in step.items() if k in ("method", "path", "body", "raw", "auth", "ignore")}
             recorded.update({"status": status, "response": body})
             steps.append(recorded)
         (SCENARIO_DIR / f"{scenario['name']}.json").write_text(

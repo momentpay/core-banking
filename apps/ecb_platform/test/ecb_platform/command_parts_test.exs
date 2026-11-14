@@ -133,7 +133,7 @@ defmodule ECBPlatform.CommandPartsTest do
       assert Errors.http_status(%Errors.CommandNotFound{}) == 404
       assert Errors.http_status(%Errors.CommandNotAwaitingApproval{}) == 404
       assert Errors.http_status(%Errors.UnsupportedCommand{}) == 400
-      assert Errors.http_status(%Errors.RollbackNotApproved{}) == 202
+      assert Errors.http_status(%Errors.RollbackNotApproved{}) == 200
       assert Errors.http_status(%Errors.IdempotentUnderProcessing{}) == 409
       assert Errors.http_status(%Errors.IdempotentSucceeded{}) == 200
       assert Errors.http_status(%RuntimeError{message: "x"}) == 500

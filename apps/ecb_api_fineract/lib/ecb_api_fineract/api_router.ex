@@ -14,10 +14,12 @@ defmodule ECBApiFineract.ApiRouter do
 
   alias ECBApiFineract.Resources.{
     Administration,
+    Audits,
     Authentication,
     Codes,
     Funds,
     Holidays,
+    MakerCheckers,
     Offices,
     Organisation,
     PaymentTypes,
@@ -112,6 +114,14 @@ defmodule ECBApiFineract.ApiRouter do
   put "/v1/users/:id", do: Administration.update_user(conn, id)
   delete "/v1/users/:id", do: Administration.delete_user(conn, id)
   post "/v1/users/:id/pwd", do: Administration.change_user_password(conn, id)
+  get "/v1/makercheckers/searchtemplate", do: MakerCheckers.search_template(conn)
+  get "/v1/makercheckers", do: MakerCheckers.index(conn)
+  post "/v1/makercheckers/:id", do: MakerCheckers.command(conn, id)
+  delete "/v1/makercheckers/:id", do: MakerCheckers.delete(conn, id)
+  get "/v1/audits/searchtemplate", do: Audits.search_template(conn)
+  get "/v1/audits", do: Audits.index(conn)
+  get "/v1/audits/:id", do: Audits.show(conn, id)
+
   get "/v1/passwordpreferences/template", do: Administration.password_preferences_template(conn)
   get "/v1/passwordpreferences", do: Administration.password_preferences(conn)
   put "/v1/passwordpreferences", do: Administration.update_password_preferences(conn)

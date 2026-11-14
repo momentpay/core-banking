@@ -277,10 +277,10 @@ defmodule ECBPlatform.CommandsTest do
 
       parked = source(id)
       assert parked.status == @awaiting
-      assert parked.result_status_code == 202
+      assert parked.result_status_code == 200
       assert parked.maker_id == maker.id
       assert is_nil(parked.checker_id)
-      assert Errors.http_status(%Errors.RollbackNotApproved{}) == 202
+      assert Errors.http_status(%Errors.RollbackNotApproved{}) == 200
     end
 
     test "a checker approves it and the work is applied exactly once", %{

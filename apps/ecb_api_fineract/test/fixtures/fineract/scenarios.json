@@ -2299,6 +2299,288 @@
           }
         }
       ]
+    },
+    {
+      "name": "makerchecker",
+      "reset": [
+        "commands",
+        "roles",
+        "configuration",
+        "funds",
+        "commands"
+      ],
+      "steps": [
+        {
+          "method": "POST",
+          "path": "/v1/roles",
+          "body": {
+            "name": "Clerk",
+            "description": "Enters data"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/roles/3/permissions",
+          "body": {
+            "permissions": {
+              "READ_FUND": true,
+              "CREATE_FUND": true,
+              "DELETE_FUND": true,
+              "READ_OFFICE": true
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/users",
+          "body": {
+            "username": "clerk",
+            "firstname": "C",
+            "lastname": "Lerk",
+            "email": "c@example.test",
+            "officeId": 1,
+            "roles": [
+              3
+            ],
+            "sendPasswordToEmail": false,
+            "password": "Zebra7-Mango#Quilt",
+            "repeatPassword": "Zebra7-Mango#Quilt"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/maker-checker",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/permissions",
+          "body": {
+            "permissions": {
+              "CREATE_FUND": true,
+              "DELETE_FUND": true
+            }
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/funds",
+          "body": {
+            "name": "Equity",
+            "externalId": "EQ"
+          },
+          "auth": [
+            "clerk",
+            "Zebra7-Mango#Quilt"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/funds",
+          "body": {
+            "name": "Debt"
+          },
+          "auth": [
+            "clerk",
+            "Zebra7-Mango#Quilt"
+          ]
+        },
+        {
+          "path": "/v1/funds"
+        },
+        {
+          "path": "/v1/makercheckers",
+          "ignore": [
+            "madeOnDate",
+            "checkedOnDate",
+            "madeOnDateUTC",
+            "checkedOnDateUTC",
+            "timestamp",
+            "ip",
+            "commandAsJson"
+          ]
+        },
+        {
+          "path": "/v1/makercheckers?includeJson=true",
+          "ignore": [
+            "madeOnDate",
+            "checkedOnDate",
+            "madeOnDateUTC",
+            "checkedOnDateUTC",
+            "timestamp",
+            "ip",
+            "commandAsJson"
+          ]
+        },
+        {
+          "path": "/v1/makercheckers/searchtemplate"
+        },
+        {
+          "path": "/v1/makercheckers",
+          "auth": [
+            "clerk",
+            "Zebra7-Mango#Quilt"
+          ],
+          "ignore": [
+            "madeOnDate",
+            "checkedOnDate",
+            "madeOnDateUTC",
+            "checkedOnDateUTC",
+            "timestamp",
+            "ip",
+            "commandAsJson"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/makercheckers/6?command=approve",
+          "auth": [
+            "clerk",
+            "Zebra7-Mango#Quilt"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/makercheckers/6?command=approve"
+        },
+        {
+          "path": "/v1/funds"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/makercheckers/6?command=approve"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/makercheckers/99?command=approve"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/makercheckers/6?command=bogus"
+        },
+        {
+          "path": "/v1/makercheckers",
+          "ignore": [
+            "madeOnDate",
+            "checkedOnDate",
+            "madeOnDateUTC",
+            "checkedOnDateUTC",
+            "timestamp",
+            "ip",
+            "commandAsJson"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/makercheckers/7?command=reject"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/makercheckers/7?command=reject"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/funds",
+          "body": {
+            "name": "Bonds"
+          },
+          "auth": [
+            "clerk",
+            "Zebra7-Mango#Quilt"
+          ]
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/makercheckers/8",
+          "auth": [
+            "clerk",
+            "Zebra7-Mango#Quilt"
+          ]
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/makercheckers/8",
+          "auth": [
+            "clerk",
+            "Zebra7-Mango#Quilt"
+          ]
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/makercheckers/99"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/funds/1",
+          "body": {
+            "name": "Equity fund"
+          },
+          "auth": [
+            "clerk",
+            "Zebra7-Mango#Quilt"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/funds",
+          "body": {},
+          "auth": [
+            "clerk",
+            "Zebra7-Mango#Quilt"
+          ]
+        },
+        {
+          "path": "/v1/audits",
+          "ignore": [
+            "madeOnDate",
+            "checkedOnDate",
+            "madeOnDateUTC",
+            "checkedOnDateUTC",
+            "timestamp",
+            "ip",
+            "commandAsJson"
+          ]
+        },
+        {
+          "path": "/v1/audits?actionName=CREATE&entityName=FUND",
+          "ignore": [
+            "madeOnDate",
+            "checkedOnDate",
+            "madeOnDateUTC",
+            "checkedOnDateUTC",
+            "timestamp",
+            "ip",
+            "commandAsJson"
+          ]
+        },
+        {
+          "path": "/v1/audits/6",
+          "ignore": [
+            "madeOnDate",
+            "checkedOnDate",
+            "madeOnDateUTC",
+            "checkedOnDateUTC",
+            "timestamp",
+            "ip",
+            "commandAsJson"
+          ]
+        },
+        {
+          "path": "/v1/audits/99"
+        },
+        {
+          "path": "/v1/audits/searchtemplate"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/maker-checker",
+          "body": {
+            "enabled": false
+          }
+        }
+      ]
     }
   ]
 }

@@ -55,7 +55,7 @@ defmodule ECBPlatform.Commands.Errors do
   defmodule RollbackNotApproved do
     @moduledoc """
     Not an error to the user: the command was valid, was rolled back, and now waits for a checker.
-    The API answers HTTP 202 with the command and resource ids.
+    The API answers HTTP 200 with the command id and `rollbackTransaction: true`.
     """
     defexception [:command_id, :resource_id]
 
@@ -129,7 +129,7 @@ defmodule ECBPlatform.Commands.Errors do
   def http_status(%CommandNotFound{}), do: 404
   def http_status(%CommandNotAwaitingApproval{}), do: 404
   def http_status(%UnsupportedCommand{}), do: 400
-  def http_status(%RollbackNotApproved{}), do: 202
+  def http_status(%RollbackNotApproved{}), do: 200
   def http_status(%IdempotentUnderProcessing{}), do: 409
   def http_status(%IdempotentSucceeded{}), do: 200
 

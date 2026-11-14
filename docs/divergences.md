@@ -25,7 +25,7 @@ No numeric result differs: the golden master requires identical text for 130,144
 | 3 | Handlers are Spring beans looked up by name | `Commands.Handlers` registry (`register(entity, action, module)`) filled by each app at start | Explicit, compile-visible registration; no reflection | Unit tests |
 | 4 | Post-command hooks publish webhook events through Spring's event publisher | A list of hook modules in `:command_hooks`; each gets `after_success/2` and `after_error/2` and cannot change the outcome | The event outbox and webhooks (ecb_events) plug in here | Integration test |
 | 5 | A command's JSON may be sanitised (keys masked) before it is stored | Built for the `USER` commands: `password` and `repeatPassword` are stored as `***` and the row is marked sanitized. A sanitized command **cannot be approved later** from its stored copy | The secret must never be written; Fineract's own approval of such a command would run with the masked value | `SanitizerTest`, `AdministrationWriteTest` |
-| 6 | A change of one's own user details skips maker-checker; updates are refused while the scheduler holds a lock | **Not yet implemented** | Arrive with the maker-checker inbox and ecb_batch | Planned |
+| 6 | A change of one's own user details skips maker-checker; updates are refused while the scheduler holds a lock | **Not yet implemented** | Arrive with ecb_batch | Planned |
 | 7 | 1.16 adds a typed command framework with an `m_command` table | Not built; the legacy `m_portfolio_command_source` flow is what the API of 1.16 still uses for writes | Parity first; revisit when the typed framework is chosen (open question in the module document) | n/a |
 
 No stored value differs: command rows, statuses, result codes and result JSON field names are Fineract's.
@@ -54,6 +54,9 @@ No stored value differs: command rows, statuses, result codes and result JSON fi
 | 18 | The password-reuse check compares the new password's salted hash with stored hashes, which never match | The new password is verified against each stored previous hash, so reuse is really refused | The setting `password-reuse-check-history-count` is meant to work | `AdministrationWriteTest` |
 | 19 | A user's roles are listed in the order of a Java hash set | Listed by role id | Order carries no meaning; ids are stable | Scenario recorded with one role |
 | 20 | `POST /roles/{id}?command=` with a command other than `enable` or `disable` answers HTTP 204 | The same | Kept so a client written against Fineract behaves the same | `AdministrationWriteTest` |
+| 21 | The names of clients, groups, loans and savings accounts appear on audit and maker-checker entries | Left out until those modules exist | They need tables that are not built | Planned |
+| 22 | A command waiting for approval is answered HTTP 200 with `rollbackTransaction: true`; the stored row says 200 | The same (E-CoreBank first answered 202, which is what the older pipeline tests assumed) | Recorded from Fineract | `ScenariosTest` (makerchecker) |
+| 23 | Approving, rejecting or deleting a command checks the checker permission before looking at anything else | The same | Recorded from Fineract | `ScenariosTest` (makerchecker) |
 
 **Security note:** the seeded users (`mifos`, `system`, `interopUser`) and the password `password` are Fineract's published defaults. They exist so the compatible API and Fineract's own tests work out of the box. A real deployment must change those passwords, or remove the users, before it holds real data. A password can now be changed with `PUT /users/{id}` or `POST /users/{id}/pwd`; the active password policy applies (the default policy asks for 12 to 50 characters with upper and lower case, a digit and a symbol).
 

@@ -23,7 +23,6 @@ defmodule ECBApiFineract.Resources.Write do
         entity_id: opts[:id],
         subentity_id: opts[:subentity_id],
         office_id: opts[:office_id],
-        href: conn.request_path,
         idempotency_key: idempotency_key(conn),
         client_ip: client_ip(conn)
       )
