@@ -8,22 +8,24 @@ E-CoreBank's schema follows (see [../../docs/design/00-fineract-design-reference
 
 | Area | Owning app | Tables | Columns | Foreign keys |
 |---|---|---:|---:|---:|
-| loans | ecb_loans | 74 | 896 | 172 |
+| loans | ecb_loans | 64 | 808 | 151 |
 | working-capital | ecb_loans | 26 | 365 | 74 |
-| deposits | ecb_deposits | 25 | 355 | 61 |
-| org-reference | ecb_org | 24 | 157 | 21 |
-| platform-ops | ecb_platform | 21 | 126 | 10 |
+| org-reference | ecb_org | 25 | 161 | 21 |
+| deposits | ecb_deposits | 22 | 331 | 59 |
+| integration | ecb_events | 17 | 139 | 19 |
 | accounting | ecb_ledger | 15 | 148 | 48 |
-| integration | ecb_events | 15 | 134 | 18 |
 | security-and-commands | ecb_platform | 14 | 126 | 10 |
-| clients | ecb_party | 13 | 172 | 46 |
+| batch | ecb_batch | 13 | 93 | 7 |
+| clients | ecb_party | 12 | 168 | 44 |
+| catalog | ecb_catalog | 11 | 117 | 25 |
 | groups-and-calendars | (deferred) | 10 | 87 | 19 |
-| shares | ecb_shares | 9 | 114 | 24 |
+| shares | (deferred) | 9 | 114 | 24 |
 | surveys | (deferred) | 9 | 50 | 9 |
+| collateral | ecb_collateral | 7 | 53 | 15 |
 | investor | (deferred) | 7 | 64 | 24 |
 | reporting | ecb_reports | 7 | 61 | 8 |
-| catalog | ecb_catalog | 5 | 61 | 16 |
-| branch-cash | ecb_org | 4 | 36 | 8 |
+| platform-ops | ecb_platform | 6 | 31 | 3 |
+| branch-cash | ecb_branch | 4 | 36 | 8 |
 | infrastructure | (framework) | 2 | 18 | 0 |
 
 ## Tables per area
@@ -32,21 +34,29 @@ E-CoreBank's schema follows (see [../../docs/design/00-fineract-design-reference
 
 `acc_accounting_rule`, `acc_gl_account`, `acc_gl_closure`, `acc_gl_financial_activity_account`, `acc_gl_journal_entry`, `acc_gl_journal_entry_annual_summary`, `acc_product_mapping`, `acc_rule_tags`, `m_journal_entry_aggregation_summary`, `m_journal_entry_aggregation_tracking`, `m_provision_category`, `m_provisioning_criteria`, `m_provisioning_criteria_definition`, `m_provisioning_history`, `m_trial_balance`
 
-### branch-cash (ecb_org)
+### batch (ecb_batch)
+
+`batch_custom_job_parameters`, `batch_job_execution`, `batch_job_execution_context`, `batch_job_execution_params`, `batch_job_instance`, `batch_step_execution`, `batch_step_execution_context`, `job`, `job_parameters`, `job_run_history`, `m_batch_business_steps`, `m_loan_account_locks`, `scheduler_detail`
+
+### branch-cash (ecb_branch)
 
 `m_cashier_transactions`, `m_cashiers`, `m_office_transaction`, `m_tellers`
 
 ### catalog (ecb_catalog)
 
-`m_charge`, `m_tax_component`, `m_tax_component_history`, `m_tax_group`, `m_tax_group_mappings`
+`m_charge`, `m_floating_rates`, `m_floating_rates_periods`, `m_interest_incentives`, `m_interest_rate_chart`, `m_interest_rate_slab`, `m_rate`, `m_tax_component`, `m_tax_component_history`, `m_tax_group`, `m_tax_group_mappings`
 
 ### clients (ecb_party)
 
-`m_address`, `m_adhoc`, `m_client`, `m_client_address`, `m_client_attendance`, `m_client_charge`, `m_client_charge_paid_by`, `m_client_collateral_management`, `m_client_identifier`, `m_client_non_person`, `m_client_transaction`, `m_client_transfer_details`, `m_family_members`
+`m_address`, `m_adhoc`, `m_client`, `m_client_address`, `m_client_attendance`, `m_client_charge`, `m_client_charge_paid_by`, `m_client_identifier`, `m_client_non_person`, `m_client_transaction`, `m_client_transfer_details`, `m_family_members`
+
+### collateral (ecb_collateral)
+
+`m_client_collateral_management`, `m_collateral_management`, `m_guarantor`, `m_guarantor_funding_details`, `m_guarantor_transaction`, `m_loan_collateral`, `m_loan_collateral_management`
 
 ### deposits (ecb_deposits)
 
-`m_account_transfer_details`, `m_account_transfer_standing_instructions`, `m_account_transfer_standing_instructions_history`, `m_account_transfer_transaction`, `m_deposit_account_on_hold_transaction`, `m_deposit_account_recurring_detail`, `m_deposit_account_term_and_preclosure`, `m_deposit_product_interest_rate_chart`, `m_deposit_product_recurring_detail`, `m_deposit_product_term_and_preclosure`, `m_interest_incentives`, `m_interest_rate_chart`, `m_interest_rate_slab`, `m_mandatory_savings_schedule`, `m_savings_account`, `m_savings_account_charge`, `m_savings_account_charge_paid_by`, `m_savings_account_interest_rate_chart`, `m_savings_account_interest_rate_slab`, `m_savings_account_transaction`, `m_savings_account_transaction_tax_details`, `m_savings_interest_incentives`, `m_savings_officer_assignment_history`, `m_savings_product`, `m_savings_product_charge`
+`m_account_transfer_details`, `m_account_transfer_standing_instructions`, `m_account_transfer_standing_instructions_history`, `m_account_transfer_transaction`, `m_deposit_account_on_hold_transaction`, `m_deposit_account_recurring_detail`, `m_deposit_account_term_and_preclosure`, `m_deposit_product_interest_rate_chart`, `m_deposit_product_recurring_detail`, `m_deposit_product_term_and_preclosure`, `m_mandatory_savings_schedule`, `m_savings_account`, `m_savings_account_charge`, `m_savings_account_charge_paid_by`, `m_savings_account_interest_rate_chart`, `m_savings_account_interest_rate_slab`, `m_savings_account_transaction`, `m_savings_account_transaction_tax_details`, `m_savings_interest_incentives`, `m_savings_officer_assignment_history`, `m_savings_product`, `m_savings_product_charge`
 
 ### groups-and-calendars ((deferred))
 
@@ -58,7 +68,7 @@ E-CoreBank's schema follows (see [../../docs/design/00-fineract-design-reference
 
 ### integration (ecb_events)
 
-`interop_identifier`, `m_external_event`, `m_external_event_configuration`, `m_hook`, `m_hook_configuration`, `m_hook_registered_events`, `m_hook_schema`, `m_hook_templates`, `notification_generator`, `notification_mapper`, `scheduled_email_campaign`, `scheduled_email_configuration`, `scheduled_email_messages_outbound`, `sms_campaign`, `sms_messages_outbound`
+`c_external_service`, `c_external_service_properties`, `interop_identifier`, `m_external_event`, `m_external_event_configuration`, `m_hook`, `m_hook_configuration`, `m_hook_registered_events`, `m_hook_schema`, `m_hook_templates`, `notification_generator`, `notification_mapper`, `scheduled_email_campaign`, `scheduled_email_configuration`, `scheduled_email_messages_outbound`, `sms_campaign`, `sms_messages_outbound`
 
 ### investor ((deferred))
 
@@ -66,15 +76,15 @@ E-CoreBank's schema follows (see [../../docs/design/00-fineract-design-reference
 
 ### loans (ecb_loans)
 
-`glim_accounts`, `m_collateral_management`, `m_creditbureau`, `m_creditbureau_configuration`, `m_creditbureau_loanproduct_mapping`, `m_creditbureau_token`, `m_creditreport`, `m_delinquency_bucket`, `m_delinquency_bucket_mappings`, `m_delinquency_range`, `m_floating_rates`, `m_floating_rates_periods`, `m_guarantor`, `m_guarantor_funding_details`, `m_guarantor_transaction`, `m_loan`, `m_loan_account_locks`, `m_loan_amortization_allocation_mapping`, `m_loan_approved_amount_history`, `m_loan_arrears_aging`, `m_loan_buy_down_fee_balance`, `m_loan_capitalized_income_balance`, `m_loan_charge`, `m_loan_charge_paid_by`, `m_loan_charge_tax_details`, `m_loan_collateral`, `m_loan_collateral_management`, `m_loan_credit_allocation_rule`, `m_loan_delinquency_action`, `m_loan_delinquency_tag_history`, `m_loan_disbursement_detail`, `m_loan_installment_charge`, `m_loan_installment_delinquency_tag`, `m_loan_interest_recalculation_additional_details`, `m_loan_officer_assignment_history`, `m_loan_originator`, `m_loan_originator_mapping`, `m_loan_overdue_installment_charge`, `m_loan_payment_allocation_rule`, `m_loan_product_credit_allocation_rule`, `m_loan_product_payment_allocation_rule`, `m_loan_progressive_model`, `m_loan_rate`, `m_loan_reage_parameter`, `m_loan_reamortization_parameter`, `m_loan_recalculation_details`, `m_loan_repayment_schedule`, `m_loan_repayment_schedule_history`, `m_loan_reschedule_request`, `m_loan_reschedule_request_term_variations_mapping`, `m_loan_status_change_history`, `m_loan_term_variations`, `m_loan_topup`, `m_loan_tranche_charges`, `m_loan_tranche_disbursement_charge`, `m_loan_transaction`, `m_loan_transaction_relation`, `m_loan_transaction_repayment_schedule_mapping`, `m_loanproduct_provisioning_entry`, `m_loanproduct_provisioning_mapping`, `m_portfolio_account_associations`, `m_product_loan`, `m_product_loan_charge`, `m_product_loan_configurable_attributes`, `m_product_loan_floating_rates`, `m_product_loan_guarantee_details`, `m_product_loan_rate`, `m_product_loan_recalculation_details`, `m_product_loan_variable_installment_config`, `m_product_loan_variations_borrower_cycle`, `m_product_mix`, `m_rate`, `m_repayment_with_post_dated_checks`, `ref_loan_transaction_processing_strategy`
+`glim_accounts`, `m_creditbureau`, `m_creditbureau_configuration`, `m_creditbureau_loanproduct_mapping`, `m_creditbureau_token`, `m_creditreport`, `m_delinquency_bucket`, `m_delinquency_bucket_mappings`, `m_delinquency_range`, `m_loan`, `m_loan_amortization_allocation_mapping`, `m_loan_approved_amount_history`, `m_loan_arrears_aging`, `m_loan_buy_down_fee_balance`, `m_loan_capitalized_income_balance`, `m_loan_charge`, `m_loan_charge_paid_by`, `m_loan_charge_tax_details`, `m_loan_credit_allocation_rule`, `m_loan_delinquency_action`, `m_loan_delinquency_tag_history`, `m_loan_disbursement_detail`, `m_loan_installment_charge`, `m_loan_installment_delinquency_tag`, `m_loan_interest_recalculation_additional_details`, `m_loan_officer_assignment_history`, `m_loan_originator`, `m_loan_originator_mapping`, `m_loan_overdue_installment_charge`, `m_loan_payment_allocation_rule`, `m_loan_product_credit_allocation_rule`, `m_loan_product_payment_allocation_rule`, `m_loan_progressive_model`, `m_loan_rate`, `m_loan_reage_parameter`, `m_loan_reamortization_parameter`, `m_loan_recalculation_details`, `m_loan_repayment_schedule`, `m_loan_repayment_schedule_history`, `m_loan_reschedule_request`, `m_loan_reschedule_request_term_variations_mapping`, `m_loan_status_change_history`, `m_loan_term_variations`, `m_loan_topup`, `m_loan_tranche_charges`, `m_loan_tranche_disbursement_charge`, `m_loan_transaction`, `m_loan_transaction_relation`, `m_loan_transaction_repayment_schedule_mapping`, `m_loanproduct_provisioning_entry`, `m_loanproduct_provisioning_mapping`, `m_portfolio_account_associations`, `m_product_loan`, `m_product_loan_charge`, `m_product_loan_configurable_attributes`, `m_product_loan_floating_rates`, `m_product_loan_guarantee_details`, `m_product_loan_rate`, `m_product_loan_recalculation_details`, `m_product_loan_variable_installment_config`, `m_product_loan_variations_borrower_cycle`, `m_product_mix`, `m_repayment_with_post_dated_checks`, `ref_loan_transaction_processing_strategy`
 
 ### org-reference (ecb_org)
 
-`m_code`, `m_code_value`, `m_currency`, `m_document`, `m_entity_datatable_check`, `m_entity_relation`, `m_entity_to_entity_mapping`, `m_field_configuration`, `m_fund`, `m_holiday`, `m_holiday_office`, `m_image`, `m_import_document`, `m_note`, `m_office`, `m_organisation_creditbureau`, `m_organisation_currency`, `m_payment_detail`, `m_payment_type`, `m_staff`, `m_template`, `m_template_m_templatemappers`, `m_templatemappers`, `m_working_days`
+`c_account_number_format`, `m_code`, `m_code_value`, `m_currency`, `m_document`, `m_entity_datatable_check`, `m_entity_relation`, `m_entity_to_entity_mapping`, `m_field_configuration`, `m_fund`, `m_holiday`, `m_holiday_office`, `m_image`, `m_import_document`, `m_note`, `m_office`, `m_organisation_creditbureau`, `m_organisation_currency`, `m_payment_detail`, `m_payment_type`, `m_staff`, `m_template`, `m_template_m_templatemappers`, `m_templatemappers`, `m_working_days`
 
 ### platform-ops (ecb_platform)
 
-`batch_custom_job_parameters`, `batch_job_execution`, `batch_job_execution_context`, `batch_job_execution_params`, `batch_job_instance`, `batch_step_execution`, `batch_step_execution_context`, `c_account_number_format`, `c_cache`, `c_configuration`, `c_external_service`, `c_external_service_properties`, `job`, `job_parameters`, `job_run_history`, `m_batch_business_steps`, `m_business_date`, `r_enum_value`, `scheduler_detail`, `x_registered_table`, `x_table_column_code_mappings`
+`c_cache`, `c_configuration`, `m_business_date`, `r_enum_value`, `x_registered_table`, `x_table_column_code_mappings`
 
 ### reporting (ecb_reports)
 
@@ -84,7 +94,7 @@ E-CoreBank's schema follows (see [../../docs/design/00-fineract-design-reference
 
 `m_appuser`, `m_appuser_previous_password`, `m_appuser_role`, `m_command`, `m_password_validation_policy`, `m_permission`, `m_portfolio_command_source`, `m_role`, `m_role_permission`, `oauth_access_token`, `oauth_client_details`, `oauth_refresh_token`, `twofactor_access_token`, `twofactor_configuration`
 
-### shares (ecb_shares)
+### shares ((deferred))
 
 `m_share_account`, `m_share_account_charge`, `m_share_account_charge_paid_by`, `m_share_account_dividend_details`, `m_share_account_transactions`, `m_share_product`, `m_share_product_charge`, `m_share_product_dividend_pay_out`, `m_share_product_market_price`
 

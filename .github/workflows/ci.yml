@@ -59,4 +59,6 @@ jobs:
           python3 parity/tools/inventory.py build
           python3 parity/tools/schema_summary.py check
           python3 parity/tools/schema_summary.py build
-          git diff --exit-code parity/inventory
+          python3 parity/tools/module_docs.py check
+          python3 parity/tools/module_docs.py build
+          git diff --exit-code parity/inventory docs/modules

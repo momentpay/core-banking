@@ -10,6 +10,7 @@ from pathlib import Path
 import contract_probe as probe
 import inventory as inv
 import junit_report as jr
+import module_docs as md
 import schema_summary as ss
 
 
@@ -154,6 +155,41 @@ class SchemaAreas(unittest.TestCase):
         self.assertEqual(ss.assign("acc_gl_journal_entry", rules), ("accounting", "ecb_ledger"))
         self.assertEqual(ss.assign("m_savings_account", rules), ("deposits", "ecb_deposits"))
         self.assertEqual(ss.assign("m_portfolio_command_source", rules), ("security-and-commands", "ecb_platform"))
+
+
+class _Stub:
+    """Just enough of md.Model to exercise the cycle detector."""
+
+    def __init__(self, deps):
+        self.modules = {a: {"depends_on": d} for a, d in deps.items()}
+        self.problems = []
+
+
+class ModuleSpec(unittest.TestCase):
+    def test_detects_a_cycle(self):
+        stub = _Stub({"a": ["b"], "b": ["c"], "c": ["a"]})
+        md._find_cycles(stub)
+        self.assertEqual(len(stub.problems), 1)
+        self.assertIn("a -> b -> c -> a", stub.problems[0])
+
+    def test_accepts_a_dag(self):
+        stub = _Stub({"a": ["b", "c"], "b": ["c"], "c": []})
+        md._find_cycles(stub)
+        self.assertEqual(stub.problems, [])
+
+    def test_committed_spec_is_consistent(self):
+        """Every endpoint, table, test class and Fineract package is owned exactly once, with no cycles."""
+        model = md.Model()
+        claimed, excluded, total, unclaimed = md.coverage(model)
+        self.assertEqual(model.problems, [])
+        self.assertEqual(unclaimed, [])
+        self.assertEqual(claimed + excluded, total)
+
+    def test_committed_documents_are_current(self):
+        model = md.Model()
+        for app, m in model.modules.items():
+            on_disk = (md.OUT_DIR / f"{app}.md").read_text(encoding="utf-8")
+            self.assertEqual(on_disk, md.render_module(model, m), f"{app}.md is stale: run module_docs.py build")
 
 
 JUNIT = """<?xml version="1.0" encoding="UTF-8"?>

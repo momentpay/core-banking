@@ -127,10 +127,21 @@ python parity/tools/schema_summary.py build  # regenerate SCHEMA.md
 
 How this feeds the design: [docs/design/00-fineract-design-reference.md](../docs/design/00-fineract-design-reference.md).
 
+### Module documents
+
+`docs/modules/` holds one design document per E-CoreBank module. Their facts (API operations, tables, test classes,
+Fineract package sizes) are generated from the inventories above; the design text is in `docs/modules/modules.json`.
+
+```sh
+python parity/tools/module_docs.py snapshot --src /c/fsrc   # refresh the Fineract package map (needs the source release)
+python parity/tools/module_docs.py check                    # every endpoint, table, test class and package owned once; no cycles
+python parity/tools/module_docs.py build                    # regenerate docs/modules/*.md
+```
+
 ### Tests for the tools
 
 ```sh
-python -m unittest discover -s parity/tools -v     # 28 tests; also run in CI
+python -m unittest discover -s parity/tools -v     # 32 tests; also run in CI
 ```
 
 ## Layout

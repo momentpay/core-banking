@@ -5,22 +5,105 @@
     "Fineract names its tables with a short prefix per feature (m_loan*, m_savings*, acc_*, ...). The prefixes are the design's own module boundaries, so the mapping follows them."
   ],
   "rules": [
-    { "match": "^m_wc_|^m_working_capital", "area": "working-capital", "app": "ecb_loans" },
-    { "match": "^m_external_asset_owner|^m_external_owner|^m_external_asset", "area": "investor", "app": "(deferred)" },
-    { "match": "^m_survey|^ppi_|^m_ppi|^m_poverty|^m_likelihood|^m_scorecard|^m_survey_", "area": "surveys", "app": "(deferred)" },
-    { "match": "^m_share", "area": "shares", "app": "ecb_shares" },
-    { "match": "^m_group|^gsim_|^m_staff_assignment|^m_meeting|^m_calendar|^m_center", "area": "groups-and-calendars", "app": "(deferred)" },
-    { "match": "^acc_|^m_provisioning|^m_provision_category|^m_trial_balance|^m_financial_activity|^m_gl_|^m_journal", "area": "accounting", "app": "ecb_ledger" },
-    { "match": "^m_loan|^m_product_loan|^m_creditreport|^m_portfolio_account_associations|^ref_loan_|^m_product_mix|^m_delinquency|^m_creditbureau|^m_rate$|^m_floating|^m_repayment|^m_guarantor|^m_collateral|^m_loan_|^glim_|^m_progressive|^m_interest_pause", "area": "loans", "app": "ecb_loans" },
-    { "match": "^m_savings|^m_deposit|^m_account_transfer|^m_mandatory_savings|^m_interest_rate|^m_interest_incentives|^m_standing_instruction|^m_recurring|^m_fixed", "area": "deposits", "app": "ecb_deposits" },
-    { "match": "^m_client|^m_family_members|^m_address|^m_entity_address|^m_adhoc|^m_search", "area": "clients", "app": "ecb_party" },
-    { "match": "^m_charge|^m_tax_|^m_rate|^m_floating_rates|^m_holiday_charge", "area": "catalog", "app": "ecb_catalog" },
-    { "match": "^m_teller|^m_cashier|^m_office_transaction", "area": "branch-cash", "app": "ecb_org" },
-    { "match": "^m_payment_detail|^m_office|^m_staff|^m_code|^m_currency|^m_organisation|^m_holiday|^m_working_days|^m_payment_type|^m_fund|^m_note|^m_document|^m_image|^m_template|^m_entity_|^m_field_configuration|^m_import|^m_selected_", "area": "org-reference", "app": "ecb_org" },
-    { "match": "^twofactor_|^m_command$|^m_appuser|^m_role|^m_permission|^m_password|^m_portfolio_command_source|^m_two_factor|^m_tfa|^m_oidc|^oauth|^request_audit", "area": "security-and-commands", "app": "ecb_platform" },
-    { "match": "^interop_|^notification_|^sms_|^m_hook|^m_external_event|^m_notification|^m_sms|^scheduled_email|^m_email|^m_external_service|^m_interop|^m_ext_", "area": "integration", "app": "ecb_events" },
-    { "match": "^rpt_|^m_report|^stretchy_|^m_mailing|^report_", "area": "reporting", "app": "ecb_reports" },
-    { "match": "^m_batch_business_steps|^r_enum_value|^scheduler_detail|^job|^scheduled_job|^batch_|^m_business_date|^c_configuration|^m_cache|^m_business_step|^c_|^m_entity_datatable|^x_|^topic|^m_loan_account_locks", "area": "platform-ops", "app": "ecb_platform" },
-    { "match": "^tenant|^databasechangelog|^flyway|^schema_version", "area": "infrastructure", "app": "(framework)" }
+    {
+      "match": "^m_wc_|^m_working_capital",
+      "area": "working-capital",
+      "app": "ecb_loans"
+    },
+    {
+      "match": "^m_external_asset_owner|^m_external_owner|^m_external_asset",
+      "area": "investor",
+      "app": "(deferred)"
+    },
+    {
+      "match": "^m_survey|^ppi_|^m_ppi|^m_poverty|^m_likelihood|^m_scorecard|^m_survey_",
+      "area": "surveys",
+      "app": "(deferred)"
+    },
+    {
+      "match": "^m_share",
+      "area": "shares",
+      "app": "(deferred)"
+    },
+    {
+      "match": "^m_group|^gsim_|^m_staff_assignment|^m_meeting|^m_calendar|^m_center",
+      "area": "groups-and-calendars",
+      "app": "(deferred)"
+    },
+    {
+      "match": "^batch_|^job|^m_batch_business_steps|^scheduler_detail|^m_loan_account_locks",
+      "area": "batch",
+      "app": "ecb_batch"
+    },
+    {
+      "match": "^m_collateral_management|^m_client_collateral_management|^m_loan_collateral|^m_guarantor",
+      "area": "collateral",
+      "app": "ecb_collateral"
+    },
+    {
+      "match": "^m_interest_rate_chart$|^m_interest_rate_slab$|^m_interest_incentives$|^m_rate$|^m_floating_rates",
+      "area": "catalog",
+      "app": "ecb_catalog"
+    },
+    {
+      "match": "^acc_|^m_provisioning|^m_provision_category|^m_trial_balance|^m_financial_activity|^m_gl_|^m_journal",
+      "area": "accounting",
+      "app": "ecb_ledger"
+    },
+    {
+      "match": "^m_loan|^m_product_loan|^m_creditreport|^m_portfolio_account_associations|^ref_loan_|^m_product_mix|^m_delinquency|^m_creditbureau|^m_rate$|^m_floating|^m_repayment|^m_guarantor|^m_collateral|^m_loan_|^glim_|^m_progressive|^m_interest_pause",
+      "area": "loans",
+      "app": "ecb_loans"
+    },
+    {
+      "match": "^m_savings|^m_deposit|^m_account_transfer|^m_mandatory_savings|^m_interest_rate|^m_interest_incentives|^m_standing_instruction|^m_recurring|^m_fixed",
+      "area": "deposits",
+      "app": "ecb_deposits"
+    },
+    {
+      "match": "^m_client|^m_family_members|^m_address|^m_entity_address|^m_adhoc|^m_search",
+      "area": "clients",
+      "app": "ecb_party"
+    },
+    {
+      "match": "^m_charge|^m_tax_|^m_rate|^m_floating_rates|^m_holiday_charge",
+      "area": "catalog",
+      "app": "ecb_catalog"
+    },
+    {
+      "match": "^m_teller|^m_cashier|^m_office_transaction",
+      "area": "branch-cash",
+      "app": "ecb_branch"
+    },
+    {
+      "match": "^c_account_number_format|^m_payment_detail|^m_office|^m_staff|^m_code|^m_currency|^m_organisation|^m_holiday|^m_working_days|^m_payment_type|^m_fund|^m_note|^m_document|^m_image|^m_template|^m_entity_|^m_field_configuration|^m_import|^m_selected_",
+      "area": "org-reference",
+      "app": "ecb_org"
+    },
+    {
+      "match": "^twofactor_|^m_command$|^m_appuser|^m_role|^m_permission|^m_password|^m_portfolio_command_source|^m_two_factor|^m_tfa|^m_oidc|^oauth|^request_audit",
+      "area": "security-and-commands",
+      "app": "ecb_platform"
+    },
+    {
+      "match": "^c_external_service|^interop_|^notification_|^sms_|^m_hook|^m_external_event|^m_notification|^m_sms|^scheduled_email|^m_email|^m_external_service|^m_interop|^m_ext_",
+      "area": "integration",
+      "app": "ecb_events"
+    },
+    {
+      "match": "^rpt_|^m_report|^stretchy_|^m_mailing|^report_",
+      "area": "reporting",
+      "app": "ecb_reports"
+    },
+    {
+      "match": "^r_enum_value|^scheduled_job|^m_business_date|^c_configuration|^m_cache|^m_business_step|^c_|^m_entity_datatable|^x_|^topic",
+      "area": "platform-ops",
+      "app": "ecb_platform"
+    },
+    {
+      "match": "^tenant|^databasechangelog|^flyway|^schema_version",
+      "area": "infrastructure",
+      "app": "(framework)"
+    }
   ]
 }

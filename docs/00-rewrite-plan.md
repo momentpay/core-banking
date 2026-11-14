@@ -53,6 +53,7 @@ core-banking/
     ecb_ledger        Fineract-style accounting: GL accounts, accounting rules, journal entries, closures,
                      cash and accrual modes; export port for a later Finacle integration
     ecb_org           offices, staff, codes, currencies, holidays, working days, payment types
+    ecb_branch        tellers, cashiers, branch cash (split from ecb_org: it posts journals, so it sits above ecb_ledger)
     ecb_party         clients, groups, identifiers, addresses, family, KYC hooks, documents, notes
     ecb_catalog       charges, tax groups, rates, interest-rate charts, product building blocks
     ecb_deposits      savings, current, fixed and recurring deposits, holds, dormancy, transfers
@@ -138,6 +139,7 @@ Exit gate for every phase: contract-suite pass rate for the phase's endpoints, z
 ### Phase 0: Foundations and contract (6–8 weeks)
 - Repo bootstrap: convert the base app to a PostgreSQL umbrella (4.4), CI, quality gates, docker compose, ADR template, contribution rules.
 - `parity/` harness running the pinned Fineract and the baseline suite.
+- Module documents. **Done (14 Nov 2026):** [docs/modules/](modules/README.md) holds one design document per module (18 including the deferred features), each aligned with the Fineract source: scope, API operations, tables, tests, design rules taken from Fineract, build order and acceptance criteria. The generated parts are checked in CI, and the check fails on a dependency cycle or on any endpoint, table, test class or Fineract package that no module owns.
 - Design reference. **Done:** [design/00-fineract-design-reference.md](design/00-fineract-design-reference.md) maps each Fineract design element to its E-CoreBank equivalent, and `parity/inventory/SCHEMA.md` assigns all 280 tables of the oracle's schema to an area and an owning app.
 - Endpoint inventory and must/should/cut list. **Done (14 Nov 2026):** `parity/inventory/` classifies all 968 operations of Fineract 1.16.1 (535 must, 255 should, 158 defer, 18 test-support, 2 ignore) from the approved cut list. `inventory.py check` fails when a Fineract upgrade adds an unclassified tag.
 - Contract measurements. **Done:** the OpenAPI-driven contract probe (`parity/tools/contract_probe.py`) compares status and JSON shape for the 150 read-only `must` and `should` operations that need no setup, and passes 146 of 146 counted operations when the oracle is probed against itself. **Written, not yet run end to end:** the runner for Fineract's own integration tests (`parity/scripts/run-contract-suite.sh`). It needs a JDK 25 and about 8 GB of free disk for the Gradle build, and the development machine has about 2.5 GB free. Its pre-flight checks are tested.

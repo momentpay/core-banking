@@ -5,21 +5,73 @@
     "This only exists so progress can be read by area. The per-test results stay in results.json."
   ],
   "rules": [
-    { "match": "WorkingCapital", "group": "working-capital" },
-    { "match": "ExternalAssetOwner", "group": "investor" },
-    { "match": "Center|^Group|Gsim|CollectionSheet|Meeting|Calendar", "group": "microfinance-groups" },
-    { "match": "Share", "group": "shares" },
-    { "match": "Survey|Scorecard", "group": "surveys" },
-    { "match": "Sms|Campaign|Email|Hook|ExternalEvent|ExternalBusinessEvent|ExternalServices|Notification|CustomSnapshotEvent|Interop", "group": "integration" },
-    { "match": "Cashier|Teller|AllocateCash", "group": "branch-cash" },
-    { "match": "^(Feign)?(Accounting|GLAccount|Journal|FinancialActivity|Provisioning|TrialBalance)", "group": "accounting" },
-    { "match": "Loan|Accrual|Delinquency|Progressive|Repayment|Disburs|Guarantor|Reschedul|DaysInYear|Installment|ProductMix|InterestRecognition|BlockTransactions|ApplyHolidays|SkipRepayment|MinimumDays|FixedLength|DueDate|CreditBureau|FloatingRate|DateValidation|Collateral|Backdated", "group": "loans" },
-    { "match": "Savings|FixedDeposit|RecurringDeposit|DepositInterest|AccountTransfer|StandingInstruction", "group": "deposits" },
-    { "match": "^(Feign)?Client", "group": "clients" },
-    { "match": "^(Charges|Rates|Taxes|TaxGroup|TaxComponent|InterestRate)", "group": "catalog" },
-    { "match": "Office|Staff|SystemCode|Funds|PaymentType|Holiday|WorkingDay|Currency|Datatable|EntityToEntity|AccountNumber|Search|Template|Document|Image|Notes", "group": "org-reference" },
-    { "match": "Authentication|Roles|UserAdministration|UserLoanPermission|Makerchecker|Password|TrapDoor|IpTracking|TwoFactor", "group": "platform-security" },
-    { "match": "Report", "group": "reporting" },
-    { "match": "Scheduler|Cob|Batch|Audit|Idempotency|Concurrency|InstanceMode|Actuator|ApiDocs|Swagger|GlobalConfiguration|BusinessConfiguration", "group": "platform-ops" }
+    {
+      "match": "WorkingCapital",
+      "group": "working-capital"
+    },
+    {
+      "match": "ExternalAssetOwner",
+      "group": "investor"
+    },
+    {
+      "match": "Center|^Group|Gsim|CollectionSheet|Meeting|Calendar",
+      "group": "microfinance-groups"
+    },
+    {
+      "match": "Share",
+      "group": "shares"
+    },
+    {
+      "match": "Survey|Scorecard",
+      "group": "surveys"
+    },
+    {
+      "match": "Sms|Campaign|Email|Hook|ExternalEvent|ExternalBusinessEvent|ExternalServices|Notification|CustomSnapshotEvent|Interop",
+      "group": "integration"
+    },
+    {
+      "match": "Cashier|Teller|AllocateCash",
+      "group": "branch-cash"
+    },
+    {
+      "match": "^(Feign)?(Accounting|GLAccount|Journal|FinancialActivity|Provisioning|TrialBalance)",
+      "group": "accounting"
+    },
+    {
+      "match": "Loan|Accrual|Delinquency|Progressive|Repayment|Disburs|Guarantor|Reschedul|DaysInYear|Installment|ProductMix|InterestRecognition|BlockTransactions|ApplyHolidays|SkipRepayment|MinimumDays|FixedLength|DueDate|CreditBureau|FloatingRate|DateValidation|Collateral|Backdated",
+      "group": "loans"
+    },
+    {
+      "match": "Savings|FixedDeposit|RecurringDeposit|DepositInterest|AccountTransfer|StandingInstruction",
+      "group": "deposits"
+    },
+    {
+      "match": "^(Feign)?Client",
+      "group": "clients"
+    },
+    {
+      "match": "^(Charges|Rates|Taxes|TaxGroup|TaxComponent|InterestRate)",
+      "group": "catalog"
+    },
+    {
+      "match": "Office|Staff|SystemCode|Funds|PaymentType|Holiday|WorkingDay|Currency|Datatable|EntityToEntity|AccountNumber|Search|Template|Document|Image|Notes",
+      "group": "org-reference"
+    },
+    {
+      "match": "Authentication|Roles|UserAdministration|UserLoanPermission|Makerchecker|Password|TrapDoor|IpTracking|TwoFactor",
+      "group": "platform-security"
+    },
+    {
+      "match": "Report",
+      "group": "reporting"
+    },
+    {
+      "match": "Cob|SchedulerJobs",
+      "group": "batch"
+    },
+    {
+      "match": "Scheduler|Cob|Batch|Audit|Idempotency|Concurrency|InstanceMode|Actuator|ApiDocs|Swagger|GlobalConfiguration|BusinessConfiguration",
+      "group": "platform-ops"
+    }
   ]
 }

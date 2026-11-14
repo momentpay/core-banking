@@ -1,0 +1,1301 @@
+{
+  "overview": "E-CoreBank is an Elixir umbrella of small apps with one-way dependencies. ecb_money and ecb_platform are the base. Reference data and the customer master (ecb_org, ecb_party, ecb_catalog) sit on them. ecb_ledger records money movements as Fineract-style journals, and ecb_branch handles teller cash on top of it. The product apps (ecb_deposits, ecb_loans, ecb_collateral) post to the ledger through the command bus. ecb_batch runs close of business, ecb_reports runs reports, ecb_events publishes business events. ecb_api_fineract exposes everything over the Fineract-compatible REST contract, ecb_api_native adds our own API later, and ecb_web is the LiveView console. ecb_migrate brings data in from an existing Fineract database. Features outside the approved scope are parked in the deferred document so nothing is lost.",
+  "implementation_order": [
+    "ecb_money: pure, no dependencies, fully testable on its own. Currency, Money, rounding, day-count and interest arithmetic.",
+    "ecb_platform, part 1: command bus, command store and audit, idempotency, permissions with maker-checker, business date, configuration. The tenant registry already exists.",
+    "ecb_api_fineract skeleton: tenant header, basic authentication, `GET /offices`. The contract probe starts moving here.",
+    "ecb_org: offices, staff, currencies, codes, holidays, working days, payment types, funds. ecb_platform part 2: data tables.",
+    "ecb_party and ecb_catalog: clients, then charges, taxes, rates, interest-rate charts.",
+    "ecb_ledger: GL accounts, accounting rules, journal entries, closures; then ecb_branch (tellers and cashiers) if the pilot bank runs branches.",
+    "ecb_deposits: savings first, then fixed and recurring deposits, transfers, standing instructions.",
+    "ecb_loans: the pure schedule engine first, then products, accounts, transactions; ecb_collateral alongside.",
+    "ecb_batch: business-date roll, scheduler, loan and savings COB; ecb_reports; ecb_events.",
+    "ecb_web screens module by module as each API goes green; ecb_api_native; ecb_migrate; then the deferred features if the pilot bank asks for them."
+  ],
+  "group_owner": {
+    "platform-security": "ecb_platform",
+    "platform-ops": "ecb_platform",
+    "test-support": "ecb_platform",
+    "org-reference": "ecb_org",
+    "branch-cash": "ecb_branch",
+    "clients": "ecb_party",
+    "catalog": "ecb_catalog",
+    "deposits": "ecb_deposits",
+    "loans": "ecb_loans",
+    "working-capital": "ecb_loans",
+    "accounting": "ecb_ledger",
+    "reporting": "ecb_reports",
+    "integration": "ecb_events",
+    "microfinance-groups": "deferred",
+    "shares": "deferred",
+    "surveys": "deferred",
+    "investor": "deferred"
+  },
+  "tag_owner": {
+    "SCHEDULER JOB": "ecb_batch",
+    "Scheduler": "ecb_batch",
+    "Business Step Configuration": "ecb_batch",
+    "Inline Job": "ecb_batch",
+    "Loan COB Catch Up": "ecb_batch",
+    "Working Capital Loan COB Catch Up": "ecb_batch",
+    "Internal COB": "ecb_batch",
+    "Working Capital Loan Internal COB Api": "ecb_batch",
+    "Working Capital Loan Account Lock": "ecb_batch",
+    "Loan Account Lock": "ecb_batch",
+    "Data Tables": "ecb_platform",
+    "Entity Data Table": "ecb_platform",
+    "Entity Field Configuration": "ecb_platform",
+    "Collateral Management": "ecb_collateral",
+    "Loan Collateral": "ecb_collateral",
+    "Loan Collateral Management": "ecb_collateral",
+    "Guarantors": "ecb_collateral",
+    "Client Collateral Management": "ecb_collateral",
+    "Calendar": "deferred",
+    "Meetings": "deferred",
+    "Fineract Entity": "deferred",
+    "SMS": "deferred",
+    "Inter Operation": "deferred"
+  },
+  "path_owner": [
+    {
+      "prefix": "/v1/email",
+      "owner": "deferred"
+    },
+    {
+      "prefix": "/v1/smscampaigns",
+      "owner": "deferred"
+    },
+    {
+      "prefix": "/v1/internal",
+      "owner": "ecb_batch"
+    }
+  ],
+  "test_group_owner": {
+    "loans": "ecb_loans",
+    "working-capital": "ecb_loans",
+    "deposits": "ecb_deposits",
+    "clients": "ecb_party",
+    "catalog": "ecb_catalog",
+    "org-reference": "ecb_org",
+    "branch-cash": "ecb_branch",
+    "accounting": "ecb_ledger",
+    "platform-security": "ecb_platform",
+    "platform-ops": "ecb_platform",
+    "batch": "ecb_batch",
+    "reporting": "ecb_reports",
+    "integration": "ecb_events",
+    "microfinance-groups": "deferred",
+    "shares": "deferred",
+    "surveys": "deferred",
+    "investor": "deferred",
+    "other": "ecb_platform"
+  },
+  "modules": [
+    {
+      "app": "ecb_money",
+      "title": "Money, currency and calculation primitives",
+      "phase": 1,
+      "status": "not started",
+      "depends_on": [],
+      "summary": "A small pure library with no database and no clock. It defines currency and money, the rounding rules, day-count conventions and the interest arithmetic that deposits and loans both use. Every monetary value in the system passes through it, which is how we keep float arithmetic out of a ledger. It is the first module to build because everything else depends on its exactness and it can be tested completely in isolation, including against Fineract's own numbers.",
+      "responsibilities": [
+        "`Money`: a `Decimal` amount with a currency and a scale taken from the currency's decimal places; arithmetic that refuses to mix currencies",
+        "Currency registry matching Fineract's `m_currency` and the per-tenant `m_organisation_currency` selection, including `decimal_places`, `currency_multiplesof` and display symbol",
+        "Rounding policy as an explicit input to every operation that rounds, never a global default hidden in a process (Fineract keeps a global rounding mode in `MoneyHelper`; ours is passed in)",
+        "Day-count conventions used by interest calculation (days in year and days in month strategies)",
+        "Interest primitives shared by savings and loans: simple and compound factors, period fractions, effective rates",
+        "Property-based tests and a golden-master suite comparing results with Fineract on generated inputs"
+      ],
+      "out_of_scope": [
+        "Loan schedules and savings postings: they use these primitives but live in ecb_loans and ecb_deposits",
+        "Any database access, configuration lookup or clock: callers pass everything in",
+        "Exchange-rate conversion (not part of the Fineract design we are following)"
+      ],
+      "gradle_modules": [],
+      "packages": [
+        "organisation.monetary"
+      ],
+      "design_docs": [
+        "architecture/principles.adoc",
+        "features/loan-charges.adoc"
+      ],
+      "schema_areas": [],
+      "api_note": "This module exposes no operations. Currency endpoints (`/v1/currencies`) are served by ecb_org.",
+      "data_note": "This module owns no tables. The `m_currency` and `m_organisation_currency` tables are owned by ecb_org, which feeds currency definitions into this library.",
+      "tests_note": "No Fineract integration-test class targets this library directly. It is checked by property-based tests and by the differential runner comparing calculation results with Fineract.",
+      "design": [
+        "Pure functions on immutable structs. No process state, no `Application.get_env`, no `DateTime.utc_now`",
+        "`Decimal` context is set explicitly per call (precision and rounding), because Fineract's results depend on rounding at specific steps, not only at the end",
+        "Rounding modes are an enumeration with the same names as Fineract's configuration so tenant settings map one-to-one",
+        "Every function documents which Fineract class it mirrors, so a difference can be traced to the original rule"
+      ],
+      "build_order": [
+        "Currency and `Money` with scale, comparison and addition and subtraction",
+        "Rounding modes and rounding helpers, with a test table taken from Fineract on inputs at every boundary",
+        "Multiplication and division with explicit rounding, and allocation (splitting an amount without losing a cent)",
+        "Day-count strategies and period fractions",
+        "Interest primitives, then the differential tests against the oracle"
+      ],
+      "acceptance": [
+        "No function accepts or returns a float",
+        "Property tests: addition is associative and commutative, allocation always sums to the original, rounding is idempotent",
+        "Golden-master results match Fineract for a generated corpus including every rounding mode"
+      ],
+      "open_questions": [
+        "Which Fineract rounding and precision settings are tenant-configurable in practice, so we expose exactly those",
+        "Whether to publish this library on its own (it is useful outside E-CoreBank) once stable"
+      ]
+    },
+    {
+      "app": "ecb_platform",
+      "title": "Platform: tenancy, security, commands, audit, business date",
+      "phase": 1,
+      "status": "tenant registry and per-tenant repos are built; everything else not started",
+      "depends_on": [
+        "ecb_money"
+      ],
+      "summary": "The foundation every other module stands on. It resolves the tenant for each request or job and gives it a database, authenticates and authorises users, and runs every state-changing operation through one command pipeline that validates, checks permission and maker-checker, executes in a transaction, records the command, and guarantees idempotency. It also owns the business date, global configuration, data tables, the Batch API and the user, role and permission model. Fineract calls this slice `fineract-core`, `fineract-security`, `fineract-command*` and the `infrastructure` and `useradministration` packages of the provider.",
+      "responsibilities": [
+        "Tenancy: registry, dynamic repo per tenant, per-tenant migrations, tenant resolved from the `Fineract-Platform-TenantId` header or job metadata (built)",
+        "Authentication: HTTP basic with the `/authentication` call that returns a base64 key, OAuth2 resource server, OIDC federation, two-factor",
+        "Authorisation: users, roles and permissions (`m_appuser`, `m_role`, `m_permission` with a `can_maker_checker` flag per permission); a permission check on every API",
+        "Command pipeline: command wrapper, handler registry, before/after/error hooks, command store and audit (`m_portfolio_command_source`, `m_command`)",
+        "Maker-checker: run the command, validate for real, roll back, log `Pending`; approve re-runs it under the checker",
+        "Idempotency: unique (key, action, entity); replay returns the stored result; in-flight returns HTTP 409",
+        "Business date and COB date (`m_business_date` with a `type` column), exposed through the business-date API",
+        "Global configuration (`c_configuration`, including trap-door flags), instance mode (read, write, batch roles per node)",
+        "Data tables engine: tenant-defined extension tables and entity data-table checks (`x_registered_table`, `m_entity_datatable_check`)",
+        "Batch API (several operations in one request), ad-hoc query, bulk import, templates"
+      ],
+      "out_of_scope": [
+        "Scheduled jobs and close of business (ecb_batch)",
+        "Hooks, webhooks and the event outbox (ecb_events)",
+        "Domain rules of any product: this module knows nothing about clients, loans or deposits"
+      ],
+      "gradle_modules": [
+        "fineract-core",
+        "fineract-security",
+        "fineract-validation",
+        "fineract-command",
+        "fineract-command-async",
+        "fineract-command-audit",
+        "fineract-command-disruptor",
+        "fineract-command-jdbc"
+      ],
+      "packages": [
+        "commands",
+        "command",
+        "infrastructure.core",
+        "infrastructure.security",
+        "infrastructure.configuration",
+        "infrastructure.businessdate",
+        "infrastructure.cache",
+        "infrastructure.instancemode",
+        "infrastructure.dataqueries",
+        "infrastructure.bulkimport",
+        "infrastructure.entityaccess",
+        "useradministration",
+        "batch",
+        "adhocquery",
+        "template",
+        "validation",
+        "portfolio.common",
+        "util",
+        "core",
+        "portfolio.util",
+        "portfolio.configuration"
+      ],
+      "design_docs": [
+        "architecture/principles.adoc",
+        "architecture/design.adoc",
+        "architecture/system.adoc",
+        "architecture/persistence.adoc",
+        "architecture/idempotency.adoc",
+        "architecture/business-date.adoc",
+        "architecture/validation.adoc",
+        "architecture/api-backward-compatibility.adoc",
+        "command/architecture.adoc",
+        "command/command.adoc",
+        "command/handler.adoc",
+        "command/store.adoc",
+        "command/audit.adoc",
+        "command/idempotency.adoc",
+        "command/query.adoc",
+        "command/hooks.adoc",
+        "command/validation.adoc",
+        "security/basic.adoc",
+        "security/oauth.adoc",
+        "security/2fa.adoc",
+        "security/harden.adoc",
+        "deployment/instance-type.adoc"
+      ],
+      "schema_areas": [
+        "security-and-commands",
+        "platform-ops",
+        "infrastructure"
+      ],
+      "design": [
+        "Command/query separation: writes are commands persisted in `m_portfolio_command_source` (columns include `action_name`, `entity_name`, `command_as_json`, `maker_id`, `checker_id`, `status`, `idempotency_key`, `result`, `result_status_code`, `client_ip`); reads are plain queries. Fineract's newer framework (`fineract-command`) adds a dispatcher, typed handlers and an `m_command` table with a `state` and approval timestamps; we follow the newer shape and keep the older table for parity",
+        "Fineract's own docs call its legacy command path 'a little bit convoluted'. Keep the behaviour (statuses, audit, maker-checker semantics) but implement it as one small pipeline: `Command` struct, `Handler` behaviour, ordered steps, an `Ecto.Multi`",
+        "Idempotency uses the header `Idempotency-Key` (the configuration default). A completed replay sets `x-served-from-cache: true`. Batch items can carry their own key",
+        "Permissions are fine-grained and per API; `can_maker_checker` marks which actions can be put under four-eyes. Roles bundle permissions",
+        "Tenant database password is never stored in the registry (a deliberate divergence from Fineract, which stores it encrypted with a master password). The registry holds the name of an environment variable",
+        "Instance roles (read, write, batch) are runtime configuration of one release, as in Fineract's `fineract.mode.*` flags; the read role may use a replica",
+        "The API is stateless; no session state on the server",
+        "Business date is a logical date separate from the calendar. Components never call the system clock for business logic; they ask the `Clock` behaviour"
+      ],
+      "build_order": [
+        "Command struct, handler registry, pipeline and command store with audit columns (extends the existing tenancy code)",
+        "Idempotency table and the replay and 409 rules",
+        "Permissions, roles, users, password policy, and the `/authentication` endpoint with basic auth",
+        "Maker-checker: the pending/approve/reject flow and the `/makercheckers` API",
+        "Business date and `Clock`, with the business-date API",
+        "Global configuration and instance mode",
+        "Batch API",
+        "Data tables engine (entities are registered by name, so no dependency on ecb_org), bulk import, ad-hoc query, templates",
+        "OAuth2 and OIDC, two-factor"
+      ],
+      "acceptance": [
+        "A write sent twice with the same `Idempotency-Key` executes once; the second response is served from the stored result",
+        "A maker-checker command leaves a `Pending` entry and no data change; approval applies it exactly once",
+        "Cross-tenant isolation test: a command run for tenant A is invisible in tenant B's database",
+        "The Fineract classes for authentication, roles, users, password preferences, maker-checker, global configuration, idempotency and the Batch API pass"
+      ],
+      "open_questions": [
+        "Whether to adopt the async dispatcher variants (Disruptor, Chronicle Queue) or stay synchronous plus Oban",
+        "Password hashing: Fineract's scheme must be accepted on migration, but new hashes could use a stronger algorithm",
+        "How much of the OIDC federation chapter is in the pilot (Google federation is probably not)"
+      ]
+    },
+    {
+      "app": "ecb_ledger",
+      "title": "General ledger and accounting",
+      "phase": 3,
+      "status": "not started",
+      "depends_on": [
+        "ecb_money",
+        "ecb_platform",
+        "ecb_org"
+      ],
+      "summary": "Fineract-style accounting: the chart of GL accounts, the accounting rule that each product carries (none, cash, periodic accrual or upfront accrual), the mappings from financial activities and payment types to accounts, and the journal entries that every deposit and loan event produces. It also owns closures, manual journal entries, accrual runs and loan provisioning. This follows Fineract exactly (decision of 14 Nov 2026), with an export port reserved for a later Finacle integration.",
+      "responsibilities": [
+        "GL accounts and hierarchy (`acc_gl_account`), with account types, usage (header or detail) and tags",
+        "Product accounting rules and `acc_product_mapping`: which GL account each kind of movement hits for a product",
+        "Financial activity and payment-type account mappings (`acc_gl_financial_activity_account`)",
+        "Journal entries (`acc_gl_journal_entry`) with reversal, running balances per office and organisation, and links to the originating loan, savings or client transaction",
+        "Manual journal entries, opening balances, journal-entry aggregation summaries",
+        "Closures (`acc_gl_closure`) that prevent posting before a date",
+        "Periodic accrual accounting run, provisioning criteria, categories, history and entries",
+        "A `GlExport` port with extraction state, empty until a Finacle adapter is scoped"
+      ],
+      "out_of_scope": [
+        "Deciding when a loan or savings event happens: the product modules raise events and call this module",
+        "The Finacle adapter itself (later)",
+        "Reports over the ledger (ecb_reports), except the trial balance tables owned here"
+      ],
+      "gradle_modules": [
+        "fineract-accounting"
+      ],
+      "packages": [
+        "accounting",
+        "organisation.provisioning"
+      ],
+      "design_docs": [
+        "features/journal-entry-aggregation.adoc",
+        "features/working-capital-accrual-deferred-revenue-amortization-accounting.adoc",
+        "features/taxes-on-loan-charges.adoc"
+      ],
+      "schema_areas": [
+        "accounting"
+      ],
+      "design": [
+        "A journal is posted in the same transaction as the business change, and only when the product's accounting rule is not none",
+        "Double entry is enforced by a deferred database constraint so an unbalanced journal cannot commit",
+        "`acc_gl_journal_entry` carries `loan_transaction_id`, `savings_transaction_id`, `client_transaction_id` and `share_transaction_id`, so a journal can always be traced to its cause; keep those columns",
+        "Reversal is a new journal with `reversal_id` pointing back, never an update of the original",
+        "Running balances are calculated per office and per organisation (`is_running_balance_calculated`, `office_running_balance`, `organization_running_balance`)",
+        "Accounting events are mapped by product type and financial activity; keep the mapping data-driven as Fineract does"
+      ],
+      "build_order": [
+        "GL accounts, tags and the account API",
+        "Financial-activity and payment-type mappings",
+        "Journal entry posting service with the balance constraint, then reversal",
+        "Product account mapping and the accounting rules (cash first, then accrual)",
+        "Closures and manual entries",
+        "Provisioning criteria, categories and entries",
+        "Aggregation summaries and the trial balance",
+        "The `GlExport` port"
+      ],
+      "acceptance": [
+        "An unbalanced journal cannot be committed, tested at the database",
+        "Posting before the closure date is rejected",
+        "Journals for savings and loan scenarios match Fineract's on a generated corpus, line by line",
+        "The Fineract accounting and provisioning integration classes pass"
+      ],
+      "open_questions": [
+        "How Finacle accepts postings (API, file) and who owns that interface, needed before the export adapter",
+        "Whether the pilot bank needs accrual accounting from day one or cash accounting first"
+      ]
+    },
+    {
+      "app": "ecb_branch",
+      "title": "Branch cash: tellers and cashiers",
+      "phase": 3,
+      "status": "not started",
+      "depends_on": [
+        "ecb_money",
+        "ecb_platform",
+        "ecb_org",
+        "ecb_ledger"
+      ],
+      "summary": "Cash handling at a branch: tellers (a till location within an office), cashiers who work at a teller, the cash allocated to and settled by each cashier, cashier transactions, and cash transfers between offices. Every cash movement produces journal entries, so this module sits on top of the ledger. It is separate from ecb_org because organisation data is read by everything and must not depend on the ledger, while cash handling must. Fineract keeps it in its own `fineract-branch` module for the same reason.",
+      "responsibilities": [
+        "Tellers (`m_tellers`) with status and validity dates, per office",
+        "Cashiers (`m_cashiers`) assigned to tellers and staff, with working dates and full-day flags",
+        "Cash allocation to and settlement from a cashier, and the cashier's transactions and summary (`m_cashier_transactions`)",
+        "Cash transfers between offices (`m_office_transaction`)",
+        "Journal entries for every cash movement through ecb_ledger"
+      ],
+      "out_of_scope": [
+        "Vault and ATM cash management beyond what Fineract models",
+        "Customer-facing deposits and withdrawals (ecb_deposits); a teller records the cash side only"
+      ],
+      "gradle_modules": [
+        "fineract-branch"
+      ],
+      "packages": [
+        "organisation.teller"
+      ],
+      "design_docs": [
+        "architecture/principles.adoc"
+      ],
+      "schema_areas": [
+        "branch-cash"
+      ],
+      "design": [
+        "Cash allocated to a cashier and cash settled back are the two directions of one flow; the cashier summary is derived from those transactions, not stored",
+        "Each cash movement posts a journal through ecb_ledger using the financial-activity account mappings, so teller cash and the ledger never disagree",
+        "Teller and cashier validity dates are enforced on every transaction"
+      ],
+      "build_order": [
+        "Tellers and their validity rules",
+        "Cashiers and assignment to staff",
+        "Allocate and settle cash with journals",
+        "Cashier summary and transactions",
+        "Office-to-office cash transfers"
+      ],
+      "acceptance": [
+        "Allocate, settle and summary results match Fineract for generated cashier days",
+        "The cashier and teller integration classes pass"
+      ],
+      "open_questions": [
+        "Whether the pilot bank runs branches with tellers; if not, this module can wait"
+      ]
+    },
+    {
+      "app": "ecb_org",
+      "title": "Organisation and reference data",
+      "phase": 2,
+      "status": "not started",
+      "depends_on": [
+        "ecb_money",
+        "ecb_platform"
+      ],
+      "summary": "The reference data every other module reads: offices and their hierarchy, staff, currencies enabled for the tenant, codes and code values, holidays, working days, payment types, funds, notes, documents and images, account-number formats, the global search. It is read-heavy and changes rarely, so it is the natural second module and the first slice that makes the Mifos console usable.",
+      "responsibilities": [
+        "Offices and the office hierarchy (`m_office`), office transactions",
+        "Staff (`m_staff`) and assignment of loan officers",
+        "Currencies and the tenant's selected currencies (`m_currency`, `m_organisation_currency`), feeding ecb_money",
+        "Codes and code values (`m_code`, `m_code_value`), including the system codes other modules rely on",
+        "Holidays (`m_holiday`, `m_holiday_office`) and working days (`m_working_days`), with the rescheduling rules that loans use",
+        "Payment types and payment details (`m_payment_type`, `m_payment_detail`), funds (`m_fund`)",
+        "Notes, documents, images and the content store (local file system first; S3 later)",
+        "Account number format preferences",
+        "Global search and the cross-entity template and mapping tables"
+      ],
+      "out_of_scope": [
+        "Clients (ecb_party)",
+        "Calendars and meetings: group-based, deferred",
+        "Data tables engine (ecb_platform)",
+        "Tellers and cashiers (ecb_branch), which post journals and so depend on ecb_ledger"
+      ],
+      "gradle_modules": [
+        "fineract-document"
+      ],
+      "packages": [
+        "organisation.office",
+        "organisation.staff",
+        "organisation.holiday",
+        "organisation.workingdays",
+        "infrastructure.codes",
+        "infrastructure.accountnumberformat",
+        "infrastructure.documentmanagement",
+        "infrastructure.contentstore",
+        "infrastructure.s3",
+        "portfolio.fund",
+        "portfolio.paymenttype",
+        "portfolio.paymentdetail",
+        "portfolio.note",
+        "portfolio.search"
+      ],
+      "design_docs": [
+        "architecture/principles.adoc",
+        "features/global-configuration-allowed-values.adoc"
+      ],
+      "schema_areas": [
+        "org-reference"
+      ],
+      "design": [
+        "17 tables reference `m_office`; offices are the unit of scoping for users, clients and accounts, so the office hierarchy and the user-to-office visibility rule are implemented once here and reused everywhere",
+        "Holidays carry a rescheduling type and apply to offices; the effect on repayment dates is computed in ecb_loans from data served here",
+        "Code values are stable identifiers other tables store as ids; keep ids and names exactly, because clients and loans reference them",
+        "Document storage sits behind a behaviour with a file-system adapter and an S3 adapter, as in Fineract's content store"
+      ],
+      "build_order": [
+        "Currencies and the organisation currency selection",
+        "Offices with the hierarchy and visibility rule; `GET /offices` is the first endpoint the contract probe checks",
+        "Staff, codes and code values, payment types, funds",
+        "Holidays and working days",
+        "Notes, documents, images and the content store",
+        "Global search and account-number formats"
+      ],
+      "acceptance": [
+        "Office hierarchy queries and the user visibility rule match Fineract on a generated tree",
+        "Holiday and working-day rescheduling results match Fineract for a corpus of dates",
+        "Every `must` read operation of this module passes the contract probe"
+      ],
+      "open_questions": [
+        "Where uploaded documents are stored in the pilot environment"
+      ]
+    },
+    {
+      "app": "ecb_party",
+      "title": "Clients: the customer master",
+      "phase": 2,
+      "status": "not started",
+      "depends_on": [
+        "ecb_money",
+        "ecb_platform",
+        "ecb_org",
+        "ecb_catalog",
+        "ecb_ledger"
+      ],
+      "summary": "The customer master. Individual and entity clients, their identifiers, addresses, family members, charges and transactions, the client lifecycle (pending, active, closed, rejected, withdrawn, reactivated), transfers between offices, and client search. Clients are what accounts hang off, so this module comes right after the reference data.",
+      "responsibilities": [
+        "Client lifecycle and status transitions through commands (`?command=activate`, `close`, `reject`, `withdraw`, `reactivate`, `undoreject`, `undowithdrawal`, `assignStaff`, `unassignStaff`, `updateSavingsAccount`, `proposeTransfer` and related)",
+        "Individual and non-person (entity) clients (`m_client`, `m_client_non_person`)",
+        "Identifiers (`m_client_identifier`), addresses (`m_address`, `m_client_address`), family members (`m_family_members`)",
+        "Client charges and client transactions (`m_client_charge`, `m_client_transaction`)",
+        "Client attendance and transfer details between offices",
+        "Search (the v1 search and the v2 `ClientSearchV2`)"
+      ],
+      "out_of_scope": [
+        "Groups and centres: deferred",
+        "Client collateral (ecb_collateral)",
+        "KYC workflow and onboarding journeys: the core stays core; those live in surrounding systems"
+      ],
+      "gradle_modules": [],
+      "packages": [
+        "portfolio.client",
+        "portfolio.address",
+        "portfolio.transfer",
+        "portfolio.accountdetails"
+      ],
+      "design_docs": [
+        "architecture/principles.adoc",
+        "features/loan-origination-details.adoc"
+      ],
+      "schema_areas": [
+        "clients"
+      ],
+      "design": [
+        "20 tables reference `m_client`; the client id is a stable key for the whole system",
+        "Client state is a status enum with a controlled set of transitions, each a command with its own permission",
+        "Entity clients use `m_client_non_person` with the legal-form code values; a bank pilot needs this from the start",
+        "External ids are supported everywhere; many Fineract endpoints address a client by `external-id/{externalId}`",
+        "Client search v2 is paged and filterable; follow Fineract's contract exactly because the Mifos console depends on its shape"
+      ],
+      "build_order": [
+        "Client create, read, update with the command pipeline",
+        "Lifecycle commands (activate, close, reject, withdraw, reactivate)",
+        "Identifiers, addresses, family members",
+        "Client charges and transactions (needs ecb_catalog and ecb_ledger)",
+        "Transfer between offices; search v1 and v2"
+      ],
+      "acceptance": [
+        "Every status transition and every rejected transition matches Fineract's responses",
+        "Client create and update responses (including `changes`) match the oracle's shape",
+        "The client integration classes (client, identifier, family member, charges, transaction, search, external id) pass"
+      ],
+      "open_questions": [
+        "Whether bank-specific customer fields are added as data tables or as typed columns, which affects migration"
+      ]
+    },
+    {
+      "app": "ecb_catalog",
+      "title": "Catalog: charges, taxes, rates, interest-rate charts",
+      "phase": 2,
+      "status": "not started",
+      "depends_on": [
+        "ecb_money",
+        "ecb_platform",
+        "ecb_org",
+        "ecb_ledger"
+      ],
+      "summary": "The building blocks that products are assembled from: charges (fees and penalties, with calculation types and due-date rules), tax components and groups, rates, floating rates, and the interest-rate charts with their slabs and incentives that fixed and recurring deposits use. Deposits and loans refer to these definitions but do not own them.",
+      "responsibilities": [
+        "Charges (`m_charge`) with applies-to, calculation type, time type, currency, tax group and the active flag",
+        "Tax components with history and tax groups with their mappings (`m_tax_component`, `m_tax_group`)",
+        "Rates (`m_rate`) and floating rates with periods (`m_floating_rates`, `m_floating_rates_periods`)",
+        "Interest-rate charts, slabs and incentives (`m_interest_rate_chart`, `m_interest_rate_slab`, `m_interest_incentives`)"
+      ],
+      "out_of_scope": [
+        "Applying a charge to an account (ecb_deposits, ecb_loans)",
+        "Tax calculation on a transaction (done by the product that posts it, using these definitions)"
+      ],
+      "gradle_modules": [
+        "fineract-charge",
+        "fineract-tax",
+        "fineract-rates"
+      ],
+      "packages": [
+        "portfolio.charge",
+        "portfolio.tax",
+        "portfolio.rate",
+        "portfolio.floatingrates",
+        "portfolio.interestratechart"
+      ],
+      "design_docs": [
+        "features/loan-charges.adoc",
+        "features/taxes-on-loan-charges.adoc",
+        "features/charges-template-filters.adoc",
+        "features/interest-rate-change-progressive-loans.adoc"
+      ],
+      "schema_areas": [
+        "catalog"
+      ],
+      "design": [
+        "Charges have a calculation type (flat, percent of amount, percent of interest, and so on) and a time type (disbursement, specified due date, installment fee, overdue, and so on); the enumerations and their numeric codes must match Fineract because clients send and receive the codes",
+        "Tax components keep a history of percentage changes with start and end dates; a charge points at a tax group, and the tax applies as of the transaction date",
+        "Interest-rate chart slabs are bands by term and amount; incentives modify the rate for a client attribute",
+        "The charge 'template' endpoint returns option lists; the Mifos console builds forms from it, so its shape is part of the contract"
+      ],
+      "build_order": [
+        "Charges with the enumerations and the template endpoint",
+        "Tax components and groups with history",
+        "Rates and floating rates",
+        "Interest-rate charts, slabs, incentives (needed before deposits products)"
+      ],
+      "acceptance": [
+        "Enumeration codes and template option lists match the oracle byte for byte in shape",
+        "Tax-component history lookups return the same component percentage as Fineract for a date corpus",
+        "The charge, tax and rate integration classes pass"
+      ],
+      "open_questions": [
+        "Which charge calculation types the pilot bank actually uses, to order the work"
+      ]
+    },
+    {
+      "app": "ecb_deposits",
+      "title": "Deposits: savings, current, fixed and recurring",
+      "phase": 3,
+      "status": "not started",
+      "depends_on": [
+        "ecb_money",
+        "ecb_platform",
+        "ecb_org",
+        "ecb_party",
+        "ecb_catalog",
+        "ecb_ledger"
+      ],
+      "summary": "Savings and current accounts, fixed deposits and recurring deposits, with their products, charges, transactions, interest calculation and posting, holds, dormancy, account transfers and standing instructions. It is the first product module and the one a retail bank needs for CASA. Interest and balance arithmetic here must match Fineract to the cent.",
+      "responsibilities": [
+        "Savings products and accounts (`m_savings_product`, `m_savings_account`), with the account lifecycle (submit, approve, activate, reject, withdraw, close)",
+        "Deposits, withdrawals, holds and releases, overdraft, minimum balance, dormancy and inactivity rules",
+        "Interest: calculation types (daily balance, average daily balance), compounding, posting frequency, and the interest posting job that ecb_batch runs",
+        "Savings charges (`m_savings_account_charge`) and the tax on interest",
+        "Fixed deposit products and accounts, with term, pre-closure and maturity instructions; recurring deposits with mandatory schedules (`m_mandatory_savings_schedule`)",
+        "Account transfers and standing instructions, with their run history",
+        "Savings transaction search and the transaction datatables"
+      ],
+      "out_of_scope": [
+        "Interest-rate chart definitions and charges (ecb_catalog)",
+        "Journal posting rules (ecb_ledger)",
+        "The scheduled interest posting job runner (ecb_batch)",
+        "Group savings (deferred)"
+      ],
+      "gradle_modules": [
+        "fineract-savings"
+      ],
+      "packages": [
+        "portfolio.savings",
+        "portfolio.account",
+        "portfolio.accounts"
+      ],
+      "design_docs": [
+        "features/savings-interest-posting.adoc",
+        "features/journal-entry-aggregation.adoc",
+        "architecture/business-date.adoc"
+      ],
+      "schema_areas": [
+        "deposits"
+      ],
+      "design": [
+        "Savings transactions are immutable rows (`m_savings_account_transaction`) with `is_reversed`, `is_reversal` and `original_transaction_id`; an undo creates a reversal, never an update",
+        "Each transaction stores derived running-balance fields (`running_balance_derived`, `cumulative_balance_derived`, `balance_end_date_derived`); balances are recomputed in date order when a back-dated transaction arrives, so the recalculation routine is the core of this module",
+        "Interest posting is its own documented flow (`features/savings-interest-posting.adoc`), including posting on the business date and compounding periods",
+        "Business date, not wall-clock time, decides the transaction date when the client gives none",
+        "A deposit is a hold-aware balance: holds (`m_deposit_account_on_hold_transaction`) reduce available balance without moving money",
+        "Account transfers move money between savings and loan accounts as a pair of transactions inside one command"
+      ],
+      "build_order": [
+        "Savings product definition and the account lifecycle",
+        "Deposit and withdrawal with running balances and reversal",
+        "Back-dated transaction recalculation",
+        "Interest calculation and posting (pure functions first, then the posting command)",
+        "Charges, tax on interest, holds, dormancy",
+        "Fixed deposits, then recurring deposits",
+        "Account transfers and standing instructions"
+      ],
+      "acceptance": [
+        "For a generated corpus of savings accounts with back-dated deposits, withdrawals and reversals, balances, running balances and interest match Fineract exactly",
+        "Journals produced for each scenario match Fineract's under cash and accrual accounting",
+        "The savings, fixed deposit, recurring deposit, account transfer and standing instruction integration classes pass"
+      ],
+      "open_questions": [
+        "Whether current accounts need anything beyond Fineract's savings product with overdraft enabled (cheque books, for example, are not in Fineract)"
+      ]
+    },
+    {
+      "app": "ecb_loans",
+      "title": "Loans: products, schedules, accounts and transactions",
+      "phase": 4,
+      "status": "not started",
+      "depends_on": [
+        "ecb_money",
+        "ecb_platform",
+        "ecb_org",
+        "ecb_party",
+        "ecb_catalog",
+        "ecb_ledger",
+        "ecb_deposits",
+        "ecb_collateral"
+      ],
+      "summary": "The largest and highest-risk module: loan products, the repayment schedule generator, loan accounts and their whole lifecycle, transactions and the allocation of payments, charges, interest recalculation, reschedule and restructure, write-off and charge-off, delinquency, credit bureau, progressive loans and the newer working-capital loans. Fineract devotes about a third of its code to this area, so it is built around a pure schedule engine that can be tested exhaustively against the oracle.",
+      "responsibilities": [
+        "Loan products (`m_product_loan` and its configurable attributes, recalculation, variable installments, borrower-cycle variations, guarantee settings)",
+        "The repayment schedule engine: equal installments and equal principal, declining balance and flat interest, interest calculation periods, grace, moratorium, multi-disbursement, variable installments",
+        "Loan accounts and lifecycle: submit, approve, disburse, undo, reject, withdraw, close, reschedule, re-age, re-amortise, contract termination",
+        "Transactions: repayment, prepayment, waive, write-off, charge-off, chargeback, refund, credit balance refund, merchant-issued refund, interest payment waiver, down payment",
+        "Payment allocation strategies (the loan transaction processor and advanced payment allocation)",
+        "Charges on loans, capitalised income, buy-down fees, interest pause",
+        "Delinquency buckets and ranges, with pausing",
+        "Progressive loan schedule model and the loan origination details",
+        "Credit bureau configuration and integration",
+        "Working-capital loans: products, accounts, amortisation, breach and near-breach, delinquency, charges and charge-off"
+      ],
+      "out_of_scope": [
+        "Collateral and guarantors (ecb_collateral)",
+        "Locks and close-of-business steps (ecb_batch)",
+        "Origination workflow and scoring: the core stays core",
+        "Group and JLG loans (deferred)"
+      ],
+      "gradle_modules": [
+        "fineract-loan",
+        "fineract-loan-origination",
+        "fineract-progressive-loan",
+        "fineract-progressive-loan-embeddable-schedule-generator",
+        "fineract-working-capital-loan"
+      ],
+      "packages": [
+        "portfolio.loanaccount",
+        "portfolio.loanproduct",
+        "portfolio.loanorigination",
+        "portfolio.delinquency",
+        "portfolio.interestpauses",
+        "portfolio.repaymentwithpostdatedchecks",
+        "infrastructure.creditbureau",
+        "portfolio.workingcapitalloan",
+        "portfolio.workingcapitalloanbreach",
+        "portfolio.workingcapitalloannearbreach",
+        "portfolio.workingcapitalloanproduct"
+      ],
+      "design_docs": [
+        "features/loan-charges.adoc",
+        "features/downpayment.adoc",
+        "features/re-ageing.adoc",
+        "features/re-amortization.adoc",
+        "features/contract-termination.adoc",
+        "features/backdated-interest-modification.adoc",
+        "features/interest-rate-change-progressive-loans.adoc",
+        "features/approved-amount-modification.adoc",
+        "features/buydown-fee.adoc",
+        "features/capitalized-income.adoc",
+        "features/pause-delinquency.adoc",
+        "features/delayed-schedule-captures.adoc",
+        "features/loan-origination-details.adoc",
+        "features/asset-externalization.adoc",
+        "architecture/advanced-payment-allocation.adoc",
+        "custom/loan-transaction-processor.adoc",
+        "architecture/loan-locking.adoc",
+        "features/working-capital-amortization-schedule.adoc",
+        "features/working-capital-breach-management.adoc",
+        "features/working-capital-delinquency-management.adoc",
+        "features/working-capital-charges.adoc",
+        "features/working-capital-charge-off.adoc",
+        "features/working-capital-credit-balance-refund.adoc",
+        "features/working-capital-breach-grace-days.adoc"
+      ],
+      "schema_areas": [
+        "loans",
+        "working-capital"
+      ],
+      "design": [
+        "A pure schedule engine: input is the product terms plus the application, output is the list of installments (`m_loan_repayment_schedule` carries principal, interest, fee and penalty amounts, each with completed, written-off and waived components). No database and no clock inside it; Fineract itself extracted an 'embeddable schedule generator' module for the progressive model, which confirms the direction",
+        "Installment amounts are split by component and each component tracks `_completed_derived`, `_writtenoff_derived` and `_waived_derived`; keep these columns because payment allocation updates them",
+        "Payment allocation is pluggable: the loan transaction processor strategies and the advanced payment allocation rules decide how a repayment is split across principal, interest, fees and penalties and across installments. Port the strategies as data-driven rules, not hard-coded branches",
+        "Transactions are immutable with reversal and replay: a back-dated transaction triggers reprocessing of later transactions (reverse-replay). This is where most of Fineract's edge cases live",
+        "35 tables reference `m_loan`; the loan row is large and many features hang off it, so organise the Elixir code by feature context (charges, delinquency, interest pause, originators) rather than one giant module",
+        "Working-capital loans are a separate model in Fineract (their own tables, `m_wc_*`, schedule, breach and delinquency rules); build them after the progressive model and consider a separate app (open question)",
+        "Accrual and journal behaviour is per product accounting rule; every transaction type has a defined set of journal lines"
+      ],
+      "build_order": [
+        "Pure schedule engine for the common cases (declining balance and flat, equal installments), tested against the oracle",
+        "Loan products and the template endpoints",
+        "Loan application, approval, disbursement with the schedule persisted",
+        "Repayment with the default allocation strategy, then reversal and reverse-replay",
+        "Charges, waive, write-off, charge-off, chargeback, refunds, interest recalculation",
+        "Reschedule, re-age, re-amortise, contract termination, down payment",
+        "Delinquency, interest pause, credit bureau",
+        "Advanced payment allocation and the progressive model",
+        "Working-capital loans"
+      ],
+      "acceptance": [
+        "For a generated corpus of loan terms the schedule matches Fineract line by line, including rounding",
+        "For generated lifecycles with back-dated payments, reversals and charge-offs, every transaction, balance and journal matches Fineract",
+        "No unexplained diff across the whole corpus blocks the module",
+        "The loan integration classes (about 180) pass, or each failure is a recorded divergence"
+      ],
+      "open_questions": [
+        "Whether working-capital loans (26 tables, about 100 operations) justify their own app so ecb_loans stays reviewable",
+        "Which payment allocation strategies and interest methods the pilot bank needs, to order the work",
+        "How to treat Fineract bugs the community has fixed in later releases: follow 1.16.1 or the fix"
+      ]
+    },
+    {
+      "app": "ecb_collateral",
+      "title": "Collateral and guarantors",
+      "phase": 4,
+      "status": "not started",
+      "depends_on": [
+        "ecb_money",
+        "ecb_platform",
+        "ecb_org",
+        "ecb_party",
+        "ecb_ledger",
+        "ecb_deposits"
+      ],
+      "summary": "Collateral definitions and collateral held against clients and loans, and guarantors with their funding details and transactions. It is kept apart from loans so lending stays focused, and because collateral valuation and guarantor funding are separate concerns with their own lifecycle. Its operations are called from loan commands.",
+      "responsibilities": [
+        "Collateral management definitions (`m_collateral_management`) with quality, unit type and pct to base",
+        "Client collateral and loan collateral (`m_client_collateral_management`, `m_loan_collateral_management`, `m_loan_collateral`)",
+        "Guarantors, their funding details and guarantor transactions (`m_guarantor`, `m_guarantor_funding_details`, `m_guarantor_transaction`), including hold on funds and release",
+        "Collateral value checks that loan approval and disbursement call"
+      ],
+      "out_of_scope": [
+        "Valuation workflow and legal perfection of security: surrounding systems",
+        "The loan itself (ecb_loans)"
+      ],
+      "gradle_modules": [],
+      "packages": [
+        "portfolio.collateral",
+        "portfolio.collateralmanagement"
+      ],
+      "design_docs": [
+        "features/loan-origination-details.adoc"
+      ],
+      "schema_areas": [
+        "collateral"
+      ],
+      "design": [
+        "In Fineract the guarantor code lives inside the loan account package; we move it here and expose a narrow interface to ecb_loans, a deliberate improvement on its entanglement",
+        "Guarantor funding places a hold on the guarantor's savings account through ecb_deposits and releases or consumes it on loan events"
+      ],
+      "build_order": [
+        "Collateral management definitions and client collateral",
+        "Loan collateral and the value check",
+        "Guarantors and funding, after ecb_deposits holds exist"
+      ],
+      "acceptance": [
+        "Collateral value and guarantor funding rules match Fineract's responses for generated cases",
+        "The collateral and guarantor integration classes pass"
+      ],
+      "open_questions": [
+        "Whether the pilot bank needs collateral and guarantors at launch or after the first lending release"
+      ]
+    },
+    {
+      "app": "ecb_batch",
+      "title": "Batch: scheduler, close of business, locks",
+      "phase": 5,
+      "status": "not started",
+      "depends_on": [
+        "ecb_platform",
+        "ecb_deposits",
+        "ecb_loans"
+      ],
+      "summary": "Everything that runs on a schedule or at end of day: the job scheduler and its history, the close-of-business process built from ordered business steps with partitioned processing across worker nodes, the loan account locks that keep real-time writes consistent while COB runs, catch-up after missed days, and inline COB for a single account. Fineract implements this on Spring Batch; we use Oban.",
+      "responsibilities": [
+        "Scheduled jobs and their parameters and run history (`job`, `job_parameters`, `job_run_history`, `scheduler_detail`)",
+        "COB for loans, savings and working-capital loans as ordered business steps (`m_batch_business_steps`: `job_name`, `step_name`, `step_order`)",
+        "Partitioned processing with a manager and workers; retry and resume; state kept per execution",
+        "Loan account locks (`m_loan_account_locks`: `loan_id`, `lock_owner`, `error`, `lock_placed_on_cob_business_date`, `stacktrace`), soft and hard, with bypass for repair and the orphaned-lock cleanup step",
+        "Inline COB for one loan when a real-time write meets a soft lock",
+        "COB catch-up after a missed or replayed day; business-date roll after COB",
+        "The interest-posting, accrual and similar jobs the product modules define as steps"
+      ],
+      "out_of_scope": [
+        "What a business step does (it lives in the product module that owns it)",
+        "The business-date model itself (ecb_platform)"
+      ],
+      "gradle_modules": [
+        "fineract-cob"
+      ],
+      "packages": [
+        "cob",
+        "infrastructure.jobs",
+        "infrastructure.springbatch"
+      ],
+      "design_docs": [
+        "architecture/batch-jobs.adoc",
+        "architecture/loan-locking.adoc",
+        "architecture/business-date.adoc",
+        "custom/business-step.adoc",
+        "custom/custom-batch-job.adoc",
+        "deployment/instance-type.adoc"
+      ],
+      "schema_areas": [
+        "batch"
+      ],
+      "design": [
+        "Soft lock: COB is queued for a loan but no worker has it, so a real-time write runs an inline COB for that loan first. Hard lock: a worker holds the loan, so writes are rejected with HTTP 409. `bypass_enabled` allows repair calls on a locked loan",
+        "A lock with an error stays in place deliberately: it marks a loan that must be fixed; only locks without an error whose COB date has completed are removed by the cleanup step",
+        "COB date is derived from the business date by a strategy; transactions arriving during COB belong to the next business day",
+        "Steps are configuration, not code paths: the order is read from the business-step table so an operator can change it",
+        "Partitioned processing: a manager splits accounts into chunks and workers process them; failure of one chunk must not block others, and the run is resumable",
+        "Instance roles: only batch nodes run jobs; write and read nodes do not"
+      ],
+      "build_order": [
+        "Scheduler and job history on Oban",
+        "Business-date roll and the COB date strategy",
+        "Lock table and soft and hard lock behaviour",
+        "Loan COB with the standard business steps, partitioned",
+        "Inline COB and catch-up",
+        "Savings COB, then working-capital COB",
+        "Operations views: job status, locked loans"
+      ],
+      "acceptance": [
+        "Killing a worker mid-run and restarting completes the run without double processing",
+        "A real-time repayment during COB behaves as Fineract does for both soft and hard locks",
+        "Replaying a missed day produces the same results as running it on time",
+        "The COB, scheduler and catch-up integration classes pass"
+      ],
+      "open_questions": [
+        "Partition sizing and the number of worker nodes for the pilot's account volume",
+        "Whether to keep Fineract's job names so existing operational runbooks still apply"
+      ]
+    },
+    {
+      "app": "ecb_reports",
+      "title": "Reports and exports",
+      "phase": 5,
+      "status": "not started",
+      "depends_on": [
+        "ecb_platform",
+        "ecb_ledger"
+      ],
+      "summary": "The report engine: stored SQL reports with parameters that operators can run and export, the standard report library Fineract ships, and report mailing jobs that run reports on a schedule and send the result. Fineract's reports are SQL stored in the database and reference its tables, which is a main reason the schema is kept compatible.",
+      "responsibilities": [
+        "Report definitions and parameters (`stretchy_report`, `stretchy_report_parameter`, `stretchy_parameter`)",
+        "Running reports with permission checks, output formats and the available-exports list",
+        "The standard report library, loaded into each tenant",
+        "Report mailing jobs and their run history",
+        "Protection against SQL injection in report parameters"
+      ],
+      "out_of_scope": [
+        "Statutory and regulatory returns for the pilot country: a separate piece of work",
+        "Business intelligence and warehousing: consume the event stream instead"
+      ],
+      "gradle_modules": [
+        "fineract-report"
+      ],
+      "packages": [
+        "infrastructure.report",
+        "infrastructure.reportmailingjob"
+      ],
+      "design_docs": [
+        "architecture/system.adoc"
+      ],
+      "schema_areas": [
+        "reporting"
+      ],
+      "design": [
+        "Reports are data: SQL text plus parameters, executed read-only. Because they name Fineract tables and columns directly, keeping the schema compatible lets the whole standard library run unchanged",
+        "Parameters are bound, never interpolated; Fineract has a dedicated SQL-injection test and we keep it",
+        "Report execution uses a read-only connection and, when configured, a read replica"
+      ],
+      "build_order": [
+        "Report tables and the report listing endpoints",
+        "Running a report with parameters and permissions",
+        "Export formats",
+        "Standard report library import",
+        "Report mailing jobs (after ecb_batch)"
+      ],
+      "acceptance": [
+        "The standard reports return the same rows as Fineract on the same data",
+        "The SQL-injection test passes: hostile parameters never alter the statement"
+      ],
+      "open_questions": [
+        "Whether the standard report library is imported as is, or reviewed for the pilot's needs first"
+      ]
+    },
+    {
+      "app": "ecb_events",
+      "title": "Business events, hooks, notifications",
+      "phase": 6,
+      "status": "not started",
+      "depends_on": [
+        "ecb_platform"
+      ],
+      "summary": "How the core tells the outside world what happened. Business events are written to an outbox table in the same transaction as the change and published in order, at least once, in a standard format. Hooks and webhooks call external URLs, notifications reach users, and external services (SMS gateway, email, content storage) are configured here. It is the second integration surface after the API.",
+      "responsibilities": [
+        "Transactional outbox for business events (`m_external_event`: `type`, `schema`, `data`, `status`, `business_date`, `aggregate_root_id`, `category`, `idempotency_key`, `sent_at`)",
+        "Event publication with ordering and at-least-once delivery, selective producing per event type, bulk events",
+        "Event configuration (which event types are produced)",
+        "Hooks and webhooks (`m_hook` family) for events",
+        "In-app notifications (`m_notification`, `notification_generator`, `notification_mapper`)",
+        "External service configuration (`c_external_service`)"
+      ],
+      "out_of_scope": [
+        "SMS and email campaigns, interoperation: deferred",
+        "Consumers of the events: external systems"
+      ],
+      "gradle_modules": [
+        "fineract-avro-schemas"
+      ],
+      "packages": [
+        "infrastructure.event",
+        "infrastructure.hooks",
+        "notification",
+        "infrastructure.gcm"
+      ],
+      "design_docs": [
+        "architecture/reliable-event-framework.adoc",
+        "command/hooks.adoc"
+      ],
+      "schema_areas": [
+        "integration"
+      ],
+      "design": [
+        "The event is stored in the same database transaction as the business change, so an event exists if and only if the change committed",
+        "Fineract serialises events as Avro, with the schema name stored beside the payload (`schema` column), and defines a standard event envelope; we follow its event types and field names so consumers written for Fineract keep working",
+        "Delivery is at least once and ordered per aggregate; consumers must be idempotent, and the `idempotency_key` column supports that",
+        "Publication runs on batch-role nodes, not on request-handling nodes"
+      ],
+      "build_order": [
+        "Outbox table and the write path in the command pipeline",
+        "Publisher with ordering, retry and status tracking",
+        "Event configuration API",
+        "Hooks and webhooks",
+        "Notifications"
+      ],
+      "acceptance": [
+        "A command that rolls back leaves no event",
+        "Killing the publisher mid-batch and restarting delivers every event at least once, in order",
+        "Event payloads for a generated scenario match Fineract's field for field"
+      ],
+      "open_questions": [
+        "Avro or JSON on the wire. Avro keeps existing consumers working; JSON is easier to debug",
+        "Which message channel the pilot uses (Kafka, ActiveMQ or none at first)"
+      ]
+    },
+    {
+      "app": "ecb_api_fineract",
+      "title": "Fineract-compatible REST API",
+      "phase": 1,
+      "status": "not started",
+      "depends_on": [
+        "ecb_platform",
+        "ecb_org",
+        "ecb_party",
+        "ecb_catalog",
+        "ecb_ledger",
+        "ecb_branch",
+        "ecb_deposits",
+        "ecb_loans",
+        "ecb_collateral",
+        "ecb_batch",
+        "ecb_reports",
+        "ecb_events"
+      ],
+      "summary": "The wire contract: the paths, JSON shapes, `?command=` actions, templates, pagination, error format, tenant header and authentication that existing Fineract clients and the Mifos web and mobile apps expect. It is a thin layer over the domain modules and owns no business rules. It starts in Phase 1 with authentication and `GET /offices` and grows module by module, always measured by the contract probe.",
+      "responsibilities": [
+        "Routing under `/fineract-provider/api/v1/...` and `/v2/...` for every `must` and `should` operation in the inventory",
+        "Request parsing and response serialisation with Fineract's field names, date formats (arrays such as `[2009,1,1]`) and enumeration objects",
+        "The `?command=<action>` convention for state transitions and the `template` endpoints",
+        "Pagination, filtering and sorting parameters, including `pageItems` and `totalFilteredRecords`",
+        "Error responses in Fineract's format (`developerMessage`, `httpStatusCode`, `defaultUserMessage`, `errors` list)",
+        "Tenant header, authentication and idempotency header handling at the edge",
+        "A documented 'not implemented' error for every deferred operation"
+      ],
+      "out_of_scope": [
+        "Business rules: they live in the domain modules",
+        "Our own API design (ecb_api_native)"
+      ],
+      "gradle_modules": [],
+      "packages": [
+        "infrastructure.openapi"
+      ],
+      "design_docs": [
+        "architecture/api-backward-compatibility.adoc",
+        "architecture/principles.adoc",
+        "sdk/api.adoc",
+        "sdk/client.adoc"
+      ],
+      "schema_areas": [],
+      "api_overview": true,
+      "api_note": "This module serves every operation listed in the other module documents.",
+      "data_note": "This module owns no tables.",
+      "tests_note": "Verified by the contract probe over all read operations and by Fineract's whole integration suite, which drives the API.",
+      "design": [
+        "A thin controller per resource that builds a command or a query and delegates; no logic in controllers",
+        "Serialisation modules per resource mirror Fineract's `serialization` packages, because the field names and shapes are the contract",
+        "The OpenAPI descriptor in `parity/inventory` is the reference; a CI job compares our generated descriptor with it for the implemented operations",
+        "Compatibility is tested, not assumed: the contract probe compares status and shape against the oracle, Fineract's own tests compare behaviour"
+      ],
+      "build_order": [
+        "Tenant header, authentication, error format, `GET /offices`",
+        "Reference-data resources as ecb_org lands",
+        "Clients and catalog resources",
+        "Deposits resources, then loans resources",
+        "Accounting, reports, hooks and the remaining `must` operations",
+        "The `should` operations; the deferred operations return 'not implemented'"
+      ],
+      "acceptance": [
+        "Contract probe pass rate rises monotonically and reaches 100% of counted `must` read operations",
+        "Fineract's integration suite pass rate per module meets that module's acceptance criteria",
+        "The stock Mifos web app logs in and browses every implemented area"
+      ],
+      "open_questions": [
+        "How to handle the version gap: the latest Mifos web app targets Fineract 1.14 while the contract is 1.16.1"
+      ]
+    },
+    {
+      "app": "ecb_api_native",
+      "title": "Native E-CoreBank API",
+      "phase": 6,
+      "status": "not started (after the compatible API is stable)",
+      "depends_on": [
+        "ecb_platform",
+        "ecb_org",
+        "ecb_party",
+        "ecb_deposits",
+        "ecb_loans"
+      ],
+      "summary": "Our own API under `/api/ecb/v1`, designed for new clients rather than for compatibility. It exists because the Fineract contract has quirks that we keep for parity but would not choose today. It calls the same domain modules and the same command pipeline, so there is one set of business rules behind both APIs.",
+      "responsibilities": [
+        "A cleaner resource model with consistent pagination, ISO date strings and standard error objects",
+        "OpenAPI-first definition with generated documentation",
+        "The same authentication, tenant resolution, idempotency and maker-checker as the compatible API"
+      ],
+      "out_of_scope": [
+        "Duplicating business logic: it only adapts"
+      ],
+      "gradle_modules": [],
+      "packages": [],
+      "design_docs": [
+        "architecture/principles.adoc"
+      ],
+      "schema_areas": [],
+      "api_note": "No operations yet; they are defined in an ADR when this module starts.",
+      "data_note": "This module owns no tables.",
+      "tests_note": "No Fineract test class applies: this API has no Fineract counterpart.",
+      "design": [
+        "Both APIs go through the same commands; a rule fixed once is fixed for both",
+        "Versioned from the start, with the backward-compatibility check Fineract applies to its own API"
+      ],
+      "build_order": [
+        "ADR with the resource model, after the compatible API covers clients, deposits and loans",
+        "Read resources first, then commands"
+      ],
+      "acceptance": [
+        "Every native operation has a contract test and an equivalence test against the compatible API for the same command"
+      ],
+      "open_questions": [
+        "Which consumers (mobile app, partner integrations) drive the design"
+      ]
+    },
+    {
+      "app": "ecb_web",
+      "title": "LiveView console (the Mifos rewrite)",
+      "phase": 2,
+      "status": "Phoenix shell exists; no console screens",
+      "depends_on": [
+        "ecb_platform",
+        "ecb_api_fineract"
+      ],
+      "summary": "The operations console, replacing the Mifos web app. It is built as screens over the domain contexts in LiveView, one area at a time, starting with the screens staff use daily. Until a screen exists the stock Mifos web app can run against the compatible API, so there is always a usable console while this one is built.",
+      "responsibilities": [
+        "A design system: tables, forms, wizards, detail tabs, search, the maker-checker inbox",
+        "Screens per area, in the order of the module build: organisation, clients, deposits, loans, accounting, administration",
+        "Login, tenant selection, permission-aware navigation",
+        "Dashboards and operational views (job status, locked loans, pending approvals)"
+      ],
+      "out_of_scope": [
+        "The mobile apps and customer self-service: API clients, kept as they are",
+        "Business rules: the console calls the same command and query layers as the API"
+      ],
+      "gradle_modules": [],
+      "packages": [],
+      "design_docs": [
+        "architecture/principles.adoc",
+        "architecture/system.adoc"
+      ],
+      "schema_areas": [],
+      "api_note": "This module serves screens, not API operations.",
+      "data_note": "This module owns no tables.",
+      "tests_note": "No Fineract test class applies. Screens are checked against the Mifos web app's flows with recorded browser tests.",
+      "design": [
+        "Fineract is headless and has no console of its own; the Mifos web app is the reference for what screens and flows staff need",
+        "Screens never bypass the command pipeline, so audit and maker-checker behave the same as through the API",
+        "The grid component is AG Grid Enterprise, already vendored in `assets/vendor` under the licence the team holds; record the licence terms in an ADR"
+      ],
+      "build_order": [
+        "Design system and the shell with login",
+        "Organisation and reference-data screens",
+        "Client screens, then deposit screens, then loan screens",
+        "Accounting and administration screens, the maker-checker inbox",
+        "Retire the Mifos web app per area once the screens reach parity"
+      ],
+      "acceptance": [
+        "For each area, recorded flows from the Mifos web app pass against the LiveView screens",
+        "Permission checks hide and deny exactly what the API denies"
+      ],
+      "open_questions": [
+        "A screen inventory of the Mifos web app, ranked by daily use, is still to be produced"
+      ]
+    },
+    {
+      "app": "ecb_migrate",
+      "title": "Migration from an existing Fineract database",
+      "phase": 7,
+      "status": "not started",
+      "depends_on": [
+        "ecb_platform"
+      ],
+      "summary": "A tool that brings an existing Fineract tenant into E-CoreBank. Because the schema follows Fineract's, migration is a verified data copy, plus the pieces that differ: the tenant registry entry, password handling and any version skew. It also produces a reconciliation report so a bank can prove nothing was lost.",
+      "responsibilities": [
+        "Create a tenant database from our migrations and copy data table by table in dependency order",
+        "Handle schema version skew by reading Fineract's Liquibase history",
+        "Convert tenant connection details into a registry entry (no password stored)",
+        "Reconciliation: row counts, sums of balances and journals, and per-account checks",
+        "Dry run, resume after failure, and a cutover runbook"
+      ],
+      "out_of_scope": [
+        "Migration from systems other than Fineract"
+      ],
+      "gradle_modules": [],
+      "packages": [],
+      "design_docs": [
+        "architecture/persistence.adoc",
+        "custom/database-migration.adoc"
+      ],
+      "schema_areas": [],
+      "api_note": "This module exposes no API; it is a command-line tool.",
+      "data_note": "This module owns no tables. It reads a Fineract database and writes ours.",
+      "tests_note": "No Fineract test class applies. It is tested by migrating the oracle's own database and comparing the result.",
+      "design": [
+        "Fineract moved from Flyway to Liquibase at 1.7 and refuses to start on a database older than 1.6; the tool applies the same rule and states the supported source versions",
+        "Money and balances are compared by exact decimal equality, never by float",
+        "The oracle itself is the test bed: migrate it and run the contract suite against the migrated copy"
+      ],
+      "build_order": [
+        "Schema version detection and the supported-version rule",
+        "Table copy in dependency order, with the reconciliation report",
+        "Dry run, resume, cutover runbook",
+        "Rehearsal on the oracle database"
+      ],
+      "acceptance": [
+        "A migrated oracle database passes the same contract checks as the oracle",
+        "Reconciliation shows zero differences in counts and balance totals"
+      ],
+      "open_questions": [
+        "Which Fineract versions the pilot bank might be migrating from"
+      ]
+    },
+    {
+      "app": "deferred",
+      "title": "Deferred features (not built in the first releases)",
+      "phase": 8,
+      "status": "parked by the cut list approved on 14 Nov 2026",
+      "depends_on": [],
+      "summary": "Features in Fineract that a retail bank rarely needs and that the approved cut list parks: group and centre lending, meetings and calendars, collection sheets, share accounts and products, survey and poverty-index scorecards, the investor module for selling loan portions, SMS and email campaigns, and interoperation. Each deferred endpoint returns a documented 'not implemented' error and shows as skipped in the contract suite. This document keeps the scope, tables and tests together so any of them can be revived without rediscovery.",
+      "responsibilities": [
+        "Nothing is built. This document is the record of what exists in Fineract and what reviving each feature would take"
+      ],
+      "out_of_scope": [
+        "Everything listed here, until a pilot bank asks for it"
+      ],
+      "gradle_modules": [
+        "fineract-investor"
+      ],
+      "packages": [
+        "portfolio.group",
+        "portfolio.calendar",
+        "portfolio.meeting",
+        "portfolio.collectionsheet",
+        "portfolio.shareaccounts",
+        "portfolio.shareproducts",
+        "portfolio.products",
+        "spm",
+        "infrastructure.survey",
+        "infrastructure.campaigns",
+        "investor",
+        "interoperation",
+        "infrastructure.sms"
+      ],
+      "design_docs": [
+        "features/asset-externalization.adoc"
+      ],
+      "schema_areas": [
+        "groups-and-calendars",
+        "shares",
+        "surveys",
+        "investor"
+      ],
+      "design": [
+        "Group and joint-liability lending depend on groups, centres, calendars and meetings together; reviving one means reviving all of them",
+        "The investor module (asset externalisation) is event- and COB-driven and touches loans and accounting; it needs ecb_events and ecb_batch first",
+        "If any of these is revived it becomes its own app with its own document, not an addition to an existing module"
+      ],
+      "build_order": [
+        "Not scheduled. Estimate and schedule only when a pilot bank asks"
+      ],
+      "acceptance": [
+        "Every deferred operation returns the documented 'not implemented' error",
+        "The contract suite marks the corresponding classes skipped, with the reason"
+      ],
+      "open_questions": [
+        "Whether the pilot bank needs group lending or shares, which would change the schedule materially"
+      ]
+    }
+  ],
+  "excluded_packages": {
+    "client": "Generated and hand-written Java SDK clients (fineract-client, fineract-client-feign). Not server code: E-CoreBank has no need for a Java client.",
+    "avro": "Avro schema generator tooling. The event schemas themselves are followed by ecb_events."
+  },
+  "direct_package_owner": {
+    "portfolio": "ecb_platform",
+    "infrastructure": "ecb_platform"
+  }
+}

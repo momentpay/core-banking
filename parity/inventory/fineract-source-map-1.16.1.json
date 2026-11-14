@@ -1,0 +1,2863 @@
+{
+ "gradle_modules": {
+  "fineract-accounting": 171,
+  "fineract-avro-schemas": 1,
+  "fineract-branch": 48,
+  "fineract-charge": 37,
+  "fineract-client": 10,
+  "fineract-client-feign": 18,
+  "fineract-cob": 67,
+  "fineract-command": 25,
+  "fineract-command-async": 3,
+  "fineract-command-audit": 6,
+  "fineract-command-disruptor": 4,
+  "fineract-command-jdbc": 9,
+  "fineract-command-test": 15,
+  "fineract-core": 813,
+  "fineract-document": 85,
+  "fineract-investor": 111,
+  "fineract-loan": 682,
+  "fineract-loan-origination": 58,
+  "fineract-progressive-loan": 90,
+  "fineract-progressive-loan-embeddable-schedule-generator": 1,
+  "fineract-provider": 2456,
+  "fineract-rates": 29,
+  "fineract-report": 6,
+  "fineract-savings": 182,
+  "fineract-security": 65,
+  "fineract-tax": 29,
+  "fineract-validation": 8,
+  "fineract-working-capital-loan": 481
+ },
+ "prefixes": {
+  "accounting": {
+   "fineract-accounting": 170,
+   "fineract-core": 21,
+   "fineract-loan": 1,
+   "fineract-provider": 42
+  },
+  "accounting.accrual": {
+   "fineract-accounting": 7,
+   "fineract-provider": 2
+  },
+  "accounting.accrual.api": {
+   "fineract-accounting": 3
+  },
+  "accounting.accrual.handler": {
+   "fineract-accounting": 1
+  },
+  "accounting.accrual.request": {
+   "fineract-accounting": 1
+  },
+  "accounting.accrual.serialization": {
+   "fineract-accounting": 1
+  },
+  "accounting.accrual.service": {
+   "fineract-accounting": 1,
+   "fineract-provider": 1
+  },
+  "accounting.accrual.starter": {
+   "fineract-provider": 1
+  },
+  "accounting.closure": {
+   "fineract-accounting": 20
+  },
+  "accounting.closure.api": {
+   "fineract-accounting": 3
+  },
+  "accounting.closure.command": {
+   "fineract-accounting": 1
+  },
+  "accounting.closure.data": {
+   "fineract-accounting": 2
+  },
+  "accounting.closure.domain": {
+   "fineract-accounting": 2
+  },
+  "accounting.closure.exception": {
+   "fineract-accounting": 4
+  },
+  "accounting.closure.handler": {
+   "fineract-accounting": 3
+  },
+  "accounting.closure.serialization": {
+   "fineract-accounting": 1
+  },
+  "accounting.closure.service": {
+   "fineract-accounting": 4
+  },
+  "accounting.common": {
+   "fineract-accounting": 2,
+   "fineract-core": 3,
+   "fineract-provider": 1
+  },
+  "accounting.financialactivityaccount": {
+   "fineract-accounting": 20,
+   "fineract-core": 1
+  },
+  "accounting.financialactivityaccount.api": {
+   "fineract-accounting": 4
+  },
+  "accounting.financialactivityaccount.data": {
+   "fineract-accounting": 2,
+   "fineract-core": 1
+  },
+  "accounting.financialactivityaccount.domain": {
+   "fineract-accounting": 3
+  },
+  "accounting.financialactivityaccount.exception": {
+   "fineract-accounting": 3
+  },
+  "accounting.financialactivityaccount.handler": {
+   "fineract-accounting": 3
+  },
+  "accounting.financialactivityaccount.serialization": {
+   "fineract-accounting": 1
+  },
+  "accounting.financialactivityaccount.service": {
+   "fineract-accounting": 4
+  },
+  "accounting.glaccount": {
+   "fineract-accounting": 25,
+   "fineract-core": 11
+  },
+  "accounting.glaccount.api": {
+   "fineract-accounting": 2,
+   "fineract-core": 1
+  },
+  "accounting.glaccount.command": {
+   "fineract-accounting": 1
+  },
+  "accounting.glaccount.data": {
+   "fineract-accounting": 1,
+   "fineract-core": 1
+  },
+  "accounting.glaccount.domain": {
+   "fineract-accounting": 3,
+   "fineract-core": 5
+  },
+  "accounting.glaccount.exception": {
+   "fineract-accounting": 8,
+   "fineract-core": 1
+  },
+  "accounting.glaccount.handler": {
+   "fineract-accounting": 3
+  },
+  "accounting.glaccount.jobs": {
+   "fineract-accounting": 2
+  },
+  "accounting.glaccount.mapper": {
+   "fineract-core": 3
+  },
+  "accounting.glaccount.serialization": {
+   "fineract-accounting": 1
+  },
+  "accounting.glaccount.service": {
+   "fineract-accounting": 4
+  },
+  "accounting.jobs": {
+   "fineract-provider": 2
+  },
+  "accounting.jobs.accountrunningbalanceupdate": {
+   "fineract-provider": 2
+  },
+  "accounting.journalentry": {
+   "fineract-accounting": 44,
+   "fineract-core": 2,
+   "fineract-provider": 28
+  },
+  "accounting.journalentry.api": {
+   "fineract-accounting": 1,
+   "fineract-provider": 2
+  },
+  "accounting.journalentry.command": {
+   "fineract-accounting": 2
+  },
+  "accounting.journalentry.data": {
+   "fineract-accounting": 27,
+   "fineract-core": 1
+  },
+  "accounting.journalentry.domain": {
+   "fineract-accounting": 2,
+   "fineract-core": 1
+  },
+  "accounting.journalentry.exception": {
+   "fineract-accounting": 4
+  },
+  "accounting.journalentry.handler": {
+   "fineract-provider": 4
+  },
+  "accounting.journalentry.serialization": {
+   "fineract-accounting": 1
+  },
+  "accounting.journalentry.service": {
+   "fineract-accounting": 6,
+   "fineract-provider": 22
+  },
+  "accounting.productaccountmapping": {
+   "fineract-loan": 1,
+   "fineract-provider": 1
+  },
+  "accounting.productaccountmapping.service": {
+   "fineract-loan": 1,
+   "fineract-provider": 1
+  },
+  "accounting.producttoaccountmapping": {
+   "fineract-accounting": 12,
+   "fineract-core": 4
+  },
+  "accounting.producttoaccountmapping.data": {
+   "fineract-core": 4
+  },
+  "accounting.producttoaccountmapping.domain": {
+   "fineract-accounting": 2
+  },
+  "accounting.producttoaccountmapping.exception": {
+   "fineract-accounting": 2
+  },
+  "accounting.producttoaccountmapping.serialization": {
+   "fineract-accounting": 1
+  },
+  "accounting.producttoaccountmapping.service": {
+   "fineract-accounting": 7
+  },
+  "accounting.provisioning": {
+   "fineract-accounting": 13,
+   "fineract-provider": 8
+  },
+  "accounting.provisioning.api": {
+   "fineract-accounting": 2
+  },
+  "accounting.provisioning.constant": {
+   "fineract-accounting": 1
+  },
+  "accounting.provisioning.data": {
+   "fineract-accounting": 3
+  },
+  "accounting.provisioning.domain": {
+   "fineract-provider": 3
+  },
+  "accounting.provisioning.exception": {
+   "fineract-accounting": 4
+  },
+  "accounting.provisioning.handler": {
+   "fineract-provider": 3
+  },
+  "accounting.provisioning.serialization": {
+   "fineract-accounting": 1
+  },
+  "accounting.provisioning.service": {
+   "fineract-accounting": 2,
+   "fineract-provider": 2
+  },
+  "accounting.retainedearning": {
+   "fineract-accounting": 2
+  },
+  "accounting.retainedearning.domain": {
+   "fineract-accounting": 2
+  },
+  "accounting.rule": {
+   "fineract-accounting": 24
+  },
+  "accounting.rule.api": {
+   "fineract-accounting": 3
+  },
+  "accounting.rule.data": {
+   "fineract-accounting": 3
+  },
+  "accounting.rule.domain": {
+   "fineract-accounting": 4
+  },
+  "accounting.rule.exception": {
+   "fineract-accounting": 5
+  },
+  "accounting.rule.handler": {
+   "fineract-accounting": 3
+  },
+  "accounting.rule.serialization": {
+   "fineract-accounting": 1
+  },
+  "accounting.rule.service": {
+   "fineract-accounting": 4
+  },
+  "accounting.rule.starter": {
+   "fineract-accounting": 1
+  },
+  "accounting.trialbalance": {
+   "fineract-accounting": 1
+  },
+  "accounting.trialbalance.exception": {
+   "fineract-accounting": 1
+  },
+  "adhocquery": {
+   "fineract-provider": 17
+  },
+  "adhocquery.api": {
+   "fineract-provider": 2
+  },
+  "adhocquery.data": {
+   "fineract-provider": 2
+  },
+  "adhocquery.domain": {
+   "fineract-provider": 3
+  },
+  "adhocquery.exception": {
+   "fineract-provider": 1
+  },
+  "adhocquery.handler": {
+   "fineract-provider": 3
+  },
+  "adhocquery.service": {
+   "fineract-provider": 5
+  },
+  "adhocquery.starter": {
+   "fineract-provider": 1
+  },
+  "avro": {
+   "fineract-avro-schemas": 1
+  },
+  "avro.generator": {
+   "fineract-avro-schemas": 1
+  },
+  "batch": {
+   "fineract-core": 18,
+   "fineract-provider": 52,
+   "fineract-working-capital-loan": 29
+  },
+  "batch.api": {
+   "fineract-core": 2
+  },
+  "batch.command": {
+   "fineract-core": 6,
+   "fineract-provider": 52,
+   "fineract-working-capital-loan": 29
+  },
+  "batch.command.internal": {
+   "fineract-core": 1,
+   "fineract-provider": 52,
+   "fineract-working-capital-loan": 29
+  },
+  "batch.domain": {
+   "fineract-core": 3
+  },
+  "batch.exception": {
+   "fineract-core": 2
+  },
+  "batch.serialization": {
+   "fineract-core": 1
+  },
+  "batch.service": {
+   "fineract-core": 4
+  },
+  "client": {
+   "fineract-client": 10,
+   "fineract-client-feign": 18
+  },
+  "client.adapter": {
+   "fineract-client-feign": 1
+  },
+  "client.feign": {
+   "fineract-client-feign": 16
+  },
+  "client.feign.services": {
+   "fineract-client-feign": 5
+  },
+  "client.feign.support": {
+   "fineract-client-feign": 1
+  },
+  "client.feign.util": {
+   "fineract-client-feign": 2
+  },
+  "client.services": {
+   "fineract-client": 4
+  },
+  "client.util": {
+   "fineract-client": 6,
+   "fineract-client-feign": 1
+  },
+  "client.util.adapter": {
+   "fineract-client": 1
+  },
+  "cob": {
+   "fineract-cob": 65,
+   "fineract-loan": 2,
+   "fineract-provider": 81,
+   "fineract-savings": 11,
+   "fineract-working-capital-loan": 43
+  },
+  "cob.api": {
+   "fineract-cob": 1,
+   "fineract-provider": 8,
+   "fineract-working-capital-loan": 2
+  },
+  "cob.common": {
+   "fineract-cob": 5
+  },
+  "cob.conditions": {
+   "fineract-cob": 2,
+   "fineract-provider": 1
+  },
+  "cob.converter": {
+   "fineract-cob": 1
+  },
+  "cob.data": {
+   "fineract-cob": 14,
+   "fineract-provider": 5
+  },
+  "cob.data.request": {
+   "fineract-provider": 1
+  },
+  "cob.domain": {
+   "fineract-cob": 8,
+   "fineract-provider": 3,
+   "fineract-working-capital-loan": 3
+  },
+  "cob.exceptions": {
+   "fineract-cob": 6,
+   "fineract-provider": 1
+  },
+  "cob.internal": {
+   "fineract-working-capital-loan": 3
+  },
+  "cob.listener": {
+   "fineract-cob": 6,
+   "fineract-provider": 5,
+   "fineract-working-capital-loan": 1
+  },
+  "cob.loan": {
+   "fineract-loan": 1,
+   "fineract-provider": 37
+  },
+  "cob.processor": {
+   "fineract-cob": 1
+  },
+  "cob.resolver": {
+   "fineract-cob": 2
+  },
+  "cob.savings": {
+   "fineract-provider": 1,
+   "fineract-savings": 11
+  },
+  "cob.savings.domain": {
+   "fineract-savings": 1
+  },
+  "cob.service": {
+   "fineract-cob": 13,
+   "fineract-loan": 1,
+   "fineract-provider": 20
+  },
+  "cob.tasklet": {
+   "fineract-cob": 2
+  },
+  "cob.workingcapitalloan": {
+   "fineract-working-capital-loan": 34
+  },
+  "cob.workingcapitalloan.businessstep": {
+   "fineract-working-capital-loan": 9
+  },
+  "command": {
+   "fineract-command": 25,
+   "fineract-command-async": 3,
+   "fineract-command-audit": 6,
+   "fineract-command-disruptor": 4,
+   "fineract-command-jdbc": 9,
+   "fineract-command-test": 15
+  },
+  "command.async": {
+   "fineract-command-async": 3
+  },
+  "command.async.implementation": {
+   "fineract-command-async": 1
+  },
+  "command.async.starter": {
+   "fineract-command-async": 1
+  },
+  "command.audit": {
+   "fineract-command-audit": 6
+  },
+  "command.audit.hook": {
+   "fineract-command-audit": 3
+  },
+  "command.audit.starter": {
+   "fineract-command-audit": 1
+  },
+  "command.core": {
+   "fineract-command": 17
+  },
+  "command.core.exception": {
+   "fineract-command": 5
+  },
+  "command.disruptor": {
+   "fineract-command-disruptor": 4
+  },
+  "command.disruptor.implementation": {
+   "fineract-command-disruptor": 1
+  },
+  "command.disruptor.starter": {
+   "fineract-command-disruptor": 2
+  },
+  "command.hook": {
+   "fineract-command": 3
+  },
+  "command.implementation": {
+   "fineract-command": 3
+  },
+  "command.jdbc": {
+   "fineract-command-jdbc": 9
+  },
+  "command.jdbc.starter": {
+   "fineract-command-jdbc": 1
+  },
+  "command.jdbc.store": {
+   "fineract-command-jdbc": 7
+  },
+  "command.starter": {
+   "fineract-command": 2
+  },
+  "command.test": {
+   "fineract-command-test": 15
+  },
+  "command.test.sample": {
+   "fineract-command-test": 14
+  },
+  "commands": {
+   "fineract-core": 25,
+   "fineract-provider": 14
+  },
+  "commands.annotation": {
+   "fineract-core": 1
+  },
+  "commands.api": {
+   "fineract-provider": 6
+  },
+  "commands.api.v2": {
+   "fineract-provider": 3
+  },
+  "commands.configuration": {
+   "fineract-core": 1
+  },
+  "commands.data": {
+   "fineract-provider": 5
+  },
+  "commands.data.request": {
+   "fineract-provider": 2
+  },
+  "commands.domain": {
+   "fineract-core": 5
+  },
+  "commands.exception": {
+   "fineract-core": 6
+  },
+  "commands.handler": {
+   "fineract-core": 1
+  },
+  "commands.jobs": {
+   "fineract-core": 2
+  },
+  "commands.provider": {
+   "fineract-core": 1
+  },
+  "commands.service": {
+   "fineract-core": 8,
+   "fineract-provider": 2
+  },
+  "commands.starter": {
+   "fineract-provider": 1
+  },
+  "core": {
+   "fineract-cob": 2
+  },
+  "core.exceptionmapper": {
+   "fineract-cob": 2
+  },
+  "infrastructure": {
+   "fineract-accounting": 1,
+   "fineract-core": 462,
+   "fineract-document": 85,
+   "fineract-loan": 112,
+   "fineract-provider": 905,
+   "fineract-report": 6,
+   "fineract-security": 65,
+   "fineract-working-capital-loan": 65
+  },
+  "infrastructure.accountnumberformat": {
+   "fineract-core": 8,
+   "fineract-provider": 12
+  },
+  "infrastructure.accountnumberformat.api": {
+   "fineract-provider": 2
+  },
+  "infrastructure.accountnumberformat.data": {
+   "fineract-core": 1,
+   "fineract-provider": 1
+  },
+  "infrastructure.accountnumberformat.domain": {
+   "fineract-core": 5,
+   "fineract-provider": 1
+  },
+  "infrastructure.accountnumberformat.exception": {
+   "fineract-provider": 1
+  },
+  "infrastructure.accountnumberformat.handler": {
+   "fineract-provider": 3
+  },
+  "infrastructure.accountnumberformat.service": {
+   "fineract-core": 2,
+   "fineract-provider": 4
+  },
+  "infrastructure.bulkimport": {
+   "fineract-core": 5,
+   "fineract-provider": 97
+  },
+  "infrastructure.bulkimport.api": {
+   "fineract-provider": 1
+  },
+  "infrastructure.bulkimport.constants": {
+   "fineract-provider": 19
+  },
+  "infrastructure.bulkimport.data": {
+   "fineract-core": 3,
+   "fineract-provider": 3
+  },
+  "infrastructure.bulkimport.domain": {
+   "fineract-provider": 2
+  },
+  "infrastructure.bulkimport.exceptions": {
+   "fineract-provider": 1
+  },
+  "infrastructure.bulkimport.importhandler": {
+   "fineract-provider": 29
+  },
+  "infrastructure.bulkimport.mapping": {
+   "fineract-provider": 1
+  },
+  "infrastructure.bulkimport.populator": {
+   "fineract-provider": 38
+  },
+  "infrastructure.bulkimport.service": {
+   "fineract-core": 2,
+   "fineract-provider": 3
+  },
+  "infrastructure.businessdate": {
+   "fineract-core": 17
+  },
+  "infrastructure.businessdate.api": {
+   "fineract-core": 1
+  },
+  "infrastructure.businessdate.command": {
+   "fineract-core": 1
+  },
+  "infrastructure.businessdate.data": {
+   "fineract-core": 4
+  },
+  "infrastructure.businessdate.domain": {
+   "fineract-core": 3
+  },
+  "infrastructure.businessdate.exception": {
+   "fineract-core": 2
+  },
+  "infrastructure.businessdate.handler": {
+   "fineract-core": 1
+  },
+  "infrastructure.businessdate.mapper": {
+   "fineract-core": 1
+  },
+  "infrastructure.businessdate.service": {
+   "fineract-core": 4
+  },
+  "infrastructure.cache": {
+   "fineract-core": 15
+  },
+  "infrastructure.cache.api": {
+   "fineract-core": 1
+  },
+  "infrastructure.cache.command": {
+   "fineract-core": 1
+  },
+  "infrastructure.cache.data": {
+   "fineract-core": 3
+  },
+  "infrastructure.cache.domain": {
+   "fineract-core": 3
+  },
+  "infrastructure.cache.handler": {
+   "fineract-core": 1
+  },
+  "infrastructure.cache.service": {
+   "fineract-core": 3
+  },
+  "infrastructure.campaigns": {
+   "fineract-provider": 123
+  },
+  "infrastructure.campaigns.constants": {
+   "fineract-provider": 1
+  },
+  "infrastructure.campaigns.email": {
+   "fineract-provider": 64
+  },
+  "infrastructure.campaigns.helper": {
+   "fineract-provider": 1
+  },
+  "infrastructure.campaigns.jobs": {
+   "fineract-provider": 13
+  },
+  "infrastructure.campaigns.sms": {
+   "fineract-provider": 44
+  },
+  "infrastructure.codes": {
+   "fineract-core": 16,
+   "fineract-provider": 16
+  },
+  "infrastructure.codes.api": {
+   "fineract-core": 2,
+   "fineract-provider": 2
+  },
+  "infrastructure.codes.data": {
+   "fineract-core": 2
+  },
+  "infrastructure.codes.domain": {
+   "fineract-core": 5
+  },
+  "infrastructure.codes.exception": {
+   "fineract-core": 3
+  },
+  "infrastructure.codes.handler": {
+   "fineract-provider": 6
+  },
+  "infrastructure.codes.mapper": {
+   "fineract-core": 1
+  },
+  "infrastructure.codes.serialization": {
+   "fineract-provider": 2
+  },
+  "infrastructure.codes.service": {
+   "fineract-core": 2,
+   "fineract-provider": 6
+  },
+  "infrastructure.configuration": {
+   "fineract-core": 27,
+   "fineract-provider": 36
+  },
+  "infrastructure.configuration.api": {
+   "fineract-core": 2,
+   "fineract-provider": 6
+  },
+  "infrastructure.configuration.async": {
+   "fineract-provider": 2
+  },
+  "infrastructure.configuration.command": {
+   "fineract-provider": 1
+  },
+  "infrastructure.configuration.data": {
+   "fineract-core": 3,
+   "fineract-provider": 4
+  },
+  "infrastructure.configuration.domain": {
+   "fineract-core": 12,
+   "fineract-provider": 6
+  },
+  "infrastructure.configuration.exception": {
+   "fineract-core": 3,
+   "fineract-provider": 2
+  },
+  "infrastructure.configuration.handler": {
+   "fineract-provider": 2
+  },
+  "infrastructure.configuration.serialization": {
+   "fineract-provider": 2
+  },
+  "infrastructure.configuration.service": {
+   "fineract-core": 7,
+   "fineract-provider": 11
+  },
+  "infrastructure.contentstore": {
+   "fineract-document": 40
+  },
+  "infrastructure.contentstore.config": {
+   "fineract-document": 1
+  },
+  "infrastructure.contentstore.data": {
+   "fineract-document": 1
+  },
+  "infrastructure.contentstore.detector": {
+   "fineract-document": 6
+  },
+  "infrastructure.contentstore.exception": {
+   "fineract-document": 5
+  },
+  "infrastructure.contentstore.policy": {
+   "fineract-document": 9
+  },
+  "infrastructure.contentstore.processor": {
+   "fineract-document": 10
+  },
+  "infrastructure.contentstore.service": {
+   "fineract-document": 3
+  },
+  "infrastructure.contentstore.util": {
+   "fineract-document": 5
+  },
+  "infrastructure.core": {
+   "fineract-core": 212,
+   "fineract-loan": 4,
+   "fineract-provider": 85
+  },
+  "infrastructure.core.annotation": {
+   "fineract-core": 2
+  },
+  "infrastructure.core.aop": {
+   "fineract-core": 1
+  },
+  "infrastructure.core.api": {
+   "fineract-core": 20
+  },
+  "infrastructure.core.auditing": {
+   "fineract-provider": 4
+  },
+  "infrastructure.core.boot": {
+   "fineract-core": 1,
+   "fineract-provider": 3
+  },
+  "infrastructure.core.component": {
+   "fineract-core": 1
+  },
+  "infrastructure.core.condition": {
+   "fineract-core": 12
+  },
+  "infrastructure.core.config": {
+   "fineract-core": 4,
+   "fineract-provider": 20
+  },
+  "infrastructure.core.data": {
+   "fineract-core": 14
+  },
+  "infrastructure.core.diagnostics": {
+   "fineract-core": 1,
+   "fineract-provider": 18
+  },
+  "infrastructure.core.domain": {
+   "fineract-core": 17,
+   "fineract-provider": 4
+  },
+  "infrastructure.core.exception": {
+   "fineract-core": 24,
+   "fineract-loan": 3
+  },
+  "infrastructure.core.exceptionmapper": {
+   "fineract-core": 31,
+   "fineract-loan": 1
+  },
+  "infrastructure.core.filters": {
+   "fineract-core": 10
+  },
+  "infrastructure.core.http": {
+   "fineract-provider": 1
+  },
+  "infrastructure.core.jersey": {
+   "fineract-core": 1,
+   "fineract-provider": 16
+  },
+  "infrastructure.core.jpa": {
+   "fineract-core": 1
+  },
+  "infrastructure.core.logging": {
+   "fineract-core": 1
+  },
+  "infrastructure.core.messaging": {
+   "fineract-provider": 2
+  },
+  "infrastructure.core.persistence": {
+   "fineract-core": 5
+  },
+  "infrastructure.core.serialization": {
+   "fineract-core": 17,
+   "fineract-provider": 2
+  },
+  "infrastructure.core.service": {
+   "fineract-core": 45,
+   "fineract-provider": 15
+  },
+  "infrastructure.core.validator": {
+   "fineract-core": 4
+  },
+  "infrastructure.creditbureau": {
+   "fineract-provider": 62
+  },
+  "infrastructure.creditbureau.api": {
+   "fineract-provider": 4
+  },
+  "infrastructure.creditbureau.data": {
+   "fineract-provider": 10
+  },
+  "infrastructure.creditbureau.domain": {
+   "fineract-provider": 14
+  },
+  "infrastructure.creditbureau.exception": {
+   "fineract-provider": 1
+  },
+  "infrastructure.creditbureau.handler": {
+   "fineract-provider": 9
+  },
+  "infrastructure.creditbureau.serialization": {
+   "fineract-provider": 4
+  },
+  "infrastructure.creditbureau.service": {
+   "fineract-provider": 20
+  },
+  "infrastructure.dataqueries": {
+   "fineract-core": 28,
+   "fineract-provider": 67
+  },
+  "infrastructure.dataqueries.api": {
+   "fineract-core": 1,
+   "fineract-provider": 8
+  },
+  "infrastructure.dataqueries.data": {
+   "fineract-core": 17,
+   "fineract-provider": 2
+  },
+  "infrastructure.dataqueries.domain": {
+   "fineract-core": 1,
+   "fineract-provider": 11
+  },
+  "infrastructure.dataqueries.exception": {
+   "fineract-core": 3,
+   "fineract-provider": 6
+  },
+  "infrastructure.dataqueries.handler": {
+   "fineract-provider": 14
+  },
+  "infrastructure.dataqueries.serialization": {
+   "fineract-provider": 1
+  },
+  "infrastructure.dataqueries.service": {
+   "fineract-core": 6,
+   "fineract-provider": 24
+  },
+  "infrastructure.dataqueries.starter": {
+   "fineract-provider": 1
+  },
+  "infrastructure.documentmanagement": {
+   "fineract-core": 1,
+   "fineract-document": 42
+  },
+  "infrastructure.documentmanagement.adapter": {
+   "fineract-core": 1
+  },
+  "infrastructure.documentmanagement.api": {
+   "fineract-document": 5
+  },
+  "infrastructure.documentmanagement.command": {
+   "fineract-document": 5
+  },
+  "infrastructure.documentmanagement.data": {
+   "fineract-document": 12
+  },
+  "infrastructure.documentmanagement.domain": {
+   "fineract-document": 4
+  },
+  "infrastructure.documentmanagement.exception": {
+   "fineract-document": 2
+  },
+  "infrastructure.documentmanagement.handler": {
+   "fineract-document": 5
+  },
+  "infrastructure.documentmanagement.mapping": {
+   "fineract-document": 1
+  },
+  "infrastructure.documentmanagement.service": {
+   "fineract-document": 8
+  },
+  "infrastructure.entityaccess": {
+   "fineract-provider": 27
+  },
+  "infrastructure.entityaccess.api": {
+   "fineract-provider": 2
+  },
+  "infrastructure.entityaccess.data": {
+   "fineract-provider": 3
+  },
+  "infrastructure.entityaccess.domain": {
+   "fineract-provider": 9
+  },
+  "infrastructure.entityaccess.exception": {
+   "fineract-provider": 5
+  },
+  "infrastructure.entityaccess.handler": {
+   "fineract-provider": 3
+  },
+  "infrastructure.entityaccess.service": {
+   "fineract-provider": 5
+  },
+  "infrastructure.event": {
+   "fineract-accounting": 1,
+   "fineract-core": 87,
+   "fineract-document": 3,
+   "fineract-loan": 107,
+   "fineract-provider": 78,
+   "fineract-working-capital-loan": 65
+  },
+  "infrastructure.event.business": {
+   "fineract-accounting": 1,
+   "fineract-core": 16,
+   "fineract-document": 3,
+   "fineract-loan": 107,
+   "fineract-provider": 33,
+   "fineract-working-capital-loan": 58
+  },
+  "infrastructure.event.external": {
+   "fineract-core": 71,
+   "fineract-provider": 45,
+   "fineract-working-capital-loan": 7
+  },
+  "infrastructure.gcm": {
+   "fineract-provider": 9
+  },
+  "infrastructure.gcm.domain": {
+   "fineract-provider": 6
+  },
+  "infrastructure.gcm.exception": {
+   "fineract-provider": 1
+  },
+  "infrastructure.gcm.service": {
+   "fineract-provider": 1
+  },
+  "infrastructure.hooks": {
+   "fineract-core": 2,
+   "fineract-provider": 49
+  },
+  "infrastructure.hooks.api": {
+   "fineract-provider": 2
+  },
+  "infrastructure.hooks.command": {
+   "fineract-provider": 3
+  },
+  "infrastructure.hooks.data": {
+   "fineract-provider": 14
+  },
+  "infrastructure.hooks.domain": {
+   "fineract-provider": 9
+  },
+  "infrastructure.hooks.event": {
+   "fineract-core": 2
+  },
+  "infrastructure.hooks.exception": {
+   "fineract-provider": 2
+  },
+  "infrastructure.hooks.handler": {
+   "fineract-provider": 3
+  },
+  "infrastructure.hooks.listener": {
+   "fineract-provider": 2
+  },
+  "infrastructure.hooks.mapper": {
+   "fineract-provider": 2
+  },
+  "infrastructure.hooks.processor": {
+   "fineract-provider": 8
+  },
+  "infrastructure.hooks.service": {
+   "fineract-provider": 4
+  },
+  "infrastructure.instancemode": {
+   "fineract-core": 2,
+   "fineract-provider": 2
+  },
+  "infrastructure.instancemode.api": {
+   "fineract-core": 1,
+   "fineract-provider": 2
+  },
+  "infrastructure.instancemode.filter": {
+   "fineract-core": 1
+  },
+  "infrastructure.jobs": {
+   "fineract-core": 12,
+   "fineract-loan": 1,
+   "fineract-provider": 102
+  },
+  "infrastructure.jobs.api": {
+   "fineract-provider": 7
+  },
+  "infrastructure.jobs.config": {
+   "fineract-provider": 2
+  },
+  "infrastructure.jobs.data": {
+   "fineract-core": 4,
+   "fineract-provider": 3
+  },
+  "infrastructure.jobs.domain": {
+   "fineract-core": 3,
+   "fineract-provider": 10
+  },
+  "infrastructure.jobs.exception": {
+   "fineract-core": 1,
+   "fineract-loan": 1,
+   "fineract-provider": 4
+  },
+  "infrastructure.jobs.filter": {
+   "fineract-provider": 13
+  },
+  "infrastructure.jobs.handler": {
+   "fineract-provider": 2
+  },
+  "infrastructure.jobs.service": {
+   "fineract-core": 3,
+   "fineract-provider": 60
+  },
+  "infrastructure.openapi": {
+   "fineract-provider": 2
+  },
+  "infrastructure.report": {
+   "fineract-report": 6
+  },
+  "infrastructure.report.annotation": {
+   "fineract-report": 1
+  },
+  "infrastructure.report.provider": {
+   "fineract-report": 1
+  },
+  "infrastructure.report.service": {
+   "fineract-report": 4
+  },
+  "infrastructure.reportmailingjob": {
+   "fineract-provider": 40
+  },
+  "infrastructure.reportmailingjob.api": {
+   "fineract-provider": 4
+  },
+  "infrastructure.reportmailingjob.data": {
+   "fineract-provider": 8
+  },
+  "infrastructure.reportmailingjob.domain": {
+   "fineract-provider": 8
+  },
+  "infrastructure.reportmailingjob.exception": {
+   "fineract-provider": 3
+  },
+  "infrastructure.reportmailingjob.handler": {
+   "fineract-provider": 3
+  },
+  "infrastructure.reportmailingjob.helper": {
+   "fineract-provider": 1
+  },
+  "infrastructure.reportmailingjob.service": {
+   "fineract-provider": 10
+  },
+  "infrastructure.reportmailingjob.util": {
+   "fineract-provider": 1
+  },
+  "infrastructure.reportmailingjob.validation": {
+   "fineract-provider": 1
+  },
+  "infrastructure.s3": {
+   "fineract-provider": 4
+  },
+  "infrastructure.security": {
+   "fineract-core": 26,
+   "fineract-provider": 9,
+   "fineract-security": 65
+  },
+  "infrastructure.security.api": {
+   "fineract-security": 8
+  },
+  "infrastructure.security.command": {
+   "fineract-security": 2
+  },
+  "infrastructure.security.config": {
+   "fineract-provider": 3
+  },
+  "infrastructure.security.constants": {
+   "fineract-security": 3
+  },
+  "infrastructure.security.converter": {
+   "fineract-security": 2
+  },
+  "infrastructure.security.data": {
+   "fineract-security": 12
+  },
+  "infrastructure.security.domain": {
+   "fineract-core": 4,
+   "fineract-security": 5
+  },
+  "infrastructure.security.exception": {
+   "fineract-core": 5,
+   "fineract-security": 9
+  },
+  "infrastructure.security.filter": {
+   "fineract-security": 5
+  },
+  "infrastructure.security.handler": {
+   "fineract-security": 2
+  },
+  "infrastructure.security.service": {
+   "fineract-core": 9,
+   "fineract-provider": 6,
+   "fineract-security": 16
+  },
+  "infrastructure.security.utils": {
+   "fineract-core": 8
+  },
+  "infrastructure.sms": {
+   "fineract-provider": 27
+  },
+  "infrastructure.sms.api": {
+   "fineract-provider": 1
+  },
+  "infrastructure.sms.data": {
+   "fineract-provider": 8
+  },
+  "infrastructure.sms.domain": {
+   "fineract-provider": 5
+  },
+  "infrastructure.sms.exception": {
+   "fineract-provider": 2
+  },
+  "infrastructure.sms.handler": {
+   "fineract-provider": 3
+  },
+  "infrastructure.sms.param": {
+   "fineract-provider": 1
+  },
+  "infrastructure.sms.scheduler": {
+   "fineract-provider": 2
+  },
+  "infrastructure.sms.service": {
+   "fineract-provider": 4
+  },
+  "infrastructure.springbatch": {
+   "fineract-core": 3,
+   "fineract-provider": 27
+  },
+  "infrastructure.springbatch.messagehandler": {
+   "fineract-provider": 19
+  },
+  "infrastructure.survey": {
+   "fineract-provider": 31
+  },
+  "infrastructure.survey.api": {
+   "fineract-provider": 7
+  },
+  "infrastructure.survey.data": {
+   "fineract-provider": 9
+  },
+  "infrastructure.survey.domain": {
+   "fineract-provider": 2
+  },
+  "infrastructure.survey.handler": {
+   "fineract-provider": 3
+  },
+  "infrastructure.survey.service": {
+   "fineract-provider": 10
+  },
+  "interoperation": {
+   "fineract-core": 1,
+   "fineract-provider": 44,
+   "fineract-savings": 9
+  },
+  "interoperation.api": {
+   "fineract-provider": 2
+  },
+  "interoperation.data": {
+   "fineract-provider": 23,
+   "fineract-savings": 2
+  },
+  "interoperation.domain": {
+   "fineract-core": 1,
+   "fineract-provider": 1,
+   "fineract-savings": 7
+  },
+  "interoperation.exception": {
+   "fineract-provider": 6
+  },
+  "interoperation.handler": {
+   "fineract-provider": 7
+  },
+  "interoperation.serialization": {
+   "fineract-provider": 1
+  },
+  "interoperation.service": {
+   "fineract-provider": 2
+  },
+  "interoperation.starter": {
+   "fineract-provider": 1
+  },
+  "interoperation.util": {
+   "fineract-provider": 1
+  },
+  "investor": {
+   "fineract-investor": 111
+  },
+  "investor.accounting": {
+   "fineract-investor": 1
+  },
+  "investor.accounting.journalentry": {
+   "fineract-investor": 1
+  },
+  "investor.api": {
+   "fineract-investor": 7
+  },
+  "investor.api.search": {
+   "fineract-investor": 2
+  },
+  "investor.cob": {
+   "fineract-investor": 1
+  },
+  "investor.cob.loan": {
+   "fineract-investor": 1
+  },
+  "investor.config": {
+   "fineract-investor": 2
+  },
+  "investor.data": {
+   "fineract-investor": 21
+  },
+  "investor.data.attribute": {
+   "fineract-investor": 6
+  },
+  "investor.data.request": {
+   "fineract-investor": 1
+  },
+  "investor.domain": {
+   "fineract-investor": 21
+  },
+  "investor.domain.search": {
+   "fineract-investor": 3
+  },
+  "investor.enricher": {
+   "fineract-investor": 4
+  },
+  "investor.exception": {
+   "fineract-investor": 10
+  },
+  "investor.exception.exceptionmapper": {
+   "fineract-investor": 1
+  },
+  "investor.internal": {
+   "fineract-investor": 1
+  },
+  "investor.serialization": {
+   "fineract-investor": 1
+  },
+  "investor.service": {
+   "fineract-investor": 42
+  },
+  "investor.service.search": {
+   "fineract-investor": 3
+  },
+  "investor.service.serialization": {
+   "fineract-investor": 1
+  },
+  "notification": {
+   "fineract-core": 2,
+   "fineract-provider": 32
+  },
+  "notification.api": {
+   "fineract-provider": 2
+  },
+  "notification.cache": {
+   "fineract-provider": 1
+  },
+  "notification.config": {
+   "fineract-provider": 1
+  },
+  "notification.data": {
+   "fineract-core": 1,
+   "fineract-provider": 1
+  },
+  "notification.domain": {
+   "fineract-provider": 4
+  },
+  "notification.eventandlistener": {
+   "fineract-provider": 7
+  },
+  "notification.service": {
+   "fineract-core": 1,
+   "fineract-provider": 15
+  },
+  "notification.starter": {
+   "fineract-provider": 1
+  },
+  "organisation": {
+   "fineract-branch": 48,
+   "fineract-core": 60,
+   "fineract-provider": 117
+  },
+  "organisation.holiday": {
+   "fineract-core": 5,
+   "fineract-provider": 18
+  },
+  "organisation.holiday.api": {
+   "fineract-core": 1,
+   "fineract-provider": 2
+  },
+  "organisation.holiday.data": {
+   "fineract-provider": 2
+  },
+  "organisation.holiday.domain": {
+   "fineract-core": 3,
+   "fineract-provider": 2
+  },
+  "organisation.holiday.exception": {
+   "fineract-provider": 2
+  },
+  "organisation.holiday.handler": {
+   "fineract-provider": 4
+  },
+  "organisation.holiday.service": {
+   "fineract-core": 1,
+   "fineract-provider": 5
+  },
+  "organisation.holiday.starter": {
+   "fineract-provider": 1
+  },
+  "organisation.monetary": {
+   "fineract-core": 28,
+   "fineract-provider": 2
+  },
+  "organisation.monetary.api": {
+   "fineract-core": 1
+  },
+  "organisation.monetary.command": {
+   "fineract-core": 1
+  },
+  "organisation.monetary.data": {
+   "fineract-core": 4
+  },
+  "organisation.monetary.domain": {
+   "fineract-core": 9
+  },
+  "organisation.monetary.exception": {
+   "fineract-core": 4
+  },
+  "organisation.monetary.handler": {
+   "fineract-core": 1
+  },
+  "organisation.monetary.mapper": {
+   "fineract-core": 1
+  },
+  "organisation.monetary.serialization": {
+   "fineract-core": 2
+  },
+  "organisation.monetary.service": {
+   "fineract-core": 5,
+   "fineract-provider": 1
+  },
+  "organisation.monetary.starter": {
+   "fineract-provider": 1
+  },
+  "organisation.office": {
+   "fineract-core": 10,
+   "fineract-provider": 18
+  },
+  "organisation.office.api": {
+   "fineract-provider": 4
+  },
+  "organisation.office.data": {
+   "fineract-core": 2
+  },
+  "organisation.office.domain": {
+   "fineract-core": 3,
+   "fineract-provider": 2
+  },
+  "organisation.office.exception": {
+   "fineract-core": 3,
+   "fineract-provider": 2
+  },
+  "organisation.office.handler": {
+   "fineract-provider": 4
+  },
+  "organisation.office.mapper": {
+   "fineract-core": 1
+  },
+  "organisation.office.serialization": {
+   "fineract-provider": 2
+  },
+  "organisation.office.service": {
+   "fineract-core": 1,
+   "fineract-provider": 3
+  },
+  "organisation.office.starter": {
+   "fineract-provider": 1
+  },
+  "organisation.provisioning": {
+   "fineract-core": 6,
+   "fineract-provider": 32
+  },
+  "organisation.provisioning.api": {
+   "fineract-provider": 3
+  },
+  "organisation.provisioning.constants": {
+   "fineract-provider": 1
+  },
+  "organisation.provisioning.data": {
+   "fineract-core": 1,
+   "fineract-provider": 2
+  },
+  "organisation.provisioning.domain": {
+   "fineract-provider": 7
+  },
+  "organisation.provisioning.exception": {
+   "fineract-core": 2,
+   "fineract-provider": 4
+  },
+  "organisation.provisioning.handler": {
+   "fineract-provider": 6
+  },
+  "organisation.provisioning.serialization": {
+   "fineract-provider": 2
+  },
+  "organisation.provisioning.service": {
+   "fineract-core": 3,
+   "fineract-provider": 6
+  },
+  "organisation.provisioning.starter": {
+   "fineract-provider": 1
+  },
+  "organisation.staff": {
+   "fineract-core": 5,
+   "fineract-provider": 27
+  },
+  "organisation.staff.adapter": {
+   "fineract-provider": 1
+  },
+  "organisation.staff.api": {
+   "fineract-provider": 1
+  },
+  "organisation.staff.command": {
+   "fineract-provider": 3
+  },
+  "organisation.staff.data": {
+   "fineract-core": 1,
+   "fineract-provider": 6
+  },
+  "organisation.staff.domain": {
+   "fineract-core": 3,
+   "fineract-provider": 2
+  },
+  "organisation.staff.exception": {
+   "fineract-core": 1,
+   "fineract-provider": 1
+  },
+  "organisation.staff.handler": {
+   "fineract-provider": 3
+  },
+  "organisation.staff.mapper": {
+   "fineract-provider": 3
+  },
+  "organisation.staff.service": {
+   "fineract-provider": 4
+  },
+  "organisation.staff.starter": {
+   "fineract-provider": 1
+  },
+  "organisation.staff.validation": {
+   "fineract-provider": 2
+  },
+  "organisation.teller": {
+   "fineract-branch": 48,
+   "fineract-provider": 3
+  },
+  "organisation.teller.api": {
+   "fineract-branch": 2
+  },
+  "organisation.teller.data": {
+   "fineract-branch": 8
+  },
+  "organisation.teller.domain": {
+   "fineract-branch": 17
+  },
+  "organisation.teller.exception": {
+   "fineract-branch": 7
+  },
+  "organisation.teller.handler": {
+   "fineract-branch": 9
+  },
+  "organisation.teller.serialization": {
+   "fineract-branch": 1
+  },
+  "organisation.teller.service": {
+   "fineract-branch": 3,
+   "fineract-provider": 2
+  },
+  "organisation.teller.starter": {
+   "fineract-provider": 1
+  },
+  "organisation.teller.util": {
+   "fineract-branch": 1
+  },
+  "organisation.workingdays": {
+   "fineract-core": 6,
+   "fineract-provider": 17
+  },
+  "organisation.workingdays.api": {
+   "fineract-core": 1,
+   "fineract-provider": 2
+  },
+  "organisation.workingdays.command": {
+   "fineract-provider": 1
+  },
+  "organisation.workingdays.data": {
+   "fineract-core": 1,
+   "fineract-provider": 5
+  },
+  "organisation.workingdays.domain": {
+   "fineract-core": 3,
+   "fineract-provider": 2
+  },
+  "organisation.workingdays.exception": {
+   "fineract-provider": 1
+  },
+  "organisation.workingdays.handler": {
+   "fineract-provider": 1
+  },
+  "organisation.workingdays.service": {
+   "fineract-core": 1,
+   "fineract-provider": 4
+  },
+  "organisation.workingdays.starter": {
+   "fineract-provider": 1
+  },
+  "portfolio": {
+   "fineract-charge": 37,
+   "fineract-core": 207,
+   "fineract-loan": 567,
+   "fineract-loan-origination": 58,
+   "fineract-progressive-loan": 90,
+   "fineract-progressive-loan-embeddable-schedule-generator": 1,
+   "fineract-provider": 1017,
+   "fineract-rates": 29,
+   "fineract-savings": 162,
+   "fineract-tax": 29,
+   "fineract-working-capital-loan": 344
+  },
+  "portfolio.account": {
+   "fineract-core": 4,
+   "fineract-provider": 71
+  },
+  "portfolio.account.api": {
+   "fineract-provider": 8
+  },
+  "portfolio.account.data": {
+   "fineract-core": 2,
+   "fineract-provider": 15
+  },
+  "portfolio.account.domain": {
+   "fineract-provider": 17
+  },
+  "portfolio.account.exception": {
+   "fineract-provider": 3
+  },
+  "portfolio.account.handler": {
+   "fineract-provider": 6
+  },
+  "portfolio.account.jobs": {
+   "fineract-provider": 2
+  },
+  "portfolio.account.mapper": {
+   "fineract-provider": 1
+  },
+  "portfolio.account.service": {
+   "fineract-core": 1,
+   "fineract-provider": 17
+  },
+  "portfolio.account.starter": {
+   "fineract-provider": 1
+  },
+  "portfolio.accountdetails": {
+   "fineract-core": 3,
+   "fineract-loan": 2,
+   "fineract-provider": 5,
+   "fineract-savings": 1
+  },
+  "portfolio.accountdetails.data": {
+   "fineract-core": 1,
+   "fineract-loan": 2,
+   "fineract-provider": 3,
+   "fineract-savings": 1
+  },
+  "portfolio.accountdetails.domain": {
+   "fineract-core": 1
+  },
+  "portfolio.accountdetails.service": {
+   "fineract-core": 1,
+   "fineract-provider": 2
+  },
+  "portfolio.accounts": {
+   "fineract-provider": 10
+  },
+  "portfolio.accounts.api": {
+   "fineract-provider": 2
+  },
+  "portfolio.accounts.constants": {
+   "fineract-provider": 2
+  },
+  "portfolio.accounts.data": {
+   "fineract-provider": 3
+  },
+  "portfolio.accounts.exceptions": {
+   "fineract-provider": 1
+  },
+  "portfolio.accounts.service": {
+   "fineract-provider": 2
+  },
+  "portfolio.address": {
+   "fineract-core": 1,
+   "fineract-provider": 16
+  },
+  "portfolio.address.api": {
+   "fineract-provider": 1
+  },
+  "portfolio.address.data": {
+   "fineract-core": 1,
+   "fineract-provider": 2
+  },
+  "portfolio.address.domain": {
+   "fineract-provider": 4
+  },
+  "portfolio.address.exception": {
+   "fineract-provider": 1
+  },
+  "portfolio.address.filter": {
+   "fineract-provider": 1
+  },
+  "portfolio.address.serialization": {
+   "fineract-provider": 1
+  },
+  "portfolio.address.service": {
+   "fineract-provider": 6
+  },
+  "portfolio.calendar": {
+   "fineract-core": 17,
+   "fineract-provider": 22
+  },
+  "portfolio.calendar.api": {
+   "fineract-provider": 1
+  },
+  "portfolio.calendar.command": {
+   "fineract-provider": 1
+  },
+  "portfolio.calendar.data": {
+   "fineract-core": 3
+  },
+  "portfolio.calendar.domain": {
+   "fineract-core": 8,
+   "fineract-provider": 5
+  },
+  "portfolio.calendar.exception": {
+   "fineract-core": 3,
+   "fineract-provider": 4
+  },
+  "portfolio.calendar.handler": {
+   "fineract-provider": 3
+  },
+  "portfolio.calendar.serialization": {
+   "fineract-provider": 1
+  },
+  "portfolio.calendar.service": {
+   "fineract-core": 2,
+   "fineract-provider": 6
+  },
+  "portfolio.calendar.starter": {
+   "fineract-provider": 1
+  },
+  "portfolio.charge": {
+   "fineract-charge": 37,
+   "fineract-core": 4,
+   "fineract-provider": 4,
+   "fineract-savings": 3
+  },
+  "portfolio.charge.api": {
+   "fineract-charge": 3
+  },
+  "portfolio.charge.data": {
+   "fineract-core": 1
+  },
+  "portfolio.charge.domain": {
+   "fineract-charge": 8,
+   "fineract-core": 2
+  },
+  "portfolio.charge.exception": {
+   "fineract-charge": 16,
+   "fineract-core": 1,
+   "fineract-savings": 3
+  },
+  "portfolio.charge.handler": {
+   "fineract-charge": 3
+  },
+  "portfolio.charge.request": {
+   "fineract-charge": 1
+  },
+  "portfolio.charge.serialization": {
+   "fineract-charge": 1
+  },
+  "portfolio.charge.service": {
+   "fineract-charge": 5,
+   "fineract-provider": 2
+  },
+  "portfolio.charge.starter": {
+   "fineract-provider": 1
+  },
+  "portfolio.charge.util": {
+   "fineract-provider": 1
+  },
+  "portfolio.client": {
+   "fineract-core": 21,
+   "fineract-provider": 118
+  },
+  "portfolio.client.adapter": {
+   "fineract-core": 1
+  },
+  "portfolio.client.api": {
+   "fineract-core": 1,
+   "fineract-provider": 15
+  },
+  "portfolio.client.command": {
+   "fineract-provider": 2
+  },
+  "portfolio.client.data": {
+   "fineract-core": 6,
+   "fineract-provider": 8
+  },
+  "portfolio.client.domain": {
+   "fineract-core": 10,
+   "fineract-provider": 21
+  },
+  "portfolio.client.exception": {
+   "fineract-core": 2,
+   "fineract-provider": 15
+  },
+  "portfolio.client.handler": {
+   "fineract-provider": 26
+  },
+  "portfolio.client.mapper": {
+   "fineract-provider": 1
+  },
+  "portfolio.client.serialization": {
+   "fineract-provider": 2
+  },
+  "portfolio.client.service": {
+   "fineract-core": 1,
+   "fineract-provider": 28
+  },
+  "portfolio.collateral": {
+   "fineract-loan": 3,
+   "fineract-provider": 20
+  },
+  "portfolio.collateral.api": {
+   "fineract-loan": 1,
+   "fineract-provider": 2
+  },
+  "portfolio.collateral.command": {
+   "fineract-provider": 1
+  },
+  "portfolio.collateral.data": {
+   "fineract-loan": 1,
+   "fineract-provider": 2
+  },
+  "portfolio.collateral.domain": {
+   "fineract-loan": 1,
+   "fineract-provider": 1
+  },
+  "portfolio.collateral.exception": {
+   "fineract-provider": 4
+  },
+  "portfolio.collateral.handler": {
+   "fineract-provider": 3
+  },
+  "portfolio.collateral.serialization": {
+   "fineract-provider": 1
+  },
+  "portfolio.collateral.service": {
+   "fineract-provider": 5
+  },
+  "portfolio.collateral.starter": {
+   "fineract-provider": 1
+  },
+  "portfolio.collateralmanagement": {
+   "fineract-core": 2,
+   "fineract-loan": 3,
+   "fineract-provider": 59
+  },
+  "portfolio.collateralmanagement.api": {
+   "fineract-loan": 1,
+   "fineract-provider": 3
+  },
+  "portfolio.collateralmanagement.command": {
+   "fineract-provider": 7
+  },
+  "portfolio.collateralmanagement.data": {
+   "fineract-core": 2,
+   "fineract-provider": 17
+  },
+  "portfolio.collateralmanagement.domain": {
+   "fineract-loan": 2,
+   "fineract-provider": 4
+  },
+  "portfolio.collateralmanagement.exception": {
+   "fineract-provider": 6
+  },
+  "portfolio.collateralmanagement.handler": {
+   "fineract-provider": 7
+  },
+  "portfolio.collateralmanagement.serialization": {
+   "fineract-provider": 1
+  },
+  "portfolio.collateralmanagement.service": {
+   "fineract-provider": 13
+  },
+  "portfolio.collateralmanagement.starter": {
+   "fineract-provider": 1
+  },
+  "portfolio.collectionsheet": {
+   "fineract-core": 5,
+   "fineract-provider": 25
+  },
+  "portfolio.collectionsheet.api": {
+   "fineract-provider": 2
+  },
+  "portfolio.collectionsheet.command": {
+   "fineract-core": 4
+  },
+  "portfolio.collectionsheet.data": {
+   "fineract-provider": 14
+  },
+  "portfolio.collectionsheet.handler": {
+   "fineract-provider": 2
+  },
+  "portfolio.collectionsheet.serialization": {
+   "fineract-provider": 3
+  },
+  "portfolio.collectionsheet.service": {
+   "fineract-provider": 4
+  },
+  "portfolio.common": {
+   "fineract-core": 9,
+   "fineract-provider": 2
+  },
+  "portfolio.common.domain": {
+   "fineract-core": 7
+  },
+  "portfolio.common.service": {
+   "fineract-core": 2,
+   "fineract-provider": 2
+  },
+  "portfolio.configuration": {
+   "fineract-progressive-loan": 1
+  },
+  "portfolio.delinquency": {
+   "fineract-core": 6,
+   "fineract-loan": 63,
+   "fineract-progressive-loan": 1
+  },
+  "portfolio.delinquency.api": {
+   "fineract-loan": 9
+  },
+  "portfolio.delinquency.data": {
+   "fineract-loan": 5
+  },
+  "portfolio.delinquency.domain": {
+   "fineract-core": 6,
+   "fineract-loan": 12
+  },
+  "portfolio.delinquency.exception": {
+   "fineract-loan": 4
+  },
+  "portfolio.delinquency.handler": {
+   "fineract-loan": 8
+  },
+  "portfolio.delinquency.helper": {
+   "fineract-loan": 3
+  },
+  "portfolio.delinquency.mapper": {
+   "fineract-loan": 5
+  },
+  "portfolio.delinquency.service": {
+   "fineract-loan": 10,
+   "fineract-progressive-loan": 1
+  },
+  "portfolio.delinquency.spi": {
+   "fineract-loan": 1
+  },
+  "portfolio.delinquency.starter": {
+   "fineract-loan": 1
+  },
+  "portfolio.delinquency.validator": {
+   "fineract-loan": 5
+  },
+  "portfolio.floatingrates": {
+   "fineract-rates": 29
+  },
+  "portfolio.floatingrates.api": {
+   "fineract-rates": 1
+  },
+  "portfolio.floatingrates.command": {
+   "fineract-rates": 2
+  },
+  "portfolio.floatingrates.data": {
+   "fineract-rates": 9
+  },
+  "portfolio.floatingrates.domain": {
+   "fineract-rates": 4
+  },
+  "portfolio.floatingrates.exception": {
+   "fineract-rates": 1
+  },
+  "portfolio.floatingrates.handler": {
+   "fineract-rates": 2
+  },
+  "portfolio.floatingrates.service": {
+   "fineract-rates": 4
+  },
+  "portfolio.floatingrates.starter": {
+   "fineract-rates": 1
+  },
+  "portfolio.floatingrates.validation": {
+   "fineract-rates": 5
+  },
+  "portfolio.fund": {
+   "fineract-core": 5,
+   "fineract-provider": 10
+  },
+  "portfolio.fund.api": {
+   "fineract-provider": 2
+  },
+  "portfolio.fund.data": {
+   "fineract-core": 1,
+   "fineract-provider": 1
+  },
+  "portfolio.fund.domain": {
+   "fineract-core": 2
+  },
+  "portfolio.fund.exception": {
+   "fineract-core": 1
+  },
+  "portfolio.fund.handler": {
+   "fineract-provider": 2
+  },
+  "portfolio.fund.serialization": {
+   "fineract-provider": 1
+  },
+  "portfolio.fund.service": {
+   "fineract-core": 1,
+   "fineract-provider": 3
+  },
+  "portfolio.fund.starter": {
+   "fineract-provider": 1
+  },
+  "portfolio.group": {
+   "fineract-core": 17,
+   "fineract-provider": 69
+  },
+  "portfolio.group.api": {
+   "fineract-core": 1,
+   "fineract-provider": 11
+  },
+  "portfolio.group.data": {
+   "fineract-core": 4,
+   "fineract-provider": 2
+  },
+  "portfolio.group.domain": {
+   "fineract-core": 6,
+   "fineract-provider": 6
+  },
+  "portfolio.group.exception": {
+   "fineract-core": 6,
+   "fineract-provider": 11
+  },
+  "portfolio.group.handler": {
+   "fineract-provider": 22
+  },
+  "portfolio.group.serialization": {
+   "fineract-provider": 2
+  },
+  "portfolio.group.service": {
+   "fineract-provider": 14
+  },
+  "portfolio.group.starter": {
+   "fineract-provider": 1
+  },
+  "portfolio.interestpauses": {
+   "fineract-loan": 11
+  },
+  "portfolio.interestpauses.api": {
+   "fineract-loan": 1
+  },
+  "portfolio.interestpauses.data": {
+   "fineract-loan": 2
+  },
+  "portfolio.interestpauses.handler": {
+   "fineract-loan": 3
+  },
+  "portfolio.interestpauses.service": {
+   "fineract-loan": 5
+  },
+  "portfolio.interestratechart": {
+   "fineract-provider": 45,
+   "fineract-savings": 29
+  },
+  "portfolio.interestratechart.api": {
+   "fineract-provider": 3
+  },
+  "portfolio.interestratechart.command": {
+   "fineract-provider": 6
+  },
+  "portfolio.interestratechart.data": {
+   "fineract-provider": 15,
+   "fineract-savings": 3
+  },
+  "portfolio.interestratechart.domain": {
+   "fineract-savings": 11
+  },
+  "portfolio.interestratechart.exception": {
+   "fineract-savings": 2
+  },
+  "portfolio.interestratechart.handler": {
+   "fineract-provider": 6
+  },
+  "portfolio.interestratechart.incentive": {
+   "fineract-savings": 7
+  },
+  "portfolio.interestratechart.service": {
+   "fineract-provider": 14,
+   "fineract-savings": 3
+  },
+  "portfolio.interestratechart.starter": {
+   "fineract-provider": 1
+  },
+  "portfolio.loanaccount": {
+   "fineract-core": 3,
+   "fineract-loan": 416,
+   "fineract-progressive-loan": 59,
+   "fineract-progressive-loan-embeddable-schedule-generator": 1,
+   "fineract-provider": 144
+  },
+  "portfolio.loanaccount.api": {
+   "fineract-loan": 9,
+   "fineract-progressive-loan": 2,
+   "fineract-provider": 15
+  },
+  "portfolio.loanaccount.command": {
+   "fineract-loan": 4
+  },
+  "portfolio.loanaccount.data": {
+   "fineract-loan": 50,
+   "fineract-progressive-loan": 3,
+   "fineract-provider": 10
+  },
+  "portfolio.loanaccount.domain": {
+   "fineract-core": 2,
+   "fineract-loan": 94,
+   "fineract-progressive-loan": 6,
+   "fineract-provider": 2
+  },
+  "portfolio.loanaccount.exception": {
+   "fineract-loan": 34
+  },
+  "portfolio.loanaccount.guarantor": {
+   "fineract-loan": 16,
+   "fineract-provider": 16
+  },
+  "portfolio.loanaccount.handler": {
+   "fineract-loan": 57,
+   "fineract-progressive-loan": 4,
+   "fineract-provider": 9
+  },
+  "portfolio.loanaccount.jobs": {
+   "fineract-loan": 7,
+   "fineract-provider": 17
+  },
+  "portfolio.loanaccount.loanschedule": {
+   "fineract-loan": 41,
+   "fineract-progressive-loan": 6,
+   "fineract-progressive-loan-embeddable-schedule-generator": 1,
+   "fineract-provider": 6
+  },
+  "portfolio.loanaccount.mapper": {
+   "fineract-loan": 7,
+   "fineract-progressive-loan": 1
+  },
+  "portfolio.loanaccount.payoffpreview": {
+   "fineract-progressive-loan": 9
+  },
+  "portfolio.loanaccount.repository": {
+   "fineract-progressive-loan": 5
+  },
+  "portfolio.loanaccount.rescheduleloan": {
+   "fineract-loan": 23,
+   "fineract-progressive-loan": 1,
+   "fineract-provider": 2
+  },
+  "portfolio.loanaccount.serialization": {
+   "fineract-loan": 9,
+   "fineract-provider": 8
+  },
+  "portfolio.loanaccount.service": {
+   "fineract-core": 1,
+   "fineract-loan": 56,
+   "fineract-progressive-loan": 20,
+   "fineract-provider": 55
+  },
+  "portfolio.loanaccount.starter": {
+   "fineract-loan": 9,
+   "fineract-progressive-loan": 2,
+   "fineract-provider": 2
+  },
+  "portfolio.loanaccount.util": {
+   "fineract-provider": 2
+  },
+  "portfolio.loanorigination": {
+   "fineract-core": 1,
+   "fineract-loan-origination": 58
+  },
+  "portfolio.loanorigination.api": {
+   "fineract-loan-origination": 5
+  },
+  "portfolio.loanorigination.config": {
+   "fineract-loan-origination": 1
+  },
+  "portfolio.loanorigination.data": {
+   "fineract-core": 1,
+   "fineract-loan-origination": 5
+  },
+  "portfolio.loanorigination.domain": {
+   "fineract-loan-origination": 7
+  },
+  "portfolio.loanorigination.enricher": {
+   "fineract-loan-origination": 7
+  },
+  "portfolio.loanorigination.exception": {
+   "fineract-loan-origination": 11
+  },
+  "portfolio.loanorigination.handler": {
+   "fineract-loan-origination": 7
+  },
+  "portfolio.loanorigination.helper": {
+   "fineract-loan-origination": 1
+  },
+  "portfolio.loanorigination.mapper": {
+   "fineract-loan-origination": 1
+  },
+  "portfolio.loanorigination.serialization": {
+   "fineract-loan-origination": 2
+  },
+  "portfolio.loanorigination.service": {
+   "fineract-loan-origination": 11
+  },
+  "portfolio.loanproduct": {
+   "fineract-loan": 68,
+   "fineract-progressive-loan": 27,
+   "fineract-provider": 26
+  },
+  "portfolio.loanproduct.api": {
+   "fineract-loan": 2,
+   "fineract-provider": 1
+  },
+  "portfolio.loanproduct.calc": {
+   "fineract-progressive-loan": 20
+  },
+  "portfolio.loanproduct.data": {
+   "fineract-loan": 10
+  },
+  "portfolio.loanproduct.domain": {
+   "fineract-loan": 36,
+   "fineract-progressive-loan": 4
+  },
+  "portfolio.loanproduct.exception": {
+   "fineract-loan": 8
+  },
+  "portfolio.loanproduct.handler": {
+   "fineract-loan": 2
+  },
+  "portfolio.loanproduct.mapper": {
+   "fineract-loan": 1,
+   "fineract-progressive-loan": 1
+  },
+  "portfolio.loanproduct.productmix": {
+   "fineract-provider": 21
+  },
+  "portfolio.loanproduct.serialization": {
+   "fineract-provider": 1
+  },
+  "portfolio.loanproduct.service": {
+   "fineract-loan": 8,
+   "fineract-progressive-loan": 2,
+   "fineract-provider": 2
+  },
+  "portfolio.loanproduct.starter": {
+   "fineract-provider": 1
+  },
+  "portfolio.meeting": {
+   "fineract-provider": 41
+  },
+  "portfolio.meeting.api": {
+   "fineract-provider": 1
+  },
+  "portfolio.meeting.command": {
+   "fineract-provider": 4
+  },
+  "portfolio.meeting.data": {
+   "fineract-provider": 12
+  },
+  "portfolio.meeting.domain": {
+   "fineract-provider": 5
+  },
+  "portfolio.meeting.exception": {
+   "fineract-provider": 3
+  },
+  "portfolio.meeting.handler": {
+   "fineract-provider": 4
+  },
+  "portfolio.meeting.listener": {
+   "fineract-provider": 1
+  },
+  "portfolio.meeting.service": {
+   "fineract-provider": 10
+  },
+  "portfolio.note": {
+   "fineract-core": 10,
+   "fineract-provider": 14
+  },
+  "portfolio.note.api": {
+   "fineract-provider": 1
+  },
+  "portfolio.note.command": {
+   "fineract-provider": 3
+  },
+  "portfolio.note.data": {
+   "fineract-core": 7
+  },
+  "portfolio.note.domain": {
+   "fineract-core": 1,
+   "fineract-provider": 2
+  },
+  "portfolio.note.exception": {
+   "fineract-provider": 2
+  },
+  "portfolio.note.handler": {
+   "fineract-provider": 3
+  },
+  "portfolio.note.listener": {
+   "fineract-provider": 1
+  },
+  "portfolio.note.service": {
+   "fineract-core": 2,
+   "fineract-provider": 2
+  },
+  "portfolio.paymentdetail": {
+   "fineract-core": 8
+  },
+  "portfolio.paymentdetail.data": {
+   "fineract-core": 1
+  },
+  "portfolio.paymentdetail.domain": {
+   "fineract-core": 3
+  },
+  "portfolio.paymentdetail.service": {
+   "fineract-core": 2
+  },
+  "portfolio.paymentdetail.starter": {
+   "fineract-core": 1
+  },
+  "portfolio.paymenttype": {
+   "fineract-core": 24
+  },
+  "portfolio.paymenttype.api": {
+   "fineract-core": 1
+  },
+  "portfolio.paymenttype.command": {
+   "fineract-core": 3
+  },
+  "portfolio.paymenttype.data": {
+   "fineract-core": 7
+  },
+  "portfolio.paymenttype.domain": {
+   "fineract-core": 2
+  },
+  "portfolio.paymenttype.exception": {
+   "fineract-core": 1
+  },
+  "portfolio.paymenttype.handler": {
+   "fineract-core": 3
+  },
+  "portfolio.paymenttype.mapper": {
+   "fineract-core": 2
+  },
+  "portfolio.paymenttype.service": {
+   "fineract-core": 4
+  },
+  "portfolio.paymenttype.starter": {
+   "fineract-core": 1
+  },
+  "portfolio.products": {
+   "fineract-provider": 7
+  },
+  "portfolio.products.api": {
+   "fineract-provider": 2
+  },
+  "portfolio.products.constants": {
+   "fineract-provider": 1
+  },
+  "portfolio.products.data": {
+   "fineract-provider": 1
+  },
+  "portfolio.products.exception": {
+   "fineract-provider": 1
+  },
+  "portfolio.products.service": {
+   "fineract-provider": 2
+  },
+  "portfolio.rate": {
+   "fineract-core": 3,
+   "fineract-provider": 17
+  },
+  "portfolio.rate.api": {
+   "fineract-provider": 3
+  },
+  "portfolio.rate.data": {
+   "fineract-core": 1
+  },
+  "portfolio.rate.domain": {
+   "fineract-core": 2,
+   "fineract-provider": 2
+  },
+  "portfolio.rate.exception": {
+   "fineract-provider": 2
+  },
+  "portfolio.rate.handler": {
+   "fineract-provider": 2
+  },
+  "portfolio.rate.serialization": {
+   "fineract-provider": 1
+  },
+  "portfolio.rate.service": {
+   "fineract-provider": 6
+  },
+  "portfolio.rate.starter": {
+   "fineract-provider": 1
+  },
+  "portfolio.repaymentwithpostdatedchecks": {
+   "fineract-loan": 1,
+   "fineract-provider": 16
+  },
+  "portfolio.repaymentwithpostdatedchecks.api": {
+   "fineract-provider": 2
+  },
+  "portfolio.repaymentwithpostdatedchecks.data": {
+   "fineract-provider": 2
+  },
+  "portfolio.repaymentwithpostdatedchecks.domain": {
+   "fineract-loan": 1,
+   "fineract-provider": 1
+  },
+  "portfolio.repaymentwithpostdatedchecks.exception": {
+   "fineract-provider": 2
+  },
+  "portfolio.repaymentwithpostdatedchecks.handler": {
+   "fineract-provider": 3
+  },
+  "portfolio.repaymentwithpostdatedchecks.service": {
+   "fineract-provider": 5
+  },
+  "portfolio.repaymentwithpostdatedchecks.starter": {
+   "fineract-provider": 1
+  },
+  "portfolio.savings": {
+   "fineract-core": 42,
+   "fineract-provider": 170,
+   "fineract-savings": 129
+  },
+  "portfolio.savings.api": {
+   "fineract-provider": 27,
+   "fineract-savings": 1
+  },
+  "portfolio.savings.data": {
+   "fineract-core": 11,
+   "fineract-provider": 4,
+   "fineract-savings": 25
+  },
+  "portfolio.savings.domain": {
+   "fineract-core": 16,
+   "fineract-provider": 11,
+   "fineract-savings": 43
+  },
+  "portfolio.savings.exception": {
+   "fineract-savings": 24
+  },
+  "portfolio.savings.handler": {
+   "fineract-provider": 86
+  },
+  "portfolio.savings.jobs": {
+   "fineract-provider": 18
+  },
+  "portfolio.savings.service": {
+   "fineract-core": 1,
+   "fineract-provider": 23,
+   "fineract-savings": 34
+  },
+  "portfolio.savings.starter": {
+   "fineract-provider": 1
+  },
+  "portfolio.search": {
+   "fineract-core": 11,
+   "fineract-provider": 7
+  },
+  "portfolio.search.api": {
+   "fineract-provider": 2
+  },
+  "portfolio.search.data": {
+   "fineract-core": 9,
+   "fineract-provider": 2
+  },
+  "portfolio.search.service": {
+   "fineract-core": 1,
+   "fineract-provider": 2
+  },
+  "portfolio.search.starter": {
+   "fineract-provider": 1
+  },
+  "portfolio.shareaccounts": {
+   "fineract-provider": 48
+  },
+  "portfolio.shareaccounts.data": {
+   "fineract-provider": 7
+  },
+  "portfolio.shareaccounts.domain": {
+   "fineract-provider": 11
+  },
+  "portfolio.shareaccounts.exceptions": {
+   "fineract-provider": 1
+  },
+  "portfolio.shareaccounts.handler": {
+   "fineract-provider": 11
+  },
+  "portfolio.shareaccounts.jobs": {
+   "fineract-provider": 2
+  },
+  "portfolio.shareaccounts.serialization": {
+   "fineract-provider": 1
+  },
+  "portfolio.shareaccounts.service": {
+   "fineract-provider": 14
+  },
+  "portfolio.shareaccounts.start": {
+   "fineract-provider": 1
+  },
+  "portfolio.shareproducts": {
+   "fineract-core": 1,
+   "fineract-provider": 32
+  },
+  "portfolio.shareproducts.api": {
+   "fineract-provider": 1
+  },
+  "portfolio.shareproducts.constants": {
+   "fineract-core": 1
+  },
+  "portfolio.shareproducts.data": {
+   "fineract-provider": 3
+  },
+  "portfolio.shareproducts.domain": {
+   "fineract-provider": 8
+  },
+  "portfolio.shareproducts.exception": {
+   "fineract-provider": 3
+  },
+  "portfolio.shareproducts.handler": {
+   "fineract-provider": 5
+  },
+  "portfolio.shareproducts.serialization": {
+   "fineract-provider": 1
+  },
+  "portfolio.shareproducts.service": {
+   "fineract-provider": 9
+  },
+  "portfolio.shareproducts.starter": {
+   "fineract-provider": 1
+  },
+  "portfolio.tax": {
+   "fineract-core": 8,
+   "fineract-provider": 4,
+   "fineract-tax": 29
+  },
+  "portfolio.tax.api": {
+   "fineract-tax": 5
+  },
+  "portfolio.tax.data": {
+   "fineract-core": 5
+  },
+  "portfolio.tax.domain": {
+   "fineract-tax": 8
+  },
+  "portfolio.tax.exception": {
+   "fineract-tax": 3
+  },
+  "portfolio.tax.handler": {
+   "fineract-tax": 4
+  },
+  "portfolio.tax.mapper": {
+   "fineract-tax": 3
+  },
+  "portfolio.tax.request": {
+   "fineract-core": 3
+  },
+  "portfolio.tax.serialization": {
+   "fineract-tax": 1
+  },
+  "portfolio.tax.service": {
+   "fineract-provider": 3,
+   "fineract-tax": 5
+  },
+  "portfolio.tax.starter": {
+   "fineract-provider": 1
+  },
+  "portfolio.transfer": {
+   "fineract-provider": 15
+  },
+  "portfolio.transfer.api": {
+   "fineract-provider": 1
+  },
+  "portfolio.transfer.data": {
+   "fineract-provider": 1
+  },
+  "portfolio.transfer.exception": {
+   "fineract-provider": 3
+  },
+  "portfolio.transfer.handler": {
+   "fineract-provider": 6
+  },
+  "portfolio.transfer.service": {
+   "fineract-provider": 3
+  },
+  "portfolio.transfer.starter": {
+   "fineract-provider": 1
+  },
+  "portfolio.util": {
+   "fineract-progressive-loan": 2
+  },
+  "portfolio.workingcapitalloan": {
+   "fineract-working-capital-loan": 264
+  },
+  "portfolio.workingcapitalloan.accounting": {
+   "fineract-working-capital-loan": 1
+  },
+  "portfolio.workingcapitalloan.api": {
+   "fineract-working-capital-loan": 16
+  },
+  "portfolio.workingcapitalloan.calc": {
+   "fineract-working-capital-loan": 9
+  },
+  "portfolio.workingcapitalloan.data": {
+   "fineract-working-capital-loan": 30
+  },
+  "portfolio.workingcapitalloan.domain": {
+   "fineract-working-capital-loan": 38
+  },
+  "portfolio.workingcapitalloan.exception": {
+   "fineract-working-capital-loan": 12
+  },
+  "portfolio.workingcapitalloan.handler": {
+   "fineract-working-capital-loan": 30
+  },
+  "portfolio.workingcapitalloan.mapper": {
+   "fineract-working-capital-loan": 13
+  },
+  "portfolio.workingcapitalloan.repository": {
+   "fineract-working-capital-loan": 15
+  },
+  "portfolio.workingcapitalloan.serialization": {
+   "fineract-working-capital-loan": 10
+  },
+  "portfolio.workingcapitalloan.service": {
+   "fineract-working-capital-loan": 85
+  },
+  "portfolio.workingcapitalloan.validator": {
+   "fineract-working-capital-loan": 3
+  },
+  "portfolio.workingcapitalloanbreach": {
+   "fineract-working-capital-loan": 16
+  },
+  "portfolio.workingcapitalloanbreach.api": {
+   "fineract-working-capital-loan": 1
+  },
+  "portfolio.workingcapitalloanbreach.data": {
+   "fineract-working-capital-loan": 3
+  },
+  "portfolio.workingcapitalloanbreach.domain": {
+   "fineract-working-capital-loan": 1
+  },
+  "portfolio.workingcapitalloanbreach.exception": {
+   "fineract-working-capital-loan": 1
+  },
+  "portfolio.workingcapitalloanbreach.handler": {
+   "fineract-working-capital-loan": 3
+  },
+  "portfolio.workingcapitalloanbreach.mapper": {
+   "fineract-working-capital-loan": 1
+  },
+  "portfolio.workingcapitalloanbreach.repository": {
+   "fineract-working-capital-loan": 1
+  },
+  "portfolio.workingcapitalloanbreach.service": {
+   "fineract-working-capital-loan": 4
+  },
+  "portfolio.workingcapitalloanbreach.validator": {
+   "fineract-working-capital-loan": 1
+  },
+  "portfolio.workingcapitalloannearbreach": {
+   "fineract-working-capital-loan": 15
+  },
+  "portfolio.workingcapitalloannearbreach.api": {
+   "fineract-working-capital-loan": 1
+  },
+  "portfolio.workingcapitalloannearbreach.data": {
+   "fineract-working-capital-loan": 2
+  },
+  "portfolio.workingcapitalloannearbreach.domain": {
+   "fineract-working-capital-loan": 1
+  },
+  "portfolio.workingcapitalloannearbreach.exception": {
+   "fineract-working-capital-loan": 1
+  },
+  "portfolio.workingcapitalloannearbreach.handler": {
+   "fineract-working-capital-loan": 3
+  },
+  "portfolio.workingcapitalloannearbreach.mapper": {
+   "fineract-working-capital-loan": 1
+  },
+  "portfolio.workingcapitalloannearbreach.repository": {
+   "fineract-working-capital-loan": 1
+  },
+  "portfolio.workingcapitalloannearbreach.service": {
+   "fineract-working-capital-loan": 4
+  },
+  "portfolio.workingcapitalloannearbreach.validator": {
+   "fineract-working-capital-loan": 1
+  },
+  "portfolio.workingcapitalloanproduct": {
+   "fineract-working-capital-loan": 49
+  },
+  "portfolio.workingcapitalloanproduct.api": {
+   "fineract-working-capital-loan": 2
+  },
+  "portfolio.workingcapitalloanproduct.data": {
+   "fineract-working-capital-loan": 3
+  },
+  "portfolio.workingcapitalloanproduct.domain": {
+   "fineract-working-capital-loan": 17
+  },
+  "portfolio.workingcapitalloanproduct.exception": {
+   "fineract-working-capital-loan": 5
+  },
+  "portfolio.workingcapitalloanproduct.handler": {
+   "fineract-working-capital-loan": 3
+  },
+  "portfolio.workingcapitalloanproduct.mapper": {
+   "fineract-working-capital-loan": 2
+  },
+  "portfolio.workingcapitalloanproduct.repository": {
+   "fineract-working-capital-loan": 2
+  },
+  "portfolio.workingcapitalloanproduct.serialization": {
+   "fineract-working-capital-loan": 4
+  },
+  "portfolio.workingcapitalloanproduct.service": {
+   "fineract-working-capital-loan": 10
+  },
+  "spm": {
+   "fineract-provider": 34
+  },
+  "spm.api": {
+   "fineract-provider": 3
+  },
+  "spm.data": {
+   "fineract-provider": 8
+  },
+  "spm.domain": {
+   "fineract-provider": 10
+  },
+  "spm.exception": {
+   "fineract-provider": 3
+  },
+  "spm.service": {
+   "fineract-provider": 5
+  },
+  "spm.starter": {
+   "fineract-provider": 1
+  },
+  "spm.util": {
+   "fineract-provider": 4
+  },
+  "template": {
+   "fineract-provider": 36
+  },
+  "template.api": {
+   "fineract-provider": 1
+  },
+  "template.command": {
+   "fineract-provider": 3
+  },
+  "template.data": {
+   "fineract-provider": 10
+  },
+  "template.domain": {
+   "fineract-provider": 8
+  },
+  "template.exception": {
+   "fineract-provider": 3
+  },
+  "template.handler": {
+   "fineract-provider": 3
+  },
+  "template.mapper": {
+   "fineract-provider": 3
+  },
+  "template.service": {
+   "fineract-provider": 5
+  },
+  "useradministration": {
+   "fineract-core": 13,
+   "fineract-provider": 64
+  },
+  "useradministration.api": {
+   "fineract-core": 1,
+   "fineract-provider": 10
+  },
+  "useradministration.command": {
+   "fineract-provider": 1
+  },
+  "useradministration.data": {
+   "fineract-core": 4,
+   "fineract-provider": 2
+  },
+  "useradministration.domain": {
+   "fineract-core": 5,
+   "fineract-provider": 8
+  },
+  "useradministration.exception": {
+   "fineract-core": 2,
+   "fineract-provider": 9
+  },
+  "useradministration.handler": {
+   "fineract-provider": 12
+  },
+  "useradministration.serialization": {
+   "fineract-provider": 1
+  },
+  "useradministration.service": {
+   "fineract-core": 1,
+   "fineract-provider": 20
+  },
+  "useradministration.starter": {
+   "fineract-provider": 1
+  },
+  "util": {
+   "fineract-core": 4
+  },
+  "validation": {
+   "fineract-validation": 8
+  },
+  "validation.constraints": {
+   "fineract-validation": 8
+  }
+ },
+ "version": "1.16.1"
+}

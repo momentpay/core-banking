@@ -55,6 +55,12 @@ mix test                         # all apps
 mix ecb.check                    # the same checks CI runs
 ```
 
+## Design documents
+
+One document per module, aligned with Apache Fineract: [docs/modules/README.md](docs/modules/README.md). The approach is in
+[docs/design/00-fineract-design-reference.md](docs/design/00-fineract-design-reference.md) and the overall plan in
+[docs/00-rewrite-plan.md](docs/00-rewrite-plan.md).
+
 ## Parity with Apache Fineract
 
 E-CoreBank is measured against a pinned Apache Fineract (1.16.1) that runs alongside it. See
