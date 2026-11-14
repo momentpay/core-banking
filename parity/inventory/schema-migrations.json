@@ -26,20 +26,43 @@
         "m_role_permission",
         "c_configuration"
       ]
+    },
+    {
+      "kind": "schema",
+      "app": "ecb_org",
+      "version": "20261114110000",
+      "name": "create_office_and_staff_tables",
+      "tables": [
+        "m_office",
+        "m_staff"
+      ]
+    },
+    {
+      "kind": "data",
+      "app": "ecb_org",
+      "version": "20261114110100",
+      "name": "seed_head_office",
+      "tables": [
+        "m_office"
+      ]
+    },
+    {
+      "kind": "data",
+      "app": "ecb_platform",
+      "version": "20261114110200",
+      "name": "seed_default_users",
+      "tables": [
+        "m_appuser",
+        "m_appuser_role"
+      ]
     }
   ],
   "deferred_foreign_keys": [
     {
-      "table": "m_appuser",
-      "references": "m_staff",
-      "sql": "ALTER TABLE ONLY public.m_appuser\n    ADD CONSTRAINT fk_m_appuser_002 FOREIGN KEY (staff_id) REFERENCES public.m_staff(id);",
-      "migration": "create_security_and_command_tables"
-    },
-    {
-      "table": "m_appuser",
-      "references": "m_office",
-      "sql": "ALTER TABLE ONLY public.m_appuser\n    ADD CONSTRAINT fkb3d587ce0dd567a FOREIGN KEY (office_id) REFERENCES public.m_office(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
-      "migration": "create_security_and_command_tables"
+      "table": "m_staff",
+      "references": "m_image",
+      "sql": "ALTER TABLE ONLY public.m_staff\n    ADD CONSTRAINT \"FK_m_staff_m_image\" FOREIGN KEY (image_id) REFERENCES public.m_image(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
+      "migration": "create_office_and_staff_tables"
     }
   ]
 }

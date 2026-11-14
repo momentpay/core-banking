@@ -30,6 +30,7 @@ defmodule ECBWeb.MixProject do
   defp deps do
     [
       {:ecb_platform, in_umbrella: true},
+      {:ecb_api_fineract, in_umbrella: true},
       {:phoenix, "~> 1.7.19"},
       {:phoenix_ecto, "~> 4.5"},
       {:phoenix_html, "~> 4.1"},

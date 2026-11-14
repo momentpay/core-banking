@@ -58,16 +58,48 @@ defmodule ECBPlatform.Tenancy do
   end
 
   @doc """
+  Points the calling process at a tenant's database until the process ends (or `activate/1` is called
+  again). For a request process, which handles one request for one tenant, where wrapping everything
+  in `with_tenant/2` would be awkward. Returns `:ok` or `{:error, reason}`.
+  """
+  @spec activate(Tenant.t()) :: :ok | {:error, term}
+  def activate(%Tenant{} = tenant) do
+    with {:ok, pool} <- Pools.ensure_started(tenant) do
+      TenantRepo.put_dynamic_repo(pool)
+      :ok
+    end
+  end
+
+  @doc """
   Directories of the migrations applied to every tenant database: `priv/tenant_repo/migrations` of
   every `ecb_*` app. Each domain app brings its own tables, and all of them run in version order.
   """
   @spec tenant_migration_paths() :: [String.t()]
   def tenant_migration_paths do
+    load_umbrella_apps()
+
     for {app, _description, _version} <- Application.loaded_applications(),
         String.starts_with?(Atom.to_string(app), "ecb_"),
         dir = Path.join(to_string(:code.priv_dir(app)), "tenant_repo/migrations"),
         File.dir?(dir),
         do: dir
+  end
+
+  # Run from one app's folder (`cd apps/ecb_platform && mix ecto.setup`), Mix puts only that app and its
+  # dependencies on the code path, so the other apps' migrations would be missed. Load every `ecb_*` app
+  # that has been built, so all of their `priv/tenant_repo/migrations` are found.
+  defp load_umbrella_apps do
+    if Code.ensure_loaded?(Mix.Project) do
+      build_lib = Path.join(Mix.Project.build_path(), "lib")
+
+      for dir <- Path.wildcard(Path.join(build_lib, "ecb_*")),
+          File.dir?(Path.join(dir, "ebin")) do
+        Code.prepend_path(Path.join(dir, "ebin"))
+        dir |> Path.basename() |> String.to_atom() |> Application.load()
+      end
+    end
+
+    :ok
   end
 
   @doc """

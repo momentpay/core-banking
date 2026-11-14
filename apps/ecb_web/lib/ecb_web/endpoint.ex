@@ -44,7 +44,9 @@ defmodule ECBWeb.Endpoint do
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
-    json_decoder: Phoenix.json_library()
+    json_decoder: Phoenix.json_library(),
+    # keep the request body as received: commands store their JSON as text
+    body_reader: {ECBApiFineract.BodyReader, :read_body, []}
 
   plug Plug.MethodOverride
   plug Plug.Head

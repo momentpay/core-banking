@@ -14,6 +14,9 @@ defmodule ECBWeb.Router do
     plug :accepts, ["json"]
   end
 
+  # The Fineract-compatible REST API: its own authentication, no browser session or CSRF.
+  forward "/fineract-provider", ECBApiFineract.Router
+
   scope "/", ECBWeb do
     pipe_through :browser
 

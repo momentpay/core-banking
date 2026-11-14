@@ -95,6 +95,16 @@ servers hold comparable data: fields under an empty array are not compared.
 Probing the oracle against itself passes 146 of 146 counted operations (4 skipped, oracle 5xx), which is the
 baseline for the tool itself. This layer does not exercise writes, workflows or calculations.
 
+**Current standing of E-CoreBank (14 Nov 2026):** `2 of 146` counted `must` and `should` read operations pass
+(the offices list and the office template); the other 144 answer HTTP 501 "not implemented". Run it yourself:
+
+```sh
+parity/scripts/start-oracle.sh                       # Fineract on :8443
+mix ecto.setup && ECB_NO_WATCHERS=1 PHX_SERVER=true mix run --no-halt   # E-CoreBank on :24000
+python parity/tools/contract_probe.py --target http://localhost:24000/fineract-provider --priority must,should
+BASE=http://localhost:24000/fineract-provider parity/scripts/smoke.sh    # the smoke test, against E-CoreBank
+```
+
 ### 3. Fineract's own integration tests: the strict contract
 
 ```sh

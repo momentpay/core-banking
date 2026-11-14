@@ -29,3 +29,16 @@ No numeric result differs: the golden master requires identical text for 130,144
 | 7 | 1.16 adds a typed command framework with an `m_command` table | Not built; the legacy `m_portfolio_command_source` flow is what the API of 1.16 still uses for writes | Parity first; revisit when the typed framework is chosen (open question in the module document) | n/a |
 
 No stored value differs: command rows, statuses, result codes and result JSON field names are Fineract's.
+
+## ecb_api_fineract
+
+| # | Fineract | E-CoreBank | Why | Check |
+|---|---|---|---|---|
+| 1 | Unknown or unbuilt paths are answered by the web container (404) | An operation that Fineract has but E-CoreBank has not built yet answers **HTTP 501** with a platform error | A client can tell "not built" from "does not exist"; the deferred operations in the cut list answer the same way | API test, contract probe (reported as a status difference) |
+| 2 | JSON objects list their fields in Fineract's class order | Fields are written in alphabetical order (the order Jason gives a map) | JSON object order carries no meaning and clients do not depend on it | Contract probe compares shape, not order |
+| 3 | Passwords of new users are written as `{bcrypt}` | Only the legacy `{SHA-256}{salt}hash` scheme is checked so far; anything else fails closed | `{bcrypt}` arrives with user administration | Unit test |
+| 4 | `shouldRenewPassword` and two-factor reflect the user's state | Both are always false for now | They arrive with user administration and two-factor authentication | Planned |
+| 5 | The default tenant timezone and business date set a new office's default opening date | `GET /offices/template` uses today's UTC date | Business date arrives with ecb_platform part 2 | Planned |
+
+**Security note:** the seeded users (`mifos`, `system`, `interopUser`) and the password `password` are Fineract's published defaults. They exist so the compatible API and Fineract's own tests work out of the box. A real deployment must change those passwords, or remove the users, before it holds real data. Password changes arrive with user administration.
+

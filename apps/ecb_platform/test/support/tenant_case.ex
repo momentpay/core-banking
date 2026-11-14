@@ -2,6 +2,12 @@ defmodule ECBPlatform.TenantCase do
   @moduledoc """
   Test setup for code that works on a tenant database.
 
+      use ECBPlatform.TenantCase                                  # database ecb_tenant_test, reset before each test
+      use ECBPlatform.TenantCase, database: "ecb_org_test", reset: false   # another app's own database, left as migrated
+
+  Each app that uses it gives itself its own database and migrates it once in `test_helper.exs`
+  (`Tenancy.migrate(ECBPlatform.TenantCase.tenant("ecb_org_test"))`).
+
   Uses a real tenant database (`ecb_tenant_test`) with real commits and rollbacks rather than the
   SQL sandbox, because the command pipeline depends on exactly that: the command row is committed
   before the handler runs, and a failed or unapproved command rolls the handler's work back while
@@ -16,31 +22,50 @@ defmodule ECBPlatform.TenantCase do
   alias ECBPlatform.Tenancy.{Pools, Tenant}
   alias ECBPlatform.TenantRepo
 
-  using do
+  using opts do
+    database = Keyword.get(opts, :database, "ecb_tenant_test")
+    reset? = Keyword.get(opts, :reset, true)
+
     quote do
       import ECBPlatform.TenantCase
       alias ECBPlatform.TenantRepo
+
+      setup do
+        ECBPlatform.TenantCase.setup_tenant(unquote(database), unquote(reset?))
+      end
     end
   end
 
-  setup do
-    {:ok, pool} = Pools.ensure_started(tenant())
+  @doc """
+  Drops and recreates a test database and applies every tenant migration. Called once from each app's
+  `test_helper.exs`, so a run never inherits a half-migrated database from an earlier one.
+  """
+  def recreate_database(database) do
+    tenant = tenant(database)
+    _ = TenantRepo.__adapter__().storage_down(Tenant.repo_opts(tenant))
+    ECBPlatform.Tenancy.migrate(tenant)
+  end
+
+  @doc false
+  def setup_tenant(database, reset?) do
+    {:ok, pool} = Pools.ensure_started(tenant(database))
     TenantRepo.put_dynamic_repo(pool)
-    reset!()
+    if reset?, do: reset!()
     :ok
   end
 
   @doc "The test tenant (not stored in the registry): the registry's server and a database of its own."
-  def tenant do
+  def tenant(database \\ "ecb_tenant_test") do
     config = ECBPlatform.Repo.config()
 
     %Tenant{
-      identifier: "test",
+      # one pool per database: the identifier names the pool, so apps sharing a test run must not share it
+      identifier: database,
       name: "Test tenant",
       timezone_id: "UTC",
       db_host: config[:hostname],
       db_port: config[:port],
-      db_name: "ecb_tenant_test" <> (System.get_env("MIX_TEST_PARTITION") || ""),
+      db_name: database <> (System.get_env("MIX_TEST_PARTITION") || ""),
       db_username: config[:username],
       pool_size: 5
     }

@@ -36,10 +36,15 @@ config :ecb_web, ECBWeb.Endpoint,
   code_reloader: true,
   debug_errors: true,
   secret_key_base: "0Wbu607d+0ST8gHkf7NAM7hfAYYxC4af64JyAFNRcHAegk26tFZypOaDzMxtKwvf",
-  watchers: [
-    esbuild: {Esbuild, :install_and_run, [:ecb_web, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:ecb_web, ~w(--watch)]}
-  ],
+  # Set ECB_NO_WATCHERS=1 to run the server without the asset watchers (no esbuild or tailwind download).
+  watchers:
+    if(System.get_env("ECB_NO_WATCHERS"),
+      do: [],
+      else: [
+        esbuild: {Esbuild, :install_and_run, [:ecb_web, ~w(--sourcemap=inline --watch)]},
+        tailwind: {Tailwind, :install_and_run, [:ecb_web, ~w(--watch)]}
+      ]
+    ),
   live_reload: [
     patterns: [
       ~r"apps/ecb_web/priv/static/(?!uploads/).*(js|css|png|jpeg|jpg|gif|svg)$",
