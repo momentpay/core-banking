@@ -70,6 +70,9 @@ defmodule ECBApiFineract.ApiCase do
       "UPDATE m_working_days SET recurrence = 'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA,SU', repayment_rescheduling_enum = 2, extend_term_daily_repayments = false, extend_term_holiday_repayment = false"
     )
 
+    TenantRepo.query!("DELETE FROM m_holiday_office")
+    TenantRepo.query!("DELETE FROM m_holiday")
+    TenantRepo.query!("SELECT setval(pg_get_serial_sequence('m_holiday', 'id'), 1, false)")
     TenantRepo.query!("DELETE FROM m_staff")
     TenantRepo.query!("DELETE FROM m_fund")
     TenantRepo.query!("DELETE FROM m_payment_type WHERE id > 3")

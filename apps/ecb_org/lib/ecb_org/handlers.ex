@@ -149,4 +149,40 @@ defmodule ECBOrg.Handlers do
     def process(command, _user),
       do: {:ok, ECBOrg.WorkingDays.Write.update!(ECBPlatform.Params.parse!(command.json))}
   end
+
+  defmodule CreateHoliday do
+    @moduledoc "`CREATE` on `HOLIDAY`."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, _user),
+      do: {:ok, ECBOrg.Holidays.Write.create!(ECBPlatform.Params.parse!(command.json))}
+  end
+
+  defmodule UpdateHoliday do
+    @moduledoc "`UPDATE` on `HOLIDAY`."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, _user),
+      do:
+        {:ok,
+         ECBOrg.Holidays.Write.update!(command.entity_id, ECBPlatform.Params.parse!(command.json))}
+  end
+
+  defmodule ActivateHoliday do
+    @moduledoc "`ACTIVATE` on `HOLIDAY`."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, _user), do: {:ok, ECBOrg.Holidays.Write.activate!(command.entity_id)}
+  end
+
+  defmodule DeleteHoliday do
+    @moduledoc "`DELETE` on `HOLIDAY`."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, _user), do: {:ok, ECBOrg.Holidays.Write.delete!(command.entity_id)}
+  end
 end

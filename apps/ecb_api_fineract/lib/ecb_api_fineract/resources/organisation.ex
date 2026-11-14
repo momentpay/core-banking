@@ -1,11 +1,11 @@
 defmodule ECBApiFineract.Resources.Organisation do
   @moduledoc """
-  Endpoints for the organisation's reference data: currencies, working days, holidays and
-  account-number formats (codes, funds, payment types and staff have their own modules). Each needs
+  Endpoints for the organisation's reference data: currencies, working days and account-number
+  formats (codes, funds, holidays, payment types and staff have their own modules). Each needs
   `READ_<RESOURCE>`.
   """
   alias ECBApiFineract.Resources.Read
-  alias ECBOrg.{AccountNumberFormats, Currencies, Holidays, WorkingDays}
+  alias ECBOrg.{AccountNumberFormats, Currencies, WorkingDays}
 
   @doc "`GET /currencies`"
   def currencies(conn) do
@@ -51,31 +51,6 @@ defmodule ECBApiFineract.Resources.Organisation do
       %{
         "repaymentRescheduleOptions" => Enum.map(WorkingDays.reschedule_options(), &Read.option/1)
       }
-    end)
-  end
-
-  @doc "`GET /holidays` (optionally `?officeId=`)"
-  def holidays(conn) do
-    Read.respond(conn, "HOLIDAY", fn ->
-      for h <- Holidays.list(office_id: Read.int_param(conn.query_params, "officeId")) do
-        %{
-          "id" => h.id,
-          "name" => h.name,
-          "fromDate" => h.from_date,
-          "toDate" => h.to_date,
-          "repaymentsRescheduledTo" => h.repayments_rescheduled_to,
-          "status" => Read.option(h.status),
-          "reschedulingType" => h.rescheduling_type,
-          "description" => h.description
-        }
-      end
-    end)
-  end
-
-  @doc "`GET /holidays/template`"
-  def holidays_template(conn) do
-    Read.respond(conn, "HOLIDAY", fn ->
-      Enum.map(Holidays.rescheduling_types(), &Read.option/1)
     end)
   end
 

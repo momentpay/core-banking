@@ -105,6 +105,15 @@ defmodule ECBPlatform.Errors do
       do: "The JSON syntax provided in the body of the request is invalid: " <> detail
   end
 
+  defmodule UnrecognizedQueryParameter do
+    @moduledoc "A query parameter with a value this operation does not know (`?command=bogus`). HTTP 400."
+    defexception [:name, :value, allowed: []]
+
+    @impl true
+    def message(%{name: name, value: value}),
+      do: "The query parameter #{name} has an unsupported value of: #{value}"
+  end
+
   defmodule InvalidJsonData do
     @moduledoc """
     A value of the wrong type in a typed request, such as text where a true or false belongs. HTTP 400,
@@ -187,6 +196,25 @@ defmodule ECBPlatform.Errors do
        parameter: "id",
        args: []
      })}
+  end
+
+  def to_api(%UnrecognizedQueryParameter{} = e) do
+    error = %{
+      code: "error.msg.query.parameter.value.unsupported",
+      developer_message: Exception.message(e),
+      default_message: e.name,
+      parameter: e.name,
+      args: [e.value, e.allowed]
+    }
+
+    {400,
+     envelope(
+       400,
+       "validation.msg.validation.errors.exist",
+       @validation_developer_message,
+       "Validation errors exist.",
+       [error]
+     )}
   end
 
   def to_api(%InvalidJsonData{} = e) do

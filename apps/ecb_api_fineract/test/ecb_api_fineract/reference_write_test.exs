@@ -285,4 +285,79 @@ defmodule ECBApiFineract.ReferenceWriteTest do
       assert body(conn)["userMessageGlobalisationCode"] == "error.msg.invalid.recurring.rule"
     end
   end
+
+  describe "holidays" do
+    @dates %{"dateFormat" => "dd MMMM yyyy", "locale" => "en"}
+
+    defp holiday(extra) do
+      send_json(
+        :post,
+        "/v1/holidays",
+        Map.merge(
+          %{
+            "name" => "Christmas",
+            "fromDate" => "25 December 2026",
+            "toDate" => "26 December 2026",
+            "reschedulingType" => 1,
+            "offices" => [%{"officeId" => 1}]
+          },
+          Map.merge(@dates, extra)
+        )
+      )
+    end
+
+    test "a name in use is refused with its own message" do
+      assert holiday(%{}).status == 200
+      conn = holiday(%{})
+      assert conn.status == 403
+      assert body(conn)["userMessageGlobalisationCode"] == "error.msg.holiday.duplicate.name"
+    end
+
+    test "repayments cannot be moved to a day that is not a working day" do
+      # Saturday and Sunday are not working days
+      send_json(:put, "/v1/workingdays", %{
+        "recurrence" => "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR"
+      })
+
+      conn = holiday(%{"reschedulingType" => 2, "repaymentsRescheduledTo" => "27 December 2026"})
+      assert conn.status == 403
+
+      assert body(conn)["errors"] |> hd() |> Map.fetch!("userMessageGlobalisationCode") ==
+               "error.msg.holiday.repayments.rescheduled.date.should.not.fall.on.non.working.day"
+
+      assert holiday(%{"reschedulingType" => 2, "repaymentsRescheduledTo" => "28 December 2026"}).status ==
+               200
+    end
+
+    test "an active holiday keeps its dates but its description can change" do
+      %{"resourceId" => id} = holiday(%{}) |> body()
+      assert send_json(:post, "/v1/holidays/#{id}?command=activate", nil).status == 200
+
+      locked =
+        send_json(
+          :put,
+          "/v1/holidays/#{id}",
+          Map.merge(%{"toDate" => "30 December 2026"}, @dates)
+        )
+
+      assert locked.status == 400
+
+      assert send_json(:put, "/v1/holidays/#{id}", %{"description" => "Public holiday"}).status ==
+               200
+    end
+
+    test "deleting keeps the row, marked deleted, and it is still listed" do
+      %{"resourceId" => id} = holiday(%{}) |> body()
+      assert call(:delete, "/api/v1/holidays/#{id}", auth: admin()).status == 200
+
+      [one] = call(:get, "/api/v1/holidays?officeId=1", auth: admin()) |> body()
+      assert one["status"]["value"] == "Deleted"
+    end
+
+    test "a user without UPDATE_HOLIDAY cannot activate" do
+      %{"resourceId" => id} = holiday(%{}) |> body()
+      reader = make_user("holiday-reader", ["READ_HOLIDAY"])
+      assert send_json(:post, "/v1/holidays/#{id}?command=activate", nil, reader).status == 403
+    end
+  end
 end

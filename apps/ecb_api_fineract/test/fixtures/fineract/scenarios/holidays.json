@@ -1,0 +1,1011 @@
+{
+ "name": "holidays",
+ "reset": [
+  "holidays",
+  "offices",
+  "workingdays"
+ ],
+ "steps": [
+  {
+   "method": "POST",
+   "path": "/v1/offices",
+   "body": {
+    "name": "Nairobi",
+    "parentId": 1,
+    "openingDate": "01 March 2020",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 2,
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/holidays",
+   "body": {
+    "name": "Christmas",
+    "description": "Public holiday",
+    "fromDate": "25 December 2026",
+    "toDate": "26 December 2026",
+    "repaymentsRescheduledTo": "28 December 2026",
+    "reschedulingType": 2,
+    "offices": [
+     {
+      "officeId": 1
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/holidays",
+   "body": {
+    "name": "New Year",
+    "fromDate": "01 January 2027",
+    "toDate": "01 January 2027",
+    "reschedulingType": 1,
+    "offices": [
+     {
+      "officeId": 1
+     },
+     {
+      "officeId": 2
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "path": "/v1/holidays?officeId=1",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "name": "Christmas",
+     "description": "Public holiday",
+     "fromDate": [
+      2026,
+      12,
+      25
+     ],
+     "toDate": [
+      2026,
+      12,
+      26
+     ],
+     "repaymentsRescheduledTo": [
+      2026,
+      12,
+      28
+     ],
+     "status": {
+      "id": 100,
+      "code": "holidayStatusType.pending.for.activation",
+      "value": "Pending for activation"
+     },
+     "reschedulingType": 2
+    },
+    {
+     "id": 2,
+     "name": "New Year",
+     "description": "",
+     "fromDate": [
+      2027,
+      1,
+      1
+     ],
+     "toDate": [
+      2027,
+      1,
+      1
+     ],
+     "status": {
+      "id": 100,
+      "code": "holidayStatusType.pending.for.activation",
+      "value": "Pending for activation"
+     },
+     "reschedulingType": 1
+    }
+   ]
+  },
+  {
+   "path": "/v1/holidays?officeId=2",
+   "status": 200,
+   "response": [
+    {
+     "id": 2,
+     "name": "New Year",
+     "description": "",
+     "fromDate": [
+      2027,
+      1,
+      1
+     ],
+     "toDate": [
+      2027,
+      1,
+      1
+     ],
+     "status": {
+      "id": 100,
+      "code": "holidayStatusType.pending.for.activation",
+      "value": "Pending for activation"
+     },
+     "reschedulingType": 1
+    }
+   ]
+  },
+  {
+   "path": "/v1/holidays",
+   "status": 200,
+   "response": []
+  },
+  {
+   "path": "/v1/holidays/1",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "name": "Christmas",
+    "description": "Public holiday",
+    "fromDate": [
+     2026,
+     12,
+     25
+    ],
+    "toDate": [
+     2026,
+     12,
+     26
+    ],
+    "repaymentsRescheduledTo": [
+     2026,
+     12,
+     28
+    ],
+    "status": {
+     "id": 100,
+     "code": "holidayStatusType.pending.for.activation",
+     "value": "Pending for activation"
+    },
+    "reschedulingType": 2
+   }
+  },
+  {
+   "path": "/v1/holidays/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Holiday with identifier 99 does not exist",
+      "defaultUserMessage": "Holiday with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.holiday.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/holidays?officeId=1&fromDate=2027-01-01&toDate=2027-12-31",
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `locale` is invalid. It cannot be blank.",
+      "defaultUserMessage": "The parameter `locale` is invalid. It cannot be blank.",
+      "userMessageGlobalisationCode": "validation.msg.invalid.locale.format",
+      "parameterName": "locale",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/holidays/1",
+   "body": {
+    "name": "Christmas Day",
+    "description": "Updated"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "name": "Christmas Day",
+     "description": "Updated"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/holidays/1",
+   "body": {
+    "name": "Christmas Day"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {}
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/holidays/1",
+   "body": {
+    "fromDate": "24 December 2026",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "fromDate": "24 December 2026",
+     "dateFormat": "dd MMMM yyyy",
+     "locale": "en"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/holidays/2",
+   "body": {
+    "offices": [
+     {
+      "officeId": 2
+     }
+    ]
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2,
+    "changes": {
+     "offices": "[{\"officeId\":2}]"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/holidays/2",
+   "body": {
+    "offices": [
+     {
+      "officeId": 2
+     }
+    ]
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2,
+    "changes": {}
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/holidays/2",
+   "body": {
+    "reschedulingType": 2,
+    "repaymentsRescheduledTo": "04 January 2027",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2,
+    "changes": {
+     "reschedulingType": 2,
+     "repaymentsRescheduledTo": "04 January 2027",
+     "dateFormat": "dd MMMM yyyy",
+     "locale": "en"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/holidays/99",
+   "body": {
+    "name": "x"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Holiday with identifier 99 does not exist",
+      "defaultUserMessage": "Holiday with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.holiday.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/holidays/1?command=activate",
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/holidays/1?command=activate",
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "Failed data validation due to: not.in.pending.for.activation.state.",
+      "defaultUserMessage": "Failed data validation due to: not.in.pending.for.activation.state.",
+      "userMessageGlobalisationCode": "validation.msg.holiday.activate.not.in.pending.for.activation.state",
+      "args": [
+       {},
+       {
+        "value": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/holidays/1",
+   "body": {
+    "fromDate": "20 December 2026",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "Failed data validation due to: cannot.edit.holiday.in.active.state.",
+      "defaultUserMessage": "Failed data validation due to: cannot.edit.holiday.in.active.state.",
+      "userMessageGlobalisationCode": "validation.msg.holiday.update.fromDate.cannot.edit.holiday.in.active.state",
+      "parameterName": "fromDate",
+      "args": [
+       {},
+       {
+        "value": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/holidays/1",
+   "body": {
+    "description": "still editable"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "description": "still editable"
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/holidays/1?command=bogus",
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The query parameter command has an unsupported value of: bogus",
+      "defaultUserMessage": "command",
+      "userMessageGlobalisationCode": "error.msg.query.parameter.value.unsupported",
+      "parameterName": "command",
+      "args": [
+       {
+        "value": "bogus"
+       },
+       {
+        "value": [
+         "activate"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/holidays/99?command=activate",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Holiday with identifier 99 does not exist",
+      "defaultUserMessage": "Holiday with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.holiday.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/holidays/1",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "name": "Christmas Day",
+    "description": "still editable",
+    "fromDate": [
+     2026,
+     12,
+     24
+    ],
+    "toDate": [
+     2026,
+     12,
+     26
+    ],
+    "repaymentsRescheduledTo": [
+     2026,
+     12,
+     28
+    ],
+    "status": {
+     "id": 300,
+     "code": "holidayStatusType.active",
+     "value": "Active"
+    },
+    "reschedulingType": 2
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/holidays/2",
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/holidays/2",
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "Failed data validation due to: already.in.deleted.state.",
+      "defaultUserMessage": "Failed data validation due to: already.in.deleted.state.",
+      "userMessageGlobalisationCode": "validation.msg.holiday.delete.already.in.deleted.state",
+      "args": [
+       {},
+       {
+        "value": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/holidays/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Holiday with identifier 99 does not exist",
+      "defaultUserMessage": "Holiday with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.holiday.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/holidays/2",
+   "status": 200,
+   "response": {
+    "id": 2,
+    "name": "New Year",
+    "description": "",
+    "fromDate": [
+     2027,
+     1,
+     1
+    ],
+    "toDate": [
+     2027,
+     1,
+     1
+    ],
+    "repaymentsRescheduledTo": [
+     2027,
+     1,
+     4
+    ],
+    "status": {
+     "id": 600,
+     "code": "savingsAccountStatusType.transfer.in.progress",
+     "value": "Deleted"
+    },
+    "reschedulingType": 2
+   }
+  },
+  {
+   "path": "/v1/holidays?officeId=1",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "name": "Christmas Day",
+     "description": "still editable",
+     "fromDate": [
+      2026,
+      12,
+      24
+     ],
+     "toDate": [
+      2026,
+      12,
+      26
+     ],
+     "repaymentsRescheduledTo": [
+      2026,
+      12,
+      28
+     ],
+     "status": {
+      "id": 300,
+      "code": "holidayStatusType.active",
+      "value": "Active"
+     },
+     "reschedulingType": 2
+    }
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/holidays",
+   "body": {
+    "name": "Christmas Day",
+    "fromDate": "25 December 2027",
+    "toDate": "26 December 2027",
+    "reschedulingType": 1,
+    "offices": [
+     {
+      "officeId": 1
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/holidays",
+   "body": {},
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.holiday.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `fromDate` is mandatory.",
+      "defaultUserMessage": "The parameter `fromDate` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.holiday.fromDate.cannot.be.blank",
+      "parameterName": "fromDate",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `toDate` is mandatory.",
+      "defaultUserMessage": "The parameter `toDate` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.holiday.toDate.cannot.be.blank",
+      "parameterName": "toDate",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `repaymentsRescheduledTo` is mandatory.",
+      "defaultUserMessage": "The parameter `repaymentsRescheduledTo` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.holiday.repaymentsRescheduledTo.cannot.be.blank",
+      "parameterName": "repaymentsRescheduledTo",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `offices` is mandatory.",
+      "defaultUserMessage": "The parameter `offices` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.holiday.offices.cannot.be.blank",
+      "parameterName": "offices",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/holidays",
+   "body": {
+    "name": "X",
+    "fromDate": "01 January 2027",
+    "toDate": "01 January 2027",
+    "reschedulingType": 1,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `offices` is mandatory.",
+      "defaultUserMessage": "The parameter `offices` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.holiday.offices.cannot.be.blank",
+      "parameterName": "offices",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/holidays",
+   "body": {
+    "name": "X",
+    "fromDate": "01 January 2027",
+    "toDate": "01 January 2027",
+    "reschedulingType": 2,
+    "offices": [
+     {
+      "officeId": 1
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `repaymentsRescheduledTo` is mandatory.",
+      "defaultUserMessage": "The parameter `repaymentsRescheduledTo` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.holiday.repaymentsRescheduledTo.cannot.be.blank",
+      "parameterName": "repaymentsRescheduledTo",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/holidays",
+   "body": {
+    "name": "X",
+    "fromDate": "01 January 2027",
+    "toDate": "01 January 2027",
+    "reschedulingType": 1,
+    "offices": [
+     {
+      "officeId": 99
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Office with identifier 99 does not exist",
+      "defaultUserMessage": "Office with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.office.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/holidays",
+   "body": {
+    "name": "X",
+    "fromDate": "05 January 2027",
+    "toDate": "01 January 2027",
+    "repaymentsRescheduledTo": "07 January 2027",
+    "reschedulingType": 2,
+    "offices": [
+     {
+      "officeId": 1
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "To Date date cannot be before the From Date.",
+      "defaultUserMessage": "To Date date cannot be before the From Date.",
+      "userMessageGlobalisationCode": "error.msg.holiday.to.date.cannot.be.before.from.date",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "2027-01-05"
+       },
+       {
+        "value": "2027-01-01"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/holidays",
+   "body": {
+    "name": "X",
+    "fromDate": "05 January 2027",
+    "toDate": "06 January 2027",
+    "repaymentsRescheduledTo": "05 January 2027",
+    "reschedulingType": 2,
+    "offices": [
+     {
+      "officeId": 1
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Repayments rescheduled date should be before from date or after to date.",
+      "defaultUserMessage": "Repayments rescheduled date should be before from date or after to date.",
+      "userMessageGlobalisationCode": "error.msg.holiday.repayments.rescheduled.date.should.be.before.from.date.or.after.to.date",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "2027-01-05"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/holidays",
+   "body": {
+    "name": "X",
+    "fromDate": "05 January 2027",
+    "toDate": "06 January 2027",
+    "repaymentsRescheduledTo": "15 March 2027",
+    "reschedulingType": 2,
+    "offices": [
+     {
+      "officeId": 1
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Repayments Rescheduled to date must be within 30 days before or after from and to dates",
+      "defaultUserMessage": "Repayments Rescheduled to date must be within 30 days before or after from and to dates",
+      "userMessageGlobalisationCode": "error.msg.holiday.repayments.rescheduled.to.must.be.within.range",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "2027-01-05"
+       },
+       {
+        "value": "2027-01-06"
+       },
+       {
+        "value": "2027-03-15"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/holidays",
+   "body": {
+    "name": "X",
+    "fromDate": "05 January 2027",
+    "toDate": "06 January 2027",
+    "bogus": 1,
+    "reschedulingType": 1,
+    "offices": [
+     {
+      "officeId": 1
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter bogus is not supported.",
+      "defaultUserMessage": "bogus",
+      "userMessageGlobalisationCode": "error.msg.parameter.unsupported",
+      "parameterName": "bogus",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/holidays",
+   "body": {
+    "name": "X",
+    "fromDate": "05 January 2027",
+    "toDate": "06 January 2027",
+    "reschedulingType": 1,
+    "offices": [
+     {
+      "officeId": 1
+     }
+    ]
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `fromDate` requires a `dateFormat` parameter to be passed with it.",
+      "defaultUserMessage": "The parameter `fromDate` requires a `dateFormat` parameter to be passed with it.",
+      "userMessageGlobalisationCode": "validation.msg.missing.dateFormat.parameter",
+      "parameterName": "fromDate",
+      "args": []
+     },
+     {
+      "developerMessage": "The parameter `fromDate` requires a `locale` parameter to be passed with it.",
+      "defaultUserMessage": "The parameter `fromDate` requires a `locale` parameter to be passed with it.",
+      "userMessageGlobalisationCode": "validation.msg.missing.locale.parameter",
+      "parameterName": "fromDate",
+      "args": []
+     }
+    ]
+   }
+  }
+ ]
+}

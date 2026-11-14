@@ -41,15 +41,23 @@ defmodule ECBWeb.Endpoint do
   plug Plug.RequestId
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
 
-  plug Plug.Parsers,
-    parsers: [:urlencoded, :multipart, :json],
-    pass: ["*/*"],
-    json_decoder: Phoenix.json_library(),
-    # keep the request body as received: commands store their JSON as text
-    body_reader: {ECBApiFineract.BodyReader, :read_body, []}
+  @parser_options Plug.Parsers.init(
+                    parsers: [:urlencoded, :multipart, :json],
+                    pass: ["*/*"],
+                    json_decoder: Phoenix.json_library(),
+                    # keep the request body as received: commands store their JSON as text
+                    body_reader: {ECBApiFineract.BodyReader, :read_body, []}
+                  )
+
+  plug :parse_body
 
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
   plug ECBWeb.Router
+
+  # The compatible API reads its own bodies (and answers a body that is not JSON in Fineract's way), so
+  # the requests for it are left alone here.
+  defp parse_body(%Plug.Conn{path_info: ["fineract-provider" | _]} = conn, _opts), do: conn
+  defp parse_body(conn, _opts), do: Plug.Parsers.call(conn, @parser_options)
 end

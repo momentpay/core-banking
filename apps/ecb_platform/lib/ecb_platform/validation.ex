@@ -220,6 +220,15 @@ defmodule ECBPlatform.Validation do
 
   # --- free-form ------------------------------------------------------------------------------
 
+  @doc """
+  Records a problem that has only a code: `validation.msg.<resource>.<parameter>.<code>`, with the
+  message `Failed data validation due to: <code>.` and the value refused as its first argument, as
+  Fineract's `failWithCode` does.
+  """
+  @spec fail_with_code(t, String.t()) :: t
+  def fail_with_code(v, code),
+    do: add(v, code, "Failed data validation due to: #{code}.", [v.value, []])
+
   @doc "Records a problem with a code and message of your own: `validation.msg.<resource>.<parameter>.<code>`."
   @spec fail(t, String.t(), String.t(), [term]) :: t
   def fail(v, code, message, args \\ []), do: add(v, code, message, args)

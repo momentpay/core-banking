@@ -23,7 +23,11 @@ defmodule ECBOrg.Application do
     {"CODEVALUE", "CREATE", ECBOrg.Handlers.CreateCodeValue},
     {"CODEVALUE", "UPDATE", ECBOrg.Handlers.UpdateCodeValue},
     {"CODEVALUE", "DELETE", ECBOrg.Handlers.DeleteCodeValue},
-    {"WORKINGDAYS", "UPDATE", ECBOrg.Handlers.UpdateWorkingDays}
+    {"WORKINGDAYS", "UPDATE", ECBOrg.Handlers.UpdateWorkingDays},
+    {"HOLIDAY", "CREATE", ECBOrg.Handlers.CreateHoliday},
+    {"HOLIDAY", "UPDATE", ECBOrg.Handlers.UpdateHoliday},
+    {"HOLIDAY", "ACTIVATE", ECBOrg.Handlers.ActivateHoliday},
+    {"HOLIDAY", "DELETE", ECBOrg.Handlers.DeleteHoliday}
   ]
 
   @impl true

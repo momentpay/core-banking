@@ -53,6 +53,10 @@ defmodule ECBPlatform.Params do
     end
   end
 
+  @doc "The value of a key as decoded from the body (maps, lists, numbers, text), or `nil`."
+  @spec value(t, String.t()) :: term
+  def value(%__MODULE__{map: map}, key), do: Map.get(map, key)
+
   @doc "True when the key is in the body, whatever its value."
   @spec exists?(t, String.t()) :: boolean
   def exists?(%__MODULE__{map: map}, key), do: Map.has_key?(map, key)

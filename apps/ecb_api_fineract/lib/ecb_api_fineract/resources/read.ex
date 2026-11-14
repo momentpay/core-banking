@@ -12,11 +12,21 @@ defmodule ECBApiFineract.Resources.Read do
   @spec respond(Plug.Conn.t(), String.t(), (-> term)) :: Plug.Conn.t()
   def respond(conn, resource, fun) do
     with :ok <- Security.validate_has_read_permission(conn.assigns.current_user, resource),
-         body when not is_tuple(body) <- fun.() do
+         body when not is_tuple(body) <- build(fun) do
       Response.json(conn, 200, body)
     else
       {:error, error} -> Errors.render(conn, error)
     end
+  end
+
+  # What the function raises about the request (a bad date, say) is answered, not crashed on.
+  defp build(fun) do
+    fun.()
+  rescue
+    error ->
+      if ECBPlatform.Errors.to_api(error),
+        do: {:error, error},
+        else: reraise(error, __STACKTRACE__)
   end
 
   @doc "A `{id, code, value}` option as Fineract's `EnumOptionData`."

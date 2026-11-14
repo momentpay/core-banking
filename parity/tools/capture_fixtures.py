@@ -129,6 +129,11 @@ RESETS = {
     "workingdays": [
         "UPDATE m_working_days SET recurrence = 'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA,SU', repayment_rescheduling_enum = 2, extend_term_daily_repayments = false, extend_term_holiday_repayment = false",
     ],
+    "holidays": [
+        "DELETE FROM m_holiday_office",
+        "DELETE FROM m_holiday",
+        "SELECT setval(pg_get_serial_sequence('m_holiday', 'id'), 1, false)",
+    ],
     "staff": [
         "DELETE FROM m_staff",
         "SELECT setval(pg_get_serial_sequence('m_staff', 'id'), 1, false)",

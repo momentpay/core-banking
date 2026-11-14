@@ -17,6 +17,7 @@ defmodule ECBApiFineract.ApiRouter do
     Authentication,
     Codes,
     Funds,
+    Holidays,
     Offices,
     Organisation,
     PaymentTypes,
@@ -75,8 +76,13 @@ defmodule ECBApiFineract.ApiRouter do
   get "/v1/funds/:id", do: Funds.show(conn, id)
   post "/v1/funds", do: Funds.create(conn)
   put "/v1/funds/:id", do: Funds.update(conn, id)
-  get "/v1/holidays/template", do: Organisation.holidays_template(conn)
-  get "/v1/holidays", do: Organisation.holidays(conn)
+  get "/v1/holidays/template", do: Holidays.template(conn)
+  get "/v1/holidays", do: Holidays.index(conn)
+  post "/v1/holidays", do: Holidays.create(conn)
+  get "/v1/holidays/:id", do: Holidays.show(conn, id)
+  put "/v1/holidays/:id", do: Holidays.update(conn, id)
+  post "/v1/holidays/:id", do: Holidays.command(conn, id)
+  delete "/v1/holidays/:id", do: Holidays.delete(conn, id)
   get "/v1/staff", do: Staff.index(conn)
   get "/v1/staff/:id", do: Staff.show(conn, id)
   post "/v1/staff", do: Staff.create(conn)

@@ -960,6 +960,355 @@
           "path": "/v1/workingdays"
         }
       ]
+    },
+    {
+      "name": "holidays",
+      "reset": [
+        "holidays",
+        "offices",
+        "workingdays"
+      ],
+      "steps": [
+        {
+          "method": "POST",
+          "path": "/v1/offices",
+          "body": {
+            "name": "Nairobi",
+            "parentId": 1,
+            "openingDate": "01 March 2020",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/holidays",
+          "body": {
+            "name": "Christmas",
+            "description": "Public holiday",
+            "fromDate": "25 December 2026",
+            "toDate": "26 December 2026",
+            "repaymentsRescheduledTo": "28 December 2026",
+            "reschedulingType": 2,
+            "offices": [
+              {
+                "officeId": 1
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/holidays",
+          "body": {
+            "name": "New Year",
+            "fromDate": "01 January 2027",
+            "toDate": "01 January 2027",
+            "reschedulingType": 1,
+            "offices": [
+              {
+                "officeId": 1
+              },
+              {
+                "officeId": 2
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "path": "/v1/holidays?officeId=1"
+        },
+        {
+          "path": "/v1/holidays?officeId=2"
+        },
+        {
+          "path": "/v1/holidays"
+        },
+        {
+          "path": "/v1/holidays/1"
+        },
+        {
+          "path": "/v1/holidays/99"
+        },
+        {
+          "path": "/v1/holidays?officeId=1&fromDate=2027-01-01&toDate=2027-12-31"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/holidays/1",
+          "body": {
+            "name": "Christmas Day",
+            "description": "Updated"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/holidays/1",
+          "body": {
+            "name": "Christmas Day"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/holidays/1",
+          "body": {
+            "fromDate": "24 December 2026",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/holidays/2",
+          "body": {
+            "offices": [
+              {
+                "officeId": 2
+              }
+            ]
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/holidays/2",
+          "body": {
+            "offices": [
+              {
+                "officeId": 2
+              }
+            ]
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/holidays/2",
+          "body": {
+            "reschedulingType": 2,
+            "repaymentsRescheduledTo": "04 January 2027",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/holidays/99",
+          "body": {
+            "name": "x"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/holidays/1?command=activate"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/holidays/1?command=activate"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/holidays/1",
+          "body": {
+            "fromDate": "20 December 2026",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/holidays/1",
+          "body": {
+            "description": "still editable"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/holidays/1?command=bogus"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/holidays/99?command=activate"
+        },
+        {
+          "path": "/v1/holidays/1"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/holidays/2"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/holidays/2"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/holidays/99"
+        },
+        {
+          "path": "/v1/holidays/2"
+        },
+        {
+          "path": "/v1/holidays?officeId=1"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/holidays",
+          "body": {
+            "name": "Christmas Day",
+            "fromDate": "25 December 2027",
+            "toDate": "26 December 2027",
+            "reschedulingType": 1,
+            "offices": [
+              {
+                "officeId": 1
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/holidays",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/holidays",
+          "body": {
+            "name": "X",
+            "fromDate": "01 January 2027",
+            "toDate": "01 January 2027",
+            "reschedulingType": 1,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/holidays",
+          "body": {
+            "name": "X",
+            "fromDate": "01 January 2027",
+            "toDate": "01 January 2027",
+            "reschedulingType": 2,
+            "offices": [
+              {
+                "officeId": 1
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/holidays",
+          "body": {
+            "name": "X",
+            "fromDate": "01 January 2027",
+            "toDate": "01 January 2027",
+            "reschedulingType": 1,
+            "offices": [
+              {
+                "officeId": 99
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/holidays",
+          "body": {
+            "name": "X",
+            "fromDate": "05 January 2027",
+            "toDate": "01 January 2027",
+            "repaymentsRescheduledTo": "07 January 2027",
+            "reschedulingType": 2,
+            "offices": [
+              {
+                "officeId": 1
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/holidays",
+          "body": {
+            "name": "X",
+            "fromDate": "05 January 2027",
+            "toDate": "06 January 2027",
+            "repaymentsRescheduledTo": "05 January 2027",
+            "reschedulingType": 2,
+            "offices": [
+              {
+                "officeId": 1
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/holidays",
+          "body": {
+            "name": "X",
+            "fromDate": "05 January 2027",
+            "toDate": "06 January 2027",
+            "repaymentsRescheduledTo": "15 March 2027",
+            "reschedulingType": 2,
+            "offices": [
+              {
+                "officeId": 1
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/holidays",
+          "body": {
+            "name": "X",
+            "fromDate": "05 January 2027",
+            "toDate": "06 January 2027",
+            "bogus": 1,
+            "reschedulingType": 1,
+            "offices": [
+              {
+                "officeId": 1
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/holidays",
+          "body": {
+            "name": "X",
+            "fromDate": "05 January 2027",
+            "toDate": "06 January 2027",
+            "reschedulingType": 1,
+            "offices": [
+              {
+                "officeId": 1
+              }
+            ]
+          }
+        }
+      ]
     }
   ]
 }
