@@ -33,6 +33,26 @@ defmodule ECBApiFineract.Resources.Write do
     end
   end
 
+  @doc "The id in a path as `{:ok, id}`, or `{:error, error}` built by `not_found` for the text that was given."
+  @spec id(String.t(), (String.t() -> Exception.t())) :: {:ok, integer} | {:error, Exception.t()}
+  def id(raw, not_found) do
+    case parse_id(raw) do
+      nil -> {:error, not_found.(raw)}
+      id -> {:ok, id}
+    end
+  end
+
+  @doc "Runs `fun` with the id in the path, or answers the not-found error when it is not a number."
+  @spec with_id(Plug.Conn.t(), String.t(), (String.t() -> Exception.t()), (integer ->
+                                                                             Plug.Conn.t())) ::
+          Plug.Conn.t()
+  def with_id(conn, raw, not_found, fun) do
+    case id(raw, not_found) do
+      {:ok, id} -> fun.(id)
+      {:error, error} -> Errors.render(conn, error)
+    end
+  end
+
   @doc "Parses an id taken from the path, or returns `nil`."
   @spec parse_id(String.t()) :: integer | nil
   def parse_id(raw) do

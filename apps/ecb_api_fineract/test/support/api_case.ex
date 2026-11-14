@@ -57,7 +57,13 @@ defmodule ECBApiFineract.ApiCase do
     )
 
     TenantRepo.query!("DELETE FROM m_role WHERE name LIKE 'apitest-%'")
+    TenantRepo.query!("DELETE FROM m_staff")
+    TenantRepo.query!("DELETE FROM m_fund")
+    TenantRepo.query!("DELETE FROM m_payment_type WHERE id > 3")
     TenantRepo.query!("DELETE FROM m_office WHERE id > 1")
+    TenantRepo.query!("SELECT setval(pg_get_serial_sequence('m_staff', 'id'), 1, false)")
+    TenantRepo.query!("SELECT setval(pg_get_serial_sequence('m_fund', 'id'), 1, false)")
+    TenantRepo.query!("SELECT setval(pg_get_serial_sequence('m_payment_type', 'id'), 3)")
 
     # ids start again from 2, as they do on a freshly seeded Fineract (what the recorded scenarios assume)
     TenantRepo.query!("SELECT setval(pg_get_serial_sequence('m_office', 'id'), 1)")

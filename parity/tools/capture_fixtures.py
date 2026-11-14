@@ -111,6 +111,18 @@ RESETS = {
         "DELETE FROM m_office WHERE id > 1",
         "SELECT setval(pg_get_serial_sequence('m_office', 'id'), 1)",
     ],
+    "funds": [
+        "DELETE FROM m_fund",
+        "SELECT setval(pg_get_serial_sequence('m_fund', 'id'), 1, false)",
+    ],
+    "paymenttypes": [
+        "DELETE FROM m_payment_type WHERE id > 3",
+        "SELECT setval(pg_get_serial_sequence('m_payment_type', 'id'), 3)",
+    ],
+    "staff": [
+        "DELETE FROM m_staff",
+        "SELECT setval(pg_get_serial_sequence('m_staff', 'id'), 1, false)",
+    ],
 }
 
 

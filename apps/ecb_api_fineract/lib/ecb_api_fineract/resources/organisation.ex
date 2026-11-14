@@ -1,20 +1,11 @@
 defmodule ECBApiFineract.Resources.Organisation do
   @moduledoc """
-  Read endpoints for the organisation's reference data: currencies, codes, payment types, working days,
-  funds, holidays, staff and account-number formats. Each needs `READ_<RESOURCE>`.
+  Read endpoints for the organisation's reference data: currencies, codes, working days, holidays and
+  account-number formats (funds, payment types and staff have their own modules). Each needs
+  `READ_<RESOURCE>`.
   """
   alias ECBApiFineract.Resources.Read
-
-  alias ECBOrg.{
-    AccountNumberFormats,
-    Codes,
-    Currencies,
-    Funds,
-    Holidays,
-    PaymentTypes,
-    Staff,
-    WorkingDays
-  }
+  alias ECBOrg.{AccountNumberFormats, Codes, Currencies, Holidays, WorkingDays}
 
   @doc "`GET /currencies`"
   def currencies(conn) do
@@ -33,23 +24,6 @@ defmodule ECBApiFineract.Resources.Organisation do
     Read.respond(conn, "CODE", fn ->
       for c <- Codes.list(),
           do: %{"id" => c.id, "name" => c.name, "systemDefined" => c.system_defined}
-    end)
-  end
-
-  @doc "`GET /paymenttypes`"
-  def payment_types(conn) do
-    Read.respond(conn, "PAYMENTTYPE", fn ->
-      for p <- PaymentTypes.list() do
-        %{
-          "id" => p.id,
-          "name" => p.name,
-          "description" => p.description,
-          "isCashPayment" => p.is_cash_payment,
-          "position" => p.position,
-          "codeName" => p.code_name,
-          "isSystemDefined" => p.is_system_defined
-        }
-      end
     end)
   end
 
@@ -84,13 +58,6 @@ defmodule ECBApiFineract.Resources.Organisation do
     end)
   end
 
-  @doc "`GET /funds`"
-  def funds(conn) do
-    Read.respond(conn, "FUND", fn ->
-      for f <- Funds.list(), do: %{"id" => f.id, "name" => f.name, "externalId" => f.external_id}
-    end)
-  end
-
   @doc "`GET /holidays` (optionally `?officeId=`)"
   def holidays(conn) do
     Read.respond(conn, "HOLIDAY", fn ->
@@ -113,36 +80,6 @@ defmodule ECBApiFineract.Resources.Organisation do
   def holidays_template(conn) do
     Read.respond(conn, "HOLIDAY", fn ->
       Enum.map(Holidays.rescheduling_types(), &Read.option/1)
-    end)
-  end
-
-  @doc "`GET /staff` (optionally `?officeId=`, `?status=`, `?loanOfficersOnly=`)"
-  def staff(conn) do
-    params = conn.query_params
-
-    Read.respond(conn, "STAFF", fn ->
-      opts = [
-        office_id: Read.int_param(params, "officeId"),
-        loan_officers_only: params["loanOfficersOnly"] == "true",
-        status: params["status"]
-      ]
-
-      for s <- Staff.list(conn.assigns.current_user, opts) do
-        %{
-          "id" => s.id,
-          "firstname" => s.firstname,
-          "lastname" => s.lastname,
-          "displayName" => s.display_name,
-          "officeId" => s.office_id,
-          "officeName" => s.office_name,
-          "isLoanOfficer" => s.is_loan_officer,
-          "externalId" => s.external_id,
-          "mobileNo" => s.mobile_no,
-          "emailAddress" => s.email_address,
-          "isActive" => s.is_active,
-          "joiningDate" => s.joining_date
-        }
-      end
     end)
   end
 

@@ -1,0 +1,296 @@
+{
+ "name": "staff",
+ "reset": [
+  "staff"
+ ],
+ "steps": [
+  {
+   "method": "POST",
+   "path": "/v1/staff",
+   "body": {
+    "officeId": 1,
+    "firstname": "Ada",
+    "lastname": "Lovelace",
+    "isLoanOfficer": true,
+    "mobileNo": "+254700000001",
+    "joiningDate": "01 March 2020",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/staff",
+   "body": {
+    "officeId": 1,
+    "firstname": "Alan",
+    "lastname": "Turing",
+    "isLoanOfficer": false,
+    "externalId": "T-2",
+    "emailAddress": "alan@example.test"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 2
+   }
+  },
+  {
+   "path": "/v1/staff",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "firstname": "Ada",
+     "lastname": "Lovelace",
+     "displayName": "Lovelace, Ada",
+     "mobileNo": "+254700000001",
+     "officeId": 1,
+     "officeName": "Head Office",
+     "isLoanOfficer": true,
+     "isActive": true,
+     "joiningDate": "2020-03-01",
+     "dateFormat": "dd MMMM yyyy"
+    },
+    {
+     "id": 2,
+     "externalId": "T-2",
+     "firstname": "Alan",
+     "lastname": "Turing",
+     "displayName": "Turing, Alan",
+     "officeId": 1,
+     "officeName": "Head Office",
+     "isLoanOfficer": false,
+     "isActive": true,
+     "dateFormat": "dd MMMM yyyy"
+    }
+   ]
+  },
+  {
+   "path": "/v1/staff/1",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "firstname": "Ada",
+    "lastname": "Lovelace",
+    "displayName": "Lovelace, Ada",
+    "mobileNo": "+254700000001",
+    "officeId": 1,
+    "officeName": "Head Office",
+    "isLoanOfficer": true,
+    "isActive": true,
+    "joiningDate": "2020-03-01",
+    "dateFormat": "dd MMMM yyyy"
+   }
+  },
+  {
+   "path": "/v1/staff/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Staff with identifier 99 does not exist",
+      "defaultUserMessage": "Staff with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.staff.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/staff/1",
+   "body": {
+    "firstname": "Augusta",
+    "mobileNo": "+254700000009"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 1,
+    "changes": {
+     "firstname": "Augusta",
+     "mobileNo": "+254700000009"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/staff/1",
+   "body": {
+    "isActive": false
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 1,
+    "changes": {
+     "isActive": false
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/staff/1",
+   "body": {
+    "joiningDate": "02 April 2021",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 1,
+    "changes": {
+     "joiningDate": "02 April 2021"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/staff/1",
+   "body": {},
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/staff/99",
+   "body": {
+    "firstname": "x"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Staff with identifier 99 does not exist",
+      "defaultUserMessage": "Staff with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.staff.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/staff",
+   "body": {
+    "officeId": 99,
+    "firstname": "A",
+    "lastname": "B"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Office with identifier 99 does not exist",
+      "defaultUserMessage": "Office with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.office.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/staff",
+   "body": {
+    "firstname": "A",
+    "lastname": "B"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter 'officeId' is mandatory",
+      "defaultUserMessage": "The parameter 'officeId' is mandatory",
+      "userMessageGlobalisationCode": "org.apache.fineract.organisation.staff.office-id.not-null",
+      "parameterName": "createStaff.request.officeId",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/staff?status=inactive",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "firstname": "Augusta",
+     "lastname": "Lovelace",
+     "displayName": "Lovelace, Augusta",
+     "mobileNo": "+254700000009",
+     "officeId": 1,
+     "officeName": "Head Office",
+     "isLoanOfficer": true,
+     "isActive": false,
+     "joiningDate": "2021-04-02",
+     "dateFormat": "dd MMMM yyyy"
+    }
+   ]
+  },
+  {
+   "path": "/v1/staff?loanOfficersOnly=true",
+   "status": 200,
+   "response": []
+  },
+  {
+   "path": "/v1/staff",
+   "status": 200,
+   "response": [
+    {
+     "id": 2,
+     "externalId": "T-2",
+     "firstname": "Alan",
+     "lastname": "Turing",
+     "displayName": "Turing, Alan",
+     "officeId": 1,
+     "officeName": "Head Office",
+     "isLoanOfficer": false,
+     "isActive": true,
+     "dateFormat": "dd MMMM yyyy"
+    }
+   ]
+  }
+ ]
+}

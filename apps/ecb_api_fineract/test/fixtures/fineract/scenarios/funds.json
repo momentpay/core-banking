@@ -1,0 +1,319 @@
+{
+ "name": "funds",
+ "reset": [
+  "funds"
+ ],
+ "steps": [
+  {
+   "method": "POST",
+   "path": "/v1/funds",
+   "body": {
+    "name": "Equity",
+    "externalId": "EQ-1"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/funds",
+   "body": {
+    "name": "Debt"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "path": "/v1/funds",
+   "status": 200,
+   "response": [
+    {
+     "id": 2,
+     "name": "Debt"
+    },
+    {
+     "id": 1,
+     "name": "Equity",
+     "externalId": "EQ-1"
+    }
+   ]
+  },
+  {
+   "path": "/v1/funds/1",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "name": "Equity",
+    "externalId": "EQ-1"
+   }
+  },
+  {
+   "path": "/v1/funds/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Fund with identifier 99 does not exist",
+      "defaultUserMessage": "Fund with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.fund.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/funds/1",
+   "body": {
+    "name": "Equity fund"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "name": "Equity fund"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/funds/1",
+   "body": {
+    "name": "Equity fund"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {}
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/funds/1",
+   "body": {
+    "externalId": ""
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "externalId": ""
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/funds/1",
+   "body": {},
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {}
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/funds/99",
+   "body": {
+    "name": "x"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Fund with identifier 99 does not exist",
+      "defaultUserMessage": "Fund with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.fund.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/funds",
+   "body": {},
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.fund.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/funds",
+   "body": {
+    "name": ""
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.fund.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/funds",
+   "body": {
+    "name": "x",
+    "bogus": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/funds",
+   "body": {
+    "name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` exceeds max length of 100.",
+      "defaultUserMessage": "The parameter `name` exceeds max length of 100.",
+      "userMessageGlobalisationCode": "validation.msg.fund.name.exceeds.max.length",
+      "parameterName": "name",
+      "args": [
+       {
+        "value": 100
+       },
+       {
+        "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/funds",
+   "body": {
+    "name": "Debt2",
+    "externalId": "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `externalId` exceeds max length of 100.",
+      "defaultUserMessage": "The parameter `externalId` exceeds max length of 100.",
+      "userMessageGlobalisationCode": "validation.msg.fund.externalId.exceeds.max.length",
+      "parameterName": "externalId",
+      "args": [
+       {
+        "value": 100
+       },
+       {
+        "value": "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/funds/2",
+   "body": {
+    "name": ""
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.fund.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/funds",
+   "status": 200,
+   "response": [
+    {
+     "id": 2,
+     "name": "Debt"
+    },
+    {
+     "id": 1,
+     "name": "Equity fund"
+    },
+    {
+     "id": 3,
+     "name": "x"
+    }
+   ]
+  }
+ ]
+}

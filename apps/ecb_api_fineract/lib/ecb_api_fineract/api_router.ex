@@ -11,7 +11,16 @@ defmodule ECBApiFineract.ApiRouter do
   use Plug.ErrorHandler
 
   alias ECBApiFineract.Errors
-  alias ECBApiFineract.Resources.{Administration, Authentication, Offices, Organisation}
+
+  alias ECBApiFineract.Resources.{
+    Administration,
+    Authentication,
+    Funds,
+    Offices,
+    Organisation,
+    PaymentTypes,
+    Staff
+  }
 
   plug :match
 
@@ -38,13 +47,23 @@ defmodule ECBApiFineract.ApiRouter do
 
   get "/v1/currencies", do: Organisation.currencies(conn)
   get "/v1/codes", do: Organisation.codes(conn)
-  get "/v1/paymenttypes", do: Organisation.payment_types(conn)
+  get "/v1/paymenttypes", do: PaymentTypes.index(conn)
+  get "/v1/paymenttypes/:id", do: PaymentTypes.show(conn, id)
+  post "/v1/paymenttypes", do: PaymentTypes.create(conn)
+  put "/v1/paymenttypes/:id", do: PaymentTypes.update(conn, id)
+  delete "/v1/paymenttypes/:id", do: PaymentTypes.delete(conn, id)
   get "/v1/workingdays/template", do: Organisation.working_days_template(conn)
   get "/v1/workingdays", do: Organisation.working_days(conn)
-  get "/v1/funds", do: Organisation.funds(conn)
+  get "/v1/funds", do: Funds.index(conn)
+  get "/v1/funds/:id", do: Funds.show(conn, id)
+  post "/v1/funds", do: Funds.create(conn)
+  put "/v1/funds/:id", do: Funds.update(conn, id)
   get "/v1/holidays/template", do: Organisation.holidays_template(conn)
   get "/v1/holidays", do: Organisation.holidays(conn)
-  get "/v1/staff", do: Organisation.staff(conn)
+  get "/v1/staff", do: Staff.index(conn)
+  get "/v1/staff/:id", do: Staff.show(conn, id)
+  post "/v1/staff", do: Staff.create(conn)
+  put "/v1/staff/:id", do: Staff.update(conn, id)
   get "/v1/accountnumberformats/template", do: Organisation.account_number_formats_template(conn)
   get "/v1/accountnumberformats", do: Organisation.account_number_formats(conn)
 

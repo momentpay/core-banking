@@ -1,0 +1,270 @@
+{
+ "name": "paymenttypes",
+ "reset": [
+  "paymenttypes"
+ ],
+ "steps": [
+  {
+   "method": "POST",
+   "path": "/v1/paymenttypes",
+   "body": {
+    "name": "Cheque",
+    "description": "Paid by cheque",
+    "isCashPayment": false,
+    "position": 4
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/paymenttypes",
+   "body": {
+    "name": "Cash",
+    "description": "Notes and coins",
+    "isCashPayment": true,
+    "position": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 5
+   }
+  },
+  {
+   "path": "/v1/paymenttypes",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "name": "Money Transfer",
+     "description": "Money Transfer",
+     "isCashPayment": false,
+     "position": 1,
+     "isSystemDefined": false
+    },
+    {
+     "id": 2,
+     "name": "Repayment Adjustment Chargeback",
+     "description": "Repayment Adjustment Chargeback",
+     "isCashPayment": false,
+     "position": 1,
+     "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+     "isSystemDefined": true
+    },
+    {
+     "id": 3,
+     "name": "Repayment Adjustment Refund",
+     "description": "Repayment Adjustment Refund",
+     "isCashPayment": false,
+     "position": 1,
+     "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+     "isSystemDefined": true
+    },
+    {
+     "id": 5,
+     "name": "Cash",
+     "description": "Notes and coins",
+     "isCashPayment": true,
+     "position": 1,
+     "isSystemDefined": false
+    },
+    {
+     "id": 4,
+     "name": "Cheque",
+     "description": "Paid by cheque",
+     "isCashPayment": false,
+     "position": 4,
+     "isSystemDefined": false
+    }
+   ]
+  },
+  {
+   "path": "/v1/paymenttypes/4",
+   "status": 200,
+   "response": {
+    "id": 4,
+    "name": "Cheque",
+    "description": "Paid by cheque",
+    "isCashPayment": false,
+    "position": 4,
+    "isSystemDefined": false
+   }
+  },
+  {
+   "path": "/v1/paymenttypes/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "PaymentType with 99 does not exist",
+      "defaultUserMessage": "PaymentType with 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.payment.type.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/paymenttypes/4",
+   "body": {
+    "name": "Cheque 2",
+    "description": "x",
+    "isCashPayment": true,
+    "position": 5
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 4
+   }
+  },
+  {
+   "path": "/v1/paymenttypes/4",
+   "status": 200,
+   "response": {
+    "id": 4,
+    "name": "Cheque 2",
+    "description": "x",
+    "isCashPayment": true,
+    "position": 5,
+    "isSystemDefined": false
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/paymenttypes/99",
+   "body": {
+    "name": "x",
+    "isCashPayment": true,
+    "position": 1
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "PaymentType with 99 does not exist",
+      "defaultUserMessage": "PaymentType with 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.payment.type.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/paymenttypes/4",
+   "status": 200,
+   "response": {
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/paymenttypes/4",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "PaymentType with 4 does not exist",
+      "defaultUserMessage": "PaymentType with 4 does not exist",
+      "userMessageGlobalisationCode": "error.msg.payment.type.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 4
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/paymenttypes/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "PaymentType with 99 does not exist",
+      "defaultUserMessage": "PaymentType with 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.payment.type.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/paymenttypes",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "name": "Money Transfer",
+     "description": "Money Transfer",
+     "isCashPayment": false,
+     "position": 1,
+     "isSystemDefined": false
+    },
+    {
+     "id": 2,
+     "name": "Repayment Adjustment Chargeback",
+     "description": "Repayment Adjustment Chargeback",
+     "isCashPayment": false,
+     "position": 1,
+     "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+     "isSystemDefined": true
+    },
+    {
+     "id": 3,
+     "name": "Repayment Adjustment Refund",
+     "description": "Repayment Adjustment Refund",
+     "isCashPayment": false,
+     "position": 1,
+     "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+     "isSystemDefined": true
+    },
+    {
+     "id": 5,
+     "name": "Cash",
+     "description": "Notes and coins",
+     "isCashPayment": true,
+     "position": 1,
+     "isSystemDefined": false
+    }
+   ]
+  }
+ ]
+}

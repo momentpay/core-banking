@@ -3,58 +3,622 @@
   "scenarios": [
     {
       "name": "offices_create",
-      "reset": ["offices"],
+      "reset": [
+        "offices"
+      ],
       "steps": [
-        {"method": "POST", "path": "/v1/offices", "body": {"name": "Nairobi", "parentId": 1, "openingDate": "01 March 2020", "dateFormat": "dd MMMM yyyy", "locale": "en", "externalId": "NBO"}},
-        {"method": "POST", "path": "/v1/offices", "body": {"name": "Westlands", "parentId": 2, "openingDate": "2021-02-03", "dateFormat": "yyyy-MM-dd", "locale": "en"}},
-        {"path": "/v1/offices"},
-        {"path": "/v1/offices/3"},
-        {"method": "POST", "path": "/v1/offices", "body": {"name": "Mombasa", "parentId": 1, "openingDate": "1/3/20", "dateFormat": "d/M/yy", "locale": "en"}},
-        {"method": "POST", "path": "/v1/offices", "body": {"name": "Kisumu", "parentId": 1, "openingDate": "05 sep 2022", "dateFormat": "dd MMM yyyy", "locale": "en"}},
-        {"path": "/v1/offices?orderBy=name&sortOrder=desc"}
+        {
+          "method": "POST",
+          "path": "/v1/offices",
+          "body": {
+            "name": "Nairobi",
+            "parentId": 1,
+            "openingDate": "01 March 2020",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "externalId": "NBO"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/offices",
+          "body": {
+            "name": "Westlands",
+            "parentId": 2,
+            "openingDate": "2021-02-03",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "path": "/v1/offices"
+        },
+        {
+          "path": "/v1/offices/3"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/offices",
+          "body": {
+            "name": "Mombasa",
+            "parentId": 1,
+            "openingDate": "1/3/20",
+            "dateFormat": "d/M/yy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/offices",
+          "body": {
+            "name": "Kisumu",
+            "parentId": 1,
+            "openingDate": "05 sep 2022",
+            "dateFormat": "dd MMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "path": "/v1/offices?orderBy=name&sortOrder=desc"
+        }
       ]
     },
     {
       "name": "offices_create_invalid",
-      "reset": ["offices"],
+      "reset": [
+        "offices"
+      ],
       "steps": [
-        {"method": "POST", "path": "/v1/offices", "body": {}},
-        {"method": "POST", "path": "/v1/offices"},
-        {"method": "POST", "path": "/v1/offices", "body": {"name": "", "parentId": 1, "openingDate": "01 March 2020", "dateFormat": "dd MMMM yyyy", "locale": "en"}},
-        {"method": "POST", "path": "/v1/offices", "body": {"name": "Z", "parentId": 1, "openingDate": "01 March 2020", "dateFormat": "dd MMMM yyyy", "locale": "en", "bogus": 1, "bogus2": 2}},
-        {"method": "POST", "path": "/v1/offices", "body": {"name": "Z", "parentId": 1, "openingDate": "2020-03-01", "dateFormat": "dd MMMM yyyy", "locale": "en"}},
-        {"method": "POST", "path": "/v1/offices", "body": {"name": "Z", "parentId": 1, "openingDate": "01 March 2020"}},
-        {"method": "POST", "path": "/v1/offices", "body": {"name": "Z", "parentId": 1, "openingDate": "29 February 2021", "dateFormat": "dd MMMM yyyy", "locale": "en"}},
-        {"method": "POST", "path": "/v1/offices", "body": {"name": "Z", "parentId": 1, "openingDate": "01 March 2020", "dateFormat": "dd MMMM yyyy", "locale": ""}},
-        {"method": "POST", "path": "/v1/offices", "body": {"name": "Z", "parentId": 0, "openingDate": "01 March 2020", "dateFormat": "dd MMMM yyyy", "locale": "en"}},
-        {"method": "POST", "path": "/v1/offices", "body": {"name": "Z", "parentId": null, "openingDate": "01 March 2020", "dateFormat": "dd MMMM yyyy", "locale": "en"}},
-        {"method": "POST", "path": "/v1/offices", "body": {"name": "Z", "openingDate": "01 March 2020", "dateFormat": "dd MMMM yyyy", "locale": "en"}},
-        {"method": "POST", "path": "/v1/offices", "body": {"name": "Z", "parentId": 99, "openingDate": "01 March 2020", "dateFormat": "dd MMMM yyyy", "locale": "en"}},
-        {"method": "POST", "path": "/v1/offices", "body": {"name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "parentId": 1, "openingDate": "01 March 2020", "dateFormat": "dd MMMM yyyy", "locale": "en"}},
-        {"path": "/v1/offices"}
+        {
+          "method": "POST",
+          "path": "/v1/offices",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/offices"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/offices",
+          "body": {
+            "name": "",
+            "parentId": 1,
+            "openingDate": "01 March 2020",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/offices",
+          "body": {
+            "name": "Z",
+            "parentId": 1,
+            "openingDate": "01 March 2020",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "bogus": 1,
+            "bogus2": 2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/offices",
+          "body": {
+            "name": "Z",
+            "parentId": 1,
+            "openingDate": "2020-03-01",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/offices",
+          "body": {
+            "name": "Z",
+            "parentId": 1,
+            "openingDate": "01 March 2020"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/offices",
+          "body": {
+            "name": "Z",
+            "parentId": 1,
+            "openingDate": "29 February 2021",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/offices",
+          "body": {
+            "name": "Z",
+            "parentId": 1,
+            "openingDate": "01 March 2020",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": ""
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/offices",
+          "body": {
+            "name": "Z",
+            "parentId": 0,
+            "openingDate": "01 March 2020",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/offices",
+          "body": {
+            "name": "Z",
+            "parentId": null,
+            "openingDate": "01 March 2020",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/offices",
+          "body": {
+            "name": "Z",
+            "openingDate": "01 March 2020",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/offices",
+          "body": {
+            "name": "Z",
+            "parentId": 99,
+            "openingDate": "01 March 2020",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/offices",
+          "body": {
+            "name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "parentId": 1,
+            "openingDate": "01 March 2020",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "path": "/v1/offices"
+        }
       ]
     },
     {
       "name": "offices_update",
-      "reset": ["offices"],
+      "reset": [
+        "offices"
+      ],
       "steps": [
-        {"method": "POST", "path": "/v1/offices", "body": {"name": "Nairobi", "parentId": 1, "openingDate": "01 March 2020", "dateFormat": "dd MMMM yyyy", "locale": "en"}},
-        {"method": "POST", "path": "/v1/offices", "body": {"name": "Kisumu", "parentId": 1, "openingDate": "01 March 2020", "dateFormat": "dd MMMM yyyy", "locale": "en"}},
-        {"method": "PUT", "path": "/v1/offices/2", "body": {"name": "Nairobi HQ"}},
-        {"method": "PUT", "path": "/v1/offices/2", "body": {"name": "Nairobi HQ"}},
-        {"method": "PUT", "path": "/v1/offices/2", "body": {"openingDate": "05 May 2021", "dateFormat": "dd MMMM yyyy", "locale": "en", "externalId": "N2"}},
-        {"method": "PUT", "path": "/v1/offices/2", "body": {"externalId": ""}},
-        {"method": "PUT", "path": "/v1/offices/2", "body": {}},
-        {"method": "PUT", "path": "/v1/offices/2", "body": {"parentId": 3}},
-        {"method": "PUT", "path": "/v1/offices/2", "body": {"parentId": 2}},
-        {"method": "PUT", "path": "/v1/offices/1", "body": {"parentId": 2}},
-        {"method": "PUT", "path": "/v1/offices/1", "body": {"name": "Head Office"}},
-        {"method": "PUT", "path": "/v1/offices/77", "body": {"name": "x"}},
-        {"method": "PUT", "path": "/v1/offices/2", "body": {"name": ""}},
-        {"method": "PUT", "path": "/v1/offices/2", "body": {"parentId": 77}},
-        {"method": "PUT", "path": "/v1/offices/2", "body": {"bogus": true}},
-        {"method": "PUT", "path": "/v1/offices/2"},
-        {"path": "/v1/offices"}
+        {
+          "method": "POST",
+          "path": "/v1/offices",
+          "body": {
+            "name": "Nairobi",
+            "parentId": 1,
+            "openingDate": "01 March 2020",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/offices",
+          "body": {
+            "name": "Kisumu",
+            "parentId": 1,
+            "openingDate": "01 March 2020",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/offices/2",
+          "body": {
+            "name": "Nairobi HQ"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/offices/2",
+          "body": {
+            "name": "Nairobi HQ"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/offices/2",
+          "body": {
+            "openingDate": "05 May 2021",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "externalId": "N2"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/offices/2",
+          "body": {
+            "externalId": ""
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/offices/2",
+          "body": {}
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/offices/2",
+          "body": {
+            "parentId": 3
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/offices/2",
+          "body": {
+            "parentId": 2
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/offices/1",
+          "body": {
+            "parentId": 2
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/offices/1",
+          "body": {
+            "name": "Head Office"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/offices/77",
+          "body": {
+            "name": "x"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/offices/2",
+          "body": {
+            "name": ""
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/offices/2",
+          "body": {
+            "parentId": 77
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/offices/2",
+          "body": {
+            "bogus": true
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/offices/2"
+        },
+        {
+          "path": "/v1/offices"
+        }
+      ]
+    },
+    {
+      "name": "funds",
+      "reset": [
+        "funds"
+      ],
+      "steps": [
+        {
+          "method": "POST",
+          "path": "/v1/funds",
+          "body": {
+            "name": "Equity",
+            "externalId": "EQ-1"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/funds",
+          "body": {
+            "name": "Debt"
+          }
+        },
+        {
+          "path": "/v1/funds"
+        },
+        {
+          "path": "/v1/funds/1"
+        },
+        {
+          "path": "/v1/funds/99"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/funds/1",
+          "body": {
+            "name": "Equity fund"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/funds/1",
+          "body": {
+            "name": "Equity fund"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/funds/1",
+          "body": {
+            "externalId": ""
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/funds/1",
+          "body": {}
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/funds/99",
+          "body": {
+            "name": "x"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/funds",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/funds",
+          "body": {
+            "name": ""
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/funds",
+          "body": {
+            "name": "x",
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/funds",
+          "body": {
+            "name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/funds",
+          "body": {
+            "name": "Debt2",
+            "externalId": "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/funds/2",
+          "body": {
+            "name": ""
+          }
+        },
+        {
+          "path": "/v1/funds"
+        }
+      ]
+    },
+    {
+      "name": "paymenttypes",
+      "reset": [
+        "paymenttypes"
+      ],
+      "steps": [
+        {
+          "method": "POST",
+          "path": "/v1/paymenttypes",
+          "body": {
+            "name": "Cheque",
+            "description": "Paid by cheque",
+            "isCashPayment": false,
+            "position": 4
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/paymenttypes",
+          "body": {
+            "name": "Cash",
+            "description": "Notes and coins",
+            "isCashPayment": true,
+            "position": 1
+          }
+        },
+        {
+          "path": "/v1/paymenttypes"
+        },
+        {
+          "path": "/v1/paymenttypes/4"
+        },
+        {
+          "path": "/v1/paymenttypes/99"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/paymenttypes/4",
+          "body": {
+            "name": "Cheque 2",
+            "description": "x",
+            "isCashPayment": true,
+            "position": 5
+          }
+        },
+        {
+          "path": "/v1/paymenttypes/4"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/paymenttypes/99",
+          "body": {
+            "name": "x",
+            "isCashPayment": true,
+            "position": 1
+          }
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/paymenttypes/4"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/paymenttypes/4"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/paymenttypes/99"
+        },
+        {
+          "path": "/v1/paymenttypes"
+        }
+      ]
+    },
+    {
+      "name": "staff",
+      "reset": [
+        "staff"
+      ],
+      "steps": [
+        {
+          "method": "POST",
+          "path": "/v1/staff",
+          "body": {
+            "officeId": 1,
+            "firstname": "Ada",
+            "lastname": "Lovelace",
+            "isLoanOfficer": true,
+            "mobileNo": "+254700000001",
+            "joiningDate": "01 March 2020",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/staff",
+          "body": {
+            "officeId": 1,
+            "firstname": "Alan",
+            "lastname": "Turing",
+            "isLoanOfficer": false,
+            "externalId": "T-2",
+            "emailAddress": "alan@example.test"
+          }
+        },
+        {
+          "path": "/v1/staff"
+        },
+        {
+          "path": "/v1/staff/1"
+        },
+        {
+          "path": "/v1/staff/99"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/staff/1",
+          "body": {
+            "firstname": "Augusta",
+            "mobileNo": "+254700000009"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/staff/1",
+          "body": {
+            "isActive": false
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/staff/1",
+          "body": {
+            "joiningDate": "02 April 2021",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/staff/1",
+          "body": {}
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/staff/99",
+          "body": {
+            "firstname": "x"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/staff",
+          "body": {
+            "officeId": 99,
+            "firstname": "A",
+            "lastname": "B"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/staff",
+          "body": {
+            "firstname": "A",
+            "lastname": "B"
+          }
+        },
+        {
+          "path": "/v1/staff?status=inactive"
+        },
+        {
+          "path": "/v1/staff?loanOfficersOnly=true"
+        },
+        {
+          "path": "/v1/staff"
+        }
       ]
     }
   ]

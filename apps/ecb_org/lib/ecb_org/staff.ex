@@ -1,26 +1,62 @@
 defmodule ECBOrg.Staff do
   @moduledoc """
   Staff members (`m_staff`), read side. As in Fineract, a user sees the staff of the offices at or
-  below their own in the hierarchy. Must run inside a tenant scope.
+  below their own in the hierarchy, and only active staff unless another status is asked for. Must run
+  inside a tenant scope.
   """
   import Ecto.Query
 
+  alias ECBPlatform.Errors.ResourceNotFound
   alias ECBPlatform.Security.User
   alias ECBPlatform.TenantRepo
 
   @doc """
   Staff the user can see, by display name. Options: `:office_id`, `:loan_officers_only` and
-  `:status` (`"active"`, `"inactive"` or `"all"`, the default).
+  `:status` (`"active"` (the default), `"inactive"` or `"all"`).
   """
   @spec list(User.t(), keyword) :: [map]
   def list(%User{} = user, opts \\ []) do
     pattern = hierarchy_of(user) <> "%"
 
-    from(s in "m_staff",
+    base()
+    |> where([s, o], like(o.hierarchy, ^pattern))
+    |> order_by([s], asc: fragment("? COLLATE \"C\"", s.display_name), asc: s.id)
+    |> filter_office(opts[:office_id])
+    |> filter_loan_officers(opts[:loan_officers_only])
+    |> filter_status(opts[:status] || "active")
+    |> TenantRepo.all()
+  end
+
+  @doc "One staff member, or `{:error, ResourceNotFound}`."
+  @spec get(integer) :: {:ok, map} | {:error, Exception.t()}
+  def get(id) do
+    case base() |> where([s], s.id == ^id) |> TenantRepo.one() do
+      nil ->
+        {:error,
+         ResourceNotFound.new(
+           "error.msg.staff.id.invalid",
+           "Staff with identifier #{id} does not exist",
+           [id]
+         )}
+
+      staff ->
+        {:ok, staff}
+    end
+  end
+
+  @doc "Like `get/1` but raises the not-found error."
+  @spec fetch!(integer) :: map
+  def fetch!(id) do
+    case get(id) do
+      {:ok, staff} -> staff
+      {:error, error} -> raise error
+    end
+  end
+
+  defp base do
+    from s in "m_staff",
       join: o in "m_office",
       on: o.id == s.office_id,
-      where: like(o.hierarchy, ^pattern),
-      order_by: [asc: fragment("? COLLATE \"C\"", s.display_name), asc: s.id],
       select: %{
         id: s.id,
         firstname: s.firstname,
@@ -35,11 +71,6 @@ defmodule ECBOrg.Staff do
         is_active: s.is_active,
         joining_date: s.joining_date
       }
-    )
-    |> filter_office(opts[:office_id])
-    |> filter_loan_officers(opts[:loan_officers_only])
-    |> filter_status(opts[:status])
-    |> TenantRepo.all()
   end
 
   defp filter_office(query, nil), do: query
