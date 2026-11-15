@@ -7346,6 +7346,2175 @@
           "path": "/v1/journalentries/provisioning?entryId=1&limit=5&offset=0"
         }
       ]
+    },
+    {
+      "name": "accountingrules",
+      "reset": [
+        "glaccounts",
+        "offices",
+        "codes"
+      ],
+      "steps": [
+        {
+          "path": "/v1/accountingrules",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "path": "/v1/accountingrules/template",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "path": "/v1/accountingrules/1",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "path": "/v1/accountingrules/abc",
+          "ignore": [
+            "timestamp",
+            "path",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/7/codevalues",
+          "body": {
+            "name": "Cash tag"
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/7/codevalues",
+          "body": {
+            "name": "Bank tag"
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/8/codevalues",
+          "body": {
+            "name": "Payable tag"
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/10/codevalues",
+          "body": {
+            "name": "Income tag"
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/11/codevalues",
+          "body": {
+            "name": "Expense tag"
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Cash",
+            "glCode": "1000",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "tagId": 23
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Bank",
+            "glCode": "1100",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "tagId": 24
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Payables",
+            "glCode": "2000",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 1,
+            "tagId": 25
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Fees",
+            "glCode": "4000",
+            "manualEntriesAllowed": true,
+            "type": 4,
+            "usage": 1,
+            "tagId": 26
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Rent",
+            "glCode": "5000",
+            "manualEntriesAllowed": true,
+            "type": 5,
+            "usage": 1,
+            "tagId": 27
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Loose",
+            "glCode": "1900",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Retired",
+            "glCode": "1200",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "disabled": true,
+            "tagId": 23
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Assets",
+            "glCode": "1",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 2
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/offices",
+          "body": {
+            "name": "Branch",
+            "parentId": 1,
+            "openingDate": "01 January 2020",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "path": "/v1/accountingrules/template",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Deposit to bank",
+            "officeId": 1,
+            "accountToDebit": 2,
+            "accountToCredit": 1,
+            "description": "  Moves cash to the bank  "
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Multi",
+            "officeId": 1,
+            "debitTags": [
+              24,
+              23
+            ],
+            "creditTags": [
+              27
+            ],
+            "allowMultipleDebitEntries": true
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Tag and account",
+            "officeId": 1,
+            "accountToDebit": 2,
+            "debitTags": [
+              24
+            ],
+            "accountToCredit": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Neither",
+            "officeId": 1,
+            "accountToCredit": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Neither side",
+            "officeId": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "officeId": 1,
+            "accountToDebit": 2,
+            "accountToCredit": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "officeId": 1,
+            "accountToDebit": 2,
+            "accountToCredit": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Other",
+            "officeId": 1,
+            "accountToDebit": 2,
+            "accountToCredit": 1,
+            "description": "ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "No office",
+            "officeId": null,
+            "accountToDebit": 2,
+            "accountToCredit": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Office 99",
+            "officeId": 99,
+            "accountToDebit": 2,
+            "accountToCredit": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Office 0",
+            "officeId": 0,
+            "accountToDebit": 2,
+            "accountToCredit": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Account 99",
+            "officeId": 1,
+            "accountToDebit": 99,
+            "accountToCredit": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Account 0",
+            "officeId": 1,
+            "accountToDebit": 0,
+            "accountToCredit": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Tag 99",
+            "officeId": 1,
+            "debitTags": [
+              99
+            ],
+            "accountToCredit": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Tag 0",
+            "officeId": 1,
+            "debitTags": [
+              0
+            ],
+            "accountToCredit": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Tag text",
+            "officeId": 1,
+            "debitTags": [
+              "x"
+            ],
+            "accountToCredit": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Tag empty",
+            "officeId": 1,
+            "debitTags": [],
+            "accountToCredit": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Tag twice",
+            "officeId": 1,
+            "debitTags": [
+              24,
+              24
+            ],
+            "accountToCredit": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Multiple text",
+            "officeId": 1,
+            "accountToDebit": 2,
+            "accountToCredit": 1,
+            "allowMultipleDebitEntries": "abc"
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Duplicate",
+            "officeId": 1,
+            "accountToDebit": 2,
+            "accountToCredit": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Duplicate",
+            "officeId": 1,
+            "accountToDebit": 2,
+            "accountToCredit": 1
+          },
+          "ignore": [
+            "defaultUserMessage",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Extra",
+            "officeId": 1,
+            "accountToDebit": 2,
+            "accountToCredit": 1,
+            "bogus": 1,
+            "id": 9,
+            "systemDefined": true,
+            "officeName": "x"
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Account text",
+            "officeId": 1,
+            "accountToDebit": "abc",
+            "accountToCredit": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {},
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "ignore": [
+            "transactionId",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "raw": "{bad",
+          "ignore": [
+            "developerMessage",
+            "defaultUserMessage",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Office text",
+            "officeId": "abc",
+            "accountToDebit": 2,
+            "accountToCredit": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Disabled side",
+            "officeId": 1,
+            "accountToDebit": 7,
+            "accountToCredit": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Header side",
+            "officeId": 1,
+            "accountToDebit": 8,
+            "accountToCredit": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Credit side flags",
+            "officeId": 2,
+            "accountToDebit": 1,
+            "creditTags": [
+              25,
+              27
+            ],
+            "allowMultipleCreditEntries": true
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "path": "/v1/accountingrules",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "path": "/v1/accountingrules?associations=all",
+          "ignore": [
+            "debitAccounts",
+            "creditAccounts",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "path": "/v1/accountingrules/1",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "path": "/v1/accountingrules/2",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "path": "/v1/accountingrules/2?associations=all",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "path": "/v1/accountingrules/1?template=true",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "path": "/v1/accountingrules/2?template=true",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "path": "/v1/accountingrules/99",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/1",
+          "body": {
+            "name": "Renamed",
+            "description": "New text"
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/1",
+          "body": {
+            "name": "Renamed"
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/1",
+          "body": {},
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/1",
+          "body": {
+            "bogus": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/1",
+          "body": {
+            "name": ""
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/1",
+          "body": {
+            "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/1",
+          "body": {
+            "description": ""
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/1",
+          "body": {
+            "officeId": 2
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/1",
+          "body": {
+            "officeId": 99
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/1",
+          "body": {
+            "officeId": 0
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/1",
+          "body": {
+            "accountToDebit": 6
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/1",
+          "body": {
+            "accountToDebit": 99
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/1",
+          "body": {
+            "accountToDebit": 6
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/1",
+          "body": {
+            "accountToCredit": 2
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/1",
+          "body": {
+            "debitTags": [
+              24
+            ],
+            "accountToDebit": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/1",
+          "body": {
+            "debitTags": [
+              24
+            ]
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "path": "/v1/accountingrules/1",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/1",
+          "body": {
+            "debitTags": [
+              24,
+              23
+            ]
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "path": "/v1/accountingrules/1",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/1",
+          "body": {
+            "debitTags": [
+              23
+            ],
+            "allowMultipleDebitEntries": true
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "path": "/v1/accountingrules/1",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/1",
+          "body": {
+            "debitTags": []
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/1",
+          "body": {
+            "debitTags": [
+              99
+            ]
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/1",
+          "body": {
+            "allowMultipleCreditEntries": true
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/2",
+          "body": {
+            "creditTags": [
+              27,
+              25
+            ]
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "path": "/v1/accountingrules/2",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/2",
+          "body": {
+            "accountToCredit": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "path": "/v1/accountingrules/2",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/2",
+          "body": {
+            "accountToDebit": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "path": "/v1/accountingrules/2",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/2",
+          "body": {
+            "name": "Renamed"
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/99",
+          "body": {
+            "name": "x"
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/accountingrules/abc",
+          "body": {
+            "name": "x"
+          },
+          "ignore": [
+            "timestamp",
+            "path",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "path": "/v1/accountingrules",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Fixed",
+            "officeId": 1,
+            "accountToDebit": 2,
+            "accountToCredit": 1
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/accountingrules",
+          "body": {
+            "name": "Tagged",
+            "officeId": 1,
+            "debitTags": [
+              24,
+              23
+            ],
+            "creditTags": [
+              25
+            ],
+            "allowMultipleDebitEntries": true,
+            "allowMultipleCreditEntries": false
+          },
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "path": "/v1/accountingrules",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/journalentries",
+          "body": {
+            "officeId": 1,
+            "currencyCode": "USD",
+            "transactionDate": "01 March 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": "By rule",
+            "debits": [
+              {
+                "glAccountId": 2,
+                "amount": 100
+              }
+            ],
+            "credits": [
+              {
+                "glAccountId": 1,
+                "amount": 100
+              }
+            ],
+            "accountingRule": 7
+          },
+          "ignore": [
+            "transactionId",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/journalentries",
+          "body": {
+            "officeId": 1,
+            "currencyCode": "USD",
+            "transactionDate": "01 March 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": "By rule",
+            "debits": [
+              {
+                "glAccountId": 8,
+                "amount": 100
+              }
+            ],
+            "credits": [
+              {
+                "glAccountId": 1,
+                "amount": 100
+              }
+            ],
+            "accountingRule": 8
+          },
+          "ignore": [
+            "transactionId",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/journalentries",
+          "body": {
+            "officeId": 1,
+            "currencyCode": "USD",
+            "transactionDate": "01 March 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": "By rule",
+            "debits": [
+              {
+                "glAccountId": 6,
+                "amount": 100
+              }
+            ],
+            "credits": [
+              {
+                "glAccountId": 1,
+                "amount": 100
+              }
+            ],
+            "accountingRule": 8
+          },
+          "ignore": [
+            "transactionId",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/journalentries",
+          "body": {
+            "officeId": 1,
+            "currencyCode": "USD",
+            "transactionDate": "01 March 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": "By rule",
+            "debits": [
+              {
+                "glAccountId": 2,
+                "amount": 100
+              }
+            ],
+            "credits": [
+              {
+                "glAccountId": 1,
+                "amount": 100
+              }
+            ],
+            "accountingRule": 10
+          },
+          "ignore": [
+            "transactionId",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/journalentries",
+          "body": {
+            "officeId": 1,
+            "currencyCode": "USD",
+            "transactionDate": "01 March 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": "By rule",
+            "debits": [
+              {
+                "glAccountId": 1,
+                "amount": 100
+              }
+            ],
+            "credits": [
+              {
+                "glAccountId": 2,
+                "amount": 100
+              }
+            ],
+            "accountingRule": 10
+          },
+          "ignore": [
+            "transactionId",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/journalentries",
+          "body": {
+            "officeId": 1,
+            "currencyCode": "USD",
+            "transactionDate": "01 March 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": "By rule",
+            "debits": [
+              {
+                "glAccountId": 2,
+                "amount": 50
+              },
+              {
+                "glAccountId": 2,
+                "amount": 50
+              }
+            ],
+            "credits": [
+              {
+                "glAccountId": 1,
+                "amount": 100
+              }
+            ],
+            "accountingRule": 10
+          },
+          "ignore": [
+            "transactionId",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/journalentries",
+          "body": {
+            "officeId": 1,
+            "currencyCode": "USD",
+            "transactionDate": "01 March 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": "By rule",
+            "debits": [
+              {
+                "glAccountId": 2,
+                "amount": 100
+              }
+            ],
+            "credits": [
+              {
+                "glAccountId": 1,
+                "amount": 50
+              },
+              {
+                "glAccountId": 1,
+                "amount": 50
+              }
+            ],
+            "accountingRule": 10
+          },
+          "ignore": [
+            "transactionId",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/journalentries",
+          "body": {
+            "officeId": 1,
+            "currencyCode": "USD",
+            "transactionDate": "01 March 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": "By rule",
+            "debits": [
+              {
+                "glAccountId": 6,
+                "amount": 100
+              }
+            ],
+            "credits": [
+              {
+                "glAccountId": 1,
+                "amount": 100
+              }
+            ],
+            "accountingRule": 10
+          },
+          "ignore": [
+            "transactionId",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/journalentries",
+          "body": {
+            "officeId": 1,
+            "currencyCode": "USD",
+            "transactionDate": "01 March 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": "By rule",
+            "debits": [
+              {
+                "glAccountId": 1,
+                "amount": 40
+              },
+              {
+                "glAccountId": 2,
+                "amount": 60
+              }
+            ],
+            "credits": [
+              {
+                "glAccountId": 3,
+                "amount": 100
+              }
+            ],
+            "accountingRule": 11
+          },
+          "ignore": [
+            "transactionId",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/journalentries",
+          "body": {
+            "officeId": 1,
+            "currencyCode": "USD",
+            "transactionDate": "01 March 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": "By rule",
+            "debits": [
+              {
+                "glAccountId": 1,
+                "amount": 100
+              }
+            ],
+            "credits": [
+              {
+                "glAccountId": 3,
+                "amount": 100
+              }
+            ],
+            "accountingRule": 11
+          },
+          "ignore": [
+            "transactionId",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/journalentries",
+          "body": {
+            "officeId": 1,
+            "currencyCode": "USD",
+            "transactionDate": "01 March 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": "By rule",
+            "debits": [
+              {
+                "glAccountId": 6,
+                "amount": 100
+              }
+            ],
+            "credits": [
+              {
+                "glAccountId": 3,
+                "amount": 100
+              }
+            ],
+            "accountingRule": 11
+          },
+          "ignore": [
+            "transactionId",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/journalentries",
+          "body": {
+            "officeId": 1,
+            "currencyCode": "USD",
+            "transactionDate": "01 March 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": "By rule",
+            "debits": [
+              {
+                "glAccountId": 1,
+                "amount": 100
+              }
+            ],
+            "credits": [
+              {
+                "glAccountId": 4,
+                "amount": 100
+              }
+            ],
+            "accountingRule": 11
+          },
+          "ignore": [
+            "transactionId",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/journalentries",
+          "body": {
+            "officeId": 1,
+            "currencyCode": "USD",
+            "transactionDate": "01 March 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": "By rule",
+            "debits": [
+              {
+                "glAccountId": 1,
+                "amount": 50
+              },
+              {
+                "glAccountId": 2,
+                "amount": 50
+              }
+            ],
+            "credits": [
+              {
+                "glAccountId": 3,
+                "amount": 50
+              },
+              {
+                "glAccountId": 3,
+                "amount": 50
+              }
+            ],
+            "accountingRule": 11
+          },
+          "ignore": [
+            "transactionId",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/journalentries",
+          "body": {
+            "officeId": 1,
+            "currencyCode": "USD",
+            "transactionDate": "01 March 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": "By rule",
+            "debits": [
+              {
+                "glAccountId": 1,
+                "amount": 100
+              }
+            ],
+            "credits": [
+              {
+                "glAccountId": 3,
+                "amount": 90
+              }
+            ],
+            "accountingRule": 11
+          },
+          "ignore": [
+            "transactionId",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/journalentries",
+          "body": {
+            "officeId": 1,
+            "currencyCode": "USD",
+            "transactionDate": "01 March 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": "By rule",
+            "debits": [
+              {
+                "glAccountId": 1,
+                "amount": 100
+              }
+            ],
+            "credits": [
+              {
+                "glAccountId": 3,
+                "amount": 100
+              }
+            ],
+            "accountingRule": 99
+          },
+          "ignore": [
+            "transactionId",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/journalentries",
+          "body": {
+            "officeId": 1,
+            "currencyCode": "USD",
+            "transactionDate": "01 March 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": "By rule",
+            "debits": [
+              {
+                "glAccountId": 1,
+                "amount": 100
+              }
+            ],
+            "credits": [
+              {
+                "glAccountId": 3,
+                "amount": 100
+              }
+            ],
+            "accountingRule": 11,
+            "amount": 5
+          },
+          "ignore": [
+            "transactionId",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/journalentries",
+          "body": {
+            "officeId": 1,
+            "currencyCode": "USD",
+            "transactionDate": "01 March 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": "By rule",
+            "debits": [
+              {
+                "glAccountId": 1,
+                "amount": 100
+              }
+            ],
+            "credits": [
+              {
+                "glAccountId": 2,
+                "amount": 100
+              }
+            ],
+            "accountingRule": 1
+          },
+          "ignore": [
+            "transactionId",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/journalentries",
+          "body": {
+            "officeId": 1,
+            "currencyCode": "USD",
+            "transactionDate": "01 March 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": "By rule",
+            "debits": [
+              {
+                "glAccountId": 23,
+                "amount": 100
+              }
+            ],
+            "credits": [
+              {
+                "glAccountId": 2,
+                "amount": 100
+              }
+            ],
+            "accountingRule": 1
+          },
+          "ignore": [
+            "transactionId",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/journalentries",
+          "body": {
+            "officeId": 1,
+            "currencyCode": "USD",
+            "transactionDate": "01 March 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": "By rule",
+            "debits": [
+              {
+                "glAccountId": 1,
+                "amount": 100
+              }
+            ],
+            "credits": [
+              {
+                "glAccountId": 2,
+                "amount": 100
+              }
+            ],
+            "accountingRule": 2
+          },
+          "ignore": [
+            "transactionId",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/journalentries",
+          "body": {
+            "officeId": 1,
+            "currencyCode": "USD",
+            "transactionDate": "01 March 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": "By rule",
+            "debits": [
+              {
+                "glAccountId": 1,
+                "amount": 100
+              }
+            ],
+            "credits": [
+              {
+                "glAccountId": 1,
+                "amount": 100
+              }
+            ],
+            "accountingRule": 2
+          },
+          "ignore": [
+            "transactionId",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/journalentries",
+          "body": {
+            "officeId": 1,
+            "currencyCode": "USD",
+            "transactionDate": "01 March 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": "By rule",
+            "debits": [
+              {
+                "glAccountId": 1,
+                "amount": 100
+              }
+            ],
+            "credits": [
+              {
+                "glAccountId": 1,
+                "amount": 100
+              }
+            ],
+            "accountingRule": 3
+          },
+          "ignore": [
+            "transactionId",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "path": "/v1/journalentries",
+          "ignore": [
+            "transactionId",
+            "createdDate",
+            "submittedOnDate",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/accountingrules/7",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/accountingrules/7",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/accountingrules/99",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/accountingrules/abc",
+          "ignore": [
+            "timestamp",
+            "path",
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "path": "/v1/accountingrules",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/accountingrules/10",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        },
+        {
+          "path": "/v1/accountingrules",
+          "ignore": [
+            "debitTags.id",
+            "creditTags.id"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "provisioning",
+      "reset": [
+        "provisioning"
+      ],
+      "steps": [
+        {
+          "path": "/v1/provisioningcategory"
+        },
+        {
+          "path": "/v1/provisioningcategory/1",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "path": "/v1/provisioningcriteria"
+        },
+        {
+          "path": "/v1/provisioningcriteria/template"
+        },
+        {
+          "path": "/v1/provisioningcriteria/1"
+        },
+        {
+          "path": "/v1/provisioningcriteria/abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "path": "/v1/provisioningentries"
+        },
+        {
+          "path": "/v1/provisioningentries?offset=0&limit=5"
+        },
+        {
+          "path": "/v1/provisioningentries/1",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "path": "/v1/provisioningentries/abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "path": "/v1/provisioningentries/entries?entryId=1",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/provisioningcategory",
+          "body": {
+            "categoryname": "WATCH"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/provisioningcategory",
+          "body": {
+            "categoryname": "WATCH2",
+            "categorydescription": "Under watch"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/provisioningcategory",
+          "body": {
+            "categoryname": "WATCH3",
+            "description": "Under watch"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/provisioningcategory",
+          "body": {
+            "categoryname": "WATCH"
+          },
+          "ignore": [
+            "developerMessage",
+            "defaultUserMessage"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/provisioningcategory",
+          "body": {
+            "categoryname": "STANDARD"
+          },
+          "ignore": [
+            "developerMessage",
+            "defaultUserMessage"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/provisioningcategory",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/provisioningcategory",
+          "body": {
+            "categoryname": ""
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/provisioningcategory",
+          "body": {
+            "categoryname": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/provisioningcategory",
+          "body": {
+            "categoryname": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/provisioningcategory",
+          "body": {
+            "categoryname": "Extra",
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/provisioningcategory",
+          "body": {
+            "categoryname": 5
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/provisioningcategory",
+          "body": {
+            "categoryname": "  Padded  "
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/provisioningcategory"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/provisioningcategory",
+          "raw": "{bad",
+          "ignore": [
+            "developerMessage",
+            "defaultUserMessage"
+          ]
+        },
+        {
+          "path": "/v1/provisioningcategory"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/provisioningcategory/5",
+          "body": {
+            "categoryname": "WATCH-A"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/provisioningcategory/5",
+          "body": {
+            "categoryname": "WATCH-A"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/provisioningcategory/5",
+          "body": {
+            "categorydescription": "Described"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/provisioningcategory/5",
+          "body": {
+            "categorydescription": ""
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/provisioningcategory/5",
+          "body": {
+            "categoryname": "WATCH-B",
+            "categorydescription": "Both"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/provisioningcategory/5",
+          "body": {
+            "categoryname": ""
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/provisioningcategory/5",
+          "body": {
+            "categoryname": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/provisioningcategory/5",
+          "body": {
+            "description": "no"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/provisioningcategory/5",
+          "body": {
+            "bogus": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/provisioningcategory/5",
+          "body": {}
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/provisioningcategory/5",
+          "body": {
+            "categoryname": "STANDARD"
+          },
+          "ignore": [
+            "developerMessage",
+            "defaultUserMessage"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/provisioningcategory/99",
+          "body": {
+            "categoryname": "z"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/provisioningcategory/abc",
+          "body": {
+            "categoryname": "z"
+          },
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "path": "/v1/provisioningcategory"
+        },
+        {
+          "path": "/v1/provisioningcategory/5",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/provisioningcategory/6"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/provisioningcategory/6"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/provisioningcategory/99"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/provisioningcategory/abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/provisioningcategory/1"
+        },
+        {
+          "path": "/v1/provisioningcategory"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/provisioningcategory",
+          "body": {
+            "categoryname": "AFTER"
+          }
+        }
+      ]
     }
   ]
 }

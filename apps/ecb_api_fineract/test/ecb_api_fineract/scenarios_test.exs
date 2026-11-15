@@ -103,12 +103,21 @@ defmodule ECBApiFineract.ScenariosTest do
   # Values that cannot repeat from run to run (times, the caller's address) are blanked on both sides.
   defp mask(value, []), do: value
 
+  # A key written `parent.child` is blanked only inside `parent` (`debitTags.id` blanks the ids of the
+  # tag rows and not the rule's own id).
   defp mask(%{} = map, keys) do
-    Map.new(map, fn {k, v} -> if k in keys, do: {k, :ignored}, else: {k, mask(v, keys)} end)
+    Map.new(map, fn {k, v} ->
+      if k in keys, do: {k, :ignored}, else: {k, mask(v, keys ++ inside(keys, k))}
+    end)
   end
 
   defp mask(list, keys) when is_list(list), do: Enum.map(list, &mask(&1, keys))
   defp mask(other, _keys), do: other
+
+  defp inside(keys, parent) do
+    prefix = parent <> "."
+    for key <- keys, String.starts_with?(key, prefix), do: String.replace_prefix(key, prefix, "")
+  end
 
   # A request whose body is sent as given (for malformed JSON), signed in as the administrator.
   defp call_raw(method, path, raw) do

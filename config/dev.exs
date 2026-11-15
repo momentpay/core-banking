@@ -7,7 +7,7 @@ import Config
 #   ECB_DB_PASSWORD  default none (works with trust or peer authentication)
 db_opts = [
   username: System.get_env("ECB_DB_USER", "postgres"),
-  password: System.get_env("ECB_DB_PASSWORD"),
+  password: System.get_env("ECB_DB_PASSWORD", "postgres"),
   hostname: System.get_env("ECB_DB_HOST", "localhost"),
   port: String.to_integer(System.get_env("ECB_DB_PORT", "5432"))
 ]

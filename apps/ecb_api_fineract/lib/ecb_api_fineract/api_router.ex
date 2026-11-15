@@ -13,6 +13,7 @@ defmodule ECBApiFineract.ApiRouter do
   alias ECBApiFineract.Errors
 
   alias ECBApiFineract.Resources.{
+    AccountingRules,
     Administration,
     Audits,
     Authentication,
@@ -28,6 +29,7 @@ defmodule ECBApiFineract.ApiRouter do
     Offices,
     Organisation,
     PaymentTypes,
+    Provisioning,
     Staff
   }
 
@@ -136,6 +138,27 @@ defmodule ECBApiFineract.ApiRouter do
   put "/v1/glclosures/:id", do: GLClosures.update(conn, id)
   delete "/v1/glclosures/:id", do: GLClosures.delete(conn, id)
 
+  get "/v1/accountingrules/template", do: AccountingRules.template(conn)
+  get "/v1/accountingrules", do: AccountingRules.index(conn)
+  post "/v1/accountingrules", do: AccountingRules.create(conn)
+  get "/v1/accountingrules/:id", do: AccountingRules.show(conn, id)
+  put "/v1/accountingrules/:id", do: AccountingRules.update(conn, id)
+  delete "/v1/accountingrules/:id", do: AccountingRules.delete(conn, id)
+
+  get "/v1/provisioningcategory", do: Provisioning.categories(conn)
+  post "/v1/provisioningcategory", do: Provisioning.create_category(conn)
+  get "/v1/provisioningcategory/:id", do: Provisioning.method_not_allowed(conn)
+  put "/v1/provisioningcategory/:id", do: Provisioning.update_category(conn, id)
+  delete "/v1/provisioningcategory/:id", do: Provisioning.delete_category(conn, id)
+
+  get "/v1/provisioningcriteria/template", do: Provisioning.criteria_template(conn)
+  get "/v1/provisioningcriteria", do: Provisioning.criteria(conn)
+  get "/v1/provisioningcriteria/:id", do: Provisioning.one_criteria(conn, id)
+
+  get "/v1/provisioningentries/entries", do: Provisioning.entries(conn)
+  get "/v1/provisioningentries", do: Provisioning.entries(conn)
+  get "/v1/provisioningentries/:id", do: Provisioning.one_entry(conn, id)
+
   get "/v1/journalentries", do: JournalEntries.index(conn)
   post "/v1/journalentries", do: JournalEntries.create(conn)
   get "/v1/journalentries/openingbalance", do: JournalEntries.opening_balance(conn)
@@ -193,8 +216,17 @@ defmodule ECBApiFineract.ApiRouter do
     Plug.Parsers.call(conn, @parser_options)
   rescue
     error in Plug.Parsers.ParseError ->
-      conn |> Errors.render(error) |> halt()
+      conn |> Errors.render(parse_error(conn, error)) |> halt()
   end
+
+  # Fineract reads some bodies straight into a typed object, which fails with "invalid JSON data" on text
+  # that is not JSON; the rest it reads as text and complains about the syntax.
+  @typed_bodies ["accountingrules"]
+
+  defp parse_error(%{path_info: ["v1", resource | _]}, _error) when resource in @typed_bodies,
+    do: %ECBPlatform.Errors.InvalidJsonData{}
+
+  defp parse_error(_conn, error), do: error
 
   @impl Plug.ErrorHandler
   def handle_errors(conn, %{kind: kind, reason: reason, stack: stack}) do

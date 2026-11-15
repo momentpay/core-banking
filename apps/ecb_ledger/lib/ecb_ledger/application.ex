@@ -20,7 +20,13 @@ defmodule ECBLedger.Application do
     {"JOURNALENTRY", "CREATE", ECBLedger.Handlers.CreateJournalEntry},
     {"JOURNALENTRY", "REVERSE", ECBLedger.Handlers.ReverseJournalEntry},
     {"JOURNALENTRY", "UPDATERUNNINGBALANCE", ECBLedger.Handlers.UpdateRunningBalance},
-    {"JOURNALENTRY", "DEFINEOPENINGBALANCE", ECBLedger.Handlers.DefineOpeningBalance}
+    {"JOURNALENTRY", "DEFINEOPENINGBALANCE", ECBLedger.Handlers.DefineOpeningBalance},
+    {"ACCOUNTINGRULE", "CREATE", ECBLedger.Handlers.CreateAccountingRule},
+    {"ACCOUNTINGRULE", "UPDATE", ECBLedger.Handlers.UpdateAccountingRule},
+    {"ACCOUNTINGRULE", "DELETE", ECBLedger.Handlers.DeleteAccountingRule},
+    {"PROVISIONCATEGORY", "CREATE", ECBLedger.Handlers.CreateProvisioningCategory},
+    {"PROVISIONCATEGORY", "UPDATE", ECBLedger.Handlers.UpdateProvisioningCategory},
+    {"PROVISIONCATEGORY", "DELETE", ECBLedger.Handlers.DeleteProvisioningCategory}
   ]
 
   @impl true

@@ -1,0 +1,6665 @@
+{
+ "name": "accountingrules",
+ "reset": [
+  "glaccounts",
+  "offices",
+  "codes"
+ ],
+ "steps": [
+  {
+   "path": "/v1/accountingrules",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": []
+  },
+  {
+   "path": "/v1/accountingrules/template",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "systemDefined": false,
+    "allowMultipleDebitEntries": false,
+    "allowMultipleCreditEntries": false,
+    "allowedOffices": [
+     {
+      "id": 1,
+      "name": "Head Office",
+      "nameDecorated": "Head Office"
+     }
+    ],
+    "allowedAccounts": [],
+    "allowedCreditTagOptions": [],
+    "allowedDebitTagOptions": []
+   }
+  },
+  {
+   "path": "/v1/accountingrules/1",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Accounting Rule with identifier 1 does not exist",
+      "defaultUserMessage": "Accounting Rule with identifier 1 does not exist",
+      "userMessageGlobalisationCode": "error.msg.accounting.rule.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 1
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/accountingrules/abc",
+   "ignore": [
+    "timestamp",
+    "path",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T07:48:10.574Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/accountingrules/abc"
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes/7/codevalues",
+   "body": {
+    "name": "Cash tag"
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 7,
+    "subResourceId": 23
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes/7/codevalues",
+   "body": {
+    "name": "Bank tag"
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 7,
+    "subResourceId": 24
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes/8/codevalues",
+   "body": {
+    "name": "Payable tag"
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 8,
+    "subResourceId": 25
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes/10/codevalues",
+   "body": {
+    "name": "Income tag"
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 10,
+    "subResourceId": 26
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes/11/codevalues",
+   "body": {
+    "name": "Expense tag"
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 11,
+    "subResourceId": 27
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Cash",
+    "glCode": "1000",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1,
+    "tagId": 23
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Bank",
+    "glCode": "1100",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1,
+    "tagId": 24
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Payables",
+    "glCode": "2000",
+    "manualEntriesAllowed": true,
+    "type": 2,
+    "usage": 1,
+    "tagId": 25
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Fees",
+    "glCode": "4000",
+    "manualEntriesAllowed": true,
+    "type": 4,
+    "usage": 1,
+    "tagId": 26
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Rent",
+    "glCode": "5000",
+    "manualEntriesAllowed": true,
+    "type": 5,
+    "usage": 1,
+    "tagId": 27
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 5
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Loose",
+    "glCode": "1900",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 6
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Retired",
+    "glCode": "1200",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1,
+    "disabled": true,
+    "tagId": 23
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 7
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Assets",
+    "glCode": "1",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 2
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 8
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/offices",
+   "body": {
+    "name": "Branch",
+    "parentId": 1,
+    "openingDate": "01 January 2020",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 2,
+    "resourceId": 2
+   }
+  },
+  {
+   "path": "/v1/accountingrules/template",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "systemDefined": false,
+    "allowMultipleDebitEntries": false,
+    "allowMultipleCreditEntries": false,
+    "allowedOffices": [
+     {
+      "id": 1,
+      "name": "Head Office",
+      "nameDecorated": "Head Office"
+     },
+     {
+      "id": 2,
+      "name": "Branch",
+      "nameDecorated": "....Branch"
+     }
+    ],
+    "allowedAccounts": [
+     {
+      "id": 1,
+      "name": "Cash",
+      "glCode": "1000",
+      "disabled": false,
+      "manualEntriesAllowed": true,
+      "type": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "usage": {
+       "id": 1,
+       "code": "accountUsage.detail",
+       "value": "DETAIL"
+      },
+      "description": "",
+      "nameDecorated": "Cash",
+      "tagId": {
+       "id": 23,
+       "name": "Cash tag"
+      }
+     },
+     {
+      "id": 2,
+      "name": "Bank",
+      "glCode": "1100",
+      "disabled": false,
+      "manualEntriesAllowed": true,
+      "type": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "usage": {
+       "id": 1,
+       "code": "accountUsage.detail",
+       "value": "DETAIL"
+      },
+      "description": "",
+      "nameDecorated": "Bank",
+      "tagId": {
+       "id": 24,
+       "name": "Bank tag"
+      }
+     },
+     {
+      "id": 6,
+      "name": "Loose",
+      "glCode": "1900",
+      "disabled": false,
+      "manualEntriesAllowed": true,
+      "type": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "usage": {
+       "id": 1,
+       "code": "accountUsage.detail",
+       "value": "DETAIL"
+      },
+      "description": "",
+      "nameDecorated": "Loose",
+      "tagId": {
+       "id": 0
+      }
+     },
+     {
+      "id": 3,
+      "name": "Payables",
+      "glCode": "2000",
+      "disabled": false,
+      "manualEntriesAllowed": true,
+      "type": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "usage": {
+       "id": 1,
+       "code": "accountUsage.detail",
+       "value": "DETAIL"
+      },
+      "description": "",
+      "nameDecorated": "Payables",
+      "tagId": {
+       "id": 25,
+       "name": "Payable tag"
+      }
+     },
+     {
+      "id": 4,
+      "name": "Fees",
+      "glCode": "4000",
+      "disabled": false,
+      "manualEntriesAllowed": true,
+      "type": {
+       "id": 4,
+       "code": "accountType.income",
+       "value": "INCOME"
+      },
+      "usage": {
+       "id": 1,
+       "code": "accountUsage.detail",
+       "value": "DETAIL"
+      },
+      "description": "",
+      "nameDecorated": "Fees",
+      "tagId": {
+       "id": 26,
+       "name": "Income tag"
+      }
+     },
+     {
+      "id": 5,
+      "name": "Rent",
+      "glCode": "5000",
+      "disabled": false,
+      "manualEntriesAllowed": true,
+      "type": {
+       "id": 5,
+       "code": "accountType.expense",
+       "value": "EXPENSE"
+      },
+      "usage": {
+       "id": 1,
+       "code": "accountUsage.detail",
+       "value": "DETAIL"
+      },
+      "description": "",
+      "nameDecorated": "Rent",
+      "tagId": {
+       "id": 27,
+       "name": "Expense tag"
+      }
+     }
+    ],
+    "allowedCreditTagOptions": [
+     {
+      "id": 23,
+      "name": "Cash tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 24,
+      "name": "Bank tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 25,
+      "name": "Payable tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 26,
+      "name": "Income tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 27,
+      "name": "Expense tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     }
+    ],
+    "allowedDebitTagOptions": [
+     {
+      "id": 23,
+      "name": "Cash tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 24,
+      "name": "Bank tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 25,
+      "name": "Payable tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 26,
+      "name": "Income tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 27,
+      "name": "Expense tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Deposit to bank",
+    "officeId": 1,
+    "accountToDebit": 2,
+    "accountToCredit": 1,
+    "description": "  Moves cash to the bank  "
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Multi",
+    "officeId": 1,
+    "debitTags": [
+     24,
+     23
+    ],
+    "creditTags": [
+     27
+    ],
+    "allowMultipleDebitEntries": true
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Tag and account",
+    "officeId": 1,
+    "accountToDebit": 2,
+    "debitTags": [
+     24
+    ],
+    "accountToCredit": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "accountToDebit or debitTags required",
+      "defaultUserMessage": "accountToDebit or debitTags required",
+      "userMessageGlobalisationCode": "error.msg.accounting.rule.accountToDebit.or.debitTags.required",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "accountToDebit"
+       },
+       {
+        "value": "debitTags"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Neither",
+    "officeId": 1,
+    "accountToCredit": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter accountToDebit ordebitTags required",
+      "defaultUserMessage": "The parameter accountToDebit ordebitTags required",
+      "userMessageGlobalisationCode": "validation.msg.accountToDebit.or.debitTags.required",
+      "parameterName": "accountToDebit,debitTags",
+      "args": [
+       {
+        "value": "accountToDebit"
+       },
+       {
+        "value": "debitTags"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Neither side",
+    "officeId": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter accountToCredit orcreditTags required",
+      "defaultUserMessage": "The parameter accountToCredit orcreditTags required",
+      "userMessageGlobalisationCode": "validation.msg.accountToCredit.or.creditTags.required",
+      "parameterName": "accountToCredit,creditTags",
+      "args": [
+       {
+        "value": "accountToCredit"
+       },
+       {
+        "value": "creditTags"
+       }
+      ]
+     },
+     {
+      "developerMessage": "The parameter accountToDebit ordebitTags required",
+      "defaultUserMessage": "The parameter accountToDebit ordebitTags required",
+      "userMessageGlobalisationCode": "validation.msg.accountToDebit.or.debitTags.required",
+      "parameterName": "accountToDebit,debitTags",
+      "args": [
+       {
+        "value": "accountToDebit"
+       },
+       {
+        "value": "debitTags"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "officeId": 1,
+    "accountToDebit": 2,
+    "accountToCredit": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.AccountingRule.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "officeId": 1,
+    "accountToDebit": 2,
+    "accountToCredit": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` exceeds max length of 100.",
+      "defaultUserMessage": "The parameter `name` exceeds max length of 100.",
+      "userMessageGlobalisationCode": "validation.msg.AccountingRule.name.exceeds.max.length",
+      "parameterName": "name",
+      "args": [
+       {
+        "value": 100
+       },
+       {
+        "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Other",
+    "officeId": 1,
+    "accountToDebit": 2,
+    "accountToCredit": 1,
+    "description": "ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `description` exceeds max length of 500.",
+      "defaultUserMessage": "The parameter `description` exceeds max length of 500.",
+      "userMessageGlobalisationCode": "validation.msg.AccountingRule.description.exceeds.max.length",
+      "parameterName": "description",
+      "args": [
+       {
+        "value": 500
+       },
+       {
+        "value": "ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "No office",
+    "officeId": null,
+    "accountToDebit": 2,
+    "accountToCredit": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `officeId` is mandatory.",
+      "defaultUserMessage": "The parameter `officeId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.AccountingRule.officeId.cannot.be.blank",
+      "parameterName": "officeId",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Office 99",
+    "officeId": 99,
+    "accountToDebit": 2,
+    "accountToCredit": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Office with identifier 99 does not exist",
+      "defaultUserMessage": "Office with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.office.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Office 0",
+    "officeId": 0,
+    "accountToDebit": 2,
+    "accountToCredit": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `officeId` must be greater than 0.",
+      "defaultUserMessage": "The parameter `officeId` must be greater than 0.",
+      "userMessageGlobalisationCode": "validation.msg.AccountingRule.officeId.not.greater.than.zero",
+      "parameterName": "officeId",
+      "args": [
+       {
+        "value": 0
+       },
+       {
+        "value": 0
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Account 99",
+    "officeId": 1,
+    "accountToDebit": 99,
+    "accountToCredit": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "General Ledger account with identifier 99 does not exist ",
+      "defaultUserMessage": "General Ledger account with identifier 99 does not exist ",
+      "userMessageGlobalisationCode": "error.msg.glaccount.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Account 0",
+    "officeId": 1,
+    "accountToDebit": 0,
+    "accountToCredit": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `accountToDebit` must be greater than 0.",
+      "defaultUserMessage": "The parameter `accountToDebit` must be greater than 0.",
+      "userMessageGlobalisationCode": "validation.msg.AccountingRule.accountToDebit.not.greater.than.zero",
+      "parameterName": "accountToDebit",
+      "args": [
+       {
+        "value": 0
+       },
+       {
+        "value": 0
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Tag 99",
+    "officeId": 1,
+    "debitTags": [
+     99
+    ],
+    "accountToCredit": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Code value with identifier 99 does not exist",
+      "defaultUserMessage": "Code value with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.codevalue.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Tag 0",
+    "officeId": 1,
+    "debitTags": [
+     0
+    ],
+    "accountToCredit": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `debitTags` must be greater than 0.",
+      "defaultUserMessage": "The parameter `debitTags` must be greater than 0.",
+      "userMessageGlobalisationCode": "validation.msg.AccountingRule.debitTags.not.greater.than.zero",
+      "parameterName": "debitTags",
+      "args": [
+       {
+        "value": 0
+       },
+       {
+        "value": 0
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Tag text",
+    "officeId": 1,
+    "debitTags": [
+     "x"
+    ],
+    "accountToCredit": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The parameter `null` has value: x which is not a valid number.",
+    "defaultUserMessage": "The parameter `null` has value: x which is not a valid number.",
+    "userMessageGlobalisationCode": "validation.msg.invalid.decimal.format",
+    "value": "x",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Tag empty",
+    "officeId": 1,
+    "debitTags": [],
+    "accountToCredit": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `debitTags` cannot be empty. You must select at least one.",
+      "defaultUserMessage": "The parameter `debitTags` cannot be empty. You must select at least one.",
+      "userMessageGlobalisationCode": "validation.msg.AccountingRule.debitTags.cannot.be.empty",
+      "parameterName": "debitTags",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Tag twice",
+    "officeId": 1,
+    "debitTags": [
+     24,
+     24
+    ],
+    "accountToCredit": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Multiple text",
+    "officeId": 1,
+    "accountToDebit": 2,
+    "accountToCredit": 1,
+    "allowMultipleDebitEntries": "abc"
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+    "defaultUserMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+    "userMessageGlobalisationCode": "error.msg.invalid.json.data",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Duplicate",
+    "officeId": 1,
+    "accountToDebit": 2,
+    "accountToCredit": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Duplicate",
+    "officeId": 1,
+    "accountToDebit": 2,
+    "accountToCredit": 1
+   },
+   "ignore": [
+    "defaultUserMessage",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Unknown data integrity issue with resource Accounting Rule: ERROR: duplicate key value violates unique constraint \"acc_accounting_rule_name_key\"\n  Detail: Key (name)=(Duplicate) already exists.",
+    "userMessageGlobalisationCode": "error.msg.accounting.rule.unknown.data.integrity.issue",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "Unknown data integrity issue with resource Accounting Rule: ERROR: duplicate key value violates unique constraint \"acc_accounting_rule_name_key\"\n  Detail: Key (name)=(Duplicate) already exists.",
+      "userMessageGlobalisationCode": "error.msg.accounting.rule.unknown.data.integrity.issue",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Extra",
+    "officeId": 1,
+    "accountToDebit": 2,
+    "accountToCredit": 1,
+    "bogus": 1,
+    "id": 9,
+    "systemDefined": true,
+    "officeName": "x"
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 6
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Account text",
+    "officeId": 1,
+    "accountToDebit": "abc",
+    "accountToCredit": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The parameter `accountToDebit` has value: abc which is not a valid number.",
+    "defaultUserMessage": "The parameter `accountToDebit` has value: abc which is not a valid number.",
+    "userMessageGlobalisationCode": "validation.msg.invalid.decimal.format",
+    "parameterName": "accountToDebit",
+    "value": "abc",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {},
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `officeId` is mandatory.",
+      "defaultUserMessage": "The parameter `officeId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.AccountingRule.officeId.cannot.be.blank",
+      "parameterName": "officeId",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.AccountingRule.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter accountToCredit orcreditTags required",
+      "defaultUserMessage": "The parameter accountToCredit orcreditTags required",
+      "userMessageGlobalisationCode": "validation.msg.accountToCredit.or.creditTags.required",
+      "parameterName": "accountToCredit,creditTags",
+      "args": [
+       {
+        "value": "accountToCredit"
+       },
+       {
+        "value": "creditTags"
+       }
+      ]
+     },
+     {
+      "developerMessage": "The parameter accountToDebit ordebitTags required",
+      "defaultUserMessage": "The parameter accountToDebit ordebitTags required",
+      "userMessageGlobalisationCode": "validation.msg.accountToDebit.or.debitTags.required",
+      "parameterName": "accountToDebit,debitTags",
+      "args": [
+       {
+        "value": "accountToDebit"
+       },
+       {
+        "value": "debitTags"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "ignore": [
+    "transactionId",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The JSON provided in the body of the request is invalid or missing.",
+    "defaultUserMessage": "The JSON provided in the body of the request is invalid or missing.",
+    "userMessageGlobalisationCode": "error.msg.invalid.request.body",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "raw": "{bad",
+   "ignore": [
+    "developerMessage",
+    "defaultUserMessage",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+    "defaultUserMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+    "userMessageGlobalisationCode": "error.msg.invalid.json.data",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Office text",
+    "officeId": "abc",
+    "accountToDebit": 2,
+    "accountToCredit": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The parameter `officeId` has value: abc which is not a valid number.",
+    "defaultUserMessage": "The parameter `officeId` has value: abc which is not a valid number.",
+    "userMessageGlobalisationCode": "validation.msg.invalid.decimal.format",
+    "parameterName": "officeId",
+    "value": "abc",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Disabled side",
+    "officeId": 1,
+    "accountToDebit": 7,
+    "accountToCredit": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 7
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Header side",
+    "officeId": 1,
+    "accountToDebit": 8,
+    "accountToCredit": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 8
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Credit side flags",
+    "officeId": 2,
+    "accountToDebit": 1,
+    "creditTags": [
+     25,
+     27
+    ],
+    "allowMultipleCreditEntries": true
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 2,
+    "resourceId": 9
+   }
+  },
+  {
+   "path": "/v1/accountingrules",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Deposit to bank",
+     "description": "Moves cash to the bank",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 2,
+       "name": "Bank",
+       "glCode": "1100"
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Multi",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": true,
+     "allowMultipleCreditEntries": false,
+     "creditTags": [
+      {
+       "id": 1,
+       "tag": {
+        "id": 27,
+        "name": "Expense tag"
+       },
+       "transactionType": {
+        "id": 1,
+        "code": "journalEntryType.credit",
+        "value": "CREDIT"
+       }
+      }
+     ],
+     "debitTags": [
+      {
+       "id": 3,
+       "tag": {
+        "id": 23,
+        "name": "Cash tag"
+       },
+       "transactionType": {
+        "id": 2,
+        "code": "journalEntrytType.debit",
+        "value": "DEBIT"
+       }
+      },
+      {
+       "id": 2,
+       "tag": {
+        "id": 24,
+        "name": "Bank tag"
+       },
+       "transactionType": {
+        "id": 2,
+        "code": "journalEntrytType.debit",
+        "value": "DEBIT"
+       }
+      }
+     ],
+     "allowedOffices": [],
+     "allowedAccounts": []
+    },
+    {
+     "id": 3,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Tag twice",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "debitTags": [
+      {
+       "id": 4,
+       "tag": {
+        "id": 24,
+        "name": "Bank tag"
+       },
+       "transactionType": {
+        "id": 2,
+        "code": "journalEntrytType.debit",
+        "value": "DEBIT"
+       }
+      }
+     ],
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Duplicate",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 2,
+       "name": "Bank",
+       "glCode": "1100"
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Extra",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 2,
+       "name": "Bank",
+       "glCode": "1100"
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Disabled side",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 7,
+       "name": "Retired",
+       "glCode": "1200"
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Header side",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 8,
+       "name": "Assets",
+       "glCode": "1"
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "officeId": 2,
+     "officeName": "Branch",
+     "name": "Credit side flags",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": true,
+     "creditTags": [
+      {
+       "id": 6,
+       "tag": {
+        "id": 25,
+        "name": "Payable tag"
+       },
+       "transactionType": {
+        "id": 1,
+        "code": "journalEntryType.credit",
+        "value": "CREDIT"
+       }
+      },
+      {
+       "id": 5,
+       "tag": {
+        "id": 27,
+        "name": "Expense tag"
+       },
+       "transactionType": {
+        "id": 1,
+        "code": "journalEntryType.credit",
+        "value": "CREDIT"
+       }
+      }
+     ],
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "debitAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "path": "/v1/accountingrules?associations=all",
+   "ignore": [
+    "debitAccounts",
+    "creditAccounts",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Deposit to bank",
+     "description": "Moves cash to the bank",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 2,
+       "name": "Bank",
+       "glCode": "1100"
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Multi",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": true,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 5,
+       "name": "Rent",
+       "glCode": "5000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      },
+      {
+       "id": 2,
+       "name": "Bank",
+       "glCode": "1100"
+      },
+      {
+       "id": 7,
+       "name": "Retired",
+       "glCode": "1200"
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Tag twice",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 2,
+       "name": "Bank",
+       "glCode": "1100"
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Duplicate",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 2,
+       "name": "Bank",
+       "glCode": "1100"
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Extra",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 2,
+       "name": "Bank",
+       "glCode": "1100"
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Disabled side",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 7,
+       "name": "Retired",
+       "glCode": "1200"
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Header side",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 8,
+       "name": "Assets",
+       "glCode": "1"
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "officeId": 2,
+     "officeName": "Branch",
+     "name": "Credit side flags",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": true,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 3,
+       "name": "Payables",
+       "glCode": "2000"
+      },
+      {
+       "id": 5,
+       "name": "Rent",
+       "glCode": "5000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "path": "/v1/accountingrules/1",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "id": 1,
+    "officeId": 1,
+    "officeName": "Head Office",
+    "name": "Deposit to bank",
+    "description": "Moves cash to the bank",
+    "systemDefined": false,
+    "allowMultipleDebitEntries": false,
+    "allowMultipleCreditEntries": false,
+    "allowedOffices": [],
+    "allowedAccounts": [],
+    "creditAccounts": [
+     {
+      "id": 1,
+      "name": "Cash",
+      "glCode": "1000"
+     }
+    ],
+    "debitAccounts": [
+     {
+      "id": 2,
+      "name": "Bank",
+      "glCode": "1100"
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/accountingrules/2",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "id": 2,
+    "officeId": 1,
+    "officeName": "Head Office",
+    "name": "Multi",
+    "description": "",
+    "systemDefined": false,
+    "allowMultipleDebitEntries": true,
+    "allowMultipleCreditEntries": false,
+    "creditTags": [
+     {
+      "id": 1,
+      "tag": {
+       "id": 27,
+       "name": "Expense tag"
+      },
+      "transactionType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      }
+     }
+    ],
+    "debitTags": [
+     {
+      "id": 3,
+      "tag": {
+       "id": 23,
+       "name": "Cash tag"
+      },
+      "transactionType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      }
+     },
+     {
+      "id": 2,
+      "tag": {
+       "id": 24,
+       "name": "Bank tag"
+      },
+      "transactionType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      }
+     }
+    ],
+    "allowedOffices": [],
+    "allowedAccounts": []
+   }
+  },
+  {
+   "path": "/v1/accountingrules/2?associations=all",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "id": 2,
+    "officeId": 1,
+    "officeName": "Head Office",
+    "name": "Multi",
+    "description": "",
+    "systemDefined": false,
+    "allowMultipleDebitEntries": true,
+    "allowMultipleCreditEntries": false,
+    "creditTags": [
+     {
+      "id": 1,
+      "tag": {
+       "id": 27,
+       "name": "Expense tag"
+      },
+      "transactionType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      }
+     }
+    ],
+    "debitTags": [
+     {
+      "id": 3,
+      "tag": {
+       "id": 23,
+       "name": "Cash tag"
+      },
+      "transactionType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      }
+     },
+     {
+      "id": 2,
+      "tag": {
+       "id": 24,
+       "name": "Bank tag"
+      },
+      "transactionType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      }
+     }
+    ],
+    "allowedOffices": [],
+    "allowedAccounts": []
+   }
+  },
+  {
+   "path": "/v1/accountingrules/1?template=true",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "id": 1,
+    "officeId": 1,
+    "officeName": "Head Office",
+    "name": "Deposit to bank",
+    "description": "Moves cash to the bank",
+    "systemDefined": false,
+    "allowMultipleDebitEntries": false,
+    "allowMultipleCreditEntries": false,
+    "allowedOffices": [
+     {
+      "id": 1,
+      "name": "Head Office",
+      "nameDecorated": "Head Office"
+     },
+     {
+      "id": 2,
+      "name": "Branch",
+      "nameDecorated": "....Branch"
+     }
+    ],
+    "allowedAccounts": [
+     {
+      "id": 1,
+      "name": "Cash",
+      "glCode": "1000",
+      "disabled": false,
+      "manualEntriesAllowed": true,
+      "type": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "usage": {
+       "id": 1,
+       "code": "accountUsage.detail",
+       "value": "DETAIL"
+      },
+      "description": "",
+      "nameDecorated": "Cash",
+      "tagId": {
+       "id": 23,
+       "name": "Cash tag"
+      }
+     },
+     {
+      "id": 2,
+      "name": "Bank",
+      "glCode": "1100",
+      "disabled": false,
+      "manualEntriesAllowed": true,
+      "type": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "usage": {
+       "id": 1,
+       "code": "accountUsage.detail",
+       "value": "DETAIL"
+      },
+      "description": "",
+      "nameDecorated": "Bank",
+      "tagId": {
+       "id": 24,
+       "name": "Bank tag"
+      }
+     },
+     {
+      "id": 6,
+      "name": "Loose",
+      "glCode": "1900",
+      "disabled": false,
+      "manualEntriesAllowed": true,
+      "type": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "usage": {
+       "id": 1,
+       "code": "accountUsage.detail",
+       "value": "DETAIL"
+      },
+      "description": "",
+      "nameDecorated": "Loose",
+      "tagId": {
+       "id": 0
+      }
+     },
+     {
+      "id": 3,
+      "name": "Payables",
+      "glCode": "2000",
+      "disabled": false,
+      "manualEntriesAllowed": true,
+      "type": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "usage": {
+       "id": 1,
+       "code": "accountUsage.detail",
+       "value": "DETAIL"
+      },
+      "description": "",
+      "nameDecorated": "Payables",
+      "tagId": {
+       "id": 25,
+       "name": "Payable tag"
+      }
+     },
+     {
+      "id": 4,
+      "name": "Fees",
+      "glCode": "4000",
+      "disabled": false,
+      "manualEntriesAllowed": true,
+      "type": {
+       "id": 4,
+       "code": "accountType.income",
+       "value": "INCOME"
+      },
+      "usage": {
+       "id": 1,
+       "code": "accountUsage.detail",
+       "value": "DETAIL"
+      },
+      "description": "",
+      "nameDecorated": "Fees",
+      "tagId": {
+       "id": 26,
+       "name": "Income tag"
+      }
+     },
+     {
+      "id": 5,
+      "name": "Rent",
+      "glCode": "5000",
+      "disabled": false,
+      "manualEntriesAllowed": true,
+      "type": {
+       "id": 5,
+       "code": "accountType.expense",
+       "value": "EXPENSE"
+      },
+      "usage": {
+       "id": 1,
+       "code": "accountUsage.detail",
+       "value": "DETAIL"
+      },
+      "description": "",
+      "nameDecorated": "Rent",
+      "tagId": {
+       "id": 27,
+       "name": "Expense tag"
+      }
+     }
+    ],
+    "allowedCreditTagOptions": [
+     {
+      "id": 23,
+      "name": "Cash tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 24,
+      "name": "Bank tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 25,
+      "name": "Payable tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 26,
+      "name": "Income tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 27,
+      "name": "Expense tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     }
+    ],
+    "allowedDebitTagOptions": [
+     {
+      "id": 23,
+      "name": "Cash tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 24,
+      "name": "Bank tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 25,
+      "name": "Payable tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 26,
+      "name": "Income tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 27,
+      "name": "Expense tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/accountingrules/2?template=true",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "id": 2,
+    "officeId": 1,
+    "officeName": "Head Office",
+    "name": "Multi",
+    "description": "",
+    "systemDefined": false,
+    "allowMultipleDebitEntries": true,
+    "allowMultipleCreditEntries": false,
+    "allowedOffices": [
+     {
+      "id": 1,
+      "name": "Head Office",
+      "nameDecorated": "Head Office"
+     },
+     {
+      "id": 2,
+      "name": "Branch",
+      "nameDecorated": "....Branch"
+     }
+    ],
+    "allowedAccounts": [
+     {
+      "id": 1,
+      "name": "Cash",
+      "glCode": "1000",
+      "disabled": false,
+      "manualEntriesAllowed": true,
+      "type": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "usage": {
+       "id": 1,
+       "code": "accountUsage.detail",
+       "value": "DETAIL"
+      },
+      "description": "",
+      "nameDecorated": "Cash",
+      "tagId": {
+       "id": 23,
+       "name": "Cash tag"
+      }
+     },
+     {
+      "id": 2,
+      "name": "Bank",
+      "glCode": "1100",
+      "disabled": false,
+      "manualEntriesAllowed": true,
+      "type": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "usage": {
+       "id": 1,
+       "code": "accountUsage.detail",
+       "value": "DETAIL"
+      },
+      "description": "",
+      "nameDecorated": "Bank",
+      "tagId": {
+       "id": 24,
+       "name": "Bank tag"
+      }
+     },
+     {
+      "id": 6,
+      "name": "Loose",
+      "glCode": "1900",
+      "disabled": false,
+      "manualEntriesAllowed": true,
+      "type": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "usage": {
+       "id": 1,
+       "code": "accountUsage.detail",
+       "value": "DETAIL"
+      },
+      "description": "",
+      "nameDecorated": "Loose",
+      "tagId": {
+       "id": 0
+      }
+     },
+     {
+      "id": 3,
+      "name": "Payables",
+      "glCode": "2000",
+      "disabled": false,
+      "manualEntriesAllowed": true,
+      "type": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "usage": {
+       "id": 1,
+       "code": "accountUsage.detail",
+       "value": "DETAIL"
+      },
+      "description": "",
+      "nameDecorated": "Payables",
+      "tagId": {
+       "id": 25,
+       "name": "Payable tag"
+      }
+     },
+     {
+      "id": 4,
+      "name": "Fees",
+      "glCode": "4000",
+      "disabled": false,
+      "manualEntriesAllowed": true,
+      "type": {
+       "id": 4,
+       "code": "accountType.income",
+       "value": "INCOME"
+      },
+      "usage": {
+       "id": 1,
+       "code": "accountUsage.detail",
+       "value": "DETAIL"
+      },
+      "description": "",
+      "nameDecorated": "Fees",
+      "tagId": {
+       "id": 26,
+       "name": "Income tag"
+      }
+     },
+     {
+      "id": 5,
+      "name": "Rent",
+      "glCode": "5000",
+      "disabled": false,
+      "manualEntriesAllowed": true,
+      "type": {
+       "id": 5,
+       "code": "accountType.expense",
+       "value": "EXPENSE"
+      },
+      "usage": {
+       "id": 1,
+       "code": "accountUsage.detail",
+       "value": "DETAIL"
+      },
+      "description": "",
+      "nameDecorated": "Rent",
+      "tagId": {
+       "id": 27,
+       "name": "Expense tag"
+      }
+     }
+    ],
+    "allowedCreditTagOptions": [
+     {
+      "id": 23,
+      "name": "Cash tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 24,
+      "name": "Bank tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 25,
+      "name": "Payable tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 26,
+      "name": "Income tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     }
+    ],
+    "allowedDebitTagOptions": [
+     {
+      "id": 25,
+      "name": "Payable tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 26,
+      "name": "Income tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 27,
+      "name": "Expense tag",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/accountingrules/99",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Accounting Rule with identifier 99 does not exist",
+      "defaultUserMessage": "Accounting Rule with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.accounting.rule.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/1",
+   "body": {
+    "name": "Renamed",
+    "description": "New text"
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "name": "Renamed",
+     "description": "New text"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/1",
+   "body": {
+    "name": "Renamed"
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/1",
+   "body": {},
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/1",
+   "body": {
+    "bogus": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/1",
+   "body": {
+    "name": ""
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "name": ""
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/1",
+   "body": {
+    "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` exceeds max length of 100.",
+      "defaultUserMessage": "The parameter `name` exceeds max length of 100.",
+      "userMessageGlobalisationCode": "validation.msg.AccountingRule.name.exceeds.max.length",
+      "parameterName": "name",
+      "args": [
+       {
+        "value": 100
+       },
+       {
+        "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/1",
+   "body": {
+    "description": ""
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "description": ""
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/1",
+   "body": {
+    "officeId": 2
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "officeId": 2
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/1",
+   "body": {
+    "officeId": 99
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Office with identifier 99 does not exist",
+      "defaultUserMessage": "Office with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.office.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/1",
+   "body": {
+    "officeId": 0
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `officeId` must be greater than 0.",
+      "defaultUserMessage": "The parameter `officeId` must be greater than 0.",
+      "userMessageGlobalisationCode": "validation.msg.AccountingRule.officeId.not.greater.than.zero",
+      "parameterName": "officeId",
+      "args": [
+       {
+        "value": 0
+       },
+       {
+        "value": 0
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/1",
+   "body": {
+    "accountToDebit": 6
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "accountToDebit": 6
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/1",
+   "body": {
+    "accountToDebit": 99
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "General Ledger account with identifier 99 does not exist ",
+      "defaultUserMessage": "General Ledger account with identifier 99 does not exist ",
+      "userMessageGlobalisationCode": "error.msg.glaccount.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/1",
+   "body": {
+    "accountToDebit": 6
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/1",
+   "body": {
+    "accountToCredit": 2
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "accountToCredit": 2
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/1",
+   "body": {
+    "debitTags": [
+     24
+    ],
+    "accountToDebit": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "accountToDebit or debitTags required",
+      "defaultUserMessage": "accountToDebit or debitTags required",
+      "userMessageGlobalisationCode": "error.msg.accounting.rule.accountToDebit.or.debitTags.required",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "accountToDebit"
+       },
+       {
+        "value": "debitTags"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/1",
+   "body": {
+    "debitTags": [
+     24
+    ]
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "debitTags": [
+      "24"
+     ]
+    }
+   }
+  },
+  {
+   "path": "/v1/accountingrules/1",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "id": 1,
+    "officeId": 2,
+    "officeName": "Branch",
+    "name": "",
+    "description": "",
+    "systemDefined": false,
+    "allowMultipleDebitEntries": false,
+    "allowMultipleCreditEntries": false,
+    "debitTags": [
+     {
+      "id": 7,
+      "tag": {
+       "id": 24,
+       "name": "Bank tag"
+      },
+      "transactionType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      }
+     }
+    ],
+    "allowedOffices": [],
+    "allowedAccounts": [],
+    "creditAccounts": [
+     {
+      "id": 2,
+      "name": "Bank",
+      "glCode": "1100"
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/1",
+   "body": {
+    "debitTags": [
+     24,
+     23
+    ]
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "debitTags": [
+      "23"
+     ]
+    }
+   }
+  },
+  {
+   "path": "/v1/accountingrules/1",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "id": 1,
+    "officeId": 2,
+    "officeName": "Branch",
+    "name": "",
+    "description": "",
+    "systemDefined": false,
+    "allowMultipleDebitEntries": false,
+    "allowMultipleCreditEntries": false,
+    "debitTags": [
+     {
+      "id": 8,
+      "tag": {
+       "id": 23,
+       "name": "Cash tag"
+      },
+      "transactionType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      }
+     },
+     {
+      "id": 7,
+      "tag": {
+       "id": 24,
+       "name": "Bank tag"
+      },
+      "transactionType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      }
+     }
+    ],
+    "allowedOffices": [],
+    "allowedAccounts": [],
+    "creditAccounts": [
+     {
+      "id": 2,
+      "name": "Bank",
+      "glCode": "1100"
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/1",
+   "body": {
+    "debitTags": [
+     23
+    ],
+    "allowMultipleDebitEntries": true
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "allowMultipleDebitEntries": true
+    }
+   }
+  },
+  {
+   "path": "/v1/accountingrules/1",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "id": 1,
+    "officeId": 2,
+    "officeName": "Branch",
+    "name": "",
+    "description": "",
+    "systemDefined": false,
+    "allowMultipleDebitEntries": true,
+    "allowMultipleCreditEntries": false,
+    "debitTags": [
+     {
+      "id": 8,
+      "tag": {
+       "id": 23,
+       "name": "Cash tag"
+      },
+      "transactionType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      }
+     }
+    ],
+    "allowedOffices": [],
+    "allowedAccounts": [],
+    "creditAccounts": [
+     {
+      "id": 2,
+      "name": "Bank",
+      "glCode": "1100"
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/1",
+   "body": {
+    "debitTags": []
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `debitTags` cannot be empty. You must select at least one.",
+      "defaultUserMessage": "The parameter `debitTags` cannot be empty. You must select at least one.",
+      "userMessageGlobalisationCode": "validation.msg.AccountingRule.debitTags.cannot.be.empty",
+      "parameterName": "debitTags",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/1",
+   "body": {
+    "debitTags": [
+     99
+    ]
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Code value with identifier 99 does not exist",
+      "defaultUserMessage": "Code value with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.codevalue.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/1",
+   "body": {
+    "allowMultipleCreditEntries": true
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "allowMultipleCreditEntries": true
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/2",
+   "body": {
+    "creditTags": [
+     27,
+     25
+    ]
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 2,
+    "changes": {
+     "creditTags": [
+      "25"
+     ]
+    }
+   }
+  },
+  {
+   "path": "/v1/accountingrules/2",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "id": 2,
+    "officeId": 1,
+    "officeName": "Head Office",
+    "name": "Multi",
+    "description": "",
+    "systemDefined": false,
+    "allowMultipleDebitEntries": true,
+    "allowMultipleCreditEntries": false,
+    "creditTags": [
+     {
+      "id": 9,
+      "tag": {
+       "id": 25,
+       "name": "Payable tag"
+      },
+      "transactionType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      }
+     },
+     {
+      "id": 1,
+      "tag": {
+       "id": 27,
+       "name": "Expense tag"
+      },
+      "transactionType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      }
+     }
+    ],
+    "debitTags": [
+     {
+      "id": 3,
+      "tag": {
+       "id": 23,
+       "name": "Cash tag"
+      },
+      "transactionType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      }
+     },
+     {
+      "id": 2,
+      "tag": {
+       "id": 24,
+       "name": "Bank tag"
+      },
+      "transactionType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      }
+     }
+    ],
+    "allowedOffices": [],
+    "allowedAccounts": []
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/2",
+   "body": {
+    "accountToCredit": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 2,
+    "changes": {
+     "accountToCredit": 1
+    }
+   }
+  },
+  {
+   "path": "/v1/accountingrules/2",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "id": 2,
+    "officeId": 1,
+    "officeName": "Head Office",
+    "name": "Multi",
+    "description": "",
+    "systemDefined": false,
+    "allowMultipleDebitEntries": true,
+    "allowMultipleCreditEntries": false,
+    "debitTags": [
+     {
+      "id": 3,
+      "tag": {
+       "id": 23,
+       "name": "Cash tag"
+      },
+      "transactionType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      }
+     },
+     {
+      "id": 2,
+      "tag": {
+       "id": 24,
+       "name": "Bank tag"
+      },
+      "transactionType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      }
+     }
+    ],
+    "allowedOffices": [],
+    "allowedAccounts": [],
+    "creditAccounts": [
+     {
+      "id": 1,
+      "name": "Cash",
+      "glCode": "1000"
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/2",
+   "body": {
+    "accountToDebit": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 2,
+    "changes": {
+     "accountToDebit": 1
+    }
+   }
+  },
+  {
+   "path": "/v1/accountingrules/2",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "id": 2,
+    "officeId": 1,
+    "officeName": "Head Office",
+    "name": "Multi",
+    "description": "",
+    "systemDefined": false,
+    "allowMultipleDebitEntries": true,
+    "allowMultipleCreditEntries": false,
+    "allowedOffices": [],
+    "allowedAccounts": [],
+    "creditAccounts": [
+     {
+      "id": 1,
+      "name": "Cash",
+      "glCode": "1000"
+     }
+    ],
+    "debitAccounts": [
+     {
+      "id": 1,
+      "name": "Cash",
+      "glCode": "1000"
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/2",
+   "body": {
+    "name": "Renamed"
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 2,
+    "changes": {
+     "name": "Renamed"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/99",
+   "body": {
+    "name": "x"
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Accounting Rule with identifier 99 does not exist",
+      "defaultUserMessage": "Accounting Rule with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.accounting.rule.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/accountingrules/abc",
+   "body": {
+    "name": "x"
+   },
+   "ignore": [
+    "timestamp",
+    "path",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T07:48:15.379Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/accountingrules/abc"
+   }
+  },
+  {
+   "path": "/v1/accountingrules",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "officeId": 2,
+     "officeName": "Branch",
+     "name": "",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": true,
+     "allowMultipleCreditEntries": false,
+     "debitTags": [
+      {
+       "id": 8,
+       "tag": {
+        "id": 23,
+        "name": "Cash tag"
+       },
+       "transactionType": {
+        "id": 2,
+        "code": "journalEntrytType.debit",
+        "value": "DEBIT"
+       }
+      }
+     ],
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 2,
+       "name": "Bank",
+       "glCode": "1100"
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Renamed",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": true,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Tag twice",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "debitTags": [
+      {
+       "id": 4,
+       "tag": {
+        "id": 24,
+        "name": "Bank tag"
+       },
+       "transactionType": {
+        "id": 2,
+        "code": "journalEntrytType.debit",
+        "value": "DEBIT"
+       }
+      }
+     ],
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Duplicate",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 2,
+       "name": "Bank",
+       "glCode": "1100"
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Extra",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 2,
+       "name": "Bank",
+       "glCode": "1100"
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Disabled side",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 7,
+       "name": "Retired",
+       "glCode": "1200"
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Header side",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 8,
+       "name": "Assets",
+       "glCode": "1"
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "officeId": 2,
+     "officeName": "Branch",
+     "name": "Credit side flags",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": true,
+     "creditTags": [
+      {
+       "id": 6,
+       "tag": {
+        "id": 25,
+        "name": "Payable tag"
+       },
+       "transactionType": {
+        "id": 1,
+        "code": "journalEntryType.credit",
+        "value": "CREDIT"
+       }
+      },
+      {
+       "id": 5,
+       "tag": {
+        "id": 27,
+        "name": "Expense tag"
+       },
+       "transactionType": {
+        "id": 1,
+        "code": "journalEntryType.credit",
+        "value": "CREDIT"
+       }
+      }
+     ],
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "debitAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Fixed",
+    "officeId": 1,
+    "accountToDebit": 2,
+    "accountToCredit": 1
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 10
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/accountingrules",
+   "body": {
+    "name": "Tagged",
+    "officeId": 1,
+    "debitTags": [
+     24,
+     23
+    ],
+    "creditTags": [
+     25
+    ],
+    "allowMultipleDebitEntries": true,
+    "allowMultipleCreditEntries": false
+   },
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 11
+   }
+  },
+  {
+   "path": "/v1/accountingrules",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "officeId": 2,
+     "officeName": "Branch",
+     "name": "",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": true,
+     "allowMultipleCreditEntries": false,
+     "debitTags": [
+      {
+       "id": 8,
+       "tag": {
+        "id": 23,
+        "name": "Cash tag"
+       },
+       "transactionType": {
+        "id": 2,
+        "code": "journalEntrytType.debit",
+        "value": "DEBIT"
+       }
+      }
+     ],
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 2,
+       "name": "Bank",
+       "glCode": "1100"
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Renamed",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": true,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Tag twice",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "debitTags": [
+      {
+       "id": 4,
+       "tag": {
+        "id": 24,
+        "name": "Bank tag"
+       },
+       "transactionType": {
+        "id": 2,
+        "code": "journalEntrytType.debit",
+        "value": "DEBIT"
+       }
+      }
+     ],
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Duplicate",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 2,
+       "name": "Bank",
+       "glCode": "1100"
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Extra",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 2,
+       "name": "Bank",
+       "glCode": "1100"
+      }
+     ]
+    },
+    {
+     "id": 7,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Disabled side",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 7,
+       "name": "Retired",
+       "glCode": "1200"
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Header side",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 8,
+       "name": "Assets",
+       "glCode": "1"
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "officeId": 2,
+     "officeName": "Branch",
+     "name": "Credit side flags",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": true,
+     "creditTags": [
+      {
+       "id": 6,
+       "tag": {
+        "id": 25,
+        "name": "Payable tag"
+       },
+       "transactionType": {
+        "id": 1,
+        "code": "journalEntryType.credit",
+        "value": "CREDIT"
+       }
+      },
+      {
+       "id": 5,
+       "tag": {
+        "id": 27,
+        "name": "Expense tag"
+       },
+       "transactionType": {
+        "id": 1,
+        "code": "journalEntryType.credit",
+        "value": "CREDIT"
+       }
+      }
+     ],
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "debitAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Fixed",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 2,
+       "name": "Bank",
+       "glCode": "1100"
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Tagged",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": true,
+     "allowMultipleCreditEntries": false,
+     "creditTags": [
+      {
+       "id": 10,
+       "tag": {
+        "id": 25,
+        "name": "Payable tag"
+       },
+       "transactionType": {
+        "id": 1,
+        "code": "journalEntryType.credit",
+        "value": "CREDIT"
+       }
+      }
+     ],
+     "debitTags": [
+      {
+       "id": 11,
+       "tag": {
+        "id": 23,
+        "name": "Cash tag"
+       },
+       "transactionType": {
+        "id": 2,
+        "code": "journalEntrytType.debit",
+        "value": "DEBIT"
+       }
+      },
+      {
+       "id": 12,
+       "tag": {
+        "id": 24,
+        "name": "Bank tag"
+       },
+       "transactionType": {
+        "id": 2,
+        "code": "journalEntrytType.debit",
+        "value": "DEBIT"
+       }
+      }
+     ],
+     "allowedOffices": [],
+     "allowedAccounts": []
+    }
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "By rule",
+    "debits": [
+     {
+      "glAccountId": 2,
+      "amount": 100
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 1,
+      "amount": 100
+     }
+    ],
+    "accountingRule": 7
+   },
+   "ignore": [
+    "transactionId",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Target account has been disabled",
+      "defaultUserMessage": "Target account has been disabled",
+      "userMessageGlobalisationCode": "error.msg.glJournalEntry.invalid.account.disabled",
+      "parameterName": "id",
+      "args": [
+       {},
+       {
+        "value": "Retired"
+       },
+       {
+        "value": "1200"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "By rule",
+    "debits": [
+     {
+      "glAccountId": 8,
+      "amount": 100
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 1,
+      "amount": 100
+     }
+    ],
+    "accountingRule": 8
+   },
+   "ignore": [
+    "transactionId",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "transactionId": "a33ac9d4614b"
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "By rule",
+    "debits": [
+     {
+      "glAccountId": 6,
+      "amount": 100
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 1,
+      "amount": 100
+     }
+    ],
+    "accountingRule": 8
+   },
+   "ignore": [
+    "transactionId",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Invalid debit or credit accounts are passed",
+      "defaultUserMessage": "Invalid debit or credit accounts are passed",
+      "userMessageGlobalisationCode": "error.msg.glJournalEntry.invalid.debit.or.credit.accounts",
+      "parameterName": "id",
+      "args": [
+       {},
+       {},
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "By rule",
+    "debits": [
+     {
+      "glAccountId": 2,
+      "amount": 100
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 1,
+      "amount": 100
+     }
+    ],
+    "accountingRule": 10
+   },
+   "ignore": [
+    "transactionId",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "transactionId": "a33ac9d4985f"
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "By rule",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 100
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 100
+     }
+    ],
+    "accountingRule": 10
+   },
+   "ignore": [
+    "transactionId",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Invalid debit or credit accounts are passed",
+      "defaultUserMessage": "Invalid debit or credit accounts are passed",
+      "userMessageGlobalisationCode": "error.msg.glJournalEntry.invalid.debit.or.credit.accounts",
+      "parameterName": "id",
+      "args": [
+       {},
+       {},
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "By rule",
+    "debits": [
+     {
+      "glAccountId": 2,
+      "amount": 50
+     },
+     {
+      "glAccountId": 2,
+      "amount": 50
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 1,
+      "amount": 100
+     }
+    ],
+    "accountingRule": 10
+   },
+   "ignore": [
+    "transactionId",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Invalid debit or credit accounts are passed",
+      "defaultUserMessage": "Invalid debit or credit accounts are passed",
+      "userMessageGlobalisationCode": "error.msg.glJournalEntry.invalid.debit.or.credit.accounts",
+      "parameterName": "id",
+      "args": [
+       {},
+       {},
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "By rule",
+    "debits": [
+     {
+      "glAccountId": 2,
+      "amount": 100
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 1,
+      "amount": 50
+     },
+     {
+      "glAccountId": 1,
+      "amount": 50
+     }
+    ],
+    "accountingRule": 10
+   },
+   "ignore": [
+    "transactionId",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Invalid debit or credit accounts are passed",
+      "defaultUserMessage": "Invalid debit or credit accounts are passed",
+      "userMessageGlobalisationCode": "error.msg.glJournalEntry.invalid.debit.or.credit.accounts",
+      "parameterName": "id",
+      "args": [
+       {},
+       {},
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "By rule",
+    "debits": [
+     {
+      "glAccountId": 6,
+      "amount": 100
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 1,
+      "amount": 100
+     }
+    ],
+    "accountingRule": 10
+   },
+   "ignore": [
+    "transactionId",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Invalid debit or credit accounts are passed",
+      "defaultUserMessage": "Invalid debit or credit accounts are passed",
+      "userMessageGlobalisationCode": "error.msg.glJournalEntry.invalid.debit.or.credit.accounts",
+      "parameterName": "id",
+      "args": [
+       {},
+       {},
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "By rule",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 40
+     },
+     {
+      "glAccountId": 2,
+      "amount": 60
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 3,
+      "amount": 100
+     }
+    ],
+    "accountingRule": 11
+   },
+   "ignore": [
+    "transactionId",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "transactionId": "a33ac9d517b7"
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "By rule",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 100
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 3,
+      "amount": 100
+     }
+    ],
+    "accountingRule": 11
+   },
+   "ignore": [
+    "transactionId",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "transactionId": "a33ac9d52a77"
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "By rule",
+    "debits": [
+     {
+      "glAccountId": 6,
+      "amount": 100
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 3,
+      "amount": 100
+     }
+    ],
+    "accountingRule": 11
+   },
+   "ignore": [
+    "transactionId",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Invalid Debits",
+      "defaultUserMessage": "Invalid Debits",
+      "userMessageGlobalisationCode": "error.msg.glJournalEntry.invalid.debits",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "By rule",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 100
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 4,
+      "amount": 100
+     }
+    ],
+    "accountingRule": 11
+   },
+   "ignore": [
+    "transactionId",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Invalid Credits.",
+      "defaultUserMessage": "Invalid Credits.",
+      "userMessageGlobalisationCode": "error.msg.glJournalEntry.invalid.credits",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "By rule",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 50
+     },
+     {
+      "glAccountId": 2,
+      "amount": 50
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 3,
+      "amount": 50
+     },
+     {
+      "glAccountId": 3,
+      "amount": 50
+     }
+    ],
+    "accountingRule": 11
+   },
+   "ignore": [
+    "transactionId",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "transactionId": "a33ac9d578fb"
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "By rule",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 100
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 3,
+      "amount": 90
+     }
+    ],
+    "accountingRule": 11
+   },
+   "ignore": [
+    "transactionId",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Sum of All Debits must equal the sum of all Credits for a Journal Entry",
+      "defaultUserMessage": "Sum of All Debits must equal the sum of all Credits for a Journal Entry",
+      "userMessageGlobalisationCode": "error.msg.glJournalEntry.invalid.mismatch.debits.credits",
+      "parameterName": "id",
+      "args": [
+       {},
+       {},
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "By rule",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 100
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 3,
+      "amount": 100
+     }
+    ],
+    "accountingRule": 99
+   },
+   "ignore": [
+    "transactionId",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Accounting Rule with identifier 99 does not exist",
+      "defaultUserMessage": "Accounting Rule with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.accounting.rule.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "By rule",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 100
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 3,
+      "amount": 100
+     }
+    ],
+    "accountingRule": 11,
+    "amount": 5
+   },
+   "ignore": [
+    "transactionId",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "transactionId": "a33ac9d5be83"
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "By rule",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 100
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 100
+     }
+    ],
+    "accountingRule": 1
+   },
+   "ignore": [
+    "transactionId",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Invalid Credits.",
+      "defaultUserMessage": "Invalid Credits.",
+      "userMessageGlobalisationCode": "error.msg.glJournalEntry.invalid.credits",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "By rule",
+    "debits": [
+     {
+      "glAccountId": 23,
+      "amount": 100
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 100
+     }
+    ],
+    "accountingRule": 1
+   },
+   "ignore": [
+    "transactionId",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Invalid Credits.",
+      "defaultUserMessage": "Invalid Credits.",
+      "userMessageGlobalisationCode": "error.msg.glJournalEntry.invalid.credits",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "By rule",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 100
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 100
+     }
+    ],
+    "accountingRule": 2
+   },
+   "ignore": [
+    "transactionId",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Invalid debit or credit accounts are passed",
+      "defaultUserMessage": "Invalid debit or credit accounts are passed",
+      "userMessageGlobalisationCode": "error.msg.glJournalEntry.invalid.debit.or.credit.accounts",
+      "parameterName": "id",
+      "args": [
+       {},
+       {},
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "By rule",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 100
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 1,
+      "amount": 100
+     }
+    ],
+    "accountingRule": 2
+   },
+   "ignore": [
+    "transactionId",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "transactionId": "a33ac9d6202b"
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "By rule",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 100
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 1,
+      "amount": 100
+     }
+    ],
+    "accountingRule": 3
+   },
+   "ignore": [
+    "transactionId",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Invalid Credits.",
+      "defaultUserMessage": "Invalid Credits.",
+      "userMessageGlobalisationCode": "error.msg.glJournalEntry.invalid.credits",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/journalentries",
+   "ignore": [
+    "transactionId",
+    "createdDate",
+    "submittedOnDate",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "totalFilteredRecords": 17,
+    "pageItems": [
+     {
+      "id": 2,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33ac9d4614b",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "By rule",
+      "reversed": false,
+      "referenceNumber": "",
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 3,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Assets",
+      "glAccountId": 8,
+      "glAccountCode": "1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33ac9d4614b",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "By rule",
+      "reversed": false,
+      "referenceNumber": "",
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 5,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33ac9d4985f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "By rule",
+      "reversed": false,
+      "referenceNumber": "",
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 6,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Bank",
+      "glAccountId": 2,
+      "glAccountCode": "1100",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33ac9d4985f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "By rule",
+      "reversed": false,
+      "referenceNumber": "",
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 9,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 3,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33ac9d517b7",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "By rule",
+      "reversed": false,
+      "referenceNumber": "",
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 10,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 40.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33ac9d517b7",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "By rule",
+      "reversed": false,
+      "referenceNumber": "",
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 11,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Bank",
+      "glAccountId": 2,
+      "glAccountCode": "1100",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 60.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33ac9d517b7",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "By rule",
+      "reversed": false,
+      "referenceNumber": "",
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 12,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 3,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33ac9d52a77",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "By rule",
+      "reversed": false,
+      "referenceNumber": "",
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 13,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33ac9d52a77",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "By rule",
+      "reversed": false,
+      "referenceNumber": "",
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 14,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 3,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 50.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33ac9d578fb",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "By rule",
+      "reversed": false,
+      "referenceNumber": "",
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 15,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 3,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 50.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33ac9d578fb",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "By rule",
+      "reversed": false,
+      "referenceNumber": "",
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 16,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 50.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33ac9d578fb",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "By rule",
+      "reversed": false,
+      "referenceNumber": "",
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 17,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Bank",
+      "glAccountId": 2,
+      "glAccountCode": "1100",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 50.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33ac9d578fb",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "By rule",
+      "reversed": false,
+      "referenceNumber": "",
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 18,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 3,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33ac9d5be83",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "By rule",
+      "reversed": false,
+      "referenceNumber": "",
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 19,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33ac9d5be83",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "By rule",
+      "reversed": false,
+      "referenceNumber": "",
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 22,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33ac9d6202b",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "By rule",
+      "reversed": false,
+      "referenceNumber": "",
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 23,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33ac9d6202b",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "By rule",
+      "reversed": false,
+      "referenceNumber": "",
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/accountingrules/7",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 7
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/accountingrules/7",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Accounting Rule with identifier 7 does not exist",
+      "defaultUserMessage": "Accounting Rule with identifier 7 does not exist",
+      "userMessageGlobalisationCode": "error.msg.accounting.rule.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 7
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/accountingrules/99",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Accounting Rule with identifier 99 does not exist",
+      "defaultUserMessage": "Accounting Rule with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.accounting.rule.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/accountingrules/abc",
+   "ignore": [
+    "timestamp",
+    "path",
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T07:48:17.160Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/accountingrules/abc"
+   }
+  },
+  {
+   "path": "/v1/accountingrules",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "officeId": 2,
+     "officeName": "Branch",
+     "name": "",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": true,
+     "allowMultipleCreditEntries": false,
+     "debitTags": [
+      {
+       "id": 8,
+       "tag": {
+        "id": 23,
+        "name": "Cash tag"
+       },
+       "transactionType": {
+        "id": 2,
+        "code": "journalEntrytType.debit",
+        "value": "DEBIT"
+       }
+      }
+     ],
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 2,
+       "name": "Bank",
+       "glCode": "1100"
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Renamed",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": true,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Tag twice",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "debitTags": [
+      {
+       "id": 4,
+       "tag": {
+        "id": 24,
+        "name": "Bank tag"
+       },
+       "transactionType": {
+        "id": 2,
+        "code": "journalEntrytType.debit",
+        "value": "DEBIT"
+       }
+      }
+     ],
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Duplicate",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 2,
+       "name": "Bank",
+       "glCode": "1100"
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Extra",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 2,
+       "name": "Bank",
+       "glCode": "1100"
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Header side",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 8,
+       "name": "Assets",
+       "glCode": "1"
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "officeId": 2,
+     "officeName": "Branch",
+     "name": "Credit side flags",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": true,
+     "creditTags": [
+      {
+       "id": 6,
+       "tag": {
+        "id": 25,
+        "name": "Payable tag"
+       },
+       "transactionType": {
+        "id": 1,
+        "code": "journalEntryType.credit",
+        "value": "CREDIT"
+       }
+      },
+      {
+       "id": 5,
+       "tag": {
+        "id": 27,
+        "name": "Expense tag"
+       },
+       "transactionType": {
+        "id": 1,
+        "code": "journalEntryType.credit",
+        "value": "CREDIT"
+       }
+      }
+     ],
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "debitAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ]
+    },
+    {
+     "id": 10,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Fixed",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 2,
+       "name": "Bank",
+       "glCode": "1100"
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Tagged",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": true,
+     "allowMultipleCreditEntries": false,
+     "creditTags": [
+      {
+       "id": 10,
+       "tag": {
+        "id": 25,
+        "name": "Payable tag"
+       },
+       "transactionType": {
+        "id": 1,
+        "code": "journalEntryType.credit",
+        "value": "CREDIT"
+       }
+      }
+     ],
+     "debitTags": [
+      {
+       "id": 11,
+       "tag": {
+        "id": 23,
+        "name": "Cash tag"
+       },
+       "transactionType": {
+        "id": 2,
+        "code": "journalEntrytType.debit",
+        "value": "DEBIT"
+       }
+      },
+      {
+       "id": 12,
+       "tag": {
+        "id": 24,
+        "name": "Bank tag"
+       },
+       "transactionType": {
+        "id": 2,
+        "code": "journalEntrytType.debit",
+        "value": "DEBIT"
+       }
+      }
+     ],
+     "allowedOffices": [],
+     "allowedAccounts": []
+    }
+   ]
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/accountingrules/10",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 10
+   }
+  },
+  {
+   "path": "/v1/accountingrules",
+   "ignore": [
+    "debitTags.id",
+    "creditTags.id"
+   ],
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "officeId": 2,
+     "officeName": "Branch",
+     "name": "",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": true,
+     "allowMultipleCreditEntries": false,
+     "debitTags": [
+      {
+       "id": 8,
+       "tag": {
+        "id": 23,
+        "name": "Cash tag"
+       },
+       "transactionType": {
+        "id": 2,
+        "code": "journalEntrytType.debit",
+        "value": "DEBIT"
+       }
+      }
+     ],
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 2,
+       "name": "Bank",
+       "glCode": "1100"
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Renamed",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": true,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Tag twice",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "debitTags": [
+      {
+       "id": 4,
+       "tag": {
+        "id": 24,
+        "name": "Bank tag"
+       },
+       "transactionType": {
+        "id": 2,
+        "code": "journalEntrytType.debit",
+        "value": "DEBIT"
+       }
+      }
+     ],
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Duplicate",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 2,
+       "name": "Bank",
+       "glCode": "1100"
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Extra",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 2,
+       "name": "Bank",
+       "glCode": "1100"
+      }
+     ]
+    },
+    {
+     "id": 8,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Header side",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": false,
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "creditAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ],
+     "debitAccounts": [
+      {
+       "id": 8,
+       "name": "Assets",
+       "glCode": "1"
+      }
+     ]
+    },
+    {
+     "id": 9,
+     "officeId": 2,
+     "officeName": "Branch",
+     "name": "Credit side flags",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": false,
+     "allowMultipleCreditEntries": true,
+     "creditTags": [
+      {
+       "id": 6,
+       "tag": {
+        "id": 25,
+        "name": "Payable tag"
+       },
+       "transactionType": {
+        "id": 1,
+        "code": "journalEntryType.credit",
+        "value": "CREDIT"
+       }
+      },
+      {
+       "id": 5,
+       "tag": {
+        "id": 27,
+        "name": "Expense tag"
+       },
+       "transactionType": {
+        "id": 1,
+        "code": "journalEntryType.credit",
+        "value": "CREDIT"
+       }
+      }
+     ],
+     "allowedOffices": [],
+     "allowedAccounts": [],
+     "debitAccounts": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000"
+      }
+     ]
+    },
+    {
+     "id": 11,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "name": "Tagged",
+     "description": "",
+     "systemDefined": false,
+     "allowMultipleDebitEntries": true,
+     "allowMultipleCreditEntries": false,
+     "creditTags": [
+      {
+       "id": 10,
+       "tag": {
+        "id": 25,
+        "name": "Payable tag"
+       },
+       "transactionType": {
+        "id": 1,
+        "code": "journalEntryType.credit",
+        "value": "CREDIT"
+       }
+      }
+     ],
+     "debitTags": [
+      {
+       "id": 11,
+       "tag": {
+        "id": 23,
+        "name": "Cash tag"
+       },
+       "transactionType": {
+        "id": 2,
+        "code": "journalEntrytType.debit",
+        "value": "DEBIT"
+       }
+      },
+      {
+       "id": 12,
+       "tag": {
+        "id": 24,
+        "name": "Bank tag"
+       },
+       "transactionType": {
+        "id": 2,
+        "code": "journalEntrytType.debit",
+        "value": "DEBIT"
+       }
+      }
+     ],
+     "allowedOffices": [],
+     "allowedAccounts": []
+    }
+   ]
+  }
+ ]
+}

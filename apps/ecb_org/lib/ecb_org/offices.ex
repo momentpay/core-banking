@@ -129,6 +129,10 @@ defmodule ECBOrg.Offices do
   defp decorate(office),
     do: Map.put(office, :name_decorated, name_decorated(office.hierarchy, office.name))
 
+  @doc "The pattern (`.1.%`) that matches the hierarchy of the user's own office and everything below it."
+  @spec user_hierarchy_pattern(User.t()) :: String.t()
+  def user_hierarchy_pattern(%User{} = user), do: user_hierarchy(user) <> "%"
+
   # The hierarchy of the user's own office; the head office's "." when the user has none.
   defp user_hierarchy(%User{office_id: nil}), do: "."
 

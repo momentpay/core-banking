@@ -312,6 +312,14 @@ defmodule ECBPlatform.Validation do
   @spec fail(t, String.t(), String.t(), [term]) :: t
   def fail(v, code, message, args \\ []), do: add(v, code, message, args)
 
+  @doc """
+  Records a problem whose code is not built from the resource and parameter, with the message code, the
+  text, the parameter name (which may name several) and the arguments written out in full.
+  """
+  @spec add_error(t, String.t(), String.t(), String.t(), [term]) :: t
+  def add_error(v, code, message, parameter, args),
+    do: %{v | errors: [Errors.parameter_error(code, message, parameter, args) | v.errors]}
+
   defp add(v, problem, message, args) do
     error =
       Errors.parameter_error(

@@ -176,6 +176,18 @@ RESETS = {
         "SELECT setval(pg_get_serial_sequence('acc_gl_closure', 'id'), 1, false)",
         "SELECT setval(pg_get_serial_sequence('acc_gl_financial_activity_account', 'id'), 1, false)",
         "SELECT setval(pg_get_serial_sequence('acc_accounting_rule', 'id'), 1, false)",
+        "SELECT setval(pg_get_serial_sequence('acc_rule_tags', 'id'), 1, false)",
+    ],
+    "provisioning": [
+        "DELETE FROM m_provisioning_criteria_definition",
+        "DELETE FROM m_provisioning_criteria",
+        "DELETE FROM m_provision_category WHERE id > 4",
+        "INSERT INTO m_provision_category (id, category_name, description) OVERRIDING SYSTEM VALUE VALUES (1, 'STANDARD', 'Punctual Payment without any dues') ON CONFLICT (id) DO UPDATE SET category_name = EXCLUDED.category_name, description = EXCLUDED.description",
+        "UPDATE m_provision_category SET category_name = 'SUB-STANDARD', description = 'Principal and/or Interest overdue by x days' WHERE id = 2",
+        "UPDATE m_provision_category SET category_name = 'DOUBTFUL', description = 'Principal and/or Interest overdue by x days and less than y' WHERE id = 3",
+        "UPDATE m_provision_category SET category_name = 'LOSS', description = 'Principal and/or Interest overdue by y days' WHERE id = 4",
+        "SELECT setval(pg_get_serial_sequence('m_provision_category', 'id'), 4)",
+        "SELECT setval(pg_get_serial_sequence('m_provisioning_criteria', 'id'), 1, false)",
     ],
     "staff": [
         "DELETE FROM m_staff",

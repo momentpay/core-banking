@@ -1,0 +1,947 @@
+{
+ "name": "provisioning",
+ "reset": [
+  "provisioning"
+ ],
+ "steps": [
+  {
+   "path": "/v1/provisioningcategory",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "categoryName": "STANDARD",
+     "categoryDescription": "Punctual Payment without any dues"
+    },
+    {
+     "id": 2,
+     "categoryName": "SUB-STANDARD",
+     "categoryDescription": "Principal and/or Interest overdue by x days"
+    },
+    {
+     "id": 3,
+     "categoryName": "DOUBTFUL",
+     "categoryDescription": "Principal and/or Interest overdue by x days and less than y"
+    },
+    {
+     "id": 4,
+     "categoryName": "LOSS",
+     "categoryDescription": "Principal and/or Interest overdue by y days"
+    }
+   ]
+  },
+  {
+   "path": "/v1/provisioningcategory/1",
+   "ignore": [
+    "timestamp",
+    "path"
+   ],
+   "status": 405,
+   "response": {
+    "timestamp": "2026-11-15T07:54:29.957Z",
+    "status": 405,
+    "error": "Method Not Allowed",
+    "path": "/fineract-provider/api/v1/provisioningcategory/1"
+   }
+  },
+  {
+   "path": "/v1/provisioningcriteria",
+   "status": 200,
+   "response": []
+  },
+  {
+   "path": "/v1/provisioningcriteria/template",
+   "status": 200,
+   "response": {
+    "loanProducts": [],
+    "definitions": [
+     {
+      "categoryId": 1,
+      "categoryName": "STANDARD"
+     },
+     {
+      "categoryId": 2,
+      "categoryName": "SUB-STANDARD"
+     },
+     {
+      "categoryId": 3,
+      "categoryName": "DOUBTFUL"
+     },
+     {
+      "categoryId": 4,
+      "categoryName": "LOSS"
+     }
+    ],
+    "glAccounts": []
+   }
+  },
+  {
+   "path": "/v1/provisioningcriteria/1",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Provisioning Criteria with identifier 1 does not exist",
+      "defaultUserMessage": "Provisioning Criteria with identifier 1 does not exist",
+      "userMessageGlobalisationCode": "error.msg.provisioning.criteria.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 1
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/provisioningcriteria/abc",
+   "ignore": [
+    "timestamp",
+    "path"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T07:54:30.096Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/provisioningcriteria/abc"
+   }
+  },
+  {
+   "path": "/v1/provisioningentries",
+   "status": 200,
+   "response": {
+    "pageItems": [],
+    "totalFilteredRecords": 0
+   }
+  },
+  {
+   "path": "/v1/provisioningentries?offset=0&limit=5",
+   "status": 200,
+   "response": {
+    "pageItems": [],
+    "totalFilteredRecords": 0
+   }
+  },
+  {
+   "path": "/v1/provisioningentries/1",
+   "ignore": [
+    "timestamp",
+    "path"
+   ],
+   "status": 500,
+   "response": {
+    "timestamp": "2026-11-15T07:54:30.181Z",
+    "status": 500,
+    "error": "Internal Server Error",
+    "path": "/fineract-provider/api/v1/provisioningentries/1"
+   }
+  },
+  {
+   "path": "/v1/provisioningentries/abc",
+   "ignore": [
+    "timestamp",
+    "path"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T07:54:30.211Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/provisioningentries/abc"
+   }
+  },
+  {
+   "path": "/v1/provisioningentries/entries?entryId=1",
+   "ignore": [
+    "timestamp",
+    "path"
+   ],
+   "status": 200,
+   "response": {
+    "pageItems": [],
+    "totalFilteredRecords": 0
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/provisioningcategory",
+   "body": {
+    "categoryname": "WATCH"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 5
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/provisioningcategory",
+   "body": {
+    "categoryname": "WATCH2",
+    "categorydescription": "Under watch"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 6
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/provisioningcategory",
+   "body": {
+    "categoryname": "WATCH3",
+    "description": "Under watch"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter description is not supported.",
+      "defaultUserMessage": "description",
+      "userMessageGlobalisationCode": "error.msg.parameter.unsupported",
+      "parameterName": "description",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/provisioningcategory",
+   "body": {
+    "categoryname": "WATCH"
+   },
+   "ignore": [
+    "developerMessage",
+    "defaultUserMessage"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Provisioning Cateory with name `` already exists",
+    "userMessageGlobalisationCode": "error.msg.provisioning.duplicate.categoryname",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "Provisioning Cateory with name `` already exists",
+      "userMessageGlobalisationCode": "error.msg.provisioning.duplicate.categoryname",
+      "parameterName": "category name",
+      "args": [
+       {
+        "value": ""
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/provisioningcategory",
+   "body": {
+    "categoryname": "STANDARD"
+   },
+   "ignore": [
+    "developerMessage",
+    "defaultUserMessage"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Provisioning Cateory with name `` already exists",
+    "userMessageGlobalisationCode": "error.msg.provisioning.duplicate.categoryname",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "Provisioning Cateory with name `` already exists",
+      "userMessageGlobalisationCode": "error.msg.provisioning.duplicate.categoryname",
+      "parameterName": "category name",
+      "args": [
+       {
+        "value": ""
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/provisioningcategory",
+   "body": {},
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `categoryname` is mandatory.",
+      "defaultUserMessage": "The parameter `categoryname` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.provisioningcategories.categoryname.cannot.be.blank",
+      "parameterName": "categoryname",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/provisioningcategory",
+   "body": {
+    "categoryname": ""
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `categoryname` is mandatory.",
+      "defaultUserMessage": "The parameter `categoryname` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.provisioningcategories.categoryname.cannot.be.blank",
+      "parameterName": "categoryname",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/provisioningcategory",
+   "body": {
+    "categoryname": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `categoryname` exceeds max length of 100.",
+      "defaultUserMessage": "The parameter `categoryname` exceeds max length of 100.",
+      "userMessageGlobalisationCode": "validation.msg.provisioningcategories.categoryname.exceeds.max.length",
+      "parameterName": "categoryname",
+      "args": [
+       {
+        "value": 100
+       },
+       {
+        "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/provisioningcategory",
+   "body": {
+    "categoryname": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 9
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/provisioningcategory",
+   "body": {
+    "categoryname": "Extra",
+    "bogus": 1
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter bogus is not supported.",
+      "defaultUserMessage": "bogus",
+      "userMessageGlobalisationCode": "error.msg.parameter.unsupported",
+      "parameterName": "bogus",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/provisioningcategory",
+   "body": {
+    "categoryname": 5
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 10
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/provisioningcategory",
+   "body": {
+    "categoryname": "  Padded  "
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 11
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/provisioningcategory",
+   "status": 400,
+   "response": {
+    "developerMessage": "The JSON provided in the body of the request is invalid or missing.",
+    "defaultUserMessage": "The JSON provided in the body of the request is invalid or missing.",
+    "userMessageGlobalisationCode": "error.msg.invalid.request.body",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/provisioningcategory",
+   "raw": "{bad",
+   "ignore": [
+    "developerMessage",
+    "defaultUserMessage"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The JSON syntax provided in the body of the request is invalid: java.io.EOFException: End of input at line 1 column 5 path $.bad",
+    "defaultUserMessage": "The JSON syntax provided in the body of the request is invalid: java.io.EOFException: End of input at line 1 column 5 path $.bad",
+    "userMessageGlobalisationCode": "error.msg.invalid.request.body",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "path": "/v1/provisioningcategory",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "categoryName": "STANDARD",
+     "categoryDescription": "Punctual Payment without any dues"
+    },
+    {
+     "id": 2,
+     "categoryName": "SUB-STANDARD",
+     "categoryDescription": "Principal and/or Interest overdue by x days"
+    },
+    {
+     "id": 3,
+     "categoryName": "DOUBTFUL",
+     "categoryDescription": "Principal and/or Interest overdue by x days and less than y"
+    },
+    {
+     "id": 4,
+     "categoryName": "LOSS",
+     "categoryDescription": "Principal and/or Interest overdue by y days"
+    },
+    {
+     "id": 5,
+     "categoryName": "WATCH",
+     "categoryDescription": ""
+    },
+    {
+     "id": 6,
+     "categoryName": "WATCH2",
+     "categoryDescription": ""
+    },
+    {
+     "id": 9,
+     "categoryName": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "categoryDescription": ""
+    },
+    {
+     "id": 10,
+     "categoryName": "5",
+     "categoryDescription": ""
+    },
+    {
+     "id": 11,
+     "categoryName": "  Padded  ",
+     "categoryDescription": ""
+    }
+   ]
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/provisioningcategory/5",
+   "body": {
+    "categoryname": "WATCH-A"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 5,
+    "changes": {
+     "categoryname": "WATCH-A"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/provisioningcategory/5",
+   "body": {
+    "categoryname": "WATCH-A"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 5
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/provisioningcategory/5",
+   "body": {
+    "categorydescription": "Described"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 5,
+    "changes": {
+     "categorydescription": "Described"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/provisioningcategory/5",
+   "body": {
+    "categorydescription": ""
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 5,
+    "changes": {
+     "categorydescription": ""
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/provisioningcategory/5",
+   "body": {
+    "categoryname": "WATCH-B",
+    "categorydescription": "Both"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 5,
+    "changes": {
+     "categoryname": "WATCH-B",
+     "categorydescription": "Both"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/provisioningcategory/5",
+   "body": {
+    "categoryname": ""
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `categoryname` is mandatory.",
+      "defaultUserMessage": "The parameter `categoryname` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.provisioningcategories.categoryname.cannot.be.blank",
+      "parameterName": "categoryname",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/provisioningcategory/5",
+   "body": {
+    "categoryname": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `categoryname` exceeds max length of 100.",
+      "defaultUserMessage": "The parameter `categoryname` exceeds max length of 100.",
+      "userMessageGlobalisationCode": "validation.msg.provisioningcategories.categoryname.exceeds.max.length",
+      "parameterName": "categoryname",
+      "args": [
+       {
+        "value": 100
+       },
+       {
+        "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/provisioningcategory/5",
+   "body": {
+    "description": "no"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter description is not supported.",
+      "defaultUserMessage": "description",
+      "userMessageGlobalisationCode": "error.msg.parameter.unsupported",
+      "parameterName": "description",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/provisioningcategory/5",
+   "body": {
+    "bogus": 1
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter bogus is not supported.",
+      "defaultUserMessage": "bogus",
+      "userMessageGlobalisationCode": "error.msg.parameter.unsupported",
+      "parameterName": "bogus",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/provisioningcategory/5",
+   "body": {},
+   "status": 200,
+   "response": {
+    "resourceId": 5
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/provisioningcategory/5",
+   "body": {
+    "categoryname": "STANDARD"
+   },
+   "ignore": [
+    "developerMessage",
+    "defaultUserMessage"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Provisioning Cateory with name `` already exists",
+    "userMessageGlobalisationCode": "error.msg.provisioning.duplicate.categoryname",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "Provisioning Cateory with name `` already exists",
+      "userMessageGlobalisationCode": "error.msg.provisioning.duplicate.categoryname",
+      "parameterName": "category name",
+      "args": [
+       {
+        "value": ""
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/provisioningcategory/99",
+   "body": {
+    "categoryname": "z"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Provisioning Category with identifier 99 does not exist",
+      "defaultUserMessage": "Provisioning Category with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.provisioning.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/provisioningcategory/abc",
+   "body": {
+    "categoryname": "z"
+   },
+   "ignore": [
+    "timestamp",
+    "path"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T07:54:31.754Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/provisioningcategory/abc"
+   }
+  },
+  {
+   "path": "/v1/provisioningcategory",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "categoryName": "STANDARD",
+     "categoryDescription": "Punctual Payment without any dues"
+    },
+    {
+     "id": 2,
+     "categoryName": "SUB-STANDARD",
+     "categoryDescription": "Principal and/or Interest overdue by x days"
+    },
+    {
+     "id": 3,
+     "categoryName": "DOUBTFUL",
+     "categoryDescription": "Principal and/or Interest overdue by x days and less than y"
+    },
+    {
+     "id": 4,
+     "categoryName": "LOSS",
+     "categoryDescription": "Principal and/or Interest overdue by y days"
+    },
+    {
+     "id": 5,
+     "categoryName": "WATCH-B",
+     "categoryDescription": "Both"
+    },
+    {
+     "id": 6,
+     "categoryName": "WATCH2",
+     "categoryDescription": ""
+    },
+    {
+     "id": 9,
+     "categoryName": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "categoryDescription": ""
+    },
+    {
+     "id": 10,
+     "categoryName": "5",
+     "categoryDescription": ""
+    },
+    {
+     "id": 11,
+     "categoryName": "  Padded  ",
+     "categoryDescription": ""
+    }
+   ]
+  },
+  {
+   "path": "/v1/provisioningcategory/5",
+   "ignore": [
+    "timestamp",
+    "path"
+   ],
+   "status": 405,
+   "response": {
+    "timestamp": "2026-11-15T07:54:31.815Z",
+    "status": 405,
+    "error": "Method Not Allowed",
+    "path": "/fineract-provider/api/v1/provisioningcategory/5"
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/provisioningcategory/6",
+   "status": 200,
+   "response": {
+    "resourceId": 6
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/provisioningcategory/6",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Provisioning Category with identifier 6 does not exist",
+      "defaultUserMessage": "Provisioning Category with identifier 6 does not exist",
+      "userMessageGlobalisationCode": "error.msg.provisioning.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 6
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/provisioningcategory/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Provisioning Category with identifier 99 does not exist",
+      "defaultUserMessage": "Provisioning Category with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.provisioning.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/provisioningcategory/abc",
+   "ignore": [
+    "timestamp",
+    "path"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T07:54:32.072Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/provisioningcategory/abc"
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/provisioningcategory/1",
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "path": "/v1/provisioningcategory",
+   "status": 200,
+   "response": [
+    {
+     "id": 2,
+     "categoryName": "SUB-STANDARD",
+     "categoryDescription": "Principal and/or Interest overdue by x days"
+    },
+    {
+     "id": 3,
+     "categoryName": "DOUBTFUL",
+     "categoryDescription": "Principal and/or Interest overdue by x days and less than y"
+    },
+    {
+     "id": 4,
+     "categoryName": "LOSS",
+     "categoryDescription": "Principal and/or Interest overdue by y days"
+    },
+    {
+     "id": 5,
+     "categoryName": "WATCH-B",
+     "categoryDescription": "Both"
+    },
+    {
+     "id": 9,
+     "categoryName": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "categoryDescription": ""
+    },
+    {
+     "id": 10,
+     "categoryName": "5",
+     "categoryDescription": ""
+    },
+    {
+     "id": 11,
+     "categoryName": "  Padded  ",
+     "categoryDescription": ""
+    }
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/provisioningcategory",
+   "body": {
+    "categoryname": "AFTER"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 12
+   }
+  }
+ ]
+}

@@ -81,5 +81,13 @@ No stored value differs: command rows, statuses, result codes and result JSON fi
 
 | 43 | `GET /<resource>/downloadtemplate` returns an Excel workbook for a client that accepts one | A client that asks for JSON gets the same plain 406; one that accepts Excel gets HTTP 501 (bulk import is not built) | Excel import is outside the pilot | `JournalTest` |
 
+| 44 | The ids of the tag rows of an accounting rule (`debitTags[].id`, `creditTags[].id`) come out in no fixed order when a rule has several tags | Debit tags first, then credit, each in Java `HashSet` order of the tag ids, so ids are the same from one run to the next | Fineract's own order varies from run to run | Scenario ignores those ids; `AccountingRulesTest` |
+| 45 | The accounts a tagged side allows (`?associations=all`) are listed in whatever order the join returns them | By tag row, then account id | Stable | Scenario ignores those two lists; `AccountingRulesTest` |
+| 46 | A second rule with the same name answers a data-integrity error whose text is the database's | The same status and message code, with a message that says what is wrong | A database error is not a message for a client | Scenario ignores `defaultUserMessage` there |
+| 47 | The tags a rule update adds are reported in Java `HashSet` order | The same order is reproduced | Clients compare what an update reports | `ScenariosTest` (accountingrules) |
+
+| 48 | Creating a provisioning category with `categorydescription` stores nothing (Fineract reads `description`, which the request refuses as unsupported); a duplicate name is reported with an empty name in the message and "Cateory" misspelt | The same, kept | Recorded from Fineract; clients may already depend on it | `ScenariosTest` (provisioning) |
+| 49 | Provisioning criteria cannot be created, changed or deleted, and no provisioning entry can be made or read one by one | Answer HTTP 501 (`GET /provisioningentries/{id}` is the same plain 500 as Fineract for an entry that does not exist) | They need loan products and loans, which come later | `ProvisioningTest` |
+
 **Security note:** the seeded users (`mifos`, `system`, `interopUser`) and the password `password` are Fineract's published defaults. They exist so the compatible API and Fineract's own tests work out of the box. A real deployment must change those passwords, or remove the users, before it holds real data. A password can now be changed with `PUT /users/{id}` or `POST /users/{id}/pwd`; the active password policy applies (the default policy asks for 12 to 50 characters with upper and lower case, a digit and a symbol).
 

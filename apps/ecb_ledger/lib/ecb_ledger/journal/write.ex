@@ -15,7 +15,7 @@ defmodule ECBLedger.Journal.Write do
   """
   import Ecto.Query
 
-  alias ECBLedger.{Closures, FinancialActivities, GLAccounts, Journal}
+  alias ECBLedger.{AccountingRules, Closures, FinancialActivities, GLAccounts, Journal}
   alias ECBOrg.{Currencies, Offices, PaymentTypes}
   alias ECBPlatform.{BusinessDate, Configuration, Params, TenantRepo, Validation}
   alias ECBPlatform.Commands.Result
@@ -43,10 +43,15 @@ defmodule ECBLedger.Journal.Write do
     transaction_id = transaction_id(user, entry.office_id)
 
     check_owner!(entry.owner)
-    check_rule!(entry.rule)
 
-    post!(entry, :debit, entry.debits, transaction_id, payment_id, user)
-    post!(entry, :credit, entry.credits, transaction_id, payment_id, user)
+    posting = %{entry: entry, transaction_id: transaction_id, payment_id: payment_id, user: user}
+
+    if entry.rule do
+      post_by_rule!(posting, AccountingRules.fetch!(entry.rule))
+    else
+      post!(posting, :debit, entry.debits)
+      post!(posting, :credit, entry.credits)
+    end
 
     Result.new(office_id: entry.office_id, transaction_id: transaction_id)
   end
@@ -317,18 +322,77 @@ defmodule ECBLedger.Journal.Write do
       args: [owner]
   end
 
-  # Accounting rules are not built yet, so no rule exists to post by.
-  defp check_rule!(nil), do: :ok
+  # --- posting by an accounting rule ----------------------------------------------------------
 
-  defp check_rule!(rule_id) do
-    unless TenantRepo.exists?(from(r in "acc_accounting_rule", where: r.id == ^rule_id)) do
-      raise ResourceNotFound,
-        code: "error.msg.accounting.rule.id.invalid",
-        message: "Accounting Rule with identifier #{rule_id} does not exist",
-        args: [rule_id]
-    end
+  # The credit side is dealt with first, then the debit side. A side the rule fixes to one account takes
+  # exactly one line, on that account (and the account must take manual entries). A side the rule leaves
+  # to tags takes any lines on accounts with one of its tags, and then both sides are checked against the
+  # tags (Fineract checks the *other* side of a rule with a fixed account against tags too, so a rule that
+  # mixes a fixed side with a tagged side cannot be posted by). The "allow several entries" flags are only
+  # stored, never enforced.
+  defp post_by_rule!(posting, rule) do
+    entry = posting.entry
 
-    raise "posting by accounting rule is not built yet"
+    rule_side!(posting, rule, :credit, rule.credit_account_id, entry.credits, fn ->
+      check_tags!(rule, entry.credits, entry.debits)
+    end)
+
+    rule_side!(posting, rule, :debit, rule.debit_account_id, entry.debits, fn ->
+      check_tags!(rule, entry.credits, entry.debits)
+    end)
+  end
+
+  defp rule_side!(posting, _rule, type, nil, lines, check) do
+    check.()
+    post!(posting, type, lines)
+  end
+
+  defp rule_side!(posting, _rule, type, account_id, lines, _check) do
+    head = GLAccounts.fetch!(account_id)
+    check_account!(head)
+
+    unless match?([%{account_id: ^account_id}], lines),
+      do:
+        refuse(
+          "error.msg.glJournalEntry.invalid.debit.or.credit.accounts",
+          "Invalid debit or credit accounts are passed",
+          [nil, nil, nil]
+        )
+
+    post!(posting, type, lines)
+  end
+
+  # every line must be on an account that one of the rule's tags allows
+  defp check_tags!(rule, credits, debits) do
+    check_allowed!(
+      rule,
+      AccountingRules.credit(),
+      credits,
+      "error.msg.glJournalEntry.invalid.credits",
+      "Invalid Credits."
+    )
+
+    check_allowed!(
+      rule,
+      AccountingRules.debit(),
+      debits,
+      "error.msg.glJournalEntry.invalid.debits",
+      "Invalid Debits"
+    )
+  end
+
+  defp check_allowed!(_rule, _side, nil, _code, _message), do: :ok
+  defp check_allowed!(_rule, _side, [], _code, _message), do: :ok
+
+  defp check_allowed!(rule, side, lines, code, message) do
+    allowed = AccountingRules.accounts_by_tag(rule.id, side)
+
+    matches =
+      for account <- allowed, line <- lines, line.account_id == account.id, reduce: 0 do
+        count -> count + 1
+      end
+
+    if matches != length(lines), do: refuse(code, message, [])
   end
 
   # --- opening balances -----------------------------------------------------------------------
@@ -428,7 +492,7 @@ defmodule ECBLedger.Journal.Write do
 
   # --- writing --------------------------------------------------------------------------------
 
-  defp post!(entry, type, lines, transaction_id, payment_id, user) do
+  defp post!(%{entry: entry} = posting, type, lines) do
     Currencies.fetch_selected!(entry.currency_code)
 
     for line <- lines do
@@ -439,15 +503,15 @@ defmodule ECBLedger.Journal.Write do
         account_id: account.id,
         office_id: entry.office_id,
         currency_code: entry.currency_code,
-        transaction_id: transaction_id,
+        transaction_id: posting.transaction_id,
         entry_date: entry.date,
         type_enum: type_enum(type),
         amount: line.amount,
         description: line.comments || entry.comments,
         ref_num: entry.reference || "",
-        payment_details_id: payment_id,
-        created_by: user.id,
-        last_modified_by: user.id
+        payment_details_id: posting.payment_id,
+        created_by: posting.user.id,
+        last_modified_by: posting.user.id
       })
     end
   end

@@ -82,7 +82,21 @@ defmodule ECBApiFineract.ApiCase do
           "SELECT setval(pg_get_serial_sequence('acc_gl_account', 'id'), 1, false)",
           "SELECT setval(pg_get_serial_sequence('acc_gl_closure', 'id'), 1, false)",
           "SELECT setval(pg_get_serial_sequence('acc_gl_financial_activity_account', 'id'), 1, false)",
-          "SELECT setval(pg_get_serial_sequence('acc_accounting_rule', 'id'), 1, false)"
+          "SELECT setval(pg_get_serial_sequence('acc_accounting_rule', 'id'), 1, false)",
+          "SELECT setval(pg_get_serial_sequence('acc_rule_tags', 'id'), 1, false)"
+        ] do
+      TenantRepo.query!(sql)
+    end
+
+    for sql <- [
+          "DELETE FROM m_provisioning_criteria_definition",
+          "DELETE FROM m_provisioning_criteria",
+          "DELETE FROM m_provision_category WHERE id > 4",
+          "INSERT INTO m_provision_category (id, category_name, description) OVERRIDING SYSTEM VALUE VALUES (1, 'STANDARD', 'Punctual Payment without any dues') ON CONFLICT (id) DO UPDATE SET category_name = EXCLUDED.category_name, description = EXCLUDED.description",
+          "INSERT INTO m_provision_category (id, category_name, description) OVERRIDING SYSTEM VALUE VALUES (2, 'SUB-STANDARD', 'Principal and/or Interest overdue by x days') ON CONFLICT (id) DO UPDATE SET category_name = EXCLUDED.category_name, description = EXCLUDED.description",
+          "INSERT INTO m_provision_category (id, category_name, description) OVERRIDING SYSTEM VALUE VALUES (3, 'DOUBTFUL', 'Principal and/or Interest overdue by x days and less than y') ON CONFLICT (id) DO UPDATE SET category_name = EXCLUDED.category_name, description = EXCLUDED.description",
+          "INSERT INTO m_provision_category (id, category_name, description) OVERRIDING SYSTEM VALUE VALUES (4, 'LOSS', 'Principal and/or Interest overdue by y days') ON CONFLICT (id) DO UPDATE SET category_name = EXCLUDED.category_name, description = EXCLUDED.description",
+          "SELECT setval(pg_get_serial_sequence('m_provision_category', 'id'), 4)"
         ] do
       TenantRepo.query!(sql)
     end

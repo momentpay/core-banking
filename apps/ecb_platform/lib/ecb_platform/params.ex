@@ -44,6 +44,23 @@ defmodule ECBPlatform.Params do
     end
   end
 
+  @doc """
+  Parses the body of a request Fineract reads into a typed object (`AccountRuleRequest`, ...): a blank
+  body is refused as for `parse!/1`, but a body that is not a JSON object is "invalid JSON data" (its
+  typed reader fails), not a syntax complaint.
+  """
+  @spec parse_typed!(String.t() | nil) :: t
+  def parse_typed!(json) when json in [nil, ""], do: raise(InvalidJson, detail: nil)
+
+  def parse_typed!(json) when is_binary(json) do
+    if String.trim(json) == "", do: raise(InvalidJson, detail: nil)
+
+    case Jason.decode(json) do
+      {:ok, %{} = map} -> %__MODULE__{map: map}
+      _ -> raise Errors.InvalidJsonData
+    end
+  end
+
   @doc "Raises `UnsupportedParameter` for any key not in `supported`."
   @spec check_supported!(t, [String.t()]) :: t
   def check_supported!(%__MODULE__{map: map} = params, supported) do

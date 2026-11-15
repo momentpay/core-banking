@@ -139,6 +139,29 @@
         "acc_rule_tags",
         "acc_product_mapping"
       ]
+    },
+    {
+      "kind": "schema",
+      "app": "ecb_ledger",
+      "version": "20261115120000",
+      "name": "create_provisioning_tables",
+      "tables": [
+        "m_provision_category",
+        "m_provisioning_criteria",
+        "m_provisioning_criteria_definition",
+        "m_loanproduct_provisioning_mapping",
+        "m_provisioning_history",
+        "m_loanproduct_provisioning_entry"
+      ]
+    },
+    {
+      "kind": "data",
+      "app": "ecb_ledger",
+      "version": "20261115120100",
+      "name": "seed_provision_categories",
+      "tables": [
+        "m_provision_category"
+      ]
     }
   ],
   "deferred_foreign_keys": [
@@ -183,6 +206,18 @@
       "references": "m_charge",
       "sql": "ALTER TABLE ONLY public.acc_product_mapping\n    ADD CONSTRAINT \"FK_acc_product_mapping_m_charge\" FOREIGN KEY (charge_id) REFERENCES public.m_charge(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
       "migration": "create_accounting_tables"
+    },
+    {
+      "table": "m_loanproduct_provisioning_entry",
+      "references": "m_product_loan",
+      "sql": "ALTER TABLE ONLY public.m_loanproduct_provisioning_entry\n    ADD CONSTRAINT m_loanproduct_provisioning_entry_ibfk_4 FOREIGN KEY (product_id) REFERENCES public.m_product_loan(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
+      "migration": "create_provisioning_tables"
+    },
+    {
+      "table": "m_loanproduct_provisioning_mapping",
+      "references": "m_product_loan",
+      "sql": "ALTER TABLE ONLY public.m_loanproduct_provisioning_mapping\n    ADD CONSTRAINT m_loanproduct_provisioning_mapping_ibfk_1 FOREIGN KEY (product_id) REFERENCES public.m_product_loan(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
+      "migration": "create_provisioning_tables"
     }
   ]
 }

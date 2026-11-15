@@ -152,4 +152,69 @@ defmodule ECBLedger.Handlers do
            user
          )}
   end
+
+  defmodule CreateAccountingRule do
+    @moduledoc "`CREATE` on `ACCOUNTINGRULE`."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, _user),
+      do: {:ok, ECBLedger.AccountingRules.Write.create!(ECBPlatform.Params.parse!(command.json))}
+  end
+
+  defmodule UpdateAccountingRule do
+    @moduledoc "`UPDATE` on `ACCOUNTINGRULE`."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, _user),
+      do:
+        {:ok,
+         ECBLedger.AccountingRules.Write.update!(
+           command.entity_id,
+           ECBPlatform.Params.parse!(command.json)
+         )}
+  end
+
+  defmodule DeleteAccountingRule do
+    @moduledoc "`DELETE` on `ACCOUNTINGRULE`."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, _user),
+      do: {:ok, ECBLedger.AccountingRules.Write.delete!(command.entity_id)}
+  end
+
+  defmodule CreateProvisioningCategory do
+    @moduledoc "`CREATE` on `PROVISIONCATEGORY`."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, _user),
+      do:
+        {:ok, ECBLedger.Provisioning.Categories.create!(ECBPlatform.Params.parse!(command.json))}
+  end
+
+  defmodule UpdateProvisioningCategory do
+    @moduledoc "`UPDATE` on `PROVISIONCATEGORY`."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, _user),
+      do:
+        {:ok,
+         ECBLedger.Provisioning.Categories.update!(
+           command.entity_id,
+           ECBPlatform.Params.parse!(command.json)
+         )}
+  end
+
+  defmodule DeleteProvisioningCategory do
+    @moduledoc "`DELETE` on `PROVISIONCATEGORY`."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, _user),
+      do: {:ok, ECBLedger.Provisioning.Categories.delete!(command.entity_id)}
+  end
 end

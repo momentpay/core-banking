@@ -130,16 +130,17 @@ defmodule ECBApiFineract.Resources.GLAccounts do
     |> Map.merge(headers)
   end
 
-  defp tag_values(values) do
-    for v <- values do
-      %{
-        "id" => v.id,
-        "name" => v.name,
-        "position" => v.position,
-        "description" => v.description,
-        "active" => v.active,
-        "mandatory" => v.mandatory
-      }
-    end
+  defp tag_values(values), do: Enum.map(values, &tag_value_json/1)
+
+  @doc "One code value (a tag option) as Fineract's code-value JSON."
+  def tag_value_json(v) do
+    %{
+      "id" => v.id,
+      "name" => v.name,
+      "position" => v.position,
+      "description" => v.description,
+      "active" => v.active,
+      "mandatory" => v.mandatory
+    }
   end
 end

@@ -133,7 +133,8 @@ defmodule ECBPlatform.Errors do
 
     @impl true
     def message(%{parameter: parameter, value: value}),
-      do: "The parameter `#{parameter}` has value: #{value} which is not a valid number."
+      do:
+        "The parameter `#{parameter || "null"}` has value: #{value} which is not a valid number."
   end
 
   defmodule DataIntegrity do
