@@ -72,6 +72,34 @@ defmodule ECBCatalog.Charges do
     |> Enum.map(&finish/1)
   end
 
+  @doc "The active charges a loan product carries."
+  @spec for_loan_product(integer) :: [map]
+  def for_loan_product(product_id) do
+    base()
+    |> join(:inner, [c], plc in "m_product_loan_charge", on: plc.charge_id == c.id)
+    |> where(
+      [c, ..., plc],
+      c.is_deleted == false and c.is_active == true and plc.product_loan_id == ^product_id
+    )
+    |> order_by([c], c.id)
+    |> TenantRepo.all()
+    |> Enum.map(&finish/1)
+  end
+
+  @doc "The active fees (`penalty?` false) or penalties (true) a loan product can pick from, by name."
+  @spec applicable_to_loans(boolean) :: [map]
+  def applicable_to_loans(penalty?) do
+    base()
+    |> where(
+      [c],
+      c.is_deleted == false and c.is_active == true and c.is_penalty == ^penalty? and
+        c.charge_applies_to_enum == 1
+    )
+    |> order_by([c], c.name)
+    |> TenantRepo.all()
+    |> Enum.map(&finish/1)
+  end
+
   @doc """
   The stored charge, deleted or not and in any currency, for work that changes it; or
   `{:error, ResourceNotFound}`.

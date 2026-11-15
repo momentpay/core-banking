@@ -32,6 +32,7 @@ defmodule ECBApiFineract.MixProject do
       {:ecb_catalog, in_umbrella: true},
       {:ecb_party, in_umbrella: true},
       {:ecb_deposits, in_umbrella: true},
+      {:ecb_loans, in_umbrella: true},
       {:plug, "~> 1.16"},
       {:jason, "~> 1.2"},
       {:ecto_sql, "~> 3.10"}

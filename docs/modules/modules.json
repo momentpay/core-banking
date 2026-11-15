@@ -670,7 +670,7 @@
       "app": "ecb_loans",
       "title": "Loans: products, schedules, accounts and transactions",
       "phase": 4,
-      "status": "not started",
+      "status": "in progress (16 Nov 2026). Built: the loan product tables (generated from Fineract's schema) and loan products (list, one with its charges and ledger accounts, template, create) for the core term loan: a cumulative schedule with a flat or declining interest, grace periods, minimum and maximum limits, charges, and cash or accrual accounting with a fund source per payment type and an income account per fee and penalty. A request for anything beyond that (floating rates, interest recalculation, several disbursements, borrower cycles, guarantees, advanced payment allocation, down payments, variable installments, capitalised income, buy-down fees) is refused with a plain \"not supported yet\", never ignored. Changing a loan product is refused the same way for now. Still to do: loan accounts (schedule engine, applications, approval, disbursement, repayment and their journal entries).",
       "depends_on": [
         "ecb_money",
         "ecb_platform",
@@ -1023,7 +1023,7 @@
       "app": "ecb_api_fineract",
       "title": "Fineract-compatible REST API",
       "phase": 1,
-      "status": "in progress (14 Nov 2026). Built: tenant resolution, HTTP basic authentication, `POST /authentication`, the read and write endpoints of offices, funds, payment types, staff, codes and code values, working days, holidays, roles, users, maker-checker inbox, audits, business date, GL accounts, financial-activity mappings, accounting closures, journal entries, accounting rules, provisioning categories, tax components and groups, charges, rates, floating rates, clients (with identifiers and family members), savings products, configurations, password preferences and permissions, the read endpoints of currencies and account-number formats, the health check, Fineract's error shapes and an HTTP 501 for operations not built yet. 33 recorded Fineract responses and 31 recorded write scenarios (about 2450 requests) are matched exactly. Contract probe against Fineract: 60 of 146 counted `must` and `should` read operations pass (41.1%, measured 16 Nov 2026 after clients).",
+      "status": "in progress (14 Nov 2026). Built: tenant resolution, HTTP basic authentication, `POST /authentication`, the read and write endpoints of offices, funds, payment types, staff, codes and code values, working days, holidays, roles, users, maker-checker inbox, audits, business date, GL accounts, financial-activity mappings, accounting closures, journal entries, accounting rules, provisioning categories, tax components and groups, charges, rates, floating rates, clients (with identifiers and family members), savings products, loan products, configurations, password preferences and permissions, the read endpoints of currencies and account-number formats, the health check, Fineract's error shapes and an HTTP 501 for operations not built yet. 33 recorded Fineract responses and 30 recorded write scenarios (about 2200 requests) are matched exactly. Contract probe against Fineract: 60 of 146 counted `must` and `should` read operations pass (41.1%, measured 16 Nov 2026 after clients).",
       "depends_on": [
         "ecb_platform",
         "ecb_org",

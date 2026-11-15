@@ -252,6 +252,7 @@ defmodule ECBApiFineract.Resources.SavingsProducts do
     for {key, type} <- [
           {"assetAccountOptions", 1},
           {"liabilityAccountOptions", 2},
+          {"equityAccountOptions", 3},
           {"incomeAccountOptions", 4},
           {"expenseAccountOptions", 5}
         ],

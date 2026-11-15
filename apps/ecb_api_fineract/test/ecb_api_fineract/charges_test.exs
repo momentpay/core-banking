@@ -52,23 +52,42 @@ defmodule ECBApiFineract.ChargesTest do
     end
 
     test "is refused while a loan product uses the charge" do
-      id = charge()
-      TenantRepo.query!("CREATE TABLE m_product_loan_charge (charge_id bigint)")
+      id = charge(%{"active" => true})
 
-      try do
-        TenantRepo.query!("INSERT INTO m_product_loan_charge (charge_id) VALUES ($1)", [id])
+      product =
+        send_json(:post, "/v1/loanproducts", %{
+          "name" => "Basic",
+          "shortName" => "BSIC",
+          "currencyCode" => "USD",
+          "digitsAfterDecimal" => 2,
+          "principal" => 10_000,
+          "numberOfRepayments" => 12,
+          "repaymentEvery" => 1,
+          "repaymentFrequencyType" => 2,
+          "interestRatePerPeriod" => 1.5,
+          "interestRateFrequencyType" => 2,
+          "amortizationType" => 1,
+          "interestType" => 0,
+          "interestCalculationPeriodType" => 1,
+          "transactionProcessingStrategyCode" => "mifos-standard-strategy",
+          "daysInYearType" => 365,
+          "daysInMonthType" => 30,
+          "isInterestRecalculationEnabled" => false,
+          "accountingRule" => 1,
+          "charges" => [%{"id" => id}],
+          "locale" => "en"
+        })
 
-        refused = send_json(:delete, "/v1/charges/#{id}")
-        assert refused.status == 403
+      assert product.status == 200, product.resp_body
 
-        assert hd(body(refused)["errors"])["userMessageGlobalisationCode"] ==
-                 "error.msg.charge.cannot.be.deleted.it.is.already.used.in.loan"
+      refused = send_json(:delete, "/v1/charges/#{id}")
+      assert refused.status == 403
 
-        TenantRepo.query!("DELETE FROM m_product_loan_charge")
-        assert send_json(:delete, "/v1/charges/#{id}").status == 200
-      after
-        TenantRepo.query!("DROP TABLE m_product_loan_charge")
-      end
+      assert hd(body(refused)["errors"])["userMessageGlobalisationCode"] ==
+               "error.msg.charge.cannot.be.deleted.it.is.already.used.in.loan"
+
+      TenantRepo.query!("DELETE FROM m_product_loan_charge")
+      assert send_json(:delete, "/v1/charges/#{id}").status == 200
     end
   end
 

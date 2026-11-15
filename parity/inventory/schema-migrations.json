@@ -214,6 +214,16 @@
         "m_savings_product",
         "m_savings_product_charge"
       ]
+    },
+    {
+      "kind": "schema",
+      "app": "ecb_loans",
+      "version": "20261116120000",
+      "name": "create_loan_product_tables",
+      "tables": [
+        "m_product_loan",
+        "m_product_loan_charge"
+      ]
     }
   ],
   "deferred_foreign_keys": [
@@ -248,18 +258,6 @@
       "migration": "create_accounting_tables"
     },
     {
-      "table": "m_loanproduct_provisioning_entry",
-      "references": "m_product_loan",
-      "sql": "ALTER TABLE ONLY public.m_loanproduct_provisioning_entry\n    ADD CONSTRAINT m_loanproduct_provisioning_entry_ibfk_4 FOREIGN KEY (product_id) REFERENCES public.m_product_loan(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
-      "migration": "create_provisioning_tables"
-    },
-    {
-      "table": "m_loanproduct_provisioning_mapping",
-      "references": "m_product_loan",
-      "sql": "ALTER TABLE ONLY public.m_loanproduct_provisioning_mapping\n    ADD CONSTRAINT m_loanproduct_provisioning_mapping_ibfk_1 FOREIGN KEY (product_id) REFERENCES public.m_product_loan(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
-      "migration": "create_provisioning_tables"
-    },
-    {
       "table": "m_client",
       "references": "m_image",
       "sql": "ALTER TABLE ONLY public.m_client\n    ADD CONSTRAINT \"FK_m_client_m_image\" FOREIGN KEY (image_id) REFERENCES public.m_image(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
@@ -270,6 +268,12 @@
       "references": "m_savings_account",
       "sql": "ALTER TABLE ONLY public.m_client\n    ADD CONSTRAINT \"FK_m_client_m_savings_account\" FOREIGN KEY (default_savings_account) REFERENCES public.m_savings_account(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
       "migration": "create_client_tables"
+    },
+    {
+      "table": "m_product_loan",
+      "references": "m_delinquency_bucket",
+      "sql": "ALTER TABLE ONLY public.m_product_loan\n    ADD CONSTRAINT \"FK_m_product_loan_m_delinquency_bucket\" FOREIGN KEY (delinquency_bucket_id) REFERENCES public.m_delinquency_bucket(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
+      "migration": "create_loan_product_tables"
     }
   ]
 }

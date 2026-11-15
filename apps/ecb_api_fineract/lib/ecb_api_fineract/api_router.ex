@@ -30,6 +30,7 @@ defmodule ECBApiFineract.ApiRouter do
     GLClosures,
     Holidays,
     JournalEntries,
+    LoanProducts,
     MakerCheckers,
     Offices,
     Organisation,
@@ -97,6 +98,7 @@ defmodule ECBApiFineract.ApiRouter do
   get "/v1/funds/:id", do: Funds.show(conn, id)
   post "/v1/funds", do: Funds.create(conn)
   put "/v1/funds/:id", do: Funds.update(conn, id)
+  delete "/v1/funds/:id", do: LoanProducts.method_not_allowed(conn)
   get "/v1/holidays/template", do: Holidays.template(conn)
   get "/v1/holidays", do: Holidays.index(conn)
   post "/v1/holidays", do: Holidays.create(conn)
@@ -162,6 +164,12 @@ defmodule ECBApiFineract.ApiRouter do
   get "/v1/savingsproducts/:id", do: SavingsProducts.show(conn, id)
   put "/v1/savingsproducts/:id", do: SavingsProducts.update(conn, id)
   delete "/v1/savingsproducts/:id", do: SavingsProducts.delete(conn, id)
+  get "/v1/loanproducts/template", do: LoanProducts.template(conn)
+  get "/v1/loanproducts", do: LoanProducts.index(conn)
+  post "/v1/loanproducts", do: LoanProducts.create(conn)
+  get "/v1/loanproducts/:id", do: LoanProducts.show(conn, id)
+  put "/v1/loanproducts/:id", do: LoanProducts.update(conn, id)
+  delete "/v1/loanproducts/:id", do: LoanProducts.method_not_allowed(conn)
   get "/v1/accountnumberformats/template", do: Organisation.account_number_formats_template(conn)
   get "/v1/accountnumberformats", do: Organisation.account_number_formats(conn)
 
