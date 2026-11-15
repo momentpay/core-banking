@@ -31,6 +31,7 @@ defmodule ECBApiFineract.ApiRouter do
     Holidays,
     JournalEntries,
     LoanProducts,
+    Loans,
     MakerCheckers,
     Offices,
     Organisation,
@@ -164,6 +165,7 @@ defmodule ECBApiFineract.ApiRouter do
   get "/v1/savingsproducts/:id", do: SavingsProducts.show(conn, id)
   put "/v1/savingsproducts/:id", do: SavingsProducts.update(conn, id)
   delete "/v1/savingsproducts/:id", do: SavingsProducts.delete(conn, id)
+  post "/v1/loans", do: Loans.create(conn)
   get "/v1/loanproducts/template", do: LoanProducts.template(conn)
   get "/v1/loanproducts", do: LoanProducts.index(conn)
   post "/v1/loanproducts", do: LoanProducts.create(conn)

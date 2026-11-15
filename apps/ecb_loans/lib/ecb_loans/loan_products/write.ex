@@ -9,7 +9,7 @@ defmodule ECBLoans.LoanProducts.Write do
   """
   import Ecto.Query
 
-  alias ECBLoans.LoanProducts
+  alias ECBLoans.{Apr, LoanProducts}
   alias ECBLoans.LoanProducts.{Accounting, Validate}
   alias ECBPlatform.Commands.Result
   alias ECBPlatform.Errors.{DomainRuleViolation, ResourceNotFound}
@@ -77,7 +77,7 @@ defmodule ECBLoans.LoanProducts.Write do
         Params.decimal_with_locale(p, "maxInterestRatePerPeriod"),
       interest_period_frequency_enum: interest_frequency,
       annual_nominal_interest_rate:
-        annual_rate(interest_frequency, rate, repayments, every, frequency, days_in_year),
+        Apr.calculate(interest_frequency, rate, repayments, every, frequency, days_in_year),
       amortization_method_enum: Params.integer_in_default_locale(p, "amortizationType"),
       interest_method_enum: Params.integer_in_default_locale(p, "interestType"),
       interest_calculated_in_period_enum:
@@ -128,31 +128,6 @@ defmodule ECBLoans.LoanProducts.Write do
   end
 
   defp flag(p, key), do: Params.boolean(p, key) == true
-
-  # The yearly rate Fineract keeps beside the rate per period (`AprCalculator`).
-  defp annual_rate(interest_frequency, rate, repayments, every, frequency, days_in_year) do
-    case interest_frequency do
-      0 -> Decimal.mult(rate, days(days_in_year))
-      1 -> Decimal.mult(rate, 52)
-      2 -> Decimal.mult(rate, 12)
-      3 -> rate
-      4 -> whole_term_rate(rate, repayments * every, frequency, days_in_year)
-    end
-  end
-
-  defp whole_term_rate(rate, periods, frequency, days_in_year) do
-    per_period = Decimal.div(rate, periods) |> Decimal.round(8, :half_even)
-
-    case frequency do
-      0 -> Decimal.mult(per_period, days(days_in_year))
-      1 -> Decimal.mult(per_period, 52)
-      2 -> Decimal.mult(per_period, 12)
-      3 -> per_period
-    end
-  end
-
-  defp days(1), do: 365
-  defp days(days), do: days
 
   # --- fund and charges ---------------------------------------------------------------------------
 

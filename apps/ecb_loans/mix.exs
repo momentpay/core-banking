@@ -31,6 +31,7 @@ defmodule ECBLoans.MixProject do
       {:ecb_org, in_umbrella: true},
       {:ecb_catalog, in_umbrella: true},
       {:ecb_ledger, in_umbrella: true},
+      {:ecb_party, in_umbrella: true},
       {:ecto_sql, "~> 3.10"}
     ]
   end

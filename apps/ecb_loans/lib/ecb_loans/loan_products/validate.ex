@@ -363,6 +363,56 @@ defmodule ECBLoans.LoanProducts.Validate do
   defp positive_or_zero?(nil), do: false
   defp positive_or_zero?(%Decimal{} = d), do: Decimal.compare(d, 0) != :lt
 
+  @doc false
+  def amount_in_range(v, min, max), do: in_min_max_amount(v, min, max)
+
+  @doc """
+  The amount must be within limits read from the product (a stored number, which Fineract writes as a double:
+  `1.0`, where a limit taken from a request is written as it was sent).
+  """
+  def stored_amount_in_range(%{value: %Decimal{} = value} = v, min, max) do
+    if Decimal.compare(value, min) == :lt or Decimal.compare(value, max) == :gt,
+      do:
+        Validation.add_error(
+          v,
+          "validation.msg.#{v.resource}.#{v.parameter}.amount.is.not.within.min.max.range",
+          "The parameter `#{v.parameter}` amount #{shown(value)} must be between #{shown(min)} and #{shown(max)} .",
+          v.parameter,
+          [shown_value(value), shown_value(min), shown_value(max)]
+        ),
+      else: v
+  end
+
+  def stored_amount_in_range(v, _min, _max), do: v
+
+  # limits kept as money are shown with the currency's decimals (`1000.00`)
+  @doc false
+  def stored_amount_in_range(%{value: %Decimal{} = value} = v, min, max, digits) do
+    shown_money = fn d -> d |> Decimal.round(digits) |> Decimal.to_string(:normal) end
+
+    if Decimal.compare(value, min) == :lt or Decimal.compare(value, max) == :gt,
+      do:
+        Validation.add_error(
+          v,
+          "validation.msg.#{v.resource}.#{v.parameter}.amount.is.not.within.min.max.range",
+          "The parameter `#{v.parameter}` amount #{shown(value)} must be between #{shown_money.(min)} and #{shown_money.(max)} .",
+          v.parameter,
+          [shown_value(value), shown_value(min), shown_value(max)]
+        ),
+      else: v
+  end
+
+  def stored_amount_in_range(v, _min, _max, _digits), do: v
+
+  @doc false
+  def amount_not_below(v, min), do: not_less_than_min(v, min)
+
+  @doc false
+  def count_not_above(v, max), do: count_not_greater_than_max(v, max)
+
+  @doc false
+  def count_not_below(v, min), do: count_not_less_than_min(v, min)
+
   defp not_less_than_min(%{value: %Decimal{} = value} = v, %Decimal{} = min) do
     if Decimal.compare(value, min) == :lt,
       do:
@@ -616,7 +666,8 @@ defmodule ECBLoans.LoanProducts.Validate do
   end
 
   # the periods of grace must leave at least one repayment
-  defp grace_against_term(v, p, repayments) do
+  @doc false
+  def grace_against_term(v, p, repayments) do
     if repayments == nil do
       v
     else
