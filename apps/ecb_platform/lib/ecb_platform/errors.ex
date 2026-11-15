@@ -123,6 +123,18 @@ defmodule ECBPlatform.Errors do
                    "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number"
   end
 
+  defmodule InvalidNumber do
+    @moduledoc """
+    Text where a number belongs (`"glAccountId": "abc"`). HTTP 400 with Fineract's single, un-enveloped
+    message about the one parameter.
+    """
+    defexception [:parameter, :value]
+
+    @impl true
+    def message(%{parameter: parameter, value: value}),
+      do: "The parameter `#{parameter}` has value: #{value} which is not a valid number."
+  end
+
   defmodule DataIntegrity do
     @moduledoc """
     A rule the data store enforces was broken, such as a duplicate name. HTTP 403 with the message code
@@ -226,6 +238,20 @@ defmodule ECBPlatform.Errors do
        parameter: "id",
        args: []
      })}
+  end
+
+  def to_api(%InvalidNumber{} = e) do
+    message = Exception.message(e)
+
+    {400,
+     %{
+       "developerMessage" => message,
+       "defaultUserMessage" => message,
+       "userMessageGlobalisationCode" => "validation.msg.invalid.decimal.format",
+       "parameterName" => e.parameter,
+       "value" => e.value,
+       "args" => []
+     }}
   end
 
   def to_api(%DataIntegrity{} = e) do

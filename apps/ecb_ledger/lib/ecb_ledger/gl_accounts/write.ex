@@ -157,7 +157,7 @@ defmodule ECBLedger.GLAccounts.Write do
         )
 
       true ->
-        TenantRepo.delete_all(from(gl in "acc_gl_account", where: gl.id == ^id))
+        delete_row!(id)
         Result.new(resource_id: id)
     end
   end
@@ -336,6 +336,22 @@ defmodule ECBLedger.GLAccounts.Write do
     TenantRepo.query!(
       "UPDATE acc_gl_account SET hierarchy = $1 || substr(hierarchy, $2) WHERE hierarchy LIKE $3 AND id <> $4",
       [new, String.length(old) + 1, old <> "%", account.id]
+    )
+  end
+
+  # An account that a financial activity is mapped to is protected by the database. Fineract passes the
+  # database's own text on; this says what is wrong instead (the code is the same).
+  defp delete_row!(id) do
+    Integrity.translate(
+      fn -> TenantRepo.delete_all(from(gl in "acc_gl_account", where: gl.id == ^id)) end,
+      %{
+        "FK_office_mapping_acc_gl_account" =>
+          {"error.msg.data.integrity.issue",
+           "General Ledger account #{id} is mapped to a financial activity and cannot be deleted",
+           nil, []}
+      },
+      {"error.msg.glAccount.unknown.data.integrity.issue",
+       "Unknown data integrity issue with resource GL Account."}
     )
   end
 

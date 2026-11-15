@@ -18,8 +18,10 @@ defmodule ECBApiFineract.ApiRouter do
     Authentication,
     BusinessDate,
     Codes,
+    FinancialActivityAccounts,
     Funds,
     GLAccounts,
+    GLClosures,
     Holidays,
     MakerCheckers,
     Offices,
@@ -116,6 +118,19 @@ defmodule ECBApiFineract.ApiRouter do
   put "/v1/users/:id", do: Administration.update_user(conn, id)
   delete "/v1/users/:id", do: Administration.delete_user(conn, id)
   post "/v1/users/:id/pwd", do: Administration.change_user_password(conn, id)
+  get "/v1/financialactivityaccounts/template", do: FinancialActivityAccounts.template(conn)
+  get "/v1/financialactivityaccounts", do: FinancialActivityAccounts.index(conn)
+  post "/v1/financialactivityaccounts", do: FinancialActivityAccounts.create(conn)
+  get "/v1/financialactivityaccounts/:id", do: FinancialActivityAccounts.show(conn, id)
+  put "/v1/financialactivityaccounts/:id", do: FinancialActivityAccounts.update(conn, id)
+  delete "/v1/financialactivityaccounts/:id", do: FinancialActivityAccounts.delete(conn, id)
+
+  get "/v1/glclosures", do: GLClosures.index(conn)
+  post "/v1/glclosures", do: GLClosures.create(conn)
+  get "/v1/glclosures/:id", do: GLClosures.show(conn, id)
+  put "/v1/glclosures/:id", do: GLClosures.update(conn, id)
+  delete "/v1/glclosures/:id", do: GLClosures.delete(conn, id)
+
   get "/v1/glaccounts/template", do: GLAccounts.template(conn)
   get "/v1/glaccounts", do: GLAccounts.index(conn)
   post "/v1/glaccounts", do: GLAccounts.create(conn)

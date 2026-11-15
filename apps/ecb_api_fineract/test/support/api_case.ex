@@ -67,13 +67,7 @@ defmodule ECBApiFineract.ApiCase do
       TenantRepo.query!(sql)
     end
 
-    # users beyond the three seeded ones, and what hangs on them
-    TenantRepo.query!("DELETE FROM m_appuser_previous_password")
-    TenantRepo.query!("DELETE FROM m_appuser_role WHERE appuser_id > 3")
-    TenantRepo.query!("DELETE FROM m_appuser WHERE id > 3")
-    TenantRepo.query!("UPDATE m_appuser SET username = 'system' WHERE id = 2")
-    TenantRepo.query!("SELECT setval(pg_get_serial_sequence('m_appuser', 'id'), 3)")
-
+    # the books refer to users, offices and code values, so they go first
     for sql <- [
           "DELETE FROM acc_gl_journal_entry",
           "DELETE FROM acc_product_mapping",
@@ -89,6 +83,13 @@ defmodule ECBApiFineract.ApiCase do
         ] do
       TenantRepo.query!(sql)
     end
+
+    # users beyond the three seeded ones, and what hangs on them
+    TenantRepo.query!("DELETE FROM m_appuser_previous_password")
+    TenantRepo.query!("DELETE FROM m_appuser_role WHERE appuser_id > 3")
+    TenantRepo.query!("DELETE FROM m_appuser WHERE id > 3")
+    TenantRepo.query!("UPDATE m_appuser SET username = 'system' WHERE id = 2")
+    TenantRepo.query!("SELECT setval(pg_get_serial_sequence('m_appuser', 'id'), 3)")
 
     TenantRepo.query!("DELETE FROM m_code_value WHERE id > 22")
     TenantRepo.query!("DELETE FROM m_code WHERE is_system_defined = false")

@@ -30,13 +30,12 @@ defmodule ECBApiFineract.Resources.Offices do
 
   @spec show(Plug.Conn.t(), String.t()) :: Plug.Conn.t()
   def show(conn, raw_id) do
-    with :ok <- Security.validate_has_read_permission(conn.assigns.current_user, "OFFICE"),
-         {id, ""} <- Integer.parse(raw_id),
+    with {:ok, id} <- Write.path_id(raw_id),
+         :ok <- Security.validate_has_read_permission(conn.assigns.current_user, "OFFICE"),
          {:ok, office} <- Offices.get(id) do
       Response.json(conn, 200, serialize(office))
     else
       {:error, error} -> Errors.render(conn, error)
-      _not_a_number -> Errors.render(conn, %ECBOrg.Errors.OfficeNotFound{office_id: raw_id})
     end
   end
 
@@ -47,10 +46,11 @@ defmodule ECBApiFineract.Resources.Offices do
   @doc "`PUT /offices/:id`"
   @spec update(Plug.Conn.t(), String.t()) :: Plug.Conn.t()
   def update(conn, raw_id) do
-    case Write.parse_id(raw_id) do
-      nil -> Errors.render(conn, %ECBOrg.Errors.OfficeNotFound{office_id: raw_id})
-      id -> Write.execute(conn, "OFFICE", "UPDATE", id: id, office_id: id)
-    end
+    Write.with_path_id(
+      conn,
+      raw_id,
+      &Write.execute(conn, "OFFICE", "UPDATE", id: &1, office_id: &1)
+    )
   end
 
   @spec template(Plug.Conn.t()) :: Plug.Conn.t()

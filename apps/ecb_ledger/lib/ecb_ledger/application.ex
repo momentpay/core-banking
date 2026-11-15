@@ -10,7 +10,13 @@ defmodule ECBLedger.Application do
   @commands [
     {"GLACCOUNT", "CREATE", ECBLedger.Handlers.CreateGLAccount},
     {"GLACCOUNT", "UPDATE", ECBLedger.Handlers.UpdateGLAccount},
-    {"GLACCOUNT", "DELETE", ECBLedger.Handlers.DeleteGLAccount}
+    {"GLACCOUNT", "DELETE", ECBLedger.Handlers.DeleteGLAccount},
+    {"FINANCIALACTIVITYACCOUNT", "CREATE", ECBLedger.Handlers.CreateFinancialActivityAccount},
+    {"FINANCIALACTIVITYACCOUNT", "UPDATE", ECBLedger.Handlers.UpdateFinancialActivityAccount},
+    {"FINANCIALACTIVITYACCOUNT", "DELETE", ECBLedger.Handlers.DeleteFinancialActivityAccount},
+    {"GLCLOSURE", "CREATE", ECBLedger.Handlers.CreateGLClosure},
+    {"GLCLOSURE", "UPDATE", ECBLedger.Handlers.UpdateGLClosure},
+    {"GLCLOSURE", "DELETE", ECBLedger.Handlers.DeleteGLClosure}
   ]
 
   @impl true

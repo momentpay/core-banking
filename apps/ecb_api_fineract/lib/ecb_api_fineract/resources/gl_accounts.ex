@@ -41,7 +41,7 @@ defmodule ECBApiFineract.Resources.GLAccounts do
     with_options? = conn.query_params["template"] == "true"
 
     Read.respond(conn, "GLACCOUNT", fn ->
-      with {:ok, id} <- Write.id(raw_id, &GLAccounts.not_found/1),
+      with {:ok, id} <- Write.path_id(raw_id),
            {:ok, account} <- GLAccounts.get(id),
            do: account |> serialize() |> maybe_options(with_options?)
     end)
@@ -56,24 +56,25 @@ defmodule ECBApiFineract.Resources.GLAccounts do
   @doc "`PUT /glaccounts/:id`"
   def update(conn, raw_id),
     do:
-      Write.with_id(
+      Write.with_path_id(
         conn,
         raw_id,
-        &GLAccounts.not_found/1,
         &Write.execute(conn, "GLACCOUNT", "UPDATE", id: &1)
       )
 
   @doc "`DELETE /glaccounts/:id`"
   def delete(conn, raw_id),
     do:
-      Write.with_id(
+      Write.with_path_id(
         conn,
         raw_id,
-        &GLAccounts.not_found/1,
         &Write.execute(conn, "GLACCOUNT", "DELETE", id: &1)
       )
 
   # --- serialising ----------------------------------------------------------------------------
+
+  @doc "One account as Fineract's account JSON, for other resources that list accounts."
+  def account_json(account), do: serialize(account)
 
   defp bool("true"), do: true
   defp bool("false"), do: false

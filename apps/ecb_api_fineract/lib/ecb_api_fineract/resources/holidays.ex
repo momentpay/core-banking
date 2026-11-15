@@ -26,7 +26,7 @@ defmodule ECBApiFineract.Resources.Holidays do
   @doc "`GET /holidays/:id`"
   def show(conn, raw_id) do
     Read.respond(conn, "HOLIDAY", fn ->
-      with {:ok, id} <- Write.id(raw_id, &Holidays.not_found/1),
+      with {:ok, id} <- Write.path_id(raw_id),
            {:ok, holiday} <- Holidays.get(id),
            do: serialize(holiday)
     end)
@@ -46,10 +46,9 @@ defmodule ECBApiFineract.Resources.Holidays do
   def command(conn, raw_id) do
     case conn.query_params["command"] do
       "activate" ->
-        Write.with_id(
+        Write.with_path_id(
           conn,
           raw_id,
-          &Holidays.not_found/1,
           &Write.execute(conn, "HOLIDAY", "ACTIVATE", id: &1)
         )
 
@@ -65,20 +64,18 @@ defmodule ECBApiFineract.Resources.Holidays do
   @doc "`PUT /holidays/:id`"
   def update(conn, raw_id),
     do:
-      Write.with_id(
+      Write.with_path_id(
         conn,
         raw_id,
-        &Holidays.not_found/1,
         &Write.execute(conn, "HOLIDAY", "UPDATE", id: &1)
       )
 
   @doc "`DELETE /holidays/:id`"
   def delete(conn, raw_id),
     do:
-      Write.with_id(
+      Write.with_path_id(
         conn,
         raw_id,
-        &Holidays.not_found/1,
         &Write.execute(conn, "HOLIDAY", "DELETE", id: &1)
       )
 

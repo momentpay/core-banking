@@ -33,7 +33,7 @@ defmodule ECBApiFineract.Resources.MakerCheckers do
   def command(conn, raw_id) do
     user = conn.assigns.current_user
 
-    case Write.id(raw_id, &Audit.not_found/1) do
+    case Write.path_id(raw_id) do
       {:ok, id} ->
         case String.downcase(String.trim(conn.query_params["command"] || "")) do
           "approve" -> approve(conn, id, user)
@@ -48,7 +48,7 @@ defmodule ECBApiFineract.Resources.MakerCheckers do
 
   @doc "`DELETE /makercheckers/:id`"
   def delete(conn, raw_id) do
-    case Write.id(raw_id, &Audit.not_found/1) do
+    case Write.path_id(raw_id) do
       {:ok, id} -> only_id(conn, Commands.delete(id, conn.assigns.current_user), id)
       {:error, error} -> Errors.render(conn, error)
     end

@@ -357,14 +357,6 @@ defmodule ECBPlatform.Params do
     end
   end
 
-  defp raise_number_error(key, text) do
-    raise PlatformApiDataValidation,
-      errors: [
-        Errors.parameter_error(
-          "validation.msg.invalid.number.format",
-          "The parameter `#{key}` has an invalid number: `#{text}`.",
-          key
-        )
-      ]
-  end
+  defp raise_number_error(key, text),
+    do: raise(Errors.InvalidNumber, parameter: key, value: text)
 end

@@ -18,7 +18,7 @@ defmodule ECBApiFineract.Resources.Codes do
   @doc "`GET /codes/:id`"
   def show(conn, raw_id) do
     Read.respond(conn, "CODE", fn ->
-      with {:ok, id} <- Write.id(raw_id, &Codes.id_not_found/1),
+      with {:ok, id} <- Write.path_id(raw_id),
            {:ok, code} <- Codes.get(id),
            do: code(code)
     end)
@@ -35,20 +35,18 @@ defmodule ECBApiFineract.Resources.Codes do
   @doc "`PUT /codes/:id`"
   def update(conn, raw_id),
     do:
-      Write.with_id(
+      Write.with_path_id(
         conn,
         raw_id,
-        &Codes.name_not_found/1,
         &Write.execute(conn, "CODE", "UPDATE", id: &1)
       )
 
   @doc "`DELETE /codes/:id`"
   def delete(conn, raw_id),
     do:
-      Write.with_id(
+      Write.with_path_id(
         conn,
         raw_id,
-        &Codes.name_not_found/1,
         &Write.execute(conn, "CODE", "DELETE", id: &1)
       )
 
@@ -57,7 +55,7 @@ defmodule ECBApiFineract.Resources.Codes do
   @doc "`GET /codes/:code_id/codevalues`"
   def values(conn, raw_code_id) do
     Read.respond(conn, "CODEVALUE", fn ->
-      with {:ok, id} <- Write.id(raw_code_id, &Codes.id_not_found/1),
+      with {:ok, id} <- Write.path_id(raw_code_id),
            do: Enum.map(Codes.values(id), &value/1)
     end)
   end
@@ -73,7 +71,7 @@ defmodule ECBApiFineract.Resources.Codes do
   @doc "`GET /codes/:code_id/codevalues/:id`"
   def show_value(conn, _raw_code_id, raw_id) do
     Read.respond(conn, "CODEVALUE", fn ->
-      with {:ok, id} <- Write.id(raw_id, &Codes.value_not_found/1),
+      with {:ok, id} <- Write.path_id(raw_id),
            {:ok, v} <- Codes.get_value(id),
            do: value(v)
     end)
@@ -83,7 +81,7 @@ defmodule ECBApiFineract.Resources.Codes do
   def show_value_by_name(conn, name, raw_id) do
     Read.respond(conn, "CODEVALUE", fn ->
       with {:ok, _code} <- Codes.get_by_name(name),
-           {:ok, id} <- Write.id(raw_id, &Codes.value_not_found/1),
+           {:ok, id} <- Write.path_id(raw_id),
            {:ok, v} <- Codes.get_value(id),
            do: value(v)
     end)
@@ -91,10 +89,9 @@ defmodule ECBApiFineract.Resources.Codes do
 
   @doc "`POST /codes/:code_id/codevalues`"
   def create_value(conn, raw_code_id) do
-    Write.with_id(
+    Write.with_path_id(
       conn,
       raw_code_id,
-      &Codes.id_not_found/1,
       &Write.execute(conn, "CODEVALUE", "CREATE", id: &1)
     )
   end
@@ -106,10 +103,9 @@ defmodule ECBApiFineract.Resources.Codes do
 
   @doc "`PUT /codes/:code_id/codevalues/:id`"
   def update_value(conn, _raw_code_id, raw_id) do
-    Write.with_id(
+    Write.with_path_id(
       conn,
       raw_id,
-      &Codes.value_not_found/1,
       &Write.execute(conn, "CODEVALUE", "UPDATE", id: &1)
     )
   end
@@ -119,11 +115,10 @@ defmodule ECBApiFineract.Resources.Codes do
 
   @doc "`DELETE /codes/:code_id/codevalues/:id`"
   def delete_value(conn, raw_code_id, raw_id) do
-    Write.with_id(conn, raw_code_id, &Codes.id_not_found/1, fn code_id ->
-      Write.with_id(
+    Write.with_path_id(conn, raw_code_id, fn code_id ->
+      Write.with_path_id(
         conn,
         raw_id,
-        &Codes.value_not_found/1,
         &Write.execute(conn, "CODEVALUE", "DELETE", id: code_id, subentity_id: &1)
       )
     end)
@@ -132,10 +127,9 @@ defmodule ECBApiFineract.Resources.Codes do
   @doc "`DELETE /codes/name/:name/codevalues/:id`"
   def delete_value_by_name(conn, name, raw_id) do
     with_code_named(conn, name, fn code_id ->
-      Write.with_id(
+      Write.with_path_id(
         conn,
         raw_id,
-        &Codes.value_not_found/1,
         &Write.execute(conn, "CODEVALUE", "DELETE", id: code_id, subentity_id: &1)
       )
     end)

@@ -58,7 +58,21 @@ defmodule ECBPlatform.ParamsTest do
       assert Params.long(p, "a") == 7
       assert Params.long(p, "b") == 8
       assert Params.long(p, "none") == nil
-      assert_raise PlatformApiDataValidation, fn -> Params.long(p, "c") end
+      assert_raise ECBPlatform.Errors.InvalidNumber, fn -> Params.long(p, "c") end
+    end
+
+    test "text that is not a number is answered as Fineract answers it, without an envelope" do
+      error =
+        assert_raise ECBPlatform.Errors.InvalidNumber, fn ->
+          Params.long(params(%{"a" => "abc"}), "a")
+        end
+
+      assert {400, body} = ECBPlatform.Errors.to_api(error)
+      assert body["userMessageGlobalisationCode"] == "validation.msg.invalid.decimal.format"
+      assert body["parameterName"] == "a"
+      assert body["value"] == "abc"
+      assert body["args"] == []
+      refute Map.has_key?(body, "errors")
     end
 
     test "boolean/2 reads text as Fineract does: only true, in any case, is true" do

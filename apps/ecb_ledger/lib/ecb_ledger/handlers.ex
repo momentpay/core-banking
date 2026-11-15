@@ -36,4 +36,71 @@ defmodule ECBLedger.Handlers do
     def process(command, _user),
       do: {:ok, ECBLedger.GLAccounts.Write.delete!(command.entity_id)}
   end
+
+  defmodule CreateFinancialActivityAccount do
+    @moduledoc "`CREATE` on `FINANCIALACTIVITYACCOUNT`."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, _user),
+      do:
+        {:ok,
+         ECBLedger.FinancialActivities.Write.create!(ECBPlatform.Params.parse!(command.json))}
+  end
+
+  defmodule UpdateFinancialActivityAccount do
+    @moduledoc "`UPDATE` on `FINANCIALACTIVITYACCOUNT`."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, _user),
+      do:
+        {:ok,
+         ECBLedger.FinancialActivities.Write.update!(
+           command.entity_id,
+           ECBPlatform.Params.parse!(command.json)
+         )}
+  end
+
+  defmodule DeleteFinancialActivityAccount do
+    @moduledoc "`DELETE` on `FINANCIALACTIVITYACCOUNT`."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, _user),
+      do: {:ok, ECBLedger.FinancialActivities.Write.delete!(command.entity_id)}
+  end
+
+  defmodule CreateGLClosure do
+    @moduledoc "`CREATE` on `GLCLOSURE`."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, user),
+      do: {:ok, ECBLedger.Closures.Write.create!(ECBPlatform.Params.parse!(command.json), user)}
+  end
+
+  defmodule UpdateGLClosure do
+    @moduledoc "`UPDATE` on `GLCLOSURE`."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, user),
+      do:
+        {:ok,
+         ECBLedger.Closures.Write.update!(
+           command.entity_id,
+           ECBPlatform.Params.parse!(command.json),
+           user
+         )}
+  end
+
+  defmodule DeleteGLClosure do
+    @moduledoc "`DELETE` on `GLCLOSURE`."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, _user),
+      do: {:ok, ECBLedger.Closures.Write.delete!(command.entity_id)}
+  end
 end

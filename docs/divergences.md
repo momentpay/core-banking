@@ -65,5 +65,10 @@ No stored value differs: command rows, statuses, result codes and result JSON fi
 | 29 | `GET /glaccounts?searchParam=` and `?fetchRunningBalance=true` answer HTTP 500 | `searchParam` works (part of the name or code); the running balance arrives with journal entries | A 500 on a documented filter is a defect | `GLAccountWriteTest` |
 | 30 | A bad `type` filter on the account list is reported as a bad *usage* (wrong message code and text, and `null` for a bad usage) | The same, kept so clients keyed on it behave the same | Recorded from Fineract | `ScenariosTest` (glaccounts) |
 
+| 31 | `GET /financialactivityaccounts` lists the mappings in whatever order the join returns them (in practice by account id) | Listed by account id, then mapping id | Stable and predictable | `ScenariosTest` (financialactivityaccounts) |
+| 32 | Deleting a GL account that a financial activity maps to answers the database's own error text | The same status and message code (`error.msg.data.integrity.issue`), with a message that says what is wrong | A database error is not a message for a client | Scenario ignores the message text |
+| 33 | A mapping can be created for the cash activities (101, 102) but not changed to them: Fineract's update check leaves them out | The same | Recorded from Fineract; a probable oversight there that clients may already depend on | `ScenariosTest` (financialactivityaccounts) |
+| 34 | A closure's list is ordered by closing date and then by id; Fineract leaves ties open | Same, with the tie fixed | Stable | `ScenariosTest` (glclosures) |
+
 **Security note:** the seeded users (`mifos`, `system`, `interopUser`) and the password `password` are Fineract's published defaults. They exist so the compatible API and Fineract's own tests work out of the box. A real deployment must change those passwords, or remove the users, before it holds real data. A password can now be changed with `PUT /users/{id}` or `POST /users/{id}/pwd`; the active password policy applies (the default policy asks for 12 to 50 characters with upper and lower case, a digit and a symbol).
 

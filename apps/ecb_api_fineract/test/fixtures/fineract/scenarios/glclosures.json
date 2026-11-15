@@ -1,0 +1,1274 @@
+{
+ "name": "glclosures",
+ "reset": [
+  "glaccounts",
+  "offices"
+ ],
+ "steps": [
+  {
+   "path": "/v1/glclosures",
+   "status": 200,
+   "response": []
+  },
+  {
+   "method": "POST",
+   "path": "/v1/offices",
+   "body": {
+    "name": "Branch",
+    "parentId": 1,
+    "openingDate": "01 January 2020",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 2,
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glclosures",
+   "body": {
+    "officeId": 1,
+    "closingDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "March close"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 1
+   }
+  },
+  {
+   "path": "/v1/glclosures",
+   "ignore": [
+    "createdDate",
+    "lastUpdatedDate"
+   ],
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "closingDate": "2025-03-01",
+     "deleted": false,
+     "createdDate": "2026-11-15",
+     "lastUpdatedDate": "2026-11-15",
+     "createdByUserId": 1,
+     "createdByUsername": "mifos",
+     "lastUpdatedByUserId": 1,
+     "lastUpdatedByUsername": "mifos",
+     "comments": "March close",
+     "allowedOffices": []
+    }
+   ]
+  },
+  {
+   "path": "/v1/glclosures/1",
+   "ignore": [
+    "createdDate",
+    "lastUpdatedDate"
+   ],
+   "status": 200,
+   "response": {
+    "id": 1,
+    "officeId": 1,
+    "officeName": "Head Office",
+    "closingDate": "2025-03-01",
+    "deleted": false,
+    "createdDate": "2026-11-15",
+    "lastUpdatedDate": "2026-11-15",
+    "createdByUserId": 1,
+    "createdByUsername": "mifos",
+    "lastUpdatedByUserId": 1,
+    "lastUpdatedByUsername": "mifos",
+    "comments": "March close",
+    "allowedOffices": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glclosures",
+   "body": {
+    "officeId": 1,
+    "closingDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "An accounting closure for branch with Id 1 already exists for the date 2025-03-01",
+      "defaultUserMessage": "An accounting closure for branch with Id 1 already exists for the date 2025-03-01",
+      "userMessageGlobalisationCode": "error.msg.glclosure.glcode.duplicate",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 1
+       },
+       {
+        "value": "2025-03-01"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glclosures",
+   "body": {
+    "officeId": 1,
+    "closingDate": "01 February 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Accounting Closure for this branch has already been defined for a greater date",
+      "defaultUserMessage": "Accounting Closure for this branch has already been defined for a greater date",
+      "userMessageGlobalisationCode": "error.msg.glclosure.invalid.accounting.closed",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "2025-03-01"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glclosures",
+   "body": {
+    "officeId": 1,
+    "closingDate": "01 January 2099",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Accounting closures cannot be made for a future date",
+      "defaultUserMessage": "Accounting closures cannot be made for a future date",
+      "userMessageGlobalisationCode": "error.msg.glclosure.invalid.future.date",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "2099-01-01"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glclosures",
+   "body": {
+    "officeId": 2,
+    "closingDate": "01 April 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 2,
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glclosures",
+   "body": {
+    "officeId": 1,
+    "closingDate": "01 May 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `comments` exceeds max length of 500.",
+      "defaultUserMessage": "The parameter `comments` exceeds max length of 500.",
+      "userMessageGlobalisationCode": "validation.msg.GLClosure.comments.exceeds.max.length",
+      "parameterName": "comments",
+      "args": [
+       {
+        "value": 500
+       },
+       {
+        "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glclosures",
+   "body": {
+    "officeId": 99,
+    "closingDate": "01 May 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Office with identifier 99 does not exist",
+      "defaultUserMessage": "Office with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.office.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glclosures",
+   "body": {
+    "officeId": 0,
+    "closingDate": "01 May 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `officeId` must be greater than 0.",
+      "defaultUserMessage": "The parameter `officeId` must be greater than 0.",
+      "userMessageGlobalisationCode": "validation.msg.GLClosure.officeId.not.greater.than.zero",
+      "parameterName": "officeId",
+      "args": [
+       {
+        "value": 0
+       },
+       {
+        "value": 0
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glclosures",
+   "body": {
+    "officeId": 1,
+    "closingDate": "2025-05-01",
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glclosures",
+   "body": {
+    "officeId": 1,
+    "closingDate": "bad",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `closingDate` is invalid based on the dateFormat: `dd MMMM yyyy` and locale: `en` provided:",
+      "defaultUserMessage": "The parameter `closingDate` is invalid based on the dateFormat: `dd MMMM yyyy` and locale: `en` provided:",
+      "userMessageGlobalisationCode": "validation.msg.invalid.dateFormat.format",
+      "parameterName": "closingDate",
+      "args": [
+       {},
+       {
+        "value": "dd MMMM yyyy"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glclosures",
+   "body": {
+    "officeId": 1,
+    "closingDate": "01 May 2025"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `closingDate` requires a `dateFormat` parameter to be passed with it.",
+      "defaultUserMessage": "The parameter `closingDate` requires a `dateFormat` parameter to be passed with it.",
+      "userMessageGlobalisationCode": "validation.msg.missing.dateFormat.parameter",
+      "parameterName": "closingDate",
+      "args": []
+     },
+     {
+      "developerMessage": "The parameter `closingDate` requires a `locale` parameter to be passed with it.",
+      "defaultUserMessage": "The parameter `closingDate` requires a `locale` parameter to be passed with it.",
+      "userMessageGlobalisationCode": "validation.msg.missing.locale.parameter",
+      "parameterName": "closingDate",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glclosures",
+   "body": {},
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `closingDate` is mandatory.",
+      "defaultUserMessage": "The parameter `closingDate` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.GLClosure.closingDate.cannot.be.blank",
+      "parameterName": "closingDate",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `officeId` is mandatory.",
+      "defaultUserMessage": "The parameter `officeId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.GLClosure.officeId.cannot.be.blank",
+      "parameterName": "officeId",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glclosures",
+   "body": {
+    "closingDate": "01 May 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `officeId` is mandatory.",
+      "defaultUserMessage": "The parameter `officeId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.GLClosure.officeId.cannot.be.blank",
+      "parameterName": "officeId",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glclosures",
+   "body": {
+    "officeId": 1,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `closingDate` is mandatory.",
+      "defaultUserMessage": "The parameter `closingDate` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.GLClosure.closingDate.cannot.be.blank",
+      "parameterName": "closingDate",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glclosures",
+   "body": {
+    "officeId": 1,
+    "closingDate": "01 May 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "bogus": 1
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "An accounting closure for branch with Id 1 already exists for the date 2025-05-01",
+      "defaultUserMessage": "An accounting closure for branch with Id 1 already exists for the date 2025-05-01",
+      "userMessageGlobalisationCode": "error.msg.glclosure.glcode.duplicate",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 1
+       },
+       {
+        "value": "2025-05-01"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glclosures",
+   "body": {
+    "officeId": 1,
+    "closingDate": "01 May 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "  May close  "
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "An accounting closure for branch with Id 1 already exists for the date 2025-05-01",
+      "defaultUserMessage": "An accounting closure for branch with Id 1 already exists for the date 2025-05-01",
+      "userMessageGlobalisationCode": "error.msg.glclosure.glcode.duplicate",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 1
+       },
+       {
+        "value": "2025-05-01"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glclosures",
+   "body": {
+    "officeId": 1,
+    "closingDate": "01 May 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": ""
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "An accounting closure for branch with Id 1 already exists for the date 2025-05-01",
+      "defaultUserMessage": "An accounting closure for branch with Id 1 already exists for the date 2025-05-01",
+      "userMessageGlobalisationCode": "error.msg.glclosure.glcode.duplicate",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 1
+       },
+       {
+        "value": "2025-05-01"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glclosures",
+   "body": {
+    "officeId": 1,
+    "closingDate": "02 May 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": ""
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 8
+   }
+  },
+  {
+   "path": "/v1/glclosures",
+   "ignore": [
+    "createdDate",
+    "lastUpdatedDate"
+   ],
+   "status": 200,
+   "response": [
+    {
+     "id": 8,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "closingDate": "2025-05-02",
+     "deleted": false,
+     "createdDate": "2026-11-15",
+     "lastUpdatedDate": "2026-11-15",
+     "createdByUserId": 1,
+     "createdByUsername": "mifos",
+     "lastUpdatedByUserId": 1,
+     "lastUpdatedByUsername": "mifos",
+     "allowedOffices": []
+    },
+    {
+     "id": 4,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "closingDate": "2025-05-01",
+     "deleted": false,
+     "createdDate": "2026-11-15",
+     "lastUpdatedDate": "2026-11-15",
+     "createdByUserId": 1,
+     "createdByUsername": "mifos",
+     "lastUpdatedByUserId": 1,
+     "lastUpdatedByUsername": "mifos",
+     "allowedOffices": []
+    },
+    {
+     "id": 3,
+     "officeId": 2,
+     "officeName": "Branch",
+     "closingDate": "2025-04-01",
+     "deleted": false,
+     "createdDate": "2026-11-15",
+     "lastUpdatedDate": "2026-11-15",
+     "createdByUserId": 1,
+     "createdByUsername": "mifos",
+     "lastUpdatedByUserId": 1,
+     "lastUpdatedByUsername": "mifos",
+     "allowedOffices": []
+    },
+    {
+     "id": 1,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "closingDate": "2025-03-01",
+     "deleted": false,
+     "createdDate": "2026-11-15",
+     "lastUpdatedDate": "2026-11-15",
+     "createdByUserId": 1,
+     "createdByUsername": "mifos",
+     "lastUpdatedByUserId": 1,
+     "lastUpdatedByUsername": "mifos",
+     "comments": "March close",
+     "allowedOffices": []
+    }
+   ]
+  },
+  {
+   "path": "/v1/glclosures?officeId=2",
+   "ignore": [
+    "createdDate",
+    "lastUpdatedDate"
+   ],
+   "status": 200,
+   "response": [
+    {
+     "id": 3,
+     "officeId": 2,
+     "officeName": "Branch",
+     "closingDate": "2025-04-01",
+     "deleted": false,
+     "createdDate": "2026-11-15",
+     "lastUpdatedDate": "2026-11-15",
+     "createdByUserId": 1,
+     "createdByUsername": "mifos",
+     "lastUpdatedByUserId": 1,
+     "lastUpdatedByUsername": "mifos",
+     "allowedOffices": []
+    }
+   ]
+  },
+  {
+   "path": "/v1/glclosures?officeId=1",
+   "ignore": [
+    "createdDate",
+    "lastUpdatedDate"
+   ],
+   "status": 200,
+   "response": [
+    {
+     "id": 8,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "closingDate": "2025-05-02",
+     "deleted": false,
+     "createdDate": "2026-11-15",
+     "lastUpdatedDate": "2026-11-15",
+     "createdByUserId": 1,
+     "createdByUsername": "mifos",
+     "lastUpdatedByUserId": 1,
+     "lastUpdatedByUsername": "mifos",
+     "allowedOffices": []
+    },
+    {
+     "id": 4,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "closingDate": "2025-05-01",
+     "deleted": false,
+     "createdDate": "2026-11-15",
+     "lastUpdatedDate": "2026-11-15",
+     "createdByUserId": 1,
+     "createdByUsername": "mifos",
+     "lastUpdatedByUserId": 1,
+     "lastUpdatedByUsername": "mifos",
+     "allowedOffices": []
+    },
+    {
+     "id": 1,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "closingDate": "2025-03-01",
+     "deleted": false,
+     "createdDate": "2026-11-15",
+     "lastUpdatedDate": "2026-11-15",
+     "createdByUserId": 1,
+     "createdByUsername": "mifos",
+     "lastUpdatedByUserId": 1,
+     "lastUpdatedByUsername": "mifos",
+     "comments": "March close",
+     "allowedOffices": []
+    }
+   ]
+  },
+  {
+   "path": "/v1/glclosures?officeId=0",
+   "ignore": [
+    "createdDate",
+    "lastUpdatedDate"
+   ],
+   "status": 200,
+   "response": [
+    {
+     "id": 8,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "closingDate": "2025-05-02",
+     "deleted": false,
+     "createdDate": "2026-11-15",
+     "lastUpdatedDate": "2026-11-15",
+     "createdByUserId": 1,
+     "createdByUsername": "mifos",
+     "lastUpdatedByUserId": 1,
+     "lastUpdatedByUsername": "mifos",
+     "allowedOffices": []
+    },
+    {
+     "id": 4,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "closingDate": "2025-05-01",
+     "deleted": false,
+     "createdDate": "2026-11-15",
+     "lastUpdatedDate": "2026-11-15",
+     "createdByUserId": 1,
+     "createdByUsername": "mifos",
+     "lastUpdatedByUserId": 1,
+     "lastUpdatedByUsername": "mifos",
+     "allowedOffices": []
+    },
+    {
+     "id": 3,
+     "officeId": 2,
+     "officeName": "Branch",
+     "closingDate": "2025-04-01",
+     "deleted": false,
+     "createdDate": "2026-11-15",
+     "lastUpdatedDate": "2026-11-15",
+     "createdByUserId": 1,
+     "createdByUsername": "mifos",
+     "lastUpdatedByUserId": 1,
+     "lastUpdatedByUsername": "mifos",
+     "allowedOffices": []
+    },
+    {
+     "id": 1,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "closingDate": "2025-03-01",
+     "deleted": false,
+     "createdDate": "2026-11-15",
+     "lastUpdatedDate": "2026-11-15",
+     "createdByUserId": 1,
+     "createdByUsername": "mifos",
+     "lastUpdatedByUserId": 1,
+     "lastUpdatedByUsername": "mifos",
+     "comments": "March close",
+     "allowedOffices": []
+    }
+   ]
+  },
+  {
+   "path": "/v1/glclosures?officeId=99",
+   "ignore": [
+    "createdDate",
+    "lastUpdatedDate"
+   ],
+   "status": 200,
+   "response": []
+  },
+  {
+   "path": "/v1/glclosures?officeId=abc",
+   "ignore": [
+    "timestamp",
+    "path"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T04:39:10.740Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/glclosures"
+   }
+  },
+  {
+   "path": "/v1/glclosures/1?template=true",
+   "ignore": [
+    "createdDate",
+    "lastUpdatedDate"
+   ],
+   "status": 200,
+   "response": {
+    "id": 1,
+    "officeId": 1,
+    "officeName": "Head Office",
+    "closingDate": "2025-03-01",
+    "deleted": false,
+    "createdDate": "2026-11-15",
+    "lastUpdatedDate": "2026-11-15",
+    "createdByUserId": 1,
+    "createdByUsername": "mifos",
+    "lastUpdatedByUserId": 1,
+    "lastUpdatedByUsername": "mifos",
+    "comments": "March close",
+    "allowedOffices": [
+     {
+      "id": 1,
+      "name": "Head Office",
+      "nameDecorated": "Head Office"
+     },
+     {
+      "id": 2,
+      "name": "Branch",
+      "nameDecorated": "....Branch"
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/glclosures/1?fields=officeName,closingDate",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "officeId": 1,
+    "officeName": "Head Office",
+    "closingDate": "2025-03-01",
+    "deleted": false,
+    "createdDate": "2026-11-15",
+    "lastUpdatedDate": "2026-11-15",
+    "createdByUserId": 1,
+    "createdByUsername": "mifos",
+    "lastUpdatedByUserId": 1,
+    "lastUpdatedByUsername": "mifos",
+    "comments": "March close",
+    "allowedOffices": []
+   }
+  },
+  {
+   "path": "/v1/glclosures/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Accounting Closure with identifier 99 does not exist",
+      "defaultUserMessage": "Accounting Closure with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.glclosure.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/glclosures/abc",
+   "ignore": [
+    "timestamp",
+    "path"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T04:39:11.079Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/glclosures/abc"
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glclosures/1",
+   "body": {
+    "comments": "Updated"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 1,
+    "changes": {
+     "comments": "Updated"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glclosures/1",
+   "body": {
+    "comments": "Updated"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glclosures/1",
+   "body": {
+    "comments": ""
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "No parameters passed for update.",
+      "defaultUserMessage": "No parameters passed for update.",
+      "userMessageGlobalisationCode": "validation.msg.GLClosure.no.parameters.for.update",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glclosures/1",
+   "body": {
+    "comments": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `comments` exceeds max length of 500.",
+      "defaultUserMessage": "The parameter `comments` exceeds max length of 500.",
+      "userMessageGlobalisationCode": "validation.msg.GLClosure.comments.exceeds.max.length",
+      "parameterName": "comments",
+      "args": [
+       {
+        "value": 500
+       },
+       {
+        "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glclosures/1",
+   "body": {},
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "No parameters passed for update.",
+      "defaultUserMessage": "No parameters passed for update.",
+      "userMessageGlobalisationCode": "validation.msg.GLClosure.no.parameters.for.update",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glclosures/1",
+   "body": {
+    "closingDate": "05 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "No parameters passed for update.",
+      "defaultUserMessage": "No parameters passed for update.",
+      "userMessageGlobalisationCode": "validation.msg.GLClosure.no.parameters.for.update",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glclosures/1",
+   "body": {
+    "officeId": 2,
+    "comments": "Moved"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 1,
+    "changes": {
+     "comments": "Moved"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glclosures/1",
+   "body": {
+    "bogus": 1
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "No parameters passed for update.",
+      "defaultUserMessage": "No parameters passed for update.",
+      "userMessageGlobalisationCode": "validation.msg.GLClosure.no.parameters.for.update",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glclosures/99",
+   "body": {
+    "comments": "x"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Accounting Closure with identifier 99 does not exist",
+      "defaultUserMessage": "Accounting Closure with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.glclosure.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/glclosures/1",
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "The latest closure for office with Id 1 and name Head Office is on 2025-05-02, please delete this closure first",
+      "defaultUserMessage": "The latest closure for office with Id 1 and name Head Office is on 2025-05-02, please delete this closure first",
+      "userMessageGlobalisationCode": "error.msg.glclosure.invalid.delete",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "2025-05-02"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/glclosures/abc",
+   "ignore": [
+    "timestamp",
+    "path"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T04:39:12.264Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/glclosures/abc"
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/glclosures/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Accounting Closure with identifier 99 does not exist",
+      "defaultUserMessage": "Accounting Closure with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.glclosure.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/glclosures/2",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Accounting Closure with identifier 2 does not exist",
+      "defaultUserMessage": "Accounting Closure with identifier 2 does not exist",
+      "userMessageGlobalisationCode": "error.msg.glclosure.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 2
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/glclosures/1",
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "The latest closure for office with Id 1 and name Head Office is on 2025-05-02, please delete this closure first",
+      "defaultUserMessage": "The latest closure for office with Id 1 and name Head Office is on 2025-05-02, please delete this closure first",
+      "userMessageGlobalisationCode": "error.msg.glclosure.invalid.delete",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "2025-05-02"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/glclosures",
+   "ignore": [
+    "createdDate",
+    "lastUpdatedDate"
+   ],
+   "status": 200,
+   "response": [
+    {
+     "id": 8,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "closingDate": "2025-05-02",
+     "deleted": false,
+     "createdDate": "2026-11-15",
+     "lastUpdatedDate": "2026-11-15",
+     "createdByUserId": 1,
+     "createdByUsername": "mifos",
+     "lastUpdatedByUserId": 1,
+     "lastUpdatedByUsername": "mifos",
+     "allowedOffices": []
+    },
+    {
+     "id": 4,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "closingDate": "2025-05-01",
+     "deleted": false,
+     "createdDate": "2026-11-15",
+     "lastUpdatedDate": "2026-11-15",
+     "createdByUserId": 1,
+     "createdByUsername": "mifos",
+     "lastUpdatedByUserId": 1,
+     "lastUpdatedByUsername": "mifos",
+     "allowedOffices": []
+    },
+    {
+     "id": 3,
+     "officeId": 2,
+     "officeName": "Branch",
+     "closingDate": "2025-04-01",
+     "deleted": false,
+     "createdDate": "2026-11-15",
+     "lastUpdatedDate": "2026-11-15",
+     "createdByUserId": 1,
+     "createdByUsername": "mifos",
+     "lastUpdatedByUserId": 1,
+     "lastUpdatedByUsername": "mifos",
+     "allowedOffices": []
+    },
+    {
+     "id": 1,
+     "officeId": 1,
+     "officeName": "Head Office",
+     "closingDate": "2025-03-01",
+     "deleted": false,
+     "createdDate": "2026-11-15",
+     "lastUpdatedDate": "2026-11-15",
+     "createdByUserId": 1,
+     "createdByUsername": "mifos",
+     "lastUpdatedByUserId": 1,
+     "lastUpdatedByUsername": "mifos",
+     "comments": "Moved",
+     "allowedOffices": []
+    }
+   ]
+  }
+ ]
+}

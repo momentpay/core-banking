@@ -24,7 +24,7 @@ defmodule ECBApiFineract.Resources.Administration do
   @doc "`GET /configurations/:id`"
   def configuration_by_id(conn, raw_id) do
     Read.respond(conn, "CONFIGURATION", fn ->
-      with {:ok, id} <- Write.id(raw_id, &configuration_id_not_found/1),
+      with {:ok, id} <- Write.path_id(raw_id),
            {:ok, c} <- Configuration.get_by_id(id),
            do: configuration(c, false)
     end)
@@ -32,10 +32,9 @@ defmodule ECBApiFineract.Resources.Administration do
 
   @doc "`PUT /configurations/:id`"
   def update_configuration(conn, raw_id) do
-    Write.with_id(
+    Write.with_path_id(
       conn,
       raw_id,
-      &configuration_id_not_found/1,
       &Write.execute(conn, "CONFIGURATION", "UPDATE", id: &1)
     )
   end
@@ -53,14 +52,6 @@ defmodule ECBApiFineract.Resources.Administration do
 
   @doc "`PUT /permissions`"
   def update_permissions(conn), do: Write.execute(conn, "PERMISSION", "UPDATE")
-
-  defp configuration_id_not_found(raw),
-    do:
-      ECBPlatform.Errors.ResourceNotFound.new(
-        "error.msg.configuration.id.invalid",
-        "Configuration identifier `#{raw}` does not exist",
-        [raw]
-      )
 
   @doc "`GET /permissions` (`?makerCheckerable=true` for the maker-checker view)"
   def permissions(conn) do
@@ -94,19 +85,17 @@ defmodule ECBApiFineract.Resources.Administration do
   @doc "`PUT /roles/:id`"
   def update_role(conn, raw_id),
     do:
-      Write.with_id(
+      Write.with_path_id(
         conn,
         raw_id,
-        &Roles.not_found/1,
         &Write.execute(conn, "ROLE", "UPDATE", id: &1)
       )
 
   @doc "`PUT /roles/:id/permissions`"
   def update_role_permissions(conn, raw_id) do
-    Write.with_id(
+    Write.with_path_id(
       conn,
       raw_id,
-      &Roles.not_found/1,
       &Write.execute(conn, "ROLE", "PERMISSIONS", id: &1)
     )
   end
@@ -114,10 +103,9 @@ defmodule ECBApiFineract.Resources.Administration do
   @doc "`DELETE /roles/:id`"
   def delete_role(conn, raw_id),
     do:
-      Write.with_id(
+      Write.with_path_id(
         conn,
         raw_id,
-        &Roles.not_found/1,
         &Write.execute(conn, "ROLE", "DELETE", id: &1)
       )
 
@@ -125,18 +113,16 @@ defmodule ECBApiFineract.Resources.Administration do
   def role_command(conn, raw_id) do
     case conn.query_params["command"] do
       "enable" ->
-        Write.with_id(
+        Write.with_path_id(
           conn,
           raw_id,
-          &Roles.not_found/1,
           &Write.execute(conn, "ROLE", "ENABLE", id: &1)
         )
 
       "disable" ->
-        Write.with_id(
+        Write.with_path_id(
           conn,
           raw_id,
-          &Roles.not_found/1,
           &Write.execute(conn, "ROLE", "DISABLE", id: &1)
         )
 
@@ -167,39 +153,28 @@ defmodule ECBApiFineract.Resources.Administration do
   @doc "`PUT /users/:id`"
   def update_user(conn, raw_id),
     do:
-      Write.with_id(
+      Write.with_path_id(
         conn,
         raw_id,
-        &user_not_found/1,
         &Write.execute(conn, "USER", "UPDATE", id: &1)
       )
 
   @doc "`DELETE /users/:id`"
   def delete_user(conn, raw_id),
     do:
-      Write.with_id(
+      Write.with_path_id(
         conn,
         raw_id,
-        &user_not_found/1,
         &Write.execute(conn, "USER", "DELETE", id: &1)
       )
 
   @doc "`POST /users/:id/pwd`"
   def change_user_password(conn, raw_id),
     do:
-      Write.with_id(
+      Write.with_path_id(
         conn,
         raw_id,
-        &user_not_found/1,
         &Write.execute(conn, "USER", "CHANGEPWD", id: &1)
-      )
-
-  defp user_not_found(raw),
-    do:
-      ECBPlatform.Errors.ResourceNotFound.new(
-        "error.msg.user.id.invalid",
-        "User with ID #{raw} does not exist",
-        [raw]
       )
 
   @doc "`GET /users/template`"

@@ -11,7 +11,7 @@ defmodule ECBApiFineract.Resources.Funds do
   @doc "`GET /funds/:id`"
   def show(conn, raw_id) do
     Read.respond(conn, "FUND", fn ->
-      with {:ok, id} <- Write.id(raw_id, &not_found/1),
+      with {:ok, id} <- Write.path_id(raw_id),
            {:ok, fund} <- Funds.get(id),
            do: serialize(fund)
     end)
@@ -22,16 +22,8 @@ defmodule ECBApiFineract.Resources.Funds do
 
   @doc "`PUT /funds/:id`"
   def update(conn, raw_id) do
-    Write.with_id(conn, raw_id, &not_found/1, &Write.execute(conn, "FUND", "UPDATE", id: &1))
+    Write.with_path_id(conn, raw_id, &Write.execute(conn, "FUND", "UPDATE", id: &1))
   end
 
   defp serialize(f), do: %{"id" => f.id, "name" => f.name, "externalId" => f.external_id}
-
-  defp not_found(raw),
-    do:
-      ECBPlatform.Errors.ResourceNotFound.new(
-        "error.msg.fund.id.invalid",
-        "Fund with identifier #{raw} does not exist",
-        [raw]
-      )
 end

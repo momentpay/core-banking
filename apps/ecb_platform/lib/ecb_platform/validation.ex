@@ -155,7 +155,7 @@ defmodule ECBPlatform.Validation do
 
   @doc "The value must be one of `allowed`."
   @spec one_of(t, [term]) :: t
-  def one_of(%{value: nil} = v, _allowed), do: v
+  def one_of(%{value: nil, ignore_null: true} = v, _allowed), do: v
 
   def one_of(%{value: value} = v, allowed) do
     if value in allowed,
@@ -165,7 +165,7 @@ defmodule ECBPlatform.Validation do
           v,
           "is.not.one.of.expected.enumerations",
           "The parameter `#{v.parameter}` must be one of [ #{Enum.join(allowed, ", ")} ] .",
-          [value | allowed]
+          [value, allowed]
         )
   end
 

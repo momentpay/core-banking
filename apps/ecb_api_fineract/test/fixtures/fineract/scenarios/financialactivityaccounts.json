@@ -1,0 +1,1690 @@
+{
+ "name": "financialactivityaccounts",
+ "reset": [
+  "glaccounts"
+ ],
+ "steps": [
+  {
+   "path": "/v1/financialactivityaccounts",
+   "status": 200,
+   "response": []
+  },
+  {
+   "path": "/v1/financialactivityaccounts/template",
+   "status": 200,
+   "response": {
+    "glAccountOptions": {},
+    "financialActivityOptions": [
+     {
+      "id": 100,
+      "name": "assetTransfer",
+      "mappedGLAccountType": "ASSET"
+     },
+     {
+      "id": 200,
+      "name": "liabilityTransfer",
+      "mappedGLAccountType": "LIABILITY"
+     },
+     {
+      "id": 101,
+      "name": "cashAtMainVault",
+      "mappedGLAccountType": "ASSET"
+     },
+     {
+      "id": 102,
+      "name": "cashAtTeller",
+      "mappedGLAccountType": "ASSET"
+     },
+     {
+      "id": 300,
+      "name": "openingBalancesTransferContra",
+      "mappedGLAccountType": "EQUITY"
+     },
+     {
+      "id": 103,
+      "name": "fundSource",
+      "mappedGLAccountType": "ASSET"
+     },
+     {
+      "id": 201,
+      "name": "payableDividends",
+      "mappedGLAccountType": "LIABILITY"
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Cash",
+    "glCode": "1000",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Payables",
+    "glCode": "2000",
+    "manualEntriesAllowed": true,
+    "type": 2,
+    "usage": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Equity",
+    "glCode": "3000",
+    "manualEntriesAllowed": true,
+    "type": 3,
+    "usage": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Fees",
+    "glCode": "4000",
+    "manualEntriesAllowed": true,
+    "type": 4,
+    "usage": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Assets",
+    "glCode": "1",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 2
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 5
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Old cash",
+    "glCode": "1900",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1,
+    "disabled": true
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 6
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Bank",
+    "glCode": "1100",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 7
+   }
+  },
+  {
+   "path": "/v1/financialactivityaccounts/template",
+   "status": 200,
+   "response": {
+    "glAccountOptions": {
+     "liabilityAccountOptions": [
+      {
+       "id": 2,
+       "name": "Payables",
+       "glCode": "2000",
+       "disabled": false,
+       "manualEntriesAllowed": true,
+       "type": {
+        "id": 2,
+        "code": "accountType.liability",
+        "value": "LIABILITY"
+       },
+       "usage": {
+        "id": 1,
+        "code": "accountUsage.detail",
+        "value": "DETAIL"
+       },
+       "description": "",
+       "nameDecorated": "Payables",
+       "tagId": {
+        "id": 0
+       }
+      }
+     ],
+     "assetAccountOptions": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000",
+       "disabled": false,
+       "manualEntriesAllowed": true,
+       "type": {
+        "id": 1,
+        "code": "accountType.asset",
+        "value": "ASSET"
+       },
+       "usage": {
+        "id": 1,
+        "code": "accountUsage.detail",
+        "value": "DETAIL"
+       },
+       "description": "",
+       "nameDecorated": "Cash",
+       "tagId": {
+        "id": 0
+       }
+      },
+      {
+       "id": 7,
+       "name": "Bank",
+       "glCode": "1100",
+       "disabled": false,
+       "manualEntriesAllowed": true,
+       "type": {
+        "id": 1,
+        "code": "accountType.asset",
+        "value": "ASSET"
+       },
+       "usage": {
+        "id": 1,
+        "code": "accountUsage.detail",
+        "value": "DETAIL"
+       },
+       "description": "",
+       "nameDecorated": "Bank",
+       "tagId": {
+        "id": 0
+       }
+      }
+     ],
+     "incomeAccountOptions": [
+      {
+       "id": 4,
+       "name": "Fees",
+       "glCode": "4000",
+       "disabled": false,
+       "manualEntriesAllowed": true,
+       "type": {
+        "id": 4,
+        "code": "accountType.income",
+        "value": "INCOME"
+       },
+       "usage": {
+        "id": 1,
+        "code": "accountUsage.detail",
+        "value": "DETAIL"
+       },
+       "description": "",
+       "nameDecorated": "Fees",
+       "tagId": {
+        "id": 0
+       }
+      }
+     ],
+     "equityAccountOptions": [
+      {
+       "id": 3,
+       "name": "Equity",
+       "glCode": "3000",
+       "disabled": false,
+       "manualEntriesAllowed": true,
+       "type": {
+        "id": 3,
+        "code": "accountType.equity",
+        "value": "EQUITY"
+       },
+       "usage": {
+        "id": 1,
+        "code": "accountUsage.detail",
+        "value": "DETAIL"
+       },
+       "description": "",
+       "nameDecorated": "Equity",
+       "tagId": {
+        "id": 0
+       }
+      }
+     ]
+    },
+    "financialActivityOptions": [
+     {
+      "id": 100,
+      "name": "assetTransfer",
+      "mappedGLAccountType": "ASSET"
+     },
+     {
+      "id": 200,
+      "name": "liabilityTransfer",
+      "mappedGLAccountType": "LIABILITY"
+     },
+     {
+      "id": 101,
+      "name": "cashAtMainVault",
+      "mappedGLAccountType": "ASSET"
+     },
+     {
+      "id": 102,
+      "name": "cashAtTeller",
+      "mappedGLAccountType": "ASSET"
+     },
+     {
+      "id": 300,
+      "name": "openingBalancesTransferContra",
+      "mappedGLAccountType": "EQUITY"
+     },
+     {
+      "id": 103,
+      "name": "fundSource",
+      "mappedGLAccountType": "ASSET"
+     },
+     {
+      "id": 201,
+      "name": "payableDividends",
+      "mappedGLAccountType": "LIABILITY"
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/financialactivityaccounts",
+   "body": {
+    "financialActivityId": 101,
+    "glAccountId": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/financialactivityaccounts",
+   "body": {
+    "financialActivityId": 101,
+    "glAccountId": 1
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Mapping for activity already exists 101",
+      "defaultUserMessage": "Mapping for activity already exists 101",
+      "userMessageGlobalisationCode": "error.msg.financialActivityAccount.exists",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 101
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/financialactivityaccounts",
+   "body": {
+    "financialActivityId": 101,
+    "glAccountId": 7
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Mapping for activity already exists 101",
+      "defaultUserMessage": "Mapping for activity already exists 101",
+      "userMessageGlobalisationCode": "error.msg.financialActivityAccount.exists",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 101
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/financialactivityaccounts",
+   "body": {
+    "financialActivityId": 100,
+    "glAccountId": 2
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Financial Activity 'assetTransfer' with Id :100' can only be associated with a Ledger Account of Type accountType.asset the provided Ledger Account 'Payables(2000)'  does not of the required type",
+      "defaultUserMessage": "Financial Activity 'assetTransfer' with Id :100' can only be associated with a Ledger Account of Type accountType.asset the provided Ledger Account 'Payables(2000)'  does not of the required type",
+      "userMessageGlobalisationCode": "error.msg.financialActivityAccount.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "assetTransfer"
+       },
+       {
+        "value": 100
+       },
+       {
+        "value": "accountType.asset"
+       },
+       {
+        "value": "Payables"
+       },
+       {
+        "value": "2000"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/financialactivityaccounts",
+   "body": {
+    "financialActivityId": 200,
+    "glAccountId": 2
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/financialactivityaccounts",
+   "body": {
+    "financialActivityId": 300,
+    "glAccountId": 3
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 5
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/financialactivityaccounts",
+   "body": {
+    "financialActivityId": 103,
+    "glAccountId": 5
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 6
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/financialactivityaccounts",
+   "body": {
+    "financialActivityId": 103,
+    "glAccountId": 6
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Mapping for activity already exists 103",
+      "defaultUserMessage": "Mapping for activity already exists 103",
+      "userMessageGlobalisationCode": "error.msg.financialActivityAccount.exists",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 103
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/financialactivityaccounts",
+   "body": {
+    "financialActivityId": 999,
+    "glAccountId": 1
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `financialActivityId` must be one of [ 100, 200, 101, 102, 300, 103, 201 ] .",
+      "defaultUserMessage": "The parameter `financialActivityId` must be one of [ 100, 200, 101, 102, 300, 103, 201 ] .",
+      "userMessageGlobalisationCode": "validation.msg.financialactivityaccount.financialActivityId.is.not.one.of.expected.enumerations",
+      "parameterName": "financialActivityId",
+      "args": [
+       {
+        "value": 999
+       },
+       {
+        "value": [
+         100,
+         200,
+         101,
+         102,
+         300,
+         103,
+         201
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/financialactivityaccounts",
+   "body": {
+    "financialActivityId": 102,
+    "glAccountId": 99
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "General Ledger account with identifier 99 does not exist ",
+      "defaultUserMessage": "General Ledger account with identifier 99 does not exist ",
+      "userMessageGlobalisationCode": "error.msg.glaccount.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/financialactivityaccounts",
+   "body": {
+    "financialActivityId": 102,
+    "glAccountId": 0
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `glAccountId` must be greater than 0.",
+      "defaultUserMessage": "The parameter `glAccountId` must be greater than 0.",
+      "userMessageGlobalisationCode": "validation.msg.financialactivityaccount.glAccountId.not.greater.than.zero",
+      "parameterName": "glAccountId",
+      "args": [
+       {
+        "value": 0
+       },
+       {
+        "value": 0
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/financialactivityaccounts",
+   "body": {
+    "financialActivityId": 102,
+    "glAccountId": "abc"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The parameter `glAccountId` has value: abc which is not a valid number.",
+    "defaultUserMessage": "The parameter `glAccountId` has value: abc which is not a valid number.",
+    "userMessageGlobalisationCode": "validation.msg.invalid.decimal.format",
+    "parameterName": "glAccountId",
+    "value": "abc",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/financialactivityaccounts",
+   "body": {
+    "financialActivityId": "x",
+    "glAccountId": 1
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The parameter `financialActivityId` has value: x which is not a valid number.",
+    "defaultUserMessage": "The parameter `financialActivityId` has value: x which is not a valid number.",
+    "userMessageGlobalisationCode": "validation.msg.invalid.decimal.format",
+    "parameterName": "financialActivityId",
+    "value": "x",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/financialactivityaccounts",
+   "body": {},
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `financialActivityId` is mandatory.",
+      "defaultUserMessage": "The parameter `financialActivityId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.financialactivityaccount.financialActivityId.cannot.be.blank",
+      "parameterName": "financialActivityId",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `financialActivityId` must be one of [ 100, 200, 101, 102, 300, 103, 201 ] .",
+      "defaultUserMessage": "The parameter `financialActivityId` must be one of [ 100, 200, 101, 102, 300, 103, 201 ] .",
+      "userMessageGlobalisationCode": "validation.msg.financialactivityaccount.financialActivityId.is.not.one.of.expected.enumerations",
+      "parameterName": "financialActivityId",
+      "args": [
+       {},
+       {
+        "value": [
+         100,
+         200,
+         101,
+         102,
+         300,
+         103,
+         201
+        ]
+       }
+      ]
+     },
+     {
+      "developerMessage": "The parameter `glAccountId` is mandatory.",
+      "defaultUserMessage": "The parameter `glAccountId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.financialactivityaccount.glAccountId.cannot.be.blank",
+      "parameterName": "glAccountId",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/financialactivityaccounts",
+   "body": {
+    "financialActivityId": 102,
+    "glAccountId": 1,
+    "bogus": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 8
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/financialactivityaccounts",
+   "body": {
+    "financialActivityId": 102
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `glAccountId` is mandatory.",
+      "defaultUserMessage": "The parameter `glAccountId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.financialactivityaccount.glAccountId.cannot.be.blank",
+      "parameterName": "glAccountId",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/financialactivityaccounts",
+   "body": {
+    "glAccountId": 1
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `financialActivityId` is mandatory.",
+      "defaultUserMessage": "The parameter `financialActivityId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.financialactivityaccount.financialActivityId.cannot.be.blank",
+      "parameterName": "financialActivityId",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `financialActivityId` must be one of [ 100, 200, 101, 102, 300, 103, 201 ] .",
+      "defaultUserMessage": "The parameter `financialActivityId` must be one of [ 100, 200, 101, 102, 300, 103, 201 ] .",
+      "userMessageGlobalisationCode": "validation.msg.financialactivityaccount.financialActivityId.is.not.one.of.expected.enumerations",
+      "parameterName": "financialActivityId",
+      "args": [
+       {},
+       {
+        "value": [
+         100,
+         200,
+         101,
+         102,
+         300,
+         103,
+         201
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/financialactivityaccounts",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "financialActivityData": {
+      "id": 101,
+      "name": "cashAtMainVault",
+      "mappedGLAccountType": "ASSET"
+     },
+     "glAccountData": {
+      "id": 1,
+      "name": "Cash",
+      "glCode": "1000"
+     }
+    },
+    {
+     "id": 8,
+     "financialActivityData": {
+      "id": 102,
+      "name": "cashAtTeller",
+      "mappedGLAccountType": "ASSET"
+     },
+     "glAccountData": {
+      "id": 1,
+      "name": "Cash",
+      "glCode": "1000"
+     }
+    },
+    {
+     "id": 4,
+     "financialActivityData": {
+      "id": 200,
+      "name": "liabilityTransfer",
+      "mappedGLAccountType": "LIABILITY"
+     },
+     "glAccountData": {
+      "id": 2,
+      "name": "Payables",
+      "glCode": "2000"
+     }
+    },
+    {
+     "id": 5,
+     "financialActivityData": {
+      "id": 300,
+      "name": "openingBalancesTransferContra",
+      "mappedGLAccountType": "EQUITY"
+     },
+     "glAccountData": {
+      "id": 3,
+      "name": "Equity",
+      "glCode": "3000"
+     }
+    },
+    {
+     "id": 6,
+     "financialActivityData": {
+      "id": 103,
+      "name": "fundSource",
+      "mappedGLAccountType": "ASSET"
+     },
+     "glAccountData": {
+      "id": 5,
+      "name": "Assets",
+      "glCode": "1"
+     }
+    }
+   ]
+  },
+  {
+   "path": "/v1/financialactivityaccounts/1",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "financialActivityData": {
+     "id": 101,
+     "name": "cashAtMainVault",
+     "mappedGLAccountType": "ASSET"
+    },
+    "glAccountData": {
+     "id": 1,
+     "name": "Cash",
+     "glCode": "1000"
+    }
+   }
+  },
+  {
+   "path": "/v1/financialactivityaccounts/1?template=true",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "financialActivityData": {
+     "id": 101,
+     "name": "cashAtMainVault",
+     "mappedGLAccountType": "ASSET"
+    },
+    "glAccountData": {
+     "id": 1,
+     "name": "Cash",
+     "glCode": "1000"
+    },
+    "glAccountOptions": {
+     "liabilityAccountOptions": [
+      {
+       "id": 2,
+       "name": "Payables",
+       "glCode": "2000",
+       "disabled": false,
+       "manualEntriesAllowed": true,
+       "type": {
+        "id": 2,
+        "code": "accountType.liability",
+        "value": "LIABILITY"
+       },
+       "usage": {
+        "id": 1,
+        "code": "accountUsage.detail",
+        "value": "DETAIL"
+       },
+       "description": "",
+       "nameDecorated": "Payables",
+       "tagId": {
+        "id": 0
+       }
+      }
+     ],
+     "assetAccountOptions": [
+      {
+       "id": 1,
+       "name": "Cash",
+       "glCode": "1000",
+       "disabled": false,
+       "manualEntriesAllowed": true,
+       "type": {
+        "id": 1,
+        "code": "accountType.asset",
+        "value": "ASSET"
+       },
+       "usage": {
+        "id": 1,
+        "code": "accountUsage.detail",
+        "value": "DETAIL"
+       },
+       "description": "",
+       "nameDecorated": "Cash",
+       "tagId": {
+        "id": 0
+       }
+      },
+      {
+       "id": 7,
+       "name": "Bank",
+       "glCode": "1100",
+       "disabled": false,
+       "manualEntriesAllowed": true,
+       "type": {
+        "id": 1,
+        "code": "accountType.asset",
+        "value": "ASSET"
+       },
+       "usage": {
+        "id": 1,
+        "code": "accountUsage.detail",
+        "value": "DETAIL"
+       },
+       "description": "",
+       "nameDecorated": "Bank",
+       "tagId": {
+        "id": 0
+       }
+      }
+     ],
+     "incomeAccountOptions": [
+      {
+       "id": 4,
+       "name": "Fees",
+       "glCode": "4000",
+       "disabled": false,
+       "manualEntriesAllowed": true,
+       "type": {
+        "id": 4,
+        "code": "accountType.income",
+        "value": "INCOME"
+       },
+       "usage": {
+        "id": 1,
+        "code": "accountUsage.detail",
+        "value": "DETAIL"
+       },
+       "description": "",
+       "nameDecorated": "Fees",
+       "tagId": {
+        "id": 0
+       }
+      }
+     ],
+     "equityAccountOptions": [
+      {
+       "id": 3,
+       "name": "Equity",
+       "glCode": "3000",
+       "disabled": false,
+       "manualEntriesAllowed": true,
+       "type": {
+        "id": 3,
+        "code": "accountType.equity",
+        "value": "EQUITY"
+       },
+       "usage": {
+        "id": 1,
+        "code": "accountUsage.detail",
+        "value": "DETAIL"
+       },
+       "description": "",
+       "nameDecorated": "Equity",
+       "tagId": {
+        "id": 0
+       }
+      }
+     ]
+    },
+    "financialActivityOptions": [
+     {
+      "id": 100,
+      "name": "assetTransfer",
+      "mappedGLAccountType": "ASSET"
+     },
+     {
+      "id": 200,
+      "name": "liabilityTransfer",
+      "mappedGLAccountType": "LIABILITY"
+     },
+     {
+      "id": 101,
+      "name": "cashAtMainVault",
+      "mappedGLAccountType": "ASSET"
+     },
+     {
+      "id": 102,
+      "name": "cashAtTeller",
+      "mappedGLAccountType": "ASSET"
+     },
+     {
+      "id": 300,
+      "name": "openingBalancesTransferContra",
+      "mappedGLAccountType": "EQUITY"
+     },
+     {
+      "id": 103,
+      "name": "fundSource",
+      "mappedGLAccountType": "ASSET"
+     },
+     {
+      "id": 201,
+      "name": "payableDividends",
+      "mappedGLAccountType": "LIABILITY"
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/financialactivityaccounts/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Financial Activity account with Id 99 does not exist",
+      "defaultUserMessage": "Financial Activity account with Id 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.financialActivityAccount.not.found",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/financialactivityaccounts/abc",
+   "ignore": [
+    "timestamp",
+    "path"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T04:40:20.159Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/financialactivityaccounts/abc"
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/financialactivityaccounts/1",
+   "body": {
+    "glAccountId": 5
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "glAccountId": 5
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/financialactivityaccounts/1",
+   "body": {
+    "glAccountId": 7
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "glAccountId": 7
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/financialactivityaccounts/1",
+   "body": {
+    "glAccountId": 7
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/financialactivityaccounts/1",
+   "body": {
+    "financialActivityId": 101
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `financialActivityId` must be one of [ 100, 200, 300, 103, 201 ] .",
+      "defaultUserMessage": "The parameter `financialActivityId` must be one of [ 100, 200, 300, 103, 201 ] .",
+      "userMessageGlobalisationCode": "validation.msg.financialactivityaccount.financialActivityId.is.not.one.of.expected.enumerations",
+      "parameterName": "financialActivityId",
+      "args": [
+       {
+        "value": 101
+       },
+       {
+        "value": [
+         100,
+         200,
+         300,
+         103,
+         201
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/financialactivityaccounts/1",
+   "body": {
+    "financialActivityId": 102
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `financialActivityId` must be one of [ 100, 200, 300, 103, 201 ] .",
+      "defaultUserMessage": "The parameter `financialActivityId` must be one of [ 100, 200, 300, 103, 201 ] .",
+      "userMessageGlobalisationCode": "validation.msg.financialactivityaccount.financialActivityId.is.not.one.of.expected.enumerations",
+      "parameterName": "financialActivityId",
+      "args": [
+       {
+        "value": 102
+       },
+       {
+        "value": [
+         100,
+         200,
+         300,
+         103,
+         201
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/financialactivityaccounts/1",
+   "body": {
+    "financialActivityId": 100
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "financialActivityId": 100
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/financialactivityaccounts/1",
+   "body": {
+    "financialActivityId": 200
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Financial Activity 'liabilityTransfer' with Id :200' can only be associated with a Ledger Account of Type accountType.liability the provided Ledger Account 'Bank(1100)'  does not of the required type",
+      "defaultUserMessage": "Financial Activity 'liabilityTransfer' with Id :200' can only be associated with a Ledger Account of Type accountType.liability the provided Ledger Account 'Bank(1100)'  does not of the required type",
+      "userMessageGlobalisationCode": "error.msg.financialActivityAccount.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "liabilityTransfer"
+       },
+       {
+        "value": 200
+       },
+       {
+        "value": "accountType.liability"
+       },
+       {
+        "value": "Bank"
+       },
+       {
+        "value": "1100"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/financialactivityaccounts/1",
+   "body": {
+    "financialActivityId": 200,
+    "glAccountId": 2
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Mapping for activity already exists 200",
+      "defaultUserMessage": "Mapping for activity already exists 200",
+      "userMessageGlobalisationCode": "error.msg.financialActivityAccount.exists",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 200
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/financialactivityaccounts/1",
+   "body": {
+    "financialActivityId": 300
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Financial Activity 'openingBalancesTransferContra' with Id :300' can only be associated with a Ledger Account of Type accountType.equity the provided Ledger Account 'Bank(1100)'  does not of the required type",
+      "defaultUserMessage": "Financial Activity 'openingBalancesTransferContra' with Id :300' can only be associated with a Ledger Account of Type accountType.equity the provided Ledger Account 'Bank(1100)'  does not of the required type",
+      "userMessageGlobalisationCode": "error.msg.financialActivityAccount.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "openingBalancesTransferContra"
+       },
+       {
+        "value": 300
+       },
+       {
+        "value": "accountType.equity"
+       },
+       {
+        "value": "Bank"
+       },
+       {
+        "value": "1100"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/financialactivityaccounts/1",
+   "body": {
+    "financialActivityId": 999
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `financialActivityId` must be one of [ 100, 200, 300, 103, 201 ] .",
+      "defaultUserMessage": "The parameter `financialActivityId` must be one of [ 100, 200, 300, 103, 201 ] .",
+      "userMessageGlobalisationCode": "validation.msg.financialactivityaccount.financialActivityId.is.not.one.of.expected.enumerations",
+      "parameterName": "financialActivityId",
+      "args": [
+       {
+        "value": 999
+       },
+       {
+        "value": [
+         100,
+         200,
+         300,
+         103,
+         201
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/financialactivityaccounts/1",
+   "body": {
+    "glAccountId": 99
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "General Ledger account with identifier 99 does not exist ",
+      "defaultUserMessage": "General Ledger account with identifier 99 does not exist ",
+      "userMessageGlobalisationCode": "error.msg.glaccount.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/financialactivityaccounts/1",
+   "body": {
+    "glAccountId": 0
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `glAccountId` must be greater than 0.",
+      "defaultUserMessage": "The parameter `glAccountId` must be greater than 0.",
+      "userMessageGlobalisationCode": "validation.msg.financialactivityaccount.glAccountId.not.greater.than.zero",
+      "parameterName": "glAccountId",
+      "args": [
+       {
+        "value": 0
+       },
+       {
+        "value": 0
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/financialactivityaccounts/1",
+   "body": {},
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/financialactivityaccounts/1",
+   "body": {
+    "bogus": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/financialactivityaccounts/99",
+   "body": {
+    "glAccountId": 1
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Financial Activity account with Id 99 does not exist",
+      "defaultUserMessage": "Financial Activity account with Id 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.financialActivityAccount.not.found",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/financialactivityaccounts",
+   "status": 200,
+   "response": [
+    {
+     "id": 8,
+     "financialActivityData": {
+      "id": 102,
+      "name": "cashAtTeller",
+      "mappedGLAccountType": "ASSET"
+     },
+     "glAccountData": {
+      "id": 1,
+      "name": "Cash",
+      "glCode": "1000"
+     }
+    },
+    {
+     "id": 4,
+     "financialActivityData": {
+      "id": 200,
+      "name": "liabilityTransfer",
+      "mappedGLAccountType": "LIABILITY"
+     },
+     "glAccountData": {
+      "id": 2,
+      "name": "Payables",
+      "glCode": "2000"
+     }
+    },
+    {
+     "id": 5,
+     "financialActivityData": {
+      "id": 300,
+      "name": "openingBalancesTransferContra",
+      "mappedGLAccountType": "EQUITY"
+     },
+     "glAccountData": {
+      "id": 3,
+      "name": "Equity",
+      "glCode": "3000"
+     }
+    },
+    {
+     "id": 6,
+     "financialActivityData": {
+      "id": 103,
+      "name": "fundSource",
+      "mappedGLAccountType": "ASSET"
+     },
+     "glAccountData": {
+      "id": 5,
+      "name": "Assets",
+      "glCode": "1"
+     }
+    },
+    {
+     "id": 1,
+     "financialActivityData": {
+      "id": 100,
+      "name": "assetTransfer",
+      "mappedGLAccountType": "ASSET"
+     },
+     "glAccountData": {
+      "id": 7,
+      "name": "Bank",
+      "glCode": "1100"
+     }
+    }
+   ]
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/glaccounts/1",
+   "ignore": [
+    "developerMessage",
+    "defaultUserMessage"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "ERROR: update or delete on table \"acc_gl_account\" violates RESTRICT setting of foreign key constraint \"FK_office_mapping_acc_gl_account\" on table \"acc_gl_financial_activity_account\"\n  Detail: Key (id)=(1) is referenced from table \"acc_gl_financial_activity_account\".",
+    "userMessageGlobalisationCode": "error.msg.data.integrity.issue",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "ERROR: update or delete on table \"acc_gl_account\" violates RESTRICT setting of foreign key constraint \"FK_office_mapping_acc_gl_account\" on table \"acc_gl_financial_activity_account\"\n  Detail: Key (id)=(1) is referenced from table \"acc_gl_financial_activity_account\".",
+      "userMessageGlobalisationCode": "error.msg.data.integrity.issue",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/glaccounts/7",
+   "body": {
+    "disabled": true
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 7,
+    "changes": {
+     "disabled": true
+    }
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/financialactivityaccounts/abc",
+   "ignore": [
+    "timestamp",
+    "path"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T04:40:22.243Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/financialactivityaccounts/abc"
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/financialactivityaccounts/abc",
+   "body": {
+    "glAccountId": 1
+   },
+   "ignore": [
+    "timestamp",
+    "path"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T04:40:22.313Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/financialactivityaccounts/abc"
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/financialactivityaccounts/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Financial Activity account with Id 99 does not exist",
+      "defaultUserMessage": "Financial Activity account with Id 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.financialActivityAccount.not.found",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/financialactivityaccounts/1",
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/financialactivityaccounts/1",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Financial Activity account with Id 1 does not exist",
+      "defaultUserMessage": "Financial Activity account with Id 1 does not exist",
+      "userMessageGlobalisationCode": "error.msg.financialActivityAccount.not.found",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 1
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/financialactivityaccounts",
+   "status": 200,
+   "response": [
+    {
+     "id": 8,
+     "financialActivityData": {
+      "id": 102,
+      "name": "cashAtTeller",
+      "mappedGLAccountType": "ASSET"
+     },
+     "glAccountData": {
+      "id": 1,
+      "name": "Cash",
+      "glCode": "1000"
+     }
+    },
+    {
+     "id": 4,
+     "financialActivityData": {
+      "id": 200,
+      "name": "liabilityTransfer",
+      "mappedGLAccountType": "LIABILITY"
+     },
+     "glAccountData": {
+      "id": 2,
+      "name": "Payables",
+      "glCode": "2000"
+     }
+    },
+    {
+     "id": 5,
+     "financialActivityData": {
+      "id": 300,
+      "name": "openingBalancesTransferContra",
+      "mappedGLAccountType": "EQUITY"
+     },
+     "glAccountData": {
+      "id": 3,
+      "name": "Equity",
+      "glCode": "3000"
+     }
+    },
+    {
+     "id": 6,
+     "financialActivityData": {
+      "id": 103,
+      "name": "fundSource",
+      "mappedGLAccountType": "ASSET"
+     },
+     "glAccountData": {
+      "id": 5,
+      "name": "Assets",
+      "glCode": "1"
+     }
+    }
+   ]
+  }
+ ]
+}

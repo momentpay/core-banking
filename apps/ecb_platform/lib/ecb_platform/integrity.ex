@@ -31,7 +31,7 @@ defmodule ECBPlatform.Integrity do
     error in Postgrex.Error ->
       case error.postgres do
         %{code: code, constraint: constraint}
-        when code in [:unique_violation, :foreign_key_violation] ->
+        when code in [:unique_violation, :foreign_key_violation, :restrict_violation] ->
           reraise integrity_error(Map.get(rules, constraint), unknown), __STACKTRACE__
 
         _ ->

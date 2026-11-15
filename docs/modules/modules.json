@@ -272,7 +272,7 @@
       "app": "ecb_ledger",
       "title": "General ledger and accounting",
       "phase": 3,
-      "status": "in progress (15 Nov 2026). Built: the accounting tables (generated from Fineract's schema: GL accounts, closures, financial-activity mappings, journal entries, accounting rules, product mappings) and the chart of accounts: list with filters, one account, the new-account template, create, update (with the hierarchy and tag rules) and delete. Still to do: financial-activity mappings, journal entries and the posting service, closures, accounting rules and product mappings, provisioning, aggregation summaries.",
+      "status": "in progress (15 Nov 2026). Built: the accounting tables (generated from Fineract's schema: GL accounts, closures, financial-activity mappings, journal entries, accounting rules, product mappings) and the chart of accounts: list with filters, one account, the new-account template, create, update (with the hierarchy and tag rules) and delete. Also built: financial-activity mappings (list, one, template, create, update, delete) and accounting closures (list by office, one, create, comments update, delete of the latest). Still to do: journal entries and the posting service (which will enforce the closure date), accounting rules and product mappings, provisioning, aggregation summaries.",
       "depends_on": [
         "ecb_money",
         "ecb_platform",
@@ -1023,7 +1023,7 @@
       "app": "ecb_api_fineract",
       "title": "Fineract-compatible REST API",
       "phase": 1,
-      "status": "in progress (14 Nov 2026). Built: tenant resolution, HTTP basic authentication, `POST /authentication`, the read and write endpoints of offices, funds, payment types, staff, codes and code values, working days, holidays, roles, users, maker-checker inbox, audits, business date, GL accounts, configurations, password preferences and permissions, the read endpoints of currencies and account-number formats, the health check, Fineract's error shapes and an HTTP 501 for operations not built yet. 33 recorded Fineract responses and 16 recorded write scenarios (about 420 requests) are matched exactly. Contract probe against Fineract: 25 of 146 counted `must` and `should` read operations pass (17.1%).",
+      "status": "in progress (14 Nov 2026). Built: tenant resolution, HTTP basic authentication, `POST /authentication`, the read and write endpoints of offices, funds, payment types, staff, codes and code values, working days, holidays, roles, users, maker-checker inbox, audits, business date, GL accounts, financial-activity mappings, accounting closures, configurations, password preferences and permissions, the read endpoints of currencies and account-number formats, the health check, Fineract's error shapes and an HTTP 501 for operations not built yet. 33 recorded Fineract responses and 18 recorded write scenarios (about 540 requests) are matched exactly. Contract probe against Fineract: 25 of 146 counted `must` and `should` read operations pass (17.1%).",
       "depends_on": [
         "ecb_platform",
         "ecb_org",

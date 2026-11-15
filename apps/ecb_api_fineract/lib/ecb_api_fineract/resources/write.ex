@@ -33,21 +33,22 @@ defmodule ECBApiFineract.Resources.Write do
     end
   end
 
-  @doc "The id in a path as `{:ok, id}`, or `{:error, error}` built by `not_found` for the text that was given."
-  @spec id(String.t(), (String.t() -> Exception.t())) :: {:ok, integer} | {:error, Exception.t()}
-  def id(raw, not_found) do
+  @doc """
+  The id in a path as `{:ok, id}`; text that is not a number is the web container's plain 404, as
+  Fineract answers `/glaccounts/abc`.
+  """
+  @spec path_id(String.t()) :: {:ok, integer} | {:error, Exception.t()}
+  def path_id(raw) do
     case parse_id(raw) do
-      nil -> {:error, not_found.(raw)}
+      nil -> {:error, %Errors.PathNotFound{}}
       id -> {:ok, id}
     end
   end
 
-  @doc "Runs `fun` with the id in the path, or answers the not-found error when it is not a number."
-  @spec with_id(Plug.Conn.t(), String.t(), (String.t() -> Exception.t()), (integer ->
-                                                                             Plug.Conn.t())) ::
-          Plug.Conn.t()
-  def with_id(conn, raw, not_found, fun) do
-    case id(raw, not_found) do
+  @doc "Runs `fun` with the id in the path, or answers the plain 404 when it is not a number."
+  @spec with_path_id(Plug.Conn.t(), String.t(), (integer -> Plug.Conn.t())) :: Plug.Conn.t()
+  def with_path_id(conn, raw, fun) do
+    case path_id(raw) do
       {:ok, id} -> fun.(id)
       {:error, error} -> Errors.render(conn, error)
     end

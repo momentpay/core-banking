@@ -29,7 +29,7 @@ defmodule ECBApiFineract.Resources.Staff do
   @doc "`GET /staff/:id`"
   def show(conn, raw_id) do
     Read.respond(conn, "STAFF", fn ->
-      with {:ok, id} <- Write.id(raw_id, &not_found/1),
+      with {:ok, id} <- Write.path_id(raw_id),
            {:ok, staff} <- Staff.get(id),
            do: serialize(staff)
     end)
@@ -40,7 +40,7 @@ defmodule ECBApiFineract.Resources.Staff do
 
   @doc "`PUT /staff/:id`"
   def update(conn, raw_id),
-    do: Write.with_id(conn, raw_id, &not_found/1, &Write.execute(conn, "STAFF", "UPDATE", id: &1))
+    do: Write.with_path_id(conn, raw_id, &Write.execute(conn, "STAFF", "UPDATE", id: &1))
 
   defp serialize(s) do
     %{
@@ -58,12 +58,4 @@ defmodule ECBApiFineract.Resources.Staff do
       "dateFormat" => @date_format
     }
   end
-
-  defp not_found(raw),
-    do:
-      ECBPlatform.Errors.ResourceNotFound.new(
-        "error.msg.staff.id.invalid",
-        "Staff with identifier #{raw} does not exist",
-        [raw]
-      )
 end

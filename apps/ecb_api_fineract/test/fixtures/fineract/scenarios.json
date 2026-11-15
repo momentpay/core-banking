@@ -3263,6 +3263,779 @@
           "path": "/v1/glaccounts"
         }
       ]
+    },
+    {
+      "name": "financialactivityaccounts",
+      "reset": [
+        "glaccounts"
+      ],
+      "steps": [
+        {
+          "path": "/v1/financialactivityaccounts"
+        },
+        {
+          "path": "/v1/financialactivityaccounts/template"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Cash",
+            "glCode": "1000",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Payables",
+            "glCode": "2000",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Equity",
+            "glCode": "3000",
+            "manualEntriesAllowed": true,
+            "type": 3,
+            "usage": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Fees",
+            "glCode": "4000",
+            "manualEntriesAllowed": true,
+            "type": 4,
+            "usage": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Assets",
+            "glCode": "1",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Old cash",
+            "glCode": "1900",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "disabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Bank",
+            "glCode": "1100",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1
+          }
+        },
+        {
+          "path": "/v1/financialactivityaccounts/template"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/financialactivityaccounts",
+          "body": {
+            "financialActivityId": 101,
+            "glAccountId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/financialactivityaccounts",
+          "body": {
+            "financialActivityId": 101,
+            "glAccountId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/financialactivityaccounts",
+          "body": {
+            "financialActivityId": 101,
+            "glAccountId": 7
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/financialactivityaccounts",
+          "body": {
+            "financialActivityId": 100,
+            "glAccountId": 2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/financialactivityaccounts",
+          "body": {
+            "financialActivityId": 200,
+            "glAccountId": 2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/financialactivityaccounts",
+          "body": {
+            "financialActivityId": 300,
+            "glAccountId": 3
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/financialactivityaccounts",
+          "body": {
+            "financialActivityId": 103,
+            "glAccountId": 5
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/financialactivityaccounts",
+          "body": {
+            "financialActivityId": 103,
+            "glAccountId": 6
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/financialactivityaccounts",
+          "body": {
+            "financialActivityId": 999,
+            "glAccountId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/financialactivityaccounts",
+          "body": {
+            "financialActivityId": 102,
+            "glAccountId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/financialactivityaccounts",
+          "body": {
+            "financialActivityId": 102,
+            "glAccountId": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/financialactivityaccounts",
+          "body": {
+            "financialActivityId": 102,
+            "glAccountId": "abc"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/financialactivityaccounts",
+          "body": {
+            "financialActivityId": "x",
+            "glAccountId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/financialactivityaccounts",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/financialactivityaccounts",
+          "body": {
+            "financialActivityId": 102,
+            "glAccountId": 1,
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/financialactivityaccounts",
+          "body": {
+            "financialActivityId": 102
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/financialactivityaccounts",
+          "body": {
+            "glAccountId": 1
+          }
+        },
+        {
+          "path": "/v1/financialactivityaccounts"
+        },
+        {
+          "path": "/v1/financialactivityaccounts/1"
+        },
+        {
+          "path": "/v1/financialactivityaccounts/1?template=true"
+        },
+        {
+          "path": "/v1/financialactivityaccounts/99"
+        },
+        {
+          "path": "/v1/financialactivityaccounts/abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/financialactivityaccounts/1",
+          "body": {
+            "glAccountId": 5
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/financialactivityaccounts/1",
+          "body": {
+            "glAccountId": 7
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/financialactivityaccounts/1",
+          "body": {
+            "glAccountId": 7
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/financialactivityaccounts/1",
+          "body": {
+            "financialActivityId": 101
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/financialactivityaccounts/1",
+          "body": {
+            "financialActivityId": 102
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/financialactivityaccounts/1",
+          "body": {
+            "financialActivityId": 100
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/financialactivityaccounts/1",
+          "body": {
+            "financialActivityId": 200
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/financialactivityaccounts/1",
+          "body": {
+            "financialActivityId": 200,
+            "glAccountId": 2
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/financialactivityaccounts/1",
+          "body": {
+            "financialActivityId": 300
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/financialactivityaccounts/1",
+          "body": {
+            "financialActivityId": 999
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/financialactivityaccounts/1",
+          "body": {
+            "glAccountId": 99
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/financialactivityaccounts/1",
+          "body": {
+            "glAccountId": 0
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/financialactivityaccounts/1",
+          "body": {}
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/financialactivityaccounts/1",
+          "body": {
+            "bogus": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/financialactivityaccounts/99",
+          "body": {
+            "glAccountId": 1
+          }
+        },
+        {
+          "path": "/v1/financialactivityaccounts"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/glaccounts/1",
+          "ignore": [
+            "developerMessage",
+            "defaultUserMessage"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glaccounts/7",
+          "body": {
+            "disabled": true
+          }
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/financialactivityaccounts/abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/financialactivityaccounts/abc",
+          "body": {
+            "glAccountId": 1
+          },
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/financialactivityaccounts/99"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/financialactivityaccounts/1"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/financialactivityaccounts/1"
+        },
+        {
+          "path": "/v1/financialactivityaccounts"
+        }
+      ]
+    },
+    {
+      "name": "glclosures",
+      "reset": [
+        "glaccounts",
+        "offices"
+      ],
+      "steps": [
+        {
+          "path": "/v1/glclosures"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/offices",
+          "body": {
+            "name": "Branch",
+            "parentId": 1,
+            "openingDate": "01 January 2020",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glclosures",
+          "body": {
+            "officeId": 1,
+            "closingDate": "01 March 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": "March close"
+          }
+        },
+        {
+          "path": "/v1/glclosures",
+          "ignore": [
+            "createdDate",
+            "lastUpdatedDate"
+          ]
+        },
+        {
+          "path": "/v1/glclosures/1",
+          "ignore": [
+            "createdDate",
+            "lastUpdatedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glclosures",
+          "body": {
+            "officeId": 1,
+            "closingDate": "01 March 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glclosures",
+          "body": {
+            "officeId": 1,
+            "closingDate": "01 February 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glclosures",
+          "body": {
+            "officeId": 1,
+            "closingDate": "01 January 2099",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glclosures",
+          "body": {
+            "officeId": 2,
+            "closingDate": "01 April 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glclosures",
+          "body": {
+            "officeId": 1,
+            "closingDate": "01 May 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glclosures",
+          "body": {
+            "officeId": 99,
+            "closingDate": "01 May 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glclosures",
+          "body": {
+            "officeId": 0,
+            "closingDate": "01 May 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glclosures",
+          "body": {
+            "officeId": 1,
+            "closingDate": "2025-05-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glclosures",
+          "body": {
+            "officeId": 1,
+            "closingDate": "bad",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glclosures",
+          "body": {
+            "officeId": 1,
+            "closingDate": "01 May 2025"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glclosures",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glclosures",
+          "body": {
+            "closingDate": "01 May 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glclosures",
+          "body": {
+            "officeId": 1,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glclosures",
+          "body": {
+            "officeId": 1,
+            "closingDate": "01 May 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glclosures",
+          "body": {
+            "officeId": 1,
+            "closingDate": "01 May 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": "  May close  "
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glclosures",
+          "body": {
+            "officeId": 1,
+            "closingDate": "01 May 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": ""
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glclosures",
+          "body": {
+            "officeId": 1,
+            "closingDate": "02 May 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "comments": ""
+          }
+        },
+        {
+          "path": "/v1/glclosures",
+          "ignore": [
+            "createdDate",
+            "lastUpdatedDate"
+          ]
+        },
+        {
+          "path": "/v1/glclosures?officeId=2",
+          "ignore": [
+            "createdDate",
+            "lastUpdatedDate"
+          ]
+        },
+        {
+          "path": "/v1/glclosures?officeId=1",
+          "ignore": [
+            "createdDate",
+            "lastUpdatedDate"
+          ]
+        },
+        {
+          "path": "/v1/glclosures?officeId=0",
+          "ignore": [
+            "createdDate",
+            "lastUpdatedDate"
+          ]
+        },
+        {
+          "path": "/v1/glclosures?officeId=99",
+          "ignore": [
+            "createdDate",
+            "lastUpdatedDate"
+          ]
+        },
+        {
+          "path": "/v1/glclosures?officeId=abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "path": "/v1/glclosures/1?template=true",
+          "ignore": [
+            "createdDate",
+            "lastUpdatedDate"
+          ]
+        },
+        {
+          "path": "/v1/glclosures/1?fields=officeName,closingDate"
+        },
+        {
+          "path": "/v1/glclosures/99"
+        },
+        {
+          "path": "/v1/glclosures/abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glclosures/1",
+          "body": {
+            "comments": "Updated"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glclosures/1",
+          "body": {
+            "comments": "Updated"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glclosures/1",
+          "body": {
+            "comments": ""
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glclosures/1",
+          "body": {
+            "comments": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glclosures/1",
+          "body": {}
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glclosures/1",
+          "body": {
+            "closingDate": "05 March 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glclosures/1",
+          "body": {
+            "officeId": 2,
+            "comments": "Moved"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glclosures/1",
+          "body": {
+            "bogus": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/glclosures/99",
+          "body": {
+            "comments": "x"
+          }
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/glclosures/1"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/glclosures/abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/glclosures/99"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/glclosures/2"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/glclosures/1"
+        },
+        {
+          "path": "/v1/glclosures",
+          "ignore": [
+            "createdDate",
+            "lastUpdatedDate"
+          ]
+        }
+      ]
     }
   ]
 }

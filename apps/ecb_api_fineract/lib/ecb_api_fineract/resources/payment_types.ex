@@ -11,7 +11,7 @@ defmodule ECBApiFineract.Resources.PaymentTypes do
   @doc "`GET /paymenttypes/:id`"
   def show(conn, raw_id) do
     Read.respond(conn, "PAYMENTTYPE", fn ->
-      with {:ok, id} <- Write.id(raw_id, &not_found/1),
+      with {:ok, id} <- Write.path_id(raw_id),
            {:ok, payment_type} <- PaymentTypes.get(id),
            do: serialize(payment_type)
     end)
@@ -23,20 +23,18 @@ defmodule ECBApiFineract.Resources.PaymentTypes do
   @doc "`PUT /paymenttypes/:id`"
   def update(conn, raw_id),
     do:
-      Write.with_id(
+      Write.with_path_id(
         conn,
         raw_id,
-        &not_found/1,
         &Write.execute(conn, "PAYMENTTYPE", "UPDATE", id: &1)
       )
 
   @doc "`DELETE /paymenttypes/:id`"
   def delete(conn, raw_id),
     do:
-      Write.with_id(
+      Write.with_path_id(
         conn,
         raw_id,
-        &not_found/1,
         &Write.execute(conn, "PAYMENTTYPE", "DELETE", id: &1)
       )
 
@@ -51,12 +49,4 @@ defmodule ECBApiFineract.Resources.PaymentTypes do
       "isSystemDefined" => p.is_system_defined
     }
   end
-
-  defp not_found(raw),
-    do:
-      ECBPlatform.Errors.ResourceNotFound.new(
-        "error.msg.payment.type.invalid",
-        "PaymentType with #{raw} does not exist",
-        [raw]
-      )
 end

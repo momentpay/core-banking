@@ -45,7 +45,7 @@ defmodule ECBApiFineract.Resources.Audits do
   @doc "`GET /audits/:id`"
   def show(conn, raw_id) do
     Read.respond(conn, "AUDIT", fn ->
-      with {:ok, id} <- Write.id(raw_id, &Audit.not_found/1),
+      with {:ok, id} <- Write.path_id(raw_id),
            {:ok, entry} <- Audit.get(conn.assigns.current_user, id),
            do: AuditData.entry(entry, :seconds, true)
     end)
