@@ -163,6 +163,9 @@ RESETS = {
     ],
     "glaccounts": [
         "DELETE FROM acc_gl_journal_entry",
+        "DELETE FROM m_payment_detail",
+        "SELECT setval(pg_get_serial_sequence('acc_gl_journal_entry', 'id'), 1, false)",
+        "SELECT setval(pg_get_serial_sequence('m_payment_detail', 'id'), 1, false)",
         "DELETE FROM acc_product_mapping",
         "DELETE FROM acc_gl_financial_activity_account",
         "DELETE FROM acc_rule_tags",
@@ -190,6 +193,21 @@ def oracle_sql(statements: list[str]) -> None:
             check=True, capture_output=True, text=True)
 
 
+def substitute(text: str | None, saved: dict) -> str | None:
+    if text is None:
+        return None
+    for name, value in saved.items():
+        text = text.replace("{" + name + "}", str(value))
+    return text
+
+
+def unsubstitute(text: str, saved: dict) -> str:
+    for name, value in saved.items():
+        if isinstance(value, str) and len(value) >= 8:
+            text = text.replace(value, "{" + name + "}")
+    return text
+
+
 def step_body(step: dict) -> str | None:
     """A step's body as text: `raw` is sent as is (for malformed JSON), `body` is encoded."""
     if "raw" in step:
@@ -209,9 +227,18 @@ def cmd_scenarios(args) -> int:
         for reset in scenario.get("reset", []):
             oracle_sql(RESETS[reset])
         steps = []
+        saved: dict[str, object] = {}
         for step in scenario["steps"]:
-            status, body = fetch(step["path"], step.get("method", "GET"), step_body(step), tuple(step.get("auth", ("mifos", "password"))))
-            recorded = {k: v for k, v in step.items() if k in ("method", "path", "body", "raw", "auth", "ignore")}
+            # `{name}` in a path or body stands for a value an earlier step saved from its answer
+            # (`"save": {"name": "answerKey"}`), such as a generated transaction id.
+            path = substitute(step["path"], saved)
+            text = substitute(step_body(step), saved)
+            status, body = fetch(path, step.get("method", "GET"), text, tuple(step.get("auth", ("mifos", "password"))))
+            for name, key in step.get("save", {}).items():
+                saved[name] = body.get(key) if isinstance(body, dict) else None
+            recorded = {k: v for k, v in step.items() if k in ("method", "path", "body", "raw", "auth", "ignore", "save")}
+            # the oracle's generated values in its answers become `{name}` again, for the replay to fill in
+            body = json.loads(unsubstitute(json.dumps(body), saved))
             recorded.update({"status": status, "response": body})
             steps.append(recorded)
         (SCENARIO_DIR / f"{scenario['name']}.json").write_text(

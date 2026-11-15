@@ -23,6 +23,7 @@ defmodule ECBApiFineract.ApiRouter do
     GLAccounts,
     GLClosures,
     Holidays,
+    JournalEntries,
     MakerCheckers,
     Offices,
     Organisation,
@@ -130,6 +131,13 @@ defmodule ECBApiFineract.ApiRouter do
   get "/v1/glclosures/:id", do: GLClosures.show(conn, id)
   put "/v1/glclosures/:id", do: GLClosures.update(conn, id)
   delete "/v1/glclosures/:id", do: GLClosures.delete(conn, id)
+
+  get "/v1/journalentries", do: JournalEntries.index(conn)
+  post "/v1/journalentries", do: JournalEntries.create(conn)
+  get "/v1/journalentries/openingbalance", do: JournalEntries.opening_balance(conn)
+  get "/v1/journalentries/provisioning", do: JournalEntries.provisioning(conn)
+  get "/v1/journalentries/:id", do: JournalEntries.show(conn, id)
+  post "/v1/journalentries/:transaction_id", do: JournalEntries.reverse(conn, transaction_id)
 
   get "/v1/glaccounts/template", do: GLAccounts.template(conn)
   get "/v1/glaccounts", do: GLAccounts.index(conn)

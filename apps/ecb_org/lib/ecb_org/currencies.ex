@@ -8,6 +8,7 @@ defmodule ECBOrg.Currencies do
   """
   import Ecto.Query
 
+  alias ECBPlatform.Errors.ResourceNotFound
   alias ECBPlatform.TenantRepo
 
   @doc "`%{selected: [...], available: [...]}`: selected currencies, and the rest of the catalogue, each by name."
@@ -34,14 +35,34 @@ defmodule ECBOrg.Currencies do
     %{selected: selected, available: available}
   end
 
-  defp with_label(currency) do
-    symbol = currency.display_symbol
-
-    label =
-      if symbol in [nil, ""],
-        do: "#{currency.name} [#{currency.code}]",
-        else: "#{currency.name} (#{symbol})"
-
-    Map.put(currency, :display_label, label)
+  @doc """
+  Checks that the organisation has selected `code`, raising a not-found error with Fineract's wording when
+  it has not (an unknown code and an unselected one are the same to the caller).
+  """
+  @spec fetch_selected!(String.t() | nil) :: :ok
+  def fetch_selected!(code) do
+    if code && TenantRepo.exists?(from(o in "m_organisation_currency", where: o.code == ^code)) do
+      :ok
+    else
+      raise ResourceNotFound,
+        code: "error.msg.currency.currencyCode.invalid.or.not.supported",
+        message:
+          "Currency with identifier #{code} does not exist or is not supported by the Organization",
+        args: [code]
+    end
   end
+
+  @doc "The label a client shows for a currency: `Name (symbol)`, or `Name [CODE]` when it has no symbol."
+  @spec display_label(String.t(), String.t(), String.t() | nil) :: String.t()
+  def display_label(name, code, symbol) do
+    if symbol in [nil, ""], do: "#{name} [#{code}]", else: "#{name} (#{symbol})"
+  end
+
+  defp with_label(currency),
+    do:
+      Map.put(
+        currency,
+        :display_label,
+        display_label(currency.name, currency.code, currency.display_symbol)
+      )
 end

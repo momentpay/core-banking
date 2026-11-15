@@ -1,0 +1,8059 @@
+{
+ "name": "openingbalances",
+ "reset": [
+  "glaccounts",
+  "offices"
+ ],
+ "steps": [
+  {
+   "path": "/v1/journalentries/openingbalance?officeId=1&currencyCode=USD",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Financial Activity account with for the financial Activity with Id 300 does not exist",
+      "defaultUserMessage": "Financial Activity account with for the financial Activity with Id 300 does not exist",
+      "userMessageGlobalisationCode": "error.msg.financialActivityAccount.not.found",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 300
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/journalentries/openingbalance",
+   "ignore": [
+    "timestamp",
+    "path"
+   ],
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Financial Activity account with for the financial Activity with Id 300 does not exist",
+      "defaultUserMessage": "Financial Activity account with for the financial Activity with Id 300 does not exist",
+      "userMessageGlobalisationCode": "error.msg.financialActivityAccount.not.found",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 300
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Cash",
+    "glCode": "1000",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Payables",
+    "glCode": "2000",
+    "manualEntriesAllowed": true,
+    "type": 2,
+    "usage": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Equity",
+    "glCode": "3000",
+    "manualEntriesAllowed": true,
+    "type": 3,
+    "usage": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Fees",
+    "glCode": "4000",
+    "manualEntriesAllowed": true,
+    "type": 4,
+    "usage": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Rent",
+    "glCode": "5000",
+    "manualEntriesAllowed": true,
+    "type": 5,
+    "usage": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 5
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Retired",
+    "glCode": "1200",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1,
+    "disabled": true
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 6
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Assets",
+    "glCode": "1",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 2
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 7
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Locked",
+    "glCode": "1100",
+    "manualEntriesAllowed": false,
+    "type": 1,
+    "usage": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 8
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/offices",
+   "body": {
+    "name": "Branch",
+    "parentId": 1,
+    "openingDate": "01 January 2020",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 2,
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "Opening",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 500
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 500
+     }
+    ]
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Financial Activity account with for the financial Activity with Id 300 does not exist",
+      "defaultUserMessage": "Financial Activity account with for the financial Activity with Id 300 does not exist",
+      "userMessageGlobalisationCode": "error.msg.financialActivityAccount.not.found",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 300
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/financialactivityaccounts",
+   "body": {
+    "financialActivityId": 300,
+    "glAccountId": 3
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "path": "/v1/journalentries/openingbalance?officeId=1&currencyCode=USD",
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "officeName": "Head Office",
+    "transactionDate": [
+     2026,
+     11,
+     15
+    ],
+    "contraAccount": {
+     "id": 3,
+     "name": "Equity",
+     "glCode": "3000",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 3,
+      "code": "accountType.equity",
+      "value": "EQUITY"
+     },
+     "usage": {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     "description": "",
+     "nameDecorated": "Equity",
+     "tagId": {
+      "id": 0
+     }
+    },
+    "assetAccountOpeningBalances": [
+     {
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      }
+     },
+     {
+      "glAccountName": "Locked",
+      "glAccountId": 8,
+      "glAccountCode": "1100",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      }
+     }
+    ],
+    "liabityAccountOpeningBalances": [
+     {
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      }
+     }
+    ],
+    "incomeAccountOpeningBalances": [
+     {
+      "glAccountName": "Fees",
+      "glAccountId": 4,
+      "glAccountCode": "4000",
+      "glAccountType": {
+       "id": 4,
+       "code": "accountType.income",
+       "value": "INCOME"
+      }
+     }
+    ],
+    "equityAccountOpeningBalances": [],
+    "expenseAccountOpeningBalances": [
+     {
+      "glAccountName": "Rent",
+      "glAccountId": 5,
+      "glAccountCode": "5000",
+      "glAccountType": {
+       "id": 5,
+       "code": "accountType.expense",
+       "value": "EXPENSE"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/journalentries/openingbalance?officeId=1",
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "officeName": "Head Office",
+    "transactionDate": [
+     2026,
+     11,
+     15
+    ],
+    "contraAccount": {
+     "id": 3,
+     "name": "Equity",
+     "glCode": "3000",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 3,
+      "code": "accountType.equity",
+      "value": "EQUITY"
+     },
+     "usage": {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     "description": "",
+     "nameDecorated": "Equity",
+     "tagId": {
+      "id": 0
+     }
+    },
+    "assetAccountOpeningBalances": [
+     {
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      }
+     },
+     {
+      "glAccountName": "Locked",
+      "glAccountId": 8,
+      "glAccountCode": "1100",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      }
+     }
+    ],
+    "liabityAccountOpeningBalances": [
+     {
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      }
+     }
+    ],
+    "incomeAccountOpeningBalances": [
+     {
+      "glAccountName": "Fees",
+      "glAccountId": 4,
+      "glAccountCode": "4000",
+      "glAccountType": {
+       "id": 4,
+       "code": "accountType.income",
+       "value": "INCOME"
+      }
+     }
+    ],
+    "equityAccountOpeningBalances": [],
+    "expenseAccountOpeningBalances": [
+     {
+      "glAccountName": "Rent",
+      "glAccountId": 5,
+      "glAccountCode": "5000",
+      "glAccountType": {
+       "id": 5,
+       "code": "accountType.expense",
+       "value": "EXPENSE"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/journalentries/openingbalance?currencyCode=USD",
+   "ignore": [
+    "timestamp",
+    "path"
+   ],
+   "status": 500,
+   "response": {
+    "timestamp": "2026-11-15T06:34:08.190Z",
+    "status": 500,
+    "error": "Internal Server Error",
+    "path": "/fineract-provider/api/v1/journalentries/openingbalance"
+   }
+  },
+  {
+   "path": "/v1/journalentries/openingbalance?officeId=99&currencyCode=USD",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Office with identifier 99 does not exist",
+      "defaultUserMessage": "Office with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.office.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/journalentries/openingbalance?officeId=abc",
+   "ignore": [
+    "timestamp",
+    "path"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T06:34:08.315Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/journalentries/openingbalance"
+   }
+  },
+  {
+   "path": "/v1/journalentries/openingbalance?officeId=1&currencyCode=EUR",
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "officeName": "Head Office",
+    "transactionDate": [
+     2026,
+     11,
+     15
+    ],
+    "contraAccount": {
+     "id": 3,
+     "name": "Equity",
+     "glCode": "3000",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 3,
+      "code": "accountType.equity",
+      "value": "EQUITY"
+     },
+     "usage": {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     "description": "",
+     "nameDecorated": "Equity",
+     "tagId": {
+      "id": 0
+     }
+    },
+    "assetAccountOpeningBalances": [
+     {
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      }
+     },
+     {
+      "glAccountName": "Locked",
+      "glAccountId": 8,
+      "glAccountCode": "1100",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      }
+     }
+    ],
+    "liabityAccountOpeningBalances": [
+     {
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      }
+     }
+    ],
+    "incomeAccountOpeningBalances": [
+     {
+      "glAccountName": "Fees",
+      "glAccountId": 4,
+      "glAccountCode": "4000",
+      "glAccountType": {
+       "id": 4,
+       "code": "accountType.income",
+       "value": "INCOME"
+      }
+     }
+    ],
+    "equityAccountOpeningBalances": [],
+    "expenseAccountOpeningBalances": [
+     {
+      "glAccountName": "Rent",
+      "glAccountId": 5,
+      "glAccountCode": "5000",
+      "glAccountType": {
+       "id": 5,
+       "code": "accountType.expense",
+       "value": "EXPENSE"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "Opening",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 500
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 500
+     }
+    ],
+    "bogus": 1
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter bogus is not supported.",
+      "defaultUserMessage": "bogus",
+      "userMessageGlobalisationCode": "error.msg.parameter.unsupported",
+      "parameterName": "bogus",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "Opening",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 500
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 300
+     }
+    ]
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Sum of All Debits must equal the sum of all Credits for a Journal Entry",
+      "defaultUserMessage": "Sum of All Debits must equal the sum of all Credits for a Journal Entry",
+      "userMessageGlobalisationCode": "error.msg.glJournalEntry.invalid.mismatch.debits.credits",
+      "parameterName": "id",
+      "args": [
+       {},
+       {},
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "Opening",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 500
+     }
+    ]
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Journal Entry must have at least one Debit and one Credit",
+      "defaultUserMessage": "Journal Entry must have at least one Debit and one Credit",
+      "userMessageGlobalisationCode": "error.msg.glJournalEntry.invalid.no.debits.or.credits",
+      "parameterName": "id",
+      "args": [
+       {},
+       {},
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "Opening"
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Journal Entry must have at least one Debit and one Credit",
+      "defaultUserMessage": "Journal Entry must have at least one Debit and one Credit",
+      "userMessageGlobalisationCode": "error.msg.glJournalEntry.invalid.no.debits.or.credits",
+      "parameterName": "id",
+      "args": [
+       {},
+       {},
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 January 2099",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "Opening",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 500
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 500
+     }
+    ]
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "The journal entry cannot be made for a future date",
+      "defaultUserMessage": "The journal entry cannot be made for a future date",
+      "userMessageGlobalisationCode": "error.msg.glJournalEntry.invalid.future.date",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "2099-01-01"
+       },
+       {},
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 99,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "Opening",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 500
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 500
+     }
+    ]
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Office with identifier 99 does not exist",
+      "defaultUserMessage": "Office with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.office.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 0,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "Opening",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 500
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 500
+     }
+    ]
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `officeId` must be greater than 0.",
+      "defaultUserMessage": "The parameter `officeId` must be greater than 0.",
+      "userMessageGlobalisationCode": "validation.msg.GLJournalEntry.officeId.not.greater.than.zero",
+      "parameterName": "officeId",
+      "args": [
+       {
+        "value": 0
+       },
+       {
+        "value": 0
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "EUR",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "Opening",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 500
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 500
+     }
+    ]
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Currency with identifier EUR does not exist or is not supported by the Organization",
+      "defaultUserMessage": "Currency with identifier EUR does not exist or is not supported by the Organization",
+      "userMessageGlobalisationCode": "error.msg.currency.currencyCode.invalid.or.not.supported",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "EUR"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "Opening",
+    "debits": [
+     {
+      "glAccountId": 8,
+      "amount": 500
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 500
+     }
+    ]
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Target account does not allow manual adjustments",
+      "defaultUserMessage": "Target account does not allow manual adjustments",
+      "userMessageGlobalisationCode": "error.msg.glJournalEntry.invalid.account.manual.adjustments.not.permitted",
+      "parameterName": "id",
+      "args": [
+       {},
+       {
+        "value": "Locked"
+       },
+       {
+        "value": "1100"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "Opening",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 500
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 6,
+      "amount": 500
+     }
+    ]
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Target account has been disabled",
+      "defaultUserMessage": "Target account has been disabled",
+      "userMessageGlobalisationCode": "error.msg.glJournalEntry.invalid.account.disabled",
+      "parameterName": "id",
+      "args": [
+       {},
+       {
+        "value": "Retired"
+       },
+       {
+        "value": "1200"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "Opening",
+    "debits": [
+     {
+      "glAccountId": 99,
+      "amount": 500
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 500
+     }
+    ]
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "General Ledger account with identifier 99 does not exist ",
+      "defaultUserMessage": "General Ledger account with identifier 99 does not exist ",
+      "userMessageGlobalisationCode": "error.msg.glaccount.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "Opening",
+    "debits": [
+     {
+      "glAccountId": 3,
+      "amount": 500
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 500
+     }
+    ]
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "transactionId": "a33aaf54140b"
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "Opening",
+    "debits": [
+     {
+      "glAccountId": 7,
+      "amount": 500
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 500
+     }
+    ]
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "transactionId": "a33aaf543cab"
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "locale": "en",
+    "comments": "Opening",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 500
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 500
+     }
+    ]
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `transactionDate` requires a `dateFormat` parameter to be passed with it.",
+      "defaultUserMessage": "The parameter `transactionDate` requires a `dateFormat` parameter to be passed with it.",
+      "userMessageGlobalisationCode": "validation.msg.missing.dateFormat.parameter",
+      "parameterName": "transactionDate",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 500
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 500
+     }
+    ]
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `comments` exceeds max length of 500.",
+      "defaultUserMessage": "The parameter `comments` exceeds max length of 500.",
+      "userMessageGlobalisationCode": "validation.msg.GLJournalEntry.comments.exceeds.max.length",
+      "parameterName": "comments",
+      "args": [
+       {
+        "value": 500
+       },
+       {
+        "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "Opening",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 500
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 500
+     }
+    ]
+   },
+   "ignore": [
+    "timestamp",
+    "path"
+   ],
+   "auth": [
+    "nobody",
+    "wrong"
+   ],
+   "status": 401,
+   "response": {
+    "timestamp": "2026-11-15T06:34:09.994Z",
+    "status": 401,
+    "error": "Unauthorized",
+    "path": "/fineract-provider/api/v1/journalentries"
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "ignore": [
+    "transactionId"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The JSON provided in the body of the request is invalid or missing.",
+    "defaultUserMessage": "The JSON provided in the body of the request is invalid or missing.",
+    "userMessageGlobalisationCode": "error.msg.invalid.request.body",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "path": "/v1/journalentries",
+   "ignore": [
+    "transactionId",
+    "createdDate",
+    "submittedOnDate"
+   ],
+   "status": 200,
+   "response": {
+    "totalFilteredRecords": 12,
+    "pageItems": [
+     {
+      "id": 3,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf54140b",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 4,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf54140b",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 5,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf54140b",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 6,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf54140b",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 7,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf5435a3",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 8,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf5435a3",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 9,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf5435a3",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 10,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf5435a3",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 11,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Assets",
+      "glAccountId": 7,
+      "glAccountCode": "1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf543cab",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 12,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf543cab",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 13,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf543cab",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 14,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf543cab",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "Opening",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 500
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 500
+     }
+    ]
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "transactionId": "a33aaf555c8f"
+   }
+  },
+  {
+   "path": "/v1/journalentries",
+   "ignore": [
+    "transactionId",
+    "createdDate",
+    "submittedOnDate"
+   ],
+   "status": 200,
+   "response": {
+    "totalFilteredRecords": 20,
+    "pageItems": [
+     {
+      "id": 3,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf54140b",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 4,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf54140b",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 5,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf54140b",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 6,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf54140b",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 7,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf5435a3",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 8,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf5435a3",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 9,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf5435a3",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 10,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf5435a3",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 11,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Assets",
+      "glAccountId": 7,
+      "glAccountCode": "1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf543cab",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 12,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf543cab",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 13,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf543cab",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 14,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf543cab",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 15,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Assets",
+      "glAccountId": 7,
+      "glAccountCode": "1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55564f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 16,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55564f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 17,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55564f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 18,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55564f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 19,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf555c8f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 20,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf555c8f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 21,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf555c8f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 22,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf555c8f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/journalentries/openingbalance?officeId=1&currencyCode=USD",
+   "ignore": [
+    "transactionId",
+    "createdDate",
+    "submittedOnDate"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "officeName": "Head Office",
+    "transactionDate": [
+     2026,
+     11,
+     15
+    ],
+    "contraAccount": {
+     "id": 3,
+     "name": "Equity",
+     "glCode": "3000",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 3,
+      "code": "accountType.equity",
+      "value": "EQUITY"
+     },
+     "usage": {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     "description": "",
+     "nameDecorated": "Equity",
+     "tagId": {
+      "id": 0
+     }
+    },
+    "assetAccountOpeningBalances": [
+     {
+      "id": 19,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf555c8f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "glAccountName": "Locked",
+      "glAccountId": 8,
+      "glAccountCode": "1100",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      }
+     }
+    ],
+    "liabityAccountOpeningBalances": [
+     {
+      "id": 21,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf555c8f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     }
+    ],
+    "incomeAccountOpeningBalances": [
+     {
+      "glAccountName": "Fees",
+      "glAccountId": 4,
+      "glAccountCode": "4000",
+      "glAccountType": {
+       "id": 4,
+       "code": "accountType.income",
+       "value": "INCOME"
+      }
+     }
+    ],
+    "equityAccountOpeningBalances": [],
+    "expenseAccountOpeningBalances": [
+     {
+      "glAccountName": "Rent",
+      "glAccountId": 5,
+      "glAccountCode": "5000",
+      "glAccountType": {
+       "id": 5,
+       "code": "accountType.expense",
+       "value": "EXPENSE"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "Opening",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 700
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 700
+     }
+    ]
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "transactionId": "a33aaf55b8bf"
+   }
+  },
+  {
+   "path": "/v1/journalentries",
+   "ignore": [
+    "transactionId",
+    "createdDate",
+    "submittedOnDate"
+   ],
+   "status": 200,
+   "response": {
+    "totalFilteredRecords": 28,
+    "pageItems": [
+     {
+      "id": 3,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf54140b",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 4,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf54140b",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 5,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf54140b",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 6,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf54140b",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 7,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf5435a3",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 8,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf5435a3",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 9,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf5435a3",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 10,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf5435a3",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 11,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Assets",
+      "glAccountId": 7,
+      "glAccountCode": "1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf543cab",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 12,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf543cab",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 13,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf543cab",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 14,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf543cab",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 15,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Assets",
+      "glAccountId": 7,
+      "glAccountCode": "1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55564f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 16,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55564f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 17,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55564f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 18,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55564f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 19,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf555c8f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 20,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf555c8f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 21,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf555c8f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 22,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf555c8f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 23,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55b40f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 24,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55b40f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 25,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55b40f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 26,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55b40f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 27,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 700.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55b8bf",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 28,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 700.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55b8bf",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 29,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 700.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55b8bf",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 30,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 700.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55b8bf",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/journalentries/openingbalance?officeId=1&currencyCode=USD",
+   "ignore": [
+    "transactionId",
+    "createdDate",
+    "submittedOnDate"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "officeName": "Head Office",
+    "transactionDate": [
+     2026,
+     11,
+     15
+    ],
+    "contraAccount": {
+     "id": 3,
+     "name": "Equity",
+     "glCode": "3000",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 3,
+      "code": "accountType.equity",
+      "value": "EQUITY"
+     },
+     "usage": {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     "description": "",
+     "nameDecorated": "Equity",
+     "tagId": {
+      "id": 0
+     }
+    },
+    "assetAccountOpeningBalances": [
+     {
+      "id": 27,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 700.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55b8bf",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "glAccountName": "Locked",
+      "glAccountId": 8,
+      "glAccountCode": "1100",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      }
+     }
+    ],
+    "liabityAccountOpeningBalances": [
+     {
+      "id": 29,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 700.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55b8bf",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     }
+    ],
+    "incomeAccountOpeningBalances": [
+     {
+      "glAccountName": "Fees",
+      "glAccountId": 4,
+      "glAccountCode": "4000",
+      "glAccountType": {
+       "id": 4,
+       "code": "accountType.income",
+       "value": "INCOME"
+      }
+     }
+    ],
+    "equityAccountOpeningBalances": [],
+    "expenseAccountOpeningBalances": [
+     {
+      "glAccountName": "Rent",
+      "glAccountId": 5,
+      "glAccountCode": "5000",
+      "glAccountType": {
+       "id": 5,
+       "code": "accountType.expense",
+       "value": "EXPENSE"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "Opening",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 100,
+      "comments": "Cash note"
+     },
+     {
+      "glAccountId": 5,
+      "amount": 40
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 70,
+      "comments": "Payables note"
+     },
+     {
+      "glAccountId": 4,
+      "amount": 70
+     }
+    ]
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "transactionId": "a33aaf561107"
+   }
+  },
+  {
+   "path": "/v1/journalentries",
+   "ignore": [
+    "transactionId",
+    "createdDate",
+    "submittedOnDate"
+   ],
+   "status": 200,
+   "response": {
+    "totalFilteredRecords": 40,
+    "pageItems": [
+     {
+      "id": 3,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf54140b",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 4,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf54140b",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 5,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf54140b",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 6,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf54140b",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 7,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf5435a3",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 8,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf5435a3",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 9,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf5435a3",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 10,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf5435a3",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 11,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Assets",
+      "glAccountId": 7,
+      "glAccountCode": "1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf543cab",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 12,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf543cab",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 13,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf543cab",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 14,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf543cab",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 15,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Assets",
+      "glAccountId": 7,
+      "glAccountCode": "1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55564f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 16,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55564f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 17,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55564f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 18,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55564f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 19,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf555c8f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 20,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf555c8f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 21,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf555c8f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 22,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf555c8f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 23,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55b40f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 24,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55b40f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 25,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55b40f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 26,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55b40f",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 27,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 700.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55b8bf",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 28,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 700.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55b8bf",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 29,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 700.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55b8bf",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 30,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 700.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf55b8bf",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": true,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 31,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 700.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf560bf3",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 32,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 700.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf560bf3",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 33,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 700.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf560bf3",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 34,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 700.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf560bf3",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "defining opening balance",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 35,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf561107",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Cash note",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 36,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf561107",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Cash note",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 37,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Rent",
+      "glAccountId": 5,
+      "glAccountCode": "5000",
+      "glAccountType": {
+       "id": 5,
+       "code": "accountType.expense",
+       "value": "EXPENSE"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 40.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf561107",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Cash note",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 38,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 40.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf561107",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Cash note",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 39,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 70.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf561107",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Payables note",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 40,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 70.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf561107",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Payables note",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 41,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Fees",
+      "glAccountId": 4,
+      "glAccountCode": "4000",
+      "glAccountType": {
+       "id": 4,
+       "code": "accountType.income",
+       "value": "INCOME"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 70.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf561107",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Payables note",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 42,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 70.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf561107",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Payables note",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/journalentries/openingbalance?officeId=1&currencyCode=USD",
+   "ignore": [
+    "transactionId",
+    "createdDate",
+    "submittedOnDate"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "officeName": "Head Office",
+    "transactionDate": [
+     2026,
+     11,
+     15
+    ],
+    "contraAccount": {
+     "id": 3,
+     "name": "Equity",
+     "glCode": "3000",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 3,
+      "code": "accountType.equity",
+      "value": "EQUITY"
+     },
+     "usage": {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     "description": "",
+     "nameDecorated": "Equity",
+     "tagId": {
+      "id": 0
+     }
+    },
+    "assetAccountOpeningBalances": [
+     {
+      "id": 35,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf561107",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Cash note",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "glAccountName": "Locked",
+      "glAccountId": 8,
+      "glAccountCode": "1100",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      }
+     }
+    ],
+    "liabityAccountOpeningBalances": [
+     {
+      "id": 39,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 70.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf561107",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Payables note",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     }
+    ],
+    "incomeAccountOpeningBalances": [
+     {
+      "id": 41,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Fees",
+      "glAccountId": 4,
+      "glAccountCode": "4000",
+      "glAccountType": {
+       "id": 4,
+       "code": "accountType.income",
+       "value": "INCOME"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 70.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf561107",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Payables note",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     }
+    ],
+    "equityAccountOpeningBalances": [],
+    "expenseAccountOpeningBalances": [
+     {
+      "id": 37,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Rent",
+      "glAccountId": 5,
+      "glAccountCode": "5000",
+      "glAccountType": {
+       "id": 5,
+       "code": "accountType.expense",
+       "value": "EXPENSE"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 40.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf561107",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Cash note",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 2,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "Opening",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 50
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 50
+     }
+    ]
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 2,
+    "transactionId": "a33aaf565820"
+   }
+  },
+  {
+   "path": "/v1/journalentries/openingbalance?officeId=2&currencyCode=USD",
+   "ignore": [
+    "transactionId",
+    "createdDate",
+    "submittedOnDate"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 2,
+    "officeName": "Branch",
+    "transactionDate": [
+     2026,
+     11,
+     15
+    ],
+    "contraAccount": {
+     "id": 3,
+     "name": "Equity",
+     "glCode": "3000",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 3,
+      "code": "accountType.equity",
+      "value": "EQUITY"
+     },
+     "usage": {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     "description": "",
+     "nameDecorated": "Equity",
+     "tagId": {
+      "id": 0
+     }
+    },
+    "assetAccountOpeningBalances": [
+     {
+      "id": 43,
+      "officeId": 2,
+      "officeName": "Branch",
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 50.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf565820",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "glAccountName": "Locked",
+      "glAccountId": 8,
+      "glAccountCode": "1100",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      }
+     }
+    ],
+    "liabityAccountOpeningBalances": [
+     {
+      "id": 45,
+      "officeId": 2,
+      "officeName": "Branch",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 50.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf565820",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     }
+    ],
+    "incomeAccountOpeningBalances": [
+     {
+      "glAccountName": "Fees",
+      "glAccountId": 4,
+      "glAccountCode": "4000",
+      "glAccountType": {
+       "id": 4,
+       "code": "accountType.income",
+       "value": "INCOME"
+      }
+     }
+    ],
+    "equityAccountOpeningBalances": [],
+    "expenseAccountOpeningBalances": [
+     {
+      "glAccountName": "Rent",
+      "glAccountId": 5,
+      "glAccountCode": "5000",
+      "glAccountType": {
+       "id": 5,
+       "code": "accountType.expense",
+       "value": "EXPENSE"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/journalentries/openingbalance?officeId=1&currencyCode=USD",
+   "ignore": [
+    "transactionId",
+    "createdDate",
+    "submittedOnDate"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "officeName": "Head Office",
+    "transactionDate": [
+     2026,
+     11,
+     15
+    ],
+    "contraAccount": {
+     "id": 3,
+     "name": "Equity",
+     "glCode": "3000",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 3,
+      "code": "accountType.equity",
+      "value": "EQUITY"
+     },
+     "usage": {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     "description": "",
+     "nameDecorated": "Equity",
+     "tagId": {
+      "id": 0
+     }
+    },
+    "assetAccountOpeningBalances": [
+     {
+      "id": 35,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf561107",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Cash note",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "glAccountName": "Locked",
+      "glAccountId": 8,
+      "glAccountCode": "1100",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      }
+     }
+    ],
+    "liabityAccountOpeningBalances": [
+     {
+      "id": 39,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 70.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf561107",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Payables note",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     }
+    ],
+    "incomeAccountOpeningBalances": [
+     {
+      "id": 41,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Fees",
+      "glAccountId": 4,
+      "glAccountCode": "4000",
+      "glAccountType": {
+       "id": 4,
+       "code": "accountType.income",
+       "value": "INCOME"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 70.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf561107",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Payables note",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     }
+    ],
+    "equityAccountOpeningBalances": [],
+    "expenseAccountOpeningBalances": [
+     {
+      "id": 37,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Rent",
+      "glAccountId": 5,
+      "glAccountCode": "5000",
+      "glAccountType": {
+       "id": 5,
+       "code": "accountType.expense",
+       "value": "EXPENSE"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 40.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf561107",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Cash note",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/journalentries?officeId=2",
+   "ignore": [
+    "transactionId",
+    "createdDate",
+    "submittedOnDate"
+   ],
+   "status": 200,
+   "response": {
+    "totalFilteredRecords": 4,
+    "pageItems": [
+     {
+      "id": 43,
+      "officeId": 2,
+      "officeName": "Branch",
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 50.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf565820",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 44,
+      "officeId": 2,
+      "officeName": "Branch",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 50.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf565820",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 45,
+      "officeId": 2,
+      "officeName": "Branch",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 50.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf565820",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "id": 46,
+      "officeId": 2,
+      "officeName": "Branch",
+      "glAccountName": "Equity",
+      "glAccountId": 3,
+      "glAccountCode": "3000",
+      "glAccountType": {
+       "id": 3,
+       "code": "accountType.equity",
+       "value": "EQUITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 50.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf565820",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glclosures",
+   "body": {
+    "officeId": 1,
+    "closingDate": "28 February 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "28 February 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "Opening",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 500
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 500
+     }
+    ]
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Journal entry cannot be made prior to last account closing date for the branch",
+      "defaultUserMessage": "Journal entry cannot be made prior to last account closing date for the branch",
+      "userMessageGlobalisationCode": "error.msg.glJournalEntry.invalid.accounting.closed",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "2025-02-28"
+       },
+       {},
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "Opening",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 500
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 500
+     }
+    ]
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "transactionId": "a33aaf573dcf"
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glclosures",
+   "body": {
+    "officeId": 1,
+    "closingDate": "05 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "Opening",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 500
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 500
+     }
+    ]
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Journal entry cannot be made prior to last account closing date for the branch",
+      "defaultUserMessage": "Journal entry cannot be made prior to last account closing date for the branch",
+      "userMessageGlobalisationCode": "error.msg.glJournalEntry.invalid.accounting.closed",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "2025-03-05"
+       },
+       {},
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "06 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 10
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 10
+     }
+    ]
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "save": {
+    "tx9": "transactionId"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "transactionId": "{tx9}"
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "Opening",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 500
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 500
+     }
+    ]
+   },
+   "ignore": [
+    "transactionId",
+    "args"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Defining Opening balances not allowed after journal entries posted",
+      "defaultUserMessage": "Defining Opening balances not allowed after journal entries posted",
+      "userMessageGlobalisationCode": "error.msg.journalentry.defining.openingbalance.not.allowed",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": [
+         "{tx9}"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/journalentries/openingbalance?officeId=1&currencyCode=USD",
+   "ignore": [
+    "transactionId",
+    "createdDate",
+    "submittedOnDate"
+   ],
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "officeName": "Head Office",
+    "transactionDate": [
+     2026,
+     11,
+     15
+    ],
+    "contraAccount": {
+     "id": 3,
+     "name": "Equity",
+     "glCode": "3000",
+     "disabled": false,
+     "manualEntriesAllowed": true,
+     "type": {
+      "id": 3,
+      "code": "accountType.equity",
+      "value": "EQUITY"
+     },
+     "usage": {
+      "id": 1,
+      "code": "accountUsage.detail",
+      "value": "DETAIL"
+     },
+     "description": "",
+     "nameDecorated": "Equity",
+     "tagId": {
+      "id": 0
+     }
+    },
+    "assetAccountOpeningBalances": [
+     {
+      "id": 55,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Cash",
+      "glAccountId": 1,
+      "glAccountCode": "1000",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf573dcf",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     },
+     {
+      "glAccountName": "Locked",
+      "glAccountId": 8,
+      "glAccountCode": "1100",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      }
+     }
+    ],
+    "liabityAccountOpeningBalances": [
+     {
+      "id": 57,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Payables",
+      "glAccountId": 2,
+      "glAccountCode": "2000",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2025,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "a33aaf573dcf",
+      "manualEntry": true,
+      "createdByUserId": 1,
+      "createdDate": [
+       2026,
+       11,
+       15
+      ],
+      "createdByUserName": "mifos",
+      "comments": "Opening",
+      "reversed": false,
+      "submittedOnDate": [
+       2026,
+       11,
+       15
+      ]
+     }
+    ],
+    "incomeAccountOpeningBalances": [
+     {
+      "glAccountName": "Fees",
+      "glAccountId": 4,
+      "glAccountCode": "4000",
+      "glAccountType": {
+       "id": 4,
+       "code": "accountType.income",
+       "value": "INCOME"
+      }
+     }
+    ],
+    "equityAccountOpeningBalances": [],
+    "expenseAccountOpeningBalances": [
+     {
+      "glAccountName": "Rent",
+      "glAccountId": 5,
+      "glAccountCode": "5000",
+      "glAccountType": {
+       "id": 5,
+       "code": "accountType.expense",
+       "value": "EXPENSE"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries/{tx9}?command=reverse",
+   "body": {
+    "comments": "undo"
+   },
+   "ignore": [
+    "transactionId"
+   ],
+   "save": {
+    "rev9": "transactionId"
+   },
+   "status": 200,
+   "response": {
+    "transactionId": "{rev9}"
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/journalentries?command=defineOpeningBalance",
+   "body": {
+    "officeId": 1,
+    "currencyCode": "USD",
+    "transactionDate": "01 March 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "comments": "Opening",
+    "debits": [
+     {
+      "glAccountId": 1,
+      "amount": 500
+     }
+    ],
+    "credits": [
+     {
+      "glAccountId": 2,
+      "amount": 500
+     }
+    ]
+   },
+   "ignore": [
+    "transactionId",
+    "args"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Defining Opening balances not allowed after journal entries posted",
+      "defaultUserMessage": "Defining Opening balances not allowed after journal entries posted",
+      "userMessageGlobalisationCode": "error.msg.journalentry.defining.openingbalance.not.allowed",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": [
+         "{rev9}",
+         "{tx9}"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/journalentries/provisioning?entryId=1",
+   "status": 200,
+   "response": {
+    "totalFilteredRecords": 0,
+    "pageItems": []
+   }
+  },
+  {
+   "path": "/v1/journalentries/provisioning",
+   "status": 200,
+   "response": {
+    "totalFilteredRecords": 0,
+    "pageItems": []
+   }
+  },
+  {
+   "path": "/v1/journalentries/provisioning?entryId=abc",
+   "ignore": [
+    "timestamp",
+    "path"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T06:34:12.503Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/journalentries/provisioning"
+   }
+  },
+  {
+   "path": "/v1/journalentries/provisioning?entryId=1&limit=5&offset=0",
+   "status": 200,
+   "response": {
+    "totalFilteredRecords": 0,
+    "pageItems": []
+   }
+  }
+ ]
+}

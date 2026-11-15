@@ -111,7 +111,8 @@ defmodule ECBPlatform.Errors do
 
     @impl true
     def message(%{name: name, value: value}),
-      do: "The query parameter #{name} has an unsupported value of: #{value}"
+      do:
+        "The query parameter #{name} has an unsupported value of: #{if is_nil(value), do: "null", else: value}"
   end
 
   defmodule InvalidJsonData do

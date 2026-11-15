@@ -70,6 +70,9 @@ defmodule ECBApiFineract.ApiCase do
     # the books refer to users, offices and code values, so they go first
     for sql <- [
           "DELETE FROM acc_gl_journal_entry",
+          "DELETE FROM m_payment_detail",
+          "SELECT setval(pg_get_serial_sequence('acc_gl_journal_entry', 'id'), 1, false)",
+          "SELECT setval(pg_get_serial_sequence('m_payment_detail', 'id'), 1, false)",
           "DELETE FROM acc_product_mapping",
           "DELETE FROM acc_gl_financial_activity_account",
           "DELETE FROM acc_rule_tags",

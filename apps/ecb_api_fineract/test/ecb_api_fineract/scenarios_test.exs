@@ -22,11 +22,14 @@ defmodule ECBApiFineract.ScenariosTest do
 
       scenario["steps"]
       |> Enum.with_index(1)
-      |> Enum.each(fn {step, number} -> run_step(scenario["name"], step, number) end)
+      |> Enum.reduce(%{}, fn {step, number}, vars ->
+        run_step(scenario["name"], step, number, vars)
+      end)
     end
   end
 
-  defp run_step(name, step, number) do
+  defp run_step(name, step, number, vars) do
+    step = substitute(step, vars)
     method = step |> Map.get("method", "GET") |> String.downcase() |> String.to_atom()
     label = "#{name} step #{number}: #{String.upcase(to_string(method))} #{step["path"]}"
 
@@ -62,7 +65,40 @@ defmodule ECBApiFineract.ScenariosTest do
           "#{label} differs from Fineract at #{path}\n  Fineract: #{inspect(want, limit: 8, printable_limit: 200)}\n  ours:     #{inspect(got, limit: 8, printable_limit: 200)}"
         )
     end
+
+    save(step["save"], body(conn), vars)
   end
+
+  # Values a step keeps from its answer for later steps (`"save": {"tx": "transactionId"}`), such as the
+  # generated transaction id of a journal entry, which a reversal then names in its path as `{tx}`.
+  defp save(nil, _answer, vars), do: vars
+
+  defp save(wanted, answer, vars),
+    do: Enum.reduce(wanted, vars, fn {name, key}, acc -> Map.put(acc, name, answer[key]) end)
+
+  defp substitute(step, vars) when vars == %{}, do: step
+
+  defp substitute(step, vars) do
+    step
+    |> Map.update!("path", &replace_vars(&1, vars))
+    |> Map.update!("response", &replace_vars(&1, vars))
+    |> then(fn s ->
+      if is_map(s["body"]), do: Map.update!(s, "body", &replace_vars(&1, vars)), else: s
+    end)
+  end
+
+  defp replace_vars(%{} = map, vars),
+    do: Map.new(map, fn {k, v} -> {k, replace_vars(v, vars)} end)
+
+  defp replace_vars(list, vars) when is_list(list), do: Enum.map(list, &replace_vars(&1, vars))
+
+  defp replace_vars(text, vars) when is_binary(text) do
+    Enum.reduce(vars, text, fn {name, value}, acc ->
+      String.replace(acc, "{" <> name <> "}", to_string(value))
+    end)
+  end
+
+  defp replace_vars(other, _vars), do: other
 
   # Values that cannot repeat from run to run (times, the caller's address) are blanked on both sides.
   defp mask(value, []), do: value

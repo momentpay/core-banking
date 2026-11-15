@@ -103,4 +103,53 @@ defmodule ECBLedger.Handlers do
     def process(command, _user),
       do: {:ok, ECBLedger.Closures.Write.delete!(command.entity_id)}
   end
+
+  defmodule CreateJournalEntry do
+    @moduledoc "`CREATE` on `JOURNALENTRY`: posts a balanced set of debits and credits."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, user),
+      do: {:ok, ECBLedger.Journal.Write.create!(ECBPlatform.Params.parse!(command.json), user)}
+  end
+
+  defmodule ReverseJournalEntry do
+    @moduledoc "`REVERSE` on `JOURNALENTRY`: reverses the manual entries of one transaction."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, user),
+      do:
+        {:ok,
+         ECBLedger.Journal.Write.reverse!(
+           command.transaction_id,
+           ECBPlatform.Params.parse!(command.json),
+           user
+         )}
+  end
+
+  defmodule UpdateRunningBalance do
+    @moduledoc "`UPDATERUNNINGBALANCE` on `JOURNALENTRY`."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, user),
+      do:
+        {:ok,
+         ECBLedger.Journal.RunningBalance.update!(ECBPlatform.Params.parse!(command.json), user)}
+  end
+
+  defmodule DefineOpeningBalance do
+    @moduledoc "`DEFINEOPENINGBALANCE` on `JOURNALENTRY`."
+    @behaviour ECBPlatform.Commands.Handler
+
+    @impl true
+    def process(command, user),
+      do:
+        {:ok,
+         ECBLedger.Journal.Write.define_opening_balance!(
+           ECBPlatform.Params.parse!(command.json),
+           user
+         )}
+  end
 end

@@ -202,6 +202,43 @@ defmodule ECBPlatform.Params do
     end
   end
 
+  @doc """
+  A decimal parameter read the way Fineract's JSON helper reads one (journal entries, and the other
+  requests it reads field by field): text that is not a number is a validation error in the usual
+  envelope, `validation.msg.invalid.decimal.format`, naming the parameter, the value and the locale.
+  `locale` is the request's, which the caller reads once.
+  """
+  @spec decimal_checked(t, String.t(), String.t() | nil) :: Decimal.t() | nil
+  def decimal_checked(%__MODULE__{map: map} = params, key, locale) do
+    case Map.get(map, key) do
+      value when is_binary(value) ->
+        text = value |> String.trim() |> String.replace(",", "")
+
+        case Decimal.parse(text) do
+          {decimal, ""} ->
+            decimal
+
+          _ when text == "" ->
+            nil
+
+          _ ->
+            raise PlatformApiDataValidation,
+              errors: [
+                "validation.msg.invalid.decimal.format"
+                |> Errors.parameter_error(
+                  "The parameter `#{key}` has value: #{value} which is invalid decimal value for provided locale of [#{locale}].",
+                  key,
+                  [value, locale]
+                )
+                |> Map.put(:value, value)
+              ]
+        end
+
+      _ ->
+        decimal(params, key)
+    end
+  end
+
   @doc "The `dateFormat` sent with the request, or `nil`."
   @spec date_format(t) :: String.t() | nil
   def date_format(%__MODULE__{} = params), do: string(params, "dateFormat")

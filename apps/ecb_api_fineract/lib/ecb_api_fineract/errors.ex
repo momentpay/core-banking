@@ -140,6 +140,12 @@ defmodule ECBApiFineract.Errors do
   @spec render(Plug.Conn.t(), Exception.t()) :: Plug.Conn.t()
   def render(conn, %PathNotFound{}), do: spring(conn, 404, "Not Found")
 
+  def render(conn, %ECBLedger.Errors.InvalidOrderBy{}),
+    do: spring(conn, 500, "Internal Server Error")
+
+  def render(conn, %ECBLedger.Errors.ServerError{}),
+    do: spring(conn, 500, "Internal Server Error")
+
   def render(conn, %ECBOrg.Errors.OfficeNotFound{office_id: id} = error),
     do: not_found(conn, "error.msg.office.id.invalid", Exception.message(error), [id])
 

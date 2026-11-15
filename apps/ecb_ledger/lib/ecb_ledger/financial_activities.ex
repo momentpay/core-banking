@@ -74,6 +74,27 @@ defmodule ECBLedger.FinancialActivities do
   end
 
   @doc """
+  The account an activity posts to, or a not-found error when it has no mapping. Fineract words this
+  differently from the not-found of a mapping looked up by its own id.
+  """
+  @spec mapped_account!(integer) :: map
+  def mapped_account!(activity_id) do
+    case base()
+         |> where([faa], faa.financial_activity_type == ^activity_id)
+         |> TenantRepo.one() do
+      nil ->
+        raise ResourceNotFound,
+          code: "error.msg.financialActivityAccount.not.found",
+          message:
+            "Financial Activity account with for the financial Activity with Id #{activity_id} does not exist",
+          args: [activity_id]
+
+      row ->
+        finish(row).account
+    end
+  end
+
+  @doc """
   The accounts a mapping can point at, by type: `%{asset: [...], liability: [...], ...}` with enabled
   detail accounts only; a type without any is left out.
   """

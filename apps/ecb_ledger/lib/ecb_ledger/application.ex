@@ -16,7 +16,11 @@ defmodule ECBLedger.Application do
     {"FINANCIALACTIVITYACCOUNT", "DELETE", ECBLedger.Handlers.DeleteFinancialActivityAccount},
     {"GLCLOSURE", "CREATE", ECBLedger.Handlers.CreateGLClosure},
     {"GLCLOSURE", "UPDATE", ECBLedger.Handlers.UpdateGLClosure},
-    {"GLCLOSURE", "DELETE", ECBLedger.Handlers.DeleteGLClosure}
+    {"GLCLOSURE", "DELETE", ECBLedger.Handlers.DeleteGLClosure},
+    {"JOURNALENTRY", "CREATE", ECBLedger.Handlers.CreateJournalEntry},
+    {"JOURNALENTRY", "REVERSE", ECBLedger.Handlers.ReverseJournalEntry},
+    {"JOURNALENTRY", "UPDATERUNNINGBALANCE", ECBLedger.Handlers.UpdateRunningBalance},
+    {"JOURNALENTRY", "DEFINEOPENINGBALANCE", ECBLedger.Handlers.DefineOpeningBalance}
   ]
 
   @impl true
