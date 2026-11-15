@@ -209,6 +209,28 @@ RESETS = {
         "SELECT setval(pg_get_serial_sequence('m_provision_category', 'id'), 4)",
         "SELECT setval(pg_get_serial_sequence('m_provisioning_criteria', 'id'), 1, false)",
     ],
+    "clients": [
+        "DELETE FROM m_note WHERE client_id IS NOT NULL",
+        "DELETE FROM m_client_charge_paid_by",
+        "DELETE FROM m_client_charge",
+        "DELETE FROM m_client_transaction",
+        "DELETE FROM m_client_transfer_details",
+        "DELETE FROM m_family_members",
+        "DELETE FROM m_client_address",
+        "DELETE FROM m_address",
+        "DELETE FROM m_client_identifier",
+        "DELETE FROM m_client_non_person",
+        "DELETE FROM m_client",
+        "SELECT setval(pg_get_serial_sequence('m_client_charge_paid_by', 'id'), 1, false)",
+        "SELECT setval(pg_get_serial_sequence('m_client_charge', 'id'), 1, false)",
+        "SELECT setval(pg_get_serial_sequence('m_client_transaction', 'id'), 1, false)",
+        "SELECT setval(pg_get_serial_sequence('m_client_transfer_details', 'id'), 1, false)",
+        "SELECT setval(pg_get_serial_sequence('m_family_members', 'id'), 1, false)",
+        "SELECT setval(pg_get_serial_sequence('m_address', 'id'), 1, false)",
+        "SELECT setval(pg_get_serial_sequence('m_client_identifier', 'id'), 1, false)",
+        "SELECT setval(pg_get_serial_sequence('m_client_non_person', 'id'), 1, false)",
+        "SELECT setval(pg_get_serial_sequence('m_client', 'id'), 1, false)",
+    ],
     "staff": [
         "DELETE FROM m_staff",
         "SELECT setval(pg_get_serial_sequence('m_staff', 'id'), 1, false)",
@@ -268,13 +290,16 @@ def cmd_scenarios(args) -> int:
             status, body = fetch(path, step.get("method", "GET"), text, tuple(step.get("auth", ("mifos", "password"))))
             for name, key in step.get("save", {}).items():
                 saved[name] = body.get(key) if isinstance(body, dict) else None
-            recorded = {k: v for k, v in step.items() if k in ("method", "path", "body", "raw", "auth", "ignore", "save")}
+            recorded = {k: v for k, v in step.items() if k in ("method", "path", "body", "raw", "auth", "ignore", "save", "sortby")}
             # the oracle's generated values in its answers become `{name}` again, for the replay to fill in
             body = json.loads(unsubstitute(json.dumps(body), saved))
             recorded.update({"status": status, "response": body})
             # the web container's plain error carries the time and the oracle's own path, which no replay can match
             if isinstance(body, dict) and {"timestamp", "status", "error", "path"} <= set(body):
                 recorded["ignore"] = sorted(set(recorded.get("ignore", [])) | {"timestamp", "path"})
+            # a message that quotes the database's own error text depends on its wording and row numbers
+            if isinstance(body, dict) and "ERROR:" in json.dumps(body):
+                recorded["ignore"] = sorted(set(recorded.get("ignore", [])) | {"defaultUserMessage"})
             steps.append(recorded)
         (SCENARIO_DIR / f"{scenario['name']}.json").write_text(
             json.dumps({"name": scenario["name"], "reset": scenario.get("reset", []), "steps": steps}, indent=1, ensure_ascii=False) + "\n",

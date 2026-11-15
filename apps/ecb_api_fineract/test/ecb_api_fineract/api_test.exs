@@ -314,20 +314,20 @@ defmodule ECBApiFineract.ApiTest do
   # --- everything else ------------------------------------------------------------------------
 
   test "an operation that is in Fineract's API but not built yet is HTTP 501, not 404" do
-    conn = call(:get, "/api/v1/clients", auth: admin())
+    conn = call(:get, "/api/v1/loans", auth: admin())
     assert conn.status == 501
 
     assert %{
              "httpStatusCode" => "501",
              "userMessageGlobalisationCode" => "validation.msg.not.implemented",
              "errors" => [
-               %{"developerMessage" => "GET /api/v1/clients is not implemented in E-CoreBank yet"}
+               %{"developerMessage" => "GET /api/v1/loans is not implemented in E-CoreBank yet"}
              ]
            } = body(conn)
   end
 
   test "an unauthenticated request for something not built yet is still refused first" do
-    assert call(:get, "/api/v1/clients").status == 401
+    assert call(:get, "/api/v1/loans").status == 401
   end
 
   test "the raw request body is kept next to the parsed one, for commands that store it as text" do

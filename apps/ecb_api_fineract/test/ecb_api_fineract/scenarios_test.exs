@@ -17,6 +17,7 @@ defmodule ECBApiFineract.ScenariosTest do
     @external_resource file
     @scenario file |> File.read!() |> Jason.decode!()
 
+    @tag scenario: @scenario["name"]
     test "scenario #{@scenario["name"]} answers what Fineract answers" do
       scenario = @scenario
 
@@ -56,7 +57,13 @@ defmodule ECBApiFineract.ScenariosTest do
     assert conn.status == step["status"],
            "#{label}: HTTP #{conn.status}, Fineract answered #{step["status"]}\n  ours: #{conn.resp_body}"
 
-    case first_difference(mask(step["response"], ignored), mask(body(conn), ignored), "$") do
+    sortby = step["sortby"]
+
+    case first_difference(
+           in_order(mask(step["response"], ignored), sortby),
+           in_order(mask(body(conn), ignored), sortby),
+           "$"
+         ) do
       nil ->
         :ok
 
@@ -99,6 +106,18 @@ defmodule ECBApiFineract.ScenariosTest do
   end
 
   defp replace_vars(other, _vars), do: other
+
+  # A list Fineract answers in the order its database happens to hold the rows (`"sortby": "id"` in the
+  # step) is compared in the order of that key, on both sides; a page's items count as the list.
+  defp in_order(value, nil), do: value
+
+  defp in_order(list, key) when is_list(list),
+    do: Enum.sort_by(list, fn item -> if is_map(item), do: item[key] end)
+
+  defp in_order(%{"pageItems" => items} = page, key),
+    do: %{page | "pageItems" => in_order(items, key)}
+
+  defp in_order(other, _key), do: other
 
   # Values that cannot repeat from run to run (times, the caller's address) are blanked on both sides.
   defp mask(value, []), do: value

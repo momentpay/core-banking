@@ -13,7 +13,7 @@ defmodule ECBApiFineract.Resources.Write do
 
   @doc """
   Runs `action` on `entity` and sends the outcome. Options: `:id` (the entity the path names),
-  `:subentity_id` (a second id in the path), `:office_id` and `:transaction_id` (a journal transaction's
+  `:subentity_id` (a second id in the path), `:client_id`, `:office_id` and `:transaction_id` (a journal transaction's
   text id).
   """
   @spec execute(Plug.Conn.t(), String.t(), String.t(), keyword) :: Plug.Conn.t()
@@ -23,6 +23,7 @@ defmodule ECBApiFineract.Resources.Write do
         json: conn.assigns[:raw_body],
         entity_id: opts[:id],
         subentity_id: opts[:subentity_id],
+        client_id: opts[:client_id],
         office_id: opts[:office_id],
         transaction_id: opts[:transaction_id],
         idempotency_key: idempotency_key(conn),

@@ -14,6 +14,13 @@ defmodule ECBPlatform.Integrity do
   """
   alias ECBPlatform.Errors.DataIntegrity
 
+  @other_integrity_codes [
+    :string_data_right_truncation,
+    :not_null_violation,
+    :check_violation,
+    :numeric_value_out_of_range
+  ]
+
   @type rule ::
           {code :: String.t(), message :: String.t(), parameter :: String.t() | nil,
            args :: [term]}
@@ -33,6 +40,11 @@ defmodule ECBPlatform.Integrity do
         %{code: code, constraint: constraint}
         when code in [:unique_violation, :foreign_key_violation, :restrict_violation] ->
           reraise integrity_error(Map.get(rules, constraint), unknown), __STACKTRACE__
+
+        # a value too long for its column, a missing required value, a number out of range: Fineract's
+        # database layer reports every one of these as a data-integrity problem too
+        %{code: code} when code in @other_integrity_codes ->
+          reraise integrity_error(nil, unknown), __STACKTRACE__
 
         _ ->
           reraise error, __STACKTRACE__

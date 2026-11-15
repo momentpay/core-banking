@@ -27,6 +27,56 @@ defmodule ECBPlatform.Params.DatePattern do
     end
   end
 
+  @month_names ~w(January February March April May June July August September October November December)
+
+  @doc """
+  Writes `date` to `pattern` (`d`, `M`, `y` runs and literal text; month names in English), as a Java
+  formatter would for the patterns `parse/2` understands. `nil` when the pattern cannot be used.
+  """
+  @spec format(Date.t(), String.t()) :: String.t() | nil
+  def format(%Date{} = date, pattern) when is_binary(pattern) do
+    case tokenize(pattern) do
+      {:ok, tokens} -> Enum.map_join(tokens, &write(&1, date))
+      :error -> nil
+    end
+  end
+
+  defp write({:literal, text}, _date), do: text
+  defp write({:day, width}, date), do: pad(date.day, width)
+  defp write({:month, 3}, date), do: String.slice(Enum.at(@month_names, date.month - 1), 0, 3)
+  defp write({:month, width}, date) when width > 3, do: Enum.at(@month_names, date.month - 1)
+  defp write({:month, width}, date), do: pad(date.month, width)
+  defp write({:year, 2}, date), do: pad(rem(date.year, 100), 2)
+  defp write({:year, width}, date), do: pad(date.year, width)
+
+  defp pad(number, width), do: number |> Integer.to_string() |> String.pad_leading(width, "0")
+
+  @java_letters ~c"GuyDMLdQqYwWEecFaBhKkHmsSAnNVvzOXxZp"
+
+  @doc """
+  True when `pattern` is a pattern Java's `DateTimeFormatter.ofPattern` accepts: only letters it knows,
+  no reserved characters (`{`, `}`, `#`), and every quote closed. Says nothing about whether a date
+  could be read with it (see `parse/2`).
+  """
+  @spec valid?(String.t()) :: boolean
+  def valid?(pattern) when is_binary(pattern), do: valid_chars?(String.to_charlist(pattern))
+
+  defp valid_chars?([]), do: true
+
+  defp valid_chars?([?' | rest]) do
+    case Enum.drop_while(rest, &(&1 != ?')) do
+      [] -> false
+      [?' | after_quote] -> valid_chars?(after_quote)
+    end
+  end
+
+  defp valid_chars?([char | _]) when char in [?{, ?}, ?#], do: false
+
+  defp valid_chars?([char | rest]) when char in ?a..?z or char in ?A..?Z,
+    do: char in @java_letters and valid_chars?(rest)
+
+  defp valid_chars?([_ | rest]), do: valid_chars?(rest)
+
   # --- pattern -> tokens ----------------------------------------------------------------------
 
   defp tokenize(pattern), do: tokenize(String.to_charlist(pattern), [])

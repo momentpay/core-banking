@@ -1,0 +1,3864 @@
+{
+ "name": "clientsubs",
+ "reset": [
+  "clients",
+  "codes",
+  "staff",
+  "offices"
+ ],
+ "steps": [
+  {
+   "method": "POST",
+   "path": "/v1/codes/1/codevalues",
+   "body": {
+    "name": "Voter"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "subResourceId": 23
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes/31/codevalues",
+   "body": {
+    "name": "Mother"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 31,
+    "subResourceId": 24
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes/30/codevalues",
+   "body": {
+    "name": "Single"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 30,
+    "subResourceId": 25
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes/4/codevalues",
+   "body": {
+    "name": "Male"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 4,
+    "subResourceId": 26
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/codes/32/codevalues",
+   "body": {
+    "name": "Teacher"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 32,
+    "subResourceId": 27
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/offices",
+   "body": {
+    "name": "Branch",
+    "parentId": 1,
+    "openingDate": "01 February 2026",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 2,
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients",
+   "body": {
+    "officeId": 1,
+    "legalFormId": 1,
+    "firstname": "Asha",
+    "lastname": "Rao",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients",
+   "body": {
+    "officeId": 2,
+    "legalFormId": 1,
+    "firstname": "Cal",
+    "lastname": "Dee",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 2,
+    "clientId": 2,
+    "resourceId": 2
+   }
+  },
+  {
+   "path": "/v1/clients/1/identifiers",
+   "status": 200,
+   "response": []
+  },
+  {
+   "path": "/v1/clients/1/identifiers/template",
+   "status": 200,
+   "response": {
+    "allowedDocumentTypes": [
+     {
+      "id": 23,
+      "name": "Voter",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 1,
+      "name": "Passport",
+      "position": 1,
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 2,
+      "name": "Id",
+      "position": 2,
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 3,
+      "name": "Drivers License",
+      "position": 3,
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 4,
+      "name": "Any Other Id Type",
+      "position": 4,
+      "active": true,
+      "mandatory": false
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/clients/1/identifiers/1",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Client Identifier with the primary key 1 does not exist",
+      "defaultUserMessage": "Client Identifier with the primary key 1 does not exist",
+      "userMessageGlobalisationCode": "error.msg.clientIdentifier.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 1
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/clients/1/identifiers/abc",
+   "ignore": [
+    "path",
+    "timestamp"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T10:19:51.964Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/clients/1/identifiers/abc"
+   }
+  },
+  {
+   "path": "/v1/clients/abc/identifiers",
+   "ignore": [
+    "path",
+    "timestamp"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T10:19:51.993Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/clients/abc/identifiers"
+   }
+  },
+  {
+   "path": "/v1/clients/99/identifiers",
+   "status": 200,
+   "response": []
+  },
+  {
+   "path": "/v1/clients/99/identifiers/1",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Client Identifier with the primary key 1 does not exist",
+      "defaultUserMessage": "Client Identifier with the primary key 1 does not exist",
+      "userMessageGlobalisationCode": "error.msg.clientIdentifier.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 1
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "body": {
+    "documentTypeId": 1,
+    "documentKey": "P123",
+    "status": "Active",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "description": "d",
+    "issuanceDate": "01 January 2020",
+    "expiryDate": "01 January 2030"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "body": {
+    "documentTypeId": 23,
+    "documentKey": "P124",
+    "status": "active",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "body": {
+    "documentTypeId": 2,
+    "documentKey": "P125",
+    "status": "INACTIVE",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "body": {
+    "documentTypeId": 3,
+    "documentKey": "P125",
+    "status": "Inactive",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "resourceId": 4
+   }
+  },
+  {
+   "path": "/v1/clients/1/identifiers",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "clientId": 1,
+     "documentType": {
+      "id": 1,
+      "name": "Passport"
+     },
+     "documentKey": "P123",
+     "description": "d",
+     "status": "clientIdentifierStatusType.active",
+     "issuanceDate": "2020-01-01",
+     "expiryDate": "2030-01-01"
+    },
+    {
+     "id": 2,
+     "clientId": 1,
+     "documentType": {
+      "id": 23,
+      "name": "Voter"
+     },
+     "documentKey": "P124",
+     "status": "clientIdentifierStatusType.active"
+    },
+    {
+     "id": 3,
+     "clientId": 1,
+     "documentType": {
+      "id": 2,
+      "name": "Id"
+     },
+     "documentKey": "P125",
+     "status": "clientIdentifierStatusType.inactive"
+    },
+    {
+     "id": 4,
+     "clientId": 1,
+     "documentType": {
+      "id": 3,
+      "name": "Drivers License"
+     },
+     "documentKey": "P125",
+     "status": "clientIdentifierStatusType.inactive"
+    }
+   ]
+  },
+  {
+   "path": "/v1/clients/1/identifiers/1",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "clientId": 1,
+    "documentType": {
+     "id": 1,
+     "name": "Passport"
+    },
+    "documentKey": "P123",
+    "description": "d",
+    "status": "clientIdentifierStatusType.active",
+    "issuanceDate": [
+     2020,
+     1,
+     1
+    ],
+    "expiryDate": [
+     2030,
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "path": "/v1/clients/1/identifiers/2",
+   "status": 200,
+   "response": {
+    "id": 2,
+    "clientId": 1,
+    "documentType": {
+     "id": 23,
+     "name": "Voter"
+    },
+    "documentKey": "P124",
+    "status": "clientIdentifierStatusType.active"
+   }
+  },
+  {
+   "path": "/v1/clients/1/identifiers/1?template=true",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "clientId": 1,
+    "documentType": {
+     "id": 1,
+     "name": "Passport"
+    },
+    "documentKey": "P123",
+    "description": "d",
+    "status": "clientIdentifierStatusType.active",
+    "issuanceDate": [
+     2020,
+     1,
+     1
+    ],
+    "expiryDate": [
+     2030,
+     1,
+     1
+    ],
+    "allowedDocumentTypes": [
+     {
+      "id": 23,
+      "name": "Voter",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 1,
+      "name": "Passport",
+      "position": 1,
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 2,
+      "name": "Id",
+      "position": 2,
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 3,
+      "name": "Drivers License",
+      "position": 3,
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 4,
+      "name": "Any Other Id Type",
+      "position": 4,
+      "active": true,
+      "mandatory": false
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/clients/1/identifiers/1?fields=id,documentKey",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "documentKey": "P123",
+    "status": "clientIdentifierStatusType.active"
+   }
+  },
+  {
+   "path": "/v1/clients/1/identifiers/template",
+   "status": 200,
+   "response": {
+    "allowedDocumentTypes": [
+     {
+      "id": 23,
+      "name": "Voter",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 1,
+      "name": "Passport",
+      "position": 1,
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 2,
+      "name": "Id",
+      "position": 2,
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 3,
+      "name": "Drivers License",
+      "position": 3,
+      "active": true,
+      "mandatory": false
+     },
+     {
+      "id": 4,
+      "name": "Any Other Id Type",
+      "position": 4,
+      "active": true,
+      "mandatory": false
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/clients/1/identifiers?fields=id",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "clientId": 1,
+     "documentType": {
+      "id": 1,
+      "name": "Passport"
+     },
+     "documentKey": "P123",
+     "description": "d",
+     "status": "clientIdentifierStatusType.active",
+     "issuanceDate": "2020-01-01",
+     "expiryDate": "2030-01-01"
+    },
+    {
+     "id": 2,
+     "clientId": 1,
+     "documentType": {
+      "id": 23,
+      "name": "Voter"
+     },
+     "documentKey": "P124",
+     "status": "clientIdentifierStatusType.active"
+    },
+    {
+     "id": 3,
+     "clientId": 1,
+     "documentType": {
+      "id": 2,
+      "name": "Id"
+     },
+     "documentKey": "P125",
+     "status": "clientIdentifierStatusType.inactive"
+    },
+    {
+     "id": 4,
+     "clientId": 1,
+     "documentType": {
+      "id": 3,
+      "name": "Drivers License"
+     },
+     "documentKey": "P125",
+     "status": "clientIdentifierStatusType.inactive"
+    }
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "body": {
+    "documentTypeId": 1,
+    "documentKey": "P123",
+    "status": "Active",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Active Client identifier of type Passport is already present for this client",
+      "defaultUserMessage": "Active Client identifier of type Passport is already present for this client",
+      "userMessageGlobalisationCode": "error.msg.clientIdentifier.type.duplicate",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "Passport"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "body": {
+    "documentTypeId": 2,
+    "documentKey": "P123",
+    "status": "Active",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "resourceId": 6
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "body": {
+    "documentTypeId": 1,
+    "documentKey": "P123",
+    "status": "inactive",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Client Asha Raounder Head Office Branch already has a Passport with unique key P123",
+      "defaultUserMessage": "Client Asha Raounder Head Office Branch already has a Passport with unique key P123",
+      "userMessageGlobalisationCode": "error.msg.clientIdentifier.identityKey.duplicate",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "Asha Rao"
+       },
+       {
+        "value": "Head Office"
+       },
+       {
+        "value": "Passport"
+       },
+       {
+        "value": "P123"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/2/identifiers",
+   "body": {
+    "documentTypeId": 1,
+    "documentKey": "P123",
+    "status": "Active",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Client Asha Raounder Head Office Branch already has a Passport with unique key P123",
+      "defaultUserMessage": "Client Asha Raounder Head Office Branch already has a Passport with unique key P123",
+      "userMessageGlobalisationCode": "error.msg.clientIdentifier.identityKey.duplicate",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "Asha Rao"
+       },
+       {
+        "value": "Head Office"
+       },
+       {
+        "value": "Passport"
+       },
+       {
+        "value": "P123"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/2/identifiers",
+   "body": {
+    "documentTypeId": 2,
+    "documentKey": "P123",
+    "status": "Active",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Client Asha Raounder Head Office Branch already has a Id with unique key P123",
+      "defaultUserMessage": "Client Asha Raounder Head Office Branch already has a Id with unique key P123",
+      "userMessageGlobalisationCode": "error.msg.clientIdentifier.identityKey.duplicate",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "Asha Rao"
+       },
+       {
+        "value": "Head Office"
+       },
+       {
+        "value": "Id"
+       },
+       {
+        "value": "P123"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "body": {
+    "documentTypeId": 1,
+    "documentKey": "P123",
+    "status": null,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 500,
+   "response": {
+    "timestamp": "2026-11-15T10:19:52.937Z",
+    "status": 500,
+    "error": "Internal Server Error",
+    "path": "/fineract-provider/api/v1/clients/1/identifiers"
+   },
+   "ignore": [
+    "path",
+    "timestamp"
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "body": {
+    "documentTypeId": 1,
+    "documentKey": "N1",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 500,
+   "response": {
+    "timestamp": "2026-11-15T10:19:52.997Z",
+    "status": 500,
+    "error": "Internal Server Error",
+    "path": "/fineract-provider/api/v1/clients/1/identifiers"
+   },
+   "ignore": [
+    "path",
+    "timestamp"
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "body": {
+    "documentTypeId": 1,
+    "documentKey": "N2",
+    "status": "bogus",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 500,
+   "response": {
+    "timestamp": "2026-11-15T10:19:53.068Z",
+    "status": 500,
+    "error": "Internal Server Error",
+    "path": "/fineract-provider/api/v1/clients/1/identifiers"
+   },
+   "ignore": [
+    "path",
+    "timestamp"
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "body": {
+    "documentTypeId": 1,
+    "documentKey": "",
+    "status": "Active",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `documentKey` is mandatory.",
+      "defaultUserMessage": "The parameter `documentKey` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.clientIdentifier.documentKey.cannot.be.blank",
+      "parameterName": "documentKey",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "body": {
+    "documentTypeId": 1,
+    "documentKey": null,
+    "status": "Active",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `documentKey` is mandatory.",
+      "defaultUserMessage": "The parameter `documentKey` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.clientIdentifier.documentKey.cannot.be.blank",
+      "parameterName": "documentKey",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "body": {
+    "documentKey": "N3",
+    "status": "Active",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `documentTypeId` is mandatory.",
+      "defaultUserMessage": "The parameter `documentTypeId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.clientIdentifier.documentTypeId.cannot.be.blank",
+      "parameterName": "documentTypeId",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "body": {
+    "documentTypeId": 0,
+    "documentKey": "P123",
+    "status": "Active",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `documentTypeId` must be greater than 0.",
+      "defaultUserMessage": "The parameter `documentTypeId` must be greater than 0.",
+      "userMessageGlobalisationCode": "validation.msg.clientIdentifier.documentTypeId.not.greater.than.zero",
+      "parameterName": "documentTypeId",
+      "args": [
+       {
+        "value": 0
+       },
+       {
+        "value": 0
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "body": {
+    "documentTypeId": 999,
+    "documentKey": "N4",
+    "status": "Active",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Code value with identifier 999 does not exist",
+      "defaultUserMessage": "Code value with identifier 999 does not exist",
+      "userMessageGlobalisationCode": "error.msg.codevalue.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 999
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "body": {
+    "documentTypeId": "x",
+    "documentKey": "P123",
+    "status": "Active",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 500,
+   "response": {
+    "timestamp": "2026-11-15T10:19:53.506Z",
+    "status": 500,
+    "error": "Internal Server Error",
+    "path": "/fineract-provider/api/v1/clients/1/identifiers"
+   },
+   "ignore": [
+    "path",
+    "timestamp"
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "body": {
+    "documentTypeId": 1,
+    "documentKey": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+    "status": "Active",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Unknown data integrity issue with resource.",
+    "userMessageGlobalisationCode": "error.msg.clientIdentifier.unknown.data.integrity.issue",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "Unknown data integrity issue with resource.",
+      "userMessageGlobalisationCode": "error.msg.clientIdentifier.unknown.data.integrity.issue",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "body": {
+    "documentTypeId": 1,
+    "documentKey": "N5",
+    "status": "Active",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "description": "ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Unknown data integrity issue with resource.",
+    "userMessageGlobalisationCode": "error.msg.clientIdentifier.unknown.data.integrity.issue",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "Unknown data integrity issue with resource.",
+      "userMessageGlobalisationCode": "error.msg.clientIdentifier.unknown.data.integrity.issue",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "body": {},
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `documentTypeId` is mandatory.",
+      "defaultUserMessage": "The parameter `documentTypeId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.clientIdentifier.documentTypeId.cannot.be.blank",
+      "parameterName": "documentTypeId",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `documentKey` is mandatory.",
+      "defaultUserMessage": "The parameter `documentKey` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.clientIdentifier.documentKey.cannot.be.blank",
+      "parameterName": "documentKey",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "status": 400,
+   "response": {
+    "developerMessage": "The JSON provided in the body of the request is invalid or missing.",
+    "defaultUserMessage": "The JSON provided in the body of the request is invalid or missing.",
+    "userMessageGlobalisationCode": "error.msg.invalid.request.body",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "raw": "{bad",
+   "ignore": [
+    "developerMessage",
+    "defaultUserMessage"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The JSON syntax provided in the body of the request is invalid: java.io.EOFException: End of input at line 1 column 5 path $.bad",
+    "defaultUserMessage": "The JSON syntax provided in the body of the request is invalid: java.io.EOFException: End of input at line 1 column 5 path $.bad",
+    "userMessageGlobalisationCode": "error.msg.invalid.request.body",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "body": {
+    "documentTypeId": 1,
+    "documentKey": "N6",
+    "status": "Active",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "bogus": 1
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter bogus is not supported.",
+      "defaultUserMessage": "bogus",
+      "userMessageGlobalisationCode": "error.msg.parameter.unsupported",
+      "parameterName": "bogus",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "body": {
+    "documentTypeId": 1,
+    "documentKey": "N7",
+    "status": "Active",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "issuanceDate": "bad"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `issuanceDate` is invalid based on the dateFormat: `dd MMMM yyyy` and locale: `en` provided:",
+      "defaultUserMessage": "The parameter `issuanceDate` is invalid based on the dateFormat: `dd MMMM yyyy` and locale: `en` provided:",
+      "userMessageGlobalisationCode": "validation.msg.invalid.dateFormat.format",
+      "parameterName": "issuanceDate",
+      "args": [
+       {},
+       {
+        "value": "dd MMMM yyyy"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "body": {
+    "documentTypeId": 1,
+    "documentKey": "N8",
+    "status": "Active",
+    "dateFormat": null,
+    "locale": "en",
+    "issuanceDate": "01 January 2020"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `issuanceDate` requires a `dateFormat` parameter to be passed with it.",
+      "defaultUserMessage": "The parameter `issuanceDate` requires a `dateFormat` parameter to be passed with it.",
+      "userMessageGlobalisationCode": "validation.msg.missing.dateFormat.parameter",
+      "parameterName": "issuanceDate",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "body": {
+    "documentTypeId": 1,
+    "documentKey": "N9",
+    "status": "Active"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Active Client identifier of type Passport is already present for this client",
+      "defaultUserMessage": "Active Client identifier of type Passport is already present for this client",
+      "userMessageGlobalisationCode": "error.msg.clientIdentifier.type.duplicate",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "Passport"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/identifiers",
+   "body": {
+    "documentTypeId": 1,
+    "documentKey": "N10",
+    "status": "Active",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "documentDescription": "x"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter documentDescription is not supported.",
+      "defaultUserMessage": "documentDescription",
+      "userMessageGlobalisationCode": "error.msg.parameter.unsupported",
+      "parameterName": "documentDescription",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/99/identifiers",
+   "body": {
+    "documentTypeId": 1,
+    "documentKey": "N11",
+    "status": "Active",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Client with identifier 99 does not exist",
+      "defaultUserMessage": "Client with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.client.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/abc/identifiers",
+   "body": {
+    "documentTypeId": 1,
+    "documentKey": "N12",
+    "status": "Active",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "ignore": [
+    "path",
+    "timestamp"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T10:19:54.143Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/clients/abc/identifiers"
+   }
+  },
+  {
+   "path": "/v1/clients/1/identifiers",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "clientId": 1,
+     "documentType": {
+      "id": 1,
+      "name": "Passport"
+     },
+     "documentKey": "P123",
+     "description": "d",
+     "status": "clientIdentifierStatusType.active",
+     "issuanceDate": "2020-01-01",
+     "expiryDate": "2030-01-01"
+    },
+    {
+     "id": 2,
+     "clientId": 1,
+     "documentType": {
+      "id": 23,
+      "name": "Voter"
+     },
+     "documentKey": "P124",
+     "status": "clientIdentifierStatusType.active"
+    },
+    {
+     "id": 3,
+     "clientId": 1,
+     "documentType": {
+      "id": 2,
+      "name": "Id"
+     },
+     "documentKey": "P125",
+     "status": "clientIdentifierStatusType.inactive"
+    },
+    {
+     "id": 4,
+     "clientId": 1,
+     "documentType": {
+      "id": 3,
+      "name": "Drivers License"
+     },
+     "documentKey": "P125",
+     "status": "clientIdentifierStatusType.inactive"
+    },
+    {
+     "id": 6,
+     "clientId": 1,
+     "documentType": {
+      "id": 2,
+      "name": "Id"
+     },
+     "documentKey": "P123",
+     "status": "clientIdentifierStatusType.active"
+    }
+   ]
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/identifiers/1",
+   "body": {
+    "description": "changed",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "No parameters passed for update.",
+      "defaultUserMessage": "No parameters passed for update.",
+      "userMessageGlobalisationCode": "validation.msg.clientIdentifier.no.parameters.for.update",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/identifiers/1",
+   "body": {
+    "description": "changed",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "No parameters passed for update.",
+      "defaultUserMessage": "No parameters passed for update.",
+      "userMessageGlobalisationCode": "validation.msg.clientIdentifier.no.parameters.for.update",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/identifiers/1",
+   "body": {
+    "status": "INACTIVE",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "No parameters passed for update.",
+      "defaultUserMessage": "No parameters passed for update.",
+      "userMessageGlobalisationCode": "validation.msg.clientIdentifier.no.parameters.for.update",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/identifiers/1",
+   "body": {
+    "status": "inactive",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "No parameters passed for update.",
+      "defaultUserMessage": "No parameters passed for update.",
+      "userMessageGlobalisationCode": "validation.msg.clientIdentifier.no.parameters.for.update",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/identifiers/1",
+   "body": {
+    "status": "ACTIVE",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "No parameters passed for update.",
+      "defaultUserMessage": "No parameters passed for update.",
+      "userMessageGlobalisationCode": "validation.msg.clientIdentifier.no.parameters.for.update",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/identifiers/1",
+   "body": {
+    "status": "BOGUS",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "No parameters passed for update.",
+      "defaultUserMessage": "No parameters passed for update.",
+      "userMessageGlobalisationCode": "validation.msg.clientIdentifier.no.parameters.for.update",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/identifiers/1",
+   "body": {
+    "documentKey": "P999",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "resourceId": 1,
+    "changes": {
+     "documentKey": "P999"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/identifiers/1",
+   "body": {
+    "documentKey": "P124",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "resourceId": 1,
+    "changes": {
+     "documentKey": "P124"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/identifiers/1",
+   "body": {
+    "documentKey": ""
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "No parameters passed for update.",
+      "defaultUserMessage": "No parameters passed for update.",
+      "userMessageGlobalisationCode": "validation.msg.clientIdentifier.no.parameters.for.update",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/identifiers/1",
+   "body": {
+    "documentKey": null,
+    "description": "z",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "No parameters passed for update.",
+      "defaultUserMessage": "No parameters passed for update.",
+      "userMessageGlobalisationCode": "validation.msg.clientIdentifier.no.parameters.for.update",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/identifiers/1",
+   "body": {
+    "documentTypeId": 23,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Active Client identifier of type Voter is already present for this client",
+      "defaultUserMessage": "Active Client identifier of type Voter is already present for this client",
+      "userMessageGlobalisationCode": "error.msg.clientIdentifier.type.duplicate",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "Voter"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/identifiers/1",
+   "body": {
+    "documentTypeId": 2,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Active Client identifier of type Id is already present for this client",
+      "defaultUserMessage": "Active Client identifier of type Id is already present for this client",
+      "userMessageGlobalisationCode": "error.msg.clientIdentifier.type.duplicate",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "Id"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/identifiers/1",
+   "body": {
+    "documentTypeId": 999,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Code value with identifier 999 does not exist",
+      "defaultUserMessage": "Code value with identifier 999 does not exist",
+      "userMessageGlobalisationCode": "error.msg.codevalue.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 999
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/identifiers/1",
+   "body": {
+    "documentTypeId": 1,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/identifiers/1",
+   "body": {
+    "issuanceDate": "05 May 2021",
+    "expiryDate": "06 June 2031",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "resourceId": 1,
+    "changes": {
+     "issuanceDate": [
+      2021,
+      5,
+      5
+     ],
+     "expiryDate": [
+      2031,
+      6,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/identifiers/1",
+   "body": {
+    "issuanceDate": null,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "resourceId": 1,
+    "changes": {}
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/identifiers/1",
+   "body": {
+    "expiryDate": "bad",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `expiryDate` is invalid based on the dateFormat: `dd MMMM yyyy` and locale: `en` provided:",
+      "defaultUserMessage": "The parameter `expiryDate` is invalid based on the dateFormat: `dd MMMM yyyy` and locale: `en` provided:",
+      "userMessageGlobalisationCode": "validation.msg.invalid.dateFormat.format",
+      "parameterName": "expiryDate",
+      "args": [
+       {},
+       {
+        "value": "dd MMMM yyyy"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/identifiers/1",
+   "body": {},
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "No parameters passed for update.",
+      "defaultUserMessage": "No parameters passed for update.",
+      "userMessageGlobalisationCode": "validation.msg.clientIdentifier.no.parameters.for.update",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/identifiers/1",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "No parameters passed for update.",
+      "defaultUserMessage": "No parameters passed for update.",
+      "userMessageGlobalisationCode": "validation.msg.clientIdentifier.no.parameters.for.update",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/identifiers/1",
+   "body": {
+    "bogus": 1
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter bogus is not supported.",
+      "defaultUserMessage": "bogus",
+      "userMessageGlobalisationCode": "error.msg.parameter.unsupported",
+      "parameterName": "bogus",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/identifiers/1",
+   "status": 400,
+   "response": {
+    "developerMessage": "The JSON provided in the body of the request is invalid or missing.",
+    "defaultUserMessage": "The JSON provided in the body of the request is invalid or missing.",
+    "userMessageGlobalisationCode": "error.msg.invalid.request.body",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/identifiers/99",
+   "body": {
+    "description": "x",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "No parameters passed for update.",
+      "defaultUserMessage": "No parameters passed for update.",
+      "userMessageGlobalisationCode": "validation.msg.clientIdentifier.no.parameters.for.update",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/99/identifiers/1",
+   "body": {
+    "description": "x",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "No parameters passed for update.",
+      "defaultUserMessage": "No parameters passed for update.",
+      "userMessageGlobalisationCode": "validation.msg.clientIdentifier.no.parameters.for.update",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/identifiers/abc",
+   "body": {
+    "description": "x"
+   },
+   "ignore": [
+    "path",
+    "timestamp"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T10:19:55.493Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/clients/1/identifiers/abc"
+   }
+  },
+  {
+   "path": "/v1/clients/1/identifiers/1",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "clientId": 1,
+    "documentType": {
+     "id": 1,
+     "name": "Passport"
+    },
+    "documentKey": "P124",
+    "description": "d",
+    "status": "clientIdentifierStatusType.active",
+    "expiryDate": [
+     2031,
+     6,
+     6
+    ]
+   }
+  },
+  {
+   "path": "/v1/clients/1/identifiers",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "clientId": 1,
+     "documentType": {
+      "id": 1,
+      "name": "Passport"
+     },
+     "documentKey": "P124",
+     "description": "d",
+     "status": "clientIdentifierStatusType.active",
+     "expiryDate": "2031-06-06"
+    },
+    {
+     "id": 2,
+     "clientId": 1,
+     "documentType": {
+      "id": 23,
+      "name": "Voter"
+     },
+     "documentKey": "P124",
+     "status": "clientIdentifierStatusType.active"
+    },
+    {
+     "id": 3,
+     "clientId": 1,
+     "documentType": {
+      "id": 2,
+      "name": "Id"
+     },
+     "documentKey": "P125",
+     "status": "clientIdentifierStatusType.inactive"
+    },
+    {
+     "id": 4,
+     "clientId": 1,
+     "documentType": {
+      "id": 3,
+      "name": "Drivers License"
+     },
+     "documentKey": "P125",
+     "status": "clientIdentifierStatusType.inactive"
+    },
+    {
+     "id": 6,
+     "clientId": 1,
+     "documentType": {
+      "id": 2,
+      "name": "Id"
+     },
+     "documentKey": "P123",
+     "status": "clientIdentifierStatusType.active"
+    }
+   ]
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/clients/1/identifiers/2",
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/clients/1/identifiers/2",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Client Identifier with the primary key 2 does not exist",
+      "defaultUserMessage": "Client Identifier with the primary key 2 does not exist",
+      "userMessageGlobalisationCode": "error.msg.clientIdentifier.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 2
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/clients/1/identifiers/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Client Identifier with the primary key 99 does not exist",
+      "defaultUserMessage": "Client Identifier with the primary key 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.clientIdentifier.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/clients/99/identifiers/3",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Client with identifier 99 does not exist",
+      "defaultUserMessage": "Client with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.client.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/clients/1/identifiers/abc",
+   "ignore": [
+    "path",
+    "timestamp"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T10:19:55.780Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/clients/1/identifiers/abc"
+   }
+  },
+  {
+   "path": "/v1/clients/1/identifiers",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "clientId": 1,
+     "documentType": {
+      "id": 1,
+      "name": "Passport"
+     },
+     "documentKey": "P124",
+     "description": "d",
+     "status": "clientIdentifierStatusType.active",
+     "expiryDate": "2031-06-06"
+    },
+    {
+     "id": 3,
+     "clientId": 1,
+     "documentType": {
+      "id": 2,
+      "name": "Id"
+     },
+     "documentKey": "P125",
+     "status": "clientIdentifierStatusType.inactive"
+    },
+    {
+     "id": 4,
+     "clientId": 1,
+     "documentType": {
+      "id": 3,
+      "name": "Drivers License"
+     },
+     "documentKey": "P125",
+     "status": "clientIdentifierStatusType.inactive"
+    },
+    {
+     "id": 6,
+     "clientId": 1,
+     "documentType": {
+      "id": 2,
+      "name": "Id"
+     },
+     "documentKey": "P123",
+     "status": "clientIdentifierStatusType.active"
+    }
+   ]
+  },
+  {
+   "path": "/v1/clients/1/familymembers",
+   "status": 200,
+   "response": []
+  },
+  {
+   "path": "/v1/clients/1/familymembers/template",
+   "status": 200,
+   "response": {
+    "relationshipIdOptions": [
+     {
+      "id": 24,
+      "name": "Mother",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     }
+    ],
+    "genderIdOptions": [
+     {
+      "id": 26,
+      "name": "Male",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     }
+    ],
+    "maritalStatusIdOptions": [
+     {
+      "id": 25,
+      "name": "Single",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     }
+    ],
+    "professionIdOptions": [
+     {
+      "id": 27,
+      "name": "Teacher",
+      "position": 0,
+      "description": "",
+      "active": true,
+      "mandatory": false
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/clients/1/familymembers/1",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Family member with identifier 1 does not exist for client with identifier 1",
+      "defaultUserMessage": "Family member with identifier 1 does not exist for client with identifier 1",
+      "userMessageGlobalisationCode": "error.msg.family.member.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 1
+       },
+       {
+        "value": 1
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/clients/1/familymembers/abc",
+   "ignore": [
+    "path",
+    "timestamp"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T10:19:55.933Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/clients/1/familymembers/abc"
+   }
+  },
+  {
+   "path": "/v1/clients/99/familymembers",
+   "status": 200,
+   "response": []
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/familymembers",
+   "body": {
+    "firstName": "Mum",
+    "lastName": "Rao",
+    "relationshipId": 24,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "genderId": 26,
+    "maritalStatusId": 25,
+    "age": 50,
+    "isDependent": true,
+    "dateOfBirth": "01 January 1970",
+    "middleName": "M",
+    "qualification": "BSc",
+    "mobileNumber": "999",
+    "professionId": 27
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/familymembers",
+   "body": {
+    "firstName": "Mum",
+    "lastName": "Rao",
+    "relationshipId": 24,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/familymembers",
+   "body": {
+    "firstName": "OnlyFirst",
+    "relationshipId": 24
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/familymembers",
+   "body": {
+    "firstName": "Mum",
+    "lastName": "Rao",
+    "relationshipId": 24,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "dateOfBirth": "01 January 1970"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 4
+   }
+  },
+  {
+   "path": "/v1/clients/1/familymembers",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "clientId": 1,
+     "firstName": "Mum",
+     "middleName": "M",
+     "lastName": "Rao",
+     "qualification": "BSc",
+     "relationshipId": 24,
+     "relationship": "Mother",
+     "maritalStatusId": 25,
+     "maritalStatus": "Single",
+     "genderId": 26,
+     "gender": "Male",
+     "dateOfBirth": "1970-01-01",
+     "professionId": 27,
+     "profession": "Teacher",
+     "mobileNumber": "999",
+     "age": 50,
+     "isDependent": true
+    },
+    {
+     "id": 2,
+     "clientId": 1,
+     "firstName": "Mum",
+     "middleName": "",
+     "lastName": "Rao",
+     "qualification": "",
+     "relationshipId": 24,
+     "relationship": "Mother",
+     "maritalStatusId": 0,
+     "genderId": 0,
+     "professionId": 0,
+     "mobileNumber": "",
+     "age": 0,
+     "isDependent": false
+    },
+    {
+     "id": 3,
+     "clientId": 1,
+     "firstName": "OnlyFirst",
+     "middleName": "",
+     "lastName": "",
+     "qualification": "",
+     "relationshipId": 24,
+     "relationship": "Mother",
+     "maritalStatusId": 0,
+     "genderId": 0,
+     "professionId": 0,
+     "mobileNumber": "",
+     "age": 0,
+     "isDependent": false
+    },
+    {
+     "id": 4,
+     "clientId": 1,
+     "firstName": "Mum",
+     "middleName": "",
+     "lastName": "Rao",
+     "qualification": "",
+     "relationshipId": 24,
+     "relationship": "Mother",
+     "maritalStatusId": 0,
+     "genderId": 0,
+     "dateOfBirth": "1970-01-01",
+     "professionId": 0,
+     "mobileNumber": "",
+     "age": 0,
+     "isDependent": false
+    }
+   ]
+  },
+  {
+   "path": "/v1/clients/1/familymembers/1",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "clientId": 1,
+    "firstName": "Mum",
+    "middleName": "M",
+    "lastName": "Rao",
+    "qualification": "BSc",
+    "relationshipId": 24,
+    "relationship": "Mother",
+    "maritalStatusId": 25,
+    "maritalStatus": "Single",
+    "genderId": 26,
+    "gender": "Male",
+    "dateOfBirth": "1970-01-01",
+    "professionId": 27,
+    "profession": "Teacher",
+    "mobileNumber": "999",
+    "age": 50,
+    "isDependent": true
+   }
+  },
+  {
+   "path": "/v1/clients/1/familymembers/2",
+   "status": 200,
+   "response": {
+    "id": 2,
+    "clientId": 1,
+    "firstName": "Mum",
+    "middleName": "",
+    "lastName": "Rao",
+    "qualification": "",
+    "relationshipId": 24,
+    "relationship": "Mother",
+    "maritalStatusId": 0,
+    "genderId": 0,
+    "professionId": 0,
+    "mobileNumber": "",
+    "age": 0,
+    "isDependent": false
+   }
+  },
+  {
+   "path": "/v1/clients/1/familymembers/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Family member with identifier 99 does not exist for client with identifier 1",
+      "defaultUserMessage": "Family member with identifier 99 does not exist for client with identifier 1",
+      "userMessageGlobalisationCode": "error.msg.family.member.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       },
+       {
+        "value": 1
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/familymembers",
+   "body": {},
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "ERROR: null value in column \"relationship_cv_id\" of relation \"m_family_members\" violates not-null constraint\n  Detail: Failing row contains (5, 1, , , , , null, null, null, null, null, null, , null).",
+    "userMessageGlobalisationCode": "error.msg.data.integrity.issue",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "ERROR: null value in column \"relationship_cv_id\" of relation \"m_family_members\" violates not-null constraint\n  Detail: Failing row contains (5, 1, , , , , null, null, null, null, null, null, , null).",
+      "userMessageGlobalisationCode": "error.msg.data.integrity.issue",
+      "args": []
+     }
+    ]
+   },
+   "ignore": [
+    "defaultUserMessage"
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/familymembers",
+   "status": 400,
+   "response": {
+    "developerMessage": "The JSON provided in the body of the request is invalid or missing.",
+    "defaultUserMessage": "The JSON provided in the body of the request is invalid or missing.",
+    "userMessageGlobalisationCode": "error.msg.invalid.request.body",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/familymembers",
+   "raw": "{bad",
+   "ignore": [
+    "developerMessage",
+    "defaultUserMessage"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+    "defaultUserMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+    "userMessageGlobalisationCode": "error.msg.invalid.json.data",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/familymembers",
+   "body": {
+    "relationshipId": 24,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 6
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/familymembers",
+   "body": {
+    "firstName": "NoRel",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "ERROR: null value in column \"relationship_cv_id\" of relation \"m_family_members\" violates not-null constraint\n  Detail: Failing row contains (7, 1, NoRel, , , , null, null, null, null, null, null, , null).",
+    "userMessageGlobalisationCode": "error.msg.data.integrity.issue",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "ERROR: null value in column \"relationship_cv_id\" of relation \"m_family_members\" violates not-null constraint\n  Detail: Failing row contains (7, 1, NoRel, , , , null, null, null, null, null, null, , null).",
+      "userMessageGlobalisationCode": "error.msg.data.integrity.issue",
+      "args": []
+     }
+    ]
+   },
+   "ignore": [
+    "defaultUserMessage"
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/familymembers",
+   "body": {
+    "firstName": "Mum",
+    "lastName": "Rao",
+    "relationshipId": 999,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "ERROR: insert or update on table \"m_family_members\" violates foreign key constraint \"FK_m_family_members_relationship_m_code_value\"\n  Detail: Key (relationship_cv_id)=(999) is not present in table \"m_code_value\".",
+    "userMessageGlobalisationCode": "error.msg.data.integrity.issue",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "ERROR: insert or update on table \"m_family_members\" violates foreign key constraint \"FK_m_family_members_relationship_m_code_value\"\n  Detail: Key (relationship_cv_id)=(999) is not present in table \"m_code_value\".",
+      "userMessageGlobalisationCode": "error.msg.data.integrity.issue",
+      "args": []
+     }
+    ]
+   },
+   "ignore": [
+    "defaultUserMessage"
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/familymembers",
+   "body": {
+    "firstName": "Mum",
+    "lastName": "Rao",
+    "relationshipId": 24,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "genderId": 999
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "ERROR: insert or update on table \"m_family_members\" violates foreign key constraint \"FK_m_family_members_gender_m_code_value\"\n  Detail: Key (gender_cv_id)=(999) is not present in table \"m_code_value\".",
+    "userMessageGlobalisationCode": "error.msg.data.integrity.issue",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "ERROR: insert or update on table \"m_family_members\" violates foreign key constraint \"FK_m_family_members_gender_m_code_value\"\n  Detail: Key (gender_cv_id)=(999) is not present in table \"m_code_value\".",
+      "userMessageGlobalisationCode": "error.msg.data.integrity.issue",
+      "args": []
+     }
+    ]
+   },
+   "ignore": [
+    "defaultUserMessage"
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/familymembers",
+   "body": {
+    "firstName": "Mum",
+    "lastName": "Rao",
+    "relationshipId": 24,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "maritalStatusId": 999
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "ERROR: insert or update on table \"m_family_members\" violates foreign key constraint \"FK_m_family_members_marital_status_m_code_value\"\n  Detail: Key (marital_status_cv_id)=(999) is not present in table \"m_code_value\".",
+    "userMessageGlobalisationCode": "error.msg.data.integrity.issue",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "ERROR: insert or update on table \"m_family_members\" violates foreign key constraint \"FK_m_family_members_marital_status_m_code_value\"\n  Detail: Key (marital_status_cv_id)=(999) is not present in table \"m_code_value\".",
+      "userMessageGlobalisationCode": "error.msg.data.integrity.issue",
+      "args": []
+     }
+    ]
+   },
+   "ignore": [
+    "defaultUserMessage"
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/familymembers",
+   "body": {
+    "firstName": "Mum",
+    "lastName": "Rao",
+    "relationshipId": 24,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "professionId": 999
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "ERROR: insert or update on table \"m_family_members\" violates foreign key constraint \"FK_m_family_members_profession_m_code_value\"\n  Detail: Key (profession_cv_id)=(999) is not present in table \"m_code_value\".",
+    "userMessageGlobalisationCode": "error.msg.data.integrity.issue",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "ERROR: insert or update on table \"m_family_members\" violates foreign key constraint \"FK_m_family_members_profession_m_code_value\"\n  Detail: Key (profession_cv_id)=(999) is not present in table \"m_code_value\".",
+      "userMessageGlobalisationCode": "error.msg.data.integrity.issue",
+      "args": []
+     }
+    ]
+   },
+   "ignore": [
+    "defaultUserMessage"
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/familymembers",
+   "body": {
+    "firstName": "Mum",
+    "lastName": "Rao",
+    "relationshipId": 24,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "age": "x"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The parameter `age` has value: x which is not a valid number.",
+    "defaultUserMessage": "The parameter `age` has value: x which is not a valid number.",
+    "userMessageGlobalisationCode": "validation.msg.invalid.decimal.format",
+    "parameterName": "age",
+    "value": "x",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/familymembers",
+   "body": {
+    "firstName": "Mum",
+    "lastName": "Rao",
+    "relationshipId": 24,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "isDependent": "x"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+    "defaultUserMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+    "userMessageGlobalisationCode": "error.msg.invalid.json.data",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/familymembers",
+   "body": {
+    "firstName": "Mum",
+    "lastName": "Rao",
+    "relationshipId": 24,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "age": -5
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 12
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/familymembers",
+   "body": {
+    "firstName": "Mum",
+    "lastName": "Rao",
+    "relationshipId": 24,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "dateOfBirth": "01 January 2099"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 13
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/familymembers",
+   "body": {
+    "firstName": "Mum",
+    "lastName": "Rao",
+    "relationshipId": 24,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "dateOfBirth": "bad"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `dateOfBirth` is invalid based on the dateFormat: `dd MMMM yyyy` and locale: `en` provided:",
+      "defaultUserMessage": "The parameter `dateOfBirth` is invalid based on the dateFormat: `dd MMMM yyyy` and locale: `en` provided:",
+      "userMessageGlobalisationCode": "validation.msg.invalid.dateFormat.format",
+      "parameterName": "dateOfBirth",
+      "args": [
+       {},
+       {
+        "value": "dd MMMM yyyy"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/familymembers",
+   "body": {
+    "firstName": "Mum",
+    "lastName": "Rao",
+    "relationshipId": 24,
+    "dateFormat": null,
+    "locale": "en",
+    "dateOfBirth": "01 January 1970"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `dateOfBirth` requires a `dateFormat` parameter to be passed with it.",
+      "defaultUserMessage": "The parameter `dateOfBirth` requires a `dateFormat` parameter to be passed with it.",
+      "userMessageGlobalisationCode": "validation.msg.missing.dateFormat.parameter",
+      "parameterName": "dateOfBirth",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/familymembers",
+   "body": {
+    "firstName": "fffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "lastName": "Rao",
+    "relationshipId": 24,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "ERROR: value too long for type character varying(50)",
+    "userMessageGlobalisationCode": "error.msg.data.integrity.issue",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "ERROR: value too long for type character varying(50)",
+      "userMessageGlobalisationCode": "error.msg.data.integrity.issue",
+      "args": []
+     }
+    ]
+   },
+   "ignore": [
+    "defaultUserMessage"
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/familymembers",
+   "body": {
+    "firstName": "Mum",
+    "lastName": "Rao",
+    "relationshipId": 24,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "bogus": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 14
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/1/familymembers",
+   "body": {
+    "firstName": "Mum",
+    "lastName": "Rao",
+    "relationshipId": 24,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "clientId": 5,
+    "id": 7
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 15
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/99/familymembers",
+   "body": {
+    "firstName": "Mum",
+    "lastName": "Rao",
+    "relationshipId": 24,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Client with identifier 99 does not exist",
+      "defaultUserMessage": "Client with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.client.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients/abc/familymembers",
+   "body": {
+    "firstName": "Mum",
+    "lastName": "Rao",
+    "relationshipId": 24,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "ignore": [
+    "path",
+    "timestamp"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T10:19:57.389Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/clients/abc/familymembers"
+   }
+  },
+  {
+   "path": "/v1/clients/1/familymembers",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "clientId": 1,
+     "firstName": "Mum",
+     "middleName": "M",
+     "lastName": "Rao",
+     "qualification": "BSc",
+     "relationshipId": 24,
+     "relationship": "Mother",
+     "maritalStatusId": 25,
+     "maritalStatus": "Single",
+     "genderId": 26,
+     "gender": "Male",
+     "dateOfBirth": "1970-01-01",
+     "professionId": 27,
+     "profession": "Teacher",
+     "mobileNumber": "999",
+     "age": 50,
+     "isDependent": true
+    },
+    {
+     "id": 2,
+     "clientId": 1,
+     "firstName": "Mum",
+     "middleName": "",
+     "lastName": "Rao",
+     "qualification": "",
+     "relationshipId": 24,
+     "relationship": "Mother",
+     "maritalStatusId": 0,
+     "genderId": 0,
+     "professionId": 0,
+     "mobileNumber": "",
+     "age": 0,
+     "isDependent": false
+    },
+    {
+     "id": 3,
+     "clientId": 1,
+     "firstName": "OnlyFirst",
+     "middleName": "",
+     "lastName": "",
+     "qualification": "",
+     "relationshipId": 24,
+     "relationship": "Mother",
+     "maritalStatusId": 0,
+     "genderId": 0,
+     "professionId": 0,
+     "mobileNumber": "",
+     "age": 0,
+     "isDependent": false
+    },
+    {
+     "id": 4,
+     "clientId": 1,
+     "firstName": "Mum",
+     "middleName": "",
+     "lastName": "Rao",
+     "qualification": "",
+     "relationshipId": 24,
+     "relationship": "Mother",
+     "maritalStatusId": 0,
+     "genderId": 0,
+     "dateOfBirth": "1970-01-01",
+     "professionId": 0,
+     "mobileNumber": "",
+     "age": 0,
+     "isDependent": false
+    },
+    {
+     "id": 6,
+     "clientId": 1,
+     "firstName": "",
+     "middleName": "",
+     "lastName": "",
+     "qualification": "",
+     "relationshipId": 24,
+     "relationship": "Mother",
+     "maritalStatusId": 0,
+     "genderId": 0,
+     "professionId": 0,
+     "mobileNumber": "",
+     "age": 0,
+     "isDependent": false
+    },
+    {
+     "id": 12,
+     "clientId": 1,
+     "firstName": "Mum",
+     "middleName": "",
+     "lastName": "Rao",
+     "qualification": "",
+     "relationshipId": 24,
+     "relationship": "Mother",
+     "maritalStatusId": 0,
+     "genderId": 0,
+     "professionId": 0,
+     "mobileNumber": "",
+     "age": -5,
+     "isDependent": false
+    },
+    {
+     "id": 13,
+     "clientId": 1,
+     "firstName": "Mum",
+     "middleName": "",
+     "lastName": "Rao",
+     "qualification": "",
+     "relationshipId": 24,
+     "relationship": "Mother",
+     "maritalStatusId": 0,
+     "genderId": 0,
+     "dateOfBirth": "2099-01-01",
+     "professionId": 0,
+     "mobileNumber": "",
+     "age": 0,
+     "isDependent": false
+    },
+    {
+     "id": 14,
+     "clientId": 1,
+     "firstName": "Mum",
+     "middleName": "",
+     "lastName": "Rao",
+     "qualification": "",
+     "relationshipId": 24,
+     "relationship": "Mother",
+     "maritalStatusId": 0,
+     "genderId": 0,
+     "professionId": 0,
+     "mobileNumber": "",
+     "age": 0,
+     "isDependent": false
+    },
+    {
+     "id": 15,
+     "clientId": 1,
+     "firstName": "Mum",
+     "middleName": "",
+     "lastName": "Rao",
+     "qualification": "",
+     "relationshipId": 24,
+     "relationship": "Mother",
+     "maritalStatusId": 0,
+     "genderId": 0,
+     "professionId": 0,
+     "mobileNumber": "",
+     "age": 0,
+     "isDependent": false
+    }
+   ]
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/familymembers/1",
+   "body": {
+    "firstName": "Mum2",
+    "maritalStatusId": 25,
+    "genderId": 26,
+    "professionId": 27,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "path": "/v1/clients/1/familymembers/1",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "clientId": 1,
+    "firstName": "Mum2",
+    "middleName": "",
+    "lastName": "",
+    "qualification": "",
+    "relationshipId": 24,
+    "relationship": "Mother",
+    "maritalStatusId": 25,
+    "maritalStatus": "Single",
+    "genderId": 26,
+    "gender": "Male",
+    "dateOfBirth": "1970-01-01",
+    "professionId": 27,
+    "profession": "Teacher",
+    "mobileNumber": "",
+    "age": 50,
+    "isDependent": true
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/familymembers/1",
+   "body": {
+    "firstName": "Mum3",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 500,
+   "response": {
+    "timestamp": "2026-11-15T10:19:57.572Z",
+    "status": 500,
+    "error": "Internal Server Error",
+    "path": "/fineract-provider/api/v1/clients/1/familymembers/1"
+   },
+   "ignore": [
+    "path",
+    "timestamp"
+   ]
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/familymembers/1",
+   "body": {
+    "maritalStatusId": 25,
+    "genderId": 26,
+    "professionId": 27,
+    "age": 51,
+    "relationshipId": 24,
+    "isDependent": false,
+    "dateOfBirth": "02 February 1971",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "path": "/v1/clients/1/familymembers/1",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "clientId": 1,
+    "firstName": "",
+    "middleName": "",
+    "lastName": "",
+    "qualification": "",
+    "relationshipId": 24,
+    "relationship": "Mother",
+    "maritalStatusId": 25,
+    "maritalStatus": "Single",
+    "genderId": 26,
+    "gender": "Male",
+    "dateOfBirth": "1971-02-02",
+    "professionId": 27,
+    "profession": "Teacher",
+    "mobileNumber": "",
+    "age": 51,
+    "isDependent": false
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/familymembers/2",
+   "body": {
+    "maritalStatusId": 25,
+    "genderId": 26,
+    "professionId": 27,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "path": "/v1/clients/1/familymembers/2",
+   "status": 200,
+   "response": {
+    "id": 2,
+    "clientId": 1,
+    "firstName": "",
+    "middleName": "",
+    "lastName": "",
+    "qualification": "",
+    "relationshipId": 24,
+    "relationship": "Mother",
+    "maritalStatusId": 25,
+    "maritalStatus": "Single",
+    "genderId": 26,
+    "gender": "Male",
+    "professionId": 27,
+    "profession": "Teacher",
+    "mobileNumber": "",
+    "age": 0,
+    "isDependent": false
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/familymembers/1",
+   "body": {
+    "maritalStatusId": 999,
+    "genderId": 26,
+    "professionId": 27,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "ERROR: insert or update on table \"m_family_members\" violates foreign key constraint \"FK_m_family_members_marital_status_m_code_value\"\n  Detail: Key (marital_status_cv_id)=(999) is not present in table \"m_code_value\".",
+    "userMessageGlobalisationCode": "error.msg.data.integrity.issue",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "ERROR: insert or update on table \"m_family_members\" violates foreign key constraint \"FK_m_family_members_marital_status_m_code_value\"\n  Detail: Key (marital_status_cv_id)=(999) is not present in table \"m_code_value\".",
+      "userMessageGlobalisationCode": "error.msg.data.integrity.issue",
+      "args": []
+     }
+    ]
+   },
+   "ignore": [
+    "defaultUserMessage"
+   ]
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/familymembers/1",
+   "body": {
+    "maritalStatusId": 25,
+    "genderId": 26,
+    "professionId": 27,
+    "age": "x",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The parameter `age` has value: x which is not a valid number.",
+    "defaultUserMessage": "The parameter `age` has value: x which is not a valid number.",
+    "userMessageGlobalisationCode": "validation.msg.invalid.decimal.format",
+    "parameterName": "age",
+    "value": "x",
+    "args": []
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/familymembers/99",
+   "body": {
+    "maritalStatusId": 25,
+    "genderId": 26,
+    "professionId": 27,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Could not find Entity for id: 99",
+    "userMessageGlobalisationCode": "error.msg.persistence.error",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "Could not find Entity for id: 99",
+      "userMessageGlobalisationCode": "error.msg.persistence.error",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/familymembers/abc",
+   "body": {
+    "firstName": "x"
+   },
+   "ignore": [
+    "path",
+    "timestamp"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T10:19:57.909Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/clients/1/familymembers/abc"
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/familymembers/1",
+   "body": {},
+   "status": 500,
+   "response": {
+    "timestamp": "2026-11-15T10:19:57.980Z",
+    "status": 500,
+    "error": "Internal Server Error",
+    "path": "/fineract-provider/api/v1/clients/1/familymembers/1"
+   },
+   "ignore": [
+    "path",
+    "timestamp"
+   ]
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/1/familymembers/1",
+   "status": 400,
+   "response": {
+    "developerMessage": "The JSON provided in the body of the request is invalid or missing.",
+    "defaultUserMessage": "The JSON provided in the body of the request is invalid or missing.",
+    "userMessageGlobalisationCode": "error.msg.invalid.request.body",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/clients/99/familymembers/1",
+   "body": {
+    "maritalStatusId": 25,
+    "genderId": 26,
+    "professionId": 27,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/clients/1/familymembers/2",
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/clients/1/familymembers/2",
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/clients/1/familymembers/99",
+   "status": 200,
+   "response": {
+    "resourceId": 99
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/clients/1/familymembers/abc",
+   "ignore": [
+    "path",
+    "timestamp"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T10:19:58.241Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/clients/1/familymembers/abc"
+   }
+  },
+  {
+   "path": "/v1/clients/1/familymembers",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "clientId": 1,
+     "firstName": "",
+     "middleName": "",
+     "lastName": "",
+     "qualification": "",
+     "relationshipId": 24,
+     "relationship": "Mother",
+     "maritalStatusId": 25,
+     "maritalStatus": "Single",
+     "genderId": 26,
+     "gender": "Male",
+     "dateOfBirth": "1971-02-02",
+     "professionId": 27,
+     "profession": "Teacher",
+     "mobileNumber": "",
+     "age": 51,
+     "isDependent": false
+    },
+    {
+     "id": 3,
+     "clientId": 1,
+     "firstName": "OnlyFirst",
+     "middleName": "",
+     "lastName": "",
+     "qualification": "",
+     "relationshipId": 24,
+     "relationship": "Mother",
+     "maritalStatusId": 0,
+     "genderId": 0,
+     "professionId": 0,
+     "mobileNumber": "",
+     "age": 0,
+     "isDependent": false
+    },
+    {
+     "id": 4,
+     "clientId": 1,
+     "firstName": "Mum",
+     "middleName": "",
+     "lastName": "Rao",
+     "qualification": "",
+     "relationshipId": 24,
+     "relationship": "Mother",
+     "maritalStatusId": 0,
+     "genderId": 0,
+     "dateOfBirth": "1970-01-01",
+     "professionId": 0,
+     "mobileNumber": "",
+     "age": 0,
+     "isDependent": false
+    },
+    {
+     "id": 6,
+     "clientId": 1,
+     "firstName": "",
+     "middleName": "",
+     "lastName": "",
+     "qualification": "",
+     "relationshipId": 24,
+     "relationship": "Mother",
+     "maritalStatusId": 0,
+     "genderId": 0,
+     "professionId": 0,
+     "mobileNumber": "",
+     "age": 0,
+     "isDependent": false
+    },
+    {
+     "id": 12,
+     "clientId": 1,
+     "firstName": "Mum",
+     "middleName": "",
+     "lastName": "Rao",
+     "qualification": "",
+     "relationshipId": 24,
+     "relationship": "Mother",
+     "maritalStatusId": 0,
+     "genderId": 0,
+     "professionId": 0,
+     "mobileNumber": "",
+     "age": -5,
+     "isDependent": false
+    },
+    {
+     "id": 13,
+     "clientId": 1,
+     "firstName": "Mum",
+     "middleName": "",
+     "lastName": "Rao",
+     "qualification": "",
+     "relationshipId": 24,
+     "relationship": "Mother",
+     "maritalStatusId": 0,
+     "genderId": 0,
+     "dateOfBirth": "2099-01-01",
+     "professionId": 0,
+     "mobileNumber": "",
+     "age": 0,
+     "isDependent": false
+    },
+    {
+     "id": 14,
+     "clientId": 1,
+     "firstName": "Mum",
+     "middleName": "",
+     "lastName": "Rao",
+     "qualification": "",
+     "relationshipId": 24,
+     "relationship": "Mother",
+     "maritalStatusId": 0,
+     "genderId": 0,
+     "professionId": 0,
+     "mobileNumber": "",
+     "age": 0,
+     "isDependent": false
+    },
+    {
+     "id": 15,
+     "clientId": 1,
+     "firstName": "Mum",
+     "middleName": "",
+     "lastName": "Rao",
+     "qualification": "",
+     "relationshipId": 24,
+     "relationship": "Mother",
+     "maritalStatusId": 0,
+     "genderId": 0,
+     "professionId": 0,
+     "mobileNumber": "",
+     "age": 0,
+     "isDependent": false
+    }
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients",
+   "body": {
+    "officeId": 1,
+    "legalFormId": 1,
+    "firstname": "With",
+    "lastname": "Family",
+    "familyMembers": [
+     {
+      "firstName": "A",
+      "lastName": "One",
+      "relationshipId": 24,
+      "age": 40,
+      "isDependent": true
+     },
+     {
+      "firstName": "B",
+      "relationshipId": 24
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "save": {
+    "wf": "resourceId"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 3,
+    "resourceId": 3
+   }
+  },
+  {
+   "path": "/v1/clients/{wf}/familymembers",
+   "status": 200,
+   "response": [
+    {
+     "id": 16,
+     "clientId": 3,
+     "firstName": "A",
+     "middleName": "",
+     "lastName": "One",
+     "qualification": "",
+     "relationshipId": 24,
+     "relationship": "Mother",
+     "maritalStatusId": 0,
+     "genderId": 0,
+     "professionId": 0,
+     "mobileNumber": "",
+     "age": 40,
+     "isDependent": true
+    },
+    {
+     "id": 17,
+     "clientId": 3,
+     "firstName": "B",
+     "middleName": "",
+     "lastName": "One",
+     "qualification": "",
+     "relationshipId": 24,
+     "relationship": "Mother",
+     "maritalStatusId": 0,
+     "genderId": 0,
+     "professionId": 0,
+     "mobileNumber": "",
+     "age": 40,
+     "isDependent": true
+    }
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients",
+   "body": {
+    "officeId": 1,
+    "legalFormId": 1,
+    "firstname": "Dob",
+    "lastname": "Family",
+    "familyMembers": [
+     {
+      "firstName": "A",
+      "relationshipId": 24,
+      "dateOfBirth": "01 January 1980",
+      "dateFormat": "dd MMMM yyyy"
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "save": {
+    "wd": "resourceId"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `dateOfBirth` requires a `locale` parameter to be passed with it.",
+      "defaultUserMessage": "The parameter `dateOfBirth` requires a `locale` parameter to be passed with it.",
+      "userMessageGlobalisationCode": "validation.msg.missing.locale.parameter",
+      "parameterName": "dateOfBirth",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/clients/{wd}/familymembers",
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T10:19:58.476Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/clients/None/familymembers"
+   },
+   "ignore": [
+    "path",
+    "timestamp"
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients",
+   "body": {
+    "officeId": 1,
+    "legalFormId": 1,
+    "firstname": "Bad",
+    "lastname": "Family",
+    "familyMembers": [
+     {
+      "firstName": "A"
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Unknown data integrity issue with resource: ERROR: null value in column \"relationship_cv_id\" of relation \"m_family_members\" violates not-null constraint\n  Detail: Failing row contains (18, 5, A, , , , null, null, null, null, null, null, , f).",
+    "userMessageGlobalisationCode": "error.msg.client.unknown.data.integrity.issue",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "Unknown data integrity issue with resource: ERROR: null value in column \"relationship_cv_id\" of relation \"m_family_members\" violates not-null constraint\n  Detail: Failing row contains (18, 5, A, , , , null, null, null, null, null, null, , f).",
+      "userMessageGlobalisationCode": "error.msg.client.unknown.data.integrity.issue",
+      "args": []
+     }
+    ]
+   },
+   "ignore": [
+    "defaultUserMessage"
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients",
+   "body": {
+    "officeId": 1,
+    "legalFormId": 1,
+    "firstname": "Bad2",
+    "lastname": "Family",
+    "familyMembers": [
+     {
+      "firstName": "A",
+      "relationshipId": 24,
+      "bogus": 1
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter bogus is not supported.",
+      "defaultUserMessage": "bogus",
+      "userMessageGlobalisationCode": "error.msg.parameter.unsupported",
+      "parameterName": "bogus",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients",
+   "body": {
+    "officeId": 1,
+    "legalFormId": 1,
+    "firstname": "Bad3",
+    "lastname": "Family",
+    "familyMembers": [
+     {
+      "firstName": "A",
+      "relationshipId": 24,
+      "dateOfBirth": "01 January 1980"
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `dateOfBirth` requires a `dateFormat` parameter to be passed with it.",
+      "defaultUserMessage": "The parameter `dateOfBirth` requires a `dateFormat` parameter to be passed with it.",
+      "userMessageGlobalisationCode": "validation.msg.missing.dateFormat.parameter",
+      "parameterName": "dateOfBirth",
+      "args": []
+     },
+     {
+      "developerMessage": "The parameter `dateOfBirth` requires a `locale` parameter to be passed with it.",
+      "defaultUserMessage": "The parameter `dateOfBirth` requires a `locale` parameter to be passed with it.",
+      "userMessageGlobalisationCode": "validation.msg.missing.locale.parameter",
+      "parameterName": "dateOfBirth",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients",
+   "body": {
+    "officeId": 1,
+    "legalFormId": 1,
+    "firstname": "Empty",
+    "lastname": "Family",
+    "familyMembers": [],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 8,
+    "resourceId": 8
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients",
+   "body": {
+    "officeId": 1,
+    "legalFormId": 1,
+    "firstname": "Str",
+    "lastname": "Family",
+    "familyMembers": "x",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 500,
+   "response": {
+    "timestamp": "2026-11-15T10:19:58.800Z",
+    "status": 500,
+    "error": "Internal Server Error",
+    "path": "/fineract-provider/api/v1/clients"
+   },
+   "ignore": [
+    "path",
+    "timestamp"
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients",
+   "body": {
+    "officeId": 1,
+    "legalFormId": 1,
+    "firstname": "Gone",
+    "lastname": "Family",
+    "familyMembers": [
+     {
+      "firstName": "A",
+      "relationshipId": 24
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "save": {
+    "gf": "resourceId"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 10,
+    "resourceId": 10
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/clients/{gf}",
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Unknown data integrity issue with resource.",
+    "userMessageGlobalisationCode": "error.msg.client.unknown.data.integrity.issue",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "Unknown data integrity issue with resource.",
+      "userMessageGlobalisationCode": "error.msg.client.unknown.data.integrity.issue",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/clients/{gf}/familymembers",
+   "status": 200,
+   "response": [
+    {
+     "id": 19,
+     "clientId": 10,
+     "firstName": "A",
+     "middleName": "",
+     "lastName": "",
+     "qualification": "",
+     "relationshipId": 24,
+     "relationship": "Mother",
+     "maritalStatusId": 0,
+     "genderId": 0,
+     "professionId": 0,
+     "mobileNumber": "",
+     "age": 0,
+     "isDependent": false
+    }
+   ]
+  }
+ ]
+}

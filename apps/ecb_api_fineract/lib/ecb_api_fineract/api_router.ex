@@ -19,7 +19,10 @@ defmodule ECBApiFineract.ApiRouter do
     Authentication,
     BusinessDate,
     Charges,
+    ClientIdentifiers,
+    Clients,
     Codes,
+    FamilyMembers,
     FinancialActivityAccounts,
     FloatingRates,
     Funds,
@@ -104,6 +107,54 @@ defmodule ECBApiFineract.ApiRouter do
   get "/v1/staff/:id", do: Staff.show(conn, id)
   post "/v1/staff", do: Staff.create(conn)
   put "/v1/staff/:id", do: Staff.update(conn, id)
+  get "/v1/clients/template", do: Clients.template(conn)
+  get "/v1/clients", do: Clients.index(conn)
+  post "/v1/clients", do: Clients.create(conn)
+
+  get "/v1/clients/external-id/:external_id/accounts",
+    do: Clients.accounts(conn, {:external_id, external_id})
+
+  get "/v1/clients/external-id/:external_id/obligeedetails",
+    do: Clients.obligee_details(conn, {:external_id, external_id})
+
+  get "/v1/clients/external-id/:external_id/transferproposaldate",
+    do: Clients.transfer_proposal_date(conn, {:external_id, external_id})
+
+  get "/v1/clients/external-id/:external_id", do: Clients.show_by_external_id(conn, external_id)
+
+  post "/v1/clients/external-id/:external_id",
+    do: Clients.command(conn, {:external_id, external_id})
+
+  put "/v1/clients/external-id/:external_id",
+    do: Clients.update(conn, {:external_id, external_id})
+
+  delete "/v1/clients/external-id/:external_id",
+    do: Clients.delete(conn, {:external_id, external_id})
+
+  get "/v1/clients/:client_id/identifiers/template",
+    do: ClientIdentifiers.template(conn, client_id)
+
+  get "/v1/clients/:client_id/identifiers", do: ClientIdentifiers.index(conn, client_id)
+  post "/v1/clients/:client_id/identifiers", do: ClientIdentifiers.create(conn, client_id)
+  get "/v1/clients/:client_id/identifiers/:id", do: ClientIdentifiers.show(conn, client_id, id)
+  put "/v1/clients/:client_id/identifiers/:id", do: ClientIdentifiers.update(conn, client_id, id)
+
+  delete "/v1/clients/:client_id/identifiers/:id",
+    do: ClientIdentifiers.delete(conn, client_id, id)
+
+  get "/v1/clients/:client_id/familymembers/template", do: FamilyMembers.template(conn, client_id)
+  get "/v1/clients/:client_id/familymembers", do: FamilyMembers.index(conn, client_id)
+  post "/v1/clients/:client_id/familymembers", do: FamilyMembers.create(conn, client_id)
+  get "/v1/clients/:client_id/familymembers/:id", do: FamilyMembers.show(conn, client_id, id)
+  put "/v1/clients/:client_id/familymembers/:id", do: FamilyMembers.update(conn, client_id, id)
+  delete "/v1/clients/:client_id/familymembers/:id", do: FamilyMembers.delete(conn, client_id, id)
+  get "/v1/clients/:id/accounts", do: Clients.accounts(conn, id)
+  get "/v1/clients/:id/obligeedetails", do: Clients.obligee_details(conn, id)
+  get "/v1/clients/:id/transferproposaldate", do: Clients.transfer_proposal_date(conn, id)
+  get "/v1/clients/:id", do: Clients.show(conn, id)
+  post "/v1/clients/:id", do: Clients.command(conn, id)
+  put "/v1/clients/:id", do: Clients.update(conn, id)
+  delete "/v1/clients/:id", do: Clients.delete(conn, id)
   get "/v1/accountnumberformats/template", do: Organisation.account_number_formats_template(conn)
   get "/v1/accountnumberformats", do: Organisation.account_number_formats(conn)
 
@@ -257,6 +308,9 @@ defmodule ECBApiFineract.ApiRouter do
   @typed_bodies ["accountingrules", "taxes", "charges", "rates", "floatingrates"]
 
   defp parse_error(%{path_info: ["v1", resource | _]}, _error) when resource in @typed_bodies,
+    do: %ECBPlatform.Errors.InvalidJsonData{}
+
+  defp parse_error(%{path_info: ["v1", "clients", _id, "familymembers" | _]}, _error),
     do: %ECBPlatform.Errors.InvalidJsonData{}
 
   defp parse_error(_conn, error), do: error

@@ -204,6 +204,25 @@ defmodule ECBPlatform.Validation do
         )
   end
 
+  @doc """
+  The value must be blank when another parameter is populated (Fineract's
+  `mustBeBlankWhenParameterProvided`): `fullname` beside `firstname`, for one.
+  """
+  @spec blank_when_populated(t, String.t(), term) :: t
+  def blank_when_populated(%{value: nil} = v, _other, _other_value), do: v
+
+  def blank_when_populated(%{value: value} = v, other, other_value) do
+    if is_binary(value) and String.trim(value) == "",
+      do: v,
+      else:
+        add(
+          v,
+          "cannot.also.be.provided.when.#{other}.is.populated",
+          "The parameter `#{v.parameter}` cannot also be provided when `#{other}` is populated.",
+          [value, other, other_value]
+        )
+  end
+
   @doc "The value must be true or false."
   @spec true_or_false(t) :: t
   def true_or_false(%{value: value} = v) when is_boolean(value), do: v
@@ -378,6 +397,64 @@ defmodule ECBPlatform.Validation do
   end
 
   def date_not_after(v, _other), do: v
+
+  @doc """
+  A date not after `date` (Fineract's `validateDateBefore`: a value later than `date` is refused). A
+  missing date or limit passes.
+  """
+  @spec date_before(t, Date.t() | nil) :: t
+  def date_before(%{value: %Date{} = value} = v, %Date{} = date) do
+    if Date.compare(date, value) == :lt,
+      do:
+        add(
+          v,
+          "is.greater.than.date",
+          "The parameter `#{v.parameter}` must be less than the provided date#{date}",
+          [Date.to_iso8601(value), Date.to_iso8601(date)]
+        ),
+      else: v
+  end
+
+  def date_before(v, _date), do: v
+
+  @doc "A date on or before `date` (Fineract's `validateDateBeforeOrEqual`)."
+  @spec date_before_or_equal(t, Date.t()) :: t
+  def date_before_or_equal(%{value: %Date{} = value} = v, %Date{} = date) do
+    if Date.compare(value, date) == :gt,
+      do:
+        add(
+          v,
+          "is.greater.than.date",
+          "The parameter `#{v.parameter}` must be less than or equal to the provided date: #{date}",
+          [Date.to_iso8601(value), Date.to_iso8601(date)]
+        ),
+      else: v
+  end
+
+  def date_before_or_equal(v, _date), do: v
+
+  @doc "A text that, when there is one, is a pattern Java's date formatter accepts."
+  @spec valid_date_time_pattern(t) :: t
+  def valid_date_time_pattern(%{value: value} = v) when is_binary(value) do
+    if String.trim(value) == "" or ECBPlatform.Params.DatePattern.valid?(value) do
+      v
+    else
+      # Fineract builds this error with its arguments in the wrong places: the parameter name is shown as the
+      # text for people and the pattern as the parameter name.
+      error = %{
+        code: "validation.msg.#{v.resource}.#{v.parameter}.invalid.dateFormat.pattern",
+        developer_message:
+          "The parameter `#{v.parameter}` has an invalid date/time pattern: `#{value}`.",
+        default_message: v.parameter,
+        parameter: value,
+        args: []
+      }
+
+      %{v | errors: [error | v.errors]}
+    end
+  end
+
+  def valid_date_time_pattern(v), do: v
 
   # --- free-form ------------------------------------------------------------------------------
 

@@ -19,7 +19,8 @@ defmodule ECBPlatform.Params do
   alias ECBPlatform.Errors.{InvalidJson, PlatformApiDataValidation, UnsupportedParameter}
   alias ECBPlatform.Params.DatePattern
 
-  defstruct map: %{}
+  # `order` is the top-level keys as the request wrote them, which is the order Fineract lists problems in
+  defstruct map: %{}, order: []
 
   @type t :: %__MODULE__{map: map}
 
@@ -34,13 +35,20 @@ defmodule ECBPlatform.Params do
 
     case Jason.decode(json) do
       {:ok, %{} = map} ->
-        %__MODULE__{map: map}
+        %__MODULE__{map: map, order: key_order(json)}
 
       {:ok, _other} ->
         raise InvalidJson, detail: "Expected BEGIN_OBJECT but was a different JSON value"
 
       {:error, %Jason.DecodeError{} = error} ->
         raise InvalidJson, detail: Exception.message(error)
+    end
+  end
+
+  defp key_order(json) do
+    case Jason.decode(json, objects: :ordered_objects) do
+      {:ok, %Jason.OrderedObject{values: values}} -> Enum.map(values, &elem(&1, 0))
+      _ -> []
     end
   end
 
@@ -73,11 +81,17 @@ defmodule ECBPlatform.Params do
 
   @doc "Raises `UnsupportedParameter` for any key not in `supported`."
   @spec check_supported!(t, [String.t()]) :: t
-  def check_supported!(%__MODULE__{map: map} = params, supported) do
+  def check_supported!(%__MODULE__{map: map, order: order} = params, supported) do
     case Enum.reject(Map.keys(map), &(&1 in supported)) do
       [] -> params
-      unknown -> raise UnsupportedParameter, parameters: Enum.sort(unknown)
+      unknown -> raise UnsupportedParameter, parameters: in_request_order(unknown, order)
     end
+  end
+
+  # as the request wrote them; keys whose position is not known follow, alphabetically
+  defp in_request_order(unknown, order) do
+    {known, rest} = Enum.split_with(unknown, &(&1 in order))
+    Enum.filter(order, &(&1 in known)) ++ Enum.sort(rest)
   end
 
   @doc "The value of a key as decoded from the body (maps, lists, numbers, text), or `nil`."

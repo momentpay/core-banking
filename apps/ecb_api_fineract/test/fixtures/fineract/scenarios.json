@@ -13950,6 +13950,3994 @@
           ]
         }
       ]
+    },
+    {
+      "name": "clients",
+      "reset": [
+        "clients",
+        "codes",
+        "staff",
+        "offices"
+      ],
+      "steps": [
+        {
+          "method": "POST",
+          "path": "/v1/codes/4/codevalues",
+          "body": {
+            "name": "Male"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/4/codevalues",
+          "body": {
+            "name": "Female"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/16/codevalues",
+          "body": {
+            "name": "Retail"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/17/codevalues",
+          "body": {
+            "name": "Gold"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/24/codevalues",
+          "body": {
+            "name": "Pvt Ltd"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/25/codevalues",
+          "body": {
+            "name": "Trading"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/14/codevalues",
+          "body": {
+            "name": "Moved"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/19/codevalues",
+          "body": {
+            "name": "Bad docs"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/20/codevalues",
+          "body": {
+            "name": "Changed mind"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/offices",
+          "body": {
+            "name": "Branch",
+            "parentId": 1,
+            "openingDate": "01 February 2026",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/staff",
+          "body": {
+            "officeId": 1,
+            "firstname": "Sam",
+            "lastname": "Staff",
+            "isLoanOfficer": true,
+            "isActive": true,
+            "joiningDate": "01 January 2020",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/staff",
+          "body": {
+            "officeId": 2,
+            "firstname": "Bea",
+            "lastname": "Branch",
+            "isLoanOfficer": false,
+            "isActive": true,
+            "joiningDate": "01 January 2020",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "path": "/v1/clients",
+          "sortby": "id"
+        },
+        {
+          "path": "/v1/clients/template"
+        },
+        {
+          "path": "/v1/clients/template?officeId=2"
+        },
+        {
+          "path": "/v1/clients/1"
+        },
+        {
+          "path": "/v1/clients/abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "path": "/v1/clients/external-id/NOPE"
+        },
+        {
+          "path": "/v1/clients/1/accounts"
+        },
+        {
+          "path": "/v1/clients/1/obligeedetails"
+        },
+        {
+          "path": "/v1/clients/1/transferproposaldate"
+        },
+        {
+          "path": "/v1/clients/template?commandParam=close"
+        },
+        {
+          "path": "/v1/clients/template?commandParam=reject"
+        },
+        {
+          "path": "/v1/clients/template?commandParam=withdraw"
+        },
+        {
+          "path": "/v1/clients/template?commandParam=acceptTransfer"
+        },
+        {
+          "path": "/v1/clients/template?commandParam=bogus"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "externalId": "EXT-1",
+            "staffId": 1,
+            "genderId": 23,
+            "clientTypeId": 25,
+            "clientClassificationId": 26,
+            "dateOfBirth": "05 May 1990",
+            "mobileNo": "+9199999999",
+            "emailAddress": "a@b.c",
+            "submittedOnDate": "02 January 2026",
+            "middlename": "M"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Ben",
+            "lastname": "Roy",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "active": true,
+            "activationDate": "01 January 2026",
+            "fullname": null,
+            "externalId": "EXT-2"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 2,
+            "fullname": "Acme Corp",
+            "active": true,
+            "activationDate": "01 March 2026",
+            "clientNonPersonDetails": {
+              "constitutionId": 27,
+              "incorpNumber": "INC1",
+              "remarks": "hi",
+              "mainBusinessLineId": 28
+            },
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 2,
+            "fullname": "Bare Ltd",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 2,
+            "legalFormId": 1,
+            "firstname": "Cal",
+            "lastname": "Dee",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "fullname": "Single Name",
+            "submittedOnDate": "03 January 2026",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Fay",
+            "lastname": "Gup",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "active": true,
+            "activationDate": "01 January 2026",
+            "accountNo": "ACC-77",
+            "isStaff": true
+          },
+          "ignore": [
+            "defaultUserMessage"
+          ]
+        },
+        {
+          "path": "/v1/clients",
+          "sortby": "id"
+        },
+        {
+          "path": "/v1/clients/1"
+        },
+        {
+          "path": "/v1/clients/2"
+        },
+        {
+          "path": "/v1/clients/3"
+        },
+        {
+          "path": "/v1/clients/4"
+        },
+        {
+          "path": "/v1/clients/5"
+        },
+        {
+          "path": "/v1/clients/6"
+        },
+        {
+          "path": "/v1/clients/7"
+        },
+        {
+          "path": "/v1/clients/external-id/EXT-1"
+        },
+        {
+          "path": "/v1/clients/external-id/EXT-2"
+        },
+        {
+          "path": "/v1/clients/1?template=true"
+        },
+        {
+          "path": "/v1/clients/3?template=true"
+        },
+        {
+          "path": "/v1/clients/1?template=true&staffInSelectedOfficeOnly=true"
+        },
+        {
+          "path": "/v1/clients/1?fields=id,displayName"
+        },
+        {
+          "path": "/v1/clients?fields=id,displayName,status",
+          "sortby": "id"
+        },
+        {
+          "path": "/v1/clients/template"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "raw": "{bad",
+          "ignore": [
+            "developerMessage",
+            "defaultUserMessage"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "A",
+            "lastname": "B",
+            "bogus": 1,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 2,
+            "fullname": "X",
+            "clientNonPersonDetails": {
+              "incorpValidityTill": "01 March 2030"
+            },
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "legalFormId": 1,
+            "firstname": "A",
+            "lastname": "B",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 0,
+            "legalFormId": 1,
+            "firstname": "A",
+            "lastname": "B",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 99,
+            "legalFormId": 1,
+            "firstname": "A",
+            "lastname": "B",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "firstname": "A",
+            "lastname": "B",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 3,
+            "firstname": "A",
+            "lastname": "B",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "A",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "A",
+            "lastname": "B",
+            "fullname": "AB",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "fullname": "",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "",
+            "lastname": "",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "middlename": "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+            "lastname": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "fullname": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "mobileNo": "999"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "mobileNo": "+9199999999"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "mobileNo": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "externalId": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "accountNo": ""
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "accountNo": "xxxxxxxxxxxxxxxxxxxxx"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "active": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "active": "abc",
+            "activationDate": "01 January 2026"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "active": true,
+            "activationDate": "01 January 2099"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "active": true,
+            "activationDate": "01 January 2026",
+            "submittedOnDate": "05 January 2026"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "active": true,
+            "activationDate": "01 January 2000"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "submittedOnDate": "01 January 2099"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "submittedOnDate": ""
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "submittedOnDate": null
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "dateOfBirth": "01 January 2099"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "dateOfBirth": "05 May 1990",
+            "submittedOnDate": "01 January 1980"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "dateOfBirth": null
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "dateOfBirth": "bad"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "staffId": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "staffId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "staffId": 2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 2,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "staffId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "genderId": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "genderId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "genderId": 25
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "clientTypeId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "clientClassificationId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "genderId": "x"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "savingsProductId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "savingsProductId": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "groupId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "groupId": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "isStaff": null
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "bb",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": null,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "A",
+            "lastname": "B",
+            "dateOfBirth": "05 May 1990"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "A",
+            "lastname": "B",
+            "locale": "en",
+            "dateFormat": "dd MMMM yyyy",
+            "dateOfBirth": "05 May 1990",
+            "submittedOnDate": "2026-01-01"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "externalId": "EXT-1"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "accountNo": "ACC-77"
+          },
+          "ignore": [
+            "defaultUserMessage"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Dup",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "mobileNo": "+9199999999"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 2,
+            "fullname": "X",
+            "clientNonPersonDetails": {
+              "constitutionId": 99,
+              "dateFormat": "dd MMMM yyyy",
+              "locale": "en"
+            },
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 2,
+            "fullname": "X",
+            "clientNonPersonDetails": {
+              "constitutionId": 0,
+              "incorpNumber": "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii",
+              "remarks": "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+              "mainBusinessLineId": 0,
+              "dateFormat": "dd MMMM yyyy",
+              "locale": "en"
+            },
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 2,
+            "fullname": "X",
+            "clientNonPersonDetails": {
+              "mainBusinessLineId": 99,
+              "dateFormat": "dd MMMM yyyy",
+              "locale": "en"
+            },
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 2,
+            "fullname": "Y",
+            "clientNonPersonDetails": {
+              "incorpValidityTillDate": "01 March 2030",
+              "incorpNumber": "Z",
+              "dateFormat": "dd MMMM yyyy",
+              "locale": "en"
+            },
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Person",
+            "lastname": "WithDetails",
+            "clientNonPersonDetails": {
+              "incorpNumber": "Z"
+            },
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "datatables": []
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "familyMembers": []
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "address": []
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "displayname": "Zed"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "firstname": "Asha2",
+            "lastname": "Rao2",
+            "mobileNo": "+9188888888",
+            "emailAddress": "z@y.x"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "firstname": "Asha2"
+          }
+        },
+        {
+          "path": "/v1/clients/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "fullname": "Full Name"
+          }
+        },
+        {
+          "path": "/v1/clients/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "firstname": "Back",
+            "lastname": "Again",
+            "middlename": ""
+          }
+        },
+        {
+          "path": "/v1/clients/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "bogus": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "officeId": 2
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "fullname": "X",
+            "firstname": "Y"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "firstname": "Only"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "fullname": ""
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "externalId": "EXT-2"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "externalId": ""
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "externalId": "EXT-1"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "mobileNo": "999"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "mobileNo": null
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "mobileNo": "+9199999999"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "accountNo": ""
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "accountNo": "ACC-77"
+          },
+          "ignore": [
+            "defaultUserMessage"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "accountNo": "NEW-1"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "staffId": 2
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "staffId": 99
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "staffId": null
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "staffId": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "staffId": 0
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "genderId": 24
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "genderId": 99
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "genderId": 0
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "genderId": null
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "genderId": 23
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "clientTypeId": 99
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "clientTypeId": null
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "clientClassificationId": 99
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "clientClassificationId": 26
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "savingsProductId": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "savingsProductId": null
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "dateOfBirth": "06 June 1991"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "dateOfBirth": "01 January 2099"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "dateOfBirth": null
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "submittedOnDate": "03 January 2026"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "submittedOnDate": "01 January 2099"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activationDate": "05 January 2026",
+            "active": true
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activationDate": "05 January 2026"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "active": true
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "active": false
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "legalFormId": 2
+          }
+        },
+        {
+          "path": "/v1/clients/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "legalFormId": 2,
+            "clientNonPersonDetails": {
+              "incorpNumber": "N1",
+              "constitutionId": 27,
+              "dateFormat": "dd MMMM yyyy",
+              "locale": "en"
+            }
+          }
+        },
+        {
+          "path": "/v1/clients/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "clientNonPersonDetails": {
+              "incorpNumber": "N2",
+              "remarks": "r",
+              "mainBusinessLineId": 28,
+              "incorpValidityTillDate": "01 March 2030",
+              "dateFormat": "dd MMMM yyyy",
+              "locale": "en"
+            }
+          }
+        },
+        {
+          "path": "/v1/clients/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "clientNonPersonDetails": {
+              "constitutionId": 99
+            }
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "clientNonPersonDetails": {
+              "incorpValidityTill": "x"
+            }
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "clientNonPersonDetails": {}
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "clientNonPersonDetails": {
+              "incorpNumber": "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii",
+              "remarks": "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"
+            }
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "legalFormId": 1,
+            "firstname": "Per",
+            "lastname": "Son"
+          }
+        },
+        {
+          "path": "/v1/clients/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "legalFormId": 3
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "isStaff": true
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "displayname": "Zed"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/2",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "firstname": "Ben2"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/2",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "savingsProductId": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/2",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activationDate": "02 January 2026"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/2",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activationDate": "01 January 2099"
+          }
+        },
+        {
+          "path": "/v1/clients/2"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/99",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "firstname": "x"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/abc",
+          "body": {
+            "firstname": "x",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/external-id/EXT-2",
+          "body": {
+            "firstname": "ByExt",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/external-id/NOPE",
+          "body": {
+            "firstname": "x",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "path": "/v1/clients",
+          "sortby": "id"
+        },
+        {
+          "path": "/v1/clients?status=pending",
+          "sortby": "id"
+        },
+        {
+          "path": "/v1/clients?status=ACTIVE",
+          "sortby": "id"
+        },
+        {
+          "path": "/v1/clients?status=bogus",
+          "sortby": "id"
+        },
+        {
+          "path": "/v1/clients?officeId=2",
+          "sortby": "id"
+        },
+        {
+          "path": "/v1/clients?displayName=Ben",
+          "sortby": "id"
+        },
+        {
+          "path": "/v1/clients?firstName=Ben2",
+          "sortby": "id"
+        },
+        {
+          "path": "/v1/clients?lastName=Roy",
+          "sortby": "id"
+        },
+        {
+          "path": "/v1/clients?externalId=EXT-1",
+          "sortby": "id"
+        },
+        {
+          "path": "/v1/clients?underHierarchy=.1.2.",
+          "sortby": "id"
+        },
+        {
+          "path": "/v1/clients?legalForm=2",
+          "sortby": "id"
+        },
+        {
+          "path": "/v1/clients?staffId=1",
+          "sortby": "id"
+        },
+        {
+          "path": "/v1/clients?orphansOnly=true",
+          "sortby": "id"
+        },
+        {
+          "path": "/v1/clients?orderBy=displayName&sortOrder=DESC",
+          "sortby": "id"
+        },
+        {
+          "path": "/v1/clients?orderBy=id&sortOrder=desc&limit=2"
+        },
+        {
+          "path": "/v1/clients?orderBy=accountNo"
+        },
+        {
+          "path": "/v1/clients?orderBy=officeName&limit=100&offset=0",
+          "sortby": "id"
+        },
+        {
+          "path": "/v1/clients?orderBy=bogus"
+        },
+        {
+          "path": "/v1/clients?orderBy=id&sortOrder=up"
+        },
+        {
+          "path": "/v1/clients?limit=2&offset=0&orderBy=id"
+        },
+        {
+          "path": "/v1/clients?limit=abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ],
+          "sortby": "id"
+        },
+        {
+          "path": "/v1/clients?officeId=abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ],
+          "sortby": "id"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Life",
+            "lastname": "Cycle",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "submittedOnDate": "10 January 2026",
+            "externalId": "LIFE-1"
+          },
+          "save": {
+            "lid": "resourceId"
+          }
+        },
+        {
+          "path": "/v1/clients/{lid}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=reject",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "rejectionDate": "09 January 2026",
+            "rejectionReasonId": 30
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=reject",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "rejectionDate": "11 January 2026",
+            "rejectionReasonId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=reject",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "rejectionDate": "11 January 2026"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=reject",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "rejectionReasonId": 30
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=reject",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=reject"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=reject",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "rejectionDate": "11 January 2026",
+            "rejectionReasonId": 30,
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=reject",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "rejectionDate": "11 January 2026",
+            "rejectionReasonId": 31
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=reject",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "rejectionDate": "11 January 2026",
+            "rejectionReasonId": 30
+          }
+        },
+        {
+          "path": "/v1/clients/{lid}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=reject",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "rejectionDate": "12 January 2026",
+            "rejectionReasonId": 30
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=withdraw",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "withdrawalDate": "12 January 2026",
+            "withdrawalReasonId": 31
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closureDate": "12 January 2026",
+            "closureReasonId": 29
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activationDate": "12 January 2026"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=reactivate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "reactivationDate": "12 January 2026"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=undoRejection",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "reopenedDate": "10 January 2026"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=undoRejection",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "reopenedDate": "01 January 2099"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=undoRejection",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=undoRejection",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "reopenedDate": "12 January 2026"
+          }
+        },
+        {
+          "path": "/v1/clients/{lid}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=undoRejection",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "reopenedDate": "12 January 2026"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=undoWithdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "reopenedDate": "12 January 2026"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=withdraw",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "withdrawalDate": "09 January 2026",
+            "withdrawalReasonId": 31
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=withdraw",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "withdrawalDate": "12 January 2026",
+            "withdrawalReasonId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=withdraw",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "withdrawalDate": "12 January 2026",
+            "withdrawalReasonId": 30
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=withdraw",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "withdrawalDate": "12 January 2026",
+            "withdrawalReasonId": 31
+          }
+        },
+        {
+          "path": "/v1/clients/{lid}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=withdraw",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "withdrawalDate": "12 January 2026",
+            "withdrawalReasonId": 31
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=undoWithdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "reopenedDate": "01 January 2026"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=undoWithdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "reopenedDate": "01 January 2099"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=undoWithdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "reopenedDate": "13 January 2026"
+          }
+        },
+        {
+          "path": "/v1/clients/{lid}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activationDate": "09 January 2026"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activationDate": "01 January 2099"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activationDate": "01 January 2026"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=activate"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activationDate": "13 January 2026",
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activationDate": "13 January 2026"
+          }
+        },
+        {
+          "path": "/v1/clients/{lid}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activationDate": "14 January 2026"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=reject",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "rejectionDate": "15 January 2026",
+            "rejectionReasonId": 30
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=withdraw",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "withdrawalDate": "15 January 2026",
+            "withdrawalReasonId": 31
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=reactivate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "reactivationDate": "15 January 2026"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closureDate": "12 January 2026",
+            "closureReasonId": 29
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closureDate": "15 January 2026",
+            "closureReasonId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closureDate": "15 January 2026"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closureReasonId": 29
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closureDate": "15 January 2026",
+            "closureReasonId": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closureDate": "15 January 2026",
+            "closureReasonId": 30
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closureDate": "15 January 2026",
+            "closureReasonId": 29
+          }
+        },
+        {
+          "path": "/v1/clients/{lid}"
+        },
+        {
+          "path": "/v1/clients?status=closed",
+          "sortby": "id"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closureDate": "15 January 2026",
+            "closureReasonId": 29
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=reactivate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "reactivationDate": "14 January 2026"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=reactivate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=reactivate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "reactivationDate": "16 January 2026"
+          }
+        },
+        {
+          "path": "/v1/clients/{lid}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=reactivate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "reactivationDate": "16 January 2026"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activationDate": "17 January 2026"
+          }
+        },
+        {
+          "path": "/v1/clients/{lid}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=assignStaff",
+          "body": {
+            "staffId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=assignStaff",
+          "body": {
+            "staffId": 2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=assignStaff",
+          "body": {
+            "staffId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=assignStaff",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "staffId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=assignStaff",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=assignStaff",
+          "body": {
+            "staffId": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=assignStaff",
+          "body": {
+            "staffId": 1,
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=assignStaff"
+        },
+        {
+          "path": "/v1/clients/{lid}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=unassignStaff",
+          "body": {
+            "staffId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=unassignStaff",
+          "body": {
+            "staffId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=unassignStaff",
+          "body": {
+            "staffId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=unassignStaff",
+          "body": {}
+        },
+        {
+          "path": "/v1/clients/{lid}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}?command=bogus",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/{lid}",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/99?command=activate",
+          "body": {
+            "activationDate": "13 January 2026",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/abc?command=activate",
+          "body": {},
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/external-id/LIFE-1?command=close",
+          "body": {
+            "closureDate": "20 January 2026",
+            "closureReasonId": 29,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/external-id/NOPE?command=close",
+          "body": {}
+        },
+        {
+          "path": "/v1/clients/external-id/LIFE-1"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Gone",
+            "lastname": "Soon",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "g1": "resourceId"
+          }
+        },
+        {
+          "path": "/v1/clients/{g1}"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/clients/{g1}"
+        },
+        {
+          "path": "/v1/clients/{g1}"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/clients/{g1}"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/clients/2"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/clients/99"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/clients/abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/clients/external-id/NOPE"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Gone",
+            "lastname": "Too",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "externalId": "GONE-1"
+          }
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/clients/external-id/GONE-1"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 2,
+            "fullname": "Gone Corp",
+            "clientNonPersonDetails": {
+              "incorpNumber": "Q",
+              "constitutionId": 27,
+              "dateFormat": "dd MMMM yyyy",
+              "locale": "en"
+            },
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "g2": "resourceId"
+          }
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/clients/{g2}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Seq",
+            "lastname": "Check",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "path": "/v1/clients",
+          "sortby": "id"
+        }
+      ]
+    },
+    {
+      "name": "clientsubs",
+      "reset": [
+        "clients",
+        "codes",
+        "staff",
+        "offices"
+      ],
+      "steps": [
+        {
+          "method": "POST",
+          "path": "/v1/codes/1/codevalues",
+          "body": {
+            "name": "Voter"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/31/codevalues",
+          "body": {
+            "name": "Mother"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/30/codevalues",
+          "body": {
+            "name": "Single"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/4/codevalues",
+          "body": {
+            "name": "Male"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/32/codevalues",
+          "body": {
+            "name": "Teacher"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/offices",
+          "body": {
+            "name": "Branch",
+            "parentId": 1,
+            "openingDate": "01 February 2026",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Asha",
+            "lastname": "Rao",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 2,
+            "legalFormId": 1,
+            "firstname": "Cal",
+            "lastname": "Dee",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "path": "/v1/clients/1/identifiers"
+        },
+        {
+          "path": "/v1/clients/1/identifiers/template"
+        },
+        {
+          "path": "/v1/clients/1/identifiers/1"
+        },
+        {
+          "path": "/v1/clients/1/identifiers/abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "path": "/v1/clients/abc/identifiers",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "path": "/v1/clients/99/identifiers"
+        },
+        {
+          "path": "/v1/clients/99/identifiers/1"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "body": {
+            "documentTypeId": 1,
+            "documentKey": "P123",
+            "status": "Active",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "description": "d",
+            "issuanceDate": "01 January 2020",
+            "expiryDate": "01 January 2030"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "body": {
+            "documentTypeId": 23,
+            "documentKey": "P124",
+            "status": "active",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "body": {
+            "documentTypeId": 2,
+            "documentKey": "P125",
+            "status": "INACTIVE",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "body": {
+            "documentTypeId": 3,
+            "documentKey": "P125",
+            "status": "Inactive",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "path": "/v1/clients/1/identifiers"
+        },
+        {
+          "path": "/v1/clients/1/identifiers/1"
+        },
+        {
+          "path": "/v1/clients/1/identifiers/2"
+        },
+        {
+          "path": "/v1/clients/1/identifiers/1?template=true"
+        },
+        {
+          "path": "/v1/clients/1/identifiers/1?fields=id,documentKey"
+        },
+        {
+          "path": "/v1/clients/1/identifiers/template"
+        },
+        {
+          "path": "/v1/clients/1/identifiers?fields=id"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "body": {
+            "documentTypeId": 1,
+            "documentKey": "P123",
+            "status": "Active",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "body": {
+            "documentTypeId": 2,
+            "documentKey": "P123",
+            "status": "Active",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "body": {
+            "documentTypeId": 1,
+            "documentKey": "P123",
+            "status": "inactive",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/2/identifiers",
+          "body": {
+            "documentTypeId": 1,
+            "documentKey": "P123",
+            "status": "Active",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/2/identifiers",
+          "body": {
+            "documentTypeId": 2,
+            "documentKey": "P123",
+            "status": "Active",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "body": {
+            "documentTypeId": 1,
+            "documentKey": "P123",
+            "status": null,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "body": {
+            "documentTypeId": 1,
+            "documentKey": "N1",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "body": {
+            "documentTypeId": 1,
+            "documentKey": "N2",
+            "status": "bogus",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "body": {
+            "documentTypeId": 1,
+            "documentKey": "",
+            "status": "Active",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "body": {
+            "documentTypeId": 1,
+            "documentKey": null,
+            "status": "Active",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "body": {
+            "documentKey": "N3",
+            "status": "Active",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "body": {
+            "documentTypeId": 0,
+            "documentKey": "P123",
+            "status": "Active",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "body": {
+            "documentTypeId": 999,
+            "documentKey": "N4",
+            "status": "Active",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "body": {
+            "documentTypeId": "x",
+            "documentKey": "P123",
+            "status": "Active",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "body": {
+            "documentTypeId": 1,
+            "documentKey": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+            "status": "Active",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "body": {
+            "documentTypeId": 1,
+            "documentKey": "N5",
+            "status": "Active",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "description": "ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "raw": "{bad",
+          "ignore": [
+            "developerMessage",
+            "defaultUserMessage"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "body": {
+            "documentTypeId": 1,
+            "documentKey": "N6",
+            "status": "Active",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "body": {
+            "documentTypeId": 1,
+            "documentKey": "N7",
+            "status": "Active",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "issuanceDate": "bad"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "body": {
+            "documentTypeId": 1,
+            "documentKey": "N8",
+            "status": "Active",
+            "dateFormat": null,
+            "locale": "en",
+            "issuanceDate": "01 January 2020"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "body": {
+            "documentTypeId": 1,
+            "documentKey": "N9",
+            "status": "Active"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/identifiers",
+          "body": {
+            "documentTypeId": 1,
+            "documentKey": "N10",
+            "status": "Active",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "documentDescription": "x"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/99/identifiers",
+          "body": {
+            "documentTypeId": 1,
+            "documentKey": "N11",
+            "status": "Active",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/abc/identifiers",
+          "body": {
+            "documentTypeId": 1,
+            "documentKey": "N12",
+            "status": "Active",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "path": "/v1/clients/1/identifiers"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/identifiers/1",
+          "body": {
+            "description": "changed",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/identifiers/1",
+          "body": {
+            "description": "changed",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/identifiers/1",
+          "body": {
+            "status": "INACTIVE",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/identifiers/1",
+          "body": {
+            "status": "inactive",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/identifiers/1",
+          "body": {
+            "status": "ACTIVE",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/identifiers/1",
+          "body": {
+            "status": "BOGUS",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/identifiers/1",
+          "body": {
+            "documentKey": "P999",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/identifiers/1",
+          "body": {
+            "documentKey": "P124",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/identifiers/1",
+          "body": {
+            "documentKey": ""
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/identifiers/1",
+          "body": {
+            "documentKey": null,
+            "description": "z",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/identifiers/1",
+          "body": {
+            "documentTypeId": 23,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/identifiers/1",
+          "body": {
+            "documentTypeId": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/identifiers/1",
+          "body": {
+            "documentTypeId": 999,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/identifiers/1",
+          "body": {
+            "documentTypeId": 1,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/identifiers/1",
+          "body": {
+            "issuanceDate": "05 May 2021",
+            "expiryDate": "06 June 2031",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/identifiers/1",
+          "body": {
+            "issuanceDate": null,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/identifiers/1",
+          "body": {
+            "expiryDate": "bad",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/identifiers/1",
+          "body": {}
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/identifiers/1",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/identifiers/1",
+          "body": {
+            "bogus": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/identifiers/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/identifiers/99",
+          "body": {
+            "description": "x",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/99/identifiers/1",
+          "body": {
+            "description": "x",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/identifiers/abc",
+          "body": {
+            "description": "x"
+          },
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "path": "/v1/clients/1/identifiers/1"
+        },
+        {
+          "path": "/v1/clients/1/identifiers"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/clients/1/identifiers/2"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/clients/1/identifiers/2"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/clients/1/identifiers/99"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/clients/99/identifiers/3"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/clients/1/identifiers/abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "path": "/v1/clients/1/identifiers"
+        },
+        {
+          "path": "/v1/clients/1/familymembers"
+        },
+        {
+          "path": "/v1/clients/1/familymembers/template"
+        },
+        {
+          "path": "/v1/clients/1/familymembers/1"
+        },
+        {
+          "path": "/v1/clients/1/familymembers/abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "path": "/v1/clients/99/familymembers"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/familymembers",
+          "body": {
+            "firstName": "Mum",
+            "lastName": "Rao",
+            "relationshipId": 24,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "genderId": 26,
+            "maritalStatusId": 25,
+            "age": 50,
+            "isDependent": true,
+            "dateOfBirth": "01 January 1970",
+            "middleName": "M",
+            "qualification": "BSc",
+            "mobileNumber": "999",
+            "professionId": 27
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/familymembers",
+          "body": {
+            "firstName": "Mum",
+            "lastName": "Rao",
+            "relationshipId": 24,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/familymembers",
+          "body": {
+            "firstName": "OnlyFirst",
+            "relationshipId": 24
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/familymembers",
+          "body": {
+            "firstName": "Mum",
+            "lastName": "Rao",
+            "relationshipId": 24,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "dateOfBirth": "01 January 1970"
+          }
+        },
+        {
+          "path": "/v1/clients/1/familymembers"
+        },
+        {
+          "path": "/v1/clients/1/familymembers/1"
+        },
+        {
+          "path": "/v1/clients/1/familymembers/2"
+        },
+        {
+          "path": "/v1/clients/1/familymembers/99"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/familymembers",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/familymembers"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/familymembers",
+          "raw": "{bad",
+          "ignore": [
+            "developerMessage",
+            "defaultUserMessage"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/familymembers",
+          "body": {
+            "relationshipId": 24,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/familymembers",
+          "body": {
+            "firstName": "NoRel",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/familymembers",
+          "body": {
+            "firstName": "Mum",
+            "lastName": "Rao",
+            "relationshipId": 999,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/familymembers",
+          "body": {
+            "firstName": "Mum",
+            "lastName": "Rao",
+            "relationshipId": 24,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "genderId": 999
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/familymembers",
+          "body": {
+            "firstName": "Mum",
+            "lastName": "Rao",
+            "relationshipId": 24,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "maritalStatusId": 999
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/familymembers",
+          "body": {
+            "firstName": "Mum",
+            "lastName": "Rao",
+            "relationshipId": 24,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "professionId": 999
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/familymembers",
+          "body": {
+            "firstName": "Mum",
+            "lastName": "Rao",
+            "relationshipId": 24,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "age": "x"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/familymembers",
+          "body": {
+            "firstName": "Mum",
+            "lastName": "Rao",
+            "relationshipId": 24,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "isDependent": "x"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/familymembers",
+          "body": {
+            "firstName": "Mum",
+            "lastName": "Rao",
+            "relationshipId": 24,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "age": -5
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/familymembers",
+          "body": {
+            "firstName": "Mum",
+            "lastName": "Rao",
+            "relationshipId": 24,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "dateOfBirth": "01 January 2099"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/familymembers",
+          "body": {
+            "firstName": "Mum",
+            "lastName": "Rao",
+            "relationshipId": 24,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "dateOfBirth": "bad"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/familymembers",
+          "body": {
+            "firstName": "Mum",
+            "lastName": "Rao",
+            "relationshipId": 24,
+            "dateFormat": null,
+            "locale": "en",
+            "dateOfBirth": "01 January 1970"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/familymembers",
+          "body": {
+            "firstName": "fffffffffffffffffffffffffffffffffffffffffffffffffff",
+            "lastName": "Rao",
+            "relationshipId": 24,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/familymembers",
+          "body": {
+            "firstName": "Mum",
+            "lastName": "Rao",
+            "relationshipId": 24,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/1/familymembers",
+          "body": {
+            "firstName": "Mum",
+            "lastName": "Rao",
+            "relationshipId": 24,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "clientId": 5,
+            "id": 7
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/99/familymembers",
+          "body": {
+            "firstName": "Mum",
+            "lastName": "Rao",
+            "relationshipId": 24,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients/abc/familymembers",
+          "body": {
+            "firstName": "Mum",
+            "lastName": "Rao",
+            "relationshipId": 24,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "path": "/v1/clients/1/familymembers"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/familymembers/1",
+          "body": {
+            "firstName": "Mum2",
+            "maritalStatusId": 25,
+            "genderId": 26,
+            "professionId": 27,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "path": "/v1/clients/1/familymembers/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/familymembers/1",
+          "body": {
+            "firstName": "Mum3",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/familymembers/1",
+          "body": {
+            "maritalStatusId": 25,
+            "genderId": 26,
+            "professionId": 27,
+            "age": 51,
+            "relationshipId": 24,
+            "isDependent": false,
+            "dateOfBirth": "02 February 1971",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "path": "/v1/clients/1/familymembers/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/familymembers/2",
+          "body": {
+            "maritalStatusId": 25,
+            "genderId": 26,
+            "professionId": 27,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "path": "/v1/clients/1/familymembers/2"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/familymembers/1",
+          "body": {
+            "maritalStatusId": 999,
+            "genderId": 26,
+            "professionId": 27,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/familymembers/1",
+          "body": {
+            "maritalStatusId": 25,
+            "genderId": 26,
+            "professionId": 27,
+            "age": "x",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/familymembers/99",
+          "body": {
+            "maritalStatusId": 25,
+            "genderId": 26,
+            "professionId": 27,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/familymembers/abc",
+          "body": {
+            "firstName": "x"
+          },
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/familymembers/1",
+          "body": {}
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/1/familymembers/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/clients/99/familymembers/1",
+          "body": {
+            "maritalStatusId": 25,
+            "genderId": 26,
+            "professionId": 27,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/clients/1/familymembers/2"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/clients/1/familymembers/2"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/clients/1/familymembers/99"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/clients/1/familymembers/abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "path": "/v1/clients/1/familymembers"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "With",
+            "lastname": "Family",
+            "familyMembers": [
+              {
+                "firstName": "A",
+                "lastName": "One",
+                "relationshipId": 24,
+                "age": 40,
+                "isDependent": true
+              },
+              {
+                "firstName": "B",
+                "relationshipId": 24
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "wf": "resourceId"
+          }
+        },
+        {
+          "path": "/v1/clients/{wf}/familymembers"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Dob",
+            "lastname": "Family",
+            "familyMembers": [
+              {
+                "firstName": "A",
+                "relationshipId": 24,
+                "dateOfBirth": "01 January 1980",
+                "dateFormat": "dd MMMM yyyy"
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "wd": "resourceId"
+          }
+        },
+        {
+          "path": "/v1/clients/{wd}/familymembers"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Bad",
+            "lastname": "Family",
+            "familyMembers": [
+              {
+                "firstName": "A"
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Bad2",
+            "lastname": "Family",
+            "familyMembers": [
+              {
+                "firstName": "A",
+                "relationshipId": 24,
+                "bogus": 1
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Bad3",
+            "lastname": "Family",
+            "familyMembers": [
+              {
+                "firstName": "A",
+                "relationshipId": 24,
+                "dateOfBirth": "01 January 1980"
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Empty",
+            "lastname": "Family",
+            "familyMembers": [],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Str",
+            "lastname": "Family",
+            "familyMembers": "x",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Gone",
+            "lastname": "Family",
+            "familyMembers": [
+              {
+                "firstName": "A",
+                "relationshipId": 24
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "gf": "resourceId"
+          }
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/clients/{gf}"
+        },
+        {
+          "path": "/v1/clients/{gf}/familymembers"
+        }
+      ]
     }
   ]
 }

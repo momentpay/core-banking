@@ -186,6 +186,24 @@
         "m_floating_rates",
         "m_floating_rates_periods"
       ]
+    },
+    {
+      "kind": "schema",
+      "app": "ecb_party",
+      "version": "20261116100000",
+      "name": "create_client_tables",
+      "tables": [
+        "m_client",
+        "m_client_non_person",
+        "m_client_identifier",
+        "m_family_members",
+        "m_address",
+        "m_client_address",
+        "m_client_charge",
+        "m_client_charge_paid_by",
+        "m_client_transaction",
+        "m_client_transfer_details"
+      ]
     }
   ],
   "deferred_foreign_keys": [
@@ -194,12 +212,6 @@
       "references": "m_image",
       "sql": "ALTER TABLE ONLY public.m_staff\n    ADD CONSTRAINT \"FK_m_staff_m_image\" FOREIGN KEY (image_id) REFERENCES public.m_image(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
       "migration": "create_office_and_staff_tables"
-    },
-    {
-      "table": "acc_gl_journal_entry",
-      "references": "m_client_transaction",
-      "sql": "ALTER TABLE ONLY public.acc_gl_journal_entry\n    ADD CONSTRAINT \"FK_acc_gl_journal_entry_m_client_transaction\" FOREIGN KEY (client_transaction_id) REFERENCES public.m_client_transaction(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
-      "migration": "create_accounting_tables"
     },
     {
       "table": "acc_gl_journal_entry",
@@ -236,6 +248,24 @@
       "references": "m_product_loan",
       "sql": "ALTER TABLE ONLY public.m_loanproduct_provisioning_mapping\n    ADD CONSTRAINT m_loanproduct_provisioning_mapping_ibfk_1 FOREIGN KEY (product_id) REFERENCES public.m_product_loan(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
       "migration": "create_provisioning_tables"
+    },
+    {
+      "table": "m_client",
+      "references": "m_image",
+      "sql": "ALTER TABLE ONLY public.m_client\n    ADD CONSTRAINT \"FK_m_client_m_image\" FOREIGN KEY (image_id) REFERENCES public.m_image(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
+      "migration": "create_client_tables"
+    },
+    {
+      "table": "m_client",
+      "references": "m_savings_account",
+      "sql": "ALTER TABLE ONLY public.m_client\n    ADD CONSTRAINT \"FK_m_client_m_savings_account\" FOREIGN KEY (default_savings_account) REFERENCES public.m_savings_account(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
+      "migration": "create_client_tables"
+    },
+    {
+      "table": "m_client",
+      "references": "m_savings_product",
+      "sql": "ALTER TABLE ONLY public.m_client\n    ADD CONSTRAINT \"FK_m_client_m_savings_product\" FOREIGN KEY (default_savings_product) REFERENCES public.m_savings_product(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
+      "migration": "create_client_tables"
     }
   ]
 }
