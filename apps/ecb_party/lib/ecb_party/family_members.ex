@@ -157,7 +157,7 @@ defmodule ECBParty.FamilyMembers do
   defp to_long(value) do
     case Integer.parse(to_string(value)) do
       {n, _} -> n
-      :error -> raise ECBLedger.Errors.ServerError
+      :error -> raise ECBPlatform.Errors.ServerError
     end
   end
 
@@ -195,7 +195,7 @@ defmodule ECBParty.FamilyMembers do
 
     for key <- ~w(maritalStatusId genderId professionId),
         Params.long(p, key) == nil,
-        do: raise(ECBLedger.Errors.ServerError)
+        do: raise(ECBPlatform.Errors.ServerError)
 
     set = changes(p)
 

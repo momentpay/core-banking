@@ -696,7 +696,7 @@ defmodule ECBCatalog.Charges.Write do
   # the language Fineract notes beside a changed number (the request has to name a locale)
   defp with_locale(changes, p) do
     case Params.locale(p) do
-      nil -> raise ECBLedger.Errors.ServerError
+      nil -> raise ECBPlatform.Errors.ServerError
       locale -> Map.put(changes, "locale", locale |> String.split("_") |> hd())
     end
   end
@@ -897,11 +897,11 @@ defmodule ECBCatalog.Charges.Write do
   # here, and so it does here.
   defp change_month_day(s, p) do
     if Params.exists?(p, "feeOnMonthDay") do
-      {month, day} = month_day(p, "feeOnMonthDay") || raise ECBLedger.Errors.ServerError
+      {month, day} = month_day(p, "feeOnMonthDay") || raise ECBPlatform.Errors.ServerError
       text = Params.string(p, "feeOnMonthDay")
 
       if is_nil(s.c.fee_on_day) or is_nil(s.c.fee_on_month),
-        do: raise(ECBLedger.Errors.ServerError)
+        do: raise(ECBPlatform.Errors.ServerError)
 
       {s, noted?} =
         if s.c.fee_on_day != day,
@@ -1153,7 +1153,7 @@ defmodule ECBCatalog.Charges.Write do
   # A number needs the request's locale too: without one Fineract fails.
   defp decimal_with_locale(p, key) do
     if Params.value(p, key) != nil and is_nil(Params.locale(p)),
-      do: raise(ECBLedger.Errors.ServerError)
+      do: raise(ECBPlatform.Errors.ServerError)
 
     Params.decimal(p, key)
   end
@@ -1170,7 +1170,7 @@ defmodule ECBCatalog.Charges.Write do
         nil
 
       text ->
-        format = Params.string(p, "monthDayFormat") || raise ECBLedger.Errors.ServerError
+        format = Params.string(p, "monthDayFormat") || raise ECBPlatform.Errors.ServerError
 
         with_year = if String.contains?(format, ["y", "u"]), do: format, else: format <> " yyyy"
         shown = if with_year == format, do: text, else: text <> " 2000"

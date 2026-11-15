@@ -51,6 +51,7 @@ defmodule ECoreBank.MixProject do
           ecb_ledger: :permanent,
           ecb_catalog: :permanent,
           ecb_party: :permanent,
+          ecb_deposits: :permanent,
           ecb_api_fineract: :permanent,
           ecb_web: :permanent
         ]

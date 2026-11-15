@@ -11,12 +11,4 @@ defmodule ECBLedger.Errors do
     @impl true
     def message(%{value: value}), do: "cannot order by #{inspect(value)}"
   end
-
-  defmodule ServerError do
-    @moduledoc """
-    A request Fineract fails on with an unhandled exception, which its web container answers with a plain
-    HTTP 500 (an opening balance asked for without an office, say).
-    """
-    defexception message: "unexpected error"
-  end
 end

@@ -76,7 +76,7 @@ defmodule ECBLedger.Journal.OpeningBalance do
   end
 
   # no office is a crash in Fineract, and an unknown one is a not-found
-  defp office!(nil), do: raise(ECBLedger.Errors.ServerError)
+  defp office!(nil), do: raise(ECBPlatform.Errors.ServerError)
 
   defp office!(office_id) do
     case Offices.get(office_id) do

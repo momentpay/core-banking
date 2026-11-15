@@ -17938,6 +17938,3401 @@
           "path": "/v1/clients/{gf}/familymembers"
         }
       ]
+    },
+    {
+      "name": "savingsproducts",
+      "reset": [
+        "savingsproducts",
+        "glaccounts"
+      ],
+      "steps": [
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc A1",
+            "glCode": "A1",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc A2",
+            "glCode": "A2",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc L1",
+            "glCode": "L1",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc L2",
+            "glCode": "L2",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc L3",
+            "glCode": "L3",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc I1",
+            "glCode": "I1",
+            "manualEntriesAllowed": true,
+            "type": 4,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc I2",
+            "glCode": "I2",
+            "manualEntriesAllowed": true,
+            "type": 4,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc X1",
+            "glCode": "X1",
+            "manualEntriesAllowed": true,
+            "type": 5,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc X2",
+            "glCode": "X2",
+            "manualEntriesAllowed": true,
+            "type": 5,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc A3",
+            "glCode": "A3",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc L4",
+            "glCode": "L4",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Sav fee",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 2,
+            "chargeTimeType": 5,
+            "chargeCalculationType": 1,
+            "amount": 1,
+            "active": true,
+            "penalty": false,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Sav pen",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 2,
+            "chargeTimeType": 5,
+            "chargeCalculationType": 1,
+            "amount": 1,
+            "active": true,
+            "penalty": true,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Loan fee",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "amount": 1,
+            "active": true,
+            "penalty": false,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Off fee",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 2,
+            "chargeTimeType": 5,
+            "chargeCalculationType": 1,
+            "amount": 1,
+            "active": false,
+            "penalty": false,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "VAT",
+            "percentage": 10,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/group",
+          "body": {
+            "name": "Tax",
+            "taxComponents": [
+              {
+                "taxComponentId": 1,
+                "startDate": "01 January 2025"
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "path": "/v1/savingsproducts",
+          "sortby": "id"
+        },
+        {
+          "path": "/v1/savingsproducts/1"
+        },
+        {
+          "path": "/v1/savingsproducts/abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "path": "/v1/savingsproducts/template"
+        },
+        {
+          "path": "/v1/savingsproducts/template?fields=currency,accountingRuleOptions"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Described",
+            "shortName": "DSCR",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "description": "a product",
+            "minRequiredOpeningBalance": 100.555,
+            "lockinPeriodFrequency": 3,
+            "lockinPeriodFrequencyType": 2,
+            "withdrawalFeeForTransfers": true,
+            "allowOverdraft": true,
+            "overdraftLimit": 500,
+            "nominalAnnualInterestRateOverdraft": 12,
+            "minOverdraftForInterestCalculation": 10,
+            "enforceMinRequiredBalance": true,
+            "minRequiredBalance": 50,
+            "minBalanceForInterestCalculation": 20,
+            "inMultiplesOf": 5
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Cash",
+            "shortName": "CASH",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 2,
+            "locale": "en",
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9,
+            "paymentChannelToFundSourceMappings": [
+              {
+                "paymentTypeId": 1,
+                "fundSourceAccountId": 1
+              }
+            ],
+            "feeToIncomeAccountMappings": [
+              {
+                "chargeId": 1,
+                "incomeAccountId": 6
+              }
+            ],
+            "penaltyToIncomeAccountMappings": [
+              {
+                "chargeId": 2,
+                "incomeAccountId": 7
+              }
+            ],
+            "charges": [
+              {
+                "id": 1
+              },
+              {
+                "id": 2
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Accrual",
+            "shortName": "ACCR",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 3,
+            "locale": "en",
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9,
+            "feesReceivableAccountId": 10,
+            "penaltiesReceivableAccountId": 10,
+            "interestPayableAccountId": 5
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Dormant",
+            "shortName": "DORM",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "isDormancyTrackingActive": true,
+            "daysToInactive": 30,
+            "daysToDormancy": 60,
+            "daysToEscheat": 90
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Dormant cash",
+            "shortName": "DCSH",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 2,
+            "locale": "en",
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9,
+            "escheatLiabilityId": 11,
+            "isDormancyTrackingActive": true,
+            "daysToInactive": 30,
+            "daysToDormancy": 60,
+            "daysToEscheat": 90
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Taxed",
+            "shortName": "TAXD",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "withHoldTax": true,
+            "taxGroupId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Lien",
+            "shortName": "LIEN",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "lienAllowed": true,
+            "maxAllowedLienLimit": 1000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Daily",
+            "shortName": "DAIL",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 0,
+            "interestCompoundingPeriodType": 4,
+            "interestPostingPeriodType": 8,
+            "interestCalculationType": 2,
+            "interestCalculationDaysInYearType": 360,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "path": "/v1/savingsproducts",
+          "sortby": "id"
+        },
+        {
+          "path": "/v1/savingsproducts/1"
+        },
+        {
+          "path": "/v1/savingsproducts/2"
+        },
+        {
+          "path": "/v1/savingsproducts/3"
+        },
+        {
+          "path": "/v1/savingsproducts/4"
+        },
+        {
+          "path": "/v1/savingsproducts/5"
+        },
+        {
+          "path": "/v1/savingsproducts/6"
+        },
+        {
+          "path": "/v1/savingsproducts/7"
+        },
+        {
+          "path": "/v1/savingsproducts/8"
+        },
+        {
+          "path": "/v1/savingsproducts/9"
+        },
+        {
+          "path": "/v1/savingsproducts/3?template=true"
+        },
+        {
+          "path": "/v1/savingsproducts/1?fields=id,name,currency"
+        },
+        {
+          "path": "/v1/savingsproducts?fields=id,name",
+          "sortby": "id"
+        },
+        {
+          "path": "/v1/savingsproducts/template"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "raw": "{bad",
+          "ignore": [
+            "developerMessage",
+            "defaultUserMessage"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": null,
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "12345",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 7,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": -1,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": null,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": "x",
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "inMultiplesOf": -1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "inMultiplesOf": "x"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "inMultiplesOf": null
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": -1,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": null,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": "abc",
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 2,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": null,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 3,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 3,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 366,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "description": "ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "description": ""
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "minRequiredOpeningBalance": -1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "lockinPeriodFrequency": 3
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "lockinPeriodFrequencyType": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "lockinPeriodFrequency": 3,
+            "lockinPeriodFrequencyType": 4
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "lockinPeriodFrequency": -1,
+            "lockinPeriodFrequencyType": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "lockinPeriodFrequency": 0,
+            "lockinPeriodFrequencyType": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "lockinPeriodFrequency": null,
+            "lockinPeriodFrequencyType": null
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "feeAmount": 5
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "feeOnMonthDay": "01 January"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "feeAmount": -1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "allowOverdraft": "x"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "overdraftLimit": -1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "nominalAnnualInterestRateOverdraft": -1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "minOverdraftForInterestCalculation": -1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "minBalanceForInterestCalculation": -1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "isDormancyTrackingActive": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "isDormancyTrackingActive": true,
+            "daysToInactive": 0,
+            "daysToDormancy": 0,
+            "daysToEscheat": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "isDormancyTrackingActive": true,
+            "daysToInactive": 30,
+            "daysToDormancy": 20,
+            "daysToEscheat": 10
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "isDormancyTrackingActive": true,
+            "daysToInactive": "x",
+            "daysToDormancy": 20,
+            "daysToEscheat": 10
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": null,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 0,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 4,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": "x",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 2,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 3,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 2,
+            "locale": "en",
+            "savingsReferenceAccountId": 1,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 2,
+            "locale": "en",
+            "savingsReferenceAccountId": 0,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 2,
+            "locale": "en",
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": "x",
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 3,
+            "locale": "en",
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9,
+            "feesReceivableAccountId": null,
+            "penaltiesReceivableAccountId": 10,
+            "interestPayableAccountId": 5
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 2,
+            "locale": "en",
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9,
+            "isDormancyTrackingActive": true,
+            "daysToInactive": 30,
+            "daysToDormancy": 60,
+            "daysToEscheat": 90
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 2,
+            "locale": "en",
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9,
+            "paymentChannelToFundSourceMappings": [
+              {
+                "paymentTypeId": 0,
+                "fundSourceAccountId": 0
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 2,
+            "locale": "en",
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9,
+            "paymentChannelToFundSourceMappings": [
+              {
+                "paymentTypeId": 1
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 2,
+            "locale": "en",
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9,
+            "paymentChannelToFundSourceMappings": [
+              "x"
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 2,
+            "locale": "en",
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9,
+            "penaltyToIncomeAccountMappings": [
+              {
+                "chargeId": 0,
+                "incomeAccountId": 0
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 2,
+            "locale": "en",
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9,
+            "feeToIncomeAccountMappings": [
+              {
+                "chargeId": 0,
+                "incomeAccountId": 0
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 2,
+            "locale": "en",
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9,
+            "penaltyToIncomeAccountMappings": [
+              {
+                "chargeId": 2
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "withHoldTax": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "withHoldTax": "x"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "withHoldTax": true,
+            "taxGroupId": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "taxGroupId": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "withHoldTax": true,
+            "taxGroupId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "taxGroupId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "lienAllowed": true,
+            "allowOverdraft": true,
+            "overdraftLimit": 500,
+            "maxAllowedLienLimit": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "lienAllowed": true,
+            "allowOverdraft": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "maxAllowedLienLimit": -1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "charges": [
+              {
+                "id": 99
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "charges": [
+              {
+                "id": 3
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "charges": [
+              {
+                "id": 4
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "EUR",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "charges": [
+              {
+                "id": 1
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "charges": [
+              {
+                "id": "x"
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en",
+            "charges": [
+              {
+                "name": "x"
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "UNQ1",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Unique",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 2,
+            "locale": "en",
+            "savingsReferenceAccountId": 99,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 2,
+            "locale": "en",
+            "savingsReferenceAccountId": 3,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 2,
+            "locale": "en",
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 1,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 2,
+            "locale": "en",
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 6,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 2,
+            "locale": "en",
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9,
+            "paymentChannelToFundSourceMappings": [
+              {
+                "paymentTypeId": 99,
+                "fundSourceAccountId": 1
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 2,
+            "locale": "en",
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9,
+            "paymentChannelToFundSourceMappings": [
+              {
+                "paymentTypeId": 1,
+                "fundSourceAccountId": 99
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 2,
+            "locale": "en",
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9,
+            "feeToIncomeAccountMappings": [
+              {
+                "chargeId": 99,
+                "incomeAccountId": 6
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 2,
+            "locale": "en",
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9,
+            "feeToIncomeAccountMappings": [
+              {
+                "chargeId": 1,
+                "incomeAccountId": 1
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 2,
+            "locale": "en",
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9,
+            "penaltyToIncomeAccountMappings": [
+              {
+                "chargeId": 2,
+                "incomeAccountId": 3
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": null,
+            "minRequiredOpeningBalance": 5
+          }
+        },
+        {
+          "path": "/v1/savingsproducts",
+          "sortby": "id"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "description": "changed"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "description": "changed"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "name": "Basic2"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "shortName": "BS2"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "shortName": "BSIC"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "name": "Basic",
+            "shortName": "BSIC"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "nominalAnnualInterestRate": 6.5
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "nominalAnnualInterestRate": 6.5
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "digitsAfterDecimal": 3
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "inMultiplesOf": 10
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "currencyCode": "EUR"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "currencyCode": "USD"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "interestCompoundingPeriodType": 4,
+            "interestPostingPeriodType": 5,
+            "interestCalculationType": 2,
+            "interestCalculationDaysInYearType": 360
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "minRequiredOpeningBalance": 50
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "minRequiredOpeningBalance": 0
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "lockinPeriodFrequency": 6,
+            "lockinPeriodFrequencyType": 2
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "lockinPeriodFrequency": 0
+          }
+        },
+        {
+          "path": "/v1/savingsproducts/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "lockinPeriodFrequencyType": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "lockinPeriodFrequency": 2
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "withdrawalFeeForTransfers": true
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "allowOverdraft": true
+          }
+        },
+        {
+          "path": "/v1/savingsproducts/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "allowOverdraft": true,
+            "overdraftLimit": 300,
+            "nominalAnnualInterestRateOverdraft": 15,
+            "minOverdraftForInterestCalculation": 5
+          }
+        },
+        {
+          "path": "/v1/savingsproducts/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "allowOverdraft": false
+          }
+        },
+        {
+          "path": "/v1/savingsproducts/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "enforceMinRequiredBalance": true,
+            "minRequiredBalance": 25
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "lienAllowed": true,
+            "maxAllowedLienLimit": 800
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "minBalanceForInterestCalculation": 15
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "withHoldTax": true
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "withHoldTax": true,
+            "taxGroupId": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "taxGroupId": 99
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "withHoldTax": false
+          }
+        },
+        {
+          "path": "/v1/savingsproducts/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "isDormancyTrackingActive": true
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "isDormancyTrackingActive": true,
+            "daysToInactive": 10,
+            "daysToDormancy": 20,
+            "daysToEscheat": 30
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "daysToDormancy": 5
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "isDormancyTrackingActive": false
+          }
+        },
+        {
+          "path": "/v1/savingsproducts/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "charges": [
+              {
+                "id": 1
+              }
+            ]
+          },
+          "ignore": [
+            "changes.charges"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "charges": [
+              {
+                "id": 1
+              }
+            ]
+          },
+          "ignore": [
+            "changes.charges"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "charges": [
+              {
+                "id": 1
+              },
+              {
+                "id": 2
+              }
+            ]
+          },
+          "ignore": [
+            "changes.charges"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "charges": []
+          },
+          "ignore": [
+            "changes.charges"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "charges": [
+              {
+                "id": 3
+              }
+            ]
+          },
+          "ignore": [
+            "changes.charges"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "charges": [
+              {
+                "id": 99
+              }
+            ]
+          },
+          "ignore": [
+            "changes.charges"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "charges": [
+              {
+                "id": 4
+              }
+            ]
+          },
+          "ignore": [
+            "changes.charges"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "bogus": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "name": ""
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "name": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "shortName": "12345"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "description": ""
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "nominalAnnualInterestRate": -1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "nominalAnnualInterestRate": null
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "interestCalculationType": 3
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "interestCalculationDaysInYearType": 366
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "interestCompoundingPeriodType": 2
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "digitsAfterDecimal": 9
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "accountingRule": 5
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "lockinPeriodFrequencyType": 9
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "lockinPeriodFrequency": -1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "overdraftLimit": -1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "maxAllowedLienLimit": -1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "name": "Cash"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "shortName": "CASH"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/99",
+          "body": {
+            "locale": "en",
+            "name": "x"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/abc",
+          "body": {
+            "name": "x",
+            "locale": "en"
+          },
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "name": "NoLocale"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "nominalAnnualInterestRate": 9
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "digitsAfterDecimal": 1
+          }
+        },
+        {
+          "path": "/v1/savingsproducts/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/3",
+          "body": {
+            "locale": "en",
+            "incomeFromFeeAccountId": 7
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/3",
+          "body": {
+            "locale": "en",
+            "incomeFromFeeAccountId": 7
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/3",
+          "body": {
+            "locale": "en",
+            "savingsReferenceAccountId": 2,
+            "overdraftPortfolioControlId": 1,
+            "savingsControlAccountId": 4
+          }
+        },
+        {
+          "path": "/v1/savingsproducts/3"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/3",
+          "body": {
+            "locale": "en",
+            "savingsReferenceAccountId": 3
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/3",
+          "body": {
+            "locale": "en",
+            "incomeFromFeeAccountId": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/3",
+          "body": {
+            "locale": "en",
+            "interestOnSavingsAccountId": 99
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/3",
+          "body": {
+            "locale": "en",
+            "savingsControlAccountId": 0
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/3",
+          "body": {
+            "locale": "en",
+            "escheatLiabilityId": 11
+          }
+        },
+        {
+          "path": "/v1/savingsproducts/3"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/3",
+          "body": {
+            "locale": "en",
+            "paymentChannelToFundSourceMappings": [
+              {
+                "paymentTypeId": 1,
+                "fundSourceAccountId": 2
+              },
+              {
+                "paymentTypeId": 2,
+                "fundSourceAccountId": 10
+              }
+            ]
+          },
+          "ignore": [
+            "changes.paymentChannelToFundSourceMappings"
+          ]
+        },
+        {
+          "path": "/v1/savingsproducts/3"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/3",
+          "body": {
+            "locale": "en",
+            "paymentChannelToFundSourceMappings": [
+              {
+                "paymentTypeId": 2,
+                "fundSourceAccountId": 10
+              }
+            ]
+          },
+          "ignore": [
+            "changes.paymentChannelToFundSourceMappings"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/3",
+          "body": {
+            "locale": "en",
+            "paymentChannelToFundSourceMappings": []
+          },
+          "ignore": [
+            "changes.paymentChannelToFundSourceMappings"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/3",
+          "body": {
+            "locale": "en",
+            "paymentChannelToFundSourceMappings": [
+              {
+                "paymentTypeId": 99,
+                "fundSourceAccountId": 1
+              }
+            ]
+          },
+          "ignore": [
+            "changes.paymentChannelToFundSourceMappings"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/3",
+          "body": {
+            "locale": "en",
+            "feeToIncomeAccountMappings": [
+              {
+                "chargeId": 1,
+                "incomeAccountId": 7
+              }
+            ]
+          },
+          "ignore": [
+            "changes.feeToIncomeAccountMappings"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/3",
+          "body": {
+            "locale": "en",
+            "feeToIncomeAccountMappings": [
+              {
+                "chargeId": 1,
+                "incomeAccountId": 7
+              },
+              {
+                "chargeId": 2,
+                "incomeAccountId": 6
+              }
+            ]
+          },
+          "ignore": [
+            "changes.feeToIncomeAccountMappings"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/3",
+          "body": {
+            "locale": "en",
+            "feeToIncomeAccountMappings": []
+          },
+          "ignore": [
+            "changes.feeToIncomeAccountMappings"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/3",
+          "body": {
+            "locale": "en",
+            "penaltyToIncomeAccountMappings": [
+              {
+                "chargeId": 2,
+                "incomeAccountId": 6
+              }
+            ]
+          },
+          "ignore": [
+            "changes.penaltyToIncomeAccountMappings"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/3",
+          "body": {
+            "locale": "en",
+            "penaltyToIncomeAccountMappings": [
+              {
+                "chargeId": 2,
+                "incomeAccountId": 1
+              }
+            ]
+          },
+          "ignore": [
+            "changes.penaltyToIncomeAccountMappings"
+          ]
+        },
+        {
+          "path": "/v1/savingsproducts/3"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/4",
+          "body": {
+            "locale": "en",
+            "feesReceivableAccountId": 2,
+            "interestPayableAccountId": 3,
+            "interestReceivableAccountId": 2
+          }
+        },
+        {
+          "path": "/v1/savingsproducts/4"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/4",
+          "body": {
+            "locale": "en",
+            "interestReceivableAccountId": 10
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "savingsReferenceAccountId": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "accountingRule": 2
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "accountingRule": 2,
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9
+          }
+        },
+        {
+          "path": "/v1/savingsproducts/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "accountingRule": 3,
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9,
+            "feesReceivableAccountId": 10,
+            "penaltiesReceivableAccountId": 10,
+            "interestPayableAccountId": 5
+          }
+        },
+        {
+          "path": "/v1/savingsproducts/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "accountingRule": 1
+          }
+        },
+        {
+          "path": "/v1/savingsproducts/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "accountingRule": 3,
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/savingsproducts/1",
+          "body": {
+            "locale": "en",
+            "accountingRule": 3
+          }
+        },
+        {
+          "path": "/v1/savingsproducts?fields=id,accountingRule",
+          "sortby": "id"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/savingsproducts/2"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/savingsproducts/2"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/savingsproducts/99"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/savingsproducts/abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/savingsproducts/3"
+        },
+        {
+          "path": "/v1/savingsproducts",
+          "sortby": "id"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/glaccounts/1"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/charges/1"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "After",
+            "shortName": "AFTR",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "path": "/v1/savingsproducts/10"
+        }
+      ]
     }
   ]
 }

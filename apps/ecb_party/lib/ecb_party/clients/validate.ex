@@ -5,7 +5,6 @@ defmodule ECBParty.Clients.Validate do
   values that cannot be read at all (a date with no `dateFormat`, a number that is not one), which stop
   the request where they are, as Fineract does.
   """
-  alias ECBParty.Json
   alias ECBPlatform.{BusinessDate, Params, Validation}
   alias ECBPlatform.Errors.PlatformApiDataValidation
 
@@ -48,7 +47,7 @@ defmodule ECBParty.Clients.Validate do
   def create!(%Params{} = p, non_person, address_on?) do
     v =
       Validation.new("client")
-      |> Validation.param("officeId", Json.long(p, "officeId"))
+      |> Validation.param("officeId", ECBPlatform.Json.long(p, "officeId"))
       |> Validation.not_null()
       |> Validation.greater_than_zero()
       |> optional_positive(p, "groupId", :not_null)
@@ -108,7 +107,7 @@ defmodule ECBParty.Clients.Validate do
 
   defp optional_positive(v, p, key, mode) do
     if Params.exists?(p, key) do
-      v = Validation.param(v, key, Json.long(p, key))
+      v = Validation.param(v, key, ECBPlatform.Json.long(p, key))
       v = if mode == :ignore_null, do: Validation.ignore_if_null(v), else: Validation.not_null(v)
       Validation.greater_than_zero(v)
     else
@@ -511,7 +510,7 @@ defmodule ECBParty.Clients.Validate do
           {v, nil}
 
         id_key ->
-          id = Json.long(p, id_key)
+          id = ECBPlatform.Json.long(p, id_key)
 
           {v
            |> Validation.param(id_key, id)
@@ -527,7 +526,7 @@ defmodule ECBParty.Clients.Validate do
   @spec staff_command!(Params.t(), String.t()) :: integer
   def staff_command!(%Params{} = p, resource) do
     Params.check_supported!(p, ["staffId"])
-    staff_id = Json.long(p, "staffId")
+    staff_id = ECBPlatform.Json.long(p, "staffId")
 
     Validation.new(resource)
     |> Validation.param("staffId", staff_id)

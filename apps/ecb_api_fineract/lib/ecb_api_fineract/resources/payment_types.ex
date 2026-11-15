@@ -38,7 +38,8 @@ defmodule ECBApiFineract.Resources.PaymentTypes do
         &Write.execute(conn, "PAYMENTTYPE", "DELETE", id: &1)
       )
 
-  defp serialize(p) do
+  @doc "One payment type as Fineract JSON."
+  def serialize(p) do
     %{
       "id" => p.id,
       "name" => p.name,

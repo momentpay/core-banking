@@ -33,6 +33,45 @@ defmodule ECBCatalog.Charges do
     end
   end
 
+  @doc "The active charges a savings product carries."
+  @spec for_savings_product(integer) :: [map]
+  def for_savings_product(product_id) do
+    base()
+    |> join(:inner, [c], spc in "m_savings_product_charge", on: spc.charge_id == c.id)
+    |> where(
+      [c, ..., spc],
+      c.is_deleted == false and c.is_active == true and spc.savings_product_id == ^product_id
+    )
+    |> order_by([c], c.id)
+    |> TenantRepo.all()
+    |> Enum.map(&finish/1)
+  end
+
+  @doc "The active charges a savings product can pick from, by name (`fee_only` leaves the penalties out)."
+  @spec applicable_to_savings(boolean) :: [map]
+  def applicable_to_savings(fee_only?) do
+    base()
+    |> where([c], c.is_deleted == false and c.is_active == true and c.charge_applies_to_enum == 2)
+    |> then(fn q -> if fee_only?, do: where(q, [c], c.is_penalty == false), else: q end)
+    |> order_by([c], c.name)
+    |> TenantRepo.all()
+    |> Enum.map(&finish/1)
+  end
+
+  @doc "The active penalties a savings product can pick from, by name."
+  @spec savings_penalties() :: [map]
+  def savings_penalties do
+    base()
+    |> where(
+      [c],
+      c.is_deleted == false and c.is_active == true and c.is_penalty == true and
+        c.charge_applies_to_enum == 2
+    )
+    |> order_by([c], c.name)
+    |> TenantRepo.all()
+    |> Enum.map(&finish/1)
+  end
+
   @doc """
   The stored charge, deleted or not and in any currency, for work that changes it; or
   `{:error, ResourceNotFound}`.

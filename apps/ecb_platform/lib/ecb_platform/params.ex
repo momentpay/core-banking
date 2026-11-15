@@ -20,7 +20,7 @@ defmodule ECBPlatform.Params do
   alias ECBPlatform.Params.DatePattern
 
   # `order` is the top-level keys as the request wrote them, which is the order Fineract lists problems in
-  defstruct map: %{}, order: []
+  defstruct map: %{}, order: [], ordered: nil
 
   @type t :: %__MODULE__{map: map}
 
@@ -35,13 +35,39 @@ defmodule ECBPlatform.Params do
 
     case Jason.decode(json) do
       {:ok, %{} = map} ->
-        %__MODULE__{map: map, order: key_order(json)}
+        %__MODULE__{map: map, order: key_order(json), ordered: ordered(json)}
 
       {:ok, _other} ->
         raise InvalidJson, detail: "Expected BEGIN_OBJECT but was a different JSON value"
 
       {:error, %Jason.DecodeError{} = error} ->
         raise InvalidJson, detail: Exception.message(error)
+    end
+  end
+
+  defp ordered(json) do
+    case Jason.decode(json, objects: :ordered_objects) do
+      {:ok, %Jason.OrderedObject{} = object} -> object
+      _ -> nil
+    end
+  end
+
+  @doc """
+  The text of one part of the request, as it was written (Fineract's `jsonFragment`): the keys of every
+  object in the order the request gave them. `nil` when the part is missing.
+  """
+  @spec fragment(t, String.t()) :: String.t() | nil
+  def fragment(%__MODULE__{ordered: %Jason.OrderedObject{values: values}}, key) do
+    case List.keyfind(values, key, 0) do
+      {_, value} -> Jason.encode!(value)
+      nil -> nil
+    end
+  end
+
+  def fragment(%__MODULE__{map: map}, key) do
+    case Map.fetch(map, key) do
+      {:ok, value} -> Jason.encode!(value)
+      :error -> nil
     end
   end
 
@@ -172,6 +198,42 @@ defmodule ECBPlatform.Params do
               ]
         end
     end
+  end
+
+  @doc """
+  A whole number read with the request's own locale (`extractIntegerWithLocaleNamed`): when there is a
+  value, the request must carry a `locale`. `nil` when absent or blank.
+  """
+  @spec integer_with_locale(t, String.t()) :: integer | nil
+  def integer_with_locale(%__MODULE__{} = params, key) do
+    case string(params, key) do
+      nil ->
+        nil
+
+      _text ->
+        require_locale!(params, key)
+        integer(params, key)
+    end
+  end
+
+  @doc """
+  Refuses the request when it carries no `locale`, naming the parameter that needed it, as Fineract does
+  the moment it reads a number or text in the request's locale.
+  """
+  @spec require_locale!(t, String.t()) :: :ok
+  def require_locale!(%__MODULE__{} = params, key) do
+    if locale(params) == nil do
+      raise PlatformApiDataValidation,
+        errors: [
+          Errors.parameter_error(
+            "validation.msg.missing.locale.parameter",
+            "The parameter `#{key}` requires a `locale` parameter to be passed with it.",
+            key
+          )
+        ]
+    end
+
+    :ok
   end
 
   @doc """
@@ -308,6 +370,22 @@ defmodule ECBPlatform.Params do
                 |> Map.put(:value, value)
               ]
         end
+
+      _ ->
+        decimal(params, key)
+    end
+  end
+
+  @doc """
+  A decimal read with the request's locale and refused, in the usual validation envelope, when it is not a
+  number (`extractBigDecimalWithLocaleNamed`).
+  """
+  @spec decimal_with_locale(t, String.t()) :: Decimal.t() | nil
+  def decimal_with_locale(%__MODULE__{} = params, key) do
+    case Map.get(params.map, key) do
+      value when is_binary(value) ->
+        if String.trim(value) != "", do: require_locale!(params, key)
+        decimal_checked(params, key, locale(params))
 
       _ ->
         decimal(params, key)

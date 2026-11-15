@@ -137,6 +137,14 @@ defmodule ECBPlatform.Errors do
         "The parameter `#{parameter || "null"}` has value: #{value} which is not a valid number."
   end
 
+  defmodule ServerError do
+    @moduledoc """
+    A request Fineract fails on with an unhandled exception, which its web container answers with a plain
+    HTTP 500 (an opening balance asked for without an office, say).
+    """
+    defexception message: "unexpected error"
+  end
+
   defmodule DataIntegrity do
     @moduledoc """
     A rule the data store enforces was broken, such as a duplicate name. HTTP 403 with the message code

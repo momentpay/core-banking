@@ -12,7 +12,6 @@ defmodule ECBParty.Clients.Write do
   alias ECBOrg.Offices
   alias ECBParty.Clients
   alias ECBParty.Clients.{Domain, Validate}
-  alias ECBParty.Json
   alias ECBParty.Lookups
   alias ECBPlatform.{BusinessDate, Configuration, Integrity, Params, TenantRepo}
   alias ECBPlatform.Commands.Result
@@ -39,7 +38,7 @@ defmodule ECBParty.Clients.Write do
 
     Validate.create!(p, np, address_on?)
 
-    office = Lookups.office!(Json.long(p, "officeId"))
+    office = Lookups.office!(ECBPlatform.Json.long(p, "officeId"))
     refs = references(p, office)
     legal_form = Params.integer(p, "legalFormId") || 1
     client = new_client(p, office, legal_form)
@@ -77,12 +76,12 @@ defmodule ECBParty.Clients.Write do
 
   # What a new client points to, each looked up as Fineract does (and refused when it is not there).
   defp references(p, office) do
-    if group_id = Json.long(p, "groupId"), do: Lookups.group!(group_id)
-    staff_id = resolve_staff(Json.long(p, "staffId"), office.hierarchy)
+    if group_id = ECBPlatform.Json.long(p, "groupId"), do: Lookups.group!(group_id)
+    staff_id = resolve_staff(ECBPlatform.Json.long(p, "staffId"), office.hierarchy)
     gender = code_value(p, "genderId", @gender)
     client_type = code_value(p, "clientTypeId", @client_type)
     classification = code_value(p, "clientClassificationId", @classification)
-    savings_product = Json.long(p, "savingsProductId")
+    savings_product = ECBPlatform.Json.long(p, "savingsProductId")
     if savings_product, do: Lookups.savings_product!(savings_product)
 
     %{
@@ -593,7 +592,7 @@ defmodule ECBParty.Clients.Write do
   defp resolve_staff(id, hierarchy), do: Lookups.staff!(id, hierarchy).id
 
   defp code_value(p, key, code_name) do
-    case Json.long(p, key) do
+    case ECBPlatform.Json.long(p, key) do
       nil -> nil
       id -> Lookups.code_value!(code_name, id)
     end

@@ -162,6 +162,10 @@ RESETS = {
         "SELECT setval(pg_get_serial_sequence('m_portfolio_command_source', 'id'), 1, false)",
     ],
     "glaccounts": [
+        "DELETE FROM acc_product_mapping",
+        "DELETE FROM m_savings_product_charge",
+        "DELETE FROM m_savings_product",
+        "SELECT setval(pg_get_serial_sequence('m_savings_product', 'id'), 1, false)",
         "DELETE FROM m_charge",
         "SELECT setval(pg_get_serial_sequence('m_charge', 'id'), 1, false)",
         "DELETE FROM m_tax_group_mappings",
@@ -230,6 +234,11 @@ RESETS = {
         "SELECT setval(pg_get_serial_sequence('m_client_identifier', 'id'), 1, false)",
         "SELECT setval(pg_get_serial_sequence('m_client_non_person', 'id'), 1, false)",
         "SELECT setval(pg_get_serial_sequence('m_client', 'id'), 1, false)",
+    ],
+    "savingsproducts": [
+        "DELETE FROM m_savings_product_charge",
+        "DELETE FROM m_savings_product",
+        "SELECT setval(pg_get_serial_sequence('m_savings_product', 'id'), 1, false)",
     ],
     "staff": [
         "DELETE FROM m_staff",

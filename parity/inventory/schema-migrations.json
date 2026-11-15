@@ -204,6 +204,16 @@
         "m_client_transaction",
         "m_client_transfer_details"
       ]
+    },
+    {
+      "kind": "schema",
+      "app": "ecb_deposits",
+      "version": "20261116110000",
+      "name": "create_savings_product_tables",
+      "tables": [
+        "m_savings_product",
+        "m_savings_product_charge"
+      ]
     }
   ],
   "deferred_foreign_keys": [
@@ -259,12 +269,6 @@
       "table": "m_client",
       "references": "m_savings_account",
       "sql": "ALTER TABLE ONLY public.m_client\n    ADD CONSTRAINT \"FK_m_client_m_savings_account\" FOREIGN KEY (default_savings_account) REFERENCES public.m_savings_account(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
-      "migration": "create_client_tables"
-    },
-    {
-      "table": "m_client",
-      "references": "m_savings_product",
-      "sql": "ALTER TABLE ONLY public.m_client\n    ADD CONSTRAINT \"FK_m_client_m_savings_product\" FOREIGN KEY (default_savings_product) REFERENCES public.m_savings_product(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
       "migration": "create_client_tables"
     }
   ]

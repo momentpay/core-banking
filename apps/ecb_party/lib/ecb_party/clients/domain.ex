@@ -8,7 +8,6 @@ defmodule ECBParty.Clients.Domain do
 
   alias ECBParty.Clients
   alias ECBParty.Clients.Validate
-  alias ECBParty.Json
   alias ECBParty.Lookups
   alias ECBPlatform.{BusinessDate, Params, TenantRepo}
   alias ECBPlatform.Errors.DomainRuleViolation
@@ -197,7 +196,7 @@ defmodule ECBParty.Clients.Domain do
 
   defp id_change({changes, set} = acc, p, client, {key, field}) do
     if Params.changed_long?(p, key, Map.get(client, field)),
-      do: {Map.put(changes, key, Json.long(p, key)), set},
+      do: {Map.put(changes, key, ECBPlatform.Json.long(p, key)), set},
       else: acc
   end
 
@@ -425,7 +424,7 @@ defmodule ECBParty.Clients.Domain do
   defp trimmed(text), do: String.trim(text)
 
   defp code_value(np, key, code_name) do
-    case Json.long(np, key) do
+    case ECBPlatform.Json.long(np, key) do
       nil -> nil
       value -> Lookups.code_value!(code_name, value).id
     end
@@ -480,7 +479,7 @@ defmodule ECBParty.Clients.Domain do
 
   defp np_id({changes, set}, np, key, existing, column, code_name) do
     if Params.changed_long?(np, key, existing) do
-      value = Json.long(np, key)
+      value = ECBPlatform.Json.long(np, key)
       stored = if value, do: Lookups.code_value!(code_name, value).id
       {Map.put(changes, key, value), set ++ [{column, stored}]}
     else
@@ -514,7 +513,7 @@ defmodule ECBParty.Clients.Domain do
       members when is_list(members) -> ECBParty.FamilyMembers.add_all!(id, members)
       nil -> :ok
       # anything but a list cannot be read as members: an unhandled failure there
-      _ -> raise ECBLedger.Errors.ServerError
+      _ -> raise ECBPlatform.Errors.ServerError
     end
 
     if Params.exists?(p, "datatables") and Params.value(p, "datatables") not in [nil, []] do

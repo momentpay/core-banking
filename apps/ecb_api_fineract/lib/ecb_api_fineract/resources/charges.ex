@@ -73,7 +73,8 @@ defmodule ECBApiFineract.Resources.Charges do
 
   # --- one charge -----------------------------------------------------------------------------
 
-  defp charge_json(c) do
+  @doc "One charge as the lists and the products that carry charges show it."
+  def charge_json(c) do
     %{
       "id" => c.id,
       "name" => c.name,
@@ -117,7 +118,8 @@ defmodule ECBApiFineract.Resources.Charges do
   defp option(nil), do: nil
   defp option(option), do: Read.option(option)
 
-  defp currency(c) do
+  @doc false
+  def currency(c) do
     %{
       "code" => c.code,
       "name" => c.name,

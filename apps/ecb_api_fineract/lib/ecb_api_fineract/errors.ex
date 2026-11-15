@@ -143,7 +143,7 @@ defmodule ECBApiFineract.Errors do
   def render(conn, %ECBLedger.Errors.InvalidOrderBy{}),
     do: spring(conn, 500, "Internal Server Error")
 
-  def render(conn, %ECBLedger.Errors.ServerError{}),
+  def render(conn, %ECBPlatform.Errors.ServerError{}),
     do: spring(conn, 500, "Internal Server Error")
 
   def render(conn, %ECBOrg.Errors.OfficeNotFound{office_id: id} = error),

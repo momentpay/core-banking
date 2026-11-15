@@ -36,6 +36,7 @@ defmodule ECBApiFineract.ApiRouter do
     PaymentTypes,
     Provisioning,
     Rates,
+    SavingsProducts,
     Staff,
     Taxes
   }
@@ -155,6 +156,12 @@ defmodule ECBApiFineract.ApiRouter do
   post "/v1/clients/:id", do: Clients.command(conn, id)
   put "/v1/clients/:id", do: Clients.update(conn, id)
   delete "/v1/clients/:id", do: Clients.delete(conn, id)
+  get "/v1/savingsproducts/template", do: SavingsProducts.template(conn)
+  get "/v1/savingsproducts", do: SavingsProducts.index(conn)
+  post "/v1/savingsproducts", do: SavingsProducts.create(conn)
+  get "/v1/savingsproducts/:id", do: SavingsProducts.show(conn, id)
+  put "/v1/savingsproducts/:id", do: SavingsProducts.update(conn, id)
+  delete "/v1/savingsproducts/:id", do: SavingsProducts.delete(conn, id)
   get "/v1/accountnumberformats/template", do: Organisation.account_number_formats_template(conn)
   get "/v1/accountnumberformats", do: Organisation.account_number_formats(conn)
 

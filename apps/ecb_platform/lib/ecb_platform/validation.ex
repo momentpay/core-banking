@@ -268,6 +268,18 @@ defmodule ECBPlatform.Validation do
         [value * 1.0, 0]
       )
 
+  def zero_or_positive_amount(%{value: %Decimal{} = value} = v) do
+    if Decimal.negative?(value),
+      do:
+        add(
+          v,
+          "not.zero.or.greater",
+          "The parameter `#{v.parameter}` must be greater than or equal to 0.",
+          [Decimal.to_float(value), 0]
+        ),
+      else: v
+  end
+
   def zero_or_positive_amount(v), do: v
 
   @doc """
@@ -455,6 +467,60 @@ defmodule ECBPlatform.Validation do
   end
 
   def valid_date_time_pattern(v), do: v
+
+  @doc """
+  Text that says true or false (Fineract's `validateForBooleanValue`, which looks at the text of a value, in
+  any case). A missing value is refused unless nulls are ignored.
+  """
+  @spec boolean_text(t) :: t
+  def boolean_text(%{value: nil, ignore_null: true} = v), do: v
+
+  def boolean_text(%{value: value} = v) do
+    if String.downcase(String.trim(to_string(value))) in ["true", "false"],
+      do: v,
+      else:
+        add(
+          v,
+          "value.should.true.or.false",
+          "The parameter `#{v.parameter}` value should true or false ",
+          [value]
+        )
+  end
+
+  @doc "A whole number greater than `number` (`longGreaterThanNumber`)."
+  @spec greater_than_number(t, integer) :: t
+  def greater_than_number(%{value: nil} = v, _number), do: v
+
+  def greater_than_number(%{value: value} = v, number) when is_integer(value) do
+    if value < number + 1,
+      do:
+        add(
+          v,
+          "not.greater.than.specified.number",
+          "The parameter `#{v.parameter}` must be greater than #{number}",
+          [value, number]
+        ),
+      else: v
+  end
+
+  def greater_than_number(v, _number), do: v
+
+  @doc """
+  A problem whose code is `validation.msg.<resource>.<code>` with no parameter in it and the text
+  `Failed data validation due to: <code>.` (`failWithCodeNoParameterAddedToErrorCode`).
+  """
+  @spec fail_without_parameter(t, String.t()) :: t
+  def fail_without_parameter(v, code) do
+    error = %{
+      code: "validation.msg.#{v.resource}.#{code}",
+      developer_message: "Failed data validation due to: #{code}.",
+      default_message: "Failed data validation due to: #{code}.",
+      parameter: v.parameter,
+      args: [v.value, []]
+    }
+
+    %{v | errors: [error | v.errors]}
+  end
 
   # --- free-form ------------------------------------------------------------------------------
 

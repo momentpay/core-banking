@@ -64,7 +64,7 @@ defmodule ECBApiFineract.Resources.JournalEntries do
       end
     end)
   rescue
-    error in [ECBLedger.Errors.ServerError, ECBOrg.Errors.OfficeNotFound] ->
+    error in [ECBPlatform.Errors.ServerError, ECBOrg.Errors.OfficeNotFound] ->
       Errors.render(conn, error)
   end
 

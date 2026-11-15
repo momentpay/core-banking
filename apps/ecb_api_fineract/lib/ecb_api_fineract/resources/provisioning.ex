@@ -127,7 +127,7 @@ defmodule ECBApiFineract.Resources.Provisioning do
   @doc "`GET /provisioningentries/:id`: Fineract fails on an entry that does not exist."
   def one_entry(conn, raw_id) do
     Write.with_path_id(conn, raw_id, fn _id ->
-      Errors.render(conn, %ECBLedger.Errors.ServerError{})
+      Errors.render(conn, %ECBPlatform.Errors.ServerError{})
     end)
   end
 

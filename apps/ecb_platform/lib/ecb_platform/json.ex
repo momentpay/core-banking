@@ -1,4 +1,4 @@
-defmodule ECBParty.Json do
+defmodule ECBPlatform.Json do
   @moduledoc """
   Reads whole numbers from a request the way Fineract's `FromJsonHelper.extractLongNamed` does: the value
   is taken as text and parsed with `Long.valueOf`, so `"12"` and `12` are numbers, while `"x"`, `12.5`,
@@ -12,8 +12,8 @@ defmodule ECBParty.Json do
   def long(%Params{} = p, key), do: p |> Params.value(key) |> to_long()
 
   defp to_long(value) when is_integer(value), do: value
-  defp to_long(value) when is_float(value), do: raise(ECBLedger.Errors.ServerError)
-  defp to_long(value) when is_boolean(value), do: raise(ECBLedger.Errors.ServerError)
+  defp to_long(value) when is_float(value), do: raise(ECBPlatform.Errors.ServerError)
+  defp to_long(value) when is_boolean(value), do: raise(ECBPlatform.Errors.ServerError)
 
   defp to_long(value) when is_binary(value) do
     if String.trim(value) == "" do
@@ -21,7 +21,7 @@ defmodule ECBParty.Json do
     else
       case Integer.parse(value) do
         {number, ""} -> number
-        _ -> raise ECBLedger.Errors.ServerError
+        _ -> raise ECBPlatform.Errors.ServerError
       end
     end
   end

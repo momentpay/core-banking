@@ -123,7 +123,7 @@ defmodule ECBCatalog.Handlers do
     @impl true
     def process(command, user) do
       # no body at all is an unhandled failure in Fineract, answered by a plain 500
-      if command.json in [nil, ""], do: raise(ECBLedger.Errors.ServerError)
+      if command.json in [nil, ""], do: raise(ECBPlatform.Errors.ServerError)
 
       {:ok, ECBCatalog.FloatingRates.create!(ECBPlatform.Params.parse_typed!(command.json), user)}
     end

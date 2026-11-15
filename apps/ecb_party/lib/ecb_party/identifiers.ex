@@ -10,7 +10,6 @@ defmodule ECBParty.Identifiers do
   import Ecto.Query
 
   alias ECBParty.Clients
-  alias ECBParty.Json
   alias ECBPlatform.Commands.Result
   alias ECBPlatform.Errors.{DomainRuleViolation, ResourceNotFound}
   alias ECBPlatform.{Params, TenantRepo, Validation}
@@ -90,7 +89,7 @@ defmodule ECBParty.Identifiers do
   @spec create!(User.t(), integer, Params.t()) :: Result.t()
   def create!(%User{} = user, client_id, %Params{} = p) do
     Params.check_supported!(p, @supported)
-    type_id = Json.long(p, "documentTypeId")
+    type_id = ECBPlatform.Json.long(p, "documentTypeId")
     key = Params.string(p, "documentKey")
     issuance = Params.date(p, "issuanceDate")
     expiry = Params.date(p, "expiryDate")
@@ -140,7 +139,7 @@ defmodule ECBParty.Identifiers do
   @spec update!(User.t(), integer, integer, Params.t()) :: Result.t()
   def update!(%User{} = user, client_id, id, %Params{} = p) do
     Params.check_supported!(p, @supported)
-    type_id = Json.long(p, "documentTypeId")
+    type_id = ECBPlatform.Json.long(p, "documentTypeId")
     key = Params.string(p, "documentKey")
     issuance = if Params.exists?(p, "issuanceDate"), do: Params.date(p, "issuanceDate")
     expiry = if Params.exists?(p, "expiryDate"), do: Params.date(p, "expiryDate")
@@ -220,7 +219,7 @@ defmodule ECBParty.Identifiers do
 
   defp change_type({changes, set}, p, row) do
     if Params.changed_long?(p, "documentTypeId", row.document_type_id),
-      do: {Map.put(changes, "documentTypeId", Json.long(p, "documentTypeId")), set},
+      do: {Map.put(changes, "documentTypeId", ECBPlatform.Json.long(p, "documentTypeId")), set},
       else: {changes, set}
   end
 
@@ -276,14 +275,14 @@ defmodule ECBParty.Identifiers do
 
   # A status given by name when creating: any case (Fineract upper-cases it); no status, or one that is
   # not a status, is an unhandled failure there (a plain HTTP 500).
-  defp status_value!(nil), do: raise(ECBLedger.Errors.ServerError)
+  defp status_value!(nil), do: raise(ECBPlatform.Errors.ServerError)
 
   defp status_value!(text) do
-    Map.get(@statuses, String.upcase(text)) || raise ECBLedger.Errors.ServerError
+    Map.get(@statuses, String.upcase(text)) || raise ECBPlatform.Errors.ServerError
   end
 
   # A status given by name when changing: exactly as the enum names it.
-  defp status_exact!(text), do: Map.get(@statuses, text) || raise(ECBLedger.Errors.ServerError)
+  defp status_exact!(text), do: Map.get(@statuses, text) || raise(ECBPlatform.Errors.ServerError)
 
   defp blank_to_nil(nil), do: nil
   defp blank_to_nil(""), do: nil

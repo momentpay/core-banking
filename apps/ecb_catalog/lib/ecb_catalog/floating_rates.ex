@@ -153,7 +153,7 @@ defmodule ECBCatalog.FloatingRates do
   end
 
   defp name_taken!(%{postgres: %{code: :unique_violation}}, _stacktrace),
-    do: raise(ECBLedger.Errors.ServerError)
+    do: raise(ECBPlatform.Errors.ServerError)
 
   defp name_taken!(error, stacktrace), do: reraise(error, stacktrace)
 
