@@ -79,5 +79,7 @@ No stored value differs: command rows, statuses, result codes and result JSON fi
 | 41 | Posting with `externalAssetOwner` | Refused as Fineract refuses when externalisation is off; with it on, the same 404 for an owner that does not exist (there are no owners until investors are built) | Investor is deferred | `ScenariosTest` (journalentries) |
 | 42 | The journal has no indexes on office and date or on account and date | Added (and one for entries waiting for a running balance) | Listings and balances read by those | Migration `add_journal_indexes` |
 
+| 43 | `GET /<resource>/downloadtemplate` returns an Excel workbook for a client that accepts one | A client that asks for JSON gets the same plain 406; one that accepts Excel gets HTTP 501 (bulk import is not built) | Excel import is outside the pilot | `JournalTest` |
+
 **Security note:** the seeded users (`mifos`, `system`, `interopUser`) and the password `password` are Fineract's published defaults. They exist so the compatible API and Fineract's own tests work out of the box. A real deployment must change those passwords, or remove the users, before it holds real data. A password can now be changed with `PUT /users/{id}` or `POST /users/{id}/pwd`; the active password policy applies (the default policy asks for 12 to 50 characters with upper and lower case, a digit and a symbol).
 

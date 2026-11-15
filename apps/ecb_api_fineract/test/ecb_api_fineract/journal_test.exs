@@ -344,6 +344,14 @@ defmodule ECBApiFineract.JournalTest do
     end
   end
 
+  describe "the Excel template" do
+    test "cannot be served to a client that asks for JSON, as Fineract says" do
+      for resource <- ~w(journalentries glaccounts offices) do
+        assert send_json(:get, "/v1/#{resource}/downloadtemplate").status == 406
+      end
+    end
+  end
+
   describe "accounts that were posted to" do
     test "cannot be deleted", %{cash: cash, payables: payables} do
       post!(posting("2025-03-01", [{cash, 1}], [{payables, 1}]))

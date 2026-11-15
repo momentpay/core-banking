@@ -48,6 +48,10 @@ defmodule ECBApiFineract.ApiRouter do
 
   post "/v1/authentication", do: Authentication.login(conn)
 
+  # Excel templates for bulk import. A client that asks for JSON cannot be served one, and Fineract says so
+  # with the web container's plain 406; the import itself is not built.
+  get "/v1/:resource/downloadtemplate", do: excel_template(conn, resource)
+
   get "/v1/offices/template", do: Offices.template(conn)
   get "/v1/offices", do: Offices.index(conn)
   get "/v1/offices/:id", do: Offices.show(conn, id)
@@ -162,6 +166,25 @@ defmodule ECBApiFineract.ApiRouter do
 
   match _ do
     Errors.not_implemented(conn, conn.method, conn.request_path)
+  end
+
+  @excel_resources ~w(offices staff users glaccounts journalentries clients groups centers loans
+                      savingsaccounts fixeddepositaccounts recurringdepositaccounts shareaccounts
+                      charges products)
+
+  defp excel_template(conn, resource) when resource in @excel_resources do
+    if excel_accepted?(conn),
+      do: Errors.not_implemented(conn, conn.method, conn.request_path),
+      else: Errors.spring(conn, 406, "Not Acceptable")
+  end
+
+  defp excel_template(conn, _resource),
+    do: Errors.not_implemented(conn, conn.method, conn.request_path)
+
+  defp excel_accepted?(conn) do
+    conn
+    |> Plug.Conn.get_req_header("accept")
+    |> Enum.any?(&(String.contains?(&1, "excel") or String.contains?(&1, "*/*")))
   end
 
   # Reads the JSON body. A body that is not JSON is answered here, as Fineract does, rather than
