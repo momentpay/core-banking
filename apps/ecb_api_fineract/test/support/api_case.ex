@@ -69,6 +69,27 @@ defmodule ECBApiFineract.ApiCase do
 
     # the books refer to users, offices and code values, so they go first
     for sql <- [
+          "DELETE FROM m_rate",
+          "SELECT setval(pg_get_serial_sequence('m_rate', 'id'), 1, false)",
+          "DELETE FROM m_floating_rates_periods",
+          "DELETE FROM m_floating_rates",
+          "SELECT setval(pg_get_serial_sequence('m_floating_rates', 'id'), 1, false)",
+          "SELECT setval(pg_get_serial_sequence('m_floating_rates_periods', 'id'), 1, false)",
+          "DELETE FROM m_charge",
+          "SELECT setval(pg_get_serial_sequence('m_charge', 'id'), 1, false)",
+          "DELETE FROM m_tax_group_mappings",
+          "DELETE FROM m_tax_group",
+          "DELETE FROM m_tax_component_history",
+          "DELETE FROM m_tax_component",
+          "SELECT setval(pg_get_serial_sequence('m_tax_component', 'id'), 1, false)",
+          "SELECT setval(pg_get_serial_sequence('m_tax_component_history', 'id'), 1, false)",
+          "SELECT setval(pg_get_serial_sequence('m_tax_group', 'id'), 1, false)",
+          "SELECT setval(pg_get_serial_sequence('m_tax_group_mappings', 'id'), 1, false)"
+        ] do
+      TenantRepo.query!(sql)
+    end
+
+    for sql <- [
           "DELETE FROM acc_gl_journal_entry",
           "DELETE FROM m_payment_detail",
           "SELECT setval(pg_get_serial_sequence('acc_gl_journal_entry', 'id'), 1, false)",

@@ -535,12 +535,12 @@
       "app": "ecb_catalog",
       "title": "Catalog: charges, taxes, rates, interest-rate charts",
       "phase": 2,
-      "status": "not started",
+      "status": "in progress (15 Nov 2026). Built: the catalog tables (generated from Fineract's schema: charges, tax components and groups, rates, floating rates), tax components and tax groups (list, one, template, create, update, history of a component's rates, group totals and association dates), charges (list, one, template, create, update, soft delete, for loans, savings, clients, shares and working-capital loans), rates (list, one, create, update) and floating rates (list, one, create, update, with their dated rate periods). Interest-rate charts belong to the deposits module with the savings products they serve. Still to do: loan-product links to charges and rates (they arrive with the loan products), and the reports on them.",
       "depends_on": [
+        "ecb_ledger",
         "ecb_money",
-        "ecb_platform",
         "ecb_org",
-        "ecb_ledger"
+        "ecb_platform"
       ],
       "summary": "The building blocks that products are assembled from: charges (fees and penalties, with calculation types and due-date rules), tax components and groups, rates, floating rates, and the interest-rate charts with their slabs and incentives that fixed and recurring deposits use. Deposits and loans refer to these definitions but do not own them.",
       "responsibilities": [
@@ -1023,7 +1023,7 @@
       "app": "ecb_api_fineract",
       "title": "Fineract-compatible REST API",
       "phase": 1,
-      "status": "in progress (14 Nov 2026). Built: tenant resolution, HTTP basic authentication, `POST /authentication`, the read and write endpoints of offices, funds, payment types, staff, codes and code values, working days, holidays, roles, users, maker-checker inbox, audits, business date, GL accounts, financial-activity mappings, accounting closures, journal entries, accounting rules, configurations, password preferences and permissions, the read endpoints of currencies and account-number formats, the health check, Fineract's error shapes and an HTTP 501 for operations not built yet. 33 recorded Fineract responses and 22 recorded write scenarios (about 910 requests) are matched exactly. Contract probe against Fineract: 43 of 146 counted `must` and `should` read operations pass (29.5%, measured 15 Nov 2026 after journal entries).",
+      "status": "in progress (14 Nov 2026). Built: tenant resolution, HTTP basic authentication, `POST /authentication`, the read and write endpoints of offices, funds, payment types, staff, codes and code values, working days, holidays, roles, users, maker-checker inbox, audits, business date, GL accounts, financial-activity mappings, accounting closures, journal entries, accounting rules, provisioning categories, tax components and groups, charges, configurations, password preferences and permissions, the read endpoints of currencies and account-number formats, the health check, Fineract's error shapes and an HTTP 501 for operations not built yet. 33 recorded Fineract responses and 24 recorded write scenarios (about 1250 requests) are matched exactly. Contract probe against Fineract: 43 of 146 counted `must` and `should` read operations pass (29.5%, measured 15 Nov 2026 after journal entries).",
       "depends_on": [
         "ecb_platform",
         "ecb_org",

@@ -18,8 +18,10 @@ defmodule ECBApiFineract.ApiRouter do
     Audits,
     Authentication,
     BusinessDate,
+    Charges,
     Codes,
     FinancialActivityAccounts,
+    FloatingRates,
     Funds,
     GLAccounts,
     GLClosures,
@@ -30,7 +32,9 @@ defmodule ECBApiFineract.ApiRouter do
     Organisation,
     PaymentTypes,
     Provisioning,
-    Staff
+    Rates,
+    Staff,
+    Taxes
   }
 
   plug :match
@@ -145,6 +149,35 @@ defmodule ECBApiFineract.ApiRouter do
   put "/v1/accountingrules/:id", do: AccountingRules.update(conn, id)
   delete "/v1/accountingrules/:id", do: AccountingRules.delete(conn, id)
 
+  get "/v1/rates", do: Rates.index(conn)
+  post "/v1/rates", do: Rates.create(conn)
+  get "/v1/rates/:id", do: Rates.show(conn, id)
+  put "/v1/rates/:id", do: Rates.update(conn, id)
+
+  get "/v1/floatingrates", do: FloatingRates.index(conn)
+  post "/v1/floatingrates", do: FloatingRates.create(conn)
+  get "/v1/floatingrates/:id", do: FloatingRates.show(conn, id)
+  put "/v1/floatingrates/:id", do: FloatingRates.update(conn, id)
+
+  get "/v1/charges/template", do: Charges.template(conn)
+  get "/v1/charges", do: Charges.index(conn)
+  post "/v1/charges", do: Charges.create(conn)
+  get "/v1/charges/:id", do: Charges.show(conn, id)
+  put "/v1/charges/:id", do: Charges.update(conn, id)
+  delete "/v1/charges/:id", do: Charges.delete(conn, id)
+
+  get "/v1/taxes/component/template", do: Taxes.component_template(conn)
+  get "/v1/taxes/component", do: Taxes.components(conn)
+  post "/v1/taxes/component", do: Taxes.create_component(conn)
+  get "/v1/taxes/component/:id", do: Taxes.component(conn, id)
+  put "/v1/taxes/component/:id", do: Taxes.update_component(conn, id)
+
+  get "/v1/taxes/group/template", do: Taxes.group_template(conn)
+  get "/v1/taxes/group", do: Taxes.groups(conn)
+  post "/v1/taxes/group", do: Taxes.create_group(conn)
+  get "/v1/taxes/group/:id", do: Taxes.group(conn, id)
+  put "/v1/taxes/group/:id", do: Taxes.update_group(conn, id)
+
   get "/v1/provisioningcategory", do: Provisioning.categories(conn)
   post "/v1/provisioningcategory", do: Provisioning.create_category(conn)
   get "/v1/provisioningcategory/:id", do: Provisioning.method_not_allowed(conn)
@@ -221,7 +254,7 @@ defmodule ECBApiFineract.ApiRouter do
 
   # Fineract reads some bodies straight into a typed object, which fails with "invalid JSON data" on text
   # that is not JSON; the rest it reads as text and complains about the syntax.
-  @typed_bodies ["accountingrules"]
+  @typed_bodies ["accountingrules", "taxes", "charges", "rates", "floatingrates"]
 
   defp parse_error(%{path_info: ["v1", resource | _]}, _error) when resource in @typed_bodies,
     do: %ECBPlatform.Errors.InvalidJsonData{}

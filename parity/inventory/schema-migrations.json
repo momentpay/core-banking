@@ -162,6 +162,30 @@
       "tables": [
         "m_provision_category"
       ]
+    },
+    {
+      "kind": "schema",
+      "app": "ecb_catalog",
+      "version": "20261115130000",
+      "name": "create_tax_tables",
+      "tables": [
+        "m_tax_component",
+        "m_tax_component_history",
+        "m_tax_group",
+        "m_tax_group_mappings"
+      ]
+    },
+    {
+      "kind": "schema",
+      "app": "ecb_catalog",
+      "version": "20261115130100",
+      "name": "create_charge_and_rate_tables",
+      "tables": [
+        "m_charge",
+        "m_rate",
+        "m_floating_rates",
+        "m_floating_rates_periods"
+      ]
     }
   ],
   "deferred_foreign_keys": [
@@ -199,12 +223,6 @@
       "table": "acc_gl_journal_entry",
       "references": "m_share_account_transactions",
       "sql": "ALTER TABLE ONLY public.acc_gl_journal_entry\n    ADD CONSTRAINT \"FK_acc_gl_journal_entry_m_share_account_transaction\" FOREIGN KEY (share_transaction_id) REFERENCES public.m_share_account_transactions(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
-      "migration": "create_accounting_tables"
-    },
-    {
-      "table": "acc_product_mapping",
-      "references": "m_charge",
-      "sql": "ALTER TABLE ONLY public.acc_product_mapping\n    ADD CONSTRAINT \"FK_acc_product_mapping_m_charge\" FOREIGN KEY (charge_id) REFERENCES public.m_charge(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
       "migration": "create_accounting_tables"
     },
     {

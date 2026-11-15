@@ -1,0 +1,850 @@
+{
+ "name": "rates",
+ "reset": [
+  "rates"
+ ],
+ "steps": [
+  {
+   "path": "/v1/rates",
+   "status": 200,
+   "response": []
+  },
+  {
+   "path": "/v1/rates/1",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Rate with identifier 1 does not exist",
+      "defaultUserMessage": "Rate with identifier 1 does not exist",
+      "userMessageGlobalisationCode": "error.msg.rate.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 1
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/rates/abc",
+   "ignore": [
+    "path",
+    "timestamp"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T08:51:50.058Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/rates/abc"
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/rates",
+   "body": {
+    "name": "R1",
+    "percentage": 5.5,
+    "productApply": 1,
+    "active": true,
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/rates",
+   "body": {
+    "name": "R2",
+    "percentage": 7,
+    "productApply": 1,
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/rates",
+   "body": {
+    "name": "R3",
+    "percentage": 7,
+    "productApply": 5,
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/rates",
+   "body": {
+    "name": "R3",
+    "percentage": 7,
+    "productApply": 2,
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/rates",
+   "body": {
+    "name": "Text",
+    "percentage": "8.25",
+    "productApply": "1",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 5
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/rates",
+   "body": {
+    "name": "  Padded  ",
+    "percentage": 1,
+    "productApply": 1,
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 6
+   }
+  },
+  {
+   "path": "/v1/rates",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "name": "R1",
+     "percentage": 5.5,
+     "productApply": {
+      "id": 1,
+      "code": "rateAppliesTo.loan",
+      "value": "Loan"
+     },
+     "active": true
+    },
+    {
+     "id": 2,
+     "name": "R2",
+     "percentage": 7.0,
+     "productApply": {
+      "id": 1,
+      "code": "rateAppliesTo.loan",
+      "value": "Loan"
+     },
+     "active": false
+    },
+    {
+     "id": 3,
+     "name": "R3",
+     "percentage": 7.0,
+     "productApply": {
+      "id": 0,
+      "code": "rateAppliesTo.invalid",
+      "value": "Invalid"
+     },
+     "active": false
+    },
+    {
+     "id": 4,
+     "name": "R3",
+     "percentage": 7.0,
+     "productApply": {
+      "id": 0,
+      "code": "rateAppliesTo.invalid",
+      "value": "Invalid"
+     },
+     "active": false
+    },
+    {
+     "id": 5,
+     "name": "Text",
+     "percentage": 8.25,
+     "productApply": {
+      "id": 1,
+      "code": "rateAppliesTo.loan",
+      "value": "Loan"
+     },
+     "active": false
+    },
+    {
+     "id": 6,
+     "name": "  Padded  ",
+     "percentage": 1.0,
+     "productApply": {
+      "id": 1,
+      "code": "rateAppliesTo.loan",
+      "value": "Loan"
+     },
+     "active": false
+    }
+   ]
+  },
+  {
+   "path": "/v1/rates/1",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "name": "R1",
+    "percentage": 5.5,
+    "productApply": {
+     "id": 1,
+     "code": "rateAppliesTo.loan",
+     "value": "Loan"
+    },
+    "active": true
+   }
+  },
+  {
+   "path": "/v1/rates/3",
+   "status": 200,
+   "response": {
+    "id": 3,
+    "name": "R3",
+    "percentage": 7.0,
+    "productApply": {
+     "id": 0,
+     "code": "rateAppliesTo.invalid",
+     "value": "Invalid"
+    },
+    "active": false
+   }
+  },
+  {
+   "path": "/v1/rates/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Rate with identifier 99 does not exist",
+      "defaultUserMessage": "Rate with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.rate.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/rates",
+   "body": {},
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.name.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `percentage` is mandatory.",
+      "defaultUserMessage": "The parameter `percentage` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.name.percentage.cannot.be.blank",
+      "parameterName": "percentage",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `productApply` is mandatory.",
+      "defaultUserMessage": "The parameter `productApply` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.name.productApply.cannot.be.blank",
+      "parameterName": "productApply",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/rates",
+   "body": {
+    "name": "x",
+    "percentage": 5,
+    "productApply": 1
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `productApply` requires a `locale` parameter to be passed with it.",
+      "defaultUserMessage": "The parameter `productApply` requires a `locale` parameter to be passed with it.",
+      "userMessageGlobalisationCode": "validation.msg.missing.locale.parameter",
+      "parameterName": "productApply",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/rates",
+   "body": {
+    "name": "",
+    "percentage": 5,
+    "productApply": 1,
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.name.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/rates",
+   "body": {
+    "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "percentage": 5,
+    "productApply": 1,
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` exceeds max length of 250.",
+      "defaultUserMessage": "The parameter `name` exceeds max length of 250.",
+      "userMessageGlobalisationCode": "validation.msg.name.name.exceeds.max.length",
+      "parameterName": "name",
+      "args": [
+       {
+        "value": 250
+       },
+       {
+        "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/rates",
+   "body": {
+    "name": "x",
+    "percentage": null,
+    "productApply": 1,
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `percentage` is mandatory.",
+      "defaultUserMessage": "The parameter `percentage` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.name.percentage.cannot.be.blank",
+      "parameterName": "percentage",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/rates",
+   "body": {
+    "name": "x",
+    "percentage": 5,
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `productApply` is mandatory.",
+      "defaultUserMessage": "The parameter `productApply` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.name.productApply.cannot.be.blank",
+      "parameterName": "productApply",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/rates",
+   "body": {
+    "name": "x",
+    "percentage": "abc",
+    "productApply": 1,
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The parameter `percentage` has value: abc which is not a valid number.",
+    "defaultUserMessage": "The parameter `percentage` has value: abc which is not a valid number.",
+    "userMessageGlobalisationCode": "validation.msg.invalid.decimal.format",
+    "parameterName": "percentage",
+    "value": "abc",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/rates",
+   "body": {
+    "name": "x",
+    "percentage": 0,
+    "productApply": 1,
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 7
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/rates",
+   "body": {
+    "name": "Negative",
+    "percentage": -3,
+    "productApply": 1,
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 8
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/rates",
+   "body": {
+    "name": "Active text",
+    "percentage": 5,
+    "productApply": 1,
+    "active": "abc",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+    "defaultUserMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+    "userMessageGlobalisationCode": "error.msg.invalid.json.data",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/rates",
+   "body": {
+    "name": "Extra",
+    "percentage": 5,
+    "productApply": 1,
+    "bogus": 1,
+    "approveUserId": 1,
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 9
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/rates",
+   "status": 400,
+   "response": {
+    "developerMessage": "The JSON provided in the body of the request is invalid or missing.",
+    "defaultUserMessage": "The JSON provided in the body of the request is invalid or missing.",
+    "userMessageGlobalisationCode": "error.msg.invalid.request.body",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/rates",
+   "raw": "{bad",
+   "ignore": [
+    "developerMessage",
+    "defaultUserMessage"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+    "defaultUserMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+    "userMessageGlobalisationCode": "error.msg.invalid.json.data",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/rates/1",
+   "body": {
+    "name": "R1b",
+    "percentage": 6,
+    "active": false,
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "name": "R1b",
+     "percentage": 6,
+     "active": false
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/rates/1",
+   "body": {
+    "name": "R1b",
+    "percentage": 6,
+    "active": false,
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/rates/1",
+   "body": {
+    "productApply": 1,
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/rates/1",
+   "body": {
+    "productApply": 2,
+    "locale": "en"
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "Update of Rate applies to is not supported",
+      "defaultUserMessage": "Update of Rate applies to is not supported",
+      "userMessageGlobalisationCode": "error.msg.charge.update.of.rate.applies.to.is.not.supported",
+      "parameterName": "id",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/rates/1",
+   "body": {
+    "approveUserId": 1,
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/rates/1",
+   "body": {
+    "name": "",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.rate.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/rates/1",
+   "body": {
+    "percentage": null,
+    "name": "R1c",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "name": "R1c"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/rates/1",
+   "body": {
+    "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` exceeds max length of 250.",
+      "defaultUserMessage": "The parameter `name` exceeds max length of 250.",
+      "userMessageGlobalisationCode": "validation.msg.rate.name.exceeds.max.length",
+      "parameterName": "name",
+      "args": [
+       {
+        "value": 250
+       },
+       {
+        "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/rates/1",
+   "body": {
+    "percentage": "abc",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The parameter `percentage` has value: abc which is not a valid number.",
+    "defaultUserMessage": "The parameter `percentage` has value: abc which is not a valid number.",
+    "userMessageGlobalisationCode": "validation.msg.invalid.decimal.format",
+    "parameterName": "percentage",
+    "value": "abc",
+    "args": []
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/rates/1",
+   "body": {
+    "percentage": 0,
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "percentage": 0
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/rates/1",
+   "body": {
+    "percentage": 6.5
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "percentage": 6.5
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/rates/1",
+   "body": {},
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/rates/1",
+   "body": {
+    "bogus": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/rates/99",
+   "body": {
+    "name": "x",
+    "locale": "en"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Rate with identifier 99 does not exist",
+      "defaultUserMessage": "Rate with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.rate.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/rates/abc",
+   "body": {
+    "name": "x",
+    "locale": "en"
+   },
+   "ignore": [
+    "path",
+    "timestamp"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T08:51:52.592Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/rates/abc"
+   }
+  },
+  {
+   "path": "/v1/rates/1",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "name": "R1c",
+    "percentage": 6.5,
+    "productApply": {
+     "id": 1,
+     "code": "rateAppliesTo.loan",
+     "value": "Loan"
+    },
+    "active": false
+   }
+  },
+  {
+   "path": "/v1/rates/2",
+   "status": 200,
+   "response": {
+    "id": 2,
+    "name": "R2",
+    "percentage": 7.0,
+    "productApply": {
+     "id": 1,
+     "code": "rateAppliesTo.loan",
+     "value": "Loan"
+    },
+    "active": false
+   }
+  }
+ ]
+}

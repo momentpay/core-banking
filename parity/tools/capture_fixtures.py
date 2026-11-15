@@ -162,6 +162,16 @@ RESETS = {
         "SELECT setval(pg_get_serial_sequence('m_portfolio_command_source', 'id'), 1, false)",
     ],
     "glaccounts": [
+        "DELETE FROM m_charge",
+        "SELECT setval(pg_get_serial_sequence('m_charge', 'id'), 1, false)",
+        "DELETE FROM m_tax_group_mappings",
+        "DELETE FROM m_tax_group",
+        "DELETE FROM m_tax_component_history",
+        "DELETE FROM m_tax_component",
+        "SELECT setval(pg_get_serial_sequence('m_tax_component', 'id'), 1, false)",
+        "SELECT setval(pg_get_serial_sequence('m_tax_component_history', 'id'), 1, false)",
+        "SELECT setval(pg_get_serial_sequence('m_tax_group', 'id'), 1, false)",
+        "SELECT setval(pg_get_serial_sequence('m_tax_group_mappings', 'id'), 1, false)",
         "DELETE FROM acc_gl_journal_entry",
         "DELETE FROM m_payment_detail",
         "SELECT setval(pg_get_serial_sequence('acc_gl_journal_entry', 'id'), 1, false)",
@@ -177,6 +187,16 @@ RESETS = {
         "SELECT setval(pg_get_serial_sequence('acc_gl_financial_activity_account', 'id'), 1, false)",
         "SELECT setval(pg_get_serial_sequence('acc_accounting_rule', 'id'), 1, false)",
         "SELECT setval(pg_get_serial_sequence('acc_rule_tags', 'id'), 1, false)",
+    ],
+    "rates": [
+        "DELETE FROM m_rate",
+        "SELECT setval(pg_get_serial_sequence('m_rate', 'id'), 1, false)",
+    ],
+    "floatingrates": [
+        "DELETE FROM m_floating_rates_periods",
+        "DELETE FROM m_floating_rates",
+        "SELECT setval(pg_get_serial_sequence('m_floating_rates', 'id'), 1, false)",
+        "SELECT setval(pg_get_serial_sequence('m_floating_rates_periods', 'id'), 1, false)",
     ],
     "provisioning": [
         "DELETE FROM m_provisioning_criteria_definition",
@@ -252,6 +272,9 @@ def cmd_scenarios(args) -> int:
             # the oracle's generated values in its answers become `{name}` again, for the replay to fill in
             body = json.loads(unsubstitute(json.dumps(body), saved))
             recorded.update({"status": status, "response": body})
+            # the web container's plain error carries the time and the oracle's own path, which no replay can match
+            if isinstance(body, dict) and {"timestamp", "status", "error", "path"} <= set(body):
+                recorded["ignore"] = sorted(set(recorded.get("ignore", [])) | {"timestamp", "path"})
             steps.append(recorded)
         (SCENARIO_DIR / f"{scenario['name']}.json").write_text(
             json.dumps({"name": scenario["name"], "reset": scenario.get("reset", []), "steps": steps}, indent=1, ensure_ascii=False) + "\n",

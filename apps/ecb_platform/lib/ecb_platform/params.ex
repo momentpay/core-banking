@@ -61,6 +61,16 @@ defmodule ECBPlatform.Params do
     end
   end
 
+  @doc """
+  The request as a typed reader sees it: only the named fields are kept, and a field that is null is
+  as good as absent (Fineract serialises the typed request again without its nulls before using it).
+  """
+  @spec typed(t, [String.t()]) :: t
+  def typed(%__MODULE__{map: map}, fields),
+    do: %__MODULE__{
+      map: map |> Map.take(fields) |> Map.reject(fn {_key, value} -> is_nil(value) end)
+    }
+
   @doc "Raises `UnsupportedParameter` for any key not in `supported`."
   @spec check_supported!(t, [String.t()]) :: t
   def check_supported!(%__MODULE__{map: map} = params, supported) do
@@ -145,6 +155,40 @@ defmodule ECBPlatform.Params do
                   value: text,
                   args: [text]
                 }
+              ]
+        end
+    end
+  end
+
+  @doc """
+  A whole number read as text the way Fineract's `extractIntegerNamed(.., Locale.getDefault())` reads one:
+  text that is not a whole number is refused in the usual envelope, naming the parameter, the value and the
+  locale of the server's JVM (`en_US`). `nil` when absent or blank.
+  """
+  @spec integer_in_default_locale(t, String.t()) :: integer | nil
+  def integer_in_default_locale(%__MODULE__{} = params, key) do
+    case string(params, key) do
+      nil ->
+        nil
+
+      text ->
+        case Integer.parse(String.trim(text)) do
+          {number, ""} ->
+            number
+
+          _ ->
+            raise PlatformApiDataValidation,
+              errors: [
+                key
+                |> then(fn key ->
+                  Errors.parameter_error(
+                    "validation.msg.invalid.integer.format",
+                    "The parameter `#{key}` has value: #{text} which is invalid integer value for provided locale of [en_US].",
+                    key,
+                    [text, "en_US"]
+                  )
+                end)
+                |> Map.put(:value, text)
               ]
         end
     end

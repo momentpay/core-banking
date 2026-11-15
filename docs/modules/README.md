@@ -11,7 +11,7 @@ One design document per module, aligned with Apache Fineract 1.16.1. Generated b
 | [ecb_branch](ecb_branch.md) | Branch cash: tellers and cashiers | 3 | ecb_money, ecb_platform, ecb_org, ecb_ledger | 16 / 4 / 0 | 4 | 51 | 2 |
 | [ecb_org](ecb_org.md) | Organisation and reference data | 2 | ecb_money, ecb_platform | 72 / 4 / 0 | 25 | 334 | 22 |
 | [ecb_party](ecb_party.md) | Clients: the customer master | 2 | ecb_money, ecb_platform, ecb_org, ecb_catalog, ecb_ledger | 52 / 0 / 0 | 12 | 182 | 15 |
-| [ecb_catalog](ecb_catalog.md) | Catalog: charges, taxes, rates, interest-rate charts | 2 | ecb_money, ecb_platform, ecb_org, ecb_ledger | 32 / 4 / 0 | 11 | 212 | 8 |
+| [ecb_catalog](ecb_catalog.md) | Catalog: charges, taxes, rates, interest-rate charts | 2 | ecb_ledger, ecb_money, ecb_org, ecb_platform | 32 / 4 / 0 | 11 | 212 | 8 |
 | [ecb_deposits](ecb_deposits.md) | Deposits: savings, current, fixed and recurring | 3 | ecb_money, ecb_platform, ecb_org, ecb_party, ecb_catalog, ecb_ledger | 109 / 0 / 0 | 22 | 426 | 24 |
 | [ecb_loans](ecb_loans.md) | Loans: products, schedules, accounts and transactions | 4 | ecb_money, ecb_platform, ecb_org, ecb_party, ecb_catalog, ecb_ledger, ecb_deposits, ecb_collateral | 92 / 185 / 0 | 90 | 1307 | 247 |
 | [ecb_collateral](ecb_collateral.md) | Collateral and guarantors | 4 | ecb_money, ecb_platform, ecb_org, ecb_party, ecb_ledger, ecb_deposits | 23 / 6 / 0 | 7 | 87 | 0 |
@@ -43,10 +43,10 @@ graph TD
   ecb_party --> ecb_org
   ecb_party --> ecb_catalog
   ecb_party --> ecb_ledger
-  ecb_catalog --> ecb_money
-  ecb_catalog --> ecb_platform
-  ecb_catalog --> ecb_org
   ecb_catalog --> ecb_ledger
+  ecb_catalog --> ecb_money
+  ecb_catalog --> ecb_org
+  ecb_catalog --> ecb_platform
   ecb_deposits --> ecb_money
   ecb_deposits --> ecb_platform
   ecb_deposits --> ecb_org

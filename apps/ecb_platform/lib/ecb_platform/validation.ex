@@ -169,6 +169,41 @@ defmodule ECBPlatform.Validation do
         )
   end
 
+  @doc "The value must not be any of `unwanted`."
+  @spec not_one_of(t, [term]) :: t
+  def not_one_of(%{value: nil} = v, _unwanted), do: v
+
+  def not_one_of(%{value: value} = v, unwanted) do
+    if value in unwanted,
+      do:
+        add(
+          v,
+          "is.one.of.unwanted.enumerations",
+          "The parameter `#{v.parameter}` must not be any of [ #{Enum.join(unwanted, ", ")} ] .",
+          [value, unwanted]
+        ),
+      else: v
+  end
+
+  @doc """
+  The value must be blank when another parameter has a given value (Fineract's
+  `mustBeBlankWhenParameterProvidedIs`): `feeOnMonthDay` on a weekly fee, for one.
+  """
+  @spec blank_when(t, String.t(), term) :: t
+  def blank_when(%{value: nil} = v, _other, _other_value), do: v
+
+  def blank_when(%{value: value} = v, other, other_value) do
+    if is_binary(value) and String.trim(value) == "",
+      do: v,
+      else:
+        add(
+          v,
+          "cannot.also.be.provided.when.#{other}.is.#{other_value}",
+          "The parameter `#{v.parameter}` cannot also be provided when `#{other}` is #{other_value}",
+          [value, other, other_value]
+        )
+  end
+
   @doc "The value must be true or false."
   @spec true_or_false(t) :: t
   def true_or_false(%{value: value} = v) when is_boolean(value), do: v
@@ -215,6 +250,69 @@ defmodule ECBPlatform.Validation do
       )
 
   def zero_or_positive_amount(v), do: v
+
+  @doc """
+  A decimal above zero. The refused value is shown as a decimal (`-1.0`), as Fineract shows amounts.
+  """
+  @spec positive_amount(t) :: t
+  def positive_amount(%{value: nil} = v), do: v
+
+  def positive_amount(%{value: %Decimal{} = value} = v) do
+    if Decimal.compare(value, 0) == :gt,
+      do: v,
+      else:
+        add(
+          v,
+          "not.greater.than.zero",
+          "The parameter `#{v.parameter}` must be greater than 0.",
+          [
+            Decimal.to_float(value),
+            0
+          ]
+        )
+  end
+
+  def positive_amount(v), do: v
+
+  @doc "A decimal of at most `max`."
+  @spec not_greater_than_max(t, number) :: t
+  def not_greater_than_max(%{value: nil} = v, _max), do: v
+
+  def not_greater_than_max(%{value: %Decimal{} = value} = v, max) do
+    if Decimal.compare(value, max) == :gt do
+      shown = Decimal.to_float(value)
+
+      add(
+        v,
+        "is.greater.than.max",
+        "The parameter `#{v.parameter}` value #{shown} must not be more than maximum value #{max}",
+        [shown, max]
+      )
+    else
+      v
+    end
+  end
+
+  def not_greater_than_max(v, _max), do: v
+
+  @doc """
+  A date on or after `other` (a missing date passes; Fineract's `validateDateAfter` refuses only a date
+  before it, whatever its name says). The problem shows both dates as text.
+  """
+  @spec date_after(t, Date.t()) :: t
+  def date_after(%{value: %Date{} = value} = v, %Date{} = other) do
+    if Date.compare(value, other) != :lt,
+      do: v,
+      else:
+        add(
+          v,
+          "is.less.than.date",
+          "The parameter `#{v.parameter}` must be greater than the provided date #{other}",
+          [Date.to_iso8601(value), Date.to_iso8601(other)]
+        )
+  end
+
+  def date_after(v, _other), do: v
 
   @doc "A whole number of 0 or more."
   @spec zero_or_greater(t) :: t

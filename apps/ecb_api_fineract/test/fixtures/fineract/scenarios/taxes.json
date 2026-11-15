@@ -1,0 +1,3601 @@
+{
+ "name": "taxes",
+ "reset": [
+  "glaccounts"
+ ],
+ "steps": [
+  {
+   "path": "/v1/taxes/component",
+   "status": 200,
+   "response": []
+  },
+  {
+   "path": "/v1/taxes/component/template",
+   "status": 200,
+   "response": {
+    "glAccountOptions": {},
+    "glAccountTypeOptions": [
+     {
+      "id": 1,
+      "code": "accountType.asset",
+      "value": "ASSET"
+     },
+     {
+      "id": 2,
+      "code": "accountType.liability",
+      "value": "LIABILITY"
+     },
+     {
+      "id": 3,
+      "code": "accountType.equity",
+      "value": "EQUITY"
+     },
+     {
+      "id": 4,
+      "code": "accountType.income",
+      "value": "INCOME"
+     },
+     {
+      "id": 5,
+      "code": "accountType.expense",
+      "value": "EXPENSE"
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/taxes/component/1",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "tax component with identifier 1 does not exist",
+      "defaultUserMessage": "tax component with identifier 1 does not exist",
+      "userMessageGlobalisationCode": "error.msg.tax.component.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 1
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/taxes/component/abc",
+   "ignore": [
+    "timestamp",
+    "path"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T08:27:18.354Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/taxes/component/abc"
+   }
+  },
+  {
+   "path": "/v1/taxes/group",
+   "status": 200,
+   "response": []
+  },
+  {
+   "path": "/v1/taxes/group/template",
+   "status": 200,
+   "response": {
+    "taxComponents": []
+   }
+  },
+  {
+   "path": "/v1/taxes/group/1",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "tax group with identifier 1 does not exist",
+      "defaultUserMessage": "tax group with identifier 1 does not exist",
+      "userMessageGlobalisationCode": "error.msg.tax.group.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 1
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/taxes/group/abc",
+   "ignore": [
+    "timestamp",
+    "path"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T08:27:18.537Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/taxes/group/abc"
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Payable",
+    "glCode": "2100",
+    "manualEntriesAllowed": true,
+    "type": 2,
+    "usage": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Expense",
+    "glCode": "5100",
+    "manualEntriesAllowed": true,
+    "type": 5,
+    "usage": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Header",
+    "glCode": "2",
+    "manualEntriesAllowed": true,
+    "type": 2,
+    "usage": 2
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Asset",
+    "glCode": "1100",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 4
+   }
+  },
+  {
+   "path": "/v1/taxes/component/template",
+   "status": 200,
+   "response": {
+    "glAccountOptions": {
+     "liabilityAccountOptions": [
+      {
+       "id": 1,
+       "name": "Payable",
+       "glCode": "2100",
+       "disabled": false,
+       "manualEntriesAllowed": true,
+       "type": {
+        "id": 2,
+        "code": "accountType.liability",
+        "value": "LIABILITY"
+       },
+       "usage": {
+        "id": 1,
+        "code": "accountUsage.detail",
+        "value": "DETAIL"
+       },
+       "description": "",
+       "nameDecorated": "Payable",
+       "tagId": {
+        "id": 0
+       }
+      }
+     ],
+     "expenseAccountOptions": [
+      {
+       "id": 2,
+       "name": "Expense",
+       "glCode": "5100",
+       "disabled": false,
+       "manualEntriesAllowed": true,
+       "type": {
+        "id": 5,
+        "code": "accountType.expense",
+        "value": "EXPENSE"
+       },
+       "usage": {
+        "id": 1,
+        "code": "accountUsage.detail",
+        "value": "DETAIL"
+       },
+       "description": "",
+       "nameDecorated": "Expense",
+       "tagId": {
+        "id": 0
+       }
+      }
+     ],
+     "assetAccountOptions": [
+      {
+       "id": 4,
+       "name": "Asset",
+       "glCode": "1100",
+       "disabled": false,
+       "manualEntriesAllowed": true,
+       "type": {
+        "id": 1,
+        "code": "accountType.asset",
+        "value": "ASSET"
+       },
+       "usage": {
+        "id": 1,
+        "code": "accountUsage.detail",
+        "value": "DETAIL"
+       },
+       "description": "",
+       "nameDecorated": "Asset",
+       "tagId": {
+        "id": 0
+       }
+      }
+     ]
+    },
+    "glAccountTypeOptions": [
+     {
+      "id": 1,
+      "code": "accountType.asset",
+      "value": "ASSET"
+     },
+     {
+      "id": 2,
+      "code": "accountType.liability",
+      "value": "LIABILITY"
+     },
+     {
+      "id": 3,
+      "code": "accountType.equity",
+      "value": "EQUITY"
+     },
+     {
+      "id": 4,
+      "code": "accountType.income",
+      "value": "INCOME"
+     },
+     {
+      "id": 5,
+      "code": "accountType.expense",
+      "value": "EXPENSE"
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "VAT",
+    "percentage": 10,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "Default dated",
+    "percentage": 2.5,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "ignore": [
+    "startDate",
+    "businessDate"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "Text percent",
+    "percentage": "7.25",
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "Padded",
+    "percentage": 1,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {},
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.tax.component.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `percentage` is mandatory.",
+      "defaultUserMessage": "The parameter `percentage` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.tax.component.percentage.cannot.be.blank",
+      "parameterName": "percentage",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "",
+    "percentage": 10,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.tax.component.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "VAT",
+    "percentage": null,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `percentage` is mandatory.",
+      "defaultUserMessage": "The parameter `percentage` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.tax.component.percentage.cannot.be.blank",
+      "parameterName": "percentage",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "VAT",
+    "percentage": 0,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `percentage` must be greater than 0.",
+      "defaultUserMessage": "The parameter `percentage` must be greater than 0.",
+      "userMessageGlobalisationCode": "validation.msg.tax.component.percentage.not.greater.than.zero",
+      "parameterName": "percentage",
+      "args": [
+       {
+        "value": 0.0
+       },
+       {
+        "value": 0
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "VAT",
+    "percentage": -1,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `percentage` must be greater than 0.",
+      "defaultUserMessage": "The parameter `percentage` must be greater than 0.",
+      "userMessageGlobalisationCode": "validation.msg.tax.component.percentage.not.greater.than.zero",
+      "parameterName": "percentage",
+      "args": [
+       {
+        "value": -1.0
+       },
+       {
+        "value": 0
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "VAT",
+    "percentage": 100,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 5
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "VAT",
+    "percentage": 101,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `percentage` value 101.0 must not be more than maximum value 100",
+      "defaultUserMessage": "The parameter `percentage` value 101.0 must not be more than maximum value 100",
+      "userMessageGlobalisationCode": "validation.msg.tax.component.percentage.is.greater.than.max",
+      "parameterName": "percentage",
+      "args": [
+       {
+        "value": 101.0
+       },
+       {
+        "value": 100
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "VAT",
+    "percentage": "abc",
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The parameter `percentage` has value: abc which is not a valid number.",
+    "defaultUserMessage": "The parameter `percentage` has value: abc which is not a valid number.",
+    "userMessageGlobalisationCode": "validation.msg.invalid.decimal.format",
+    "parameterName": "percentage",
+    "value": "abc",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "VAT",
+    "percentage": 0.0001,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 6
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "VAT",
+    "percentage": 10,
+    "startDate": "not a date",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `startDate` is invalid based on the dateFormat: `dd MMMM yyyy` and locale: `en` provided:",
+      "defaultUserMessage": "The parameter `startDate` is invalid based on the dateFormat: `dd MMMM yyyy` and locale: `en` provided:",
+      "userMessageGlobalisationCode": "validation.msg.invalid.dateFormat.format",
+      "parameterName": "startDate",
+      "args": [
+       {},
+       {
+        "value": "dd MMMM yyyy"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "VAT",
+    "percentage": 10,
+    "startDate": "01 January 2025",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `startDate` requires a `dateFormat` parameter to be passed with it.",
+      "defaultUserMessage": "The parameter `startDate` requires a `dateFormat` parameter to be passed with it.",
+      "userMessageGlobalisationCode": "validation.msg.missing.dateFormat.parameter",
+      "parameterName": "startDate",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "VAT",
+    "percentage": 10,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "bogus": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 7
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": null,
+    "percentage": 10,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.tax.component.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "VAT",
+    "percentage": 10,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "debitAccountId": 2
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `debitAccountType` is mandatory.",
+      "defaultUserMessage": "The parameter `debitAccountType` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.tax.component.debitAccountType.cannot.be.blank",
+      "parameterName": "debitAccountType",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "VAT",
+    "percentage": 10,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "debitAccountType": 5
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `debitAccountId` is mandatory.",
+      "defaultUserMessage": "The parameter `debitAccountId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.tax.component.debitAccountId.cannot.be.blank",
+      "parameterName": "debitAccountId",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "VAT",
+    "percentage": 10,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "creditAccountId": 1
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `creditAccountType` is mandatory.",
+      "defaultUserMessage": "The parameter `creditAccountType` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.tax.component.creditAccountType.cannot.be.blank",
+      "parameterName": "creditAccountType",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "VAT",
+    "percentage": 10,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "creditAccountType": 2
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `creditAccountId` is mandatory.",
+      "defaultUserMessage": "The parameter `creditAccountId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.tax.component.creditAccountId.cannot.be.blank",
+      "parameterName": "creditAccountId",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "VAT",
+    "percentage": 10,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "debitAccountType": 9,
+    "debitAccountId": 2
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `debitAccountType` must be one of [ 1, 2, 3, 4, 5 ] .",
+      "defaultUserMessage": "The parameter `debitAccountType` must be one of [ 1, 2, 3, 4, 5 ] .",
+      "userMessageGlobalisationCode": "validation.msg.tax.component.debitAccountType.is.not.one.of.expected.enumerations",
+      "parameterName": "debitAccountType",
+      "args": [
+       {
+        "value": 9
+       },
+       {
+        "value": [
+         1,
+         2,
+         3,
+         4,
+         5
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "VAT",
+    "percentage": 10,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "debitAccountType": 5,
+    "debitAccountId": 0
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `debitAccountId` must be greater than 0.",
+      "defaultUserMessage": "The parameter `debitAccountId` must be greater than 0.",
+      "userMessageGlobalisationCode": "validation.msg.tax.component.debitAccountId.not.greater.than.zero",
+      "parameterName": "debitAccountId",
+      "args": [
+       {
+        "value": 0
+       },
+       {
+        "value": 0
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "VAT",
+    "percentage": 10,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "debitAccountType": 5,
+    "debitAccountId": 99
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "General Ledger account with identifier 99 does not exist ",
+      "defaultUserMessage": "General Ledger account with identifier 99 does not exist ",
+      "userMessageGlobalisationCode": "error.msg.glaccount.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "VAT",
+    "percentage": 10,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "debitAccountType": 2,
+    "debitAccountId": 2
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "Failed data validation due to: not.a.valid.account.",
+      "defaultUserMessage": "Failed data validation due to: not.a.valid.account.",
+      "userMessageGlobalisationCode": "validation.msg.tax.component.debitAccountId.not.a.valid.account",
+      "parameterName": "debitAccountId",
+      "args": [
+       {
+        "value": 2
+       },
+       {
+        "value": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "VAT",
+    "percentage": 10,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "debitAccountType": 2,
+    "debitAccountId": 3
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "Failed data validation due to: not.a.valid.account.",
+      "defaultUserMessage": "Failed data validation due to: not.a.valid.account.",
+      "userMessageGlobalisationCode": "validation.msg.tax.component.debitAccountId.not.a.valid.account",
+      "parameterName": "debitAccountId",
+      "args": [
+       {
+        "value": 3
+       },
+       {
+        "value": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "VAT",
+    "percentage": 10,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "creditAccountType": 1,
+    "creditAccountId": 1
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "Failed data validation due to: not.a.valid.account.",
+      "defaultUserMessage": "Failed data validation due to: not.a.valid.account.",
+      "userMessageGlobalisationCode": "validation.msg.tax.component.creditAccountId.not.a.valid.account",
+      "parameterName": "creditAccountId",
+      "args": [
+       {
+        "value": 1
+       },
+       {
+        "value": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "VAT",
+    "percentage": 10,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "creditAccountType": 2,
+    "creditAccountId": 3
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "Failed data validation due to: not.a.valid.account.",
+      "defaultUserMessage": "Failed data validation due to: not.a.valid.account.",
+      "userMessageGlobalisationCode": "validation.msg.tax.component.creditAccountId.not.a.valid.account",
+      "parameterName": "creditAccountId",
+      "args": [
+       {
+        "value": 3
+       },
+       {
+        "value": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "status": 400,
+   "response": {
+    "developerMessage": "The JSON provided in the body of the request is invalid or missing.",
+    "defaultUserMessage": "The JSON provided in the body of the request is invalid or missing.",
+    "userMessageGlobalisationCode": "error.msg.invalid.request.body",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "raw": "{bad",
+   "ignore": [
+    "developerMessage",
+    "defaultUserMessage"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+    "defaultUserMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+    "userMessageGlobalisationCode": "error.msg.invalid.json.data",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "path": "/v1/taxes/component",
+   "ignore": [
+    "startDate",
+    "businessDate"
+   ],
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "name": "VAT",
+     "percentage": 10.0,
+     "startDate": "2025-01-01"
+    },
+    {
+     "id": 2,
+     "name": "Default dated",
+     "percentage": 2.5,
+     "startDate": "2026-11-15"
+    },
+    {
+     "id": 3,
+     "name": "Text percent",
+     "percentage": 7.25,
+     "startDate": "2025-01-01"
+    },
+    {
+     "id": 4,
+     "name": "Padded",
+     "percentage": 1.0,
+     "startDate": "2025-01-01"
+    },
+    {
+     "id": 5,
+     "name": "VAT",
+     "percentage": 100.0,
+     "startDate": "2025-01-01"
+    },
+    {
+     "id": 6,
+     "name": "VAT",
+     "percentage": 0.0001,
+     "startDate": "2025-01-01"
+    },
+    {
+     "id": 7,
+     "name": "VAT",
+     "percentage": 10.0,
+     "startDate": "2025-01-01"
+    }
+   ]
+  },
+  {
+   "path": "/v1/taxes/component/1",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "name": "VAT",
+    "percentage": 10.0,
+    "startDate": "2025-01-01"
+   }
+  },
+  {
+   "path": "/v1/taxes/component/2",
+   "ignore": [
+    "startDate",
+    "businessDate"
+   ],
+   "status": 200,
+   "response": {
+    "id": 2,
+    "name": "Default dated",
+    "percentage": 2.5,
+    "startDate": "2026-11-15"
+   }
+  },
+  {
+   "path": "/v1/taxes/component/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "tax component with identifier 99 does not exist",
+      "defaultUserMessage": "tax component with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.tax.component.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/component/1",
+   "body": {
+    "percentage": 12,
+    "startDate": "01 January 2099",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "percentage": 12,
+     "startDate": [
+      2099,
+      1,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "path": "/v1/taxes/component/1",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "name": "VAT",
+    "percentage": 12.0,
+    "startDate": "2099-01-01"
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/component/1",
+   "body": {
+    "percentage": 12,
+    "startDate": "01 January 2099",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/component/1",
+   "body": {
+    "percentage": 15,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "ignore": [
+    "startDate",
+    "businessDate"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "percentage": 15,
+     "startDate": [
+      2026,
+      11,
+      15
+     ]
+    }
+   }
+  },
+  {
+   "path": "/v1/taxes/component/1",
+   "ignore": [
+    "startDate",
+    "businessDate"
+   ],
+   "status": 200,
+   "response": {
+    "id": 1,
+    "name": "VAT",
+    "percentage": 15.0,
+    "startDate": "2026-11-15"
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/component/1",
+   "body": {
+    "name": "VAT standard"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "name": "VAT standard"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/component/1",
+   "body": {
+    "name": "VAT standard"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/component/1",
+   "body": {
+    "name": ""
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.tax.component.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/component/1",
+   "body": {
+    "percentage": 101,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `percentage` value 101.0 must not be more than maximum value 100",
+      "defaultUserMessage": "The parameter `percentage` value 101.0 must not be more than maximum value 100",
+      "userMessageGlobalisationCode": "validation.msg.tax.component.percentage.is.greater.than.max",
+      "parameterName": "percentage",
+      "args": [
+       {
+        "value": 101.0
+       },
+       {
+        "value": 100
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/component/1",
+   "body": {
+    "percentage": 0,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `percentage` must be greater than 0.",
+      "defaultUserMessage": "The parameter `percentage` must be greater than 0.",
+      "userMessageGlobalisationCode": "validation.msg.tax.component.percentage.not.greater.than.zero",
+      "parameterName": "percentage",
+      "args": [
+       {
+        "value": 0.0
+       },
+       {
+        "value": 0
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/component/1",
+   "body": {
+    "percentage": "abc",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The parameter `percentage` has value: abc which is not a valid number.",
+    "defaultUserMessage": "The parameter `percentage` has value: abc which is not a valid number.",
+    "userMessageGlobalisationCode": "validation.msg.invalid.decimal.format",
+    "parameterName": "percentage",
+    "value": "abc",
+    "args": []
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/component/1",
+   "body": {
+    "percentage": 20,
+    "startDate": "01 January 2020",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "ignore": [
+    "developerMessage",
+    "defaultUserMessage",
+    "args"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `startDate` must be greater than the provided date 2026-11-15",
+      "defaultUserMessage": "The parameter `startDate` must be greater than the provided date 2026-11-15",
+      "userMessageGlobalisationCode": "validation.msg.tax.component.startDate.is.less.than.date",
+      "parameterName": "startDate",
+      "args": [
+       {
+        "value": "2020-01-01"
+       },
+       {
+        "value": "2026-11-15"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/component/1",
+   "body": {
+    "percentage": 20,
+    "startDate": "02 January 2099",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "percentage": 20,
+     "startDate": [
+      2099,
+      1,
+      2
+     ]
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/component/1",
+   "body": {
+    "percentage": 21,
+    "startDate": "02 January 2099",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "percentage": 21,
+     "startDate": [
+      2099,
+      1,
+      2
+     ]
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/component/1",
+   "body": {
+    "startDate": "01 January 2100",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/component/1",
+   "body": {
+    "startDate": "not a date",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `startDate` is invalid based on the dateFormat: `dd MMMM yyyy` and locale: `en` provided:",
+      "defaultUserMessage": "The parameter `startDate` is invalid based on the dateFormat: `dd MMMM yyyy` and locale: `en` provided:",
+      "userMessageGlobalisationCode": "validation.msg.invalid.dateFormat.format",
+      "parameterName": "startDate",
+      "args": [
+       {},
+       {
+        "value": "dd MMMM yyyy"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/component/1",
+   "body": {
+    "percentage": 5
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "percentage": 5,
+     "startDate": [
+      2026,
+      11,
+      15
+     ]
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/component/1",
+   "body": {},
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/component/1",
+   "body": {
+    "bogus": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/component/1",
+   "body": {
+    "debitAccountId": 2
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter debitAccountId is not supported.",
+      "defaultUserMessage": "debitAccountId",
+      "userMessageGlobalisationCode": "error.msg.parameter.unsupported",
+      "parameterName": "debitAccountId",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/component/99",
+   "body": {
+    "name": "x"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "tax component with identifier 99 does not exist",
+      "defaultUserMessage": "tax component with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.tax.component.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/component/abc",
+   "body": {
+    "name": "x"
+   },
+   "ignore": [
+    "timestamp",
+    "path"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T08:27:21.640Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/taxes/component/abc"
+   }
+  },
+  {
+   "path": "/v1/taxes/component/1",
+   "ignore": [
+    "startDate",
+    "businessDate"
+   ],
+   "status": 200,
+   "response": {
+    "id": 1,
+    "name": "VAT standard",
+    "percentage": 5.0,
+    "startDate": "2026-11-15"
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/group",
+   "body": {
+    "name": "Standard",
+    "taxComponents": [
+     {
+      "taxComponentId": 4,
+      "startDate": "01 January 2025"
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/group",
+   "body": {
+    "name": "Pair",
+    "taxComponents": [
+     {
+      "taxComponentId": 3,
+      "startDate": "01 January 2025"
+     },
+     {
+      "taxComponentId": 4,
+      "startDate": "01 January 2025"
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/group",
+   "body": {
+    "name": "Default dated",
+    "taxComponents": [
+     {
+      "taxComponentId": 3
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "ignore": [
+    "startDate",
+    "businessDate"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/group",
+   "body": {
+    "name": "Single",
+    "taxComponents": [
+     {
+      "taxComponentId": 4
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "ignore": [
+    "startDate",
+    "businessDate"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/group",
+   "body": {
+    "name": "Empty",
+    "taxComponents": []
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "Please add at least one Tax Component before submitting the Tax Group.",
+      "defaultUserMessage": "Please add at least one Tax Component before submitting the Tax Group.",
+      "userMessageGlobalisationCode": "validation.msg.at.least.one.tax.component.required",
+      "parameterName": "taxComponents",
+      "args": []
+     },
+     {
+      "developerMessage": "The parameter `taxComponents` must be greater than 0.",
+      "defaultUserMessage": "The parameter `taxComponents` must be greater than 0.",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.taxComponents.not.greater.than.zero",
+      "parameterName": "taxComponents",
+      "args": [
+       {
+        "value": 0
+       },
+       {
+        "value": 0
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/group",
+   "body": {
+    "name": "Not a list",
+    "taxComponents": "x"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+    "defaultUserMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+    "userMessageGlobalisationCode": "error.msg.invalid.json.data",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/group",
+   "body": {
+    "name": "Bad item",
+    "taxComponents": [
+     {}
+    ]
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `taxComponents[1][taxComponentId]` is mandatory.",
+      "defaultUserMessage": "The parameter `taxComponents[1][taxComponentId]` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.taxComponents.taxComponentId.cannot.be.blank",
+      "parameterName": "taxComponents[1][taxComponentId]",
+      "args": [
+       {
+        "value": 1
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/group",
+   "body": {
+    "name": "Zero",
+    "taxComponents": [
+     {
+      "taxComponentId": 0
+     }
+    ]
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `taxComponents` must be greater than 0.",
+      "defaultUserMessage": "The parameter `taxComponents` must be greater than 0.",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.taxComponents.not.greater.than.zero",
+      "parameterName": "taxComponents",
+      "args": [
+       {
+        "value": 0
+       },
+       {
+        "value": 0
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/group",
+   "body": {
+    "name": "Unknown",
+    "taxComponents": [
+     {
+      "taxComponentId": 99
+     }
+    ]
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "tax component with identifier 99 does not exist",
+      "defaultUserMessage": "tax component with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.tax.component.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/group",
+   "body": {
+    "name": "Extra",
+    "taxComponents": [
+     {
+      "taxComponentId": 3,
+      "endDate": "01 January 2099"
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter endDate is not supported.",
+      "defaultUserMessage": "endDate",
+      "userMessageGlobalisationCode": "error.msg.parameter.unsupported",
+      "parameterName": "endDate",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/group",
+   "body": {
+    "name": "Item extra",
+    "taxComponents": [
+     {
+      "taxComponentId": 3,
+      "bogus": 1
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 5
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/group",
+   "body": {
+    "name": "Twice",
+    "taxComponents": [
+     {
+      "taxComponentId": 3
+     },
+     {
+      "taxComponentId": 3
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "ignore": [
+    "errors"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "Failed data validation due to: dates.are.overlapping.",
+      "defaultUserMessage": "Failed data validation due to: dates.are.overlapping.",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.component.dates.are.overlapping",
+      "parameterName": "component",
+      "args": [
+       {},
+       {
+        "value": []
+       }
+      ]
+     },
+     {
+      "developerMessage": "Failed data validation due to: dates.are.overlapping.",
+      "defaultUserMessage": "Failed data validation due to: dates.are.overlapping.",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.component.dates.are.overlapping",
+      "parameterName": "component",
+      "args": [
+       {},
+       {
+        "value": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/group",
+   "body": {
+    "name": "Too much",
+    "taxComponents": [
+     {
+      "taxComponentId": 1,
+      "startDate": "01 January 2025"
+     },
+     {
+      "taxComponentId": 4,
+      "startDate": "01 January 2025"
+     },
+     {
+      "taxComponentId": 5,
+      "startDate": "01 January 2025"
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "ignore": [
+    "errors"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `total.percentage` value 111.0 must not be more than maximum value 100",
+      "defaultUserMessage": "The parameter `total.percentage` value 111.0 must not be more than maximum value 100",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.total.percentage.is.greater.than.max",
+      "parameterName": "total.percentage",
+      "args": [
+       {
+        "value": 111.0
+       },
+       {
+        "value": 100
+       }
+      ]
+     },
+     {
+      "developerMessage": "The parameter `total.percentage` value 111.0 must not be more than maximum value 100",
+      "defaultUserMessage": "The parameter `total.percentage` value 111.0 must not be more than maximum value 100",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.total.percentage.is.greater.than.max",
+      "parameterName": "total.percentage",
+      "args": [
+       {
+        "value": 111.0
+       },
+       {
+        "value": 100
+       }
+      ]
+     },
+     {
+      "developerMessage": "The parameter `total.percentage` value 106.0 must not be more than maximum value 100",
+      "defaultUserMessage": "The parameter `total.percentage` value 106.0 must not be more than maximum value 100",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.total.percentage.is.greater.than.max",
+      "parameterName": "total.percentage",
+      "args": [
+       {
+        "value": 106.0
+       },
+       {
+        "value": 100
+       }
+      ]
+     },
+     {
+      "developerMessage": "The parameter `total.percentage` value 106.0 must not be more than maximum value 100",
+      "defaultUserMessage": "The parameter `total.percentage` value 106.0 must not be more than maximum value 100",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.total.percentage.is.greater.than.max",
+      "parameterName": "total.percentage",
+      "args": [
+       {
+        "value": 106.0
+       },
+       {
+        "value": 100
+       }
+      ]
+     },
+     {
+      "developerMessage": "The parameter `total.percentage` value 106.0 must not be more than maximum value 100",
+      "defaultUserMessage": "The parameter `total.percentage` value 106.0 must not be more than maximum value 100",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.total.percentage.is.greater.than.max",
+      "parameterName": "total.percentage",
+      "args": [
+       {
+        "value": 106.0
+       },
+       {
+        "value": 100
+       }
+      ]
+     },
+     {
+      "developerMessage": "The parameter `total.percentage` value 111.0 must not be more than maximum value 100",
+      "defaultUserMessage": "The parameter `total.percentage` value 111.0 must not be more than maximum value 100",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.total.percentage.is.greater.than.max",
+      "parameterName": "total.percentage",
+      "args": [
+       {
+        "value": 111.0
+       },
+       {
+        "value": 100
+       }
+      ]
+     },
+     {
+      "developerMessage": "The parameter `total.percentage` value 106.0 must not be more than maximum value 100",
+      "defaultUserMessage": "The parameter `total.percentage` value 106.0 must not be more than maximum value 100",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.total.percentage.is.greater.than.max",
+      "parameterName": "total.percentage",
+      "args": [
+       {
+        "value": 106.0
+       },
+       {
+        "value": 100
+       }
+      ]
+     },
+     {
+      "developerMessage": "The parameter `total.percentage` value 106.0 must not be more than maximum value 100",
+      "defaultUserMessage": "The parameter `total.percentage` value 106.0 must not be more than maximum value 100",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.total.percentage.is.greater.than.max",
+      "parameterName": "total.percentage",
+      "args": [
+       {
+        "value": 106.0
+       },
+       {
+        "value": 100
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/group",
+   "body": {
+    "name": "Top bogus",
+    "taxComponents": [
+     {
+      "taxComponentId": 3
+     }
+    ],
+    "bogus": 1,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 6
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/group",
+   "body": {
+    "name": "Bad date",
+    "taxComponents": [
+     {
+      "taxComponentId": 3,
+      "startDate": "nope"
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `startDate` is invalid based on the dateFormat: `dd MMMM yyyy` and locale: `en` provided:",
+      "defaultUserMessage": "The parameter `startDate` is invalid based on the dateFormat: `dd MMMM yyyy` and locale: `en` provided:",
+      "userMessageGlobalisationCode": "validation.msg.invalid.dateFormat.format",
+      "parameterName": "startDate",
+      "args": [
+       {},
+       {
+        "value": "dd MMMM yyyy"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/group",
+   "body": {
+    "name": "Bad date format",
+    "taxComponents": [
+     {
+      "taxComponentId": 3,
+      "startDate": "01 January 2025"
+     }
+    ]
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `startDate` requires a `dateFormat` parameter to be passed with it.",
+      "defaultUserMessage": "The parameter `startDate` requires a `dateFormat` parameter to be passed with it.",
+      "userMessageGlobalisationCode": "validation.msg.missing.dateFormat.parameter",
+      "parameterName": "startDate",
+      "args": []
+     },
+     {
+      "developerMessage": "The parameter `startDate` requires a `locale` parameter to be passed with it.",
+      "defaultUserMessage": "The parameter `startDate` requires a `locale` parameter to be passed with it.",
+      "userMessageGlobalisationCode": "validation.msg.missing.locale.parameter",
+      "parameterName": "startDate",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/group",
+   "status": 400,
+   "response": {
+    "developerMessage": "The JSON provided in the body of the request is invalid or missing.",
+    "defaultUserMessage": "The JSON provided in the body of the request is invalid or missing.",
+    "userMessageGlobalisationCode": "error.msg.invalid.request.body",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/group",
+   "raw": "{bad",
+   "ignore": [
+    "developerMessage",
+    "defaultUserMessage"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+    "defaultUserMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+    "userMessageGlobalisationCode": "error.msg.invalid.json.data",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "path": "/v1/taxes/group",
+   "ignore": [
+    "startDate",
+    "businessDate",
+    "taxAssociations",
+    "taxComponents"
+   ],
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "name": "Standard",
+     "taxAssociations": [
+      {
+       "id": 1,
+       "taxComponent": {
+        "id": 4,
+        "name": "Padded",
+        "percentage": 1.0,
+        "startDate": "2025-01-01"
+       },
+       "startDate": "2025-01-01"
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "name": "Pair",
+     "taxAssociations": [
+      {
+       "id": 2,
+       "taxComponent": {
+        "id": 4,
+        "name": "Padded",
+        "percentage": 1.0,
+        "startDate": "2025-01-01"
+       },
+       "startDate": "2025-01-01"
+      },
+      {
+       "id": 3,
+       "taxComponent": {
+        "id": 3,
+        "name": "Text percent",
+        "percentage": 7.25,
+        "startDate": "2025-01-01"
+       },
+       "startDate": "2025-01-01"
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "name": "Default dated",
+     "taxAssociations": [
+      {
+       "id": 4,
+       "taxComponent": {
+        "id": 3,
+        "name": "Text percent",
+        "percentage": 7.25,
+        "startDate": "2025-01-01"
+       },
+       "startDate": "2026-11-15"
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "name": "Single",
+     "taxAssociations": [
+      {
+       "id": 5,
+       "taxComponent": {
+        "id": 4,
+        "name": "Padded",
+        "percentage": 1.0,
+        "startDate": "2025-01-01"
+       },
+       "startDate": "2026-11-15"
+      }
+     ]
+    },
+    {
+     "id": 5,
+     "name": "Item extra",
+     "taxAssociations": [
+      {
+       "id": 6,
+       "taxComponent": {
+        "id": 3,
+        "name": "Text percent",
+        "percentage": 7.25,
+        "startDate": "2025-01-01"
+       },
+       "startDate": "2026-11-15"
+      }
+     ]
+    },
+    {
+     "id": 6,
+     "name": "Top bogus",
+     "taxAssociations": [
+      {
+       "id": 7,
+       "taxComponent": {
+        "id": 3,
+        "name": "Text percent",
+        "percentage": 7.25,
+        "startDate": "2025-01-01"
+       },
+       "startDate": "2026-11-15"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "path": "/v1/taxes/group/1",
+   "ignore": [
+    "startDate",
+    "businessDate",
+    "taxAssociations",
+    "taxComponents"
+   ],
+   "status": 200,
+   "response": {
+    "id": 1,
+    "name": "Standard",
+    "taxAssociations": [
+     {
+      "id": 1,
+      "taxComponent": {
+       "id": 4,
+       "name": "Padded",
+       "percentage": 1.0,
+       "startDate": "2025-01-01"
+      },
+      "startDate": "2025-01-01"
+     }
+    ],
+    "businessDate": "2026-11-15"
+   }
+  },
+  {
+   "path": "/v1/taxes/group/1?template=true",
+   "ignore": [
+    "startDate",
+    "businessDate",
+    "taxAssociations",
+    "taxComponents"
+   ],
+   "status": 200,
+   "response": {
+    "id": 1,
+    "name": "Standard",
+    "taxAssociations": [
+     {
+      "id": 1,
+      "taxComponent": {
+       "id": 4,
+       "name": "Padded",
+       "percentage": 1.0,
+       "startDate": "2025-01-01"
+      },
+      "startDate": "2025-01-01",
+      "componentEditable": false
+     }
+    ],
+    "taxComponents": [
+     {
+      "id": 2,
+      "name": "Default dated",
+      "percentage": 2.5,
+      "startDate": "2026-11-15"
+     },
+     {
+      "id": 3,
+      "name": "Text percent",
+      "percentage": 7.25,
+      "startDate": "2025-01-01"
+     },
+     {
+      "id": 4,
+      "name": "Padded",
+      "percentage": 1.0,
+      "startDate": "2025-01-01"
+     },
+     {
+      "id": 5,
+      "name": "VAT",
+      "percentage": 100.0,
+      "startDate": "2025-01-01"
+     },
+     {
+      "id": 6,
+      "name": "VAT",
+      "percentage": 0.0001,
+      "startDate": "2025-01-01"
+     },
+     {
+      "id": 7,
+      "name": "VAT",
+      "percentage": 10.0,
+      "startDate": "2025-01-01"
+     },
+     {
+      "id": 1,
+      "name": "VAT standard",
+      "percentage": 5.0,
+      "startDate": "2026-11-15"
+     }
+    ],
+    "businessDate": "2026-11-15",
+    "groupEditable": true
+   }
+  },
+  {
+   "path": "/v1/taxes/group/template",
+   "ignore": [
+    "taxAssociations",
+    "taxComponents"
+   ],
+   "status": 200,
+   "response": {
+    "taxComponents": [
+     {
+      "id": 2,
+      "name": "Default dated",
+      "percentage": 2.5,
+      "startDate": "2026-11-15"
+     },
+     {
+      "id": 3,
+      "name": "Text percent",
+      "percentage": 7.25,
+      "startDate": "2025-01-01"
+     },
+     {
+      "id": 4,
+      "name": "Padded",
+      "percentage": 1.0,
+      "startDate": "2025-01-01"
+     },
+     {
+      "id": 5,
+      "name": "VAT",
+      "percentage": 100.0,
+      "startDate": "2025-01-01"
+     },
+     {
+      "id": 6,
+      "name": "VAT",
+      "percentage": 0.0001,
+      "startDate": "2025-01-01"
+     },
+     {
+      "id": 7,
+      "name": "VAT",
+      "percentage": 10.0,
+      "startDate": "2025-01-01"
+     },
+     {
+      "id": 1,
+      "name": "VAT standard",
+      "percentage": 5.0,
+      "startDate": "2026-11-15"
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/taxes/group/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "tax group with identifier 99 does not exist",
+      "defaultUserMessage": "tax group with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.tax.group.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "path": "/v1/taxes/component/template",
+   "status": 200,
+   "response": {
+    "glAccountOptions": {
+     "liabilityAccountOptions": [
+      {
+       "id": 1,
+       "name": "Payable",
+       "glCode": "2100",
+       "disabled": false,
+       "manualEntriesAllowed": true,
+       "type": {
+        "id": 2,
+        "code": "accountType.liability",
+        "value": "LIABILITY"
+       },
+       "usage": {
+        "id": 1,
+        "code": "accountUsage.detail",
+        "value": "DETAIL"
+       },
+       "description": "",
+       "nameDecorated": "Payable",
+       "tagId": {
+        "id": 0
+       }
+      }
+     ],
+     "expenseAccountOptions": [
+      {
+       "id": 2,
+       "name": "Expense",
+       "glCode": "5100",
+       "disabled": false,
+       "manualEntriesAllowed": true,
+       "type": {
+        "id": 5,
+        "code": "accountType.expense",
+        "value": "EXPENSE"
+       },
+       "usage": {
+        "id": 1,
+        "code": "accountUsage.detail",
+        "value": "DETAIL"
+       },
+       "description": "",
+       "nameDecorated": "Expense",
+       "tagId": {
+        "id": 0
+       }
+      }
+     ],
+     "assetAccountOptions": [
+      {
+       "id": 4,
+       "name": "Asset",
+       "glCode": "1100",
+       "disabled": false,
+       "manualEntriesAllowed": true,
+       "type": {
+        "id": 1,
+        "code": "accountType.asset",
+        "value": "ASSET"
+       },
+       "usage": {
+        "id": 1,
+        "code": "accountUsage.detail",
+        "value": "DETAIL"
+       },
+       "description": "",
+       "nameDecorated": "Asset",
+       "tagId": {
+        "id": 0
+       }
+      }
+     ]
+    },
+    "glAccountTypeOptions": [
+     {
+      "id": 1,
+      "code": "accountType.asset",
+      "value": "ASSET"
+     },
+     {
+      "id": 2,
+      "code": "accountType.liability",
+      "value": "LIABILITY"
+     },
+     {
+      "id": 3,
+      "code": "accountType.equity",
+      "value": "EQUITY"
+     },
+     {
+      "id": 4,
+      "code": "accountType.income",
+      "value": "INCOME"
+     },
+     {
+      "id": 5,
+      "code": "accountType.expense",
+      "value": "EXPENSE"
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/group/1",
+   "body": {
+    "name": "Renamed",
+    "taxComponents": [],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "name": "Renamed"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/group/1",
+   "body": {
+    "name": "Renamed",
+    "taxComponents": [],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/group/1",
+   "body": {
+    "name": "",
+    "taxComponents": []
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/group/1",
+   "body": {
+    "taxComponents": [
+     {
+      "taxComponentId": 5
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "ignore": [
+    "startDate",
+    "businessDate"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "addComponents": [
+      5
+     ]
+    }
+   }
+  },
+  {
+   "path": "/v1/taxes/group/1",
+   "ignore": [
+    "startDate",
+    "businessDate",
+    "taxAssociations",
+    "taxComponents"
+   ],
+   "status": 200,
+   "response": {
+    "id": 1,
+    "name": "Renamed",
+    "taxAssociations": [
+     {
+      "id": 1,
+      "taxComponent": {
+       "id": 4,
+       "name": "Padded",
+       "percentage": 1.0,
+       "startDate": "2025-01-01"
+      },
+      "startDate": "2025-01-01"
+     },
+     {
+      "id": 8,
+      "taxComponent": {
+       "id": 5,
+       "name": "VAT",
+       "percentage": 100.0,
+       "startDate": "2025-01-01"
+      },
+      "startDate": "2026-11-15"
+     }
+    ],
+    "businessDate": "2026-11-15"
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/group/1",
+   "body": {
+    "taxComponents": [
+     {
+      "id": 1,
+      "endDate": "01 January 2099"
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "modifiedComponents": [
+      {
+       "endDate": [
+        2099,
+        1,
+        1
+       ],
+       "taxComponentId": 4
+      }
+     ]
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/group/1",
+   "body": {
+    "taxComponents": [
+     {
+      "id": 1,
+      "endDate": "01 January 2099"
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/group/1",
+   "body": {
+    "taxComponents": [
+     {
+      "id": 1,
+      "endDate": "01 January 2020"
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `endDate` must be greater than the provided date 2025-01-01",
+      "defaultUserMessage": "The parameter `endDate` must be greater than the provided date 2025-01-01",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.endDate.is.less.than.date",
+      "parameterName": "endDate",
+      "args": [
+       {
+        "value": "2020-01-01"
+       },
+       {
+        "value": "2025-01-01"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/group/1",
+   "body": {
+    "taxComponents": [
+     {
+      "id": 1,
+      "startDate": "01 February 2025"
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "Failed data validation due to: cannot.be.modified.after.activation.",
+      "defaultUserMessage": "Failed data validation due to: cannot.be.modified.after.activation.",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.startDate.cannot.be.modified.after.activation",
+      "parameterName": "startDate",
+      "args": [
+       {},
+       {
+        "value": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/group/1",
+   "body": {
+    "taxComponents": [
+     {
+      "id": 1,
+      "startDate": "01 February 2025",
+      "endDate": "01 January 2099"
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "Failed data validation due to: start.date.end.date.both.should.not.be.present.",
+      "defaultUserMessage": "Failed data validation due to: start.date.end.date.both.should.not.be.present.",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.taxComponents.at.index.1.start.date.end.date.both.should.not.be.present",
+      "parameterName": "taxComponents.at.index.1",
+      "args": [
+       {},
+       {
+        "value": [
+         [
+          2025,
+          2,
+          1
+         ],
+         [
+          2099,
+          1,
+          1
+         ]
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/group/1",
+   "body": {
+    "taxComponents": [
+     {
+      "id": 99,
+      "endDate": "01 January 2099"
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Tax group mapping with identifier 99 does not exist",
+      "defaultUserMessage": "Tax group mapping with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.tax.group.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/group/1",
+   "body": {
+    "taxComponents": [
+     {
+      "id": 1,
+      "taxComponentId": 5,
+      "endDate": "01 January 2099"
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "Failed data validation due to: update.not.supported.",
+      "defaultUserMessage": "Failed data validation due to: update.not.supported.",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.taxComponentId.update.not.supported",
+      "parameterName": "taxComponentId",
+      "args": [
+       {},
+       {
+        "value": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/group/1",
+   "body": {
+    "taxComponents": [
+     {
+      "taxComponentId": 5,
+      "endDate": "01 January 2099"
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "ignore": [
+    "errors"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `total.percentage` value 101.0 must not be more than maximum value 100",
+      "defaultUserMessage": "The parameter `total.percentage` value 101.0 must not be more than maximum value 100",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.total.percentage.is.greater.than.max",
+      "parameterName": "total.percentage",
+      "args": [
+       {
+        "value": 101.0
+       },
+       {
+        "value": 100
+       }
+      ]
+     },
+     {
+      "developerMessage": "The parameter `total.percentage` value 101.0 must not be more than maximum value 100",
+      "defaultUserMessage": "The parameter `total.percentage` value 101.0 must not be more than maximum value 100",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.total.percentage.is.greater.than.max",
+      "parameterName": "total.percentage",
+      "args": [
+       {
+        "value": 101.0
+       },
+       {
+        "value": 100
+       }
+      ]
+     },
+     {
+      "developerMessage": "The parameter `total.percentage` value 101.0 must not be more than maximum value 100",
+      "defaultUserMessage": "The parameter `total.percentage` value 101.0 must not be more than maximum value 100",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.total.percentage.is.greater.than.max",
+      "parameterName": "total.percentage",
+      "args": [
+       {
+        "value": 101.0
+       },
+       {
+        "value": 100
+       }
+      ]
+     },
+     {
+      "developerMessage": "Failed data validation due to: dates.are.overlapping.",
+      "defaultUserMessage": "Failed data validation due to: dates.are.overlapping.",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.component.dates.are.overlapping",
+      "parameterName": "component",
+      "args": [
+       {},
+       {
+        "value": []
+       }
+      ]
+     },
+     {
+      "developerMessage": "Failed data validation due to: dates.are.overlapping.",
+      "defaultUserMessage": "Failed data validation due to: dates.are.overlapping.",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.component.dates.are.overlapping",
+      "parameterName": "component",
+      "args": [
+       {},
+       {
+        "value": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/group/1",
+   "body": {
+    "taxComponents": [
+     {
+      "taxComponentId": 1
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "ignore": [
+    "errors"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `total.percentage` value 106.0 must not be more than maximum value 100",
+      "defaultUserMessage": "The parameter `total.percentage` value 106.0 must not be more than maximum value 100",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.total.percentage.is.greater.than.max",
+      "parameterName": "total.percentage",
+      "args": [
+       {
+        "value": 106.0
+       },
+       {
+        "value": 100
+       }
+      ]
+     },
+     {
+      "developerMessage": "The parameter `total.percentage` value 106.0 must not be more than maximum value 100",
+      "defaultUserMessage": "The parameter `total.percentage` value 106.0 must not be more than maximum value 100",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.total.percentage.is.greater.than.max",
+      "parameterName": "total.percentage",
+      "args": [
+       {
+        "value": 106.0
+       },
+       {
+        "value": 100
+       }
+      ]
+     },
+     {
+      "developerMessage": "The parameter `total.percentage` value 105.0 must not be more than maximum value 100",
+      "defaultUserMessage": "The parameter `total.percentage` value 105.0 must not be more than maximum value 100",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.total.percentage.is.greater.than.max",
+      "parameterName": "total.percentage",
+      "args": [
+       {
+        "value": 105.0
+       },
+       {
+        "value": 100
+       }
+      ]
+     },
+     {
+      "developerMessage": "The parameter `total.percentage` value 105.0 must not be more than maximum value 100",
+      "defaultUserMessage": "The parameter `total.percentage` value 105.0 must not be more than maximum value 100",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.total.percentage.is.greater.than.max",
+      "parameterName": "total.percentage",
+      "args": [
+       {
+        "value": 105.0
+       },
+       {
+        "value": 100
+       }
+      ]
+     },
+     {
+      "developerMessage": "The parameter `total.percentage` value 105.0 must not be more than maximum value 100",
+      "defaultUserMessage": "The parameter `total.percentage` value 105.0 must not be more than maximum value 100",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.total.percentage.is.greater.than.max",
+      "parameterName": "total.percentage",
+      "args": [
+       {
+        "value": 105.0
+       },
+       {
+        "value": 100
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/group/1",
+   "body": {
+    "taxComponents": [
+     {}
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `taxComponents.taxComponentId.at.index.1` is mandatory.",
+      "defaultUserMessage": "The parameter `taxComponents.taxComponentId.at.index.1` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.taxComponents.taxComponentId.at.index.1.cannot.be.blank",
+      "parameterName": "taxComponents.taxComponentId.at.index.1",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/group/1",
+   "body": {
+    "taxComponents": [],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/group/1",
+   "body": {
+    "taxComponents": [
+     {
+      "id": 0
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `taxComponents.id.at.index.1` must be greater than 0.",
+      "defaultUserMessage": "The parameter `taxComponents.id.at.index.1` must be greater than 0.",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.taxComponents.id.at.index.1.not.greater.than.zero",
+      "parameterName": "taxComponents.id.at.index.1",
+      "args": [
+       {
+        "value": 0
+       },
+       {
+        "value": 0
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/group/1",
+   "body": {
+    "taxComponents": [
+     {
+      "bogus": 1
+     }
+    ],
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `taxComponents.taxComponentId.at.index.1` is mandatory.",
+      "defaultUserMessage": "The parameter `taxComponents.taxComponentId.at.index.1` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.tax.group.taxComponents.taxComponentId.at.index.1.cannot.be.blank",
+      "parameterName": "taxComponents.taxComponentId.at.index.1",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/group/99",
+   "body": {
+    "name": "x"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "tax group with identifier 99 does not exist",
+      "defaultUserMessage": "tax group with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.tax.group.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/group/abc",
+   "body": {
+    "name": "x"
+   },
+   "ignore": [
+    "timestamp",
+    "path"
+   ],
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-15T08:27:24.021Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/taxes/group/abc"
+   }
+  },
+  {
+   "path": "/v1/taxes/group/1",
+   "ignore": [
+    "startDate",
+    "businessDate",
+    "taxAssociations",
+    "taxComponents"
+   ],
+   "status": 200,
+   "response": {
+    "id": 1,
+    "name": "Renamed",
+    "taxAssociations": [
+     {
+      "id": 8,
+      "taxComponent": {
+       "id": 5,
+       "name": "VAT",
+       "percentage": 100.0,
+       "startDate": "2025-01-01"
+      },
+      "startDate": "2026-11-15"
+     },
+     {
+      "id": 1,
+      "taxComponent": {
+       "id": 4,
+       "name": "Padded",
+       "percentage": 1.0,
+       "startDate": "2025-01-01"
+      },
+      "startDate": "2025-01-01",
+      "endDate": "2099-01-01"
+     }
+    ],
+    "businessDate": "2026-11-15"
+   }
+  },
+  {
+   "path": "/v1/taxes/group/1?template=true",
+   "ignore": [
+    "startDate",
+    "businessDate",
+    "taxAssociations",
+    "taxComponents"
+   ],
+   "status": 200,
+   "response": {
+    "id": 1,
+    "name": "Renamed",
+    "taxAssociations": [
+     {
+      "id": 8,
+      "taxComponent": {
+       "id": 5,
+       "name": "VAT",
+       "percentage": 100.0,
+       "startDate": "2025-01-01"
+      },
+      "startDate": "2026-11-15",
+      "componentEditable": false
+     },
+     {
+      "id": 1,
+      "taxComponent": {
+       "id": 4,
+       "name": "Padded",
+       "percentage": 1.0,
+       "startDate": "2025-01-01"
+      },
+      "startDate": "2025-01-01",
+      "endDate": "2099-01-01",
+      "componentEditable": false
+     }
+    ],
+    "taxComponents": [
+     {
+      "id": 2,
+      "name": "Default dated",
+      "percentage": 2.5,
+      "startDate": "2026-11-15"
+     },
+     {
+      "id": 3,
+      "name": "Text percent",
+      "percentage": 7.25,
+      "startDate": "2025-01-01"
+     },
+     {
+      "id": 4,
+      "name": "Padded",
+      "percentage": 1.0,
+      "startDate": "2025-01-01"
+     },
+     {
+      "id": 5,
+      "name": "VAT",
+      "percentage": 100.0,
+      "startDate": "2025-01-01"
+     },
+     {
+      "id": 6,
+      "name": "VAT",
+      "percentage": 0.0001,
+      "startDate": "2025-01-01"
+     },
+     {
+      "id": 7,
+      "name": "VAT",
+      "percentage": 10.0,
+      "startDate": "2025-01-01"
+     },
+     {
+      "id": 1,
+      "name": "VAT standard",
+      "percentage": 5.0,
+      "startDate": "2026-11-15"
+     }
+    ],
+    "businessDate": "2026-11-15",
+    "groupEditable": true
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/taxes/component/4",
+   "body": {
+    "percentage": 2,
+    "startDate": "01 January 2099",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "ignore": [
+    "errors"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 4,
+    "changes": {
+     "percentage": 2,
+     "startDate": [
+      2099,
+      1,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "Both types 5",
+    "percentage": 10,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "debitAccountType": 5,
+    "debitAccountId": 2,
+    "creditAccountType": 5,
+    "creditAccountId": 2
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 8
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "Debit",
+    "percentage": 10,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "debitAccountType": 5,
+    "debitAccountId": 2
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 9
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "Credit",
+    "percentage": 10,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "creditAccountType": 2,
+    "creditAccountId": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 10
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/taxes/component",
+   "body": {
+    "name": "Both",
+    "percentage": 10,
+    "startDate": "01 January 2025",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "debitAccountType": 5,
+    "debitAccountId": 2,
+    "creditAccountType": 2,
+    "creditAccountId": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 11
+   }
+  }
+ ]
+}

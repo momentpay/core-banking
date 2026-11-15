@@ -1,0 +1,1816 @@
+{
+  "name": "floatingrates",
+  "reset": [
+    "floatingrates"
+  ],
+  "steps": [
+    {
+      "path": "/v1/floatingrates",
+      "status": 200,
+      "response": []
+    },
+    {
+      "path": "/v1/floatingrates/1",
+      "status": 404,
+      "response": {
+        "developerMessage": "The requested resource is not available.",
+        "httpStatusCode": "404",
+        "defaultUserMessage": "The requested resource is not available.",
+        "userMessageGlobalisationCode": "error.msg.resource.not.found",
+        "errors": [
+          {
+            "developerMessage": "Floating Rate with identifier 1 does not exist",
+            "defaultUserMessage": "Floating Rate with identifier 1 does not exist",
+            "userMessageGlobalisationCode": "error.msg.floatingrate.id.invalid",
+            "parameterName": "id",
+            "args": [
+              {
+                "value": 1
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "/v1/floatingrates/abc",
+      "ignore": [
+        "path",
+        "timestamp"
+      ],
+      "status": 404,
+      "response": {
+        "timestamp": "2026-11-15T08:53:12.231Z",
+        "status": 404,
+        "error": "Not Found",
+        "path": "/fineract-provider/api/v1/floatingrates/abc"
+      }
+    },
+    {
+      "path": "/v1/floatingrates/template",
+      "ignore": [
+        "path",
+        "timestamp"
+      ],
+      "status": 404,
+      "response": {
+        "timestamp": "2026-11-15T08:53:12.255Z",
+        "status": 404,
+        "error": "Not Found",
+        "path": "/fineract-provider/api/v1/floatingrates/template"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "Differential first",
+        "ratePeriods": [
+          {
+            "fromDate": "2099-01-01",
+            "interestRate": 5,
+            "isDifferentialToBaseLendingRate": true
+          }
+        ]
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "Base Lending Rate doesn't exist",
+            "defaultUserMessage": "Base Lending Rate doesn't exist",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.differential-to-base-lending-rate.not-available",
+            "parameterName": "createFloatingRate.floatingRateRequest.ratePeriods[0].isDifferentialToBaseLendingRate",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "BLR",
+        "isBaseLendingRate": true,
+        "ratePeriods": [
+          {
+            "fromDate": "2099-01-01",
+            "interestRate": 5,
+            "isDifferentialToBaseLendingRate": false
+          }
+        ]
+      },
+      "ignore": [
+        "createdOn",
+        "modifiedOn",
+        "ratePeriods.id"
+      ],
+      "status": 200,
+      "response": {
+        "resourceId": 1
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "Second BLR",
+        "isBaseLendingRate": true,
+        "ratePeriods": [
+          {
+            "fromDate": "2099-01-01",
+            "interestRate": 5
+          }
+        ]
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "Base Lending Rate already exists",
+            "defaultUserMessage": "Base Lending Rate already exists",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.base-lending-rate.duplicate",
+            "parameterName": "createFloatingRate.floatingRateRequest.isBaseLendingRate",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "Linked",
+        "ratePeriods": [
+          {
+            "fromDate": "01 February 2099",
+            "interestRate": 1.5,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "isDifferentialToBaseLendingRate": true
+          },
+          {
+            "fromDate": "01 March 2099",
+            "interestRate": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        ]
+      },
+      "status": 200,
+      "response": {
+        "resourceId": 2
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "No periods"
+      },
+      "status": 200,
+      "response": {
+        "resourceId": 3
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "Inactive",
+        "isActive": false,
+        "ratePeriods": [
+          {
+            "fromDate": "2099-05-01",
+            "interestRate": 3
+          }
+        ]
+      },
+      "status": 200,
+      "response": {
+        "resourceId": 4
+      }
+    },
+    {
+      "path": "/v1/floatingrates",
+      "ignore": [
+        "createdOn",
+        "modifiedOn",
+        "ratePeriods.id"
+      ],
+      "status": 200,
+      "response": [
+        {
+          "id": 1,
+          "name": "BLR",
+          "isBaseLendingRate": true,
+          "isActive": true,
+          "createdBy": "mifos",
+          "createdOn": "2026-11-15T14:23:12.334793+05:30",
+          "modifiedBy": "mifos",
+          "modifiedOn": "2026-11-15T14:23:12.334793+05:30"
+        },
+        {
+          "id": 2,
+          "name": "Linked",
+          "isBaseLendingRate": false,
+          "isActive": true,
+          "createdBy": "mifos",
+          "createdOn": "2026-11-15T14:23:12.397169+05:30",
+          "modifiedBy": "mifos",
+          "modifiedOn": "2026-11-15T14:23:12.397169+05:30"
+        },
+        {
+          "id": 3,
+          "name": "No periods",
+          "isBaseLendingRate": false,
+          "isActive": true,
+          "createdBy": "mifos",
+          "createdOn": "2026-11-15T14:23:12.459647+05:30",
+          "modifiedBy": "mifos",
+          "modifiedOn": "2026-11-15T14:23:12.459647+05:30"
+        },
+        {
+          "id": 4,
+          "name": "Inactive",
+          "isBaseLendingRate": false,
+          "isActive": false,
+          "createdBy": "mifos",
+          "createdOn": "2026-11-15T14:23:12.496284+05:30",
+          "modifiedBy": "mifos",
+          "modifiedOn": "2026-11-15T14:23:12.496284+05:30"
+        }
+      ]
+    },
+    {
+      "path": "/v1/floatingrates/1",
+      "ignore": [
+        "createdOn",
+        "modifiedOn",
+        "ratePeriods.id"
+      ],
+      "status": 200,
+      "response": {
+        "id": 1,
+        "name": "BLR",
+        "isBaseLendingRate": true,
+        "isActive": true,
+        "createdBy": "mifos",
+        "createdOn": "2026-11-15T14:23:12.334793+05:30",
+        "modifiedBy": "mifos",
+        "modifiedOn": "2026-11-15T14:23:12.334793+05:30",
+        "ratePeriods": [
+          {
+            "id": 1,
+            "fromDate": "2099-01-01",
+            "interestRate": 5.0,
+            "isDifferentialToBaseLendingRate": false,
+            "isActive": true,
+            "createdBy": "mifos",
+            "createdOn": "2026-11-15T14:23:12.334793+05:30",
+            "modifiedBy": "mifos",
+            "modifiedOn": "2026-11-15T14:23:12.334793+05:30"
+          }
+        ]
+      }
+    },
+    {
+      "path": "/v1/floatingrates/2",
+      "ignore": [
+        "createdOn",
+        "modifiedOn",
+        "ratePeriods.id"
+      ],
+      "status": 200,
+      "response": {
+        "id": 2,
+        "name": "Linked",
+        "isBaseLendingRate": false,
+        "isActive": true,
+        "createdBy": "mifos",
+        "createdOn": "2026-11-15T14:23:12.397169+05:30",
+        "modifiedBy": "mifos",
+        "modifiedOn": "2026-11-15T14:23:12.397169+05:30",
+        "ratePeriods": [
+          {
+            "id": 2,
+            "fromDate": "2099-03-01",
+            "interestRate": 2.0,
+            "isDifferentialToBaseLendingRate": false,
+            "isActive": true,
+            "createdBy": "mifos",
+            "createdOn": "2026-11-15T14:23:12.397169+05:30",
+            "modifiedBy": "mifos",
+            "modifiedOn": "2026-11-15T14:23:12.397169+05:30"
+          },
+          {
+            "id": 3,
+            "fromDate": "2099-02-01",
+            "interestRate": 1.5,
+            "isDifferentialToBaseLendingRate": true,
+            "isActive": true,
+            "createdBy": "mifos",
+            "createdOn": "2026-11-15T14:23:12.397169+05:30",
+            "modifiedBy": "mifos",
+            "modifiedOn": "2026-11-15T14:23:12.397169+05:30"
+          }
+        ]
+      }
+    },
+    {
+      "path": "/v1/floatingrates/3",
+      "ignore": [
+        "createdOn",
+        "modifiedOn",
+        "ratePeriods.id"
+      ],
+      "status": 200,
+      "response": {
+        "id": 3,
+        "name": "No periods",
+        "isBaseLendingRate": false,
+        "isActive": true,
+        "createdBy": "mifos",
+        "createdOn": "2026-11-15T14:23:12.459647+05:30",
+        "modifiedBy": "mifos",
+        "modifiedOn": "2026-11-15T14:23:12.459647+05:30",
+        "ratePeriods": []
+      }
+    },
+    {
+      "path": "/v1/floatingrates/4",
+      "ignore": [
+        "createdOn",
+        "modifiedOn",
+        "ratePeriods.id"
+      ],
+      "status": 200,
+      "response": {
+        "id": 4,
+        "name": "Inactive",
+        "isBaseLendingRate": false,
+        "isActive": false,
+        "createdBy": "mifos",
+        "createdOn": "2026-11-15T14:23:12.496284+05:30",
+        "modifiedBy": "mifos",
+        "modifiedOn": "2026-11-15T14:23:12.496284+05:30",
+        "ratePeriods": [
+          {
+            "id": 4,
+            "fromDate": "2099-05-01",
+            "interestRate": 3.0,
+            "isDifferentialToBaseLendingRate": false,
+            "isActive": true,
+            "createdBy": "mifos",
+            "createdOn": "2026-11-15T14:23:12.496284+05:30",
+            "modifiedBy": "mifos",
+            "modifiedOn": "2026-11-15T14:23:12.496284+05:30"
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {},
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "The parameter 'name' is mandatory",
+            "defaultUserMessage": "The parameter 'name' is mandatory",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.name.not-blank",
+            "parameterName": "createFloatingRate.floatingRateRequest.name",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": ""
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "The parameter 'name' is mandatory",
+            "defaultUserMessage": "The parameter 'name' is mandatory",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.name.not-blank",
+            "parameterName": "createFloatingRate.floatingRateRequest.name",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "   "
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "The parameter 'name' is mandatory",
+            "defaultUserMessage": "The parameter 'name' is mandatory",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.name.not-blank",
+            "parameterName": "createFloatingRate.floatingRateRequest.name",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "ratePeriods": [
+          {
+            "fromDate": "2099-01-01",
+            "interestRate": 5
+          }
+        ]
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "The parameter 'name' exceeds the maximum size of 200 characters",
+            "defaultUserMessage": "The parameter 'name' exceeds the maximum size of 200 characters",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.name.max",
+            "parameterName": "createFloatingRate.floatingRateRequest.name",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "Empty",
+        "ratePeriods": []
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "The parameter 'ratePeriods' cannot be empty",
+            "defaultUserMessage": "The parameter 'ratePeriods' cannot be empty",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.rate-periods.not-empty",
+            "parameterName": "createFloatingRate.floatingRateRequest.ratePeriods",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "Past",
+        "ratePeriods": [
+          {
+            "fromDate": "2020-01-01",
+            "interestRate": 5
+          }
+        ]
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "The parameter 'fromDate' must be in the future",
+            "defaultUserMessage": "The parameter 'fromDate' must be in the future",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.from-date.future",
+            "parameterName": "createFloatingRate.floatingRateRequest.ratePeriods[0].fromDate",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "Today",
+        "ratePeriods": [
+          {
+            "fromDate": "2026-11-15",
+            "interestRate": 5
+          }
+        ]
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "The parameter 'fromDate' must be in the future",
+            "defaultUserMessage": "The parameter 'fromDate' must be in the future",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.from-date.future",
+            "parameterName": "createFloatingRate.floatingRateRequest.ratePeriods[0].fromDate",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "Bad date",
+        "ratePeriods": [
+          {
+            "fromDate": "nope",
+            "interestRate": 5
+          }
+        ]
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "The parameter 'fromDate' is not a valid date",
+            "defaultUserMessage": "The parameter 'fromDate' is not a valid date",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.from-date.invalid",
+            "parameterName": "createFloatingRate.floatingRateRequest.ratePeriods[0].fromDate",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "Blank date",
+        "ratePeriods": [
+          {
+            "fromDate": "",
+            "interestRate": 5
+          }
+        ]
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "The parameter 'fromDate' is mandatory",
+            "defaultUserMessage": "The parameter 'fromDate' is mandatory",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.from-date.not-blank",
+            "parameterName": "createFloatingRate.floatingRateRequest.ratePeriods[0].fromDate",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "No date",
+        "ratePeriods": [
+          {
+            "interestRate": 5
+          }
+        ]
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "The parameter 'fromDate' is mandatory",
+            "defaultUserMessage": "The parameter 'fromDate' is mandatory",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.from-date.not-blank",
+            "parameterName": "createFloatingRate.floatingRateRequest.ratePeriods[0].fromDate",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "Neg",
+        "ratePeriods": [
+          {
+            "fromDate": "2099-01-01",
+            "interestRate": -1
+          }
+        ]
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "The parameter 'interestRate' must be zero or positive",
+            "defaultUserMessage": "The parameter 'interestRate' must be zero or positive",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.interest-rate.positive-or-zero",
+            "parameterName": "createFloatingRate.floatingRateRequest.ratePeriods[0].interestRate",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "Zero",
+        "ratePeriods": [
+          {
+            "fromDate": "2099-01-01",
+            "interestRate": 0
+          }
+        ]
+      },
+      "status": 200,
+      "response": {
+        "resourceId": 5
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "No rate",
+        "ratePeriods": [
+          {
+            "fromDate": "2099-01-01"
+          }
+        ]
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "The parameter 'interestRate' is mandatory",
+            "defaultUserMessage": "The parameter 'interestRate' is mandatory",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.interest-rate.not-null",
+            "parameterName": "createFloatingRate.floatingRateRequest.ratePeriods[0].interestRate",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "Rate text",
+        "ratePeriods": [
+          {
+            "fromDate": "2099-01-01",
+            "interestRate": "abc"
+          }
+        ]
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The parameter `interestRate` has value: abc which is not a valid number.",
+        "defaultUserMessage": "The parameter `interestRate` has value: abc which is not a valid number.",
+        "userMessageGlobalisationCode": "validation.msg.invalid.decimal.format",
+        "parameterName": "interestRate",
+        "value": "abc",
+        "args": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "Dup dates",
+        "ratePeriods": [
+          {
+            "fromDate": "2099-01-01",
+            "interestRate": 1
+          },
+          {
+            "fromDate": "2099-01-01",
+            "interestRate": 2
+          }
+        ]
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "More than one entry in 'ratePeriods' has the same 'fromDate'",
+            "defaultUserMessage": "More than one entry in 'ratePeriods' has the same 'fromDate'",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.from-date.duplicate",
+            "parameterName": "createFloatingRate.floatingRateRequest.ratePeriods",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "Differential no BLR here",
+        "ratePeriods": [
+          {
+            "fromDate": "2099-01-01",
+            "interestRate": 5,
+            "isDifferentialToBaseLendingRate": true
+          }
+        ]
+      },
+      "status": 200,
+      "response": {
+        "resourceId": 6
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "BLR differential",
+        "isBaseLendingRate": true,
+        "isActive": false,
+        "ratePeriods": [
+          {
+            "fromDate": "2099-01-01",
+            "interestRate": 5,
+            "isDifferentialToBaseLendingRate": true
+          }
+        ]
+      },
+      "ignore": [
+        "errors"
+      ],
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "Base Lending Rate already exists",
+            "defaultUserMessage": "Base Lending Rate already exists",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.base-lending-rate.duplicate",
+            "parameterName": "createFloatingRate.floatingRateRequest.isBaseLendingRate",
+            "args": []
+          },
+          {
+            "developerMessage": "The parameter 'isDifferentialToBaseLendingRate' cannot be true for a floating rate marked as Base Lending Rate",
+            "defaultUserMessage": "The parameter 'isDifferentialToBaseLendingRate' cannot be true for a floating rate marked as Base Lending Rate",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.differential-to-base-lending-rate.invalid-for-base-lending-rate",
+            "parameterName": "createFloatingRate.floatingRateRequest.ratePeriods[0].isDifferentialToBaseLendingRate",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "Several faults",
+        "ratePeriods": [
+          {
+            "fromDate": "nope",
+            "interestRate": 5
+          },
+          {
+            "fromDate": "2020-01-01",
+            "interestRate": 5
+          }
+        ]
+      },
+      "ignore": [
+        "errors"
+      ],
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "The parameter 'fromDate' must be in the future",
+            "defaultUserMessage": "The parameter 'fromDate' must be in the future",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.from-date.future",
+            "parameterName": "createFloatingRate.floatingRateRequest.ratePeriods[1].fromDate",
+            "args": []
+          },
+          {
+            "developerMessage": "The parameter 'fromDate' is not a valid date",
+            "defaultUserMessage": "The parameter 'fromDate' is not a valid date",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.from-date.invalid",
+            "parameterName": "createFloatingRate.floatingRateRequest.ratePeriods[0].fromDate",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "Format",
+        "ratePeriods": [
+          {
+            "fromDate": "01/02/2099",
+            "interestRate": 1,
+            "dateFormat": "dd/MM/yyyy"
+          }
+        ]
+      },
+      "status": 200,
+      "response": {
+        "resourceId": 7
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "Format bad",
+        "ratePeriods": [
+          {
+            "fromDate": "2099-02-01",
+            "interestRate": 1,
+            "dateFormat": "dd/MM/yyyy"
+          }
+        ]
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "The parameter 'fromDate' is not a valid date",
+            "defaultUserMessage": "The parameter 'fromDate' is not a valid date",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.from-date.invalid",
+            "parameterName": "createFloatingRate.floatingRateRequest.ratePeriods[0].fromDate",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "BLR",
+        "ratePeriods": [
+          {
+            "fromDate": "2099-01-01",
+            "interestRate": 5
+          }
+        ]
+      },
+      "ignore": [
+        "defaultUserMessage",
+        "errors"
+      ],
+      "status": 403,
+      "response": {
+        "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+        "httpStatusCode": "403",
+        "defaultUserMessage": "Unknown data integrity issue with resource: ERROR: duplicate key value violates unique constraint \"m_floating_rates_name_key\"\n  Detail: Key (name)=(BLR) already exists.",
+        "userMessageGlobalisationCode": "error.msg.floatingrates.unknown.data.integrity.issue",
+        "errors": [
+          {
+            "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+            "defaultUserMessage": "Unknown data integrity issue with resource: ERROR: duplicate key value violates unique constraint \"m_floating_rates_name_key\"\n  Detail: Key (name)=(BLR) already exists.",
+            "userMessageGlobalisationCode": "error.msg.floatingrates.unknown.data.integrity.issue",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "Bogus",
+        "bogus": 1,
+        "ratePeriods": [
+          {
+            "fromDate": "2099-06-01",
+            "interestRate": 1,
+            "bogus": 2
+          }
+        ]
+      },
+      "ignore": [
+        "resourceId"
+      ],
+      "status": 200,
+      "response": {
+        "resourceId": 11
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "body": {
+        "name": "Active text",
+        "isActive": "abc"
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+        "defaultUserMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+        "userMessageGlobalisationCode": "error.msg.invalid.json.data",
+        "parameterName": "id",
+        "args": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "status": 500,
+      "response": {
+        "timestamp": "2026-11-15T08:53:14.595Z",
+        "status": 500,
+        "error": "Internal Server Error",
+        "path": "/fineract-provider/api/v1/floatingrates"
+      },
+      "ignore": [
+        "path",
+        "timestamp"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/v1/floatingrates",
+      "raw": "{bad",
+      "ignore": [
+        "developerMessage",
+        "defaultUserMessage"
+      ],
+      "status": 400,
+      "response": {
+        "developerMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+        "defaultUserMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+        "userMessageGlobalisationCode": "error.msg.invalid.json.data",
+        "parameterName": "id",
+        "args": []
+      }
+    },
+    {
+      "path": "/v1/floatingrates",
+      "ignore": [
+        "createdOn",
+        "id",
+        "modifiedOn",
+        "ratePeriods.id"
+      ],
+      "status": 200,
+      "response": [
+        {
+          "id": 1,
+          "name": "BLR",
+          "isBaseLendingRate": true,
+          "isActive": true,
+          "createdBy": "mifos",
+          "createdOn": "2026-11-15T14:23:12.334793+05:30",
+          "modifiedBy": "mifos",
+          "modifiedOn": "2026-11-15T14:23:12.334793+05:30"
+        },
+        {
+          "id": 2,
+          "name": "Linked",
+          "isBaseLendingRate": false,
+          "isActive": true,
+          "createdBy": "mifos",
+          "createdOn": "2026-11-15T14:23:12.397169+05:30",
+          "modifiedBy": "mifos",
+          "modifiedOn": "2026-11-15T14:23:12.397169+05:30"
+        },
+        {
+          "id": 3,
+          "name": "No periods",
+          "isBaseLendingRate": false,
+          "isActive": true,
+          "createdBy": "mifos",
+          "createdOn": "2026-11-15T14:23:12.459647+05:30",
+          "modifiedBy": "mifos",
+          "modifiedOn": "2026-11-15T14:23:12.459647+05:30"
+        },
+        {
+          "id": 4,
+          "name": "Inactive",
+          "isBaseLendingRate": false,
+          "isActive": false,
+          "createdBy": "mifos",
+          "createdOn": "2026-11-15T14:23:12.496284+05:30",
+          "modifiedBy": "mifos",
+          "modifiedOn": "2026-11-15T14:23:12.496284+05:30"
+        },
+        {
+          "id": 5,
+          "name": "Zero",
+          "isBaseLendingRate": false,
+          "isActive": true,
+          "createdBy": "mifos",
+          "createdOn": "2026-11-15T14:23:13.086441+05:30",
+          "modifiedBy": "mifos",
+          "modifiedOn": "2026-11-15T14:23:13.086441+05:30"
+        },
+        {
+          "id": 6,
+          "name": "Differential no BLR here",
+          "isBaseLendingRate": false,
+          "isActive": true,
+          "createdBy": "mifos",
+          "createdOn": "2026-11-15T14:23:13.230123+05:30",
+          "modifiedBy": "mifos",
+          "modifiedOn": "2026-11-15T14:23:13.230123+05:30"
+        },
+        {
+          "id": 7,
+          "name": "Format",
+          "isBaseLendingRate": false,
+          "isActive": true,
+          "createdBy": "mifos",
+          "createdOn": "2026-11-15T14:23:13.349933+05:30",
+          "modifiedBy": "mifos",
+          "modifiedOn": "2026-11-15T14:23:13.349933+05:30"
+        },
+        {
+          "id": 11,
+          "name": "Bogus",
+          "isBaseLendingRate": false,
+          "isActive": true,
+          "createdBy": "mifos",
+          "createdOn": "2026-11-15T14:23:14.501359+05:30",
+          "modifiedBy": "mifos",
+          "modifiedOn": "2026-11-15T14:23:14.501359+05:30"
+        }
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/3",
+      "body": {
+        "name": "Renamed"
+      },
+      "status": 200,
+      "response": {
+        "resourceId": 3,
+        "changes": {
+          "name": "Renamed"
+        }
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/3",
+      "body": {
+        "name": "Renamed"
+      },
+      "status": 200,
+      "response": {
+        "resourceId": 3,
+        "changes": {}
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/3",
+      "body": {
+        "isActive": false
+      },
+      "status": 200,
+      "response": {
+        "resourceId": 3,
+        "changes": {
+          "isActive": false
+        }
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/3",
+      "body": {
+        "isActive": true,
+        "isBaseLendingRate": false
+      },
+      "status": 200,
+      "response": {
+        "resourceId": 3,
+        "changes": {
+          "isActive": true
+        }
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/3",
+      "body": {
+        "ratePeriods": [
+          {
+            "fromDate": "2099-07-01",
+            "interestRate": 4
+          }
+        ]
+      },
+      "status": 200,
+      "response": {
+        "resourceId": 3,
+        "changes": {
+          "ratePeriods": [
+            {
+              "fromDate": "2099-07-01",
+              "interestRate": 4
+            }
+          ]
+        }
+      }
+    },
+    {
+      "path": "/v1/floatingrates/3",
+      "ignore": [
+        "createdOn",
+        "modifiedOn",
+        "ratePeriods.id"
+      ],
+      "status": 200,
+      "response": {
+        "id": 3,
+        "name": "Renamed",
+        "isBaseLendingRate": false,
+        "isActive": true,
+        "createdBy": "mifos",
+        "createdOn": "2026-11-15T14:23:12.459647+05:30",
+        "modifiedBy": "mifos",
+        "modifiedOn": "2026-11-15T14:23:14.917989+05:30",
+        "ratePeriods": [
+          {
+            "id": 9,
+            "fromDate": "2099-07-01",
+            "interestRate": 4.0,
+            "isDifferentialToBaseLendingRate": false,
+            "isActive": true,
+            "createdBy": "mifos",
+            "createdOn": "2026-11-15T14:23:14.917989+05:30",
+            "modifiedBy": "mifos",
+            "modifiedOn": "2026-11-15T14:23:14.917989+05:30"
+          }
+        ]
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/3",
+      "body": {
+        "ratePeriods": [
+          {
+            "fromDate": "2099-07-01",
+            "interestRate": 4
+          },
+          {
+            "fromDate": "2099-08-01",
+            "interestRate": 6
+          }
+        ]
+      },
+      "status": 200,
+      "response": {
+        "resourceId": 3,
+        "changes": {
+          "ratePeriods": [
+            {
+              "fromDate": "2099-07-01",
+              "interestRate": 4
+            },
+            {
+              "fromDate": "2099-08-01",
+              "interestRate": 6
+            }
+          ]
+        }
+      }
+    },
+    {
+      "path": "/v1/floatingrates/3",
+      "ignore": [
+        "createdOn",
+        "modifiedOn",
+        "ratePeriods.id"
+      ],
+      "status": 200,
+      "response": {
+        "id": 3,
+        "name": "Renamed",
+        "isBaseLendingRate": false,
+        "isActive": true,
+        "createdBy": "mifos",
+        "createdOn": "2026-11-15T14:23:12.459647+05:30",
+        "modifiedBy": "mifos",
+        "modifiedOn": "2026-11-15T14:23:14.980756+05:30",
+        "ratePeriods": [
+          {
+            "id": 11,
+            "fromDate": "2099-08-01",
+            "interestRate": 6.0,
+            "isDifferentialToBaseLendingRate": false,
+            "isActive": true,
+            "createdBy": "mifos",
+            "createdOn": "2026-11-15T14:23:14.980756+05:30",
+            "modifiedBy": "mifos",
+            "modifiedOn": "2026-11-15T14:23:14.980756+05:30"
+          },
+          {
+            "id": 10,
+            "fromDate": "2099-07-01",
+            "interestRate": 4.0,
+            "isDifferentialToBaseLendingRate": false,
+            "isActive": true,
+            "createdBy": "mifos",
+            "createdOn": "2026-11-15T14:23:14.980756+05:30",
+            "modifiedBy": "mifos",
+            "modifiedOn": "2026-11-15T14:23:14.980756+05:30"
+          }
+        ]
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/3",
+      "body": {
+        "ratePeriods": []
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "The parameter 'ratePeriods' cannot be empty",
+            "defaultUserMessage": "The parameter 'ratePeriods' cannot be empty",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.rate-periods.not-empty",
+            "parameterName": "updateFloatingRate.floatingRateRequest.ratePeriods",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/3",
+      "body": {
+        "name": ""
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "The parameter 'name' is mandatory",
+            "defaultUserMessage": "The parameter 'name' is mandatory",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.name.not-blank",
+            "parameterName": "updateFloatingRate.floatingRateRequest.name",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/3",
+      "body": {
+        "name": "   "
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "The parameter 'name' is mandatory",
+            "defaultUserMessage": "The parameter 'name' is mandatory",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.name.not-blank",
+            "parameterName": "updateFloatingRate.floatingRateRequest.name",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/3",
+      "body": {
+        "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "The parameter 'name' exceeds the maximum size of 200 characters",
+            "defaultUserMessage": "The parameter 'name' exceeds the maximum size of 200 characters",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.name.max",
+            "parameterName": "updateFloatingRate.floatingRateRequest.name",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/3",
+      "body": {
+        "isBaseLendingRate": true
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "Base Lending Rate already exists",
+            "defaultUserMessage": "Base Lending Rate already exists",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.base-lending-rate.duplicate",
+            "parameterName": "isBaseLendingRate",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/3",
+      "body": {
+        "ratePeriods": [
+          {
+            "fromDate": "2020-01-01",
+            "interestRate": 5
+          }
+        ]
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "The parameter 'fromDate' must be in the future",
+            "defaultUserMessage": "The parameter 'fromDate' must be in the future",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.from-date.future",
+            "parameterName": "ratePeriods[0].fromDate",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/3",
+      "body": {
+        "ratePeriods": [
+          {
+            "fromDate": "2099-01-01",
+            "interestRate": 1
+          },
+          {
+            "fromDate": "2099-01-01",
+            "interestRate": 2
+          }
+        ]
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "More than one entry in 'ratePeriods' has the same 'fromDate'",
+            "defaultUserMessage": "More than one entry in 'ratePeriods' has the same 'fromDate'",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.from-date.duplicate",
+            "parameterName": "ratePeriods",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/3",
+      "body": {
+        "ratePeriods": [
+          {
+            "fromDate": "2099-01-01",
+            "interestRate": 5,
+            "isDifferentialToBaseLendingRate": true
+          }
+        ]
+      },
+      "status": 200,
+      "response": {
+        "resourceId": 3,
+        "changes": {
+          "ratePeriods": [
+            {
+              "fromDate": "2099-01-01",
+              "interestRate": 5,
+              "isDifferentialToBaseLendingRate": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/3",
+      "body": {
+        "name": "BLR"
+      },
+      "ignore": [
+        "defaultUserMessage",
+        "errors",
+        "path",
+        "timestamp"
+      ],
+      "status": 500,
+      "response": {
+        "timestamp": "2026-11-15T08:53:19.501Z",
+        "status": 500,
+        "error": "Internal Server Error",
+        "path": "/fineract-provider/api/v1/floatingrates/3"
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/1",
+      "body": {
+        "isActive": false
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "There are floating rates linked to this Base Lending Rate, it cannot be marked as non-Base Lending Rate",
+            "defaultUserMessage": "There are floating rates linked to this Base Lending Rate, it cannot be marked as non-Base Lending Rate",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.base-lending-rate.linked",
+            "parameterName": "isBaseLendingRate",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/1",
+      "body": {
+        "isBaseLendingRate": false
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "There are floating rates linked to this Base Lending Rate, it cannot be marked as non-Base Lending Rate",
+            "defaultUserMessage": "There are floating rates linked to this Base Lending Rate, it cannot be marked as non-Base Lending Rate",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.base-lending-rate.linked",
+            "parameterName": "isBaseLendingRate",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/1",
+      "body": {
+        "name": "BLR 2"
+      },
+      "status": 200,
+      "response": {
+        "resourceId": 1,
+        "changes": {
+          "name": "BLR 2"
+        }
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/1",
+      "body": {
+        "isActive": true
+      },
+      "status": 200,
+      "response": {
+        "resourceId": 1,
+        "changes": {}
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/1",
+      "body": {
+        "ratePeriods": [
+          {
+            "fromDate": "2099-09-01",
+            "interestRate": 9,
+            "isDifferentialToBaseLendingRate": true
+          }
+        ]
+      },
+      "status": 400,
+      "response": {
+        "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+        "httpStatusCode": "400",
+        "defaultUserMessage": "Validation errors exist.",
+        "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+        "errors": [
+          {
+            "developerMessage": "The parameter 'isDifferentialToBaseLendingRate' cannot be true for a floating rate marked as Base Lending Rate",
+            "defaultUserMessage": "The parameter 'isDifferentialToBaseLendingRate' cannot be true for a floating rate marked as Base Lending Rate",
+            "userMessageGlobalisationCode": "org.apache.fineract.portfolio.floatingrate.differential-to-base-lending-rate.invalid-for-base-lending-rate",
+            "parameterName": "ratePeriods[0].isDifferentialToBaseLendingRate",
+            "args": []
+          }
+        ]
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/2",
+      "body": {
+        "ratePeriods": [
+          {
+            "fromDate": "2099-09-01",
+            "interestRate": 9,
+            "isDifferentialToBaseLendingRate": true
+          }
+        ]
+      },
+      "status": 200,
+      "response": {
+        "resourceId": 2,
+        "changes": {
+          "ratePeriods": [
+            {
+              "fromDate": "2099-09-01",
+              "interestRate": 9,
+              "isDifferentialToBaseLendingRate": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/99",
+      "body": {
+        "name": "x"
+      },
+      "status": 404,
+      "response": {
+        "developerMessage": "The requested resource is not available.",
+        "httpStatusCode": "404",
+        "defaultUserMessage": "The requested resource is not available.",
+        "userMessageGlobalisationCode": "error.msg.resource.not.found",
+        "errors": [
+          {
+            "developerMessage": "Floating Rate with identifier 99 does not exist",
+            "defaultUserMessage": "Floating Rate with identifier 99 does not exist",
+            "userMessageGlobalisationCode": "error.msg.floatingrate.id.invalid",
+            "parameterName": "id",
+            "args": [
+              {
+                "value": 99
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/abc",
+      "body": {
+        "name": "x"
+      },
+      "ignore": [
+        "path",
+        "timestamp"
+      ],
+      "status": 404,
+      "response": {
+        "timestamp": "2026-11-15T08:53:23.933Z",
+        "status": 404,
+        "error": "Not Found",
+        "path": "/fineract-provider/api/v1/floatingrates/abc"
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/3",
+      "body": {},
+      "status": 200,
+      "response": {
+        "resourceId": 3,
+        "changes": {}
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/floatingrates/3",
+      "body": {
+        "bogus": 1
+      },
+      "status": 200,
+      "response": {
+        "resourceId": 3,
+        "changes": {}
+      }
+    },
+    {
+      "path": "/v1/floatingrates/1",
+      "ignore": [
+        "createdOn",
+        "modifiedOn",
+        "ratePeriods.id"
+      ],
+      "status": 200,
+      "response": {
+        "id": 1,
+        "name": "BLR 2",
+        "isBaseLendingRate": true,
+        "isActive": true,
+        "createdBy": "mifos",
+        "createdOn": "2026-11-15T14:23:12.334793+05:30",
+        "modifiedBy": "mifos",
+        "modifiedOn": "2026-11-15T14:23:21.673728+05:30",
+        "ratePeriods": [
+          {
+            "id": 1,
+            "fromDate": "2099-01-01",
+            "interestRate": 5.0,
+            "isDifferentialToBaseLendingRate": false,
+            "isActive": true,
+            "createdBy": "mifos",
+            "createdOn": "2026-11-15T14:23:12.334793+05:30",
+            "modifiedBy": "mifos",
+            "modifiedOn": "2026-11-15T14:23:12.334793+05:30"
+          }
+        ]
+      }
+    },
+    {
+      "path": "/v1/floatingrates/2",
+      "ignore": [
+        "createdOn",
+        "modifiedOn",
+        "ratePeriods.id"
+      ],
+      "status": 200,
+      "response": {
+        "id": 2,
+        "name": "Linked",
+        "isBaseLendingRate": false,
+        "isActive": true,
+        "createdBy": "mifos",
+        "createdOn": "2026-11-15T14:23:12.397169+05:30",
+        "modifiedBy": "mifos",
+        "modifiedOn": "2026-11-15T14:23:22.82989+05:30",
+        "ratePeriods": [
+          {
+            "id": 13,
+            "fromDate": "2099-09-01",
+            "interestRate": 9.0,
+            "isDifferentialToBaseLendingRate": true,
+            "isActive": true,
+            "createdBy": "mifos",
+            "createdOn": "2026-11-15T14:23:22.82989+05:30",
+            "modifiedBy": "mifos",
+            "modifiedOn": "2026-11-15T14:23:22.82989+05:30"
+          }
+        ]
+      }
+    },
+    {
+      "path": "/v1/floatingrates/3",
+      "ignore": [
+        "createdOn",
+        "modifiedOn",
+        "ratePeriods.id"
+      ],
+      "status": 200,
+      "response": {
+        "id": 3,
+        "name": "Renamed",
+        "isBaseLendingRate": false,
+        "isActive": true,
+        "createdBy": "mifos",
+        "createdOn": "2026-11-15T14:23:12.459647+05:30",
+        "modifiedBy": "mifos",
+        "modifiedOn": "2026-11-15T14:23:18.43986+05:30",
+        "ratePeriods": [
+          {
+            "id": 12,
+            "fromDate": "2099-01-01",
+            "interestRate": 5.0,
+            "isDifferentialToBaseLendingRate": true,
+            "isActive": true,
+            "createdBy": "mifos",
+            "createdOn": "2026-11-15T14:23:18.43986+05:30",
+            "modifiedBy": "mifos",
+            "modifiedOn": "2026-11-15T14:23:18.43986+05:30"
+          }
+        ]
+      }
+    }
+  ]
+}

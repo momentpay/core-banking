@@ -9515,6 +9515,4441 @@
           }
         }
       ]
+    },
+    {
+      "name": "taxes",
+      "reset": [
+        "glaccounts"
+      ],
+      "steps": [
+        {
+          "path": "/v1/taxes/component"
+        },
+        {
+          "path": "/v1/taxes/component/template"
+        },
+        {
+          "path": "/v1/taxes/component/1"
+        },
+        {
+          "path": "/v1/taxes/component/abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "path": "/v1/taxes/group"
+        },
+        {
+          "path": "/v1/taxes/group/template"
+        },
+        {
+          "path": "/v1/taxes/group/1"
+        },
+        {
+          "path": "/v1/taxes/group/abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Payable",
+            "glCode": "2100",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Expense",
+            "glCode": "5100",
+            "manualEntriesAllowed": true,
+            "type": 5,
+            "usage": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Header",
+            "glCode": "2",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Asset",
+            "glCode": "1100",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1
+          }
+        },
+        {
+          "path": "/v1/taxes/component/template"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "VAT",
+            "percentage": 10,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "Default dated",
+            "percentage": 2.5,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "ignore": [
+            "startDate",
+            "businessDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "Text percent",
+            "percentage": "7.25",
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "Padded",
+            "percentage": 1,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "",
+            "percentage": 10,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "VAT",
+            "percentage": null,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "VAT",
+            "percentage": 0,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "VAT",
+            "percentage": -1,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "VAT",
+            "percentage": 100,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "VAT",
+            "percentage": 101,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "VAT",
+            "percentage": "abc",
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "VAT",
+            "percentage": 0.0001,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "VAT",
+            "percentage": 10,
+            "startDate": "not a date",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "VAT",
+            "percentage": 10,
+            "startDate": "01 January 2025",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "VAT",
+            "percentage": 10,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": null,
+            "percentage": 10,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "VAT",
+            "percentage": 10,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "debitAccountId": 2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "VAT",
+            "percentage": 10,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "debitAccountType": 5
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "VAT",
+            "percentage": 10,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "creditAccountId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "VAT",
+            "percentage": 10,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "creditAccountType": 2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "VAT",
+            "percentage": 10,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "debitAccountType": 9,
+            "debitAccountId": 2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "VAT",
+            "percentage": 10,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "debitAccountType": 5,
+            "debitAccountId": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "VAT",
+            "percentage": 10,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "debitAccountType": 5,
+            "debitAccountId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "VAT",
+            "percentage": 10,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "debitAccountType": 2,
+            "debitAccountId": 2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "VAT",
+            "percentage": 10,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "debitAccountType": 2,
+            "debitAccountId": 3
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "VAT",
+            "percentage": 10,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "creditAccountType": 1,
+            "creditAccountId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "VAT",
+            "percentage": 10,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "creditAccountType": 2,
+            "creditAccountId": 3
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "raw": "{bad",
+          "ignore": [
+            "developerMessage",
+            "defaultUserMessage"
+          ]
+        },
+        {
+          "path": "/v1/taxes/component",
+          "ignore": [
+            "startDate",
+            "businessDate"
+          ]
+        },
+        {
+          "path": "/v1/taxes/component/1"
+        },
+        {
+          "path": "/v1/taxes/component/2",
+          "ignore": [
+            "startDate",
+            "businessDate"
+          ]
+        },
+        {
+          "path": "/v1/taxes/component/99"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/component/1",
+          "body": {
+            "percentage": 12,
+            "startDate": "01 January 2099",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "path": "/v1/taxes/component/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/component/1",
+          "body": {
+            "percentage": 12,
+            "startDate": "01 January 2099",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/component/1",
+          "body": {
+            "percentage": 15,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "ignore": [
+            "startDate",
+            "businessDate"
+          ]
+        },
+        {
+          "path": "/v1/taxes/component/1",
+          "ignore": [
+            "startDate",
+            "businessDate"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/component/1",
+          "body": {
+            "name": "VAT standard"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/component/1",
+          "body": {
+            "name": "VAT standard"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/component/1",
+          "body": {
+            "name": ""
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/component/1",
+          "body": {
+            "percentage": 101,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/component/1",
+          "body": {
+            "percentage": 0,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/component/1",
+          "body": {
+            "percentage": "abc",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/component/1",
+          "body": {
+            "percentage": 20,
+            "startDate": "01 January 2020",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "ignore": [
+            "developerMessage",
+            "defaultUserMessage",
+            "args"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/component/1",
+          "body": {
+            "percentage": 20,
+            "startDate": "02 January 2099",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/component/1",
+          "body": {
+            "percentage": 21,
+            "startDate": "02 January 2099",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/component/1",
+          "body": {
+            "startDate": "01 January 2100",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/component/1",
+          "body": {
+            "startDate": "not a date",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/component/1",
+          "body": {
+            "percentage": 5
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/component/1",
+          "body": {}
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/component/1",
+          "body": {
+            "bogus": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/component/1",
+          "body": {
+            "debitAccountId": 2
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/component/99",
+          "body": {
+            "name": "x"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/component/abc",
+          "body": {
+            "name": "x"
+          },
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "path": "/v1/taxes/component/1",
+          "ignore": [
+            "startDate",
+            "businessDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/group",
+          "body": {
+            "name": "Standard",
+            "taxComponents": [
+              {
+                "taxComponentId": 4,
+                "startDate": "01 January 2025"
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/group",
+          "body": {
+            "name": "Pair",
+            "taxComponents": [
+              {
+                "taxComponentId": 3,
+                "startDate": "01 January 2025"
+              },
+              {
+                "taxComponentId": 4,
+                "startDate": "01 January 2025"
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/group",
+          "body": {
+            "name": "Default dated",
+            "taxComponents": [
+              {
+                "taxComponentId": 3
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "ignore": [
+            "startDate",
+            "businessDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/group",
+          "body": {
+            "name": "Single",
+            "taxComponents": [
+              {
+                "taxComponentId": 4
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "ignore": [
+            "startDate",
+            "businessDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/group",
+          "body": {
+            "name": "Empty",
+            "taxComponents": []
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/group",
+          "body": {
+            "name": "Not a list",
+            "taxComponents": "x"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/group",
+          "body": {
+            "name": "Bad item",
+            "taxComponents": [
+              {}
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/group",
+          "body": {
+            "name": "Zero",
+            "taxComponents": [
+              {
+                "taxComponentId": 0
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/group",
+          "body": {
+            "name": "Unknown",
+            "taxComponents": [
+              {
+                "taxComponentId": 99
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/group",
+          "body": {
+            "name": "Extra",
+            "taxComponents": [
+              {
+                "taxComponentId": 3,
+                "endDate": "01 January 2099"
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/group",
+          "body": {
+            "name": "Item extra",
+            "taxComponents": [
+              {
+                "taxComponentId": 3,
+                "bogus": 1
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/group",
+          "body": {
+            "name": "Twice",
+            "taxComponents": [
+              {
+                "taxComponentId": 3
+              },
+              {
+                "taxComponentId": 3
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "ignore": [
+            "errors"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/group",
+          "body": {
+            "name": "Too much",
+            "taxComponents": [
+              {
+                "taxComponentId": 1,
+                "startDate": "01 January 2025"
+              },
+              {
+                "taxComponentId": 4,
+                "startDate": "01 January 2025"
+              },
+              {
+                "taxComponentId": 5,
+                "startDate": "01 January 2025"
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "ignore": [
+            "errors"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/group",
+          "body": {
+            "name": "Top bogus",
+            "taxComponents": [
+              {
+                "taxComponentId": 3
+              }
+            ],
+            "bogus": 1,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/group",
+          "body": {
+            "name": "Bad date",
+            "taxComponents": [
+              {
+                "taxComponentId": 3,
+                "startDate": "nope"
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/group",
+          "body": {
+            "name": "Bad date format",
+            "taxComponents": [
+              {
+                "taxComponentId": 3,
+                "startDate": "01 January 2025"
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/group"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/group",
+          "raw": "{bad",
+          "ignore": [
+            "developerMessage",
+            "defaultUserMessage"
+          ]
+        },
+        {
+          "path": "/v1/taxes/group",
+          "ignore": [
+            "startDate",
+            "businessDate",
+            "taxAssociations",
+            "taxComponents"
+          ]
+        },
+        {
+          "path": "/v1/taxes/group/1",
+          "ignore": [
+            "startDate",
+            "businessDate",
+            "taxAssociations",
+            "taxComponents"
+          ]
+        },
+        {
+          "path": "/v1/taxes/group/1?template=true",
+          "ignore": [
+            "startDate",
+            "businessDate",
+            "taxAssociations",
+            "taxComponents"
+          ]
+        },
+        {
+          "path": "/v1/taxes/group/template",
+          "ignore": [
+            "taxAssociations",
+            "taxComponents"
+          ]
+        },
+        {
+          "path": "/v1/taxes/group/99"
+        },
+        {
+          "path": "/v1/taxes/component/template"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/group/1",
+          "body": {
+            "name": "Renamed",
+            "taxComponents": [],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/group/1",
+          "body": {
+            "name": "Renamed",
+            "taxComponents": [],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/group/1",
+          "body": {
+            "name": "",
+            "taxComponents": []
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/group/1",
+          "body": {
+            "taxComponents": [
+              {
+                "taxComponentId": 5
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "ignore": [
+            "startDate",
+            "businessDate"
+          ]
+        },
+        {
+          "path": "/v1/taxes/group/1",
+          "ignore": [
+            "startDate",
+            "businessDate",
+            "taxAssociations",
+            "taxComponents"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/group/1",
+          "body": {
+            "taxComponents": [
+              {
+                "id": 1,
+                "endDate": "01 January 2099"
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/group/1",
+          "body": {
+            "taxComponents": [
+              {
+                "id": 1,
+                "endDate": "01 January 2099"
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/group/1",
+          "body": {
+            "taxComponents": [
+              {
+                "id": 1,
+                "endDate": "01 January 2020"
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/group/1",
+          "body": {
+            "taxComponents": [
+              {
+                "id": 1,
+                "startDate": "01 February 2025"
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/group/1",
+          "body": {
+            "taxComponents": [
+              {
+                "id": 1,
+                "startDate": "01 February 2025",
+                "endDate": "01 January 2099"
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/group/1",
+          "body": {
+            "taxComponents": [
+              {
+                "id": 99,
+                "endDate": "01 January 2099"
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/group/1",
+          "body": {
+            "taxComponents": [
+              {
+                "id": 1,
+                "taxComponentId": 5,
+                "endDate": "01 January 2099"
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/group/1",
+          "body": {
+            "taxComponents": [
+              {
+                "taxComponentId": 5,
+                "endDate": "01 January 2099"
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "ignore": [
+            "errors"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/group/1",
+          "body": {
+            "taxComponents": [
+              {
+                "taxComponentId": 1
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "ignore": [
+            "errors"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/group/1",
+          "body": {
+            "taxComponents": [
+              {}
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/group/1",
+          "body": {
+            "taxComponents": [],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/group/1",
+          "body": {
+            "taxComponents": [
+              {
+                "id": 0
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/group/1",
+          "body": {
+            "taxComponents": [
+              {
+                "bogus": 1
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/group/99",
+          "body": {
+            "name": "x"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/group/abc",
+          "body": {
+            "name": "x"
+          },
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "path": "/v1/taxes/group/1",
+          "ignore": [
+            "startDate",
+            "businessDate",
+            "taxAssociations",
+            "taxComponents"
+          ]
+        },
+        {
+          "path": "/v1/taxes/group/1?template=true",
+          "ignore": [
+            "startDate",
+            "businessDate",
+            "taxAssociations",
+            "taxComponents"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/taxes/component/4",
+          "body": {
+            "percentage": 2,
+            "startDate": "01 January 2099",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "ignore": [
+            "errors"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "Both types 5",
+            "percentage": 10,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "debitAccountType": 5,
+            "debitAccountId": 2,
+            "creditAccountType": 5,
+            "creditAccountId": 2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "Debit",
+            "percentage": 10,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "debitAccountType": 5,
+            "debitAccountId": 2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "Credit",
+            "percentage": 10,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "creditAccountType": 2,
+            "creditAccountId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "Both",
+            "percentage": 10,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "debitAccountType": 5,
+            "debitAccountId": 2,
+            "creditAccountType": 2,
+            "creditAccountId": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "charges",
+      "reset": [
+        "glaccounts"
+      ],
+      "steps": [
+        {
+          "path": "/v1/charges"
+        },
+        {
+          "path": "/v1/charges/template"
+        },
+        {
+          "path": "/v1/charges/template?chargeAppliesTo=5"
+        },
+        {
+          "path": "/v1/charges/template?chargeAppliesTo=5&chargeTimeType=1"
+        },
+        {
+          "path": "/v1/charges/template?chargeAppliesTo=5&chargeTimeType=2"
+        },
+        {
+          "path": "/v1/charges/template?chargeAppliesTo=1"
+        },
+        {
+          "path": "/v1/charges/template?chargeAppliesTo=abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "path": "/v1/charges/1"
+        },
+        {
+          "path": "/v1/charges/abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Income",
+            "glCode": "4100",
+            "manualEntriesAllowed": true,
+            "type": 4,
+            "usage": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Asset",
+            "glCode": "1100",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Header",
+            "glCode": "4",
+            "manualEntriesAllowed": true,
+            "type": 4,
+            "usage": 2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/component",
+          "body": {
+            "name": "VAT",
+            "percentage": 10,
+            "startDate": "01 January 2025",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/taxes/group",
+          "body": {
+            "name": "Tax",
+            "taxComponents": [
+              {
+                "taxComponentId": 1,
+                "startDate": "01 January 2025"
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "path": "/v1/charges/template"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Loan fee",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en",
+            "active": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Loan pct",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 2,
+            "chargeCalculationType": 2,
+            "chargePaymentMode": 1,
+            "amount": 2.5,
+            "locale": "en",
+            "penalty": true,
+            "minCap": 1,
+            "maxCap": 50
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Instalment",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 8,
+            "chargeCalculationType": 3,
+            "chargePaymentMode": 0,
+            "amount": 1.25,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Overdue",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 9,
+            "chargeCalculationType": 4,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en",
+            "penalty": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Overdue not penalty",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 9,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Penalty at disbursement",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en",
+            "penalty": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Tranche",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 12,
+            "chargeCalculationType": 5,
+            "chargePaymentMode": 0,
+            "amount": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Tranche penalty",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 12,
+            "chargeCalculationType": 5,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en",
+            "penalty": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Tranche percent",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 12,
+            "chargeCalculationType": 2,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Disbursement percent",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 5,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Due percent of disbursement",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 2,
+            "chargeCalculationType": 5,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Bad time",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 3,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Bad time 99",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 99,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Bad calc",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 6,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "No mode",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Bad mode",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 2,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Interval",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en",
+            "feeInterval": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Frequency",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en",
+            "feeFrequency": 4
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Frequency no interval",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en",
+            "feeFrequency": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Frequency ok",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en",
+            "feeFrequency": 2,
+            "feeInterval": 3
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Frequency text",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en",
+            "feeFrequency": "abc",
+            "feeInterval": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Caps on flat",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en",
+            "minCap": 1,
+            "maxCap": 5
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Caps negative",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en",
+            "minCap": -1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Caps zero",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en",
+            "maxCap": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "With tax",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en",
+            "taxGroupId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Tax 0",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en",
+            "taxGroupId": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Tax 99",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en",
+            "taxGroupId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "With account",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en",
+            "incomeAccountId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Account 99",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en",
+            "incomeAccountId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Account 0",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en",
+            "incomeAccountId": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Header account",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en",
+            "incomeAccountId": 3
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Savings fee",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 2,
+            "chargeTimeType": 7,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en",
+            "feeOnMonthDay": "15 March",
+            "feeInterval": 2,
+            "monthDayFormat": "dd MMMM",
+            "active": true,
+            "taxGroupId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Savings annual",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 2,
+            "chargeTimeType": 6,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en",
+            "feeOnMonthDay": "01 July",
+            "monthDayFormat": "dd MMMM"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Savings weekly",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 2,
+            "chargeTimeType": 11,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en",
+            "feeFrequency": 1,
+            "feeInterval": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Savings weekly with day",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 2,
+            "chargeTimeType": 11,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en",
+            "feeOnMonthDay": "15 March",
+            "monthDayFormat": "dd MMMM"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Savings monthly bare",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 2,
+            "chargeTimeType": 7,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Savings monthly interval 13",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 2,
+            "chargeTimeType": 7,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en",
+            "feeOnMonthDay": "15 March",
+            "feeInterval": 13,
+            "monthDayFormat": "dd MMMM"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Savings annual bare",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 2,
+            "chargeTimeType": 6,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Savings withdrawal pct",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 2,
+            "chargeTimeType": 5,
+            "chargeCalculationType": 2,
+            "amount": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Savings no activity pct",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 2,
+            "chargeTimeType": 16,
+            "chargeCalculationType": 2,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Savings activation pct",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 2,
+            "chargeTimeType": 3,
+            "chargeCalculationType": 2,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Savings closure",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 2,
+            "chargeTimeType": 4,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Savings overdraft",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 2,
+            "chargeTimeType": 10,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Savings due",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 2,
+            "chargeTimeType": 2,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Savings disbursement",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 2,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Savings bad calc",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 2,
+            "chargeTimeType": 5,
+            "chargeCalculationType": 3,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Savings payment type",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 2,
+            "chargeTimeType": 5,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en",
+            "enablePaymentType": true,
+            "paymentTypeId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Savings payment type 99",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 2,
+            "chargeTimeType": 5,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en",
+            "enablePaymentType": true,
+            "paymentTypeId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Savings payment type none",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 2,
+            "chargeTimeType": 5,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en",
+            "enablePaymentType": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Savings payment off",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 2,
+            "chargeTimeType": 5,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en",
+            "enablePaymentType": false,
+            "paymentTypeId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Savings free withdrawal",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 2,
+            "chargeTimeType": 5,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en",
+            "enableFreeWithdrawalCharge": true,
+            "freeWithdrawalFrequency": 3,
+            "restartCountFrequency": 1,
+            "countFrequencyType": 2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Savings with mode",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 2,
+            "chargeTimeType": 5,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 1,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Client fee",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 3,
+            "chargeTimeType": 2,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en",
+            "incomeAccountId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Client percent",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 3,
+            "chargeTimeType": 2,
+            "chargeCalculationType": 2,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Client time",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 3,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Client account 0",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 3,
+            "chargeTimeType": 2,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en",
+            "incomeAccountId": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Client account 99",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 3,
+            "chargeTimeType": 2,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en",
+            "incomeAccountId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Share fee",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 4,
+            "chargeTimeType": 14,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Share activation",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 4,
+            "chargeTimeType": 13,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Share activation pct",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 4,
+            "chargeTimeType": 13,
+            "chargeCalculationType": 2,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Share redeem pct",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 4,
+            "chargeTimeType": 15,
+            "chargeCalculationType": 2,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Share bad time",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 4,
+            "chargeTimeType": 2,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Working fee",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 5,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Working due",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 5,
+            "chargeTimeType": 2,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Working percent",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 5,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 2,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Working due percent",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 5,
+            "chargeTimeType": 2,
+            "chargeCalculationType": 2,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Working mode",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 5,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Working mode 1",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 5,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 1,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Working time 8",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 5,
+            "chargeTimeType": 8,
+            "chargeCalculationType": 1,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Loan fee",
+            "currencyCode": "USD",
+            "chargeAppliesTo": null,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Loan fee",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 9,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Loan fee",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 0,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Loan fee",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Loan fee",
+            "currencyCode": "",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Euro",
+            "currencyCode": "EUR",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Long code",
+            "currencyCode": "USDX",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Amount 0",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 0,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Amount negative",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": -1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Amount none",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": null,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Amount text",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": "abc",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Amount text ok",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": "12.5",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Amount tiny",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 1e-06,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Penalty null",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en",
+            "penalty": null
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Active text",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en",
+            "active": "abc"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Bogus",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en",
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "  Padded  ",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "No locale",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": null
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Calc missing",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": null,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "raw": "{bad",
+          "ignore": [
+            "developerMessage",
+            "defaultUserMessage"
+          ]
+        },
+        {
+          "path": "/v1/charges",
+          "ignore": [
+            "x"
+          ]
+        },
+        {
+          "path": "/v1/charges/1"
+        },
+        {
+          "path": "/v1/charges/1?template=true"
+        },
+        {
+          "path": "/v1/charges/16"
+        },
+        {
+          "path": "/v1/charges/33"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "name": "Loan fee 2",
+            "amount": 11,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "name": "Loan fee 2",
+            "amount": 11,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "amount": 11.5,
+            "chargeTimeType": 2,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "chargeCalculationType": 2,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "chargeCalculationType": 5,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "chargeTimeType": 12,
+            "chargeCalculationType": 5,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "chargeTimeType": 9,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "chargeTimeType": 9,
+            "penalty": true,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "penalty": false,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "chargeTimeType": 1,
+            "penalty": true,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "chargeAppliesTo": 2,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "chargeAppliesTo": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "chargeAppliesTo": 9,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "currencyCode": "EUR",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "currencyCode": "USD",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "active": false,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "active": true,
+            "taxGroupId": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "taxGroupId": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "taxGroupId": 99,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "taxGroupId": 0,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "incomeAccountId": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "incomeAccountId": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "incomeAccountId": 99,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "chargePaymentMode": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "chargePaymentMode": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "chargePaymentMode": 5,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "feeInterval": 2,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "feeFrequency": 2,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "feeInterval": 0,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "minCap": 2,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "chargeCalculationType": 2,
+            "minCap": 2,
+            "maxCap": 20,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "name": "",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "name": "Loan pct",
+            "locale": "en"
+          },
+          "ignore": [
+            "defaultUserMessage"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "amount": 0,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "amount": "abc",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "paymentTypeId": 2,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "paymentTypeId": 99,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {}
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/1",
+          "body": {
+            "bogus": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/99",
+          "body": {
+            "name": "x"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/abc",
+          "body": {
+            "name": "x"
+          },
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "path": "/v1/charges/1"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/11",
+          "body": {
+            "chargeTimeType": 7,
+            "feeOnMonthDay": "20 April",
+            "feeInterval": 3,
+            "monthDayFormat": "dd MMMM",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/11",
+          "body": {
+            "feeOnMonthDay": "21 April",
+            "monthDayFormat": "dd MMMM",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/11",
+          "body": {
+            "feeOnMonthDay": "21 April",
+            "monthDayFormat": "dd MMMM",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/11",
+          "body": {
+            "feeOnMonthDay": "bad",
+            "monthDayFormat": "dd MMMM",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/11",
+          "body": {
+            "feeOnMonthDay": "21 April",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/11",
+          "body": {
+            "chargeTimeType": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/11",
+          "body": {
+            "chargeTimeType": 5,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/11",
+          "body": {
+            "chargeCalculationType": 2,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/11",
+          "body": {
+            "chargeTimeType": 7,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/11",
+          "body": {
+            "chargeTimeType": 5,
+            "chargeCalculationType": 2,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/11",
+          "body": {
+            "chargeCalculationType": 3,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/11",
+          "body": {
+            "chargeTimeType": 16,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/11",
+          "body": {
+            "chargeTimeType": 6,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/11",
+          "body": {
+            "chargePaymentMode": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/11",
+          "body": {
+            "enablePaymentType": true,
+            "paymentTypeId": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/11",
+          "body": {
+            "taxGroupId": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/11",
+          "body": {
+            "amount": 4,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/11",
+          "body": {
+            "amount": 5
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/13",
+          "body": {
+            "chargeTimeType": 7,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/13",
+          "body": {
+            "feeFrequency": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/13",
+          "body": {
+            "feeInterval": 3,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/13",
+          "body": {
+            "feeOnMonthDay": "20 April",
+            "monthDayFormat": "dd MMMM",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/24",
+          "body": {
+            "chargeTimeType": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/24",
+          "body": {
+            "chargeCalculationType": 2,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/24",
+          "body": {
+            "incomeAccountId": 2,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/28",
+          "body": {
+            "chargeTimeType": 8,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/28",
+          "body": {
+            "chargeCalculationType": 3,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/28",
+          "body": {
+            "chargeCalculationType": 2,
+            "chargeTimeType": 2,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/28",
+          "body": {
+            "chargePaymentMode": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/28",
+          "body": {
+            "chargePaymentMode": 0,
+            "locale": "en"
+          }
+        },
+        {
+          "path": "/v1/charges/11"
+        },
+        {
+          "path": "/v1/charges/13"
+        },
+        {
+          "path": "/v1/charges/24"
+        },
+        {
+          "path": "/v1/charges/28"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/charges/2"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/charges/2"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/charges/99"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/charges/abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "path": "/v1/charges/2"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/charges/2",
+          "body": {
+            "name": "x"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Loan pct",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 1,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 10,
+            "locale": "en"
+          }
+        },
+        {
+          "path": "/v1/charges"
+        }
+      ]
+    },
+    {
+      "name": "rates",
+      "reset": [
+        "rates"
+      ],
+      "steps": [
+        {
+          "path": "/v1/rates"
+        },
+        {
+          "path": "/v1/rates/1"
+        },
+        {
+          "path": "/v1/rates/abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/rates",
+          "body": {
+            "name": "R1",
+            "percentage": 5.5,
+            "productApply": 1,
+            "active": true,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/rates",
+          "body": {
+            "name": "R2",
+            "percentage": 7,
+            "productApply": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/rates",
+          "body": {
+            "name": "R3",
+            "percentage": 7,
+            "productApply": 5,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/rates",
+          "body": {
+            "name": "R3",
+            "percentage": 7,
+            "productApply": 2,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/rates",
+          "body": {
+            "name": "Text",
+            "percentage": "8.25",
+            "productApply": "1",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/rates",
+          "body": {
+            "name": "  Padded  ",
+            "percentage": 1,
+            "productApply": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "path": "/v1/rates"
+        },
+        {
+          "path": "/v1/rates/1"
+        },
+        {
+          "path": "/v1/rates/3"
+        },
+        {
+          "path": "/v1/rates/99"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/rates",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/rates",
+          "body": {
+            "name": "x",
+            "percentage": 5,
+            "productApply": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/rates",
+          "body": {
+            "name": "",
+            "percentage": 5,
+            "productApply": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/rates",
+          "body": {
+            "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "percentage": 5,
+            "productApply": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/rates",
+          "body": {
+            "name": "x",
+            "percentage": null,
+            "productApply": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/rates",
+          "body": {
+            "name": "x",
+            "percentage": 5,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/rates",
+          "body": {
+            "name": "x",
+            "percentage": "abc",
+            "productApply": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/rates",
+          "body": {
+            "name": "x",
+            "percentage": 0,
+            "productApply": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/rates",
+          "body": {
+            "name": "Negative",
+            "percentage": -3,
+            "productApply": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/rates",
+          "body": {
+            "name": "Active text",
+            "percentage": 5,
+            "productApply": 1,
+            "active": "abc",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/rates",
+          "body": {
+            "name": "Extra",
+            "percentage": 5,
+            "productApply": 1,
+            "bogus": 1,
+            "approveUserId": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/rates"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/rates",
+          "raw": "{bad",
+          "ignore": [
+            "developerMessage",
+            "defaultUserMessage"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/rates/1",
+          "body": {
+            "name": "R1b",
+            "percentage": 6,
+            "active": false,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/rates/1",
+          "body": {
+            "name": "R1b",
+            "percentage": 6,
+            "active": false,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/rates/1",
+          "body": {
+            "productApply": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/rates/1",
+          "body": {
+            "productApply": 2,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/rates/1",
+          "body": {
+            "approveUserId": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/rates/1",
+          "body": {
+            "name": "",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/rates/1",
+          "body": {
+            "percentage": null,
+            "name": "R1c",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/rates/1",
+          "body": {
+            "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/rates/1",
+          "body": {
+            "percentage": "abc",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/rates/1",
+          "body": {
+            "percentage": 0,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/rates/1",
+          "body": {
+            "percentage": 6.5
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/rates/1",
+          "body": {}
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/rates/1",
+          "body": {
+            "bogus": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/rates/99",
+          "body": {
+            "name": "x",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/rates/abc",
+          "body": {
+            "name": "x",
+            "locale": "en"
+          },
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "path": "/v1/rates/1"
+        },
+        {
+          "path": "/v1/rates/2"
+        }
+      ]
+    },
+    {
+      "name": "floatingrates",
+      "reset": [
+        "floatingrates"
+      ],
+      "steps": [
+        {
+          "path": "/v1/floatingrates"
+        },
+        {
+          "path": "/v1/floatingrates/1"
+        },
+        {
+          "path": "/v1/floatingrates/abc",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "path": "/v1/floatingrates/template",
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "Differential first",
+            "ratePeriods": [
+              {
+                "fromDate": "2099-01-01",
+                "interestRate": 5,
+                "isDifferentialToBaseLendingRate": true
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "BLR",
+            "isBaseLendingRate": true,
+            "ratePeriods": [
+              {
+                "fromDate": "2099-01-01",
+                "interestRate": 5,
+                "isDifferentialToBaseLendingRate": false
+              }
+            ]
+          },
+          "ignore": [
+            "createdOn",
+            "modifiedOn",
+            "ratePeriods.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "Second BLR",
+            "isBaseLendingRate": true,
+            "ratePeriods": [
+              {
+                "fromDate": "2099-01-01",
+                "interestRate": 5
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "Linked",
+            "ratePeriods": [
+              {
+                "fromDate": "01 February 2099",
+                "interestRate": 1.5,
+                "dateFormat": "dd MMMM yyyy",
+                "locale": "en",
+                "isDifferentialToBaseLendingRate": true
+              },
+              {
+                "fromDate": "01 March 2099",
+                "interestRate": 2,
+                "dateFormat": "dd MMMM yyyy",
+                "locale": "en"
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "No periods"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "Inactive",
+            "isActive": false,
+            "ratePeriods": [
+              {
+                "fromDate": "2099-05-01",
+                "interestRate": 3
+              }
+            ]
+          }
+        },
+        {
+          "path": "/v1/floatingrates",
+          "ignore": [
+            "createdOn",
+            "modifiedOn",
+            "ratePeriods.id"
+          ]
+        },
+        {
+          "path": "/v1/floatingrates/1",
+          "ignore": [
+            "createdOn",
+            "modifiedOn",
+            "ratePeriods.id"
+          ]
+        },
+        {
+          "path": "/v1/floatingrates/2",
+          "ignore": [
+            "createdOn",
+            "modifiedOn",
+            "ratePeriods.id"
+          ]
+        },
+        {
+          "path": "/v1/floatingrates/3",
+          "ignore": [
+            "createdOn",
+            "modifiedOn",
+            "ratePeriods.id"
+          ]
+        },
+        {
+          "path": "/v1/floatingrates/4",
+          "ignore": [
+            "createdOn",
+            "modifiedOn",
+            "ratePeriods.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": ""
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "   "
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "ratePeriods": [
+              {
+                "fromDate": "2099-01-01",
+                "interestRate": 5
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "Empty",
+            "ratePeriods": []
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "Past",
+            "ratePeriods": [
+              {
+                "fromDate": "2020-01-01",
+                "interestRate": 5
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "Today",
+            "ratePeriods": [
+              {
+                "fromDate": "2026-11-15",
+                "interestRate": 5
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "Bad date",
+            "ratePeriods": [
+              {
+                "fromDate": "nope",
+                "interestRate": 5
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "Blank date",
+            "ratePeriods": [
+              {
+                "fromDate": "",
+                "interestRate": 5
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "No date",
+            "ratePeriods": [
+              {
+                "interestRate": 5
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "Neg",
+            "ratePeriods": [
+              {
+                "fromDate": "2099-01-01",
+                "interestRate": -1
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "Zero",
+            "ratePeriods": [
+              {
+                "fromDate": "2099-01-01",
+                "interestRate": 0
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "No rate",
+            "ratePeriods": [
+              {
+                "fromDate": "2099-01-01"
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "Rate text",
+            "ratePeriods": [
+              {
+                "fromDate": "2099-01-01",
+                "interestRate": "abc"
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "Dup dates",
+            "ratePeriods": [
+              {
+                "fromDate": "2099-01-01",
+                "interestRate": 1
+              },
+              {
+                "fromDate": "2099-01-01",
+                "interestRate": 2
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "Differential no BLR here",
+            "ratePeriods": [
+              {
+                "fromDate": "2099-01-01",
+                "interestRate": 5,
+                "isDifferentialToBaseLendingRate": true
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "BLR differential",
+            "isBaseLendingRate": true,
+            "isActive": false,
+            "ratePeriods": [
+              {
+                "fromDate": "2099-01-01",
+                "interestRate": 5,
+                "isDifferentialToBaseLendingRate": true
+              }
+            ]
+          },
+          "ignore": [
+            "errors"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "Several faults",
+            "ratePeriods": [
+              {
+                "fromDate": "nope",
+                "interestRate": 5
+              },
+              {
+                "fromDate": "2020-01-01",
+                "interestRate": 5
+              }
+            ]
+          },
+          "ignore": [
+            "errors"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "Format",
+            "ratePeriods": [
+              {
+                "fromDate": "01/02/2099",
+                "interestRate": 1,
+                "dateFormat": "dd/MM/yyyy"
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "Format bad",
+            "ratePeriods": [
+              {
+                "fromDate": "2099-02-01",
+                "interestRate": 1,
+                "dateFormat": "dd/MM/yyyy"
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "BLR",
+            "ratePeriods": [
+              {
+                "fromDate": "2099-01-01",
+                "interestRate": 5
+              }
+            ]
+          },
+          "ignore": [
+            "defaultUserMessage",
+            "errors"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "Bogus",
+            "bogus": 1,
+            "ratePeriods": [
+              {
+                "fromDate": "2099-06-01",
+                "interestRate": 1,
+                "bogus": 2
+              }
+            ]
+          },
+          "ignore": [
+            "resourceId"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "body": {
+            "name": "Active text",
+            "isActive": "abc"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/floatingrates",
+          "raw": "{bad",
+          "ignore": [
+            "developerMessage",
+            "defaultUserMessage"
+          ]
+        },
+        {
+          "path": "/v1/floatingrates",
+          "ignore": [
+            "createdOn",
+            "id",
+            "modifiedOn",
+            "ratePeriods.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/3",
+          "body": {
+            "name": "Renamed"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/3",
+          "body": {
+            "name": "Renamed"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/3",
+          "body": {
+            "isActive": false
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/3",
+          "body": {
+            "isActive": true,
+            "isBaseLendingRate": false
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/3",
+          "body": {
+            "ratePeriods": [
+              {
+                "fromDate": "2099-07-01",
+                "interestRate": 4
+              }
+            ]
+          }
+        },
+        {
+          "path": "/v1/floatingrates/3",
+          "ignore": [
+            "createdOn",
+            "modifiedOn",
+            "ratePeriods.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/3",
+          "body": {
+            "ratePeriods": [
+              {
+                "fromDate": "2099-07-01",
+                "interestRate": 4
+              },
+              {
+                "fromDate": "2099-08-01",
+                "interestRate": 6
+              }
+            ]
+          }
+        },
+        {
+          "path": "/v1/floatingrates/3",
+          "ignore": [
+            "createdOn",
+            "modifiedOn",
+            "ratePeriods.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/3",
+          "body": {
+            "ratePeriods": []
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/3",
+          "body": {
+            "name": ""
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/3",
+          "body": {
+            "name": "   "
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/3",
+          "body": {
+            "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/3",
+          "body": {
+            "isBaseLendingRate": true
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/3",
+          "body": {
+            "ratePeriods": [
+              {
+                "fromDate": "2020-01-01",
+                "interestRate": 5
+              }
+            ]
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/3",
+          "body": {
+            "ratePeriods": [
+              {
+                "fromDate": "2099-01-01",
+                "interestRate": 1
+              },
+              {
+                "fromDate": "2099-01-01",
+                "interestRate": 2
+              }
+            ]
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/3",
+          "body": {
+            "ratePeriods": [
+              {
+                "fromDate": "2099-01-01",
+                "interestRate": 5,
+                "isDifferentialToBaseLendingRate": true
+              }
+            ]
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/3",
+          "body": {
+            "name": "BLR"
+          },
+          "ignore": [
+            "defaultUserMessage",
+            "errors"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/1",
+          "body": {
+            "isActive": false
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/1",
+          "body": {
+            "isBaseLendingRate": false
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/1",
+          "body": {
+            "name": "BLR 2"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/1",
+          "body": {
+            "isActive": true
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/1",
+          "body": {
+            "ratePeriods": [
+              {
+                "fromDate": "2099-09-01",
+                "interestRate": 9,
+                "isDifferentialToBaseLendingRate": true
+              }
+            ]
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/2",
+          "body": {
+            "ratePeriods": [
+              {
+                "fromDate": "2099-09-01",
+                "interestRate": 9,
+                "isDifferentialToBaseLendingRate": true
+              }
+            ]
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/99",
+          "body": {
+            "name": "x"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/abc",
+          "body": {
+            "name": "x"
+          },
+          "ignore": [
+            "timestamp",
+            "path"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/3",
+          "body": {}
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/floatingrates/3",
+          "body": {
+            "bogus": 1
+          }
+        },
+        {
+          "path": "/v1/floatingrates/1",
+          "ignore": [
+            "createdOn",
+            "modifiedOn",
+            "ratePeriods.id"
+          ]
+        },
+        {
+          "path": "/v1/floatingrates/2",
+          "ignore": [
+            "createdOn",
+            "modifiedOn",
+            "ratePeriods.id"
+          ]
+        },
+        {
+          "path": "/v1/floatingrates/3",
+          "ignore": [
+            "createdOn",
+            "modifiedOn",
+            "ratePeriods.id"
+          ]
+        }
+      ]
     }
   ]
 }
