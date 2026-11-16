@@ -59,7 +59,8 @@ defmodule ECBLoans.Loans.Submit do
   end
 
   # the fund, officer and purpose are looked up in this order
-  defp references!(p) do
+  @doc false
+  def references!(p) do
     fund = Json.long(p, "fundId") |> fund!()
     officer = Json.long(p, "loanOfficerId") |> officer!()
     purpose = Json.long(p, "loanPurposeId") |> purpose!()
@@ -121,17 +122,18 @@ defmodule ECBLoans.Loans.Submit do
 
   # --- the loan row ---------------------------------------------------------------------------
 
-  defp loan_row(%{
-         user: user,
-         p: p,
-         product: product,
-         client: client,
-         terms: terms,
-         schedule: schedule,
-         refs: refs,
-         external_id: external_id,
-         now: now
-       }) do
+  @doc false
+  def loan_row(%{
+        user: user,
+        p: p,
+        product: product,
+        client: client,
+        terms: terms,
+        schedule: schedule,
+        refs: refs,
+        external_id: external_id,
+        now: now
+      }) do
     principal = ECBMoney.amount(terms.principal)
     last = List.last(schedule.periods)
 

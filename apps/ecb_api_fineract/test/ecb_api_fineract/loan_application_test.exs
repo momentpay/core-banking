@@ -398,4 +398,53 @@ defmodule ECBApiFineract.LoanApplicationTest do
       assert entries() |> Enum.drop(7) |> Enum.map(&elem(&1, 3)) == ["L3", "L3", "L2", "L2", "L2"]
     end
   end
+
+  describe "template and modification" do
+    test "the template needs a type, and someone signed in" do
+      assert call(:get, "/api/v1/loans/template?templateType=individual").status == 401
+      conn = send_json(:get, "/v1/loans/template?clientId=1")
+      assert conn.status == 403
+
+      assert [%{"userMessageGlobalisationCode" => "error.msg.loan.template.type.required"}] =
+               body(conn)["errors"]
+    end
+
+    test "the template for a client and product carries the product's defaults and the choices" do
+      conn = send_json(:get, "/v1/loans/template?templateType=individual&clientId=1&productId=1")
+      assert conn.status == 200
+      template = body(conn)
+      assert template["clientName"] == "Ann Lee"
+      assert template["principal"] == 10_000.0
+      assert template["termFrequency"] == 12
+      assert [%{"id" => 1}] = template["productOptions"]
+      assert template["accountLinkingOptions"] == []
+    end
+
+    test "an application with charges is refused when it is changed, not ignored" do
+      assert submit().status == 200
+
+      conn =
+        send_json(
+          :put,
+          "/v1/loans/1",
+          application(%{"charges" => [%{"chargeId" => 1, "amount" => 5}]})
+        )
+
+      assert conn.status == 403
+
+      assert [%{"userMessageGlobalisationCode" => "error.msg.loan.feature.not.supported.yet"}] =
+               body(conn)["errors"]
+    end
+
+    test "changing an application works the schedule out again and says what changed" do
+      assert submit().status == 200
+      conn = send_json(:put, "/v1/loans/1", application(%{"principal" => 5000}))
+      assert conn.status == 200
+      assert %{"principal" => 5000, "locale" => "en", "charges" => []} = body(conn)["changes"]
+
+      loan = send_json(:get, "/v1/loans/1?associations=repaymentSchedule")
+      assert body(loan)["principal"] == 5000.0
+      assert length(body(loan)["repaymentSchedule"]["periods"]) == 13
+    end
+  end
 end

@@ -23,12 +23,15 @@ defmodule ECBLoans.Handlers do
     """
     @behaviour ECBPlatform.Commands.Handler
 
-    alias ECBLoans.Loans.{Corrections, Disburse, Repay, Submit, Transitions}
+    alias ECBLoans.Loans.{Corrections, Disburse, Modify, Repay, Submit, Transitions}
     alias ECBPlatform.Params
 
     @impl true
     def process(%{action_name: "CREATE"} = command, user),
       do: {:ok, Submit.create!(user, Params.parse!(command.json))}
+
+    def process(%{action_name: "UPDATE"} = command, user),
+      do: {:ok, Modify.modify!(user, command.entity_id, Params.parse!(command.json))}
 
     def process(%{action_name: "APPROVE"} = command, user),
       do: {:ok, Transitions.approve!(user, command.entity_id, Params.parse!(command.json))}

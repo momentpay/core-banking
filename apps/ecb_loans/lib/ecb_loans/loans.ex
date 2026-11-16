@@ -32,6 +32,16 @@ defmodule ECBLoans.Loans do
 
   @external_resource Path.join(:code.priv_dir(:ecb_loans), "loan_account_static.json")
 
+  @template_static Path.join(:code.priv_dir(:ecb_loans), "loan_template_static.json")
+                   |> File.read!()
+                   |> Jason.decode!()
+
+  @external_resource Path.join(:code.priv_dir(:ecb_loans), "loan_template_static.json")
+
+  @doc "The lists of choices the template for a new loan carries, and the names a product offers in its lookup."
+  @spec template_static() :: map
+  def template_static, do: @template_static
+
   @doc "What a loan shows that does not depend on the loan (flags that are off, lists of choices)."
   @spec static() :: map
   def static, do: @static

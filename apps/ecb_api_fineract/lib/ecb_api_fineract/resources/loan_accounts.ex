@@ -1078,9 +1078,10 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
 
   # --- fields -----------------------------------------------------------------------------------
 
-  defp only_fields({:error, _} = error, _q), do: error
+  @doc false
+  def only_fields({:error, _} = error, _q), do: error
 
-  defp only_fields(body, q) do
+  def only_fields(body, q) do
     case q["fields"] do
       fields when is_binary(fields) and fields != "" ->
         wanted = fields |> String.split(",") |> Enum.map(&String.trim/1)
@@ -1104,6 +1105,10 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
 
   @doc "`POST /loans`: submits a loan application."
   def submit(conn), do: Write.execute(conn, @resource, "CREATE")
+
+  @doc "`PUT /loans/:id`"
+  def update(conn, raw_id),
+    do: Write.with_path_id(conn, raw_id, &Write.execute(conn, @resource, "UPDATE", id: &1))
 
   @doc "`POST /loans/:id?command=...`"
   def command(conn, raw_id) do

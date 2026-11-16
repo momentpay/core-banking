@@ -1,0 +1,279 @@
+{
+ "termFrequencyTypeOptions": [
+  {
+   "id": 0,
+   "code": "loanTermFrequency.periodFrequencyType.days",
+   "value": "Days"
+  },
+  {
+   "id": 1,
+   "code": "loanTermFrequency.periodFrequencyType.weeks",
+   "value": "Weeks"
+  },
+  {
+   "id": 2,
+   "code": "loanTermFrequency.periodFrequencyType.months",
+   "value": "Months"
+  },
+  {
+   "id": 3,
+   "code": "loanTermFrequency.periodFrequencyType.years",
+   "value": "Years"
+  }
+ ],
+ "repaymentFrequencyTypeOptions": [
+  {
+   "id": 0,
+   "code": "repaymentFrequency.periodFrequencyType.days",
+   "value": "Days"
+  },
+  {
+   "id": 1,
+   "code": "repaymentFrequency.periodFrequencyType.weeks",
+   "value": "Weeks"
+  },
+  {
+   "id": 2,
+   "code": "repaymentFrequency.periodFrequencyType.months",
+   "value": "Months"
+  }
+ ],
+ "repaymentFrequencyNthDayTypeOptions": [
+  {
+   "id": 1,
+   "code": "repaymentFrequency.nthDayType.one",
+   "value": "first"
+  },
+  {
+   "id": 2,
+   "code": "repaymentFrequency.nthDayType.two",
+   "value": "second"
+  },
+  {
+   "id": 3,
+   "code": "repaymentFrequency.nthDayType.three",
+   "value": "third"
+  },
+  {
+   "id": 4,
+   "code": "repaymentFrequency.nthDayType.four",
+   "value": "fourth"
+  },
+  {
+   "id": -1,
+   "code": "repaymentFrequency.nthDayType.last",
+   "value": "last"
+  }
+ ],
+ "repaymentFrequencyDaysOfWeekTypeOptions": [
+  {
+   "id": 7,
+   "code": "repaymentFrequency.weekDayType.sunday",
+   "value": "SUNDAY"
+  },
+  {
+   "id": 1,
+   "code": "repaymentFrequency.weekDayType.monday",
+   "value": "MONDAY"
+  },
+  {
+   "id": 2,
+   "code": "repaymentFrequency.weekDayType.tuesday",
+   "value": "TUESDAY"
+  },
+  {
+   "id": 3,
+   "code": "repaymentFrequency.weekDayType.wednesday",
+   "value": "WEDNESDAY"
+  },
+  {
+   "id": 4,
+   "code": "repaymentFrequency.weekDayType.thursday",
+   "value": "THURSDAY"
+  },
+  {
+   "id": 5,
+   "code": "repaymentFrequency.weekDayType.friday",
+   "value": "FRIDAY"
+  },
+  {
+   "id": 6,
+   "code": "repaymentFrequency.weekDayType.saturday",
+   "value": "SATURDAY"
+  }
+ ],
+ "interestRateFrequencyTypeOptions": [
+  {
+   "id": 2,
+   "code": "interestRateFrequency.periodFrequencyType.months",
+   "value": "Per month"
+  },
+  {
+   "id": 3,
+   "code": "interestRateFrequency.periodFrequencyType.years",
+   "value": "Per year"
+  },
+  {
+   "id": 4,
+   "code": "interestRateFrequency.periodFrequencyType.whole_term",
+   "value": "Whole term"
+  }
+ ],
+ "amortizationTypeOptions": [
+  {
+   "id": 1,
+   "code": "amortizationType.equal.installments",
+   "value": "Equal installments"
+  },
+  {
+   "id": 0,
+   "code": "amortizationType.equal.principal",
+   "value": "Equal principal payments"
+  }
+ ],
+ "interestTypeOptions": [
+  {
+   "id": 1,
+   "code": "interestType.flat",
+   "value": "Flat"
+  },
+  {
+   "id": 0,
+   "code": "interestType.declining.balance",
+   "value": "Declining Balance"
+  }
+ ],
+ "interestCalculationPeriodTypeOptions": [
+  {
+   "id": 0,
+   "code": "interestCalculationPeriodType.daily",
+   "value": "Daily"
+  },
+  {
+   "id": 1,
+   "code": "interestCalculationPeriodType.same.as.repayment.period",
+   "value": "Same as repayment period"
+  }
+ ],
+ "transactionProcessingStrategyOptions": [
+  {
+   "code": "creocore-strategy",
+   "name": "Creocore Unique"
+  },
+  {
+   "code": "early-repayment-strategy",
+   "name": "Early Repayment Strategy"
+  },
+  {
+   "code": "mifos-standard-strategy",
+   "name": "Penalties, Fees, Interest, Principal order"
+  },
+  {
+   "code": "heavensfamily-strategy",
+   "name": "HeavensFamily Unique"
+  },
+  {
+   "code": "interest-principal-penalties-fees-order-strategy",
+   "name": "Interest, Principal, Penalties, Fees Order"
+  },
+  {
+   "code": "principal-interest-penalties-fees-order-strategy",
+   "name": "Principal, Interest, Penalties, Fees Order"
+  },
+  {
+   "code": "rbi-india-strategy",
+   "name": "Overdue/Due Fee/Int,Principal"
+  },
+  {
+   "code": "due-penalty-fee-interest-principal-in-advance-principal-penalty-fee-interest-strategy",
+   "name": "Due penalty, fee, interest, principal, In advance principal, penalty, fee, interest"
+  },
+  {
+   "code": "due-penalty-interest-principal-fee-in-advance-penalty-interest-principal-fee-strategy",
+   "name": "Due penalty, interest, principal, fee, In advance penalty, interest, principal, fee"
+  },
+  {
+   "code": "advanced-payment-allocation-strategy",
+   "name": "Advanced payment allocation strategy"
+  }
+ ],
+ "loanScheduleTypeOptions": [
+  {
+   "id": 1,
+   "code": "CUMULATIVE",
+   "value": "Cumulative"
+  },
+  {
+   "id": 2,
+   "code": "PROGRESSIVE",
+   "value": "Progressive"
+  }
+ ],
+ "loanScheduleProcessingTypeOptions": [
+  {
+   "id": 1,
+   "code": "HORIZONTAL",
+   "value": "Horizontal"
+  },
+  {
+   "id": 2,
+   "code": "VERTICAL",
+   "value": "Vertical"
+  }
+ ],
+ "daysInYearCustomStrategyOptions": [
+  {
+   "id": "FULL_LEAP_YEAR",
+   "code": "DaysInYearCustomStrategyType.fullLeapYear",
+   "value": "Full Leap Year"
+  },
+  {
+   "id": "FEB_29_PERIOD_ONLY",
+   "code": "DaysInYearCustomStrategyType.feb29PeriodOnly",
+   "value": "Feb 29 Period Only"
+  }
+ ],
+ "productOptionKeys": [
+  "id",
+  "name",
+  "includeInBorrowerCycle",
+  "useBorrowerCycle",
+  "isLinkedToFloatingInterestRates",
+  "isFloatingInterestRateCalculationAllowed",
+  "allowVariableInstallments",
+  "isInterestRecalculationEnabled",
+  "canDefineInstallmentAmount",
+  "principalVariationsForBorrowerCycle",
+  "interestRateVariationsForBorrowerCycle",
+  "numberOfRepaymentVariationsForBorrowerCycle",
+  "canUseForTopup",
+  "enableAccrualActivityPosting",
+  "isRatesEnabled",
+  "advancedPaymentAllocationTransactionTypes",
+  "advancedPaymentAllocationFutureInstallmentAllocationRules",
+  "advancedPaymentAllocationTypes",
+  "creditAllocationTransactionTypes",
+  "creditAllocationAllocationTypes",
+  "multiDisburseLoan",
+  "disallowExpectedDisbursements",
+  "allowApprovedDisbursedAmountsOverApplied",
+  "holdGuaranteeFunds",
+  "accountMovesOutOfNPAOnlyOnArrearsCompletion",
+  "syncExpectedWithDisbursementDate",
+  "isEqualAmortization",
+  "enableDownPayment",
+  "enableAutoRepaymentForDownPayment",
+  "enableInstallmentLevelDelinquency",
+  "interestRecognitionOnDisbursementDate",
+  "daysInYearCustomStrategyOptions",
+  "enableIncomeCapitalization",
+  "capitalizedIncomeCalculationTypeOptions",
+  "capitalizedIncomeStrategyOptions",
+  "capitalizedIncomeTypeOptions",
+  "enableBuyDownFee",
+  "merchantBuyDownFee",
+  "buyDownFeeCalculationTypeOptions",
+  "buyDownFeeStrategyOptions",
+  "buyDownFeeIncomeTypeOptions"
+ ]
+}

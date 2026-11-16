@@ -70,6 +70,9 @@ defmodule ECBApiFineract.Resources.LoanProducts do
     end)
   end
 
+  @doc "The loan product as `GET /loanproducts/:id` shows it."
+  def detail(id), do: one(id, false)
+
   defp one(id, template?) do
     with {:ok, product} <- LoanProducts.get(id) do
       body =

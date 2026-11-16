@@ -11,6 +11,7 @@ defmodule ECBLoans.Application do
     {"LOANPRODUCT", "CREATE", ECBLoans.Handlers.LoanProduct},
     {"LOANPRODUCT", "UPDATE", ECBLoans.Handlers.LoanProduct},
     {"LOAN", "CREATE", ECBLoans.Handlers.Loan},
+    {"LOAN", "UPDATE", ECBLoans.Handlers.Loan},
     {"LOAN", "APPROVE", ECBLoans.Handlers.Loan},
     {"LOAN", "APPROVALUNDO", ECBLoans.Handlers.Loan},
     {"LOAN", "REJECT", ECBLoans.Handlers.Loan},

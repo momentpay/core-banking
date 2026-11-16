@@ -34,6 +34,7 @@ defmodule ECBApiFineract.ApiRouter do
     LoanAccounts,
     LoanProducts,
     Loans,
+    LoanTemplate,
     MakerCheckers,
     Offices,
     Organisation,
@@ -168,6 +169,7 @@ defmodule ECBApiFineract.ApiRouter do
   put "/v1/savingsproducts/:id", do: SavingsProducts.update(conn, id)
   delete "/v1/savingsproducts/:id", do: SavingsProducts.delete(conn, id)
   get "/v1/loans", do: LoanAccounts.index(conn)
+  get "/v1/loans/template", do: LoanTemplate.show(conn)
   post "/v1/loans", do: Loans.create(conn)
 
   get "/v1/loans/external-id/:external_id",
@@ -183,6 +185,7 @@ defmodule ECBApiFineract.ApiRouter do
 
   post "/v1/loans/:id/transactions", do: LoanAccounts.transaction_command(conn, id)
   post "/v1/loans/:id", do: LoanAccounts.command(conn, id)
+  put "/v1/loans/:id", do: LoanAccounts.update(conn, id)
   delete "/v1/loans/:id", do: LoanAccounts.delete(conn, id)
   get "/v1/loanproducts/template", do: LoanProducts.template(conn)
   get "/v1/loanproducts", do: LoanProducts.index(conn)
