@@ -483,6 +483,46 @@ defmodule ECBApiFineract.LoanApplicationTest do
       assert loan["summary"]["feeChargesPaid"] == 50.0
     end
 
+    test "a repayment pays the fee of an installment first, and taking it back restores the charge" do
+      id = charge(%{"name" => "Monthly", "chargeTimeType" => 8})
+      assert submit(%{"charges" => [%{"chargeId" => id, "amount" => 10}]}).status == 200
+
+      for {command, date} <- [
+            {"approve", "approvedOnDate"},
+            {"disburse", "actualDisbursementDate"}
+          ] do
+        assert send_json(:post, "/v1/loans/1?command=#{command}", %{
+                 date => "01 March 2024",
+                 "dateFormat" => "dd MMMM yyyy",
+                 "locale" => "en"
+               }).status == 200
+      end
+
+      paid =
+        send_json(:post, "/v1/loans/1/transactions?command=repayment", %{
+          "transactionDate" => "01 March 2024",
+          "transactionAmount" => 25,
+          "dateFormat" => "dd MMMM yyyy",
+          "locale" => "en"
+        })
+
+      assert paid.status == 200
+      loan = body(send_json(:get, "/v1/loans/1?associations=all"))
+      assert [%{"amountPaid" => 10.0, "amountOutstanding" => 110.0}] = loan["charges"]
+
+      undone =
+        send_json(:post, "/v1/loans/1/transactions/#{body(paid)["resourceId"]}?command=undo", %{
+          "transactionDate" => "01 March 2024",
+          "transactionAmount" => 0,
+          "dateFormat" => "dd MMMM yyyy",
+          "locale" => "en"
+        })
+
+      assert undone.status == 200
+      loan = body(send_json(:get, "/v1/loans/1?associations=charges"))
+      assert [%{"amountPaid" => +0.0, "amountOutstanding" => 120.0}] = loan["charges"]
+    end
+
     test "changing an application works the schedule out again and says what changed" do
       assert submit().status == 200
       conn = send_json(:put, "/v1/loans/1", application(%{"principal" => 5000}))

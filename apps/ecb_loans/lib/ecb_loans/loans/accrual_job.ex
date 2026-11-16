@@ -16,7 +16,7 @@ defmodule ECBLoans.Loans.AccrualJob do
   import Ecto.Query
 
   alias ECBLoans.Loans
-  alias ECBLoans.Loans.Accruals
+  alias ECBLoans.Loans.{Accruals, ChargeRows}
   alias ECBPlatform.{BusinessDate, TenantRepo}
 
   @accrual 10
@@ -40,8 +40,12 @@ defmodule ECBLoans.Loans.AccrualJob do
          AND EXISTS (
            SELECT 1 FROM m_loan_repayment_schedule s
             WHERE s.loan_id = l.id
-              AND COALESCE(s.interest_amount, 0) - COALESCE(s.interest_waived_derived, 0)
+              AND (COALESCE(s.interest_amount, 0) - COALESCE(s.interest_waived_derived, 0)
                     <> COALESCE(s.accrual_interest_derived, 0)
+                   OR COALESCE(s.fee_charges_amount, 0) - COALESCE(s.fee_charges_waived_derived, 0)
+                    <> COALESCE(s.accrual_fee_charges_derived, 0)
+                   OR COALESCE(s.penalty_charges_amount, 0) - COALESCE(s.penalty_charges_waived_derived, 0)
+                    <> COALESCE(s.accrual_penalty_charges_derived, 0))
               AND (s.fromdate < $1
                    OR (s.installment = (SELECT min(x.installment) FROM m_loan_repayment_schedule x WHERE x.loan_id = l.id)
                        AND s.fromdate = $1)))
@@ -66,7 +70,13 @@ defmodule ECBLoans.Loans.AccrualJob do
     first = rows |> Enum.map(& &1.installment) |> Enum.min()
 
     started = Enum.filter(rows, &started?(&1, till, &1.installment == first))
-    context = %{loan: loan, till: till, rows: rows}
+
+    context = %{
+      loan: loan,
+      till: till,
+      rows: rows,
+      slots: Enum.group_by(ChargeRows.slots(loan_id), & &1.installment)
+    }
 
     {made, _unrecognized} =
       Enum.reduce(started, {0, Decimal.new(0)}, fn row, {made, previous} ->
@@ -105,20 +115,76 @@ defmodule ECBLoans.Loans.AccrualJob do
       if interest, do: positive(Decimal.sub(interest, waiver.counted)), else: Decimal.new(0)
 
     accrued = positive(Decimal.sub(accrued_amount(loan, row, till), waiver.by_transactions))
-    portion = Decimal.sub(accruable, accrued)
+    interest_portion = Decimal.sub(accruable, accrued)
+
+    in_row = Map.get(context.slots, row.installment, [])
+    {fees_due, fee_slots} = due_charges(in_row, false, till)
+    {penalties_due, penalty_slots} = due_charges(in_row, true, till)
+    fee_portion = Decimal.sub(fees_due, row.accrual_fee || Decimal.new(0))
+    penalty_portion = Decimal.sub(penalties_due, row.accrual_penalty || Decimal.new(0))
+
+    nothing? =
+      Enum.all?([interest_portion, fee_portion, penalty_portion], &Decimal.eq?(&1, 0))
 
     made =
-      if Decimal.compare(portion, 0) == :gt do
-        date = if Date.compare(row.due_date, till) == :lt, do: row.due_date, else: till
-        Accruals.post!(user, loan, product, date, portion, charges: :zero)
-        true
-      else
+      if nothing? do
         false
+      else
+        post_installment!(user, loan, product, row, till, %{
+          interest: positive(interest_portion),
+          fees: positive(fee_portion),
+          penalties: positive(penalty_portion),
+          slots: fresh(fee_slots, row.accrual_fee) ++ fresh(penalty_slots, row.accrual_penalty)
+        })
       end
 
     # an installment with nothing new to accrue is left as it is
-    unless Decimal.eq?(portion, 0), do: Accruals.set_accrual!(row.id, accruable)
+    unless nothing? do
+      Accruals.set_accruals!(row.id, accruable, fees_due, penalties_due)
+    end
+
     {made, waiver.unrecognized}
+  end
+
+  # the charges of an installment that have fallen due by `till`, and what they come to
+  defp due_charges(slots, penalty?, till) do
+    due =
+      Enum.filter(slots, &(&1.penalty == penalty? and Date.compare(&1.due, till) != :gt))
+
+    {Enum.reduce(due, Decimal.new(0), &Decimal.add(&2, &1.amount)), due}
+  end
+
+  # of the charges that are due, the ones not yet accrued: what was accrued already covers the first ones
+  defp fresh(slots, accrued) do
+    {fresh, _left} =
+      Enum.reduce(slots, {[], accrued || Decimal.new(0)}, fn slot, {fresh, left} ->
+        if Decimal.compare(left, slot.amount) != :lt,
+          do: {fresh, Decimal.sub(left, slot.amount)},
+          else: {fresh ++ [slot], left}
+      end)
+
+    fresh
+  end
+
+  defp post_installment!(user, loan, product, row, till, portions) do
+    amount = portions.interest |> Decimal.add(portions.fees) |> Decimal.add(portions.penalties)
+
+    if Decimal.compare(amount, 0) == :gt do
+      date = if Date.compare(row.due_date, till) == :lt, do: row.due_date, else: till
+
+      id =
+        Accruals.post!(user, loan, product, date, amount,
+          portions: portions,
+          installment: row.installment
+        )
+
+      for slot <- portions.slots,
+          do: ChargeRows.record_paid_by!(id, slot.charge, slot.amount, row.installment)
+
+      true
+    else
+      false
+    end
   end
 
   # the interest charged on the installment up to `till`: all of it once the due date is reached, otherwise a share

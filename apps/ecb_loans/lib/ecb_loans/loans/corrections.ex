@@ -11,7 +11,18 @@ defmodule ECBLoans.Loans.Corrections do
   import Ecto.Query
 
   alias ECBLoans.Loans
-  alias ECBLoans.Loans.{Accruals, Counters, Derived, Disburse, Journal, Repay, Transitions}
+
+  alias ECBLoans.Loans.{
+    Accruals,
+    ChargeRows,
+    Counters,
+    Derived,
+    Disburse,
+    Journal,
+    Repay,
+    Transitions
+  }
+
   alias ECBPlatform.{BusinessDate, Params, TenantRepo, Validation}
   alias ECBPlatform.Commands.Result
   alias ECBPlatform.Errors.{DomainRuleViolation, ResourceNotFound}
@@ -183,6 +194,7 @@ defmodule ECBLoans.Loans.Corrections do
     )
 
     Derived.refresh!(loan.id, user)
+    ChargeRows.sync_paid!(loan.id)
     Accruals.reprocess!(user, loan.id)
     Repay.after_repayment!(user, Loans.fetch!(loan.id), tx.transaction_date, Decimal.new(0))
   end
@@ -618,6 +630,8 @@ defmodule ECBLoans.Loans.Corrections do
       ])
     end
 
+    ChargeRows.mark_all_paid!(loan.id)
+
     Journal.write_off!(
       user,
       Loans.fetch!(loan.id),
@@ -714,7 +728,9 @@ defmodule ECBLoans.Loans.Corrections do
   defp reverse_disbursal!(user, loan) do
     product = ECBLoans.LoanProducts.fetch!(loan.product_id)
 
-    for t <- Loans.transactions(loan.id), t.transaction_type_enum in [1, 10], not t.is_reversed do
+    for t <- Loans.transactions(loan.id),
+        t.transaction_type_enum in [1, 5, 10],
+        not t.is_reversed do
       Journal.reverse!(user, loan, t.id, t.transaction_date)
     end
 

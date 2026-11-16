@@ -278,7 +278,9 @@ defmodule ECBLoans.Loans do
         obligations_met_on: r.obligations_met_on_date,
         paid_in_advance: r.total_paid_in_advance_derived,
         paid_late: r.total_paid_late_derived,
-        accrual_interest: r.accrual_interest_derived
+        accrual_interest: r.accrual_interest_derived,
+        accrual_fee: r.accrual_fee_charges_derived,
+        accrual_penalty: r.accrual_penalty_charges_derived
       }
     )
     |> TenantRepo.all()

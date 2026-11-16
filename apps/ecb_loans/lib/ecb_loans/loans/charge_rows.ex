@@ -99,6 +99,174 @@ defmodule ECBLoans.Loans.ChargeRows do
     :ok
   end
 
+  @doc """
+  Works out again what has been paid of each charge from what has been paid of each installment, and stores it.
+  Each installment's paid fees (and penalties) go to the charges that fall in it, the oldest charge first.
+  Returns what is paid of each charge, as `%{loan_charge_id => amount}`.
+  """
+  @spec sync_paid!(integer) :: %{integer => Decimal.t()}
+  def sync_paid!(loan_id) do
+    slots = slots(loan_id)
+
+    paid =
+      for row <- ECBLoans.Loans.installments(loan_id), penalty? <- [false, true], reduce: %{} do
+        acc ->
+          completed = (penalty? && row.penalty_charges_completed) || row.fee_charges_completed
+
+          in_row =
+            Enum.filter(slots, &(&1.installment == row.installment and &1.penalty == penalty?))
+
+          pay_slots(in_row, completed || Decimal.new(0), acc)
+      end
+
+    store_paid!(slots, paid)
+    sum_by_charge(paid)
+  end
+
+  @doc """
+  What each charge asks of each installment: `%{charge, slot, installment, amount, penalty, due}`, oldest charge
+  first. Installment fees come from their rows and fall due with their installment; a charge on a date falls
+  due on that date, in the installment that holds it.
+  """
+  @spec slots(integer) :: [map]
+  def slots(loan_id) do
+    installment_rows =
+      from(i in "m_loan_installment_charge",
+        join: c in "m_loan_charge",
+        on: c.id == i.loan_charge_id,
+        join: r in "m_loan_repayment_schedule",
+        on: r.id == i.loan_schedule_id,
+        where: c.loan_id == ^loan_id and c.is_active == true,
+        select: %{
+          charge: c.id,
+          slot: i.id,
+          installment: r.installment,
+          amount: i.amount,
+          penalty: c.is_penalty,
+          due: r.duedate
+        }
+      )
+      |> TenantRepo.all()
+
+    dated =
+      from(c in "m_loan_charge",
+        where: c.loan_id == ^loan_id and c.charge_time_enum == 2 and c.is_active == true,
+        select: %{
+          charge: c.id,
+          amount: c.amount,
+          penalty: c.is_penalty,
+          due: c.due_for_collection_as_of_date
+        }
+      )
+      |> TenantRepo.all()
+      |> Enum.map(fn c ->
+        %{
+          charge: c.charge,
+          slot: nil,
+          installment: installment_of(loan_id, c.due),
+          amount: c.amount,
+          penalty: c.penalty,
+          due: c.due
+        }
+      end)
+
+    Enum.sort_by(installment_rows ++ dated, & &1.charge)
+  end
+
+  defp pay_slots(slots, completed, acc) do
+    {acc, _left} =
+      Enum.reduce(slots, {acc, completed}, fn slot, {acc, left} ->
+        take = if Decimal.compare(left, slot.amount) == :gt, do: slot.amount, else: left
+        {Map.put(acc, {slot.charge, slot.slot}, take), Decimal.sub(left, take)}
+      end)
+
+    acc
+  end
+
+  defp sum_by_charge(paid) do
+    Enum.reduce(paid, %{}, fn {{charge, _slot}, amount}, acc ->
+      Map.update(acc, charge, amount, &Decimal.add(&1, amount))
+    end)
+  end
+
+  defp store_paid!(slots, paid) do
+    totals = sum_by_charge(paid)
+
+    for {charge, amount} <- totals do
+      total =
+        slots
+        |> Enum.filter(&(&1.charge == charge))
+        |> Enum.reduce(Decimal.new(0), &Decimal.add(&2, &1.amount))
+
+      set_charge_paid!(charge, amount, total)
+    end
+
+    for %{slot: slot} = s when not is_nil(slot) <- slots do
+      amount = Map.get(paid, {s.charge, slot}, Decimal.new(0))
+
+      TenantRepo.update_all(from(i in "m_loan_installment_charge", where: i.id == ^slot),
+        set: [
+          amount_paid_derived: amount,
+          amount_outstanding_derived: Decimal.sub(s.amount, amount),
+          is_paid_derived: Decimal.eq?(Decimal.sub(s.amount, amount), 0)
+        ]
+      )
+    end
+
+    :ok
+  end
+
+  defp set_charge_paid!(charge, paid, total) do
+    outstanding = Decimal.sub(total, paid)
+
+    TenantRepo.update_all(from(c in "m_loan_charge", where: c.id == ^charge),
+      set: [
+        amount_paid_derived: paid,
+        amount_outstanding_derived: outstanding,
+        is_paid_derived: Decimal.eq?(outstanding, 0)
+      ]
+    )
+  end
+
+  @doc "What each charge has paid so far, `%{loan_charge_id => amount}` (charges not yet paid are left out)."
+  @spec paid_map(integer) :: %{integer => Decimal.t()}
+  def paid_map(loan_id) do
+    from(c in "m_loan_charge",
+      where: c.loan_id == ^loan_id and c.is_active == true and c.charge_time_enum != 1,
+      select: {c.id, c.amount_paid_derived}
+    )
+    |> TenantRepo.all()
+    |> Map.new(fn {id, paid} -> {id, paid || Decimal.new(0)} end)
+  end
+
+  @doc "Records what transaction `tx_id` paid of each charge: the difference between two `paid_map`s."
+  @spec record_payment!(integer, map, map) :: :ok
+  def record_payment!(tx_id, before, after_paying) do
+    for {charge, paid} <- Enum.sort(after_paying),
+        paid_now = Decimal.sub(paid, Map.get(before, charge, Decimal.new(0))),
+        Decimal.compare(paid_now, 0) == :gt do
+      record_paid_by!(tx_id, charge, paid_now)
+    end
+
+    :ok
+  end
+
+  @doc "Marks every charge of the loan as paid in full (what a write-off does to them)."
+  @spec mark_all_paid!(integer) :: :ok
+  def mark_all_paid!(loan_id) do
+    TenantRepo.update_all(
+      from(c in "m_loan_charge", where: c.loan_id == ^loan_id and c.is_active == true),
+      set: [is_paid_derived: true]
+    )
+
+    TenantRepo.query!(
+      "UPDATE m_loan_charge SET amount_paid_derived = amount, amount_outstanding_derived = 0 WHERE loan_id = $1 AND is_active",
+      [loan_id]
+    )
+
+    :ok
+  end
+
   @doc "Records that transaction `tx_id` is about `amount` of the loan charge `loan_charge_id` (an accrual, say)."
   @spec record_paid_by!(integer, integer, Decimal.t(), integer | nil) :: :ok
   def record_paid_by!(tx_id, loan_charge_id, amount, installment \\ nil) do

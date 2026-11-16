@@ -80,27 +80,81 @@ defmodule ECBLoans.Loans.Accruals do
 
   defp accrue_the_rest!(user, loan, product, status) do
     date = if status == @closed, do: loan.closedon_date, else: loan.overpaidon_date
+    slots = Enum.group_by(ChargeRows.slots(loan.id), & &1.installment)
 
-    # per installment: what it accrues (its interest less what was waived) against what it has accrued, which
-    # also counts the waived interest as taken off; an installment with nothing new keeps what it holds
+    # per installment: what it accrues (its interest, fees and penalties less what was waived) against what it
+    # has accrued, which also counts the waived interest as taken off; one with nothing new keeps what it holds
     parts =
       for r <- Loans.installments(loan.id) do
         waived = zero_nil(r.interest_waived)
         accruable = positive(Decimal.sub(zero_nil(r.interest), waived))
         accrued = positive(Decimal.sub(zero_nil(r.accrual_interest), waived))
-        {r.id, accruable, Decimal.sub(accruable, accrued)}
+        fees = positive(Decimal.sub(zero_nil(r.fee_charges), zero_nil(r.fee_charges_waived)))
+
+        penalties =
+          positive(Decimal.sub(zero_nil(r.penalty_charges), zero_nil(r.penalty_charges_waived)))
+
+        %{
+          row: r,
+          accruable: accruable,
+          interest: Decimal.sub(accruable, accrued),
+          fees: fees,
+          fee_portion: Decimal.sub(fees, zero_nil(r.accrual_fee)),
+          penalties: penalties,
+          penalty_portion: Decimal.sub(penalties, zero_nil(r.accrual_penalty)),
+          slots: Map.get(slots, r.installment, [])
+        }
       end
 
-    owed = parts |> Enum.map(&elem(&1, 2)) |> Enum.reduce(Decimal.new(0), &Decimal.add/2)
-    if Decimal.compare(owed, 0) == :gt, do: post!(user, loan, product, date, owed)
+    interest = parts |> Enum.map(& &1.interest) |> Enum.reduce(Decimal.new(0), &Decimal.add/2)
 
-    for {id, accruable, portion} <- parts,
-        not Decimal.eq?(portion, 0),
-        do: set_accrual!(id, accruable)
+    fees =
+      parts |> Enum.map(&positive(&1.fee_portion)) |> Enum.reduce(Decimal.new(0), &Decimal.add/2)
+
+    penalties =
+      parts
+      |> Enum.map(&positive(&1.penalty_portion))
+      |> Enum.reduce(Decimal.new(0), &Decimal.add/2)
+
+    total = interest |> Decimal.add(fees) |> Decimal.add(penalties)
+
+    if Decimal.compare(total, 0) == :gt do
+      id =
+        post!(user, loan, product, date, total,
+          portions: %{
+            interest: positive(interest),
+            fees: nil_if_zero(fees),
+            penalties: nil_if_zero(penalties)
+          }
+        )
+
+      for p <- parts,
+          slot <-
+            fresh(p.slots, false, p.row.accrual_fee) ++
+              fresh(p.slots, true, p.row.accrual_penalty),
+          do: ChargeRows.record_paid_by!(id, slot.charge, slot.amount, p.row.installment)
+    end
+
+    for p <- parts,
+        not Enum.all?([p.interest, p.fee_portion, p.penalty_portion], &Decimal.eq?(&1, 0)),
+        do: set_accruals!(p.row.id, p.accruable, p.fees, p.penalties)
 
     :ok
   end
 
+  # the charges of one kind in an installment that are not covered by what has been accrued on it
+  defp fresh(slots, penalty?, accrued) do
+    slots
+    |> Enum.filter(&(&1.penalty == penalty?))
+    |> Enum.reduce({[], zero_nil(accrued)}, fn slot, {fresh, left} ->
+      if Decimal.compare(left, slot.amount) != :lt,
+        do: {fresh, Decimal.sub(left, slot.amount)},
+        else: {fresh ++ [slot], left}
+    end)
+    |> elem(0)
+  end
+
+  defp nil_if_zero(d), do: if(Decimal.eq?(d, 0), do: nil, else: d)
   defp positive(d), do: if(Decimal.compare(d, 0) == :lt, do: Decimal.new(0), else: d)
 
   @doc """
@@ -152,22 +206,42 @@ defmodule ECBLoans.Loans.Accruals do
       loan.id
       |> accruals()
       |> Enum.filter(&in_period?(&1.date, row, first?))
-      |> Enum.reduce(Decimal.new(0), fn tx, sum ->
-        sum = Decimal.add(sum, zero_nil(tx.interest))
+      |> Enum.reduce(%{interest: zero(), fees: zero(), penalties: zero()}, fn tx, sum ->
+        sum = add_portions(sum, tx)
 
         if changed?(loan, row, sum, tx) do
           take_back!(user, loan, tx)
-          Decimal.sub(sum, zero_nil(tx.interest))
+          subtract_portions(sum, tx)
         else
           sum
         end
       end)
 
-    set_accrual!(row.id, kept)
+    set_accruals!(row.id, kept.interest, kept.fees, kept.penalties)
   end
 
-  defp changed?(loan, row, interest, tx) do
-    Decimal.compare(zero_nil(row.interest), interest) == :lt or
+  defp zero, do: Decimal.new(0)
+
+  defp add_portions(sum, tx) do
+    %{
+      interest: Decimal.add(sum.interest, zero_nil(tx.interest)),
+      fees: Decimal.add(sum.fees, zero_nil(tx.fees)),
+      penalties: Decimal.add(sum.penalties, zero_nil(tx.penalties))
+    }
+  end
+
+  defp subtract_portions(sum, tx) do
+    %{
+      interest: Decimal.sub(sum.interest, zero_nil(tx.interest)),
+      fees: Decimal.sub(sum.fees, zero_nil(tx.fees)),
+      penalties: Decimal.sub(sum.penalties, zero_nil(tx.penalties))
+    }
+  end
+
+  defp changed?(loan, row, sum, tx) do
+    Decimal.compare(zero_nil(row.interest), sum.interest) == :lt or
+      Decimal.compare(zero_nil(row.fee_charges), sum.fees) == :lt or
+      Decimal.compare(zero_nil(row.penalty_charges), sum.penalties) == :lt or
       (loan.accrued_till == tx.date and loan.accrued_till != row.due_date)
   end
 
@@ -177,7 +251,13 @@ defmodule ECBLoans.Loans.Accruals do
         where:
           t.loan_id == ^loan_id and t.transaction_type_enum == @accrual and not t.is_reversed,
         order_by: [t.transaction_date, t.id],
-        select: %{id: t.id, date: t.transaction_date, interest: t.interest_portion_derived}
+        select: %{
+          id: t.id,
+          date: t.transaction_date,
+          interest: t.interest_portion_derived,
+          fees: t.fee_charges_portion_derived,
+          penalties: t.penalty_charges_portion_derived
+        }
       )
     )
   end
@@ -212,33 +292,49 @@ defmodule ECBLoans.Loans.Accruals do
 
   @doc "Records what is accrued on an installment (nothing is stored as null)."
   @spec set_accrual!(integer, Decimal.t()) :: :ok
-  def set_accrual!(row_id, amount) do
-    value = if Decimal.eq?(amount, 0), do: nil, else: amount
+  def set_accrual!(row_id, amount),
+    do: set_accruals!(row_id, amount, Decimal.new(0), Decimal.new(0))
+
+  @doc "Records the interest, fees and penalties accrued on an installment (nothing is stored as null)."
+  @spec set_accruals!(integer, Decimal.t(), Decimal.t(), Decimal.t()) :: :ok
+  def set_accruals!(row_id, interest, fees, penalties) do
+    nil_zero = fn d -> if Decimal.eq?(d, 0), do: nil, else: d end
 
     TenantRepo.update_all(from(r in "m_loan_repayment_schedule", where: r.id == ^row_id),
-      set: [accrual_interest_derived: value]
+      set: [
+        accrual_interest_derived: nil_zero.(interest),
+        accrual_fee_charges_derived: nil_zero.(fees),
+        accrual_penalty_charges_derived: nil_zero.(penalties)
+      ]
     )
 
     :ok
   end
 
   @doc """
-  Books an accrual transaction of `interest` on `date` and its entries. The job records its accruals with fees and
-  penalties of nothing (`charges: :zero`); the others leave them out.
+  Books an accrual transaction of `amount` on `date` and its entries. Given `portions` (`%{interest, fees,
+  penalties}`) the transaction is made of them, with the fees and penalties recorded even when nothing (as the
+  job does); otherwise it is all interest, and the fees and penalties are left out.
   """
   @spec post!(struct, map, map, Date.t(), Decimal.t(), keyword) :: integer
-  def post!(user, loan, product, date, interest, opts \\ []) do
-    tx = %{type: @accrual, date: date, amount: interest, interest: interest}
+  def post!(user, loan, product, date, amount, opts) do
+    tx = %{type: @accrual, date: date, amount: amount, interest: amount}
 
     tx =
-      if opts[:charges] == :zero,
-        do: Map.merge(tx, %{fees: Decimal.new(0), penalties: Decimal.new(0)}),
-        else: tx
+      case opts[:portions] do
+        nil -> tx
+        p -> Map.merge(tx, %{interest: p.interest, fees: p.fees, penalties: p.penalties})
+      end
 
     id = Disburse.insert_transaction!(user, loan, tx)
     Journal.accrual!(user, loan, product, Map.put(tx, :id, id))
     id
   end
+
+  @doc "Books an accrual transaction that is all interest."
+  @spec post!(struct, map, map, Date.t(), Decimal.t()) :: integer
+  def post!(user, loan, product, date, interest),
+    do: post!(user, loan, product, date, interest, [])
 
   defp zero_nil(nil), do: Decimal.new(0)
   defp zero_nil(d), do: d

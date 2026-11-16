@@ -113,8 +113,9 @@ defmodule ECBLoans.Loans.Journal do
   end
 
   @doc """
-  Posts the entries of an accrual: the interest, fees and penalties earned are receivable, and income. Cash
-  accounting does not book what is not yet paid.
+  Posts the entries of an accrual: the interest, fees and penalties earned are receivable, and income. Interest
+  is debited to its receivable and credited to its income; fees and penalties the other way round, as Fineract
+  posts them. Cash accounting does not book what is not yet paid.
   """
   @spec accrual!(struct, map, map, map) :: :ok
   def accrual!(user, loan, product, tx) do
@@ -124,10 +125,10 @@ defmodule ECBLoans.Loans.Journal do
       post!(user, loan, tx, [
         {@debit, accounts[@interest_receivable], tx[:interest]},
         {@credit, accounts[@interest_on_loans], tx[:interest]},
-        {@debit, accounts[@fees_receivable], tx[:fees]},
         {@credit, accounts[@income_from_fees], tx[:fees]},
-        {@debit, accounts[@penalties_receivable], tx[:penalties]},
-        {@credit, accounts[@income_from_penalties], tx[:penalties]}
+        {@debit, accounts[@fees_receivable], tx[:fees]},
+        {@credit, accounts[@income_from_penalties], tx[:penalties]},
+        {@debit, accounts[@penalties_receivable], tx[:penalties]}
       ])
     else
       :ok
