@@ -27,6 +27,7 @@ defmodule ECBLoans.Loans.Journal do
   @interest_on_loans 3
   @income_from_fees 4
   @income_from_penalties 5
+  @losses_written_off 6
   @overpayment 11
 
   @doc "Whether loans of the product can be posted: accounting off or cash. Accrual accounting is not built yet."
@@ -78,6 +79,67 @@ defmodule ECBLoans.Loans.Journal do
       {@credit, accounts[@overpayment], tx.overpayment},
       {@debit, fund, tx.amount}
     ])
+  end
+
+  @doc "Posts the entries of a write-off: the principal written off is a loss and leaves the loan portfolio."
+  @spec write_off!(struct, map, map, map) :: :ok
+  def write_off!(_user, _loan, %{accounting_id: id}, _tx) when id in [nil, 1], do: :ok
+
+  def write_off!(user, loan, product, tx) do
+    accounts = accounts(product)
+
+    post!(user, loan, tx, [
+      {@debit, accounts[@losses_written_off], tx.principal},
+      {@credit, accounts[@loan_portfolio], tx.principal}
+    ])
+  end
+
+  @doc "Takes a transaction's entries back with entries of the opposite kind, as Fineract does when a transaction is undone."
+  @spec reverse!(struct, map, integer, Date.t()) :: :ok
+  def reverse!(user, loan, tx_id, _date) do
+    now = DateTime.utc_now()
+
+    originals =
+      TenantRepo.all(
+        from(j in "acc_gl_journal_entry",
+          where: j.loan_transaction_id == ^tx_id and j.manual_entry == false,
+          order_by: j.id,
+          select: %{
+            account_id: j.account_id,
+            office_id: j.office_id,
+            currency_code: j.currency_code,
+            transaction_id: j.transaction_id,
+            entry_date: j.entry_date,
+            type_enum: j.type_enum,
+            amount: j.amount,
+            payment_details_id: j.payment_details_id
+          }
+        )
+      )
+
+    for o <- originals do
+      row =
+        Map.merge(o, %{
+          loan_transaction_id: tx_id,
+          reversed: false,
+          manual_entry: false,
+          type_enum: if(o.type_enum == @debit, do: @credit, else: @debit),
+          entity_type_enum: @entity_loan,
+          entity_id: loan.id,
+          created_by: user.id,
+          last_modified_by: user.id,
+          is_running_balance_calculated: false,
+          office_running_balance: Decimal.new(0),
+          organization_running_balance: Decimal.new(0),
+          created_on_utc: now,
+          last_modified_on_utc: now,
+          submitted_on_date: BusinessDate.current()
+        })
+
+      TenantRepo.insert_all("acc_gl_journal_entry", [row])
+    end
+
+    :ok
   end
 
   # --- the product's accounts ---------------------------------------------------------------------

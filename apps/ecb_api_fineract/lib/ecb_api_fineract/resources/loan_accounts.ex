@@ -16,7 +16,8 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     "undoapproval" => "APPROVALUNDO",
     "reject" => "REJECT",
     "withdrawnByApplicant" => "WITHDRAW",
-    "disburse" => "DISBURSE"
+    "disburse" => "DISBURSE",
+    "undodisbursal" => "DISBURSALUNDO"
   }
 
   # The names `fields` can choose between (Fineract's response parameters for a loan).
@@ -198,7 +199,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     |> put("totalOverpaid", l.total_overpaid_derived)
     |> put("overpaidOnDate", l.overpaidon_date)
     |> Map.put("paidInAdvance", %{"paidInAdvance" => paid_in_advance(l)})
-    |> put("loanProductCounter", if(l.disbursedon_date, do: l.loan_product_counter))
+    |> put("loanProductCounter", product_counter(l))
     |> Map.put("inArrears", overdue(l).total != 0)
     |> put("externalId", l.external_id)
     |> put("graceOnPrincipalPayment", l.grace_on_principal_periods)
@@ -276,7 +277,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       "totalCreditBalanceRefund" => zero,
       "totalCreditBalanceRefundReversed" => zero,
       "totalRepaymentTransaction" => nonzero(repayment_transactions_total(l)),
-      "totalRepaymentTransactionReversed" => zero,
+      "totalRepaymentTransactionReversed" => nonzero(sum_transactions(l, 2, true)),
       "totalInterestPaymentWaiver" => zero,
       "totalInterestRefund" => zero,
       "totalUnpaidPayableDueInterest" => payable_due(l, overdue),
@@ -311,7 +312,19 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   defp accrued_not_due(_loan), do: 0
 
   # the interest that has fallen due and is unpaid
-  defp payable_due(%{loan_status_id: 300}, %{interest: interest}), do: interest
+  defp payable_due(%{loan_status_id: 300} = l, _overdue) do
+    today = ECBPlatform.BusinessDate.current()
+
+    l.id
+    |> Loans.installments()
+    |> Enum.filter(&(Date.compare(&1.due_date, today) != :gt))
+    |> Enum.map(
+      &outstanding(&1.interest, &1.interest_completed, &1.interest_writtenoff, &1.interest_waived)
+    )
+    |> Enum.reduce(Decimal.new(0), &Decimal.add/2)
+    |> nonzero()
+  end
+
   defp payable_due(_loan, _overdue), do: 0
 
   # what has been paid on installments that are not yet past due
@@ -332,10 +345,13 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   end
 
   # the sum of the repayments made, whatever they were allocated to
-  defp repayment_transactions_total(l) do
+  defp repayment_transactions_total(l), do: sum_transactions(l, 2, false)
+
+  # the sum of the transactions of a type, the standing ones or the reversed ones
+  defp sum_transactions(l, type, reversed?) do
     l.id
     |> Loans.transactions()
-    |> Enum.filter(&(&1.transaction_type_enum == 2 and not &1.is_reversed))
+    |> Enum.filter(&(&1.transaction_type_enum == type and &1.is_reversed == reversed?))
     |> Enum.reduce(Decimal.new(0), &Decimal.add(&2, &1.amount))
   end
 
@@ -413,6 +429,11 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     }
   end
 
+  # a loan keeps the count it was given when it was paid out; one written off shows how many were paid out by then
+  defp product_counter(%{disbursedon_date: nil}), do: nil
+  defp product_counter(%{loan_status_id: 601} = l), do: l.product_loans_paid_out
+  defp product_counter(l), do: l.loan_product_counter
+
   defp put(map, _key, nil), do: map
   defp put(map, key, value), do: Map.put(map, key, value)
 
@@ -485,6 +506,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     |> put("overpaidOnDate", l.overpaidon_date)
     |> put("closedOnDate", l.closedon_date)
     |> person("closedBy", l.closed_by_username, l.closed_by_firstname, l.closed_by_lastname)
+    |> put("writeOffOnDate", l.writtenoffon_date)
     |> person("writeOffBy", l.closed_by_username, l.closed_by_firstname, l.closed_by_lastname)
     |> put("actualMaturityDate", l.maturedon_date)
     |> put("expectedMaturityDate", l.expected_maturedon_date)
@@ -517,7 +539,10 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       Map.put(
         b,
         "transactions",
-        Enum.map(Loans.transactions(loan.id), &transaction_json(&1, loan))
+        loan.id
+        |> Loans.transactions()
+        |> Enum.reject(&undone_payout?/1)
+        |> Enum.map(&transaction_json(&1, loan))
       )
     end)
     |> maybe(all?, fn b ->
@@ -548,11 +573,11 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     1 => {"loanTransactionType.disbursement", "Disbursement", "disbursement"},
     2 => {"loanTransactionType.repayment", "Repayment", "repayment"},
     3 => {"loanTransactionType.contra", "Contra", "contra"},
-    4 => {"loanTransactionType.waiveInterest", "Waive Interest", "waiveInterest"},
+    4 => {"loanTransactionType.waiver", "Waive interest", "waiveInterest"},
     5 =>
       {"loanTransactionType.repaymentAtDisbursement", "Repayment at disbursement",
        "repaymentAtDisbursement"},
-    6 => {"loanTransactionType.writeOff", "Write-off", "writeOff"},
+    6 => {"loanTransactionType.writeOff", "Close (as written-off)", "writeOff"},
     8 => {"loanTransactionType.recoveryRepayment", "Recovery Repayment", "recoveryRepayment"},
     9 => {"loanTransactionType.waiveCharges", "Waive loan charges", "waiveCharges"},
     10 => {"loanTransactionType.accrual", "Accrual", "accrual"}
@@ -631,7 +656,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
 
   # asked for with all its associations, an active loan shows the interest not yet due as decimals
   defp with_accrual_totals(%{"summary" => summary, "status" => %{"id" => status}} = body)
-       when status in [300, 600, 700] do
+       when status in [300, 600, 601, 700] do
     zero = if body["currency"]["decimalPlaces"] == 0, do: 0, else: Decimal.new("0.0")
 
     fix = fn
@@ -639,7 +664,11 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       other -> other
     end
 
-    paid? = Enum.any?(Loans.installments(body["id"]), &(&1.completed == true))
+    today = ECBPlatform.BusinessDate.current()
+
+    paid? =
+      Enum.any?(Loans.installments(body["id"]), &(Date.compare(&1.due_date, today) != :gt))
+
     summary = Map.update!(summary, "totalUnpaidPayableNotDueInterest", fix)
 
     summary =
@@ -656,6 +685,9 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   end
 
   defp with_accrual_totals(body), do: body
+
+  # a payout that was undone leaves no transaction in what the loan shows
+  defp undone_payout?(t), do: t.is_reversed and t.transaction_type_enum in [1, 10]
 
   defp maybe(body, true, fun), do: fun.(body)
   defp maybe(body, _false, _fun), do: body
@@ -709,14 +741,14 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       "delinquentPenalty" => zero
     }
     |> then(&if(active?, do: Map.put(&1, "delinquencyPausePeriods", []), else: &1))
-    |> put("nextPaymentDueDate", next_payment_due(unpaid, late, last))
+    |> put("nextPaymentDueDate", next_payment_due(unpaid, late, last || loan_written_off(loan)))
     |> arrears(late, today)
     |> last_payment(last)
   end
 
   # the next installment's date; with nothing owed, or a payment made on top of arrears, the day of the last payment
   defp next_payment_due([], _late, nil), do: nil
-  defp next_payment_due([], _late, last), do: last.transaction_date
+  defp next_payment_due([], _late, %{} = last), do: last.transaction_date
   defp next_payment_due([first | _], [], _last), do: first.due_date
   defp next_payment_due([first | _], _late, nil), do: first.due_date
   defp next_payment_due(_unpaid, _late, last), do: last.transaction_date
@@ -775,6 +807,10 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       "delinquentPenalty" => if(Decimal.eq?(penalty, zero), do: Decimal.new("0.0"), else: penalty)
     })
   end
+
+  # a loan written off with nothing paid has its write-off day where a last payment would be
+  defp loan_written_off(%{writtenoffon_date: nil}), do: nil
+  defp loan_written_off(loan), do: %{transaction_date: loan.writtenoffon_date}
 
   defp last_repayment(loan) do
     loan.id
@@ -1078,6 +1114,12 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
         "repayment" ->
           Write.execute(conn, @resource, "REPAYMENT", id: id)
 
+        "waiveinterest" ->
+          Write.execute(conn, @resource, "WAIVEINTERESTPORTION", id: id)
+
+        "writeoff" ->
+          Write.execute(conn, @resource, "WRITEOFF", id: id)
+
         command ->
           Errors.render(conn, %UnrecognizedQueryParameter{
             name: "command",
@@ -1085,6 +1127,15 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
             allowed: []
           })
       end
+    end)
+  end
+
+  @doc "`POST /loans/:id/transactions/:transaction_id?command=...`: any command but the named ones adjusts."
+  def adjust_transaction(conn, raw_id, raw_tid) do
+    Write.with_path_id(conn, raw_id, fn id ->
+      Write.with_path_id(conn, raw_tid, fn tid ->
+        Write.execute(conn, @resource, "ADJUST", id: id, subentity_id: tid)
+      end)
     end)
   end
 

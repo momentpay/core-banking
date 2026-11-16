@@ -176,6 +176,10 @@ defmodule ECBApiFineract.ApiRouter do
     do: LoanAccounts.show_transaction(conn, id, transaction_id)
 
   get "/v1/loans/:id", do: LoanAccounts.show(conn, id)
+
+  post "/v1/loans/:id/transactions/:transaction_id",
+    do: LoanAccounts.adjust_transaction(conn, id, transaction_id)
+
   post "/v1/loans/:id/transactions", do: LoanAccounts.transaction_command(conn, id)
   post "/v1/loans/:id", do: LoanAccounts.command(conn, id)
   delete "/v1/loans/:id", do: LoanAccounts.delete(conn, id)

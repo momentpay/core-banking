@@ -68,13 +68,15 @@ defmodule ECBLoans.Loans.Repay do
     )
   end
 
-  defp payment_details(v, p) do
+  @doc false
+  def payment_details(v, p) do
     Enum.reduce(@payment_fields, v, fn name, v ->
       v |> Validation.param(name, Params.string(p, name)) |> Validation.max_length(50)
     end)
   end
 
-  defp active_client!(loan) do
+  @doc false
+  def active_client!(loan) do
     client = Clients.fetch!(loan.client_id)
 
     if client.status_enum != Clients.status(:active) do
@@ -85,9 +87,11 @@ defmodule ECBLoans.Loans.Repay do
     end
   end
 
-  defp unique_external_id!(nil), do: :ok
+  @doc false
+  def unique_external_id!(nil), do: :ok
 
-  defp unique_external_id!(external_id) do
+  @doc false
+  def unique_external_id!(external_id) do
     if TenantRepo.exists?(from(t in "m_loan_transaction", where: t.external_id == ^external_id)) do
       # the failed save of the transaction has used up an id
       TenantRepo.query!("SELECT nextval(pg_get_serial_sequence('m_loan_transaction', 'id'))")
@@ -103,7 +107,8 @@ defmodule ECBLoans.Loans.Repay do
     end
   end
 
-  defp payment_detail!(p) do
+  @doc false
+  def payment_detail!(p) do
     type_id = ECBPlatform.Json.long(p, "paymentTypeId")
     given? = Enum.any?(@payment_fields, &(Params.string(p, &1) not in [nil, ""]))
 
@@ -145,7 +150,8 @@ defmodule ECBLoans.Loans.Repay do
     |> Validation.raise_if_errors!()
   end
 
-  defp check_dates!(loan, on) do
+  @doc false
+  def check_dates!(loan, on) do
     if Date.compare(on, BusinessDate.current()) == :gt do
       raise DomainRuleViolation,
         code: "error.msg.loan.transaction.cannot.be.a.future.date",
@@ -167,7 +173,8 @@ defmodule ECBLoans.Loans.Repay do
 
   # --- the allocation -----------------------------------------------------------------------------
 
-  defp apply!(user, loan, on, amount, payment_detail_id, external_id) do
+  @doc false
+  def apply!(user, loan, on, amount, payment_detail_id, external_id) do
     rows = Loans.installments(loan.id)
     {updates, left, portions} = allocate(rows, on, amount)
 
@@ -406,7 +413,8 @@ defmodule ECBLoans.Loans.Repay do
     loan.principal_amount |> Decimal.sub(repaid) |> Decimal.sub(principal_paid)
   end
 
-  defp after_repayment!(user, loan, on, left) do
+  @doc false
+  def after_repayment!(user, loan, on, left) do
     Derived.refresh!(loan.id, user)
     status = status_after(loan, left)
     overpaid = overpaid_total(loan.id)
@@ -425,7 +433,12 @@ defmodule ECBLoans.Loans.Repay do
               maturity(loan)
 
           _ ->
-            []
+            [
+              closedon_date: nil,
+              closedon_userid: nil,
+              overpaidon_date: nil,
+              maturedon_date: loan.expected_maturedon_date
+            ]
         end
 
     TenantRepo.update_all(from(l in "m_loan", where: l.id == ^loan.id), set: set)
@@ -458,7 +471,8 @@ defmodule ECBLoans.Loans.Repay do
     ) || Decimal.new(0)
   end
 
-  defp changes(p) do
+  @doc false
+  def changes(p) do
     %{
       "transactionDate" => Params.string(p, "transactionDate"),
       "transactionAmount" => to_string(Params.value(p, "transactionAmount")),

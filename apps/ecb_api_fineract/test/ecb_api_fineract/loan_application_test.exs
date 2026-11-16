@@ -205,4 +205,61 @@ defmodule ECBApiFineract.LoanApplicationTest do
       assert Enum.map(body(loan)["transactions"], & &1["type"]["id"]) == [1, 10]
     end
   end
+
+  describe "corrections" do
+    defp repay(amount) do
+      send_json(:post, "/v1/loans/1/transactions?command=repayment", %{
+        "transactionDate" => "01 March 2024",
+        "transactionAmount" => amount,
+        "dateFormat" => "dd MMMM yyyy",
+        "locale" => "en"
+      })
+    end
+
+    defp paid_out do
+      assert submit().status == 200
+
+      assert send_json(:post, "/v1/loans/1?command=approve", %{
+               "approvedOnDate" => "01 March 2024",
+               "dateFormat" => "dd MMMM yyyy",
+               "locale" => "en"
+             }).status == 200
+
+      assert send_json(:post, "/v1/loans/1?command=disburse", %{
+               "actualDisbursementDate" => "01 March 2024",
+               "dateFormat" => "dd MMMM yyyy",
+               "locale" => "en"
+             }).status == 200
+    end
+
+    test "a repayment with later repayments after it cannot be undone yet, the last one can" do
+      paid_out()
+      first = body(repay(100))["resourceId"]
+      last = body(repay(50))["resourceId"]
+
+      undo = fn tid ->
+        send_json(:post, "/v1/loans/1/transactions/#{tid}?command=undo", %{
+          "transactionDate" => "01 March 2024",
+          "transactionAmount" => 0,
+          "dateFormat" => "dd MMMM yyyy",
+          "locale" => "en"
+        })
+      end
+
+      refused = undo.(first)
+      assert refused.status == 403
+
+      assert [%{"userMessageGlobalisationCode" => "error.msg.loan.feature.not.supported.yet"}] =
+               body(refused)["errors"]
+
+      assert undo.(last).status == 200
+      assert undo.(first).status == 200
+    end
+
+    test "a loan with repayments cannot have its disbursal undone yet" do
+      paid_out()
+      assert repay(100).status == 200
+      assert send_json(:post, "/v1/loans/1?command=undodisbursal", %{}).status == 403
+    end
+  end
 end
