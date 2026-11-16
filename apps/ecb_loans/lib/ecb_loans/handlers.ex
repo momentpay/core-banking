@@ -23,7 +23,7 @@ defmodule ECBLoans.Handlers do
     """
     @behaviour ECBPlatform.Commands.Handler
 
-    alias ECBLoans.Loans.{Submit, Transitions}
+    alias ECBLoans.Loans.{Disburse, Submit, Transitions}
     alias ECBPlatform.Params
 
     @impl true
@@ -41,6 +41,9 @@ defmodule ECBLoans.Handlers do
 
     def process(%{action_name: "WITHDRAW"} = command, user),
       do: {:ok, Transitions.withdraw!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "DISBURSE"} = command, user),
+      do: {:ok, Disburse.disburse!(user, command.entity_id, Params.parse!(command.json))}
 
     def process(%{action_name: "DELETE"} = command, user),
       do: {:ok, Transitions.delete!(user, command.entity_id)}

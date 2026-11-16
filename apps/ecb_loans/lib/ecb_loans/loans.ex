@@ -273,6 +273,45 @@ defmodule ECBLoans.Loans do
     |> TenantRepo.all()
   end
 
+  @doc "The transactions of a loan, oldest first, each with its office and payment details."
+  @spec transactions(integer) :: [map]
+  def transactions(loan_id) do
+    TenantRepo.query!(
+      """
+      SELECT t.id, t.loan_id, t.office_id, o.name AS office_name, t.payment_detail_id, t.is_reversed,
+             t.external_id, t.transaction_type_enum, t.transaction_date, t.amount,
+             t.principal_portion_derived, t.interest_portion_derived, t.fee_charges_portion_derived,
+             t.penalty_charges_portion_derived, t.overpayment_portion_derived, t.unrecognized_income_portion,
+             t.outstanding_loan_balance_derived, t.submitted_on_date, t.manually_adjusted_or_reversed,
+             t.reversal_external_id, t.reversed_on_date,
+             pd.payment_type_id, pt.value AS payment_type_name, pt.description AS payment_type_description,
+             pt.is_cash_payment, pt.order_position AS payment_type_position,
+             pd.account_number, pd.check_number, pd.receipt_number, pd.bank_number, pd.routing_code
+      FROM m_loan_transaction t
+      JOIN m_office o ON o.id = t.office_id
+      LEFT JOIN m_payment_detail pd ON pd.id = t.payment_detail_id
+      LEFT JOIN m_payment_type pt ON pt.id = pd.payment_type_id
+      WHERE t.loan_id = $1
+      ORDER BY t.transaction_date, t.id
+      """,
+      [loan_id]
+    )
+    |> rows()
+  end
+
+  @doc "One transaction of a loan, or `nil`."
+  @spec transaction(integer, integer) :: map | nil
+  def transaction(loan_id, id), do: loan_id |> transactions() |> Enum.find(&(&1.id == id))
+
+  @doc "The not-found error for a loan transaction id."
+  def transaction_not_found(id),
+    do:
+      ResourceNotFound.new(
+        "error.msg.loan.transaction.id.invalid",
+        "Transaction with identifier #{id} does not exist",
+        [id]
+      )
+
   @doc "The notes on a loan (and on its transactions), oldest first."
   @spec notes(integer) :: [map]
   def notes(loan_id) do

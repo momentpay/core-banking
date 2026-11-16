@@ -321,7 +321,10 @@ defmodule ECBApiFineract.ApiTest do
              "httpStatusCode" => "501",
              "userMessageGlobalisationCode" => "validation.msg.not.implemented",
              "errors" => [
-               %{"developerMessage" => "GET /api/v1/loans/1/charges is not implemented in E-CoreBank yet"}
+               %{
+                 "developerMessage" =>
+                   "GET /api/v1/loans/1/charges is not implemented in E-CoreBank yet"
+               }
              ]
            } = body(conn)
   end

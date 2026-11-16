@@ -23,6 +23,9 @@ defmodule ECBApiFineract.Response do
   def prepare(%Date{year: y, month: m, day: d}), do: [y, m, d]
   def prepare(%Decimal{} = decimal), do: Jason.Fragment.new(Decimal.to_string(decimal, :normal))
 
+  # an explicit `null`, for the answers in which Fineract keeps its nulls
+  def prepare(:null), do: nil
+
   def prepare(%{__struct__: _} = struct), do: struct
 
   def prepare(map) when is_map(map) do

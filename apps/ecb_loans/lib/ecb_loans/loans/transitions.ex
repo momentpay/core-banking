@@ -421,11 +421,12 @@ defmodule ECBLoans.Loans.Transitions do
   Works the repayment schedule of loan `id` out again from its stored terms (after approval for another
   amount or date) and replaces the stored rows and the maturity date.
   """
-  @spec regenerate!(integer, struct) :: :ok
-  def regenerate!(id, user) do
+  @spec regenerate!(integer, struct, keyword) :: :ok
+  def regenerate!(id, user, opts \\ []) do
     loan = Loans.fetch!(id)
     product = ECBLoans.LoanProducts.fetch!(loan.product_id)
-    terms = Request.terms(loan_params(loan), product)
+    disbursed_on = Keyword.get(opts, :disbursed_on) || loan.expected_disbursedon_date
+    terms = Request.terms(loan_params(loan, disbursed_on), product)
     schedule = Schedule.generate(terms)
     last = List.last(schedule.periods)
 
@@ -435,7 +436,7 @@ defmodule ECBLoans.Loans.Transitions do
   end
 
   # the loan's stored terms, said the way a request would say them
-  defp loan_params(loan) do
+  defp loan_params(loan, disbursed_on) do
     number = fn d -> Jason.Fragment.new(Decimal.to_string(d, :normal)) end
     date = &Date.to_iso8601/1
 
@@ -452,7 +453,7 @@ defmodule ECBLoans.Loans.Transitions do
       "interestRatePerPeriod" => number.(loan.nominal_interest_rate_per_period),
       "interestRateFrequencyType" => loan.interest_period_frequency_enum,
       "daysInYearType" => loan.days_in_year_enum,
-      "expectedDisbursementDate" => date.(loan.expected_disbursedon_date),
+      "expectedDisbursementDate" => date.(disbursed_on),
       "submittedOnDate" => date.(loan.submittedon_date),
       "dateFormat" => "yyyy-MM-dd",
       "locale" => "en"

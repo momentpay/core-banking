@@ -151,4 +151,58 @@ defmodule ECBApiFineract.LoanApplicationTest do
     assert send_json(:post, "/v1/loans/1?command=nonsense", %{}).status == 400
     assert send_json(:get, "/v1/loans/99").status == 404
   end
+
+  describe "disbursement" do
+    defp approve_loan do
+      assert submit().status == 200
+
+      assert send_json(:post, "/v1/loans/1?command=approve", %{
+               "approvedOnDate" => "01 March 2024",
+               "dateFormat" => "dd MMMM yyyy",
+               "locale" => "en"
+             }).status == 200
+    end
+
+    defp disburse(extra \\ %{}) do
+      send_json(
+        :post,
+        "/v1/loans/1?command=disburse",
+        Map.merge(
+          %{
+            "actualDisbursementDate" => "01 March 2024",
+            "dateFormat" => "dd MMMM yyyy",
+            "locale" => "en"
+          },
+          extra
+        )
+      )
+    end
+
+    test "something beyond a single payout is refused, not ignored" do
+      approve_loan()
+
+      for extra <- [
+            %{"fixedEmiAmount" => 500},
+            %{"linkAccountId" => 1},
+            %{"postDatedChecks" => [%{}]}
+          ] do
+        conn = disburse(extra)
+        assert conn.status == 403, inspect(extra)
+
+        assert [%{"userMessageGlobalisationCode" => "error.msg.loan.feature.not.supported.yet"}] =
+                 body(conn)["errors"]
+      end
+    end
+
+    test "a loan can only be paid out once, and it is then active with its transactions" do
+      approve_loan()
+      assert disburse().status == 200
+      assert disburse().status == 400
+
+      loan = send_json(:get, "/v1/loans/1?associations=transactions")
+      assert body(loan)["status"]["id"] == 300
+      assert body(loan)["summary"]["principalOutstanding"] == 10_000.0
+      assert Enum.map(body(loan)["transactions"], & &1["type"]["id"]) == [1, 10]
+    end
+  end
 end

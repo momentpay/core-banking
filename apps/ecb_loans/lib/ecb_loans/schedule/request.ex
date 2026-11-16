@@ -756,7 +756,8 @@ defmodule ECBLoans.Schedule.Request do
 
   # Due dates that fall on a non-working day or a holiday are moved by Fineract; that is not built yet, so a
   # tenant whose calendar would move one is refused instead of getting dates that are not moved
-  defp check_calendar!(client, disbursement) do
+  @doc false
+  def check_calendar!(client, disbursement) do
     unless seven_day_week?() do
       refuse!(["working days other than every day of the week"])
     end

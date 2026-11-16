@@ -15,7 +15,8 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     "approve" => "APPROVE",
     "undoapproval" => "APPROVALUNDO",
     "reject" => "REJECT",
-    "withdrawnByApplicant" => "WITHDRAW"
+    "withdrawnByApplicant" => "WITHDRAW",
+    "disburse" => "DISBURSE"
   }
 
   # The names `fields` can choose between (Fineract's response parameters for a loan).
@@ -136,7 +137,16 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       nil -> nil
       summary -> Map.drop(summary, @left_out_of_page_summaries)
     end)
-    |> Map.put("delinquent", delinquent())
+    |> Map.put(
+      "delinquent",
+      loan
+      |> delinquent()
+      |> Map.drop(["delinquencyPausePeriods", "nextPaymentDueDate"])
+      |> Map.merge(%{
+        "availableDisbursementAmount" => 0,
+        "availableDisbursementAmountWithOverApplied" => 0
+      })
+    )
     |> then(&if(&1["summary"] == nil, do: Map.delete(&1, "summary"), else: &1))
   end
 
@@ -182,13 +192,14 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       "transactionProcessingStrategyCode" => l.loan_transaction_strategy_code,
       "transactionProcessingStrategyName" => l.loan_transaction_strategy_name,
       "timeline" => timeline(l),
-      "inArrears" => false,
       "daysInMonthType" => option(:days_in_month, l.days_in_month_enum),
       "daysInYearType" => option(:days_in_year, l.days_in_year_enum),
       "isInterestRecalculationEnabled" => l.interest_recalculation_enabled,
       "repaymentStartDateType" => option(:repayment_start, l.repayment_start_date_type_enum)
     })
     |> put("summary", summary(l))
+    |> put("loanProductCounter", if(l.disbursedon_date, do: l.loan_product_counter))
+    |> Map.put("inArrears", overdue(l).total != 0)
     |> put("externalId", l.external_id)
     |> put("graceOnPrincipalPayment", l.grace_on_principal_periods)
     |> put("graceOnInterestPayment", l.grace_on_interest_periods)
@@ -268,11 +279,41 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       "totalRepaymentTransactionReversed" => zero,
       "totalInterestPaymentWaiver" => zero,
       "totalInterestRefund" => zero,
-      "totalUnpaidPayableDueInterest" => zero,
-      "totalUnpaidPayableNotDueInterest" => zero
+      "totalUnpaidPayableDueInterest" => payable_due(l, overdue),
+      "totalUnpaidPayableNotDueInterest" => accrued_not_due(l)
     }
     |> put("overdueSinceDate", overdue.since)
   end
+
+  # the interest of the installment now running that has built up since it began, by days
+  defp accrued_not_due(%{loan_status_id: 300} = l) do
+    today = ECBPlatform.BusinessDate.current()
+
+    l.id
+    |> Loans.installments()
+    |> Enum.find(
+      &(Date.compare(&1.from_date, today) != :gt and Date.compare(&1.due_date, today) == :gt)
+    )
+    |> case do
+      nil ->
+        0
+
+      r ->
+        owed =
+          outstanding(r.interest, r.interest_completed, r.interest_writtenoff, r.interest_waived)
+
+        days = Date.diff(today, r.from_date)
+        accrued = owed |> Decimal.mult(days) |> Decimal.div(Date.diff(r.due_date, r.from_date))
+        if Decimal.eq?(accrued, 0), do: 0, else: Decimal.round(accrued, l.currency_digits)
+    end
+  end
+
+  defp accrued_not_due(_loan), do: 0
+
+  # the interest that has fallen due and is unpaid
+  defp payable_due(%{loan_status_id: 300}, %{interest: 0}), do: 0
+  defp payable_due(%{loan_status_id: 300}, %{interest: interest}), do: interest
+  defp payable_due(_loan, _overdue), do: 0
 
   # an amount that is only shown with decimals once it is more than nothing
   defp nonzero(amount), do: if(Decimal.eq?(amount, 0), do: 0, else: amount)
@@ -431,6 +472,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
 
   defp with_associations(body, loan, associations) do
     all? = MapSet.member?(associations, "all")
+    body = if all?, do: with_accrual_totals(body), else: body
     wants? = fn name -> all? or MapSet.member?(associations, name) end
 
     body
@@ -440,17 +482,133 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       |> Map.put("disbursementDetails", [])
       |> Map.put("emiAmountVariations", [])
     end)
-    |> maybe(wants?.("transactions"), &Map.put(&1, "transactions", []))
+    |> maybe(wants?.("transactions"), fn b ->
+      Map.put(
+        b,
+        "transactions",
+        Enum.map(Loans.transactions(loan.id), &transaction_json(&1, loan))
+      )
+    end)
     |> maybe(all?, fn b ->
       b
-      |> Map.put("notes", Enum.map(Loans.notes(loan.id), &note/1))
+      |> put(
+        "notes",
+        loan.id |> Loans.notes() |> Enum.map(&note/1) |> then(&if(&1 == [], do: nil, else: &1))
+      )
       |> Map.put("disbursementDetails", [])
       |> Map.put("originators", [])
       |> Map.put("emiAmountVariations", [])
       |> Map.put("loanTermVariations", [])
-      |> Map.put("delinquent", delinquent())
+      |> Map.put("delinquent", delinquent(loan))
     end)
   end
+
+  @type_flags ~w(disbursement repaymentAtDisbursement repayment merchantIssuedRefund payoutRefund goodwillCredit
+                 interestPaymentWaiver chargeRefund contra waiveInterest waiveCharges accrual writeOff
+                 recoveryRepayment initiateTransfer approveTransfer withdrawTransfer rejectTransfer chargePayment
+                 refund refundForActiveLoans creditBalanceRefund chargeAdjustment chargeback chargeoff downPayment
+                 reAge reAmortize accrualActivity interestRefund accrualAdjustment capitalizedIncome
+                 capitalizedIncomeAmortization capitalizedIncomeAdjustment capitalizedIncomeAmortizationAdjustment
+                 contractTermination loanWithdrawal buyDownFee buyDownFeeAdjustment buyDownFeeAmortization
+                 buyDownFeeAmortizationAdjustment)
+
+  # id => {code, value, the flag that is on}
+  @transaction_types %{
+    1 => {"loanTransactionType.disbursement", "Disbursement", "disbursement"},
+    2 => {"loanTransactionType.repayment", "Repayment", "repayment"},
+    3 => {"loanTransactionType.contra", "Contra", "contra"},
+    4 => {"loanTransactionType.waiveInterest", "Waive Interest", "waiveInterest"},
+    5 =>
+      {"loanTransactionType.repaymentAtDisbursement", "Repayment at disbursement",
+       "repaymentAtDisbursement"},
+    6 => {"loanTransactionType.writeOff", "Write-off", "writeOff"},
+    8 => {"loanTransactionType.recoveryRepayment", "Recovery Repayment", "recoveryRepayment"},
+    9 => {"loanTransactionType.waiveCharges", "Waive loan charges", "waiveCharges"},
+    10 => {"loanTransactionType.accrual", "Accrual", "accrual"}
+  }
+
+  @doc false
+  def transaction_json(t, loan) do
+    zero = 0
+    {code, value, flag} = Map.fetch!(@transaction_types, t.transaction_type_enum)
+    flags = Map.new(@type_flags, &{&1, &1 == flag})
+
+    %{
+      "id" => t.id,
+      "loanId" => t.loan_id,
+      "officeId" => t.office_id,
+      "officeName" => t.office_name,
+      "type" =>
+        Map.merge(%{"id" => t.transaction_type_enum, "code" => code, "value" => value}, flags),
+      "date" => t.transaction_date,
+      "currency" => currency(loan),
+      "amount" => t.amount,
+      "netDisbursalAmount" => loan.net_disbursal_amount,
+      "principalPortion" => t.principal_portion_derived || zero,
+      "interestPortion" => t.interest_portion_derived || zero,
+      "feeChargesPortion" => t.fee_charges_portion_derived || zero,
+      "penaltyChargesPortion" => t.penalty_charges_portion_derived || zero,
+      "overpaymentPortion" => t.overpayment_portion_derived || zero,
+      "unrecognizedIncomePortion" => t.unrecognized_income_portion || zero,
+      "outstandingLoanBalance" => t.outstanding_loan_balance_derived || zero,
+      "submittedOnDate" => t.submitted_on_date,
+      "manuallyReversed" => t.manually_adjusted_or_reversed == true,
+      "loanChargePaidByList" => [],
+      "transactionRelations" => []
+    }
+    |> put("externalLoanId", loan.external_id)
+    |> put("externalId", t.external_id)
+    |> put("reversalExternalId", t.reversal_external_id)
+    |> put("reversedOnDate", t.reversed_on_date)
+    |> put("paymentDetailData", payment_detail(t))
+  end
+
+  defp payment_detail(%{payment_detail_id: nil}), do: nil
+
+  defp payment_detail(t) do
+    %{"id" => t.payment_detail_id}
+    |> put("paymentType", payment_type(t))
+    |> put("accountNumber", t.account_number)
+    |> put("checkNumber", t.check_number)
+    |> put("routingCode", t.routing_code)
+    |> put("receiptNumber", t.receipt_number)
+    |> put("bankNumber", t.bank_number)
+  end
+
+  defp payment_type(%{payment_type_id: nil}), do: nil
+
+  defp payment_type(t), do: %{"id" => t.payment_type_id, "name" => t.payment_type_name}
+
+  @doc "`GET /loans/:id/transactions/:transaction_id`"
+  def show_transaction(conn, raw_id, raw_tid) do
+    with {:ok, id} <- Write.path_id(raw_id),
+         {:ok, tid} <- Write.path_id(raw_tid) do
+      Read.respond(conn, @resource, fn -> one_transaction(id, tid, conn.query_params) end)
+    else
+      {:error, error} -> Errors.render(conn, error)
+    end
+  end
+
+  defp one_transaction(id, tid, q) do
+    loan = Loans.fetch!(id)
+
+    case Loans.transaction(id, tid) do
+      nil -> {:error, Loans.transaction_not_found(tid)}
+      t -> t |> transaction_json(loan) |> only_fields(q)
+    end
+  end
+
+  # asked for with all its associations, an active loan shows the interest not yet due as decimals
+  defp with_accrual_totals(%{"summary" => summary, "status" => %{"id" => 300}} = body) do
+    fix = fn
+      0 -> Decimal.new("0.0")
+      other -> other
+    end
+
+    %{body | "summary" => Map.update!(summary, "totalUnpaidPayableNotDueInterest", fix)}
+  end
+
+  defp with_accrual_totals(body), do: body
 
   defp maybe(body, true, fun), do: fun.(body)
   defp maybe(body, _false, _fun), do: body
@@ -477,12 +635,21 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   defp note_type(300),
     do: %{"id" => 300, "code" => "noteType.loan.transaction", "value" => "Loan transaction note"}
 
-  defp delinquent do
+  defp delinquent(loan) do
     zero = 0
+    today = ECBPlatform.BusinessDate.current()
+    active? = loan.disbursedon_date != nil
+
+    unpaid =
+      if active?, do: Enum.reject(Loans.installments(loan.id), &(&1.completed == true)), else: []
+
+    late = Enum.filter(unpaid, &(Date.compare(&1.due_date, today) == :lt))
+    last = last_repayment(loan)
 
     %{
-      "availableDisbursementAmount" => zero,
-      "availableDisbursementAmountWithOverApplied" => zero,
+      "availableDisbursementAmount" => if(active?, do: Decimal.new("0.0"), else: zero),
+      "availableDisbursementAmountWithOverApplied" =>
+        if(active?, do: Decimal.new("0.0"), else: zero),
       "pastDueDays" => zero,
       "nextPaymentAmount" => zero,
       "delinquentDays" => zero,
@@ -494,6 +661,83 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       "delinquentFee" => zero,
       "delinquentPenalty" => zero
     }
+    |> then(&if(active?, do: Map.put(&1, "delinquencyPausePeriods", []), else: &1))
+    |> put("nextPaymentDueDate", unpaid |> List.first() |> then(&(&1 && &1.due_date)))
+    |> arrears(late, today)
+    |> last_payment(last)
+  end
+
+  defp arrears(map, [], _today), do: map
+
+  defp arrears(map, [first | _] = late, today) do
+    days = Date.diff(today, first.due_date)
+    sum = fn f -> late |> Enum.map(f) |> Enum.reduce(&Decimal.add/2) end
+    zero = Decimal.new(0)
+
+    principal =
+      sum.(&outstanding(&1.principal, &1.principal_completed, &1.principal_writtenoff, nil))
+
+    interest =
+      sum.(
+        &outstanding(
+          &1.interest,
+          &1.interest_completed,
+          &1.interest_writtenoff,
+          &1.interest_waived
+        )
+      )
+
+    fee =
+      sum.(
+        &outstanding(
+          &1.fee_charges,
+          &1.fee_charges_completed,
+          &1.fee_charges_writtenoff,
+          &1.fee_charges_waived
+        )
+      )
+
+    penalty =
+      sum.(
+        &outstanding(
+          &1.penalty_charges,
+          &1.penalty_charges_completed,
+          &1.penalty_charges_writtenoff,
+          &1.penalty_charges_waived
+        )
+      )
+
+    map
+    |> Map.merge(%{
+      "pastDueDays" => days,
+      "pastDueDate" => first.due_date,
+      "delinquentDays" => days,
+      "delinquentDate" => first.due_date,
+      "delinquentAmount" =>
+        principal |> Decimal.add(interest) |> Decimal.add(fee) |> Decimal.add(penalty),
+      "delinquentPrincipal" => principal,
+      "delinquentInterest" => interest,
+      "delinquentFee" => if(Decimal.eq?(fee, zero), do: Decimal.new("0.0"), else: fee),
+      "delinquentPenalty" => if(Decimal.eq?(penalty, zero), do: Decimal.new("0.0"), else: penalty)
+    })
+  end
+
+  defp last_repayment(loan) do
+    loan.id
+    |> Loans.transactions()
+    |> Enum.filter(&(&1.transaction_type_enum == 2 and not &1.is_reversed))
+    |> List.last()
+  end
+
+  defp last_payment(map, nil), do: map
+
+  defp last_payment(map, t) do
+    Map.merge(map, %{
+      "lastPaymentDate" => t.transaction_date,
+      "lastPaymentAmount" => t.amount,
+      "lastRepaymentDate" => t.transaction_date,
+      "lastRepaymentAmount" => t.amount
+    })
   end
 
   # --- the repayment schedule of a stored loan ---------------------------------------------------
@@ -515,22 +759,26 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     |> round_totals(loan.currency_digits)
   end
 
+  defp term_in_days([], _loan), do: 0
+
+  defp term_in_days(rows, loan),
+    do:
+      Date.diff(List.last(rows).due_date, loan.disbursedon_date || loan.expected_disbursedon_date)
+
   defp totals(rows, loan) do
     zero = Decimal.new("0.0")
-    sum = fn f -> Enum.reduce(rows, zero, fn r, acc -> Decimal.add(acc, f.(r)) end) end
-    principal = sum.(&(&1.principal || zero))
-    interest = sum.(&(&1.interest || zero))
-    fees = sum.(&(&1.fee_charges || zero))
-    penalties = sum.(&(&1.penalty_charges || zero))
-    last = List.last(rows)
+    sum = fn f -> Enum.reduce(rows, zero, fn r, acc -> Decimal.add(acc, f.(r) || zero) end) end
+    principal = sum.(& &1.principal)
+    interest = sum.(& &1.interest)
+    fees = sum.(& &1.fee_charges)
+    penalties = sum.(& &1.penalty_charges)
 
     %{
       "currency" => currency(loan),
-      "loanTermInDays" =>
-        if(last, do: Date.diff(last.due_date, loan.expected_disbursedon_date), else: 0),
+      "loanTermInDays" => term_in_days(rows, loan),
       "totalPrincipalDisbursed" => loan.principal_amount,
       "totalPrincipalExpected" => principal,
-      "totalPrincipalPaid" => sum.(&(&1.principal_completed || zero)),
+      "totalPrincipalPaid" => sum.(& &1.principal_completed),
       "totalInterestCharged" => interest,
       "totalFeeChargesCharged" => fees,
       "totalPenaltyChargesCharged" => penalties,
@@ -539,8 +787,8 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       "totalRepaymentExpected" =>
         Enum.reduce([interest, fees, penalties], principal, &Decimal.add(&2, &1)),
       "totalRepayment" => sum.(&paid/1),
-      "totalPaidInAdvance" => sum.(&(&1.paid_in_advance || zero)),
-      "totalPaidLate" => sum.(&(&1.paid_late || zero)),
+      "totalPaidInAdvance" => sum.(& &1.paid_in_advance),
+      "totalPaidLate" => sum.(& &1.paid_late),
       "totalOutstanding" =>
         Enum.reduce(rows, zero, fn r, acc -> Decimal.add(acc, outstanding(r)) end),
       "totalCredits" => zero
@@ -568,25 +816,32 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   defp round_money(list, digits) when is_list(list), do: Enum.map(list, &round_money(&1, digits))
   defp round_money(other, _digits), do: other
 
-  # before the loan is paid out the disbursement period shows what is outstanding
+  # Before the loan is paid out the disbursement period shows what is outstanding; afterwards what was paid.
   defp disbursement(loan, today) do
     zero = Decimal.new("0.0")
 
     %{
-      "dueDate" => loan.expected_disbursedon_date,
+      "dueDate" => loan.disbursedon_date || loan.expected_disbursedon_date,
       "principalDisbursed" => loan.principal_amount,
       "principalLoanBalanceOutstanding" => loan.principal_amount,
       "feeChargesDue" => zero,
-      "feeChargesOutstanding" => zero,
       "totalOriginalDueForPeriod" => zero,
       "totalDueForPeriod" => zero,
-      "totalOutstandingForPeriod" => zero,
       "totalActualCostOfLoanForPeriod" => zero,
       "downPaymentPeriod" => false
     }
+    |> Map.merge(
+      if loan.disbursedon_date,
+        do: %{"feeChargesPaid" => zero, "totalPaidForPeriod" => zero},
+        else: %{"feeChargesOutstanding" => zero, "totalOutstandingForPeriod" => zero}
+    )
     |> put(
       "totalOverdue",
-      if(Date.compare(loan.expected_disbursedon_date, today) == :lt, do: zero)
+      if(
+        loan.disbursedon_date == nil and
+          Date.compare(loan.expected_disbursedon_date, today) == :lt,
+        do: zero
+      )
     )
   end
 
