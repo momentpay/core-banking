@@ -12,7 +12,7 @@ defmodule ECBLoans.Loans.Disburse do
   import Ecto.Query
 
   alias ECBLoans.Loans
-  alias ECBLoans.Loans.{Derived, Transitions}
+  alias ECBLoans.Loans.{Derived, Journal, Transitions}
   alias ECBParty.Clients
   alias ECBPlatform.{BusinessDate, Configuration, Params, TenantRepo, Validation}
   alias ECBPlatform.Commands.Result
@@ -58,7 +58,7 @@ defmodule ECBLoans.Loans.Disburse do
     Validation.raise_if_errors!(v)
 
     check_future!(loan, on)
-    refuse_accounting!(loan)
+    check_accounting!(loan)
     payment_detail_id = payment_detail!(p)
     paid_out!(user, loan, on, payment_detail_id, Params.string(p, "externalId"))
     Loans.add_note(id, loan.client_id, note, user.id)
@@ -172,18 +172,8 @@ defmodule ECBLoans.Loans.Disburse do
     end
   end
 
-  defp refuse_accounting!(loan) do
-    product = ECBLoans.LoanProducts.fetch!(loan.product_id)
-
-    if ECBLoans.LoanProducts.accounting?(product) do
-      raise DomainRuleViolation,
-        code: "error.msg.loan.feature.not.supported.yet",
-        message:
-          "Disbursing a loan of a product with accounting is not supported yet by E-CoreBank " <>
-            "(its journal entries are not built)",
-        args: ["accountingRule"]
-    end
-  end
+  defp check_accounting!(loan),
+    do: Journal.check_supported!(ECBLoans.LoanProducts.fetch!(loan.product_id), "Disbursing")
 
   # --- the payment ------------------------------------------------------------------------------
 
@@ -231,14 +221,18 @@ defmodule ECBLoans.Loans.Disburse do
       ]
     )
 
-    insert_transaction!(user, loan, %{
+    tx = %{
       type: 1,
       date: on,
       amount: loan.principal_amount,
       balance: loan.principal_amount,
       payment_detail_id: payment_detail_id,
       external_id: external_id
-    })
+    }
+
+    tx_id = insert_transaction!(user, loan, tx)
+    product = ECBLoans.LoanProducts.fetch!(loan.product_id)
+    Journal.disbursement!(user, loan, product, Map.put(tx, :id, tx_id))
 
     Transitions.regenerate!(id, user, disbursed_on: on)
     Derived.refresh!(id, user)

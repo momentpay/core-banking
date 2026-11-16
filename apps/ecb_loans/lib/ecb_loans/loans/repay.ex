@@ -14,7 +14,7 @@ defmodule ECBLoans.Loans.Repay do
   import Ecto.Query
 
   alias ECBLoans.Loans
-  alias ECBLoans.Loans.{Derived, Disburse}
+  alias ECBLoans.Loans.{Derived, Disburse, Journal}
   alias ECBParty.Clients
   alias ECBPlatform.{BusinessDate, Params, TenantRepo, Validation}
   alias ECBPlatform.Commands.Result
@@ -53,7 +53,7 @@ defmodule ECBLoans.Loans.Repay do
     payment_detail_id = payment_detail!(p)
     check_status!(loan)
     check_dates!(loan, on)
-    refuse_accounting!(loan)
+    check_accounting!(loan)
 
     tx_id = apply!(user, loan, on, amount, payment_detail_id, external_id)
     Loans.add_note(id, loan.client_id, note, user.id, tx_id)
@@ -162,18 +162,8 @@ defmodule ECBLoans.Loans.Repay do
     end
   end
 
-  defp refuse_accounting!(loan) do
-    product = ECBLoans.LoanProducts.fetch!(loan.product_id)
-
-    if ECBLoans.LoanProducts.accounting?(product) do
-      raise DomainRuleViolation,
-        code: "error.msg.loan.feature.not.supported.yet",
-        message:
-          "A repayment on a loan of a product with accounting is not supported yet by E-CoreBank " <>
-            "(its journal entries are not built)",
-        args: ["accountingRule"]
-    end
-  end
+  defp check_accounting!(loan),
+    do: Journal.check_supported!(ECBLoans.LoanProducts.fetch!(loan.product_id), "A repayment")
 
   # --- the allocation -----------------------------------------------------------------------------
 
@@ -181,20 +171,23 @@ defmodule ECBLoans.Loans.Repay do
     rows = Loans.installments(loan.id)
     {updates, left, portions} = allocate(rows, on, amount)
 
-    tx_id =
-      Disburse.insert_transaction!(user, loan, %{
-        type: 2,
-        date: on,
-        amount: amount,
-        principal: nil_zero(portions.principal),
-        interest: nil_zero(portions.interest),
-        fees: nil_zero(portions.fees),
-        penalties: nil_zero(portions.penalties),
-        overpayment: nil_zero(left),
-        balance: balance_after(loan, portions.principal),
-        payment_detail_id: payment_detail_id,
-        external_id: external_id
-      })
+    tx = %{
+      type: 2,
+      date: on,
+      amount: amount,
+      principal: nil_zero(portions.principal),
+      interest: nil_zero(portions.interest),
+      fees: nil_zero(portions.fees),
+      penalties: nil_zero(portions.penalties),
+      overpayment: nil_zero(left),
+      balance: balance_after(loan, portions.principal),
+      payment_detail_id: payment_detail_id,
+      external_id: external_id
+    }
+
+    tx_id = Disburse.insert_transaction!(user, loan, tx)
+    product = ECBLoans.LoanProducts.fetch!(loan.product_id)
+    Journal.repayment!(user, loan, product, Map.put(tx, :id, tx_id))
 
     save_installments!(updates, tx_id, user)
     after_repayment!(user, loan, on, left)
