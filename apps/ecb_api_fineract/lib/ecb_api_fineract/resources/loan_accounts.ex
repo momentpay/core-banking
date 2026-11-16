@@ -129,6 +129,12 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
                                  totalInterestPaymentWaiver totalInterestRefund totalUnpaidPayableDueInterest
                                  totalUnpaidPayableNotDueInterest)
 
+  # a loan in a page shows its delinquency as nothing but zeros
+  @page_delinquent_keys ~w(availableDisbursementAmount availableDisbursementAmountWithOverApplied pastDueDays
+                           nextPaymentAmount delinquentDays delinquentAmount lastPaymentAmount
+                           lastRepaymentAmount delinquentPrincipal delinquentInterest delinquentFee
+                           delinquentPenalty)
+
   defp list_item(loan) do
     loan
     |> loan_json()
@@ -137,16 +143,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       nil -> nil
       summary -> Map.drop(summary, @left_out_of_page_summaries)
     end)
-    |> Map.put(
-      "delinquent",
-      loan
-      |> delinquent()
-      |> Map.drop(["delinquencyPausePeriods", "nextPaymentDueDate"])
-      |> Map.merge(%{
-        "availableDisbursementAmount" => 0,
-        "availableDisbursementAmountWithOverApplied" => 0
-      })
-    )
+    |> Map.put("delinquent", Map.new(@page_delinquent_keys, &{&1, 0}))
     |> then(&if(&1["summary"] == nil, do: Map.delete(&1, "summary"), else: &1))
   end
 
@@ -198,6 +195,9 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       "repaymentStartDateType" => option(:repayment_start, l.repayment_start_date_type_enum)
     })
     |> put("summary", summary(l))
+    |> put("totalOverpaid", l.total_overpaid_derived)
+    |> put("overpaidOnDate", l.overpaidon_date)
+    |> Map.put("paidInAdvance", %{"paidInAdvance" => paid_in_advance(l)})
     |> put("loanProductCounter", if(l.disbursedon_date, do: l.loan_product_counter))
     |> Map.put("inArrears", overdue(l).total != 0)
     |> put("externalId", l.external_id)
@@ -275,7 +275,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       "totalChargeback" => zero,
       "totalCreditBalanceRefund" => zero,
       "totalCreditBalanceRefundReversed" => zero,
-      "totalRepaymentTransaction" => nonzero(l.total_repayment_derived),
+      "totalRepaymentTransaction" => nonzero(repayment_transactions_total(l)),
       "totalRepaymentTransactionReversed" => zero,
       "totalInterestPaymentWaiver" => zero,
       "totalInterestRefund" => zero,
@@ -311,9 +311,33 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   defp accrued_not_due(_loan), do: 0
 
   # the interest that has fallen due and is unpaid
-  defp payable_due(%{loan_status_id: 300}, %{interest: 0}), do: 0
   defp payable_due(%{loan_status_id: 300}, %{interest: interest}), do: interest
   defp payable_due(_loan, _overdue), do: 0
+
+  # what has been paid on installments that are not yet past due
+  defp paid_in_advance(%{disbursedon_date: nil}), do: 0
+
+  defp paid_in_advance(l) do
+    today = ECBPlatform.BusinessDate.current()
+
+    l.id
+    |> Loans.installments()
+    |> Enum.filter(&(Date.compare(&1.due_date, today) != :lt))
+    |> Enum.map(&paid/1)
+    |> Enum.reject(&Decimal.eq?(&1, 0))
+    |> case do
+      [] -> 0
+      amounts -> Enum.reduce(amounts, &Decimal.add/2)
+    end
+  end
+
+  # the sum of the repayments made, whatever they were allocated to
+  defp repayment_transactions_total(l) do
+    l.id
+    |> Loans.transactions()
+    |> Enum.filter(&(&1.transaction_type_enum == 2 and not &1.is_reversed))
+    |> Enum.reduce(Decimal.new(0), &Decimal.add(&2, &1.amount))
+  end
 
   # an amount that is only shown with decimals once it is more than nothing
   defp nonzero(amount), do: if(Decimal.eq?(amount, 0), do: 0, else: amount)
@@ -372,15 +396,21 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
           )
         )
 
-      %{
-        principal: principal,
-        interest: interest,
-        fees: fees,
-        penalties: penalties,
-        total: principal |> Decimal.add(interest) |> Decimal.add(fees) |> Decimal.add(penalties),
-        since: due |> hd() |> Map.fetch!(:due_date)
-      }
+      overdue_totals(principal, interest, fees, penalties, due)
     end
+  end
+
+  defp overdue_totals(principal, interest, fees, penalties, due) do
+    decimal = fn d -> if Decimal.eq?(d, 0), do: Decimal.new("0.0"), else: d end
+
+    %{
+      principal: principal,
+      interest: interest,
+      fees: decimal.(fees),
+      penalties: decimal.(penalties),
+      total: principal |> Decimal.add(interest) |> Decimal.add(fees) |> Decimal.add(penalties),
+      since: due |> hd() |> Map.fetch!(:due_date)
+    }
   end
 
   defp put(map, _key, nil), do: map
@@ -452,6 +482,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       l.disbursed_by_firstname,
       l.disbursed_by_lastname
     )
+    |> put("overpaidOnDate", l.overpaidon_date)
     |> put("closedOnDate", l.closedon_date)
     |> person("closedBy", l.closed_by_username, l.closed_by_firstname, l.closed_by_lastname)
     |> person("writeOffBy", l.closed_by_username, l.closed_by_firstname, l.closed_by_lastname)
@@ -599,13 +630,29 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   end
 
   # asked for with all its associations, an active loan shows the interest not yet due as decimals
-  defp with_accrual_totals(%{"summary" => summary, "status" => %{"id" => 300}} = body) do
+  defp with_accrual_totals(%{"summary" => summary, "status" => %{"id" => status}} = body)
+       when status in [300, 600, 700] do
+    zero = if body["currency"]["decimalPlaces"] == 0, do: 0, else: Decimal.new("0.0")
+
     fix = fn
-      0 -> Decimal.new("0.0")
+      0 -> zero
       other -> other
     end
 
-    %{body | "summary" => Map.update!(summary, "totalUnpaidPayableNotDueInterest", fix)}
+    paid? = Enum.any?(Loans.installments(body["id"]), &(&1.completed == true))
+    summary = Map.update!(summary, "totalUnpaidPayableNotDueInterest", fix)
+
+    summary =
+      if paid?,
+        do:
+          Map.update!(
+            summary,
+            "totalUnpaidPayableDueInterest",
+            &if(&1 == 0, do: Decimal.new("0.0"), else: &1)
+          ),
+        else: summary
+
+    %{body | "summary" => summary}
   end
 
   defp with_accrual_totals(body), do: body
@@ -662,10 +709,17 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       "delinquentPenalty" => zero
     }
     |> then(&if(active?, do: Map.put(&1, "delinquencyPausePeriods", []), else: &1))
-    |> put("nextPaymentDueDate", unpaid |> List.first() |> then(&(&1 && &1.due_date)))
+    |> put("nextPaymentDueDate", next_payment_due(unpaid, late, last))
     |> arrears(late, today)
     |> last_payment(last)
   end
+
+  # the next installment's date; with nothing owed, or a payment made on top of arrears, the day of the last payment
+  defp next_payment_due([], _late, nil), do: nil
+  defp next_payment_due([], _late, last), do: last.transaction_date
+  defp next_payment_due([first | _], [], _last), do: first.due_date
+  defp next_payment_due([first | _], _late, nil), do: first.due_date
+  defp next_payment_due(_unpaid, _late, last), do: last.transaction_date
 
   defp arrears(map, [], _today), do: map
 
@@ -906,6 +960,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       "totalAccruedInterest" => zero,
       "downPaymentPeriod" => false
     }
+    |> put("obligationsMetOnDate", r.obligations_met_on)
     |> put("totalOverdue", if(Date.compare(r.due_date, today) == :lt, do: out))
   end
 
@@ -1007,6 +1062,23 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
           Write.execute(conn, @resource, action, id: id)
 
         :error ->
+          Errors.render(conn, %UnrecognizedQueryParameter{
+            name: "command",
+            value: command,
+            allowed: []
+          })
+      end
+    end)
+  end
+
+  @doc "`POST /loans/:id/transactions?command=...`"
+  def transaction_command(conn, raw_id) do
+    Write.with_path_id(conn, raw_id, fn id ->
+      case conn.query_params["command"] do
+        "repayment" ->
+          Write.execute(conn, @resource, "REPAYMENT", id: id)
+
+        command ->
           Errors.render(conn, %UnrecognizedQueryParameter{
             name: "command",
             value: command,

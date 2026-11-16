@@ -16,6 +16,7 @@ defmodule ECBLoans.Application do
     {"LOAN", "REJECT", ECBLoans.Handlers.Loan},
     {"LOAN", "WITHDRAW", ECBLoans.Handlers.Loan},
     {"LOAN", "DISBURSE", ECBLoans.Handlers.Loan},
+    {"LOAN", "REPAYMENT", ECBLoans.Handlers.Loan},
     {"LOAN", "DELETE", ECBLoans.Handlers.Loan}
   ]
 

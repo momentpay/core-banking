@@ -203,11 +203,11 @@ defmodule ECBLoans.Loans.Disburse do
         [
           %{
             payment_type_id: type_id,
-            account_number: Params.string(p, "accountNumber"),
-            check_number: Params.string(p, "checkNumber"),
-            receipt_number: Params.string(p, "receiptNumber"),
-            bank_number: Params.string(p, "bankNumber"),
-            routing_code: Params.string(p, "routingCode")
+            account_number: Params.string(p, "accountNumber") || "",
+            check_number: Params.string(p, "checkNumber") || "",
+            receipt_number: Params.string(p, "receiptNumber") || "",
+            bank_number: Params.string(p, "bankNumber") || "",
+            routing_code: Params.string(p, "routingCode") || ""
           }
         ],
         returning: [:id]

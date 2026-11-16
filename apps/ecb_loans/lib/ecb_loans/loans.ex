@@ -90,7 +90,7 @@ defmodule ECBLoans.Loans do
   l.grace_on_arrears_ageing, l.amortization_method_enum, l.submittedon_date, l.approvedon_date,
   l.expected_disbursedon_date, l.expected_firstrepaymenton_date, l.interest_calculated_from_date,
   l.disbursedon_date, l.expected_maturedon_date, l.maturedon_date, l.closedon_date, l.rejectedon_date,
-  l.withdrawnon_date, l.writtenoffon_date, l.loan_transaction_strategy_code, l.loan_transaction_strategy_name,
+  l.withdrawnon_date, l.writtenoffon_date, l.overpaidon_date, l.loan_transaction_strategy_code, l.loan_transaction_strategy_name,
   l.days_in_month_enum, l.days_in_year_enum, l.interest_recalculation_enabled, l.repayment_start_date_type_enum,
   l.created_by, l.approvedon_userid, l.disbursedon_userid, l.closedon_userid, l.rejectedon_userid,
   l.withdrawnon_userid, l.is_npa, l.loan_product_counter,
