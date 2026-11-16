@@ -3916,8 +3916,8 @@
         {
           "path": "/v1/glclosures?officeId=abc",
           "ignore": [
-            "timestamp",
-            "path"
+            "path",
+            "timestamp"
           ]
         },
         {
@@ -3928,7 +3928,11 @@
           ]
         },
         {
-          "path": "/v1/glclosures/1?fields=officeName,closingDate"
+          "path": "/v1/glclosures/1?fields=officeName,closingDate",
+          "ignore": [
+            "createdDate",
+            "lastUpdatedDate"
+          ]
         },
         {
           "path": "/v1/glclosures/99"
@@ -3936,8 +3940,8 @@
         {
           "path": "/v1/glclosures/abc",
           "ignore": [
-            "timestamp",
-            "path"
+            "path",
+            "timestamp"
           ]
         },
         {
@@ -4012,8 +4016,8 @@
           "method": "DELETE",
           "path": "/v1/glclosures/abc",
           "ignore": [
-            "timestamp",
-            "path"
+            "path",
+            "timestamp"
           ]
         },
         {
@@ -6473,16 +6477,22 @@
           }
         },
         {
-          "path": "/v1/journalentries/openingbalance?officeId=1&currencyCode=USD"
+          "path": "/v1/journalentries/openingbalance?officeId=1&currencyCode=USD",
+          "ignore": [
+            "transactionDate"
+          ]
         },
         {
-          "path": "/v1/journalentries/openingbalance?officeId=1"
+          "path": "/v1/journalentries/openingbalance?officeId=1",
+          "ignore": [
+            "transactionDate"
+          ]
         },
         {
           "path": "/v1/journalentries/openingbalance?currencyCode=USD",
           "ignore": [
-            "timestamp",
-            "path"
+            "path",
+            "timestamp"
           ]
         },
         {
@@ -6491,12 +6501,15 @@
         {
           "path": "/v1/journalentries/openingbalance?officeId=abc",
           "ignore": [
-            "timestamp",
-            "path"
+            "path",
+            "timestamp"
           ]
         },
         {
-          "path": "/v1/journalentries/openingbalance?officeId=1&currencyCode=EUR"
+          "path": "/v1/journalentries/openingbalance?officeId=1&currencyCode=EUR",
+          "ignore": [
+            "transactionDate"
+          ]
         },
         {
           "method": "POST",
@@ -6909,8 +6922,8 @@
             ]
           },
           "ignore": [
-            "timestamp",
-            "path"
+            "path",
+            "timestamp"
           ],
           "auth": [
             "nobody",
@@ -6927,9 +6940,9 @@
         {
           "path": "/v1/journalentries",
           "ignore": [
-            "transactionId",
             "createdDate",
-            "submittedOnDate"
+            "submittedOnDate",
+            "transactionId"
           ]
         },
         {
@@ -6962,17 +6975,18 @@
         {
           "path": "/v1/journalentries",
           "ignore": [
-            "transactionId",
             "createdDate",
-            "submittedOnDate"
+            "submittedOnDate",
+            "transactionId"
           ]
         },
         {
           "path": "/v1/journalentries/openingbalance?officeId=1&currencyCode=USD",
           "ignore": [
-            "transactionId",
             "createdDate",
-            "submittedOnDate"
+            "submittedOnDate",
+            "transactionDate",
+            "transactionId"
           ]
         },
         {
@@ -7005,17 +7019,18 @@
         {
           "path": "/v1/journalentries",
           "ignore": [
-            "transactionId",
             "createdDate",
-            "submittedOnDate"
+            "submittedOnDate",
+            "transactionId"
           ]
         },
         {
           "path": "/v1/journalentries/openingbalance?officeId=1&currencyCode=USD",
           "ignore": [
-            "transactionId",
             "createdDate",
-            "submittedOnDate"
+            "submittedOnDate",
+            "transactionDate",
+            "transactionId"
           ]
         },
         {
@@ -7058,17 +7073,18 @@
         {
           "path": "/v1/journalentries",
           "ignore": [
-            "transactionId",
             "createdDate",
-            "submittedOnDate"
+            "submittedOnDate",
+            "transactionId"
           ]
         },
         {
           "path": "/v1/journalentries/openingbalance?officeId=1&currencyCode=USD",
           "ignore": [
-            "transactionId",
             "createdDate",
-            "submittedOnDate"
+            "submittedOnDate",
+            "transactionDate",
+            "transactionId"
           ]
         },
         {
@@ -7101,25 +7117,27 @@
         {
           "path": "/v1/journalentries/openingbalance?officeId=2&currencyCode=USD",
           "ignore": [
-            "transactionId",
             "createdDate",
-            "submittedOnDate"
+            "submittedOnDate",
+            "transactionDate",
+            "transactionId"
           ]
         },
         {
           "path": "/v1/journalentries/openingbalance?officeId=1&currencyCode=USD",
           "ignore": [
-            "transactionId",
             "createdDate",
-            "submittedOnDate"
+            "submittedOnDate",
+            "transactionDate",
+            "transactionId"
           ]
         },
         {
           "path": "/v1/journalentries?officeId=2",
           "ignore": [
-            "transactionId",
             "createdDate",
-            "submittedOnDate"
+            "submittedOnDate",
+            "transactionId"
           ]
         },
         {
@@ -7283,9 +7301,10 @@
         {
           "path": "/v1/journalentries/openingbalance?officeId=1&currencyCode=USD",
           "ignore": [
-            "transactionId",
             "createdDate",
-            "submittedOnDate"
+            "submittedOnDate",
+            "transactionDate",
+            "transactionId"
           ]
         },
         {
@@ -7338,8 +7357,8 @@
         {
           "path": "/v1/journalentries/provisioning?entryId=abc",
           "ignore": [
-            "timestamp",
-            "path"
+            "path",
+            "timestamp"
           ]
         },
         {
@@ -9534,8 +9553,8 @@
         {
           "path": "/v1/taxes/component/abc",
           "ignore": [
-            "timestamp",
-            "path"
+            "path",
+            "timestamp"
           ]
         },
         {
@@ -9550,8 +9569,8 @@
         {
           "path": "/v1/taxes/group/abc",
           "ignore": [
-            "timestamp",
-            "path"
+            "path",
+            "timestamp"
           ]
         },
         {
@@ -9940,8 +9959,8 @@
         {
           "path": "/v1/taxes/component",
           "ignore": [
-            "startDate",
-            "businessDate"
+            "businessDate",
+            "startDate"
           ]
         },
         {
@@ -9950,8 +9969,8 @@
         {
           "path": "/v1/taxes/component/2",
           "ignore": [
-            "startDate",
-            "businessDate"
+            "businessDate",
+            "startDate"
           ]
         },
         {
@@ -9989,15 +10008,15 @@
             "locale": "en"
           },
           "ignore": [
-            "startDate",
-            "businessDate"
+            "businessDate",
+            "startDate"
           ]
         },
         {
           "path": "/v1/taxes/component/1",
           "ignore": [
-            "startDate",
-            "businessDate"
+            "businessDate",
+            "startDate"
           ]
         },
         {
@@ -10058,9 +10077,10 @@
             "locale": "en"
           },
           "ignore": [
-            "developerMessage",
+            "args",
             "defaultUserMessage",
-            "args"
+            "developerMessage",
+            "value"
           ]
         },
         {
@@ -10106,7 +10126,10 @@
           "path": "/v1/taxes/component/1",
           "body": {
             "percentage": 5
-          }
+          },
+          "ignore": [
+            "startDate"
+          ]
         },
         {
           "method": "PUT",
@@ -10141,15 +10164,15 @@
             "name": "x"
           },
           "ignore": [
-            "timestamp",
-            "path"
+            "path",
+            "timestamp"
           ]
         },
         {
           "path": "/v1/taxes/component/1",
           "ignore": [
-            "startDate",
-            "businessDate"
+            "businessDate",
+            "startDate"
           ]
         },
         {
@@ -10407,8 +10430,8 @@
         {
           "path": "/v1/taxes/group",
           "ignore": [
-            "startDate",
             "businessDate",
+            "startDate",
             "taxAssociations",
             "taxComponents"
           ]
@@ -10416,8 +10439,8 @@
         {
           "path": "/v1/taxes/group/1",
           "ignore": [
-            "startDate",
             "businessDate",
+            "startDate",
             "taxAssociations",
             "taxComponents"
           ]
@@ -10425,8 +10448,8 @@
         {
           "path": "/v1/taxes/group/1?template=true",
           "ignore": [
-            "startDate",
             "businessDate",
+            "startDate",
             "taxAssociations",
             "taxComponents"
           ]
@@ -10434,6 +10457,7 @@
         {
           "path": "/v1/taxes/group/template",
           "ignore": [
+            "startDate",
             "taxAssociations",
             "taxComponents"
           ]
@@ -10492,8 +10516,8 @@
         {
           "path": "/v1/taxes/group/1",
           "ignore": [
-            "startDate",
             "businessDate",
+            "startDate",
             "taxAssociations",
             "taxComponents"
           ]
@@ -10691,15 +10715,15 @@
             "name": "x"
           },
           "ignore": [
-            "timestamp",
-            "path"
+            "path",
+            "timestamp"
           ]
         },
         {
           "path": "/v1/taxes/group/1",
           "ignore": [
-            "startDate",
             "businessDate",
+            "startDate",
             "taxAssociations",
             "taxComponents"
           ]
@@ -10707,8 +10731,8 @@
         {
           "path": "/v1/taxes/group/1?template=true",
           "ignore": [
-            "startDate",
             "businessDate",
+            "startDate",
             "taxAssociations",
             "taxComponents"
           ]
@@ -14067,10 +14091,16 @@
           "sortby": "id"
         },
         {
-          "path": "/v1/clients/template"
+          "path": "/v1/clients/template",
+          "ignore": [
+            "activationDate"
+          ]
         },
         {
-          "path": "/v1/clients/template?officeId=2"
+          "path": "/v1/clients/template?officeId=2",
+          "ignore": [
+            "activationDate"
+          ]
         },
         {
           "path": "/v1/clients/1"
@@ -14078,8 +14108,10 @@
         {
           "path": "/v1/clients/abc",
           "ignore": [
-            "timestamp",
-            "path"
+            "defaultUserMessage",
+            "developerMessage",
+            "path",
+            "timestamp"
           ]
         },
         {
@@ -14107,7 +14139,10 @@
           "path": "/v1/clients/template?commandParam=acceptTransfer"
         },
         {
-          "path": "/v1/clients/template?commandParam=bogus"
+          "path": "/v1/clients/template?commandParam=bogus",
+          "ignore": [
+            "activationDate"
+          ]
         },
         {
           "method": "POST",
@@ -14222,7 +14257,10 @@
         },
         {
           "path": "/v1/clients",
-          "sortby": "id"
+          "sortby": "id",
+          "ignore": [
+            "submittedOnDate"
+          ]
         },
         {
           "path": "/v1/clients/1"
@@ -14234,10 +14272,16 @@
           "path": "/v1/clients/3"
         },
         {
-          "path": "/v1/clients/4"
+          "path": "/v1/clients/4",
+          "ignore": [
+            "submittedOnDate"
+          ]
         },
         {
-          "path": "/v1/clients/5"
+          "path": "/v1/clients/5",
+          "ignore": [
+            "submittedOnDate"
+          ]
         },
         {
           "path": "/v1/clients/6"
@@ -14268,7 +14312,10 @@
           "sortby": "id"
         },
         {
-          "path": "/v1/clients/template"
+          "path": "/v1/clients/template",
+          "ignore": [
+            "activationDate"
+          ]
         },
         {
           "method": "POST",
@@ -14659,7 +14706,12 @@
             "dateFormat": "dd MMMM yyyy",
             "locale": "en",
             "dateOfBirth": "01 January 2099"
-          }
+          },
+          "ignore": [
+            "defaultUserMessage",
+            "developerMessage",
+            "value"
+          ]
         },
         {
           "method": "POST",
@@ -15486,7 +15538,12 @@
             "dateFormat": "dd MMMM yyyy",
             "locale": "en",
             "dateOfBirth": "01 January 2099"
-          }
+          },
+          "ignore": [
+            "defaultUserMessage",
+            "developerMessage",
+            "value"
+          ]
         },
         {
           "method": "PUT",
@@ -15742,8 +15799,10 @@
             "locale": "en"
           },
           "ignore": [
-            "timestamp",
-            "path"
+            "defaultUserMessage",
+            "developerMessage",
+            "path",
+            "timestamp"
           ]
         },
         {
@@ -15766,11 +15825,17 @@
         },
         {
           "path": "/v1/clients",
-          "sortby": "id"
+          "sortby": "id",
+          "ignore": [
+            "submittedOnDate"
+          ]
         },
         {
           "path": "/v1/clients?status=pending",
-          "sortby": "id"
+          "sortby": "id",
+          "ignore": [
+            "submittedOnDate"
+          ]
         },
         {
           "path": "/v1/clients?status=ACTIVE",
@@ -15782,7 +15847,10 @@
         },
         {
           "path": "/v1/clients?officeId=2",
-          "sortby": "id"
+          "sortby": "id",
+          "ignore": [
+            "submittedOnDate"
+          ]
         },
         {
           "path": "/v1/clients?displayName=Ben",
@@ -15806,29 +15874,50 @@
         },
         {
           "path": "/v1/clients?legalForm=2",
-          "sortby": "id"
+          "sortby": "id",
+          "ignore": [
+            "submittedOnDate"
+          ]
         },
         {
           "path": "/v1/clients?staffId=1",
-          "sortby": "id"
+          "sortby": "id",
+          "ignore": [
+            "submittedOnDate"
+          ]
         },
         {
           "path": "/v1/clients?orphansOnly=true",
-          "sortby": "id"
+          "sortby": "id",
+          "ignore": [
+            "submittedOnDate"
+          ]
         },
         {
           "path": "/v1/clients?orderBy=displayName&sortOrder=DESC",
-          "sortby": "id"
+          "sortby": "id",
+          "ignore": [
+            "submittedOnDate"
+          ]
         },
         {
-          "path": "/v1/clients?orderBy=id&sortOrder=desc&limit=2"
+          "path": "/v1/clients?orderBy=id&sortOrder=desc&limit=2",
+          "ignore": [
+            "submittedOnDate"
+          ]
         },
         {
-          "path": "/v1/clients?orderBy=accountNo"
+          "path": "/v1/clients?orderBy=accountNo",
+          "ignore": [
+            "submittedOnDate"
+          ]
         },
         {
           "path": "/v1/clients?orderBy=officeName&limit=100&offset=0",
-          "sortby": "id"
+          "sortby": "id",
+          "ignore": [
+            "submittedOnDate"
+          ]
         },
         {
           "path": "/v1/clients?orderBy=bogus"
@@ -15842,16 +15931,20 @@
         {
           "path": "/v1/clients?limit=abc",
           "ignore": [
-            "timestamp",
-            "path"
+            "defaultUserMessage",
+            "developerMessage",
+            "path",
+            "timestamp"
           ],
           "sortby": "id"
         },
         {
           "path": "/v1/clients?officeId=abc",
           "ignore": [
-            "timestamp",
-            "path"
+            "defaultUserMessage",
+            "developerMessage",
+            "path",
+            "timestamp"
           ],
           "sortby": "id"
         },
@@ -16023,7 +16116,12 @@
             "dateFormat": "dd MMMM yyyy",
             "locale": "en",
             "reopenedDate": "01 January 2099"
-          }
+          },
+          "ignore": [
+            "defaultUserMessage",
+            "developerMessage",
+            "value"
+          ]
         },
         {
           "method": "POST",
@@ -16132,7 +16230,12 @@
             "dateFormat": "dd MMMM yyyy",
             "locale": "en",
             "reopenedDate": "01 January 2099"
-          }
+          },
+          "ignore": [
+            "defaultUserMessage",
+            "developerMessage",
+            "value"
+          ]
         },
         {
           "method": "POST",
@@ -16501,8 +16604,10 @@
           "path": "/v1/clients/abc?command=activate",
           "body": {},
           "ignore": [
-            "timestamp",
-            "path"
+            "defaultUserMessage",
+            "developerMessage",
+            "path",
+            "timestamp"
           ]
         },
         {
@@ -16539,7 +16644,10 @@
           }
         },
         {
-          "path": "/v1/clients/{g1}"
+          "path": "/v1/clients/{g1}",
+          "ignore": [
+            "submittedOnDate"
+          ]
         },
         {
           "method": "DELETE",
@@ -16564,8 +16672,10 @@
           "method": "DELETE",
           "path": "/v1/clients/abc",
           "ignore": [
-            "timestamp",
-            "path"
+            "defaultUserMessage",
+            "developerMessage",
+            "path",
+            "timestamp"
           ]
         },
         {
@@ -16627,7 +16737,10 @@
         },
         {
           "path": "/v1/clients",
-          "sortby": "id"
+          "sortby": "id",
+          "ignore": [
+            "submittedOnDate"
+          ]
         }
       ]
     },
@@ -28172,6 +28285,1380 @@
             "dateFormat": "dd MMMM yyyy",
             "locale": "en"
           }
+        }
+      ]
+    },
+    {
+      "name": "loanapplication",
+      "reset": [
+        "loans",
+        "loanproducts",
+        "clients",
+        "funds",
+        "glaccounts",
+        "staff",
+        "codes"
+      ],
+      "steps": [
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Ann",
+            "lastname": "Lee",
+            "active": true,
+            "activationDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Pending",
+            "lastname": "Client",
+            "active": false,
+            "submittedOnDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Bob",
+            "lastname": "Ray",
+            "active": true,
+            "activationDate": "01 February 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/staff",
+          "body": {
+            "officeId": 1,
+            "firstname": "Lou",
+            "lastname": "Officer",
+            "isLoanOfficer": true,
+            "isActive": true,
+            "joiningDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/staff",
+          "body": {
+            "officeId": 1,
+            "firstname": "Sam",
+            "lastname": "Clerk",
+            "isLoanOfficer": false,
+            "isActive": true,
+            "joiningDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/funds",
+          "body": {
+            "name": "Main fund"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/codes/3/codevalues",
+          "body": {
+            "name": "Home improvement",
+            "position": 1,
+            "isActive": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Basic",
+            "shortName": "BSIC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "minPrincipal": 1000,
+            "maxPrincipal": 50000,
+            "numberOfRepayments": 12,
+            "minNumberOfRepayments": 6,
+            "maxNumberOfRepayments": 24,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "minInterestRatePerPeriod": 1,
+            "maxInterestRatePerPeriod": 30,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Zero digits",
+            "shortName": "ZERO",
+            "currencyCode": "JPY",
+            "digitsAfterDecimal": 0,
+            "inMultiplesOf": 0,
+            "principal": 100000,
+            "minPrincipal": null,
+            "maxPrincipal": null,
+            "numberOfRepayments": 12,
+            "minNumberOfRepayments": 6,
+            "maxNumberOfRepayments": 24,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "minInterestRatePerPeriod": 1,
+            "maxInterestRatePerPeriod": 30,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Dated",
+            "shortName": "DATD",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "minPrincipal": 1000,
+            "maxPrincipal": 50000,
+            "numberOfRepayments": 12,
+            "minNumberOfRepayments": 6,
+            "maxNumberOfRepayments": 24,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "minInterestRatePerPeriod": 1,
+            "maxInterestRatePerPeriod": 30,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 1,
+            "locale": "en",
+            "startDate": "01 February 2024",
+            "closeDate": "01 January 2030",
+            "dateFormat": "dd MMMM yyyy"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 3,
+            "productId": 1,
+            "principal": 12345.67,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "05 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "externalId": "EXT-2",
+            "accountNo": "ACC-2",
+            "fundId": 1,
+            "loanOfficerId": 1,
+            "loanPurposeId": 23,
+            "submittedOnNote": "Needs a roof"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 2,
+            "principal": 100000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 10,
+            "interestRateFrequencyType": 2,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 0,
+            "interestType": 1,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "graceOnPrincipalPayment": 2,
+            "repaymentsStartingFromDate": "15 April 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 3000,
+            "loanTermFrequency": 6,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 6,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 3,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "15 February 2024",
+            "submittedOnDate": "10 February 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 99,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 99,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 2,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "accountNo": "ACC-2"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "externalId": "EXT-2"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "fundId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "loanOfficerId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "loanOfficerId": 2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "loanPurposeId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 500,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 40,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 40,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": null,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "group",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "groupId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 April 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 December 2023",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 3,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 January 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "raw": "{not json",
+          "ignore": [
+            "developerMessage",
+            "defaultUserMessage"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "note": "x"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/1"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/2"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/3"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/4"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/6"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/2?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/1?associations=repaymentSchedule"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/1?associations=transactions"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/1?associations=charges"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/1?associations=repaymentSchedule,transactions"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/1?fields=id,accountNo,status"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/3?associations=repaymentSchedule"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/99"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/external-id/EXT-2"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/external-id/NOPE"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans",
+          "sortby": "id"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans?orderBy=id&limit=2"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans?orderBy=id&limit=2&offset=2"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans?accountNo=ACC-2"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans?externalId=EXT-2"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans?orderBy=id&sortOrder=desc&limit=3"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans?paged=true",
+          "sortby": "id"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans?paged=true&orderBy=id&limit=2&offset=1"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/1?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "note": "Looks good",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/1?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "note": "Looks good",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/1"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/1?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/1?command=undoapproval",
+          "body": {
+            "note": "Changed my mind"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/1"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/1?command=approve",
+          "body": {
+            "approvedOnDate": "29 February 2024",
+            "note": "Looks good",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/1?command=approve",
+          "body": {
+            "approvedOnDate": "01 January 2031",
+            "note": "Looks good",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/1?command=approve",
+          "body": {
+            "approvedOnDate": null,
+            "note": "Looks good",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/1?command=approve",
+          "body": {
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/1?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "note": "Looks good",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedLoanAmount": 20000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/1?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "note": "Looks good",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedLoanAmount": -5
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/1?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "note": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/1?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "note": "Looks good",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "expectedDisbursementDate": "28 February 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/1?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "note": "Looks good",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "nonsense": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/2?command=approve",
+          "body": {
+            "approvedOnDate": "05 March 2024",
+            "note": "Looks good",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedLoanAmount": 9000.5
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/2"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/2?associations=repaymentSchedule"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/2?command=undoapproval",
+          "body": {
+            "note": "back"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/2"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/2?command=approve",
+          "body": {
+            "approvedOnDate": "05 March 2024",
+            "note": "Looks good",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "expectedDisbursementDate": "10 March 2024"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/2?associations=repaymentSchedule"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/2?command=undoapproval",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/2?command=undoapproval",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/3?command=reject",
+          "body": {
+            "rejectedOnDate": "02 March 2024",
+            "note": "Too risky",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/3"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/3?command=reject",
+          "body": {
+            "rejectedOnDate": "02 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/3?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "note": "Looks good",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/3?command=withdrawnByApplicant",
+          "body": {
+            "withdrawnOnDate": "02 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/4?command=reject",
+          "body": {
+            "rejectedOnDate": "28 February 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/4?command=reject",
+          "body": {
+            "rejectedOnDate": "01 January 2031",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/4?command=reject",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/4?command=withdrawnByApplicant",
+          "body": {
+            "withdrawnOnDate": "02 March 2024",
+            "note": "Client left",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/4"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/4?command=withdrawnByApplicant",
+          "body": {
+            "withdrawnOnDate": "02 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/5?command=withdrawnByApplicant",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/6?command=approve",
+          "body": {
+            "approvedOnDate": "10 February 2024",
+            "note": "Looks good",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "expectedDisbursementDate": "15 February 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/5?command=nonsense",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/99?command=reject",
+          "body": {
+            "rejectedOnDate": "02 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/99?command=undoapproval",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans",
+          "sortby": "id"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/6?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn"
+          ]
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/loans/1"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/1"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/loans/6"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/loans/4"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/loans/99"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/loans/5"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/5"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "accountNo": "ACC-2"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/7?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans?limit=3&orderBy=id&sortOrder=desc"
         }
       ]
     }

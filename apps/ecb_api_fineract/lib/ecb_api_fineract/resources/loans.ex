@@ -4,7 +4,7 @@ defmodule ECBApiFineract.Resources.Loans do
   (`POST /loans?command=calculateLoanSchedule`), which changes nothing and stores no command.
   """
   alias ECBApiFineract.{Errors, Response}
-  alias ECBApiFineract.Resources.Charges
+  alias ECBApiFineract.Resources.{Charges, LoanAccounts}
   alias ECBLoans.Schedule
   alias ECBLoans.Schedule.Request
   alias ECBPlatform.Params
@@ -13,7 +13,7 @@ defmodule ECBApiFineract.Resources.Loans do
   def create(conn) do
     case conn.query_params["command"] do
       "calculateLoanSchedule" -> calculate(conn)
-      _ -> Errors.not_implemented(conn, conn.method, conn.request_path)
+      _ -> LoanAccounts.submit(conn)
     end
   end
 

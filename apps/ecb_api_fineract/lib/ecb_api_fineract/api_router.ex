@@ -30,6 +30,7 @@ defmodule ECBApiFineract.ApiRouter do
     GLClosures,
     Holidays,
     JournalEntries,
+    LoanAccounts,
     LoanProducts,
     Loans,
     MakerCheckers,
@@ -165,7 +166,15 @@ defmodule ECBApiFineract.ApiRouter do
   get "/v1/savingsproducts/:id", do: SavingsProducts.show(conn, id)
   put "/v1/savingsproducts/:id", do: SavingsProducts.update(conn, id)
   delete "/v1/savingsproducts/:id", do: SavingsProducts.delete(conn, id)
+  get "/v1/loans", do: LoanAccounts.index(conn)
   post "/v1/loans", do: Loans.create(conn)
+
+  get "/v1/loans/external-id/:external_id",
+    do: LoanAccounts.show_by_external_id(conn, external_id)
+
+  get "/v1/loans/:id", do: LoanAccounts.show(conn, id)
+  post "/v1/loans/:id", do: LoanAccounts.command(conn, id)
+  delete "/v1/loans/:id", do: LoanAccounts.delete(conn, id)
   get "/v1/loanproducts/template", do: LoanProducts.template(conn)
   get "/v1/loanproducts", do: LoanProducts.index(conn)
   post "/v1/loanproducts", do: LoanProducts.create(conn)

@@ -5,7 +5,7 @@ defmodule ECBApiFineract.LoanScheduleTest do
   """
   use ECBApiFineract.ApiCase
 
-  defp send_json(method, path, body \\ nil, auth \\ admin()),
+  defp send_json(method, path, body, auth \\ admin()),
     do: call(method, "/api" <> path, auth: auth, body: body)
 
   defp setup_client_and_product do
@@ -117,9 +117,9 @@ defmodule ECBApiFineract.LoanScheduleTest do
     end
   end
 
-  test "a group loan is refused" do
+  test "a group that does not exist is not found (groups are not built yet)" do
     conn = calculate(%{"loanType" => "group", "groupId" => 1, "clientId" => nil})
-    assert conn.status == 403
+    assert conn.status == 404
   end
 
   test "a working week of fewer than seven days is refused until due dates can be moved" do

@@ -1,0 +1,138 @@
+{
+ "loan": {
+  "collateral": [],
+  "loanScheduleTypeOptions": [
+   {
+    "id": 1,
+    "code": "CUMULATIVE",
+    "value": "Cumulative"
+   },
+   {
+    "id": 2,
+    "code": "PROGRESSIVE",
+    "value": "Progressive"
+   }
+  ],
+  "loanScheduleProcessingTypeOptions": [
+   {
+    "id": 1,
+    "code": "HORIZONTAL",
+    "value": "Horizontal"
+   },
+   {
+    "id": 2,
+    "code": "VERTICAL",
+    "value": "Vertical"
+   }
+  ],
+  "daysInYearCustomStrategyOptions": [
+   {
+    "id": "FULL_LEAP_YEAR",
+    "code": "DaysInYearCustomStrategyType.fullLeapYear",
+    "value": "Full Leap Year"
+   },
+   {
+    "id": "FEB_29_PERIOD_ONLY",
+    "code": "DaysInYearCustomStrategyType.feb29PeriodOnly",
+    "value": "Feb 29 Period Only"
+   }
+  ],
+  "capitalizedIncomeCalculationTypeOptions": [
+   {
+    "id": "FLAT",
+    "code": "loanCapitalizedIncomeCalculationType.flat",
+    "value": "Flat"
+   }
+  ],
+  "capitalizedIncomeStrategyOptions": [
+   {
+    "id": "EQUAL_AMORTIZATION",
+    "code": "capitalizedIncome.strategy.equalAmortization",
+    "value": "Equal amortization"
+   }
+  ],
+  "capitalizedIncomeTypeOptions": [
+   {
+    "id": "FEE",
+    "code": "capitalizedIncome.incomeType.fee",
+    "value": "Fee"
+   },
+   {
+    "id": "INTEREST",
+    "code": "capitalizedIncome.incomeType.interest",
+    "value": "Interest"
+   }
+  ],
+  "buyDownFeeCalculationTypeOptions": [
+   {
+    "id": "FLAT",
+    "code": "loanBuyDownFeeCalculationType.flat",
+    "value": "Flat"
+   }
+  ],
+  "buyDownFeeStrategyOptions": [
+   {
+    "id": "EQUAL_AMORTIZATION",
+    "code": "buyDownFee.strategy.equalAmortization",
+    "value": "Equal amortization"
+   }
+  ],
+  "buyDownFeeIncomeTypeOptions": [
+   {
+    "id": "FEE",
+    "code": "buyDownFee.incomeType.fee",
+    "value": "Fee"
+   },
+   {
+    "id": "INTEREST",
+    "code": "buyDownFee.incomeType.interest",
+    "value": "Interest"
+   }
+  ],
+  "feeChargesAtDisbursementCharged": 0.0,
+  "multiDisburseLoan": false,
+  "canDefineInstallmentAmount": false,
+  "canUseForTopup": false,
+  "isTopup": false,
+  "fraud": false,
+  "closureLoanId": 0,
+  "isNPA": false,
+  "overdueCharges": [],
+  "createStandingInstructionAtDisbursement": false,
+  "paidInAdvance": {
+   "paidInAdvance": 0
+  },
+  "isVariableInstallmentsAllowed": false,
+  "minimumGap": 0,
+  "maximumGap": 0,
+  "isEqualAmortization": false,
+  "isRatesEnabled": false,
+  "enableInstallmentLevelDelinquency": false,
+  "chargedOff": false,
+  "allowFullTermForTranche": false,
+  "enableDownPayment": false,
+  "enableAutoRepaymentForDownPayment": false,
+  "interestRecognitionOnDisbursementDate": false,
+  "loanScheduleType": {
+   "id": 1,
+   "code": "CUMULATIVE",
+   "value": "Cumulative"
+  },
+  "loanScheduleProcessingType": {
+   "id": 1,
+   "code": "HORIZONTAL",
+   "value": "Horizontal"
+  },
+  "chargeOffBehaviour": {
+   "id": "REGULAR",
+   "code": "chargeOffBehaviour.regular",
+   "value": "Regular"
+  },
+  "enableIncomeCapitalization": false,
+  "enableBuyDownFee": false,
+  "merchantBuyDownFee": false,
+  "syncDisbursementWithMeeting": false,
+  "disallowExpectedDisbursements": false,
+  "isFloatingInterestRate": false
+ }
+}

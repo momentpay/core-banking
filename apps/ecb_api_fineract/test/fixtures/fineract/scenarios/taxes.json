@@ -69,8 +69,8 @@
   {
    "path": "/v1/taxes/component/abc",
    "ignore": [
-    "timestamp",
-    "path"
+    "path",
+    "timestamp"
    ],
    "status": 404,
    "response": {
@@ -118,8 +118,8 @@
   {
    "path": "/v1/taxes/group/abc",
    "ignore": [
-    "timestamp",
-    "path"
+    "path",
+    "timestamp"
    ],
    "status": 404,
    "response": {
@@ -1111,8 +1111,8 @@
   {
    "path": "/v1/taxes/component",
    "ignore": [
-    "startDate",
-    "businessDate"
+    "businessDate",
+    "startDate"
    ],
    "status": 200,
    "response": [
@@ -1173,8 +1173,8 @@
   {
    "path": "/v1/taxes/component/2",
    "ignore": [
-    "startDate",
-    "businessDate"
+    "businessDate",
+    "startDate"
    ],
    "status": 200,
    "response": {
@@ -1262,8 +1262,8 @@
     "locale": "en"
    },
    "ignore": [
-    "startDate",
-    "businessDate"
+    "businessDate",
+    "startDate"
    ],
    "status": 200,
    "response": {
@@ -1281,8 +1281,8 @@
   {
    "path": "/v1/taxes/component/1",
    "ignore": [
-    "startDate",
-    "businessDate"
+    "businessDate",
+    "startDate"
    ],
    "status": 200,
    "response": {
@@ -1434,9 +1434,10 @@
     "locale": "en"
    },
    "ignore": [
-    "developerMessage",
+    "args",
     "defaultUserMessage",
-    "args"
+    "developerMessage",
+    "value"
    ],
    "status": 400,
    "response": {
@@ -1566,7 +1567,10 @@
       15
      ]
     }
-   }
+   },
+   "ignore": [
+    "startDate"
+   ]
   },
   {
    "method": "PUT",
@@ -1645,8 +1649,8 @@
     "name": "x"
    },
    "ignore": [
-    "timestamp",
-    "path"
+    "path",
+    "timestamp"
    ],
    "status": 404,
    "response": {
@@ -1659,8 +1663,8 @@
   {
    "path": "/v1/taxes/component/1",
    "ignore": [
-    "startDate",
-    "businessDate"
+    "businessDate",
+    "startDate"
    ],
    "status": 200,
    "response": {
@@ -2280,8 +2284,8 @@
   {
    "path": "/v1/taxes/group",
    "ignore": [
-    "startDate",
     "businessDate",
+    "startDate",
     "taxAssociations",
     "taxComponents"
    ],
@@ -2398,8 +2402,8 @@
   {
    "path": "/v1/taxes/group/1",
    "ignore": [
-    "startDate",
     "businessDate",
+    "startDate",
     "taxAssociations",
     "taxComponents"
    ],
@@ -2425,8 +2429,8 @@
   {
    "path": "/v1/taxes/group/1?template=true",
    "ignore": [
-    "startDate",
     "businessDate",
+    "startDate",
     "taxAssociations",
     "taxComponents"
    ],
@@ -2498,6 +2502,7 @@
   {
    "path": "/v1/taxes/group/template",
    "ignore": [
+    "startDate",
     "taxAssociations",
     "taxComponents"
    ],
@@ -2765,8 +2770,8 @@
   {
    "path": "/v1/taxes/group/1",
    "ignore": [
-    "startDate",
     "businessDate",
+    "startDate",
     "taxAssociations",
     "taxComponents"
    ],
@@ -3366,8 +3371,8 @@
     "name": "x"
    },
    "ignore": [
-    "timestamp",
-    "path"
+    "path",
+    "timestamp"
    ],
    "status": 404,
    "response": {
@@ -3380,8 +3385,8 @@
   {
    "path": "/v1/taxes/group/1",
    "ignore": [
-    "startDate",
     "businessDate",
+    "startDate",
     "taxAssociations",
     "taxComponents"
    ],
@@ -3418,8 +3423,8 @@
   {
    "path": "/v1/taxes/group/1?template=true",
    "ignore": [
-    "startDate",
     "businessDate",
+    "startDate",
     "taxAssociations",
     "taxComponents"
    ],

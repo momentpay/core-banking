@@ -224,6 +224,29 @@
         "m_product_loan",
         "m_product_loan_charge"
       ]
+    },
+    {
+      "kind": "schema",
+      "app": "ecb_loans",
+      "version": "20261116130000",
+      "name": "create_loan_account_tables",
+      "tables": [
+        "m_loan",
+        "m_loan_repayment_schedule",
+        "m_loan_transaction",
+        "m_loan_transaction_repayment_schedule_mapping",
+        "m_loan_charge",
+        "m_loan_charge_paid_by",
+        "m_loan_officer_assignment_history",
+        "m_loan_status_change_history",
+        "m_loan_arrears_aging",
+        "m_loan_disbursement_detail",
+        "m_loan_transaction_relation",
+        "m_loan_term_variations",
+        "m_loan_installment_charge",
+        "m_loan_account_locks",
+        "m_note"
+      ]
     }
   ],
   "deferred_foreign_keys": [
@@ -232,18 +255,6 @@
       "references": "m_image",
       "sql": "ALTER TABLE ONLY public.m_staff\n    ADD CONSTRAINT \"FK_m_staff_m_image\" FOREIGN KEY (image_id) REFERENCES public.m_image(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
       "migration": "create_office_and_staff_tables"
-    },
-    {
-      "table": "acc_gl_journal_entry",
-      "references": "m_loan_transaction",
-      "sql": "ALTER TABLE ONLY public.acc_gl_journal_entry\n    ADD CONSTRAINT \"FK_acc_gl_journal_entry_m_loan_transaction\" FOREIGN KEY (loan_transaction_id) REFERENCES public.m_loan_transaction(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
-      "migration": "create_accounting_tables"
-    },
-    {
-      "table": "acc_gl_journal_entry",
-      "references": "m_payment_detail",
-      "sql": "ALTER TABLE ONLY public.acc_gl_journal_entry\n    ADD CONSTRAINT \"FK_acc_gl_journal_entry_m_payment_detail\" FOREIGN KEY (payment_details_id) REFERENCES public.m_payment_detail(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
-      "migration": "create_accounting_tables"
     },
     {
       "table": "acc_gl_journal_entry",
@@ -274,6 +285,36 @@
       "references": "m_delinquency_bucket",
       "sql": "ALTER TABLE ONLY public.m_product_loan\n    ADD CONSTRAINT \"FK_m_product_loan_m_delinquency_bucket\" FOREIGN KEY (delinquency_bucket_id) REFERENCES public.m_delinquency_bucket(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
       "migration": "create_loan_product_tables"
+    },
+    {
+      "table": "m_loan",
+      "references": "glim_accounts",
+      "sql": "ALTER TABLE ONLY public.m_loan\n    ADD CONSTRAINT \"FK_glim_id\" FOREIGN KEY (glim_id) REFERENCES public.glim_accounts(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
+      "migration": "create_loan_account_tables"
+    },
+    {
+      "table": "m_loan_transaction",
+      "references": "m_payment_detail",
+      "sql": "ALTER TABLE ONLY public.m_loan_transaction\n    ADD CONSTRAINT \"FK_m_loan_transaction_m_payment_detail\" FOREIGN KEY (payment_detail_id) REFERENCES public.m_payment_detail(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
+      "migration": "create_loan_account_tables"
+    },
+    {
+      "table": "m_note",
+      "references": "m_group",
+      "sql": "ALTER TABLE ONLY public.m_note\n    ADD CONSTRAINT \"FK_m_note_m_group\" FOREIGN KEY (group_id) REFERENCES public.m_group(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
+      "migration": "create_loan_account_tables"
+    },
+    {
+      "table": "m_note",
+      "references": "m_savings_account",
+      "sql": "ALTER TABLE ONLY public.m_note\n    ADD CONSTRAINT \"FK_savings_account_id\" FOREIGN KEY (savings_account_id) REFERENCES public.m_savings_account(id);",
+      "migration": "create_loan_account_tables"
+    },
+    {
+      "table": "m_loan",
+      "references": "m_group",
+      "sql": "ALTER TABLE ONLY public.m_loan\n    ADD CONSTRAINT m_loan_ibfk_1 FOREIGN KEY (group_id) REFERENCES public.m_group(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
+      "migration": "create_loan_account_tables"
     }
   ]
 }

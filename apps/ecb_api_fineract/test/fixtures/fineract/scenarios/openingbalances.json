@@ -343,7 +343,10 @@
       }
      }
     ]
-   }
+   },
+   "ignore": [
+    "transactionDate"
+   ]
   },
   {
    "path": "/v1/journalentries/openingbalance?officeId=1",
@@ -437,13 +440,16 @@
       }
      }
     ]
-   }
+   },
+   "ignore": [
+    "transactionDate"
+   ]
   },
   {
    "path": "/v1/journalentries/openingbalance?currencyCode=USD",
    "ignore": [
-    "timestamp",
-    "path"
+    "path",
+    "timestamp"
    ],
    "status": 500,
    "response": {
@@ -479,8 +485,8 @@
   {
    "path": "/v1/journalentries/openingbalance?officeId=abc",
    "ignore": [
-    "timestamp",
-    "path"
+    "path",
+    "timestamp"
    ],
    "status": 404,
    "response": {
@@ -582,7 +588,10 @@
       }
      }
     ]
-   }
+   },
+   "ignore": [
+    "transactionDate"
+   ]
   },
   {
    "method": "POST",
@@ -1273,8 +1282,8 @@
     ]
    },
    "ignore": [
-    "timestamp",
-    "path"
+    "path",
+    "timestamp"
    ],
    "auth": [
     "nobody",
@@ -1306,9 +1315,9 @@
   {
    "path": "/v1/journalentries",
    "ignore": [
-    "transactionId",
     "createdDate",
-    "submittedOnDate"
+    "submittedOnDate",
+    "transactionId"
    ],
    "status": 200,
    "response": {
@@ -1928,9 +1937,9 @@
   {
    "path": "/v1/journalentries",
    "ignore": [
-    "transactionId",
     "createdDate",
-    "submittedOnDate"
+    "submittedOnDate",
+    "transactionId"
    ],
    "status": 200,
    "response": {
@@ -2902,9 +2911,10 @@
   {
    "path": "/v1/journalentries/openingbalance?officeId=1&currencyCode=USD",
    "ignore": [
-    "transactionId",
     "createdDate",
-    "submittedOnDate"
+    "submittedOnDate",
+    "transactionDate",
+    "transactionId"
    ],
    "status": 200,
    "response": {
@@ -3109,9 +3119,9 @@
   {
    "path": "/v1/journalentries",
    "ignore": [
-    "transactionId",
     "createdDate",
-    "submittedOnDate"
+    "submittedOnDate",
+    "transactionId"
    ],
    "status": 200,
    "response": {
@@ -4467,9 +4477,10 @@
   {
    "path": "/v1/journalentries/openingbalance?officeId=1&currencyCode=USD",
    "ignore": [
-    "transactionId",
     "createdDate",
-    "submittedOnDate"
+    "submittedOnDate",
+    "transactionDate",
+    "transactionId"
    ],
    "status": 200,
    "response": {
@@ -4684,9 +4695,9 @@
   {
    "path": "/v1/journalentries",
    "ignore": [
-    "transactionId",
     "createdDate",
-    "submittedOnDate"
+    "submittedOnDate",
+    "transactionId"
    ],
    "status": 200,
    "response": {
@@ -6618,9 +6629,10 @@
   {
    "path": "/v1/journalentries/openingbalance?officeId=1&currencyCode=USD",
    "ignore": [
-    "transactionId",
     "createdDate",
-    "submittedOnDate"
+    "submittedOnDate",
+    "transactionDate",
+    "transactionId"
    ],
    "status": 200,
    "response": {
@@ -6901,9 +6913,10 @@
   {
    "path": "/v1/journalentries/openingbalance?officeId=2&currencyCode=USD",
    "ignore": [
-    "transactionId",
     "createdDate",
-    "submittedOnDate"
+    "submittedOnDate",
+    "transactionDate",
+    "transactionId"
    ],
    "status": 200,
    "response": {
@@ -7076,9 +7089,10 @@
   {
    "path": "/v1/journalentries/openingbalance?officeId=1&currencyCode=USD",
    "ignore": [
-    "transactionId",
     "createdDate",
-    "submittedOnDate"
+    "submittedOnDate",
+    "transactionDate",
+    "transactionId"
    ],
    "status": 200,
    "response": {
@@ -7327,9 +7341,9 @@
   {
    "path": "/v1/journalentries?officeId=2",
    "ignore": [
-    "transactionId",
     "createdDate",
-    "submittedOnDate"
+    "submittedOnDate",
+    "transactionId"
    ],
    "status": 200,
    "response": {
@@ -7777,9 +7791,10 @@
   {
    "path": "/v1/journalentries/openingbalance?officeId=1&currencyCode=USD",
    "ignore": [
-    "transactionId",
     "createdDate",
-    "submittedOnDate"
+    "submittedOnDate",
+    "transactionDate",
+    "transactionId"
    ],
    "status": 200,
    "response": {
@@ -8036,8 +8051,8 @@
   {
    "path": "/v1/journalentries/provisioning?entryId=abc",
    "ignore": [
-    "timestamp",
-    "path"
+    "path",
+    "timestamp"
    ],
    "status": 404,
    "response": {

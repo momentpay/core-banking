@@ -67,6 +67,32 @@ defmodule ECBApiFineract.ApiCase do
       TenantRepo.query!(sql)
     end
 
+    # loans refer to clients, products and users
+    for sql <- [
+          "DELETE FROM acc_gl_journal_entry",
+          "DELETE FROM m_note WHERE loan_id IS NOT NULL",
+          "DELETE FROM m_loan_transaction_repayment_schedule_mapping",
+          "DELETE FROM m_loan_charge_paid_by",
+          "DELETE FROM m_loan_transaction_relation",
+          "DELETE FROM m_loan_transaction",
+          "DELETE FROM m_loan_installment_charge",
+          "DELETE FROM m_loan_charge",
+          "DELETE FROM m_loan_repayment_schedule",
+          "DELETE FROM m_loan_status_change_history",
+          "DELETE FROM m_loan_officer_assignment_history",
+          "DELETE FROM m_loan_arrears_aging",
+          "DELETE FROM m_loan_disbursement_detail",
+          "DELETE FROM m_loan_term_variations",
+          "DELETE FROM m_loan_account_locks",
+          "DELETE FROM m_loan",
+          "SELECT setval(pg_get_serial_sequence('m_loan', 'id'), 1, false)",
+          "SELECT setval(pg_get_serial_sequence('m_loan_repayment_schedule', 'id'), 1, false)",
+          "SELECT setval(pg_get_serial_sequence('m_loan_transaction', 'id'), 1, false)",
+          "SELECT setval(pg_get_serial_sequence('m_note', 'id'), 1, false)"
+        ] do
+      TenantRepo.query!(sql)
+    end
+
     # the books refer to users, offices and code values, so they go first
     for sql <- [
           "DELETE FROM m_client_charge_paid_by",

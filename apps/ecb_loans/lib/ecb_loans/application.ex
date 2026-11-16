@@ -9,7 +9,13 @@ defmodule ECBLoans.Application do
 
   @commands [
     {"LOANPRODUCT", "CREATE", ECBLoans.Handlers.LoanProduct},
-    {"LOANPRODUCT", "UPDATE", ECBLoans.Handlers.LoanProduct}
+    {"LOANPRODUCT", "UPDATE", ECBLoans.Handlers.LoanProduct},
+    {"LOAN", "CREATE", ECBLoans.Handlers.Loan},
+    {"LOAN", "APPROVE", ECBLoans.Handlers.Loan},
+    {"LOAN", "APPROVALUNDO", ECBLoans.Handlers.Loan},
+    {"LOAN", "REJECT", ECBLoans.Handlers.Loan},
+    {"LOAN", "WITHDRAW", ECBLoans.Handlers.Loan},
+    {"LOAN", "DELETE", ECBLoans.Handlers.Loan}
   ]
 
   @impl true

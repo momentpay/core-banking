@@ -90,6 +90,7 @@ defmodule ECBLoans.Schedule.Request do
     product = LoanProducts.fetch!(product_id)
 
     client = client!(p)
+    group!(p)
     check_client_given!(p, client)
     check!(p, product, client)
     check_schedule!(p)
@@ -125,6 +126,14 @@ defmodule ECBLoans.Schedule.Request do
         client = Clients.fetch!(id)
         if client.status_enum != Clients.status(:active), do: not_active!(id)
         client
+    end
+  end
+
+  # a group is looked up after the client; groups are not built yet, so any group id is not found
+  defp group!(p) do
+    case Json.long(p, "groupId") do
+      nil -> :ok
+      id -> ECBParty.Lookups.group!(id)
     end
   end
 
@@ -647,7 +656,8 @@ defmodule ECBLoans.Schedule.Request do
 
   # --- the terms --------------------------------------------------------------------------------
 
-  defp terms(p, product) do
+  @doc false
+  def terms(p, product) do
     context = ECBMoney.Context.new(:half_even)
 
     currency =

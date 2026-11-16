@@ -274,19 +274,24 @@ defmodule ECBApiFineract.AdministrationWriteTest do
     end
 
     test "a trap-door property cannot change once accounts exist" do
-      TenantRepo.query!("CREATE TABLE m_loan (id bigint)")
-
       try do
         assert send_json(:put, "/v1/configurations/23", %{"value" => 3}).status == 200
 
-        TenantRepo.query!("INSERT INTO m_loan VALUES (1)")
+        TenantRepo.query!("""
+        INSERT INTO m_loan (account_no, loan_status_id, loan_type_enum, currency_code, currency_digits,
+          principal_amount_proposed, principal_amount, approved_principal, net_disbursal_amount,
+          interest_method_enum, repay_every, repayment_period_frequency_enum, number_of_repayments,
+          amortization_method_enum, created_on_utc, created_by, last_modified_by, last_modified_on_utc)
+        VALUES ('000000001', 100, 1, 'USD', 2, 1, 1, 1, 1, 0, 1, 2, 1, 1, now(), 1, 1, now())
+        """)
+
         conn = send_json(:put, "/v1/configurations/23", %{"value" => 2})
         assert conn.status == 403
 
         assert body(conn)["errors"] |> hd() |> Map.fetch!("userMessageGlobalisationCode") ==
                  "error.msg.configuration.id.not.modifiable"
       after
-        TenantRepo.query!("DROP TABLE m_loan")
+        TenantRepo.query!("DELETE FROM m_loan")
       end
     end
   end

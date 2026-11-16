@@ -317,7 +317,10 @@
      null
     ],
     "isAddressEnabled": false
-   }
+   },
+   "ignore": [
+    "activationDate"
+   ]
   },
   {
    "path": "/v1/clients/template?officeId=2",
@@ -474,7 +477,10 @@
      null
     ],
     "isAddressEnabled": false
-   }
+   },
+   "ignore": [
+    "activationDate"
+   ]
   },
   {
    "path": "/v1/clients/1",
@@ -502,6 +508,8 @@
   {
    "path": "/v1/clients/abc",
    "ignore": [
+    "defaultUserMessage",
+    "developerMessage",
     "path",
     "timestamp"
    ],
@@ -776,7 +784,10 @@
      null
     ],
     "isAddressEnabled": false
-   }
+   },
+   "ignore": [
+    "activationDate"
+   ]
   },
   {
    "method": "POST",
@@ -1300,7 +1311,10 @@
       }
      }
     ]
-   }
+   },
+   "ignore": [
+    "submittedOnDate"
+   ]
   },
   {
    "path": "/v1/clients/1",
@@ -1500,7 +1514,10 @@
     },
     "clientCollateralManagements": [],
     "groups": []
-   }
+   },
+   "ignore": [
+    "submittedOnDate"
+   ]
   },
   {
    "path": "/v1/clients/5",
@@ -1535,7 +1552,10 @@
     },
     "clientCollateralManagements": [],
     "groups": []
-   }
+   },
+   "ignore": [
+    "submittedOnDate"
+   ]
   },
   {
    "path": "/v1/clients/6",
@@ -2502,7 +2522,10 @@
      null
     ],
     "isAddressEnabled": false
-   }
+   },
+   "ignore": [
+    "activationDate"
+   ]
   },
   {
    "method": "POST",
@@ -3595,7 +3618,12 @@
       ]
      }
     ]
-   }
+   },
+   "ignore": [
+    "defaultUserMessage",
+    "developerMessage",
+    "value"
+   ]
   },
   {
    "method": "POST",
@@ -5848,7 +5876,12 @@
       ]
      }
     ]
-   }
+   },
+   "ignore": [
+    "defaultUserMessage",
+    "developerMessage",
+    "value"
+   ]
   },
   {
    "method": "PUT",
@@ -6789,6 +6822,8 @@
     "locale": "en"
    },
    "ignore": [
+    "defaultUserMessage",
+    "developerMessage",
     "path",
     "timestamp"
    ],
@@ -7580,7 +7615,10 @@
       }
      }
     ]
-   }
+   },
+   "ignore": [
+    "submittedOnDate"
+   ]
   },
   {
    "path": "/v1/clients?status=pending",
@@ -8078,7 +8116,10 @@
       }
      }
     ]
-   }
+   },
+   "ignore": [
+    "submittedOnDate"
+   ]
   },
   {
    "path": "/v1/clients?status=ACTIVE",
@@ -8432,7 +8473,10 @@
       }
      }
     ]
-   }
+   },
+   "ignore": [
+    "submittedOnDate"
+   ]
   },
   {
    "path": "/v1/clients?displayName=Ben",
@@ -8773,7 +8817,10 @@
       }
      }
     ]
-   }
+   },
+   "ignore": [
+    "submittedOnDate"
+   ]
   },
   {
    "path": "/v1/clients?staffId=1",
@@ -8895,7 +8942,10 @@
       }
      }
     ]
-   }
+   },
+   "ignore": [
+    "submittedOnDate"
+   ]
   },
   {
    "path": "/v1/clients?orphansOnly=true",
@@ -9621,7 +9671,10 @@
       }
      }
     ]
-   }
+   },
+   "ignore": [
+    "submittedOnDate"
+   ]
   },
   {
    "path": "/v1/clients?orderBy=displayName&sortOrder=DESC",
@@ -10347,7 +10400,10 @@
       }
      }
     ]
-   }
+   },
+   "ignore": [
+    "submittedOnDate"
+   ]
   },
   {
    "path": "/v1/clients?orderBy=id&sortOrder=desc&limit=2",
@@ -10440,7 +10496,10 @@
       }
      }
     ]
-   }
+   },
+   "ignore": [
+    "submittedOnDate"
+   ]
   },
   {
    "path": "/v1/clients?orderBy=accountNo",
@@ -11165,7 +11224,10 @@
       }
      }
     ]
-   }
+   },
+   "ignore": [
+    "submittedOnDate"
+   ]
   },
   {
    "path": "/v1/clients?orderBy=officeName&limit=100&offset=0",
@@ -11891,7 +11953,10 @@
       }
      }
     ]
-   }
+   },
+   "ignore": [
+    "submittedOnDate"
+   ]
   },
   {
    "path": "/v1/clients?orderBy=bogus",
@@ -12067,6 +12132,8 @@
   {
    "path": "/v1/clients?limit=abc",
    "ignore": [
+    "defaultUserMessage",
+    "developerMessage",
     "path",
     "timestamp"
    ],
@@ -12082,6 +12149,8 @@
   {
    "path": "/v1/clients?officeId=abc",
    "ignore": [
+    "defaultUserMessage",
+    "developerMessage",
     "path",
     "timestamp"
    ],
@@ -12611,7 +12680,12 @@
       ]
      }
     ]
-   }
+   },
+   "ignore": [
+    "defaultUserMessage",
+    "developerMessage",
+    "value"
+   ]
   },
   {
    "method": "POST",
@@ -13032,7 +13106,12 @@
       ]
      }
     ]
-   }
+   },
+   "ignore": [
+    "defaultUserMessage",
+    "developerMessage",
+    "value"
+   ]
   },
   {
    "method": "POST",
@@ -14514,6 +14593,8 @@
    "path": "/v1/clients/abc?command=activate",
    "body": {},
    "ignore": [
+    "defaultUserMessage",
+    "developerMessage",
     "path",
     "timestamp"
    ],
@@ -14677,7 +14758,10 @@
     },
     "clientCollateralManagements": [],
     "groups": []
-   }
+   },
+   "ignore": [
+    "submittedOnDate"
+   ]
   },
   {
    "method": "DELETE",
@@ -14788,6 +14872,8 @@
    "method": "DELETE",
    "path": "/v1/clients/abc",
    "ignore": [
+    "defaultUserMessage",
+    "developerMessage",
     "path",
     "timestamp"
    ],
@@ -15738,7 +15824,10 @@
       }
      }
     ]
-   }
+   },
+   "ignore": [
+    "submittedOnDate"
+   ]
   }
  ]
 }

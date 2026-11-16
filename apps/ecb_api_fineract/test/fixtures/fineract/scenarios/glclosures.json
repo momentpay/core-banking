@@ -799,8 +799,8 @@
   {
    "path": "/v1/glclosures?officeId=abc",
    "ignore": [
-    "timestamp",
-    "path"
+    "path",
+    "timestamp"
    ],
    "status": 404,
    "response": {
@@ -861,7 +861,11 @@
     "lastUpdatedByUsername": "mifos",
     "comments": "March close",
     "allowedOffices": []
-   }
+   },
+   "ignore": [
+    "createdDate",
+    "lastUpdatedDate"
+   ]
   },
   {
    "path": "/v1/glclosures/99",
@@ -889,8 +893,8 @@
   {
    "path": "/v1/glclosures/abc",
    "ignore": [
-    "timestamp",
-    "path"
+    "path",
+    "timestamp"
    ],
    "status": 404,
    "response": {
@@ -1120,8 +1124,8 @@
    "method": "DELETE",
    "path": "/v1/glclosures/abc",
    "ignore": [
-    "timestamp",
-    "path"
+    "path",
+    "timestamp"
    ],
    "status": 404,
    "response": {
