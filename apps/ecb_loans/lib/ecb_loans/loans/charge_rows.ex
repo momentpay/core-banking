@@ -1,0 +1,264 @@
+defmodule ECBLoans.Loans.ChargeRows do
+  @moduledoc """
+  The charges a loan carries (`m_loan_charge`) and what each comes to in each installment
+  (`m_loan_installment_charge`), kept in step with the repayment schedule.
+
+  Whenever a schedule is worked out for a loan (a new application, a changed one, an approval for another
+  amount, a payout) its charges are worked out with it (`ECBLoans.Schedule.Charges`) and stored here: a new loan
+  gets its rows, an existing one has the amounts of its rows set again and its installment charges replaced.
+  """
+  import Ecto.Query
+
+  alias ECBPlatform.TenantRepo
+
+  @doc """
+  Stores the charges of `schedule` for loan `loan_id`: with `mode: :insert` as new rows; with `mode: :update` onto
+  the loan's rows in the order they were made (or, when a different set of charges is given, replacing them).
+  Also keeps the loan's total of charges due at disbursement.
+  """
+  @spec store!(integer, map, struct, keyword) :: :ok
+  def store!(loan_id, schedule, user, opts) do
+    details = Map.get(schedule, :charge_details, [])
+    submitted_on = Keyword.fetch!(opts, :submitted_on)
+    replace? = Keyword.get(opts, :replace, false)
+    existing = if replace?, do: [], else: rows(loan_id)
+
+    ids =
+      if length(existing) == length(details) and existing != [] do
+        details |> Enum.zip(existing) |> Enum.map(fn {d, row} -> update!(row, d) end)
+      else
+        delete_all!(loan_id)
+        Enum.map(details, &insert!(loan_id, &1, user, submitted_on))
+      end
+
+    installment_charges!(loan_id, details, ids)
+    set_due_at_disbursement!(loan_id, schedule)
+    :ok
+  end
+
+  @doc """
+  The loan's stored charges said the way a request would say them (`chargeId`, `amount`, `dueDate`), in the order
+  they were made, with dates as `yyyy-MM-dd`.
+  """
+  @spec params(integer) :: [map]
+  def params(loan_id) do
+    from(c in "m_loan_charge",
+      where: c.loan_id == ^loan_id,
+      order_by: c.id,
+      select: %{
+        charge_id: c.charge_id,
+        amount: c.charge_amount_or_percentage,
+        due_date: c.due_for_collection_as_of_date
+      }
+    )
+    |> TenantRepo.all()
+    |> Enum.map(&param(&1.charge_id, &1.amount, &1.due_date))
+  end
+
+  @doc "Charges as parsed from a request (`ChargeInput.parse!/1`), said the way a request would say them."
+  @spec params_from([map]) :: [map]
+  def params_from(charges),
+    do: Enum.map(charges, &param(&1.charge_id, &1.amount, &1.due_date))
+
+  defp param(charge_id, amount, due_date) do
+    %{"chargeId" => charge_id, "amount" => Jason.Fragment.new(Decimal.to_string(amount, :normal))}
+    |> then(&if(due_date, do: Map.put(&1, "dueDate", Date.to_iso8601(due_date)), else: &1))
+  end
+
+  @doc "The charges due when the loan is paid out and not yet paid: `[%{id, amount}]`."
+  @spec due_at_disbursement(integer) :: [map]
+  def due_at_disbursement(loan_id) do
+    TenantRepo.all(
+      from(c in "m_loan_charge",
+        where:
+          c.loan_id == ^loan_id and c.charge_time_enum == 1 and c.is_active == true and
+            c.is_paid_derived == false,
+        order_by: c.id,
+        select: %{id: c.id, amount: c.amount_outstanding_derived}
+      )
+    )
+  end
+
+  @doc "Marks the charges paid by transaction `tx_id`, each in full."
+  @spec pay_in_full!(integer, [map]) :: :ok
+  def pay_in_full!(tx_id, charges) do
+    for c <- charges do
+      TenantRepo.update_all(from(m in "m_loan_charge", where: m.id == ^c.id),
+        set: [
+          amount_paid_derived: c.amount,
+          amount_outstanding_derived: Decimal.new(0),
+          is_paid_derived: true
+        ]
+      )
+
+      TenantRepo.insert_all("m_loan_charge_paid_by", [
+        %{loan_transaction_id: tx_id, loan_charge_id: c.id, amount: c.amount}
+      ])
+    end
+
+    :ok
+  end
+
+  @doc "Records that transaction `tx_id` is about `amount` of the loan charge `loan_charge_id` (an accrual, say)."
+  @spec record_paid_by!(integer, integer, Decimal.t(), integer | nil) :: :ok
+  def record_paid_by!(tx_id, loan_charge_id, amount, installment \\ nil) do
+    TenantRepo.insert_all("m_loan_charge_paid_by", [
+      %{
+        loan_transaction_id: tx_id,
+        loan_charge_id: loan_charge_id,
+        amount: amount,
+        installment_number: installment
+      }
+    ])
+
+    :ok
+  end
+
+  @doc "The installment a charge with a due date falls in: the first one due on or after the date."
+  @spec installment_of(integer, Date.t() | nil) :: integer | nil
+  def installment_of(_loan_id, nil), do: nil
+
+  def installment_of(loan_id, date) do
+    TenantRepo.one(
+      from(r in "m_loan_repayment_schedule",
+        where: r.loan_id == ^loan_id and r.duedate >= ^date,
+        order_by: r.installment,
+        limit: 1,
+        select: r.installment
+      )
+    )
+  end
+
+  @doc "What has been paid of the charges due at disbursement."
+  @spec paid_at_disbursement(integer) :: Decimal.t()
+  def paid_at_disbursement(loan_id) do
+    TenantRepo.one(
+      from(c in "m_loan_charge",
+        where: c.loan_id == ^loan_id and c.charge_time_enum == 1 and c.is_active == true,
+        select: sum(coalesce(c.amount_paid_derived, 0))
+      )
+    ) || Decimal.new(0)
+  end
+
+  @doc "Removes the installment charges of the loan (before its schedule is replaced)."
+  @spec clear_installment_charges!(integer) :: :ok
+  def clear_installment_charges!(loan_id) do
+    ids = TenantRepo.all(from(c in "m_loan_charge", where: c.loan_id == ^loan_id, select: c.id))
+    TenantRepo.delete_all(from(i in "m_loan_installment_charge", where: i.loan_charge_id in ^ids))
+    :ok
+  end
+
+  defp rows(loan_id) do
+    TenantRepo.all(
+      from(c in "m_loan_charge",
+        where: c.loan_id == ^loan_id,
+        order_by: c.id,
+        select: %{id: c.id}
+      )
+    )
+  end
+
+  defp delete_all!(loan_id) do
+    ids = TenantRepo.all(from(c in "m_loan_charge", where: c.loan_id == ^loan_id, select: c.id))
+    TenantRepo.delete_all(from(i in "m_loan_installment_charge", where: i.loan_charge_id in ^ids))
+    TenantRepo.delete_all(from(c in "m_loan_charge", where: c.id in ^ids))
+  end
+
+  defp insert!(loan_id, detail, user, submitted_on) do
+    now = DateTime.utc_now()
+    row = values(detail)
+
+    {1, [%{id: id}]} =
+      TenantRepo.insert_all(
+        "m_loan_charge",
+        [
+          Map.merge(row, %{
+            loan_id: loan_id,
+            submitted_on_date: submitted_on,
+            amount_outstanding_derived: row.amount,
+            is_paid_derived: false,
+            waived: false,
+            is_active: true,
+            created_by: user.id,
+            created_on_utc: now,
+            last_modified_by: user.id,
+            last_modified_on_utc: now
+          })
+        ],
+        returning: [:id]
+      )
+
+    id
+  end
+
+  defp update!(%{id: id}, detail) do
+    row = values(detail)
+
+    TenantRepo.update_all(from(c in "m_loan_charge", where: c.id == ^id),
+      set: Map.to_list(Map.put(row, :amount_outstanding_derived, row.amount))
+    )
+
+    id
+  end
+
+  # what the schedule worked out for a charge, as the columns of its row
+  defp values(%{charge: c, total: total, applied_to: applied_to}) do
+    percent? = c.calc != 1
+
+    %{
+      charge_id: c.charge_id,
+      is_penalty: c.penalty,
+      charge_time_enum: c.time,
+      due_for_collection_as_of_date: if(c.time == 2, do: c.due_date),
+      charge_calculation_enum: c.calc,
+      charge_payment_mode_enum: c.payment_mode,
+      calculation_percentage: if(percent?, do: c.amount),
+      calculation_on_amount: applied_to,
+      charge_amount_or_percentage: c.amount,
+      amount: ECBMoney.amount(total)
+    }
+  end
+
+  # the installment fees, installment by installment
+  defp installment_charges!(loan_id, details, ids) do
+    schedule_ids =
+      Map.new(
+        TenantRepo.all(
+          from(r in "m_loan_repayment_schedule",
+            where: r.loan_id == ^loan_id,
+            select: {r.installment, {r.id, r.duedate}}
+          )
+        )
+      )
+
+    TenantRepo.delete_all(from(i in "m_loan_installment_charge", where: i.loan_charge_id in ^ids))
+
+    rows =
+      for {%{charge: %{time: 8}, installments: installments}, charge_id} <-
+            Enum.zip(details, ids),
+          {number, money} <- installments,
+          {schedule_id, due} = Map.fetch!(schedule_ids, number),
+          do: %{
+            loan_charge_id: charge_id,
+            loan_schedule_id: schedule_id,
+            due_date: due,
+            amount: ECBMoney.amount(money),
+            amount_outstanding_derived: ECBMoney.amount(money),
+            is_paid_derived: false,
+            waived: false
+          }
+
+    if rows != [], do: TenantRepo.insert_all("m_loan_installment_charge", rows)
+    :ok
+  end
+
+  defp set_due_at_disbursement!(loan_id, schedule) do
+    due =
+      if schedule[:disbursement_fees] && ECBMoney.positive?(schedule.disbursement_fees),
+        do: ECBMoney.amount(schedule.disbursement_fees)
+
+    TenantRepo.update_all(from(l in "m_loan", where: l.id == ^loan_id),
+      set: [total_charges_due_at_disbursement_derived: due]
+    )
+  end
+end

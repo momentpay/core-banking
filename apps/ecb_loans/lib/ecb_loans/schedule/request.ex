@@ -11,6 +11,7 @@ defmodule ECBLoans.Schedule.Request do
   supported yet" and never ignored.
   """
   alias ECBLoans.{Apr, LoanProducts}
+  alias ECBLoans.Schedule.ChargeInput
   alias ECBParty.Clients
   alias ECBPlatform.Errors.{DomainRuleViolation, ResourceNotFound}
   alias ECBPlatform.{Json, Params, Validation}
@@ -43,7 +44,6 @@ defmodule ECBLoans.Schedule.Request do
     "linkAccountId" => [nil],
     "createStandingInstructionAtDisbursement" => [nil, false],
     "collateral" => [nil, []],
-    "charges" => [nil, []],
     "disbursementData" => [nil, []],
     "fixedEmiAmount" => [nil],
     "maxOutstandingLoanBalance" => [nil],
@@ -81,8 +81,8 @@ defmodule ECBLoans.Schedule.Request do
   Checks a request to calculate a schedule and returns what the schedule is worked out from:
   `%{terms:, product:, client:}`.
   """
-  @spec assemble!(Params.t()) :: map
-  def assemble!(%Params{} = p) do
+  @spec assemble!(Params.t(), keyword) :: map
+  def assemble!(%Params{} = p, opts \\ []) do
     Params.check_supported!(p, @supported)
 
     product_id = Json.long(p, "productId")
@@ -97,6 +97,7 @@ defmodule ECBLoans.Schedule.Request do
     refuse_beyond_core!(p)
 
     terms = terms(p, product)
+    if opts[:store], do: ChargeInput.check_dates!(terms, terms.charges)
     check_calendar!(client, terms.disbursement_date)
     check_first_repayment!(terms, product)
     %{product: product, client: client, terms: terms}
@@ -676,6 +677,7 @@ defmodule ECBLoans.Schedule.Request do
       allow_partial_period: partial(p, product),
       days_in_month: product.days_in_month_id,
       interest_charged_from: nil,
+      charges: ChargeInput.parse!(p),
       loan_term_frequency: Params.integer_with_locale(p, "loanTermFrequency"),
       installment_multiples_of: product.installment_amount_in_multiples_of,
       principal_threshold: product.principal_threshold_for_last_installment || Decimal.new(0)

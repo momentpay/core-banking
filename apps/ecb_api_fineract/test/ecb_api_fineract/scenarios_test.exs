@@ -111,6 +111,17 @@ defmodule ECBApiFineract.ScenariosTest do
   # step) is compared in the order of that key, on both sides; a page's items count as the list.
   defp in_order(value, nil), do: value
 
+  # `"sortby": "charges:chargeId"` orders the list at `charges` in the answer by its `chargeId`
+  defp in_order(%{} = map, key) when is_binary(key) and not is_map_key(map, "pageItems") do
+    case String.split(key, ":", parts: 2) do
+      [path, item_key] ->
+        if is_list(map[path]), do: Map.put(map, path, in_order(map[path], item_key)), else: map
+
+      _ ->
+        map
+    end
+  end
+
   defp in_order(list, key) when is_list(list),
     do: Enum.sort_by(list, fn item -> if is_map(item), do: item[key] end)
 

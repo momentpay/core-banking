@@ -7,6 +7,7 @@ defmodule ECBLoans.Loans.Derived do
   import Ecto.Query
 
   alias ECBLoans.Loans
+  alias ECBLoans.Loans.ChargeRows
   alias ECBPlatform.TenantRepo
 
   @disbursement 1
@@ -19,12 +20,19 @@ defmodule ECBLoans.Loans.Derived do
 
     principal = sum(rows, & &1.principal)
     interest = sum(rows, & &1.interest)
-    fees = sum(rows, & &1.fee_charges)
+    loan = Loans.fetch!(loan_id)
+    due_at_disbursement = loan.total_charges_due_at_disbursement_derived || Decimal.new(0)
+    fees = rows |> sum(& &1.fee_charges) |> Decimal.add(due_at_disbursement)
     penalties = sum(rows, & &1.penalty_charges)
 
     principal_repaid = sum(rows, & &1.principal_completed)
     interest_repaid = sum(rows, & &1.interest_completed)
-    fees_repaid = sum(rows, & &1.fee_charges_completed)
+
+    fees_repaid =
+      rows
+      |> sum(& &1.fee_charges_completed)
+      |> Decimal.add(ChargeRows.paid_at_disbursement(loan_id))
+
     penalties_repaid = sum(rows, & &1.penalty_charges_completed)
 
     principal_off = sum(rows, & &1.principal_writtenoff)

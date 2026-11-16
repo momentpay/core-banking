@@ -284,6 +284,62 @@ defmodule ECBLoans.Loans do
     |> TenantRepo.all()
   end
 
+  @doc "The charges of a loan, in the order they were made."
+  @spec charges(integer) :: [map]
+  def charges(loan_id) do
+    from(c in "m_loan_charge",
+      join: mc in "m_charge",
+      on: mc.id == c.charge_id,
+      where: c.loan_id == ^loan_id and c.is_active == true,
+      order_by: c.id,
+      select: %{
+        id: c.id,
+        loan_id: c.loan_id,
+        charge_id: c.charge_id,
+        name: mc.name,
+        penalty: c.is_penalty,
+        time: c.charge_time_enum,
+        due_date: c.due_for_collection_as_of_date,
+        calc: c.charge_calculation_enum,
+        payment_mode: c.charge_payment_mode_enum,
+        percentage: c.calculation_percentage,
+        applied_to: c.calculation_on_amount,
+        amount_or_percentage: c.charge_amount_or_percentage,
+        amount: c.amount,
+        paid: c.amount_paid_derived,
+        waived_amount: c.amount_waived_derived,
+        written_off: c.amount_writtenoff_derived,
+        outstanding: c.amount_outstanding_derived,
+        is_paid: c.is_paid_derived,
+        waived: c.waived,
+        submitted_on: c.submitted_on_date
+      }
+    )
+    |> TenantRepo.all()
+  end
+
+  @doc "The charges a transaction paid: `[%{loan_charge_id, charge_id, name, amount}]`."
+  @spec paid_by(integer) :: [map]
+  def paid_by(transaction_id) do
+    from(p in "m_loan_charge_paid_by",
+      join: lc in "m_loan_charge",
+      on: lc.id == p.loan_charge_id,
+      join: c in "m_charge",
+      on: c.id == lc.charge_id,
+      where: p.loan_transaction_id == ^transaction_id,
+      order_by: p.loan_charge_id,
+      select: %{
+        id: p.id,
+        loan_charge_id: p.loan_charge_id,
+        charge_id: lc.charge_id,
+        name: c.name,
+        amount: p.amount,
+        installment: p.installment_number
+      }
+    )
+    |> TenantRepo.all()
+  end
+
   @doc "The transactions of a loan, oldest first, each with its office and payment details."
   @spec transactions(integer) :: [map]
   def transactions(loan_id) do

@@ -94,7 +94,7 @@ defmodule ECBLoans.Loans.Journal do
         merged([
           {@credit, accounts[@loan_portfolio], tx.principal},
           {@credit, accounts[@interest_receivable], tx.interest},
-          {@credit, accounts[@fees_receivable], tx.fees},
+          {@credit, fee_account(accounts, tx), tx.fees},
           {@credit, accounts[@penalties_receivable], tx.penalties},
           {@credit, accounts[@overpayment], tx.overpayment}
         ])
@@ -242,6 +242,10 @@ defmodule ECBLoans.Loans.Journal do
 
     if mapped, do: mapped.account.id, else: accounts[@fund_source]
   end
+
+  # fees paid when the loan is paid out go straight to income; later fees settle what was receivable
+  defp fee_account(accounts, %{income_from_fees: true}), do: accounts[@income_from_fees]
+  defp fee_account(accounts, _tx), do: accounts[@fees_receivable]
 
   # lines on the same account and of the same kind are one entry, at the place of the first
   defp merged(lines) do

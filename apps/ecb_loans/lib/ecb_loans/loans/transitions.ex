@@ -12,7 +12,7 @@ defmodule ECBLoans.Loans.Transitions do
   import Ecto.Query
 
   alias ECBLoans.{Loans, Schedule}
-  alias ECBLoans.Loans.Submit
+  alias ECBLoans.Loans.{ChargeRows, Submit}
   alias ECBLoans.Schedule.Request
   alias ECBParty.Clients
   alias ECBPlatform.{BusinessDate, Params, TenantRepo, Validation}
@@ -426,17 +426,25 @@ defmodule ECBLoans.Loans.Transitions do
     loan = Loans.fetch!(id)
     product = ECBLoans.LoanProducts.fetch!(loan.product_id)
     disbursed_on = Keyword.get(opts, :disbursed_on) || loan.expected_disbursedon_date
-    terms = Request.terms(loan_params(loan, disbursed_on), product)
+    charges = Keyword.get(opts, :charges) || ChargeRows.params(id)
+    terms = Request.terms(loan_params(loan, disbursed_on, charges), product)
     schedule = Schedule.generate(terms)
     last = List.last(schedule.periods)
 
+    ChargeRows.clear_installment_charges!(id)
     TenantRepo.delete_all(from(r in "m_loan_repayment_schedule", where: r.loan_id == ^id))
     Submit.insert_installments!(id, schedule, user, DateTime.utc_now())
+
+    ChargeRows.store!(id, schedule, user,
+      submitted_on: loan.submittedon_date,
+      replace: Keyword.has_key?(opts, :charges)
+    )
+
     update!(id, [expected_maturedon_date: last.due, maturedon_date: last.due], user)
   end
 
   # the loan's stored terms, said the way a request would say them
-  defp loan_params(loan, disbursed_on) do
+  defp loan_params(loan, disbursed_on, charges) do
     number = fn d -> Jason.Fragment.new(Decimal.to_string(d, :normal)) end
     date = &Date.to_iso8601/1
 
@@ -456,7 +464,8 @@ defmodule ECBLoans.Loans.Transitions do
       "expectedDisbursementDate" => date.(disbursed_on),
       "submittedOnDate" => date.(loan.submittedon_date),
       "dateFormat" => "yyyy-MM-dd",
-      "locale" => "en"
+      "locale" => "en",
+      "charges" => charges
     }
     |> put_some("graceOnPrincipalPayment", loan.grace_on_principal_periods)
     |> put_some("graceOnInterestPayment", loan.grace_on_interest_periods)

@@ -54,17 +54,22 @@ defmodule ECBApiFineract.Resources.Loans do
   defp disbursement(s, today) do
     zero = Decimal.new(0)
 
+    fees =
+      if s.disbursement_fees && ECBMoney.positive?(s.disbursement_fees),
+        do: s.disbursement_fees_shown,
+        else: zero
+
     %{
       "dueDate" => s.disbursement_date,
       "principalDisbursed" => amount(s.principal),
       "principalLoanBalanceOutstanding" => amount(s.principal),
-      "feeChargesDue" => zero,
-      "feeChargesOutstanding" => zero,
-      "totalOriginalDueForPeriod" => zero,
-      "totalDueForPeriod" => zero,
-      "totalOutstandingForPeriod" => zero,
-      "totalOverdue" => overdue(s.disbursement_date, today, zero),
-      "totalActualCostOfLoanForPeriod" => zero,
+      "feeChargesDue" => fees,
+      "feeChargesOutstanding" => fees,
+      "totalOriginalDueForPeriod" => fees,
+      "totalDueForPeriod" => fees,
+      "totalOutstandingForPeriod" => fees,
+      "totalOverdue" => overdue(s.disbursement_date, today, fees),
+      "totalActualCostOfLoanForPeriod" => fees,
       "downPaymentPeriod" => false
     }
   end
@@ -94,8 +99,9 @@ defmodule ECBApiFineract.Resources.Loans do
       "totalDueForPeriod" => amount(p.total),
       "totalOutstandingForPeriod" => amount(p.total),
       "totalOverdue" => overdue(p.due, today, amount(p.total)),
-      "totalActualCostOfLoanForPeriod" => amount(ECBMoney.plus(p.interest, p.fees)),
-      "totalInstallmentAmountForPeriod" => amount(p.total),
+      "totalActualCostOfLoanForPeriod" =>
+        amount(p.interest |> ECBMoney.plus(p.fees) |> ECBMoney.plus(p.penalties)),
+      "totalInstallmentAmountForPeriod" => amount(ECBMoney.plus(p.principal, p.interest)),
       "downPaymentPeriod" => false
     }
   end

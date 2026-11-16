@@ -420,20 +420,67 @@ defmodule ECBApiFineract.LoanApplicationTest do
       assert template["accountLinkingOptions"] == []
     end
 
-    test "an application with charges is refused when it is changed, not ignored" do
-      assert submit().status == 200
-
-      conn =
-        send_json(
-          :put,
-          "/v1/loans/1",
-          application(%{"charges" => [%{"chargeId" => 1, "amount" => 5}]})
+    defp charge(attrs) do
+      body =
+        Map.merge(
+          %{
+            "name" => "A fee",
+            "currencyCode" => "USD",
+            "chargeAppliesTo" => 1,
+            "chargeTimeType" => 1,
+            "chargeCalculationType" => 1,
+            "chargePaymentMode" => 0,
+            "amount" => 50,
+            "active" => true,
+            "penalty" => false,
+            "locale" => "en"
+          },
+          attrs
         )
 
+      conn = send_json(:post, "/v1/charges", body)
+      assert conn.status == 200, conn.resp_body
+      body(conn)["resourceId"]
+    end
+
+    test "a charge that only applies when a loan is overdue is refused, not ignored" do
+      id =
+        charge(%{
+          "name" => "Late",
+          "chargeTimeType" => 9,
+          "chargeCalculationType" => 2,
+          "penalty" => true
+        })
+
+      conn = submit(%{"charges" => [%{"chargeId" => id, "amount" => 2}]})
       assert conn.status == 403
 
       assert [%{"userMessageGlobalisationCode" => "error.msg.loan.feature.not.supported.yet"}] =
                body(conn)["errors"]
+    end
+
+    test "a fee due at disbursement is taken from what is paid out, as a repayment at disbursement" do
+      id = charge(%{"name" => "Processing"})
+      assert submit(%{"charges" => [%{"chargeId" => id, "amount" => 50}]}).status == 200
+      assert body(send_json(:get, "/v1/loans/1"))["netDisbursalAmount"] == 9950.0
+
+      for command <- ["approve", "disburse"] do
+        date = if command == "approve", do: "approvedOnDate", else: "actualDisbursementDate"
+
+        assert send_json(:post, "/v1/loans/1?command=#{command}", %{
+                 date => "01 March 2024",
+                 "dateFormat" => "dd MMMM yyyy",
+                 "locale" => "en"
+               }).status == 200
+      end
+
+      loan = body(send_json(:get, "/v1/loans/1?associations=all"))
+
+      assert [%{"type" => %{"id" => 1}}, %{"type" => %{"id" => 5}, "amount" => 50.0}, _] =
+               loan["transactions"]
+
+      assert [%{"amountPaid" => 50.0, "paid" => true}] = loan["charges"]
+      assert loan["summary"]["feeChargesPaid"] == 50.0
     end
 
     test "changing an application works the schedule out again and says what changed" do

@@ -14,7 +14,7 @@ defmodule ECBLoans.Loans.Modify do
   import Ecto.Query
 
   alias ECBLoans.Loans
-  alias ECBLoans.Loans.{Submit, Transitions}
+  alias ECBLoans.Loans.{ChargeRows, Submit, Transitions}
   alias ECBLoans.Schedule.Request
   alias ECBPlatform.Commands.Result
   alias ECBPlatform.Errors.{DomainRuleViolation, PlatformApiDataValidation}
@@ -73,7 +73,7 @@ defmodule ECBLoans.Loans.Modify do
     none? = Enum.all?(Map.keys(p.map), &(&1 in ~w(dateFormat locale loanType)))
 
     try do
-      assembled = Request.assemble!(effective)
+      assembled = Request.assemble!(effective, store: true)
       if none?, do: raise(PlatformApiDataValidation, errors: [no_parameters()])
       assembled
     rescue
@@ -134,7 +134,7 @@ defmodule ECBLoans.Loans.Modify do
       {"error.msg.unknown.data.integrity.issue", "Unknown data integrity issue with resource."}
     )
 
-    Transitions.regenerate!(id, user)
+    Transitions.regenerate!(id, user, regenerate_options(p, terms))
     Loans.add_note(id, client.id, Params.string(p, "submittedOnNote"), user.id)
     external_id = Map.get(row, :external_id, loan.external_id)
 
@@ -147,6 +147,13 @@ defmodule ECBLoans.Loans.Modify do
       changes: changes
     )
   end
+
+  # new charges in the request replace the loan's; without any the loan keeps its own
+  defp regenerate_options(p, terms) do
+    if given_charges?(p), do: [charges: ChargeRows.params_from(terms.charges)], else: []
+  end
+
+  defp given_charges?(p), do: match?([_ | _], Params.value(p, "charges"))
 
   # the account number and external id change only when the request gives them
   defp identity(p, loan) do
@@ -219,7 +226,39 @@ defmodule ECBLoans.Loans.Modify do
       )
       |> Map.reject(fn {_k, v} -> is_nil(v) end)
 
-    %Params{p | map: Map.merge(stored, map)}
+    %Params{
+      p
+      | map: stored |> put_charges(p, loan, format) |> Map.merge(map) |> keep_charges(map, stored)
+    }
+  end
+
+  # a request without charges keeps the loan's, said in the request's date format
+  defp put_charges(stored, p, loan, format) do
+    if given_charges?(p),
+      do: stored,
+      else: Map.put(stored, "charges", stored_charges(loan.id, format || "yyyy-MM-dd"))
+  end
+
+  defp keep_charges(merged, request, stored) do
+    case request["charges"] do
+      [_ | _] -> merged
+      _ -> Map.put(merged, "charges", stored["charges"])
+    end
+  end
+
+  defp stored_charges(loan_id, pattern) do
+    for c <- ChargeRows.params(loan_id) do
+      c
+      |> Map.update!("amount", fn fragment -> fragment |> Jason.encode!() |> Jason.decode!() end)
+      |> in_format("dueDate", pattern)
+    end
+  end
+
+  defp in_format(charge, key, pattern) do
+    case charge[key] do
+      nil -> charge
+      iso -> Map.put(charge, key, iso |> Date.from_iso8601!() |> DatePattern.format(pattern))
+    end
   end
 
   defp number(nil), do: nil

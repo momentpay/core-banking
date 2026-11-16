@@ -13,7 +13,7 @@ defmodule ECBLoans.Schedule do
   The EMI of an equal-installment loan comes from the spreadsheet `PMT` formula worked in floating point, as in
   Fineract; everything else is decimal.
   """
-  alias ECBLoans.Schedule.{Dates, Rates}
+  alias ECBLoans.Schedule.{Charges, Dates, Rates}
   alias ECBMoney.Precision
 
   @max_periods 10_000
@@ -67,7 +67,12 @@ defmodule ECBLoans.Schedule do
       periods: []
     }
 
-    state |> start_amortization() |> loop() |> finish()
+    state |> start_amortization() |> loop() |> finish() |> with_charges(terms)
+  end
+
+  defp with_charges(schedule, terms) do
+    {schedule, details} = Charges.apply_to(schedule, terms)
+    Map.put(schedule, :charge_details, details)
   end
 
   # --- amortization set-up ------------------------------------------------------------------

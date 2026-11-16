@@ -11,7 +11,7 @@ defmodule ECBLoans.Loans.Disburse do
   import Ecto.Query
 
   alias ECBLoans.Loans
-  alias ECBLoans.Loans.{Accruals, Counters, Derived, Journal, Transitions}
+  alias ECBLoans.Loans.{Accruals, ChargeRows, Counters, Derived, Journal, Transitions}
   alias ECBParty.Clients
   alias ECBPlatform.{BusinessDate, Params, TenantRepo, Validation}
   alias ECBPlatform.Commands.Result
@@ -234,9 +234,56 @@ defmodule ECBLoans.Loans.Disburse do
     Journal.disbursement!(user, loan, product, Map.put(tx, :id, tx_id))
 
     Transitions.regenerate!(id, user, disbursed_on: on)
+    paid = Loans.fetch!(id)
+    set_net_disbursal!(paid)
+    pay_charges!(user, paid, product, on, payment_detail_id)
     Derived.refresh!(id, user)
     Accruals.on_disbursement!(user, Loans.fetch!(id), product, on)
     :ok
+  end
+
+  # what is paid out is the loan less the fees that are due when it is paid out
+  defp set_net_disbursal!(loan) do
+    net = Decimal.sub(loan.principal_amount, loan.total_charges_due_at_disbursement_derived || 0)
+    id = loan.id
+
+    TenantRepo.update_all(from(l in "m_loan", where: l.id == ^id),
+      set: [net_disbursal_amount: net]
+    )
+  end
+
+  # the fees due when the loan is paid out are taken from what is paid out, as a repayment at disbursement
+  defp pay_charges!(user, loan, product, on, payment_detail_id) do
+    case ChargeRows.due_at_disbursement(loan.id) do
+      [] ->
+        :ok
+
+      charges ->
+        total = charges |> Enum.map(& &1.amount) |> Enum.reduce(&Decimal.add/2)
+
+        tx = %{
+          type: 5,
+          date: on,
+          amount: total,
+          fees: total,
+          balance: loan.principal_amount,
+          payment_detail_id: payment_detail_id
+        }
+
+        tx_id = insert_transaction!(user, loan, tx)
+        ChargeRows.pay_in_full!(tx_id, charges)
+
+        journal =
+          Map.merge(tx, %{
+            id: tx_id,
+            principal: nil,
+            interest: nil,
+            penalties: nil,
+            overpayment: nil
+          })
+
+        Journal.repayment!(user, loan, product, Map.put(journal, :income_from_fees, true))
+    end
   end
 
   @doc false

@@ -11,6 +11,7 @@ defmodule ECBLoans.Loans.Submit do
   import Ecto.Query
 
   alias ECBLoans.{Loans, Schedule}
+  alias ECBLoans.Loans.ChargeRows
   alias ECBLoans.Schedule.Request
   alias ECBOrg.{Funds, Staff}
   alias ECBPlatform.Commands.Result
@@ -20,7 +21,7 @@ defmodule ECBLoans.Loans.Submit do
   @doc "Submits the application `p` describes for `user`; the result carries the new loan's id."
   @spec create!(struct, Params.t()) :: Result.t()
   def create!(user, %Params{} = p) do
-    %{product: product, client: client, terms: terms} = Request.assemble!(p)
+    %{product: product, client: client, terms: terms} = Request.assemble!(p, store: true)
     refs = references!(p)
     check_first_repayment_date!(terms)
     external_id = Params.string(p, "externalId") |> blank_to_nil()
@@ -47,6 +48,7 @@ defmodule ECBLoans.Loans.Submit do
 
     generate_account_no!(id, p, product, client)
     insert_installments!(id, schedule, user, now)
+    ChargeRows.store!(id, schedule, user, submitted_on: terms.submitted_date)
     Loans.add_note(id, client.id, Params.string(p, "submittedOnNote"), user.id)
 
     Result.new(
@@ -153,7 +155,7 @@ defmodule ECBLoans.Loans.Submit do
       principal_amount_proposed: principal,
       principal_amount: principal,
       approved_principal: principal,
-      net_disbursal_amount: principal,
+      net_disbursal_amount: net_disbursal(principal, schedule),
       arrearstolerance_amount:
         Params.decimal_with_locale(p, "inArrearsTolerance") || product.in_arrears_tolerance,
       nominal_interest_rate_per_period: Params.decimal_with_locale(p, "interestRatePerPeriod"),
@@ -211,6 +213,12 @@ defmodule ECBLoans.Loans.Submit do
       last_modified_on_utc: now
     }
   end
+
+  # what is paid out: the loan less the fees that are due when it is paid out
+  defp net_disbursal(principal, %{disbursement_fees: fees}) when not is_nil(fees),
+    do: Decimal.sub(principal, ECBMoney.amount(fees))
+
+  defp net_disbursal(principal, _schedule), do: principal
 
   defp rate_frequency(p, product) do
     if Params.exists?(p, "interestRateFrequencyType"),

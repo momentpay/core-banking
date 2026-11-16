@@ -18,7 +18,7 @@ defmodule ECBLoans.Loans.Accruals do
   import Ecto.Query
 
   alias ECBLoans.Loans
-  alias ECBLoans.Loans.{Disburse, Journal}
+  alias ECBLoans.Loans.{ChargeRows, Disburse, Journal}
   alias ECBPlatform.{BusinessDate, Configuration, TenantRepo}
 
   @accrual 10
@@ -37,8 +37,28 @@ defmodule ECBLoans.Loans.Accruals do
   @doc "Books the whole interest of the loan as accrued on `on`, if the product does it at disbursement."
   @spec on_disbursement!(struct, map, map, Date.t()) :: :ok
   def on_disbursement!(user, loan, product, on) do
-    if at_disbursement?(product) and Decimal.compare(loan.interest_charged_derived, 0) == :gt do
-      post!(user, loan, product, on, loan.interest_charged_derived)
+    if at_disbursement?(product) do
+      accrue_charges!(user, loan, product, on)
+
+      if Decimal.compare(loan.interest_charged_derived, 0) == :gt,
+        do: post!(user, loan, product, on, loan.interest_charged_derived)
+    end
+
+    :ok
+  end
+
+  # each charge that does not fall due at disbursement is booked as accrued in full, before the interest
+  defp accrue_charges!(user, loan, product, on) do
+    for c <- Loans.charges(loan.id), c.time != 1 do
+      tx =
+        if c.penalty,
+          do: %{type: @accrual, date: on, amount: c.amount, penalties: c.amount},
+          else: %{type: @accrual, date: on, amount: c.amount, fees: c.amount}
+
+      id = Disburse.insert_transaction!(user, loan, tx)
+      installment = if c.time == 2, do: ChargeRows.installment_of(loan.id, c.due_date)
+      ChargeRows.record_paid_by!(id, c.id, c.amount, installment)
+      Journal.accrual!(user, loan, product, Map.put(tx, :id, id))
     end
 
     :ok
