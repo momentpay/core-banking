@@ -1,16 +1,28 @@
 defmodule ECBLoans.Loans.Journal do
   @moduledoc """
-  The journal entries a loan's transactions leave in the books, for a product with cash accounting
-  (Fineract's `CashBasedAccountingProcessorForLoan`).
+  The journal entries a loan's transactions leave in the books, following Fineract's
+  `CashBasedAccountingProcessorForLoan` and `AccrualBasedAccountingProcessorForLoan`.
+
+  With cash accounting (rule 2):
 
     * a disbursement debits the loan portfolio and credits the fund source;
     * a repayment credits the loan portfolio (principal), the income from interest, from fees and from
-      penalties, and the overpayment liability, and debits the fund source for the whole amount.
+      penalties, and the overpayment liability, and debits the fund source for the whole amount;
+    * interest that is accrued but not yet paid is no business of cash accounting, so accrual transactions
+      and waivers post nothing.
+
+  With accrual accounting (rules 3 and 4, periodic and upfront) income is booked when it is earned:
+
+    * an accrual transaction debits the receivable of the interest (and of fees and penalties) and credits
+      the income from it;
+    * a repayment credits the portfolio and the receivables, so that what was accrued is settled, and debits
+      the fund source;
+    * a waiver or a write-off credits the portfolio and the receivables and debits the account of losses
+      written off, for the whole amount.
 
   The fund source is the account mapped to the payment type of the transaction, or else the product's own
-  fund-source account. A line of nothing is not posted. A product without accounting posts nothing. Interest
-  that is accrued but not yet paid is no business of cash accounting, so accrual transactions post nothing.
-  Products with accrual accounting are refused before a transaction is made (`supported?/1`).
+  fund-source account. A line of nothing is not posted, and lines on the same account are one entry. A product
+  without accounting posts nothing.
   """
   import Ecto.Query
 
@@ -29,12 +41,15 @@ defmodule ECBLoans.Loans.Journal do
   @income_from_penalties 5
   @losses_written_off 6
   @overpayment 11
+  @interest_receivable 7
+  @fees_receivable 8
+  @penalties_receivable 9
 
-  @doc "Whether loans of the product can be posted: accounting off or cash. Accrual accounting is not built yet."
+  @doc "Whether loans of the product can be posted: every accounting rule Fineract has is built."
   @spec supported?(map) :: boolean
-  def supported?(%{accounting_id: id}), do: id in [nil, 1, 2]
+  def supported?(%{accounting_id: id}), do: id in [nil, 1, 2, 3, 4]
 
-  @doc "Refuses a product whose accounting is not built yet, with Fineract's own wording for what is missing."
+  @doc "Refuses a product whose accounting rule is not known, so that nothing is paid out without its entries."
   @spec check_supported!(map, String.t()) :: :ok
   def check_supported!(product, what) do
     if supported?(product) do
@@ -43,11 +58,14 @@ defmodule ECBLoans.Loans.Journal do
       raise DomainRuleViolation,
         code: "error.msg.loan.feature.not.supported.yet",
         message:
-          "#{what} on a loan of a product with accrual accounting is not supported yet by E-CoreBank " <>
-            "(its journal entries are not built)",
+          "#{what} on a loan of a product with this accounting rule is not supported yet by E-CoreBank",
         args: ["accountingRule"]
     end
   end
+
+  @doc "Whether the product books its income as it is earned (accrual accounting)."
+  @spec accrual?(map) :: boolean
+  def accrual?(%{accounting_id: id}), do: id in [3, 4]
 
   @doc "Posts the entries of a disbursement."
   @spec disbursement!(struct, map, map, map) :: :ok
@@ -71,27 +89,85 @@ defmodule ECBLoans.Loans.Journal do
     accounts = accounts(product)
     fund = fund_source(product, accounts, payment_type_id(tx))
 
-    post!(user, loan, tx, [
-      {@credit, accounts[@loan_portfolio], tx.principal},
-      {@credit, accounts[@interest_on_loans], tx.interest},
-      {@credit, accounts[@income_from_fees], tx.fees},
-      {@credit, accounts[@income_from_penalties], tx.penalties},
-      {@credit, accounts[@overpayment], tx.overpayment},
-      {@debit, fund, tx.amount}
-    ])
+    if accrual?(product) do
+      credits =
+        merged([
+          {@credit, accounts[@loan_portfolio], tx.principal},
+          {@credit, accounts[@interest_receivable], tx.interest},
+          {@credit, accounts[@fees_receivable], tx.fees},
+          {@credit, accounts[@penalties_receivable], tx.penalties},
+          {@credit, accounts[@overpayment], tx.overpayment}
+        ])
+
+      post!(user, loan, tx, credits ++ [{@debit, fund, tx.amount}])
+    else
+      post!(user, loan, tx, [
+        {@credit, accounts[@loan_portfolio], tx.principal},
+        {@credit, accounts[@interest_on_loans], tx.interest},
+        {@credit, accounts[@income_from_fees], tx.fees},
+        {@credit, accounts[@income_from_penalties], tx.penalties},
+        {@credit, accounts[@overpayment], tx.overpayment},
+        {@debit, fund, tx.amount}
+      ])
+    end
   end
 
-  @doc "Posts the entries of a write-off: the principal written off is a loss and leaves the loan portfolio."
+  @doc """
+  Posts the entries of an accrual: the interest, fees and penalties earned are receivable, and income. Cash
+  accounting does not book what is not yet paid.
+  """
+  @spec accrual!(struct, map, map, map) :: :ok
+  def accrual!(user, loan, product, tx) do
+    if accrual?(product) do
+      accounts = accounts(product)
+
+      post!(user, loan, tx, [
+        {@debit, accounts[@interest_receivable], tx[:interest]},
+        {@credit, accounts[@interest_on_loans], tx[:interest]},
+        {@debit, accounts[@fees_receivable], tx[:fees]},
+        {@credit, accounts[@income_from_fees], tx[:fees]},
+        {@debit, accounts[@penalties_receivable], tx[:penalties]},
+        {@credit, accounts[@income_from_penalties], tx[:penalties]}
+      ])
+    else
+      :ok
+    end
+  end
+
+  @doc "Posts the entries of an interest waiver: with accrual accounting the interest receivable is a loss."
+  @spec waive_interest!(struct, map, map, map) :: :ok
+  def waive_interest!(user, loan, product, tx) do
+    if accrual?(product), do: write_off!(user, loan, product, tx), else: :ok
+  end
+
+  @doc "Posts the entries of a write-off: what is written off leaves the books as a loss."
   @spec write_off!(struct, map, map, map) :: :ok
   def write_off!(_user, _loan, %{accounting_id: id}, _tx) when id in [nil, 1], do: :ok
 
   def write_off!(user, loan, product, tx) do
     accounts = accounts(product)
 
-    post!(user, loan, tx, [
-      {@debit, accounts[@losses_written_off], tx.principal},
-      {@credit, accounts[@loan_portfolio], tx.principal}
-    ])
+    if accrual?(product) do
+      total =
+        [:principal, :interest, :fees, :penalties]
+        |> Enum.map(&(tx[&1] || Decimal.new(0)))
+        |> Enum.reduce(&Decimal.add/2)
+
+      credits =
+        merged([
+          {@credit, accounts[@loan_portfolio], tx[:principal]},
+          {@credit, accounts[@interest_receivable], tx[:interest]},
+          {@credit, accounts[@fees_receivable], tx[:fees]},
+          {@credit, accounts[@penalties_receivable], tx[:penalties]}
+        ])
+
+      post!(user, loan, tx, credits ++ [{@debit, accounts[@losses_written_off], total}])
+    else
+      post!(user, loan, tx, [
+        {@debit, accounts[@losses_written_off], tx.principal},
+        {@credit, accounts[@loan_portfolio], tx.principal}
+      ])
+    end
   end
 
   @doc "Takes a transaction's entries back with entries of the opposite kind, as Fineract does when a transaction is undone."
@@ -166,6 +242,22 @@ defmodule ECBLoans.Loans.Journal do
 
     if mapped, do: mapped.account.id, else: accounts[@fund_source]
   end
+
+  # lines on the same account and of the same kind are one entry, at the place of the first
+  defp merged(lines) do
+    lines
+    |> Enum.reject(fn {_type, _account, amount} -> amount == nil end)
+    |> Enum.reduce([], &merge_line/2)
+  end
+
+  defp merge_line({type, account, amount}, acc) do
+    case Enum.find_index(acc, &match?({^type, ^account, _}, &1)) do
+      nil -> acc ++ [{type, account, amount}]
+      at -> List.update_at(acc, at, &add_amount(&1, amount))
+    end
+  end
+
+  defp add_amount({type, account, sum}, amount), do: {type, account, Decimal.add(sum, amount)}
 
   # --- posting ------------------------------------------------------------------------------------
 

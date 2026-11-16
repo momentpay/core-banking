@@ -11,7 +11,7 @@ defmodule ECBLoans.Loans.Corrections do
   import Ecto.Query
 
   alias ECBLoans.Loans
-  alias ECBLoans.Loans.{Derived, Disburse, Journal, Repay, Transitions}
+  alias ECBLoans.Loans.{Counters, Derived, Disburse, Journal, Repay, Transitions}
   alias ECBPlatform.{BusinessDate, Params, TenantRepo, Validation}
   alias ECBPlatform.Commands.Result
   alias ECBPlatform.Errors.{DomainRuleViolation, ResourceNotFound}
@@ -278,6 +278,7 @@ defmodule ECBLoans.Loans.Corrections do
 
     rows = Loans.installments(id)
     {tx_id, _} = waive!(user, loan, rows, on, amount)
+    waived_entries!(user, id, tx_id, on, amount)
     Derived.refresh!(id, user)
     Repay.after_repayment!(user, Loans.fetch!(id), on, Decimal.new(0))
     Loans.add_note(id, loan.client_id, note, user.id, tx_id)
@@ -289,6 +290,17 @@ defmodule ECBLoans.Loans.Corrections do
       resource_id: tx_id,
       changes: Repay.changes(p)
     )
+  end
+
+  defp waived_entries!(user, id, tx_id, on, amount) do
+    loan = Loans.fetch!(id)
+
+    Journal.waive_interest!(user, loan, ECBLoans.LoanProducts.fetch!(loan.product_id), %{
+      id: tx_id,
+      date: on,
+      amount: amount,
+      interest: amount
+    })
   end
 
   defp check_active!(%{loan_status_id: 300}, _code, _message), do: :ok
@@ -349,6 +361,7 @@ defmodule ECBLoans.Loans.Corrections do
         date: on,
         amount: amount,
         interest: nil_zero(amount),
+        unrecognized: unrecognized_income(loan, on, amount),
         balance: if(Decimal.eq?(amount, 0), do: nil, else: loan.principal_outstanding_derived)
       })
 
@@ -375,6 +388,19 @@ defmodule ECBLoans.Loans.Corrections do
     end
 
     {tx_id, touched}
+  end
+
+  # with periodic accrual, what is waived beyond the interest accrued so far was never booked as income
+  defp unrecognized_income(loan, on, amount) do
+    product = ECBLoans.LoanProducts.fetch!(loan.product_id)
+
+    if product.accounting_id == 3 do
+      receivable = ECBLoans.Loans.Accruals.receivable_interest(loan.id, on)
+
+      if Decimal.compare(amount, receivable) == :gt,
+        do: Decimal.sub(amount, receivable),
+        else: nil
+    end
   end
 
   defp waive_share(row, {acc, left}) do
@@ -552,6 +578,8 @@ defmodule ECBLoans.Loans.Corrections do
       balance: zero
     }
 
+    Counters.remove!(loan)
+    Counters.assign!(loan, loan.disbursedon_date)
     tx_id = Disburse.insert_transaction!(user, loan, tx)
 
     for o <- off do
@@ -633,6 +661,7 @@ defmodule ECBLoans.Loans.Corrections do
     check_accounting!(loan, "Undoing a disbursal")
 
     reverse_disbursal!(user, loan)
+    Counters.remove!(loan)
 
     TenantRepo.update_all(from(l in "m_loan", where: l.id == ^id),
       set: [
@@ -683,7 +712,7 @@ defmodule ECBLoans.Loans.Corrections do
   defp reverse_disbursal!(user, loan) do
     product = ECBLoans.LoanProducts.fetch!(loan.product_id)
 
-    for t <- Loans.transactions(loan.id), t.transaction_type_enum == 1 do
+    for t <- Loans.transactions(loan.id), t.transaction_type_enum in [1, 10], not t.is_reversed do
       Journal.reverse!(user, loan, t.id, t.transaction_date)
     end
 

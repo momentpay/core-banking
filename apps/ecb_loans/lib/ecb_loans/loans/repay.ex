@@ -14,7 +14,7 @@ defmodule ECBLoans.Loans.Repay do
   import Ecto.Query
 
   alias ECBLoans.Loans
-  alias ECBLoans.Loans.{Derived, Disburse, Journal}
+  alias ECBLoans.Loans.{Accruals, Derived, Disburse, Journal}
   alias ECBParty.Clients
   alias ECBPlatform.{BusinessDate, Params, TenantRepo, Validation}
   alias ECBPlatform.Commands.Result
@@ -351,10 +351,17 @@ defmodule ECBLoans.Loans.Repay do
             principal_completed: r.principal_completed_derived,
             interest: r.interest_amount,
             interest_completed: r.interest_completed_derived,
+            interest_waived: r.interest_waived_derived,
+            interest_writtenoff: r.interest_writtenoff_derived,
+            principal_writtenoff: r.principal_writtenoff_derived,
             fee_charges: r.fee_charges_amount,
             fee_charges_completed: r.fee_charges_completed_derived,
+            fee_charges_waived: r.fee_charges_waived_derived,
+            fee_charges_writtenoff: r.fee_charges_writtenoff_derived,
             penalty_charges: r.penalty_charges_amount,
             penalty_charges_completed: r.penalty_charges_completed_derived,
+            penalty_charges_waived: r.penalty_charges_waived_derived,
+            penalty_charges_writtenoff: r.penalty_charges_writtenoff_derived,
             obligations_met_on: r.obligations_met_on_date,
             paid_in_advance: r.total_paid_in_advance_derived,
             paid_late: r.total_paid_late_derived
@@ -367,10 +374,23 @@ defmodule ECBLoans.Loans.Repay do
     zero = Decimal.new(0)
 
     [
-      owed(row.principal, row.principal_completed, nil, nil) |> Decimal.sub(paid.principal),
-      owed(row.interest, row.interest_completed, nil, nil) |> Decimal.sub(paid.interest),
-      owed(row.fee_charges, row.fee_charges_completed, nil, nil) |> Decimal.sub(paid.fees),
-      owed(row.penalty_charges, row.penalty_charges_completed, nil, nil)
+      owed(row.principal, row.principal_completed, row.principal_writtenoff, nil)
+      |> Decimal.sub(paid.principal),
+      owed(row.interest, row.interest_completed, row.interest_writtenoff, row.interest_waived)
+      |> Decimal.sub(paid.interest),
+      owed(
+        row.fee_charges,
+        row.fee_charges_completed,
+        row.fee_charges_writtenoff,
+        row.fee_charges_waived
+      )
+      |> Decimal.sub(paid.fees),
+      owed(
+        row.penalty_charges,
+        row.penalty_charges_completed,
+        row.penalty_charges_writtenoff,
+        row.penalty_charges_waived
+      )
       |> Decimal.sub(paid.penalties)
     ]
     |> Enum.all?(&(Decimal.compare(&1, zero) != :gt))
@@ -415,6 +435,7 @@ defmodule ECBLoans.Loans.Repay do
 
   @doc false
   def after_repayment!(user, loan, on, left) do
+    before = Loans.fetch!(loan.id)
     Derived.refresh!(loan.id, user)
     status = status_after(loan, left)
     overpaid = overpaid_total(loan.id)
@@ -442,7 +463,7 @@ defmodule ECBLoans.Loans.Repay do
         end
 
     TenantRepo.update_all(from(l in "m_loan", where: l.id == ^loan.id), set: set)
-    :ok
+    Accruals.after_status_change!(user, loan.id, before, status)
   end
 
   # Fineract clears the actual maturity date when a loan becomes overpaid and sets it again on the next repayment

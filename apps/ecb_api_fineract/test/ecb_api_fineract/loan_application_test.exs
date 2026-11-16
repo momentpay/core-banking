@@ -262,4 +262,140 @@ defmodule ECBApiFineract.LoanApplicationTest do
       assert send_json(:post, "/v1/loans/1?command=undodisbursal", %{}).status == 403
     end
   end
+
+  describe "accrual accounting" do
+    defp accrual_product(rule) do
+      for {code, type} <- [
+            {"A1", 1},
+            {"A2", 1},
+            {"A3", 1},
+            {"A4", 1},
+            {"A5", 1},
+            {"A6", 1},
+            {"L1", 2},
+            {"I1", 4},
+            {"I2", 4},
+            {"I3", 4},
+            {"X1", 5}
+          ] do
+        assert send_json(:post, "/v1/glaccounts", %{
+                 "name" => "Acc " <> code,
+                 "glCode" => code,
+                 "manualEntriesAllowed" => true,
+                 "type" => type,
+                 "usage" => 1
+               }).status == 200
+      end
+
+      conn =
+        send_json(:post, "/v1/loanproducts", %{
+          "name" => "Accrual",
+          "shortName" => "ACCR",
+          "currencyCode" => "USD",
+          "digitsAfterDecimal" => 2,
+          "principal" => 10_000,
+          "numberOfRepayments" => 12,
+          "repaymentEvery" => 1,
+          "repaymentFrequencyType" => 2,
+          "interestRatePerPeriod" => 12,
+          "interestRateFrequencyType" => 3,
+          "amortizationType" => 1,
+          "interestType" => 0,
+          "interestCalculationPeriodType" => 1,
+          "transactionProcessingStrategyCode" => "mifos-standard-strategy",
+          "daysInYearType" => 365,
+          "daysInMonthType" => 30,
+          "isInterestRecalculationEnabled" => false,
+          "accountingRule" => rule,
+          "fundSourceAccountId" => 1,
+          "loanPortfolioAccountId" => 2,
+          "transfersInSuspenseAccountId" => 3,
+          "receivableInterestAccountId" => 4,
+          "receivableFeeAccountId" => 5,
+          "receivablePenaltyAccountId" => 6,
+          "overpaymentLiabilityAccountId" => 7,
+          "interestOnLoanAccountId" => 8,
+          "incomeFromFeeAccountId" => 9,
+          "incomeFromPenaltyAccountId" => 10,
+          "writeOffAccountId" => 11,
+          "incomeFromRecoveryAccountId" => 9,
+          "locale" => "en"
+        })
+
+      assert conn.status == 200, conn.resp_body
+      body(conn)["resourceId"]
+    end
+
+    defp loan_of(product_id) do
+      assert submit(%{"productId" => product_id}).status == 200
+
+      assert send_json(:post, "/v1/loans/1?command=approve", %{
+               "approvedOnDate" => "01 March 2024",
+               "dateFormat" => "dd MMMM yyyy",
+               "locale" => "en"
+             }).status == 200
+
+      assert send_json(:post, "/v1/loans/1?command=disburse", %{
+               "actualDisbursementDate" => "01 March 2024",
+               "dateFormat" => "dd MMMM yyyy",
+               "locale" => "en"
+             }).status == 200
+    end
+
+    defp entries do
+      conn = send_json(:get, "/v1/journalentries?loanId=1&orderBy=id&limit=100")
+
+      for e <- body(conn)["pageItems"],
+          do: {e["glAccountName"], e["entryType"]["value"], e["amount"], e["transactionId"]}
+    end
+
+    test "upfront accrual books the whole interest as income when the loan is paid out" do
+      loan_of(accrual_product(4))
+
+      assert entries() == [
+               {"Acc A2", "DEBIT", 10_000.0, "L1"},
+               {"Acc A1", "CREDIT", 10_000.0, "L1"},
+               {"Acc A4", "DEBIT", 661.86, "L2"},
+               {"Acc I1", "CREDIT", 661.86, "L2"}
+             ]
+    end
+
+    test "periodic accrual books nothing for interest until the loan is closed, and takes it back when reopened" do
+      loan_of(accrual_product(3))
+      assert length(entries()) == 2
+
+      pay = fn amount ->
+        send_json(:post, "/v1/loans/1/transactions?command=repayment", %{
+          "transactionDate" => "01 March 2024",
+          "transactionAmount" => amount,
+          "dateFormat" => "dd MMMM yyyy",
+          "locale" => "en"
+        })
+      end
+
+      paid = pay.(10_661.86)
+      assert paid.status == 200
+      closing = Enum.drop(entries(), 2)
+
+      assert closing == [
+               {"Acc A2", "CREDIT", 10_000.0, "L2"},
+               {"Acc A4", "CREDIT", 661.86, "L2"},
+               {"Acc A1", "DEBIT", 10_661.86, "L2"},
+               {"Acc A4", "DEBIT", 661.86, "L3"},
+               {"Acc I1", "CREDIT", 661.86, "L3"}
+             ]
+
+      undo =
+        send_json(:post, "/v1/loans/1/transactions/#{body(paid)["resourceId"]}?command=undo", %{
+          "transactionDate" => "01 March 2024",
+          "transactionAmount" => 0,
+          "dateFormat" => "dd MMMM yyyy",
+          "locale" => "en"
+        })
+
+      assert undo.status == 200
+      # the accrual is taken back first, then the repayment
+      assert entries() |> Enum.drop(7) |> Enum.map(&elem(&1, 3)) == ["L3", "L3", "L2", "L2", "L2"]
+    end
+  end
 end

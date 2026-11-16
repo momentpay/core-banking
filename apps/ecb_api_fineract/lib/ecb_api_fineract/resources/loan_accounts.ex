@@ -429,9 +429,8 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     }
   end
 
-  # a loan keeps the count it was given when it was paid out; one written off shows how many were paid out by then
+  # the count the loan has among the client's loans of the product, as Counters keeps it
   defp product_counter(%{disbursedon_date: nil}), do: nil
-  defp product_counter(%{loan_status_id: 601} = l), do: l.product_loans_paid_out
   defp product_counter(l), do: l.loan_product_counter
 
   defp put(map, _key, nil), do: map
@@ -993,7 +992,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       "totalActualCostOfLoanForPeriod" => Decimal.add(interest, fees),
       "totalInstallmentAmountForPeriod" => total,
       "totalCredits" => zero,
-      "totalAccruedInterest" => zero,
+      "totalAccruedInterest" => r.accrual_interest || zero,
       "downPaymentPeriod" => false
     }
     |> put("obligationsMetOnDate", r.obligations_met_on)

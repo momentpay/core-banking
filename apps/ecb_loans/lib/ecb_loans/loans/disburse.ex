@@ -4,17 +4,16 @@ defmodule ECBLoans.Loans.Disburse do
   `LoanWritePlatformServiceJpaRepositoryImpl.disburseLoan`, for a loan paid out in one go.
 
   The loan becomes active on the date it is disbursed; the repayment schedule is worked out again from that
-  date; a disbursement transaction is recorded and, with accounting off and `allow-cash-and-non-cash-accrual`
-  on (Fineract's default), an accrual transaction for the whole interest on the same date. A product with
-  accounting on is refused for now: its journal entries are not built, and a loan paid out without them
-  would leave the books short.
+  date; a disbursement transaction is recorded, its journal entries are posted and, for the products that
+  book their interest at disbursement (see `ECBLoans.Loans.Accruals`), an accrual transaction for the whole
+  interest on the same date.
   """
   import Ecto.Query
 
   alias ECBLoans.Loans
-  alias ECBLoans.Loans.{Derived, Journal, Transitions}
+  alias ECBLoans.Loans.{Accruals, Counters, Derived, Journal, Transitions}
   alias ECBParty.Clients
-  alias ECBPlatform.{BusinessDate, Configuration, Params, TenantRepo, Validation}
+  alias ECBPlatform.{BusinessDate, Params, TenantRepo, Validation}
   alias ECBPlatform.Commands.Result
   alias ECBPlatform.Errors.DomainRuleViolation
 
@@ -215,7 +214,6 @@ defmodule ECBLoans.Loans.Disburse do
         loan_status_id: Loans.status(:active),
         disbursedon_date: on,
         disbursedon_userid: user.id,
-        loan_product_counter: product_counter(loan),
         last_modified_by: user.id,
         last_modified_on_utc: now
       ]
@@ -230,45 +228,14 @@ defmodule ECBLoans.Loans.Disburse do
       external_id: external_id
     }
 
+    Counters.assign!(loan, on)
     tx_id = insert_transaction!(user, loan, tx)
     product = ECBLoans.LoanProducts.fetch!(loan.product_id)
     Journal.disbursement!(user, loan, product, Map.put(tx, :id, tx_id))
 
     Transitions.regenerate!(id, user, disbursed_on: on)
     Derived.refresh!(id, user)
-    accrue_interest!(user, id, on)
-    :ok
-  end
-
-  # how many loans of this product the client has had paid out, counting this one
-  defp product_counter(loan) do
-    count =
-      TenantRepo.one(
-        from(l in "m_loan",
-          where:
-            l.client_id == ^loan.client_id and l.product_id == ^loan.product_id and
-              not is_nil(l.disbursedon_date),
-          select: count()
-        )
-      )
-
-    count + 1
-  end
-
-  # With accounting off, Fineract books the whole interest as accrued on the day of disbursement.
-  defp accrue_interest!(user, id, on) do
-    loan = Loans.fetch!(id)
-
-    if Configuration.enabled?("allow-cash-and-non-cash-accrual") and
-         Decimal.compare(loan.interest_charged_derived, 0) == :gt do
-      insert_transaction!(user, loan, %{
-        type: 10,
-        date: on,
-        amount: loan.interest_charged_derived,
-        interest: loan.interest_charged_derived
-      })
-    end
-
+    Accruals.on_disbursement!(user, Loans.fetch!(id), product, on)
     :ok
   end
 
@@ -290,6 +257,7 @@ defmodule ECBLoans.Loans.Disburse do
       fee_charges_portion_derived: t[:fees],
       penalty_charges_portion_derived: t[:penalties],
       overpayment_portion_derived: t[:overpayment],
+      unrecognized_income_portion: t[:unrecognized],
       outstanding_loan_balance_derived: t[:balance],
       submitted_on_date: BusinessDate.current(),
       manually_adjusted_or_reversed: false,

@@ -104,8 +104,6 @@ defmodule ECBLoans.Loans do
   l.total_expected_costofloan_derived, l.total_costofloan_derived, l.total_waived_derived,
   l.total_writtenoff_derived, l.total_outstanding_derived, l.total_overpaid_derived, l.total_recovered_derived,
   l.total_charges_due_at_disbursement_derived, l.principal_adjustments_derived,
-  (SELECT count(*) FROM m_loan x WHERE x.client_id = l.client_id AND x.product_id = l.product_id
-     AND x.disbursedon_date IS NOT NULL AND x.disbursedon_date <= l.disbursedon_date) AS product_loans_paid_out,
   c.account_no AS client_account_no, c.display_name AS client_name, c.office_id AS client_office_id,
   o.name AS office_name, o.hierarchy AS office_hierarchy,
   p.name AS product_name, p.description AS product_description,
@@ -269,7 +267,8 @@ defmodule ECBLoans.Loans do
         completed: r.completed_derived,
         obligations_met_on: r.obligations_met_on_date,
         paid_in_advance: r.total_paid_in_advance_derived,
-        paid_late: r.total_paid_late_derived
+        paid_late: r.total_paid_late_derived,
+        accrual_interest: r.accrual_interest_derived
       }
     )
     |> TenantRepo.all()
