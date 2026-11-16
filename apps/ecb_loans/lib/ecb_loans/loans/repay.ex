@@ -435,7 +435,6 @@ defmodule ECBLoans.Loans.Repay do
 
   @doc false
   def after_repayment!(user, loan, on, left) do
-    before = Loans.fetch!(loan.id)
     Derived.refresh!(loan.id, user)
     status = status_after(loan, left)
     overpaid = overpaid_total(loan.id)
@@ -463,7 +462,7 @@ defmodule ECBLoans.Loans.Repay do
         end
 
     TenantRepo.update_all(from(l in "m_loan", where: l.id == ^loan.id), set: set)
-    Accruals.after_status_change!(user, loan.id, before, status)
+    Accruals.after_status_change!(user, loan.id, status)
   end
 
   # Fineract clears the actual maturity date when a loan becomes overpaid and sets it again on the next repayment

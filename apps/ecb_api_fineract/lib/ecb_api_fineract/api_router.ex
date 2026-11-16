@@ -29,6 +29,7 @@ defmodule ECBApiFineract.ApiRouter do
     GLAccounts,
     GLClosures,
     Holidays,
+    Jobs,
     JournalEntries,
     LoanAccounts,
     LoanProducts,
@@ -290,6 +291,14 @@ defmodule ECBApiFineract.ApiRouter do
   get "/v1/glaccounts/:id", do: GLAccounts.show(conn, id)
   put "/v1/glaccounts/:id", do: GLAccounts.update(conn, id)
   delete "/v1/glaccounts/:id", do: GLAccounts.delete(conn, id)
+  get "/v1/jobs/short-name/:short_name/runhistory", do: Jobs.history(conn, short_name)
+  get "/v1/jobs/short-name/:short_name", do: Jobs.show(conn, short_name)
+  post "/v1/jobs/short-name/:short_name", do: Jobs.execute(conn, short_name)
+  get "/v1/jobs/:id/runhistory", do: Jobs.history(conn, id)
+  get "/v1/jobs/:id", do: Jobs.show(conn, id)
+  post "/v1/jobs/:id", do: Jobs.execute(conn, id)
+  get "/v1/jobs", do: Jobs.index(conn)
+
   get "/v1/businessdate", do: BusinessDate.index(conn)
   get "/v1/businessdate/:type", do: BusinessDate.show(conn, type)
   post "/v1/businessdate", do: BusinessDate.update(conn)

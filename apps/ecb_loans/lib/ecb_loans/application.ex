@@ -1,7 +1,7 @@
 defmodule ECBLoans.Application do
   @moduledoc """
   Starts the loans app (loan products so far). It has no processes of its own; it registers the commands it
-  handles with the platform's command pipeline.
+  handles with the platform's command pipeline, and the scheduler job it runs.
   """
   use Application
 
@@ -27,6 +27,7 @@ defmodule ECBLoans.Application do
   @impl true
   def start(_type, _args) do
     for {entity, action, handler} <- @commands, do: Handlers.register(entity, action, handler)
+    ECBPlatform.Jobs.register("ACC_APTR", ECBLoans.Loans.AccrualJob)
 
     Supervisor.start_link([], strategy: :one_for_one, name: ECBLoans.Supervisor)
   end

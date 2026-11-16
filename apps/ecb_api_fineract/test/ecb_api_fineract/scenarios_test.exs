@@ -119,15 +119,16 @@ defmodule ECBApiFineract.ScenariosTest do
 
   defp in_order(other, _key), do: other
 
-  # Values that cannot repeat from run to run (times, the caller's address) are blanked on both sides.
+  # Values that cannot repeat from run to run (times, the caller's address) are left out on both sides.
   defp mask(value, []), do: value
 
   # A key written `parent.child` is blanked only inside `parent` (`debitTags.id` blanks the ids of the
   # tag rows and not the rule's own id).
+  # An ignored key is dropped from both sides, so it need not be present in both.
   defp mask(%{} = map, keys) do
-    Map.new(map, fn {k, v} ->
-      if k in keys, do: {k, :ignored}, else: {k, mask(v, keys ++ inside(keys, k))}
-    end)
+    map
+    |> Map.reject(fn {k, _v} -> k in keys end)
+    |> Map.new(fn {k, v} -> {k, mask(v, keys ++ inside(keys, k))} end)
   end
 
   defp mask(list, keys) when is_list(list), do: Enum.map(list, &mask(&1, keys))

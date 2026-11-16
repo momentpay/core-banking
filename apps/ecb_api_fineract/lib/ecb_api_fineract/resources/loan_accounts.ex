@@ -286,8 +286,9 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     |> put("overdueSinceDate", overdue.since)
   end
 
-  # the interest of the installment now running that has built up since it began, by days
-  defp accrued_not_due(%{loan_status_id: 300} = l) do
+  # the interest of the installment now running that has built up since it began, by days,
+  # less what was paid or waived of it
+  defp accrued_not_due(%{loan_status_id: status} = l) when status in [300, 600, 601, 700] do
     today = ECBPlatform.BusinessDate.current()
 
     l.id
@@ -300,12 +301,19 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
         0
 
       r ->
-        owed =
-          outstanding(r.interest, r.interest_completed, r.interest_writtenoff, r.interest_waived)
-
         days = Date.diff(today, r.from_date)
-        accrued = owed |> Decimal.mult(days) |> Decimal.div(Date.diff(r.due_date, r.from_date))
-        if Decimal.eq?(accrued, 0), do: 0, else: Decimal.round(accrued, l.currency_digits)
+
+        built =
+          (r.interest || Decimal.new(0))
+          |> Decimal.mult(days)
+          |> Decimal.div(Date.diff(r.due_date, r.from_date))
+
+        accrued =
+          built |> Decimal.sub(r.interest_completed || 0) |> Decimal.sub(r.interest_waived || 0)
+
+        if Decimal.compare(accrued, 0) != :gt,
+          do: 0,
+          else: Decimal.round(accrued, l.currency_digits)
     end
   end
 
@@ -668,7 +676,14 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     paid? =
       Enum.any?(Loans.installments(body["id"]), &(Date.compare(&1.due_date, today) != :gt))
 
-    summary = Map.update!(summary, "totalUnpaidPayableNotDueInterest", fix)
+    # once the last installment is past, Fineract's figure is a plain 0
+    running? =
+      Enum.any?(Loans.installments(body["id"]), &(Date.compare(&1.due_date, today) == :gt))
+
+    summary =
+      if running?,
+        do: Map.update!(summary, "totalUnpaidPayableNotDueInterest", fix),
+        else: summary
 
     summary =
       if paid?,
@@ -745,12 +760,15 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     |> last_payment(last)
   end
 
-  # the next installment's date; with nothing owed, or a payment made on top of arrears, the day of the last payment
+  # the earliest unpaid installment's date, or the day of the last payment when that is later;
+  # with nothing owed, the day of the last payment
   defp next_payment_due([], _late, nil), do: nil
   defp next_payment_due([], _late, %{} = last), do: last.transaction_date
   defp next_payment_due([first | _], [], _last), do: first.due_date
   defp next_payment_due([first | _], _late, nil), do: first.due_date
-  defp next_payment_due(_unpaid, _late, last), do: last.transaction_date
+
+  defp next_payment_due([first | _], _late, last),
+    do: Enum.max([first.due_date, last.transaction_date], Date)
 
   defp arrears(map, [], _today), do: map
 

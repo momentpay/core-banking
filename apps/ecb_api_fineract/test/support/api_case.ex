@@ -61,6 +61,8 @@ defmodule ECBApiFineract.ApiCase do
           "UPDATE c_configuration SET enabled = false WHERE id = 44",
           "UPDATE c_configuration SET enabled = true WHERE id = 45",
           "DELETE FROM m_business_date",
+          "DELETE FROM job_run_history",
+          "UPDATE job SET previous_run_start_time = NULL, currently_running = false",
           "UPDATE m_password_validation_policy SET active = (id = 3)",
           "UPDATE m_permission SET can_maker_checker = false WHERE code IN ('CREATE_OFFICE', 'UPDATE_OFFICE', 'CREATE_CLIENT', 'DELETE_FUND', 'CREATE_FUND')"
         ] do

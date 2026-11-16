@@ -11,7 +11,7 @@ defmodule ECBLoans.Loans.Corrections do
   import Ecto.Query
 
   alias ECBLoans.Loans
-  alias ECBLoans.Loans.{Counters, Derived, Disburse, Journal, Repay, Transitions}
+  alias ECBLoans.Loans.{Accruals, Counters, Derived, Disburse, Journal, Repay, Transitions}
   alias ECBPlatform.{BusinessDate, Params, TenantRepo, Validation}
   alias ECBPlatform.Commands.Result
   alias ECBPlatform.Errors.{DomainRuleViolation, ResourceNotFound}
@@ -183,6 +183,7 @@ defmodule ECBLoans.Loans.Corrections do
     )
 
     Derived.refresh!(loan.id, user)
+    Accruals.reprocess!(user, loan.id)
     Repay.after_repayment!(user, Loans.fetch!(loan.id), tx.transaction_date, Decimal.new(0))
   end
 
@@ -580,6 +581,7 @@ defmodule ECBLoans.Loans.Corrections do
 
     Counters.remove!(loan)
     Counters.assign!(loan, loan.disbursedon_date)
+    Accruals.reprocess!(user, loan.id)
     tx_id = Disburse.insert_transaction!(user, loan, tx)
 
     for o <- off do

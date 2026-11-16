@@ -31,6 +31,7 @@ import os
 import ssl
 import subprocess
 import sys
+import time
 import urllib.error
 import urllib.request
 from datetime import date
@@ -357,6 +358,8 @@ def cmd_scenarios(args) -> int:
             path = substitute(step["path"], saved)
             text = substitute(step_body(step), saved)
             status, body = fetch(path, step.get("method", "GET"), text, tuple(step.get("auth", ("mifos", "password"))))
+            if step.get("method") == "POST" and path.startswith("/v1/jobs/"):
+                time.sleep(4)  # a job runs after the answer (202), so give it the time to finish
             for name, key in step.get("save", {}).items():
                 saved[name] = body.get(key) if isinstance(body, dict) else None
             recorded = {k: v for k, v in step.items() if k in ("method", "path", "body", "raw", "auth", "ignore", "save", "sortby")}

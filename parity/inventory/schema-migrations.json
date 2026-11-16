@@ -247,6 +247,16 @@
         "m_loan_account_locks",
         "m_note"
       ]
+    },
+    {
+      "kind": "schema",
+      "app": "ecb_platform",
+      "version": "20261116140000",
+      "name": "create_scheduler_tables",
+      "tables": [
+        "job",
+        "job_run_history"
+      ]
     }
   ],
   "deferred_foreign_keys": [
