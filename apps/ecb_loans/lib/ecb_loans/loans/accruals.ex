@@ -34,20 +34,26 @@ defmodule ECBLoans.Loans.Accruals do
 
   def at_disbursement?(_product), do: false
 
+  @doc """
+  Books the charges of the loan that do not fall due at disbursement as accrued on `on`, if the product does it at
+  disbursement. Fineract does this before the fees due at disbursement are taken from what is paid out.
+  """
+  @spec charges_on_disbursement!(struct, map, map, Date.t()) :: :ok
+  def charges_on_disbursement!(user, loan, product, on) do
+    if at_disbursement?(product), do: accrue_charges!(user, loan, product, on)
+    :ok
+  end
+
   @doc "Books the whole interest of the loan as accrued on `on`, if the product does it at disbursement."
   @spec on_disbursement!(struct, map, map, Date.t()) :: :ok
   def on_disbursement!(user, loan, product, on) do
-    if at_disbursement?(product) do
-      accrue_charges!(user, loan, product, on)
-
-      if Decimal.compare(loan.interest_charged_derived, 0) == :gt,
-        do: post!(user, loan, product, on, loan.interest_charged_derived)
-    end
+    if at_disbursement?(product) and Decimal.compare(loan.interest_charged_derived, 0) == :gt,
+      do: post!(user, loan, product, on, loan.interest_charged_derived)
 
     :ok
   end
 
-  # each charge that does not fall due at disbursement is booked as accrued in full, before the interest
+  # each charge that does not fall due at disbursement is booked as accrued in full
   defp accrue_charges!(user, loan, product, on) do
     for c <- Loans.charges(loan.id), c.time != 1, do: accrue_charge!(user, loan, product, c, on)
     :ok

@@ -1055,7 +1055,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       if(
         loan.disbursedon_date == nil and
           Date.compare(loan.expected_disbursedon_date, today) == :lt,
-        do: zero
+        do: fees
       )
     )
   end

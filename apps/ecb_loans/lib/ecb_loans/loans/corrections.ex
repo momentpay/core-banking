@@ -770,6 +770,7 @@ defmodule ECBLoans.Loans.Corrections do
     )
 
     Transitions.regenerate!(id, user)
+    ChargeRows.reset!(id)
     Derived.refresh!(id, user)
     Loans.add_note(id, loan.client_id, Params.string(p, "note"), user.id)
 
@@ -792,7 +793,7 @@ defmodule ECBLoans.Loans.Corrections do
     paid =
       loan.id
       |> Loans.transactions()
-      |> Enum.any?(&(&1.transaction_type_enum not in [1, 10] and not &1.is_reversed))
+      |> Enum.any?(&(&1.transaction_type_enum not in [1, 5, 9, 10] and not &1.is_reversed))
 
     if paid do
       raise DomainRuleViolation,
@@ -816,7 +817,7 @@ defmodule ECBLoans.Loans.Corrections do
     product = ECBLoans.LoanProducts.fetch!(loan.product_id)
 
     for t <- Loans.transactions(loan.id),
-        t.transaction_type_enum in [1, 5, 10],
+        t.transaction_type_enum in [1, 5, 9, 10],
         not t.is_reversed do
       Journal.reverse!(user, loan, t.id, t.transaction_date)
     end

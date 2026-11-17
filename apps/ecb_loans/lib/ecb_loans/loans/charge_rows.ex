@@ -291,6 +291,25 @@ defmodule ECBLoans.Loans.ChargeRows do
     :ok
   end
 
+  @doc """
+  Puts every charge of the loan back as it was when it was made: nothing paid, waived or written off (what undoing
+  the disbursal of a loan does to them). The charges of the installments are made again with the schedule.
+  """
+  @spec reset!(integer) :: :ok
+  def reset!(loan_id) do
+    TenantRepo.query!(
+      """
+      UPDATE m_loan_charge
+         SET amount_paid_derived = 0, amount_waived_derived = 0, amount_writtenoff_derived = 0,
+             amount_outstanding_derived = amount, is_paid_derived = false, waived = false
+       WHERE loan_id = $1 AND is_active
+      """,
+      [loan_id]
+    )
+
+    :ok
+  end
+
   @doc "Records that transaction `tx_id` is about `amount` of the loan charge `loan_charge_id` (an accrual, say)."
   @spec record_paid_by!(integer, integer, Decimal.t(), integer | nil) :: :ok
   def record_paid_by!(tx_id, loan_charge_id, amount, installment \\ nil) do

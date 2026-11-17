@@ -236,6 +236,7 @@ defmodule ECBLoans.Loans.Disburse do
     Transitions.regenerate!(id, user, disbursed_on: on)
     paid = Loans.fetch!(id)
     set_net_disbursal!(paid)
+    Accruals.charges_on_disbursement!(user, paid, product, on)
     pay_charges!(user, paid, product, on, payment_detail_id)
     Derived.refresh!(id, user)
     Accruals.on_disbursement!(user, Loans.fetch!(id), product, on)
