@@ -4,8 +4,7 @@ defmodule ECBApiFineract.Resources.Jobs do
 
   Reading needs the permission `READ_SCHEDULER`; running a job needs `EXECUTEJOB_SCHEDULER` (or
   `ALL_FUNCTIONS`). Fineract answers a run with 202 and does the work after; E-CoreBank does the work first and
-  then answers 202, so the work is done when the answer comes. The next run time is not given, because jobs are
-  not started by their cron expression yet (see `ECBPlatform.Jobs`).
+  then answers 202, so the work is done when the answer comes. The next run time is not given.
   """
   alias ECBApiFineract.Errors
   alias ECBApiFineract.Resources.Read

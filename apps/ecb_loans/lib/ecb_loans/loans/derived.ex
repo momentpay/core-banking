@@ -7,7 +7,7 @@ defmodule ECBLoans.Loans.Derived do
   import Ecto.Query
 
   alias ECBLoans.Loans
-  alias ECBLoans.Loans.ChargeRows
+  alias ECBLoans.Loans.{Arrears, ChargeRows}
   alias ECBPlatform.TenantRepo
 
   @disbursement 1
@@ -97,7 +97,8 @@ defmodule ECBLoans.Loans.Derived do
       ]
     )
 
-    :ok
+    # the arrears follow the loan whenever its totals do, as Fineract's listeners keep them
+    Arrears.update!(loan_id)
   end
 
   # what has been paid out, from the disbursement transactions that still stand

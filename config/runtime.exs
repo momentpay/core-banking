@@ -7,6 +7,13 @@ if System.get_env("PHX_SERVER") do
   config :ecb_web, ECBWeb.Endpoint, server: true
 end
 
+# The scheduler starts the jobs (nightly accruals, arrears ageing...) by their cron expression. Switch it on in
+# exactly the nodes that should do it; it is off in tests. Several nodes may run it: a job runs on one at a time.
+if config_env() != :test do
+  config :ecb_platform, ECBPlatform.Scheduler,
+    enabled: System.get_env("ECB_SCHEDULER") in ~w(true 1)
+end
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||

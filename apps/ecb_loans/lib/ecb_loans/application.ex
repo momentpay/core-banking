@@ -37,6 +37,7 @@ defmodule ECBLoans.Application do
     ECBPlatform.Jobs.register("ACC_APTR", ECBLoans.Loans.AccrualJob)
     ECBPlatform.Jobs.register("ACC_AATR", ECBLoans.Loans.AccrualInstallmentsJob)
     ECBPlatform.Jobs.register("LA_OPEN", ECBLoans.Loans.OverdueJob)
+    ECBPlatform.Jobs.register("LA_ARAG", ECBLoans.Loans.ArrearsAgeingJob)
 
     Supervisor.start_link([], strategy: :one_for_one, name: ECBLoans.Supervisor)
   end

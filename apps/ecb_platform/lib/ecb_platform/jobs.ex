@@ -6,8 +6,9 @@ defmodule ECBPlatform.Jobs do
   it when it starts (`register/2`): a module with `run(user)` returning `:ok`, run inside the tenant. A job
   with no code behind it is listed but cannot be run: running it is refused, never pretended.
 
-  Jobs are run on request (`run/2`). They are not yet started by their cron expression, so a deployment has to
-  call the API (or any scheduler of its own) every day; the cron expression is kept for when they are.
+  Jobs are run on request (`run/3`, `POST /jobs/:id?command=executeJob`) and, when the scheduler is switched on,
+  by their cron expression (`ECBPlatform.Scheduler`). A job runs once at a time: a second request while it runs
+  is not run.
   """
   import Ecto.Query
   require Logger
@@ -128,31 +129,39 @@ defmodule ECBPlatform.Jobs do
   as in Fineract, whose jobs run after the request is answered, a failure is recorded in the job's history and
   logged, not returned to whoever asked.
   """
-  @spec run(integer, struct) :: :ok | :failed
-  def run(id, user) do
+  @spec run(integer, struct | nil, String.t()) :: :ok | :failed | :busy
+  def run(id, user, trigger \\ "application") do
     {:ok, job} = get(id)
 
     case Map.fetch(runners(), job.short_name) do
       {:ok, module} ->
         started = NaiveDateTime.utc_now()
 
-        try do
-          module.run(system_user(user))
-          record!(job.id, started, "success", nil, nil)
-        rescue
-          error ->
-            message = Exception.message(error)
+        if claim(job.id, started) do
+          try do
+            module.run(system_user(user))
+            record!(job.id, started, "success", nil, nil, trigger)
+          rescue
+            error ->
+              message = Exception.message(error)
 
-            record!(
-              job.id,
-              started,
-              "failed",
-              message,
-              Exception.format(:error, error, __STACKTRACE__)
-            )
+              record!(
+                job.id,
+                started,
+                "failed",
+                message,
+                Exception.format(:error, error, __STACKTRACE__),
+                trigger
+              )
 
-            Logger.error("The job #{job.short_name} failed: #{message}")
-            :failed
+              Logger.error("The job #{job.short_name} failed: #{message}")
+              :failed
+          after
+            release(job.id)
+          end
+        else
+          Logger.warning("The job #{job.short_name} is running already")
+          :busy
         end
 
       :error ->
@@ -172,7 +181,30 @@ defmodule ECBPlatform.Jobs do
     end
   end
 
-  defp record!(job_id, started, status, message, log) do
+  # A job runs once at a time: whoever sets `currently_running` first has it. A flag left from a run that never
+  # ended (the node went down) is given up after an hour.
+  defp claim(job_id, started) do
+    {count, _} =
+      TenantRepo.update_all(
+        from(j in "job",
+          where:
+            j.id == ^job_id and
+              (not j.currently_running or
+                 j.previous_run_start_time < ^NaiveDateTime.add(started, -3600))
+        ),
+        set: [currently_running: true, previous_run_start_time: started]
+      )
+
+    count == 1
+  end
+
+  defp release(job_id),
+    do:
+      TenantRepo.update_all(from(j in "job", where: j.id == ^job_id),
+        set: [currently_running: false]
+      )
+
+  defp record!(job_id, started, status, message, log, trigger) do
     version =
       (TenantRepo.one(
          from(h in "job_run_history", where: h.job_id == ^job_id, select: max(h.version))
@@ -185,7 +217,7 @@ defmodule ECBPlatform.Jobs do
         start_time: started,
         end_time: NaiveDateTime.utc_now(),
         status: status,
-        trigger_type: "application",
+        trigger_type: trigger,
         error_message: message,
         error_log: log
       }

@@ -37,6 +37,10 @@ defmodule ECBPlatform.Application do
       ECBPlatform.Tenancy.Pools
     ]
 
+    # starts the jobs by their cron expression, when switched on (ECB_SCHEDULER, see ECBPlatform.Scheduler)
+    children =
+      if ECBPlatform.Scheduler.enabled?(), do: children ++ [ECBPlatform.Scheduler], else: children
+
     Supervisor.start_link(children, strategy: :one_for_one, name: ECBPlatform.Supervisor)
   end
 end

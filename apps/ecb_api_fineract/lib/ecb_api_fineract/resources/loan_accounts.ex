@@ -211,8 +211,9 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     |> put("overpaidOnDate", l.overpaidon_date)
     |> Map.put("paidInAdvance", %{"paidInAdvance" => paid_in_advance(l)})
     |> put("loanProductCounter", product_counter(l))
-    |> Map.put("inArrears", overdue(l).total != 0)
+    |> Map.put("inArrears", overdue(l).since != nil)
     |> put("externalId", l.external_id)
+    |> put("graceOnArrearsAgeing", l.grace_on_arrears_ageing)
     |> put("graceOnPrincipalPayment", l.grace_on_principal_periods)
     |> put("graceOnInterestPayment", l.grace_on_interest_periods)
     |> put("graceOnInterestCharged", l.grace_interest_free_periods)
@@ -380,76 +381,24 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   # an amount that is only shown with decimals once it is more than nothing
   defp nonzero(amount), do: if(Decimal.eq?(amount, 0), do: 0, else: amount)
 
-  # what is overdue: the unpaid part of every installment due before the business date
+  # what is overdue, as recorded in the loan's arrears (see `ECBLoans.Loans.Arrears`: it can be out of date until
+  # the nightly job runs, as in Fineract)
   defp overdue(l) do
-    today = ECBPlatform.BusinessDate.current()
+    case ECBLoans.Loans.Arrears.get(l.id) do
+      nil ->
+        %{principal: 0, interest: 0, fees: 0, penalties: 0, total: 0, since: nil}
 
-    due =
-      if l.loan_status_id == Loans.status(:active) do
-        l.id
-        |> Loans.installments()
-        |> Enum.filter(&(Date.compare(&1.due_date, today) == :lt and &1.completed != true))
-      else
-        []
-      end
-
-    if due == [] do
-      %{principal: 0, interest: 0, fees: 0, penalties: 0, total: 0, since: nil}
-    else
-      sum = fn f -> due |> Enum.map(f) |> Enum.reduce(&Decimal.add/2) end
-      none = Decimal.new(0)
-
-      principal =
-        sum.(
-          &outstanding(&1.principal || none, &1.principal_completed, &1.principal_writtenoff, nil)
-        )
-
-      interest =
-        sum.(
-          &outstanding(
-            &1.interest || none,
-            &1.interest_completed,
-            &1.interest_writtenoff,
-            &1.interest_waived
-          )
-        )
-
-      fees =
-        sum.(
-          &outstanding(
-            &1.fee_charges || none,
-            &1.fee_charges_completed,
-            &1.fee_charges_writtenoff,
-            &1.fee_charges_waived
-          )
-        )
-
-      penalties =
-        sum.(
-          &outstanding(
-            &1.penalty_charges || none,
-            &1.penalty_charges_completed,
-            &1.penalty_charges_writtenoff,
-            &1.penalty_charges_waived
-          )
-        )
-
-      overdue_totals(principal, interest, fees, penalties, due)
+      arrears ->
+        %{
+          arrears
+          | fees: with_decimals(arrears.fees),
+            penalties: with_decimals(arrears.penalties)
+        }
     end
   end
 
-  defp overdue_totals(principal, interest, fees, penalties, due) do
-    decimal = fn d -> if Decimal.eq?(d, 0), do: Decimal.new("0.0"), else: d end
-
-    %{
-      principal: principal,
-      interest: interest,
-      fees: decimal.(fees),
-      penalties: decimal.(penalties),
-      total: principal |> Decimal.add(interest) |> Decimal.add(fees) |> Decimal.add(penalties),
-      since: due |> hd() |> Map.fetch!(:due_date)
-    }
-  end
+  # a zero fee or penalty is shown with a decimal, as Fineract does
+  defp with_decimals(amount), do: if(Decimal.eq?(amount, 0), do: Decimal.new("0.0"), else: amount)
 
   # the count the loan has among the client's loans of the product, as Counters keeps it
   defp product_counter(%{disbursedon_date: nil}), do: nil
@@ -854,7 +803,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       "nextPaymentDueDate",
       next_payment_due(unpaid, late, last || loan_written_off(loan), today)
     )
-    |> arrears(late, today)
+    |> arrears(late, today, loan.grace_on_arrears_ageing || 0)
     |> last_payment(last)
   end
 
@@ -871,9 +820,10 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   defp next_payment_due([first | _], _late, last, _today),
     do: Enum.max([first.due_date, last.transaction_date], Date)
 
-  defp arrears(map, [], _today), do: map
+  defp arrears(map, [], _today, _grace), do: map
 
-  defp arrears(map, [first | _] = late, today) do
+  # the loan is delinquent once the grace on arrears ageing has gone by since the first due date
+  defp arrears(map, [first | _] = late, today, grace) do
     days = Date.diff(today, first.due_date)
     sum = fn f -> late |> Enum.map(f) |> Enum.reduce(&Decimal.add/2) end
     zero = Decimal.new(0)
@@ -915,8 +865,8 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     |> Map.merge(%{
       "pastDueDays" => days,
       "pastDueDate" => first.due_date,
-      "delinquentDays" => days,
-      "delinquentDate" => first.due_date,
+      "delinquentDays" => max(days - grace, 0),
+      "delinquentDate" => Date.add(first.due_date, grace),
       "delinquentAmount" =>
         principal |> Decimal.add(interest) |> Decimal.add(fee) |> Decimal.add(penalty),
       "delinquentPrincipal" => principal,
