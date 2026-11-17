@@ -10,9 +10,11 @@ defmodule ECBLoans.Loans.ChargeActions do
   worked out again, so they pay the new charge too. A loan that has not been paid out has its schedule worked
   out again with the charge in it.
 
-  Not supported yet, and refused as such: charges that fall due when a loan is overdue or by tranche, charges on a
-  loan that is closed, overpaid or has a due date after the loan's last installment before it is paid out, and
-  charges on a loan with accrual accounting.
+  With accrual accounting a charge added to a loan is accrued at once under upfront accrual (not under periodic,
+  where the periodic accrual job does it), and a waiver is a loss for what was accrued and not yet paid.
+
+  Not supported yet, and refused as such: charges that fall due by tranche, charges on a loan that is closed or
+  overpaid, a charge on a date after the loan's last installment before it is paid out, and adjusting a charge.
   """
   import Ecto.Query
 
@@ -23,6 +25,7 @@ defmodule ECBLoans.Loans.ChargeActions do
     ChargeRows,
     Derived,
     Disburse,
+    Journal,
     Repay,
     Reprocess,
     Transitions
@@ -113,11 +116,6 @@ defmodule ECBLoans.Loans.ChargeActions do
   defp check_status!(loan, what) do
     if loan.loan_status_id not in [@pending, @approved, @active],
       do: unsupported!(what <> " to a loan that is closed or overpaid")
-
-    product = ECBLoans.LoanProducts.fetch!(loan.product_id)
-
-    if loan.loan_status_id == @active and product.accounting_id in [3, 4],
-      do: unsupported!(what <> " to a loan with accrual accounting")
 
     :ok
   end
@@ -522,6 +520,9 @@ defmodule ECBLoans.Loans.ChargeActions do
   end
 
   defp make_waiver!(user, loan, charge, amount, date, installment) do
+    product = ECBLoans.LoanProducts.fetch!(loan.product_id)
+    {component, unrecognized} = split_waiver(product, charge, amount, installment)
+
     tx = %{
       type: @waive_charges,
       date: date,
@@ -529,10 +530,54 @@ defmodule ECBLoans.Loans.ChargeActions do
       balance: loan.principal_outstanding_derived
     }
 
-    tx = if charge.penalty, do: Map.put(tx, :penalties, amount), else: Map.put(tx, :fees, amount)
+    tx =
+      cond do
+        Decimal.eq?(component, 0) -> tx
+        charge.penalty -> Map.put(tx, :penalties, component)
+        true -> Map.put(tx, :fees, component)
+      end
+
+    tx =
+      if Decimal.eq?(unrecognized, 0), do: tx, else: Map.put(tx, :unrecognized, unrecognized)
+
     id = Disburse.insert_transaction!(user, loan, tx)
     ChargeRows.record_paid_by!(id, charge.id, amount, installment)
+    Journal.waive_charge!(user, loan, product, Map.put(tx, :id, id))
     id
+  end
+
+  # under periodic accrual only what has been accrued and not paid yet is a loss; the rest was never income
+  defp split_waiver(%{accounting_id: 3}, charge, amount, installment) do
+    receivable = Decimal.sub(accrued(charge.id, installment), paid_of(charge, installment))
+    receivable = if Decimal.compare(receivable, 0) == :lt, do: Decimal.new(0), else: receivable
+
+    if Decimal.compare(amount, receivable) == :gt,
+      do: {receivable, Decimal.sub(amount, receivable)},
+      else: {amount, Decimal.new(0)}
+  end
+
+  defp split_waiver(_product, _charge, amount, _installment), do: {amount, Decimal.new(0)}
+
+  defp accrued(charge_id, installment) do
+    query =
+      from(p in "m_loan_charge_paid_by",
+        join: t in "m_loan_transaction",
+        on: t.id == p.loan_transaction_id and t.is_reversed == false,
+        where: p.loan_charge_id == ^charge_id and t.transaction_type_enum == 10,
+        select: coalesce(sum(p.amount), 0)
+      )
+
+    query =
+      if installment, do: where(query, [p], p.installment_number == ^installment), else: query
+
+    TenantRepo.one(query)
+  end
+
+  defp paid_of(charge, nil), do: charge.paid || Decimal.new(0)
+
+  defp paid_of(charge, installment) do
+    slot = Enum.find(Loans.installment_charges(charge.id), &(&1.installment == installment))
+    (slot && slot.paid_amount) || Decimal.new(0)
   end
 
   # the charge (or the installment of it) is now waived

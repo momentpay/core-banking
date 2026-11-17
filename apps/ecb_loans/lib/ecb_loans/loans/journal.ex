@@ -141,6 +141,12 @@ defmodule ECBLoans.Loans.Journal do
     if accrual?(product), do: write_off!(user, loan, product, tx), else: :ok
   end
 
+  @doc "Posts the entries of a waived charge: with accrual accounting the part that was accrued is a loss."
+  @spec waive_charge!(struct, map, map, map) :: :ok
+  def waive_charge!(user, loan, product, tx) do
+    if accrual?(product), do: write_off!(user, loan, product, tx), else: :ok
+  end
+
   @doc "Posts the entries of a write-off: what is written off leaves the books as a loss."
   @spec write_off!(struct, map, map, map) :: :ok
   def write_off!(_user, _loan, %{accounting_id: id}, _tx) when id in [nil, 1], do: :ok

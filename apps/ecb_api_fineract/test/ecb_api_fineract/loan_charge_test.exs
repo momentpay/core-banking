@@ -244,7 +244,7 @@ defmodule ECBApiFineract.LoanChargeTest do
              ["error.msg.loan.charge.associated.loan.not.in.submitted.and.pending.approval.stage"]
   end
 
-  test "a loan with accrual accounting does not take a charge yet" do
+  test "a loan with upfront accrual accounting accrues a charge as it is added, and a waiver is a loss" do
     for {code, type} <- [
           {"A1", 1},
           {"A2", 1},
@@ -270,7 +270,7 @@ defmodule ECBApiFineract.LoanChargeTest do
     post!(
       "/v1/loanproducts",
       product(%{
-        "accountingRule" => 3,
+        "accountingRule" => 4,
         "fundSourceAccountId" => 1,
         "loanPortfolioAccountId" => 2,
         "transfersInSuspenseAccountId" => 3,
@@ -288,9 +288,22 @@ defmodule ECBApiFineract.LoanChargeTest do
 
     id = loan()
     approve_and_pay_out(id)
-    conn = add(id, 2, 20, "15 June 2024")
-    assert conn.status == 403
-    assert errors(conn) == ["error.msg.loan.feature.not.supported.yet"]
+    assert %{"resourceId" => charge} = body(add(id, 2, 20, "15 June 2024"))
+
+    # 20 earned and receivable at once, then written off by the waiver
+    entries = fn ->
+      for e <- body(send_json(:get, "/v1/journalentries?loanId=#{id}&orderBy=id"))["pageItems"],
+          do: {e["glAccountCode"], e["entryType"]["value"], e["amount"]}
+    end
+
+    assert {"A5", "DEBIT", 20.0} in entries.()
+    assert {"I2", "CREDIT", 20.0} in entries.()
+
+    assert send_json(:post, "/v1/loans/#{id}/charges/#{charge}?command=waive", @dates).status ==
+             200
+
+    assert {"A5", "CREDIT", 20.0} in entries.()
+    assert {"X1", "DEBIT", 20.0} in entries.()
   end
 
   test "a loan awaiting approval: charges are added, changed and deleted, and the schedule follows" do
