@@ -163,7 +163,7 @@ defmodule ECBLoans.Loans.ChargeRows do
 
     dated =
       from(c in "m_loan_charge",
-        where: c.loan_id == ^loan_id and c.charge_time_enum == 2 and c.is_active == true,
+        where: c.loan_id == ^loan_id and c.charge_time_enum in [2, 9] and c.is_active == true,
         select: %{
           charge: c.id,
           amount: c.amount,
@@ -336,16 +336,14 @@ defmodule ECBLoans.Loans.ChargeRows do
   @spec clear_installment_charges!(integer) :: :ok
   def clear_installment_charges!(loan_id) do
     ids = TenantRepo.all(from(c in "m_loan_charge", where: c.loan_id == ^loan_id, select: c.id))
-    TenantRepo.delete_all(from(i in "m_loan_installment_charge", where: i.loan_charge_id in ^ids))
+    delete_dependents!(ids)
     :ok
   end
 
   @doc "Deletes a charge of a loan and what it asks of each installment."
   @spec remove!(integer) :: :ok
   def remove!(charge_id) do
-    TenantRepo.delete_all(
-      from(i in "m_loan_installment_charge", where: i.loan_charge_id == ^charge_id)
-    )
+    delete_dependents!([charge_id])
 
     TenantRepo.delete_all(from(c in "m_loan_charge", where: c.id == ^charge_id))
     :ok
@@ -437,7 +435,7 @@ defmodule ECBLoans.Loans.ChargeRows do
     end
   end
 
-  defp share(%{time: 2} = c, r, rows, _per_installment) do
+  defp share(%{time: time} = c, r, rows, _per_installment) when time in [2, 9] do
     zero = Decimal.new(0)
     holder = Enum.find(rows, &(Date.compare(&1.due_date, c.due) != :lt))
 
@@ -480,8 +478,17 @@ defmodule ECBLoans.Loans.ChargeRows do
 
   defp delete_all!(loan_id) do
     ids = TenantRepo.all(from(c in "m_loan_charge", where: c.loan_id == ^loan_id, select: c.id))
-    TenantRepo.delete_all(from(i in "m_loan_installment_charge", where: i.loan_charge_id in ^ids))
+    delete_dependents!(ids)
     TenantRepo.delete_all(from(c in "m_loan_charge", where: c.id in ^ids))
+  end
+
+  # what hangs off a charge: what it asks of each installment, and the installment an overdue charge was made for
+  defp delete_dependents!(ids) do
+    TenantRepo.delete_all(from(i in "m_loan_installment_charge", where: i.loan_charge_id in ^ids))
+
+    TenantRepo.delete_all(
+      from(o in "m_loan_overdue_installment_charge", where: o.loan_charge_id in ^ids)
+    )
   end
 
   defp insert!(loan_id, detail, user, extra \\ %{}) do
@@ -530,7 +537,7 @@ defmodule ECBLoans.Loans.ChargeRows do
       charge_id: c.charge_id,
       is_penalty: c.penalty,
       charge_time_enum: c.time,
-      due_for_collection_as_of_date: if(c.time == 2, do: c.due_date),
+      due_for_collection_as_of_date: if(c.time in [2, 9], do: c.due_date),
       charge_calculation_enum: c.calc,
       charge_payment_mode_enum: c.payment_mode,
       calculation_percentage: if(percent?, do: c.amount),
@@ -552,7 +559,7 @@ defmodule ECBLoans.Loans.ChargeRows do
         )
       )
 
-    TenantRepo.delete_all(from(i in "m_loan_installment_charge", where: i.loan_charge_id in ^ids))
+    delete_dependents!(ids)
 
     rows =
       for {%{charge: %{time: 8}, installments: installments}, charge_id} <-

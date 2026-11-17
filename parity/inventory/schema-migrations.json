@@ -257,6 +257,15 @@
         "job",
         "job_run_history"
       ]
+    },
+    {
+      "kind": "schema",
+      "app": "ecb_loans",
+      "version": "20261117100000",
+      "name": "create_loan_overdue_installment_charge",
+      "tables": [
+        "m_loan_overdue_installment_charge"
+      ]
     }
   ],
   "deferred_foreign_keys": [

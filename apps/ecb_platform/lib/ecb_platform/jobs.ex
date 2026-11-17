@@ -10,6 +10,7 @@ defmodule ECBPlatform.Jobs do
   call the API (or any scheduler of its own) every day; the cron expression is kept for when they are.
   """
   import Ecto.Query
+  require Logger
 
   alias ECBPlatform.Errors.{DomainRuleViolation, ResourceNotFound}
   alias ECBPlatform.TenantRepo
@@ -123,10 +124,11 @@ defmodule ECBPlatform.Jobs do
   end
 
   @doc """
-  Runs the job `id`, as the user `system`, and records the run. Returns `:ok`; a failure of the job is recorded
-  in its history and re-raised.
+  Runs the job `id`, as the user `system`, and records the run. Returns `:ok`, or `:failed` when the job raised:
+  as in Fineract, whose jobs run after the request is answered, a failure is recorded in the job's history and
+  logged, not returned to whoever asked.
   """
-  @spec run(integer, struct) :: :ok
+  @spec run(integer, struct) :: :ok | :failed
   def run(id, user) do
     {:ok, job} = get(id)
 
@@ -149,7 +151,8 @@ defmodule ECBPlatform.Jobs do
               Exception.format(:error, error, __STACKTRACE__)
             )
 
-            reraise error, __STACKTRACE__
+            Logger.error("The job #{job.short_name} failed: #{message}")
+            :failed
         end
 
       :error ->

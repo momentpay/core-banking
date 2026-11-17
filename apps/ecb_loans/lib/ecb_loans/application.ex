@@ -35,6 +35,7 @@ defmodule ECBLoans.Application do
   def start(_type, _args) do
     for {entity, action, handler} <- @commands, do: Handlers.register(entity, action, handler)
     ECBPlatform.Jobs.register("ACC_APTR", ECBLoans.Loans.AccrualJob)
+    ECBPlatform.Jobs.register("LA_OPEN", ECBLoans.Loans.OverdueJob)
 
     Supervisor.start_link([], strategy: :one_for_one, name: ECBLoans.Supervisor)
   end

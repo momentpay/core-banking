@@ -148,6 +148,7 @@ RESETS = {
     "configuration": [
         "UPDATE c_configuration SET enabled = false, value = NULL, string_value = NULL, date_value = NULL WHERE id = 1",
         "UPDATE c_configuration SET enabled = true, value = 2 WHERE id = 10",
+        "UPDATE c_configuration SET enabled = true, value = 0 WHERE id IN (12, 24)",
         "UPDATE c_configuration SET enabled = false, value = 0 WHERE id = 11",
         "UPDATE c_configuration SET enabled = true, value = 6 WHERE id = 23",
         "UPDATE c_configuration SET enabled = true, string_value = 'Asset' WHERE id = 35",
@@ -254,6 +255,7 @@ RESETS = {
         "DELETE FROM m_loan_transaction_relation",
         "DELETE FROM m_loan_transaction",
         "DELETE FROM m_loan_installment_charge",
+        "DELETE FROM m_loan_overdue_installment_charge",
         "DELETE FROM m_loan_charge",
         "DELETE FROM m_loan_repayment_schedule",
         "DELETE FROM m_loan_status_change_history",

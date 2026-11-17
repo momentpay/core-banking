@@ -65,7 +65,7 @@ defmodule ECBLoans.Loans.Accruals do
         else: %{type: @accrual, date: on, amount: c.amount, fees: c.amount}
 
     id = Disburse.insert_transaction!(user, loan, tx)
-    installment = if c.time == 2, do: ChargeRows.installment_of(loan.id, c.due_date)
+    installment = if c.time in [2, 9], do: ChargeRows.installment_of(loan.id, c.due_date)
     ChargeRows.record_paid_by!(id, c.id, c.amount, installment)
     Journal.accrual!(user, loan, product, Map.put(tx, :id, id))
     id

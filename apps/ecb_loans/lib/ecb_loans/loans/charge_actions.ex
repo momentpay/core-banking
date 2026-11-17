@@ -216,13 +216,16 @@ defmodule ECBLoans.Loans.ChargeActions do
     charge_id
   end
 
-  defp accrual_date(%{due_date: nil}, on), do: on
+  @doc "The day a charge's accrual is dated: the day it falls due, or the business date if that is still to come."
+  @spec accrual_date(map, Date.t()) :: Date.t()
+  def accrual_date(%{due_date: nil}, on), do: on
 
-  defp accrual_date(%{due_date: due}, on),
+  def accrual_date(%{due_date: due}, on),
     do: if(Date.compare(due, on) == :gt, do: on, else: due)
 
-  # the installment holding the charge's due date has it among what it has accrued
-  defp add_to_accrued!(loan_id, %{time: 2} = c) do
+  @doc "The installment holding the charge's due date has it among what it has accrued."
+  @spec add_to_accrued!(integer, map) :: :ok
+  def add_to_accrued!(loan_id, %{time: time} = c) when time in [2, 9] do
     column =
       if c.penalty, do: :accrual_penalty_charges_derived, else: :accrual_fee_charges_derived
 
@@ -242,16 +245,20 @@ defmodule ECBLoans.Loans.ChargeActions do
     :ok
   end
 
-  defp add_to_accrued!(_loan_id, _charge), do: :ok
+  def add_to_accrued!(_loan_id, _charge), do: :ok
 
   # --- what a charge comes to ------------------------------------------------------------------------------
 
-  defp detail(loan, product, entry, rows) do
-    currency =
-      ECBMoney.Currency.new(product.currency.code, product.currency.decimal_places,
-        in_multiples_of: positive_or_nil(product.currency.multiples_of)
-      )
+  @doc "The currency of a product as money works with it."
+  @spec currency_of(map) :: struct
+  def currency_of(product) do
+    ECBMoney.Currency.new(product.currency.code, product.currency.decimal_places,
+      in_multiples_of: positive_or_nil(product.currency.multiples_of)
+    )
+  end
 
+  defp detail(loan, product, entry, rows) do
+    currency = currency_of(product)
     context = ECBMoney.Context.new(:half_even)
     money = &ECBMoney.new(currency, &1, context)
     principal = money.(loan.principal_amount)
@@ -346,8 +353,9 @@ defmodule ECBLoans.Loans.ChargeActions do
     :ok
   end
 
-  # the repayments made so far are worked out again so they pay the charges as they now stand
-  defp worked_out_again!(user, loan_id, on) do
+  @doc "The repayments made so far are worked out again so they pay the charges as they now stand."
+  @spec worked_out_again!(struct, integer, Date.t()) :: :ok
+  def worked_out_again!(user, loan_id, on) do
     if repayments?(loan_id) do
       Reprocess.run!(user, loan_id)
     else
@@ -502,7 +510,9 @@ defmodule ECBLoans.Loans.ChargeActions do
   defp waivable(_charge, slot), do: {slot.outstanding, slot.installment}
 
   # the day the waiver is dated: the day the charge fell due, or the business date if that is still to come
-  defp waive_date(loan, %{time: 2, due_date: due}, _slot), do: not_after_today(due, loan)
+  defp waive_date(loan, %{time: time, due_date: due}, _slot) when time in [2, 9],
+    do: not_after_today(due, loan)
+
   defp waive_date(loan, %{time: 8}, slot), do: not_after_today(slot.due_date, loan)
   defp waive_date(loan, _charge, _slot), do: loan.disbursedon_date
 

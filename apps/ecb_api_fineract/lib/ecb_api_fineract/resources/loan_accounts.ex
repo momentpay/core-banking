@@ -5,7 +5,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   and deleting an application. Answers as Fineract's `LoansApiResource` does.
   """
   alias ECBApiFineract.Errors
-  alias ECBApiFineract.Resources.{Charges, Read, Write}
+  alias ECBApiFineract.Resources.{Charges, LoanProducts, Read, Write}
   alias ECBLoans.{LoanEnums, Loans}
   alias ECBPlatform.Errors.UnrecognizedQueryParameter
 
@@ -79,8 +79,17 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
 
     loan
     |> loan_json()
+    |> Map.put("overdueCharges", overdue_charges(loan.product_id))
     |> with_associations(loan, associations)
     |> only_fields(q)
+  end
+
+  # the charges the loan's product has for overdue installments
+  defp overdue_charges(product_id) do
+    product_id
+    |> LoanProducts.detail()
+    |> Map.fetch!("charges")
+    |> Enum.filter(&(&1["chargeTimeType"]["id"] == 9))
   end
 
   defp list_options(q) do

@@ -801,6 +801,14 @@ defmodule ECBLoans.Loans.Corrections do
           "Undoing the disbursal of a loan that has repayments is not supported yet by E-CoreBank",
         args: ["transactions"]
     end
+
+    if Enum.any?(Loans.charges(loan.id), &(&1.time == 9)) do
+      raise DomainRuleViolation,
+        code: "error.msg.loan.feature.not.supported.yet",
+        message:
+          "Undoing the disbursal of a loan that has penalties for overdue installments is not supported yet by E-CoreBank",
+        args: ["charges"]
+    end
   end
 
   # the disbursement is reversed in the books; the transactions of the payout are removed with it
