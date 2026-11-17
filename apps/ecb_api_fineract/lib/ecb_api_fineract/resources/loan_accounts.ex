@@ -361,7 +361,10 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   defp sum_transactions(l, type, reversed?) do
     l.id
     |> Loans.transactions()
-    |> Enum.filter(&(&1.transaction_type_enum == type and &1.is_reversed == reversed?))
+    |> Enum.filter(
+      &(&1.transaction_type_enum == type and &1.is_reversed == reversed? and
+          (not reversed? or &1.manually_adjusted_or_reversed == true))
+    )
     |> Enum.reduce(Decimal.new(0), &Decimal.add(&2, &1.amount))
   end
 
@@ -551,6 +554,21 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     |> put("dueDate", c.due_date)
   end
 
+  defp relation(r, t) do
+    %{
+      "fromLoanTransaction" => t.id,
+      "toLoanTransaction" => r.to,
+      "relationType" => relation_type(r.type),
+      "amount" => t.amount
+    }
+  end
+
+  defp relation_type(1), do: "CHARGEBACK"
+  defp relation_type(2), do: "CHARGE_ADJUSTMENT"
+  defp relation_type(3), do: "REPLAYED"
+  defp relation_type(4), do: "RELATED"
+  defp relation_type(5), do: "ADJUSTMENT"
+
   defp paid_by(p, transaction_id) do
     %{
       "id" => p.id,
@@ -673,7 +691,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       "submittedOnDate" => t.submitted_on_date,
       "manuallyReversed" => t.manually_adjusted_or_reversed == true,
       "loanChargePaidByList" => Enum.map(Loans.paid_by(t.id), &paid_by(&1, t.id)),
-      "transactionRelations" => []
+      "transactionRelations" => Enum.map(Loans.relations(t.id), &relation(&1, t))
     }
     |> put("externalLoanId", loan.external_id)
     |> put("externalId", t.external_id)
@@ -757,7 +775,8 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   defp with_accrual_totals(body), do: body
 
   # a payout that was undone leaves no transaction in what the loan shows
-  defp undone_payout?(t), do: t.is_reversed and t.transaction_type_enum in [1, 10]
+  # what the system took back (a payout undone, an accrual or a repayment replaced) is not shown
+  defp undone_payout?(t), do: t.is_reversed and t.manually_adjusted_or_reversed != true
 
   defp maybe(body, true, fun), do: fun.(body)
   defp maybe(body, _false, _fun), do: body
@@ -818,19 +837,25 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       "delinquentPenalty" => zero
     }
     |> then(&if(active?, do: Map.put(&1, "delinquencyPausePeriods", []), else: &1))
-    |> put("nextPaymentDueDate", next_payment_due(unpaid, late, last || loan_written_off(loan)))
+    |> put(
+      "nextPaymentDueDate",
+      next_payment_due(unpaid, late, last || loan_written_off(loan), today)
+    )
     |> arrears(late, today)
     |> last_payment(last)
   end
 
   # the earliest unpaid installment's date, or the day of the last payment when that is later;
   # with nothing owed, the day of the last payment
-  defp next_payment_due([], _late, nil), do: nil
-  defp next_payment_due([], _late, %{} = last), do: last.transaction_date
-  defp next_payment_due([first | _], [], _last), do: first.due_date
-  defp next_payment_due([first | _], _late, nil), do: first.due_date
+  defp next_payment_due([], _late, nil, _today), do: nil
 
-  defp next_payment_due([first | _], _late, last),
+  defp next_payment_due([], _late, %{} = last, today),
+    do: Enum.max([today, last.transaction_date], Date)
+
+  defp next_payment_due([first | _], [], _last, _today), do: first.due_date
+  defp next_payment_due([first | _], _late, nil, _today), do: first.due_date
+
+  defp next_payment_due([first | _], _late, last, _today),
     do: Enum.max([first.due_date, last.transaction_date], Date)
 
   defp arrears(map, [], _today), do: map

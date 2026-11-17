@@ -232,7 +232,7 @@ defmodule ECBApiFineract.LoanApplicationTest do
              }).status == 200
     end
 
-    test "a repayment with later repayments after it cannot be undone yet, the last one can" do
+    test "an older repayment can be undone, and the later one is replaced by a new transaction" do
       paid_out()
       first = body(repay(100))["resourceId"]
       last = body(repay(50))["resourceId"]
@@ -246,14 +246,9 @@ defmodule ECBApiFineract.LoanApplicationTest do
         })
       end
 
-      refused = undo.(first)
-      assert refused.status == 403
-
-      assert [%{"userMessageGlobalisationCode" => "error.msg.loan.feature.not.supported.yet"}] =
-               body(refused)["errors"]
-
-      assert undo.(last).status == 200
+      # taking back the first one replaces the last with a new transaction, so the old id is gone
       assert undo.(first).status == 200
+      assert undo.(last).status == 403
     end
 
     test "a loan with repayments cannot have its disbursal undone yet" do

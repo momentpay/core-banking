@@ -20,6 +20,7 @@ defmodule ECBLoans.Loans.Corrections do
     Disburse,
     Journal,
     Repay,
+    Reprocess,
     Transitions
   }
 
@@ -67,9 +68,16 @@ defmodule ECBLoans.Loans.Corrections do
     refuse_if_later!(loan, tx)
     check_accounting!(loan, "Changing a repayment")
 
-    unapply!(user, loan, tx)
-    new_id = replace!(user, Loans.fetch!(id), p, on, amount, tx)
-    Journal.reverse!(user, Loans.fetch!(id), tx.id, tx.transaction_date)
+    new_id =
+      if later_standing?(loan, tx) do
+        adjust_with_later!(user, loan, p, on, amount, tx)
+      else
+        unapply!(user, loan, tx)
+        new_id = replace!(user, Loans.fetch!(id), p, on, amount, tx)
+        Journal.reverse!(user, Loans.fetch!(id), tx.id, tx.transaction_date)
+        new_id
+      end
+
     Loans.add_note(id, loan.client_id, note, user.id, new_id)
 
     Result.new(
@@ -109,27 +117,60 @@ defmodule ECBLoans.Loans.Corrections do
     end
   end
 
-  # only the newest money transaction can be taken back without working the later ones out again
+  # a write-off after the transaction cannot be worked out again yet
   defp refuse_if_later!(loan, tx) do
     later =
       loan.id
       |> Loans.transactions()
-      |> Enum.filter(
-        &(&1.transaction_type_enum in [@repayment, @waive_interest, @write_off] and
-            not &1.is_reversed)
-      )
       |> Enum.any?(
-        &(&1.id != tx.id and {&1.transaction_date, &1.id} > {tx.transaction_date, tx.id})
+        &(&1.transaction_type_enum == @write_off and not &1.is_reversed and
+            {&1.transaction_date, &1.id} > {tx.transaction_date, tx.id})
       )
 
     if later do
       raise DomainRuleViolation,
         code: "error.msg.loan.feature.not.supported.yet",
         message:
-          "Changing a transaction that has later repayments after it is not supported yet by E-CoreBank " <>
-            "(the later ones would have to be allocated again)",
+          "Changing a transaction that has a write-off after it is not supported yet by E-CoreBank",
         args: ["transactionId"]
     end
+  end
+
+  # whether repayments or waivers stand after the transaction, which would pay something else without it
+  defp later_standing?(loan, tx) do
+    loan.id
+    |> Loans.transactions()
+    |> Enum.any?(
+      &(&1.transaction_type_enum in [@repayment, @waive_interest] and not &1.is_reversed and
+          &1.id != tx.id and {&1.transaction_date, &1.id} > {tx.transaction_date, tx.id})
+    )
+  end
+
+  # the transaction no longer counts, a new repayment (if any) takes its place and what stands after is worked out
+  # again; the new repayment is saved first, then the transaction it replaces is reversed in the books
+  defp adjust_with_later!(user, loan, p, on, amount, tx) do
+    TenantRepo.update_all(from(t in "m_loan_transaction", where: t.id == ^tx.id),
+      set: [
+        is_reversed: true,
+        manually_adjusted_or_reversed: true,
+        reversed_on_date: BusinessDate.current(),
+        last_modified_by: user.id,
+        last_modified_on_utc: DateTime.utc_now()
+      ]
+    )
+
+    new_id =
+      if Decimal.eq?(amount, 0) do
+        Reprocess.run!(user, loan.id)
+        Journal.reverse!(user, loan, tx.id, tx.transaction_date)
+        tx.id
+      else
+        new = new_repayment!(loan, p, on, amount, tx)
+        Reprocess.run!(user, loan.id, new: new, first: true, reverse: tx)
+      end
+
+    Accruals.reprocess!(user, loan.id)
+    new_id
   end
 
   defp check_accounting!(loan, what),
@@ -140,19 +181,25 @@ defmodule ECBLoans.Loans.Corrections do
     if Decimal.eq?(amount, 0) do
       tx.id
     else
-      if tx.transaction_type_enum != @repayment do
-        raise DomainRuleViolation,
-          code: "error.msg.loan.feature.not.supported.yet",
-          message: "Replacing a waiver with another amount is not supported yet by E-CoreBank",
-          args: ["transactionAmount"]
-      end
-
-      external_id = Params.string(p, "externalId")
-      adjusted_external_id!(external_id)
-      payment_detail_id = Repay.payment_detail!(p)
-      Repay.check_dates!(loan, on)
-      Repay.apply!(user, loan, on, amount, payment_detail_id, external_id)
+      new = new_repayment!(loan, p, on, amount, tx)
+      Repay.apply!(user, loan, on, amount, new.payment_detail_id, new.external_id)
     end
+  end
+
+  # what a replacement repayment is made of, once it has been checked
+  defp new_repayment!(loan, p, on, amount, tx) do
+    if tx.transaction_type_enum != @repayment do
+      raise DomainRuleViolation,
+        code: "error.msg.loan.feature.not.supported.yet",
+        message: "Replacing a waiver with another amount is not supported yet by E-CoreBank",
+        args: ["transactionAmount"]
+    end
+
+    external_id = Params.string(p, "externalId")
+    adjusted_external_id!(external_id)
+    payment_detail_id = Repay.payment_detail!(p)
+    Repay.check_dates!(loan, on)
+    %{date: on, amount: amount, payment_detail_id: payment_detail_id, external_id: external_id}
   end
 
   # a new transaction cannot take an external id another already has; the failed save has used up an id
@@ -289,9 +336,7 @@ defmodule ECBLoans.Loans.Corrections do
     check_accounting!(loan, "Waiving interest")
     check_waivable!(loan, amount)
 
-    rows = Loans.installments(id)
-    {tx_id, _} = waive!(user, loan, rows, on, amount)
-    waived_entries!(user, id, tx_id, on, amount)
+    tx_id = make_waiver!(user, loan, on, amount)
     Derived.refresh!(id, user)
     Repay.after_repayment!(user, Loans.fetch!(id), on, Decimal.new(0))
     Loans.add_note(id, loan.client_id, note, user.id, tx_id)
@@ -314,6 +359,24 @@ defmodule ECBLoans.Loans.Corrections do
       amount: amount,
       interest: amount
     })
+  end
+
+  # a waiver dated before later repayments makes them pay something else: they are worked out again
+  defp make_waiver!(user, loan, on, amount) do
+    if Reprocess.needed?(loan.id, on) do
+      new = %{
+        type: @waive_interest,
+        date: on,
+        amount: amount,
+        unrecognized: unrecognized_income(loan, on, amount)
+      }
+
+      Reprocess.run!(user, loan.id, new: new)
+    else
+      {tx_id, _} = waive!(user, loan, Loans.installments(loan.id), on, amount)
+      waived_entries!(user, loan.id, tx_id, on, amount)
+      tx_id
+    end
   end
 
   defp check_active!(%{loan_status_id: 300}, _code, _message), do: :ok
@@ -366,8 +429,6 @@ defmodule ECBLoans.Loans.Corrections do
   end
 
   defp waive!(user, loan, rows, on, amount) do
-    {touched, _left} = Enum.reduce(rows, {[], amount}, &waive_share/2)
-
     tx_id =
       Disburse.insert_transaction!(user, loan, %{
         type: @waive_interest,
@@ -377,6 +438,17 @@ defmodule ECBLoans.Loans.Corrections do
         unrecognized: unrecognized_income(loan, on, amount),
         balance: if(Decimal.eq?(amount, 0), do: nil, else: loan.principal_outstanding_derived)
       })
+
+    {tx_id, apply_waiver!(tx_id, rows, on, amount)}
+  end
+
+  @doc """
+  Waives `amount` of the interest owed on the installments `rows`, oldest first, for the waiver transaction
+  `tx_id`: the installments and the mapping to the transaction are written. Returns the installments touched.
+  """
+  @spec apply_waiver!(integer, [map], Date.t(), Decimal.t()) :: [{map, Decimal.t()}]
+  def apply_waiver!(tx_id, rows, on, amount) do
+    {touched, _left} = Enum.reduce(rows, {[], amount}, &waive_share/2)
 
     for {row, take} <- Enum.reverse(touched) do
       waived = Decimal.add(row.interest_waived || Decimal.new(0), take)
@@ -414,6 +486,13 @@ defmodule ECBLoans.Loans.Corrections do
         do: Decimal.sub(amount, receivable),
         else: nil
     end
+  end
+
+  @doc "How much of `amount` can be waived on the installments `rows` (the interest still owed on them, at most)."
+  @spec waivable([map], Decimal.t()) :: Decimal.t()
+  def waivable(rows, amount) do
+    {touched, _left} = Enum.reduce(rows, {[], amount}, &waive_share/2)
+    Enum.reduce(touched, Decimal.new(0), fn {_row, take}, sum -> Decimal.add(sum, take) end)
   end
 
   defp waive_share(row, {acc, left}) do

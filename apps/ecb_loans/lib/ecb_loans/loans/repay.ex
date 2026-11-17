@@ -14,7 +14,7 @@ defmodule ECBLoans.Loans.Repay do
   import Ecto.Query
 
   alias ECBLoans.Loans
-  alias ECBLoans.Loans.{Accruals, ChargeRows, Derived, Disburse, Journal}
+  alias ECBLoans.Loans.{Accruals, ChargeRows, Derived, Disburse, Journal, Reprocess}
   alias ECBParty.Clients
   alias ECBPlatform.{BusinessDate, Params, TenantRepo, Validation}
   alias ECBPlatform.Commands.Result
@@ -175,6 +175,21 @@ defmodule ECBLoans.Loans.Repay do
 
   @doc false
   def apply!(user, loan, on, amount, payment_detail_id, external_id) do
+    if Reprocess.needed?(loan.id, on) do
+      new = %{
+        date: on,
+        amount: amount,
+        payment_detail_id: payment_detail_id,
+        external_id: external_id
+      }
+
+      Reprocess.run!(user, loan.id, new: new)
+    else
+      apply_latest!(user, loan, on, amount, payment_detail_id, external_id)
+    end
+  end
+
+  defp apply_latest!(user, loan, on, amount, payment_detail_id, external_id) do
     rows = Loans.installments(loan.id)
     {updates, left, portions} = allocate(rows, on, amount)
 
@@ -293,7 +308,14 @@ defmodule ECBLoans.Loans.Repay do
     {pay, Decimal.sub(left, pay)}
   end
 
-  defp save_installments!(updates, tx_id, user) do
+  @doc false
+  def save_installments!(updates, tx_id, user) do
+    update_installments!(updates, user)
+    insert_mappings!(updates, tx_id)
+  end
+
+  @doc false
+  def update_installments!(updates, user) do
     now = DateTime.utc_now()
 
     for u <- updates do
@@ -326,7 +348,14 @@ defmodule ECBLoans.Loans.Repay do
             ) ++
             timing_set(timing, row, paid)
       )
+    end
 
+    :ok
+  end
+
+  @doc false
+  def insert_mappings!(updates, tx_id) do
+    for %{paid: paid} = u <- updates do
       TenantRepo.insert_all("m_loan_transaction_repayment_schedule_mapping", [
         %{
           loan_transaction_id: tx_id,

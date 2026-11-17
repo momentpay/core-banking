@@ -342,6 +342,17 @@ defmodule ECBLoans.Loans do
     |> TenantRepo.all()
   end
 
+  @doc "What a transaction replays: `[%{to: old transaction id, type: enum}]`."
+  @spec relations(integer) :: [map]
+  def relations(transaction_id) do
+    from(r in "m_loan_transaction_relation",
+      where: r.from_loan_transaction_id == ^transaction_id,
+      order_by: r.id,
+      select: %{to: r.to_loan_transaction_id, type: r.relation_type_enum}
+    )
+    |> TenantRepo.all()
+  end
+
   @doc "The transactions of a loan, oldest first, each with its office and payment details."
   @spec transactions(integer) :: [map]
   def transactions(loan_id) do
