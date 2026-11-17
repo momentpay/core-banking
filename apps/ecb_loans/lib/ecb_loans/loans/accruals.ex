@@ -49,19 +49,26 @@ defmodule ECBLoans.Loans.Accruals do
 
   # each charge that does not fall due at disbursement is booked as accrued in full, before the interest
   defp accrue_charges!(user, loan, product, on) do
-    for c <- Loans.charges(loan.id), c.time != 1 do
-      tx =
-        if c.penalty,
-          do: %{type: @accrual, date: on, amount: c.amount, penalties: c.amount},
-          else: %{type: @accrual, date: on, amount: c.amount, fees: c.amount}
-
-      id = Disburse.insert_transaction!(user, loan, tx)
-      installment = if c.time == 2, do: ChargeRows.installment_of(loan.id, c.due_date)
-      ChargeRows.record_paid_by!(id, c.id, c.amount, installment)
-      Journal.accrual!(user, loan, product, Map.put(tx, :id, id))
-    end
-
+    for c <- Loans.charges(loan.id), c.time != 1, do: accrue_charge!(user, loan, product, c, on)
     :ok
+  end
+
+  @doc """
+  Books one charge of the loan (as `Loans.charges/1` gives it) as accrued in full on `on`, with the installment
+  that holds its due date, if any, taking the accrual.
+  """
+  @spec accrue_charge!(struct, map, map, map, Date.t()) :: integer
+  def accrue_charge!(user, loan, product, c, on) do
+    tx =
+      if c.penalty,
+        do: %{type: @accrual, date: on, amount: c.amount, penalties: c.amount},
+        else: %{type: @accrual, date: on, amount: c.amount, fees: c.amount}
+
+    id = Disburse.insert_transaction!(user, loan, tx)
+    installment = if c.time == 2, do: ChargeRows.installment_of(loan.id, c.due_date)
+    ChargeRows.record_paid_by!(id, c.id, c.amount, installment)
+    Journal.accrual!(user, loan, product, Map.put(tx, :id, id))
+    id
   end
 
   @doc """

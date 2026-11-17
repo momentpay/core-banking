@@ -314,6 +314,11 @@ defmodule ECBApiFineract.Resources.LoanTemplate do
     |> reject_nil()
   end
 
+  @doc "The fees and penalties a loan can take in a currency, by name."
+  @spec charge_options_in(String.t()) :: [map]
+  def charge_options_in(currency),
+    do: Enum.filter(charge_options(nil), &(&1["currency"]["code"] == currency))
+
   # the fees and penalties a loan can take, but not the ones a loan only gets when it is overdue or by tranche
   defp charge_options(_multi?) do
     (Catalog.applicable_to_loans(false) ++ Catalog.applicable_to_loans(true))

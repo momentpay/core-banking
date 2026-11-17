@@ -32,6 +32,7 @@ defmodule ECBApiFineract.ApiRouter do
     Jobs,
     JournalEntries,
     LoanAccounts,
+    LoanCharges,
     LoanProducts,
     Loans,
     LoanTemplate,
@@ -178,6 +179,13 @@ defmodule ECBApiFineract.ApiRouter do
   get "/v1/loans/:id/transactions/:transaction_id",
     do: LoanAccounts.show_transaction(conn, id, transaction_id)
 
+  get "/v1/loans/:id/charges/template", do: LoanCharges.template(conn, id)
+  get "/v1/loans/:id/charges/:charge_id", do: LoanCharges.show(conn, id, charge_id)
+  get "/v1/loans/:id/charges", do: LoanCharges.index(conn, id)
+  post "/v1/loans/:id/charges/:charge_id", do: LoanCharges.command(conn, id, charge_id)
+  post "/v1/loans/:id/charges", do: LoanCharges.create(conn, id)
+  put "/v1/loans/:id/charges/:charge_id", do: LoanCharges.update(conn, id, charge_id)
+  delete "/v1/loans/:id/charges/:charge_id", do: LoanCharges.delete(conn, id, charge_id)
   get "/v1/loans/:id", do: LoanAccounts.show(conn, id)
 
   post "/v1/loans/:id/transactions/:transaction_id",

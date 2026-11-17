@@ -436,8 +436,8 @@ defmodule ECBLoans.Loans.Transitions do
     Submit.insert_installments!(id, schedule, user, DateTime.utc_now())
 
     ChargeRows.store!(id, schedule, user,
-      submitted_on: loan.submittedon_date,
-      replace: Keyword.has_key?(opts, :charges)
+      replace: Keyword.has_key?(opts, :charges) and not Keyword.get(opts, :append, false),
+      append: Keyword.get(opts, :append, false)
     )
 
     update!(id, [expected_maturedon_date: last.due, maturedon_date: last.due], user)

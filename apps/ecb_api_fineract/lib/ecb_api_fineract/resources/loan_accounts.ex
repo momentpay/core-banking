@@ -524,6 +524,10 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     |> put("expectedMaturityDate", l.expected_maturedon_date)
   end
 
+  @doc "A charge of the loan as Fineract shows it."
+  @spec charge_json(map, map) :: map
+  def charge_json(c, loan), do: loan_charge(c, loan)
+
   # a charge of the loan as Fineract shows it
   defp loan_charge(c, loan) do
     zero = 0

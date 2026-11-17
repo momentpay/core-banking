@@ -22,7 +22,13 @@ defmodule ECBLoans.Application do
     {"LOAN", "WAIVEINTERESTPORTION", ECBLoans.Handlers.Loan},
     {"LOAN", "WRITEOFF", ECBLoans.Handlers.Loan},
     {"LOAN", "DISBURSALUNDO", ECBLoans.Handlers.Loan},
-    {"LOAN", "DELETE", ECBLoans.Handlers.Loan}
+    {"LOAN", "DELETE", ECBLoans.Handlers.Loan},
+    {"LOANCHARGE", "CREATE", ECBLoans.Handlers.LoanCharge},
+    {"LOANCHARGE", "UPDATE", ECBLoans.Handlers.LoanCharge},
+    {"LOANCHARGE", "DELETE", ECBLoans.Handlers.LoanCharge},
+    {"LOANCHARGE", "WAIVE", ECBLoans.Handlers.LoanCharge},
+    {"LOANCHARGE", "PAY", ECBLoans.Handlers.LoanCharge},
+    {"LOANCHARGE", "ADJUSTMENT", ECBLoans.Handlers.LoanCharge}
   ]
 
   @impl true

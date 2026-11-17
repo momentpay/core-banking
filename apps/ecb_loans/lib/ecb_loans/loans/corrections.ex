@@ -4,9 +4,9 @@ defmodule ECBLoans.Loans.Corrections do
   writing the loan off, and undoing its disbursement. Follows Fineract's `LoanWritePlatformServiceJpaRepositoryImpl`
   (`adjustLoanTransaction`, `waiveInterestOnLoan`, `writeOff`, `undoLoanDisbursal`).
 
-  Fineract works every later transaction out again when an earlier one is changed. Here only the most recent
-  repayment or waiver can be undone or adjusted; one with later money transactions after it is refused with a
-  plain "not supported yet" (it would need the later ones re-allocated), never half done.
+  Fineract works every later transaction out again when an earlier one is changed; so does `ECBLoans.Loans.Reprocess`.
+  What it cannot work out again (a write-off after the transaction, a waiver replaced by another amount) is refused
+  with a plain "not supported yet", never half done.
   """
   import Ecto.Query
 

@@ -83,15 +83,17 @@ defmodule ECBLoans.Schedule.ChargeInput do
       args: args
     }
 
+  @doc "The charge `id` of the catalog, or raises its not-found error."
+  @spec definition!(integer) :: map
+  def definition!(id) do
+    case Catalog.get(id) do
+      {:ok, charge} -> charge
+      {:error, error} -> raise error
+    end
+  end
+
   defp charge!(entry) do
-    id = Json.long(entry, "chargeId")
-
-    charge =
-      case Catalog.get(id) do
-        {:ok, charge} -> charge
-        {:error, error} -> raise error
-      end
-
+    charge = definition!(Json.long(entry, "chargeId"))
     refuse!(charge)
 
     %{
@@ -108,11 +110,15 @@ defmodule ECBLoans.Schedule.ChargeInput do
     }
   end
 
-  defp refuse!(charge) do
+  @doc """
+  Refuses (with "not supported yet") a charge that cannot be taken yet, `allowed` being the times it may fall due.
+  """
+  @spec refuse!(map, [integer]) :: :ok
+  def refuse!(charge, allowed \\ [1, 2, 8]) do
     reasons =
       [
         {charge.applies_to != 1, "a charge that does not apply to loans"},
-        {charge.time not in [1, 2, 8],
+        {charge.time not in allowed,
          "a charge that falls due when a loan is overdue or by tranche"},
         {charge.time == 1 and charge.calculation in [3, 4],
          "a charge at disbursement as a percentage of interest"},
@@ -133,6 +139,8 @@ defmodule ECBLoans.Schedule.ChargeInput do
             Enum.join(reasons, ", ") <> ")",
         args: ["charges"]
     end
+
+    :ok
   end
 
   @doc """

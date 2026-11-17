@@ -12,23 +12,25 @@ defmodule ECBLoans.Loans.ChargeRows do
   alias ECBPlatform.TenantRepo
 
   @doc """
-  Stores the charges of `schedule` for loan `loan_id`: with `mode: :insert` as new rows; with `mode: :update` onto
-  the loan's rows in the order they were made (or, when a different set of charges is given, replacing them).
-  Also keeps the loan's total of charges due at disbursement.
+  Stores the charges of `schedule` for loan `loan_id` onto the loan's rows in the order they were made, or, when a
+  different set of charges is given, replacing them (`replace: true`). With `append: true` the rows the loan has
+  keep their ids and any charges beyond them are added as new rows. Also keeps the loan's total of charges due at
+  disbursement. New rows are dated by the business date.
   """
   @spec store!(integer, map, struct, keyword) :: :ok
   def store!(loan_id, schedule, user, opts) do
     details = Map.get(schedule, :charge_details, [])
-    submitted_on = Keyword.fetch!(opts, :submitted_on)
     replace? = Keyword.get(opts, :replace, false)
     existing = if replace?, do: [], else: rows(loan_id)
 
     ids =
-      if length(existing) == length(details) and existing != [] do
-        details |> Enum.zip(existing) |> Enum.map(fn {d, row} -> update!(row, d) end)
+      if Keyword.get(opts, :append, false) do
+        {old, new} = Enum.split(details, length(existing))
+
+        Enum.map(Enum.zip(old, existing), fn {d, row} -> update!(row, d) end) ++
+          Enum.map(new, &insert!(loan_id, &1, user, %{amount_paid_derived: Decimal.new(0)}))
       else
-        delete_all!(loan_id)
-        Enum.map(details, &insert!(loan_id, &1, user, submitted_on))
+        ids_for(loan_id, details, existing, user)
       end
 
     installment_charges!(loan_id, details, ids)
@@ -36,14 +38,23 @@ defmodule ECBLoans.Loans.ChargeRows do
     :ok
   end
 
+  defp ids_for(loan_id, details, existing, user) do
+    if length(existing) == length(details) and existing != [] do
+      details |> Enum.zip(existing) |> Enum.map(fn {d, row} -> update!(row, d) end)
+    else
+      delete_all!(loan_id)
+      Enum.map(details, &insert!(loan_id, &1, user))
+    end
+  end
+
   @doc """
   The loan's stored charges said the way a request would say them (`chargeId`, `amount`, `dueDate`), in the order
   they were made, with dates as `yyyy-MM-dd`.
   """
-  @spec params(integer) :: [map]
-  def params(loan_id) do
+  @spec params(integer, integer | nil) :: [map]
+  def params(loan_id, except \\ nil) do
     from(c in "m_loan_charge",
-      where: c.loan_id == ^loan_id,
+      where: c.loan_id == ^loan_id and c.id != ^(except || 0),
       order_by: c.id,
       select: %{
         charge_id: c.charge_id,
@@ -142,11 +153,13 @@ defmodule ECBLoans.Loans.ChargeRows do
           slot: i.id,
           installment: r.installment,
           amount: i.amount,
+          waived: i.amount_waived_derived,
           penalty: c.is_penalty,
           due: r.duedate
         }
       )
       |> TenantRepo.all()
+      |> Enum.map(&net_of_waived/1)
 
     dated =
       from(c in "m_loan_charge",
@@ -154,24 +167,32 @@ defmodule ECBLoans.Loans.ChargeRows do
         select: %{
           charge: c.id,
           amount: c.amount,
+          waived: c.amount_waived_derived,
           penalty: c.is_penalty,
           due: c.due_for_collection_as_of_date
         }
       )
       |> TenantRepo.all()
       |> Enum.map(fn c ->
-        %{
+        net_of_waived(%{
           charge: c.charge,
           slot: nil,
           installment: installment_of(loan_id, c.due),
           amount: c.amount,
+          waived: c.waived,
           penalty: c.penalty,
           due: c.due
-        }
+        })
       end)
 
     Enum.sort_by(installment_rows ++ dated, & &1.charge)
   end
+
+  # what a slot asks for is its amount less what was waived of it
+  defp net_of_waived(%{waived: nil} = slot), do: Map.delete(slot, :waived)
+
+  defp net_of_waived(%{waived: waived, amount: amount} = slot),
+    do: slot |> Map.delete(:waived) |> Map.put(:amount, Decimal.sub(amount, waived))
 
   defp pay_slots(slots, completed, acc) do
     {acc, _left} =
@@ -219,11 +240,14 @@ defmodule ECBLoans.Loans.ChargeRows do
   defp set_charge_paid!(charge, paid, total) do
     outstanding = Decimal.sub(total, paid)
 
+    waived? =
+      TenantRepo.one(from(c in "m_loan_charge", where: c.id == ^charge, select: c.waived))
+
     TenantRepo.update_all(from(c in "m_loan_charge", where: c.id == ^charge),
       set: [
         amount_paid_derived: paid,
         amount_outstanding_derived: outstanding,
-        is_paid_derived: Decimal.eq?(outstanding, 0)
+        is_paid_derived: Decimal.eq?(outstanding, 0) and not waived?
       ]
     )
   end
@@ -316,6 +340,134 @@ defmodule ECBLoans.Loans.ChargeRows do
     :ok
   end
 
+  @doc "Deletes a charge of a loan and what it asks of each installment."
+  @spec remove!(integer) :: :ok
+  def remove!(charge_id) do
+    TenantRepo.delete_all(
+      from(i in "m_loan_installment_charge", where: i.loan_charge_id == ^charge_id)
+    )
+
+    TenantRepo.delete_all(from(c in "m_loan_charge", where: c.id == ^charge_id))
+    :ok
+  end
+
+  @doc """
+  Adds one charge to a loan that already has its schedule, as `%{charge:, total:, applied_to:, installments:}`
+  (see `ECBLoans.Schedule.Charges`). Returns the id of the new row.
+  """
+  @spec add!(integer, map, struct) :: integer
+  def add!(loan_id, detail, user) do
+    id = insert!(loan_id, detail, user, %{amount_paid_derived: Decimal.new(0)})
+    installment_charges!(loan_id, [detail], [id])
+    id
+  end
+
+  @doc """
+  Works the fee and penalty columns of every installment out again from the loan's charges, as Fineract's
+  repayment schedule wrapper does: an installment fee in each installment, a charge on a date in the installment
+  that holds the date, less what was waived or written off. An installment without a row for an installment fee
+  (one added only to hold a charge) takes the flat amount.
+  """
+  @spec refresh_installments!(integer) :: :ok
+  def refresh_installments!(loan_id) do
+    charges =
+      TenantRepo.all(
+        from(c in "m_loan_charge",
+          where: c.loan_id == ^loan_id and c.is_active == true and c.charge_time_enum != 1,
+          select: %{
+            id: c.id,
+            time: c.charge_time_enum,
+            calc: c.charge_calculation_enum,
+            penalty: c.is_penalty,
+            due: c.due_for_collection_as_of_date,
+            amount: c.amount,
+            input: c.charge_amount_or_percentage,
+            waived: c.amount_waived_derived,
+            off: c.amount_writtenoff_derived
+          }
+        )
+      )
+
+    per_installment = per_installment_amounts(loan_id)
+    rows = ECBLoans.Loans.installments(loan_id)
+
+    for r <- rows do
+      mine = Enum.map(charges, &share(&1, r, rows, per_installment))
+
+      set =
+        for {penalty?, prefix} <- [{false, :fee_charges}, {true, :penalty_charges}],
+            {suffix, key} <- [
+              {"amount", :amount},
+              {"waived_derived", :waived},
+              {"writtenoff_derived", :off}
+            ] do
+          total =
+            mine
+            |> Enum.filter(&(&1.penalty == penalty?))
+            |> Enum.reduce(Decimal.new(0), &Decimal.add(&2, &1[key]))
+
+          {String.to_existing_atom("#{prefix}_#{suffix}"),
+           if(Decimal.eq?(total, 0), do: nil, else: total)}
+        end
+
+      TenantRepo.update_all(from(i in "m_loan_repayment_schedule", where: i.id == ^r.id),
+        set: set
+      )
+    end
+
+    :ok
+  end
+
+  # what a charge asks of an installment: nothing, or its amount, less what was waived and written off
+  defp share(%{time: 8} = c, r, _rows, per_installment) do
+    zero = Decimal.new(0)
+
+    case Map.get(per_installment, {c.id, r.installment}) do
+      nil ->
+        flat = if c.calc == 1, do: c.input || zero, else: zero
+        %{penalty: c.penalty, amount: flat, waived: zero, off: zero}
+
+      row ->
+        %{
+          penalty: c.penalty,
+          amount: row.amount,
+          waived: row.waived || zero,
+          off: row.off || zero
+        }
+    end
+  end
+
+  defp share(%{time: 2} = c, r, rows, _per_installment) do
+    zero = Decimal.new(0)
+    holder = Enum.find(rows, &(Date.compare(&1.due_date, c.due) != :lt))
+
+    if holder && holder.installment == r.installment,
+      do: %{penalty: c.penalty, amount: c.amount, waived: c.waived || zero, off: c.off || zero},
+      else: %{penalty: c.penalty, amount: zero, waived: zero, off: zero}
+  end
+
+  defp share(c, _r, _rows, _per_installment),
+    do: %{penalty: c.penalty, amount: Decimal.new(0), waived: Decimal.new(0), off: Decimal.new(0)}
+
+  defp per_installment_amounts(loan_id) do
+    from(i in "m_loan_installment_charge",
+      join: c in "m_loan_charge",
+      on: c.id == i.loan_charge_id,
+      join: r in "m_loan_repayment_schedule",
+      on: r.id == i.loan_schedule_id,
+      where: c.loan_id == ^loan_id and c.is_active == true,
+      select:
+        {{c.id, r.installment},
+         %{
+           amount: i.amount,
+           waived: i.amount_waived_derived,
+           off: i.amount_writtenoff_derived
+         }}
+    )
+    |> TenantRepo.all()
+    |> Map.new()
+  end
+
   defp rows(loan_id) do
     TenantRepo.all(
       from(c in "m_loan_charge",
@@ -332,7 +484,7 @@ defmodule ECBLoans.Loans.ChargeRows do
     TenantRepo.delete_all(from(c in "m_loan_charge", where: c.id in ^ids))
   end
 
-  defp insert!(loan_id, detail, user, submitted_on) do
+  defp insert!(loan_id, detail, user, extra \\ %{}) do
     now = DateTime.utc_now()
     row = values(detail)
 
@@ -342,7 +494,7 @@ defmodule ECBLoans.Loans.ChargeRows do
         [
           Map.merge(row, %{
             loan_id: loan_id,
-            submitted_on_date: submitted_on,
+            submitted_on_date: ECBPlatform.BusinessDate.current(),
             amount_outstanding_derived: row.amount,
             is_paid_derived: false,
             waived: false,
@@ -352,6 +504,7 @@ defmodule ECBLoans.Loans.ChargeRows do
             last_modified_by: user.id,
             last_modified_on_utc: now
           })
+          |> Map.merge(extra)
         ],
         returning: [:id]
       )

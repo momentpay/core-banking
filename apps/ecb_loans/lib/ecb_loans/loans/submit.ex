@@ -48,7 +48,7 @@ defmodule ECBLoans.Loans.Submit do
 
     generate_account_no!(id, p, product, client)
     insert_installments!(id, schedule, user, now)
-    ChargeRows.store!(id, schedule, user, submitted_on: terms.submitted_date)
+    ChargeRows.store!(id, schedule, user, [])
     Loans.add_note(id, client.id, Params.string(p, "submittedOnNote"), user.id)
 
     Result.new(

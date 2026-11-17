@@ -288,11 +288,42 @@ defmodule ECBLoans.Loans do
 
   @doc "The charges of a loan, in the order they were made."
   @spec charges(integer) :: [map]
-  def charges(loan_id) do
+  def charges(loan_id), do: loan_id |> charge_query() |> TenantRepo.all()
+
+  @doc "One charge of the loan (active or not), or `nil`."
+  @spec charge(integer, integer) :: map | nil
+  def charge(loan_id, id) do
+    loan_id |> charge_query(false) |> where([c], c.id == ^id) |> TenantRepo.one()
+  end
+
+  @doc "What a charge asks of each installment, as `[%{installment, due_date, amount, outstanding, waived_amount, paid, waived}]`."
+  @spec installment_charges(integer) :: [map]
+  def installment_charges(charge_id) do
+    from(i in "m_loan_installment_charge",
+      join: r in "m_loan_repayment_schedule",
+      on: r.id == i.loan_schedule_id,
+      where: i.loan_charge_id == ^charge_id,
+      order_by: r.installment,
+      select: %{
+        id: i.id,
+        installment: r.installment,
+        due_date: r.duedate,
+        amount: i.amount,
+        outstanding: i.amount_outstanding_derived,
+        paid_amount: i.amount_paid_derived,
+        waived_amount: i.amount_waived_derived,
+        paid: i.is_paid_derived,
+        waived: i.waived
+      }
+    )
+    |> TenantRepo.all()
+  end
+
+  defp charge_query(loan_id, active_only \\ true) do
     from(c in "m_loan_charge",
       join: mc in "m_charge",
       on: mc.id == c.charge_id,
-      where: c.loan_id == ^loan_id and c.is_active == true,
+      where: c.loan_id == ^loan_id and (c.is_active == true or ^(!active_only)),
       order_by: c.id,
       select: %{
         id: c.id,
@@ -317,7 +348,6 @@ defmodule ECBLoans.Loans do
         submitted_on: c.submitted_on_date
       }
     )
-    |> TenantRepo.all()
   end
 
   @doc "The charges a transaction paid: `[%{loan_charge_id, charge_id, name, amount}]`."
