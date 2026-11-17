@@ -10,6 +10,10 @@ defmodule ECBLoans.Loans.AccrualJob do
   business date, whichever comes first, and what an installment has accrued is what it charges less what has
   been waived, less what has already been accrued.
 
+  The job "Add Accrual Transactions" (`ACC_AATR`), after `addAccruals`, does the same for whole installments
+  only: those whose due date has been reached (`run/2` with `:installments`). An installment under way is left
+  for the periodic job, and a loan is looked at once it has an installment due.
+
   Interest waived under periodic accrual is taken off what is accrued (the part of a waiver that was never
   accrued is kept as unrecognized income). Fees and penalties are not accrued: loans have no charges yet.
   """
@@ -22,15 +26,18 @@ defmodule ECBLoans.Loans.AccrualJob do
   @accrual 10
   @waive_interest 4
 
-  @doc "Runs the job on behalf of `user`."
-  @spec run(struct) :: :ok
-  def run(user) do
+  @doc """
+  Runs the job on behalf of `user`: `:periodic` accrues every installment that has started (the periodic job),
+  `:installments` only the ones that have fallen due.
+  """
+  @spec run(struct, :periodic | :installments) :: :ok
+  def run(user, mode \\ :periodic) do
     till = BusinessDate.current()
-    Enum.each(loan_ids(till), &accrue_loan!(user, &1, till))
+    Enum.each(loan_ids(till, mode), &accrue_loan!(user, &1, till, mode))
   end
 
   # the active loans of periodic accrual products with an installment that has started and has interest to accrue
-  defp loan_ids(till) do
+  defp loan_ids(till, mode) do
     TenantRepo.query!(
       """
       SELECT l.id FROM m_loan l
@@ -46,9 +53,7 @@ defmodule ECBLoans.Loans.AccrualJob do
                     <> COALESCE(s.accrual_fee_charges_derived, 0)
                    OR COALESCE(s.penalty_charges_amount, 0) - COALESCE(s.penalty_charges_waived_derived, 0)
                     <> COALESCE(s.accrual_penalty_charges_derived, 0))
-              AND (s.fromdate < $1
-                   OR (s.installment = (SELECT min(x.installment) FROM m_loan_repayment_schedule x WHERE x.loan_id = l.id)
-                       AND s.fromdate = $1)))
+              AND #{started_sql(mode)})
        ORDER BY l.id
       """,
       [till]
@@ -56,7 +61,17 @@ defmodule ECBLoans.Loans.AccrualJob do
     |> Enum.map(&hd/1)
   end
 
-  defp accrue_loan!(user, loan_id, business_date) do
+  defp started_sql(:periodic) do
+    """
+    (s.fromdate < $1
+     OR (s.installment = (SELECT min(x.installment) FROM m_loan_repayment_schedule x WHERE x.loan_id = l.id)
+         AND s.fromdate = $1))
+    """
+  end
+
+  defp started_sql(:installments), do: "s.duedate <= $1"
+
+  defp accrue_loan!(user, loan_id, business_date, mode) do
     loan = Loans.fetch!(loan_id)
     product = ECBLoans.LoanProducts.fetch!(loan.product_id)
     rows = Loans.installments(loan_id)
@@ -69,7 +84,7 @@ defmodule ECBLoans.Loans.AccrualJob do
 
     first = rows |> Enum.map(& &1.installment) |> Enum.min()
 
-    started = Enum.filter(rows, &started?(&1, till, &1.installment == first))
+    started = Enum.filter(rows, &started?(&1, till, &1.installment == first, mode))
 
     context = %{
       loan: loan,
@@ -93,9 +108,10 @@ defmodule ECBLoans.Loans.AccrualJob do
     :ok
   end
 
-  # an installment is accrued once the day is not before its period
-  defp started?(row, till, true), do: Date.compare(till, row.from_date) != :lt
-  defp started?(row, till, false), do: Date.compare(till, row.from_date) == :gt
+  # an installment is accrued once the day is not before its period, or (for whole installments) its due date
+  defp started?(row, till, _first?, :installments), do: Date.compare(till, row.due_date) != :lt
+  defp started?(row, till, true, :periodic), do: Date.compare(till, row.from_date) != :lt
+  defp started?(row, till, false, :periodic), do: Date.compare(till, row.from_date) == :gt
 
   # what was accrued after the last due date is taken back
   defp take_back_after!(user, loan, last_due) do
