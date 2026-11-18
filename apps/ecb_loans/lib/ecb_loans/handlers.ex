@@ -161,6 +161,25 @@ defmodule ECBLoans.Handlers do
       do: fun.(user, command.entity_id, command.subentity_id, Params.parse!(command.json))
   end
 
+  defmodule RescheduleLoan do
+    @moduledoc "Every action on `RESCHEDULELOAN`: ask for a loan to be rescheduled, approve or reject the request."
+    @behaviour ECBPlatform.Commands.Handler
+
+    alias ECBLoans.Loans.Reschedule
+    alias ECBLoans.RescheduleRequests
+    alias ECBPlatform.Params
+
+    @impl true
+    def process(%{action_name: "CREATE"} = command, user),
+      do: {:ok, RescheduleRequests.create!(user, Params.parse!(command.json))}
+
+    def process(%{action_name: "APPROVE"} = command, user),
+      do: {:ok, Reschedule.approve!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "REJECT"} = command, user),
+      do: {:ok, RescheduleRequests.reject!(user, command.entity_id, Params.parse!(command.json))}
+  end
+
   defmodule Collateral do
     @moduledoc "Every action on `COLLATERAL`: add a collateral to a loan, change its description, remove it."
     @behaviour ECBPlatform.Commands.Handler

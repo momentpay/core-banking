@@ -210,10 +210,30 @@ defmodule ECBPlatform.Params do
       nil ->
         nil
 
-      _text ->
+      text ->
         require_locale!(params, key)
-        integer(params, key)
+
+        case Integer.parse(String.trim(text)) do
+          {number, ""} -> number
+          _ -> raise_locale_integer_error(key, text, locale(params))
+        end
     end
+  end
+
+  defp raise_locale_integer_error(key, text, locale) do
+    raise PlatformApiDataValidation,
+      errors: [
+        key
+        |> then(fn key ->
+          Errors.parameter_error(
+            "validation.msg.invalid.integer.format",
+            "The parameter `#{key}` has value: #{text} which is invalid integer value for provided locale of [#{locale}].",
+            key,
+            [text, locale]
+          )
+        end)
+        |> Map.put(:value, text)
+      ]
   end
 
   @doc """

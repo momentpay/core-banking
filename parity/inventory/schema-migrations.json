@@ -286,6 +286,17 @@
         "m_guarantor_funding_details",
         "m_guarantor_transaction"
       ]
+    },
+    {
+      "kind": "schema",
+      "app": "ecb_loans",
+      "version": "20261118140000",
+      "name": "create_reschedule_tables",
+      "tables": [
+        "m_loan_reschedule_request",
+        "m_loan_reschedule_request_term_variations_mapping",
+        "m_loan_repayment_schedule_history"
+      ]
     }
   ],
   "deferred_foreign_keys": [

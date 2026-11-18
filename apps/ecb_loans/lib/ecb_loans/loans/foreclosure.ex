@@ -352,8 +352,11 @@ defmodule ECBLoans.Loans.Foreclosure do
 
   # --- the accruals ----------------------------------------------------------------------------
 
-  # the interest booked as accrued when the loan was paid out is booked again for what the schedule now charges
-  defp make_accruals_again!(user, loan, product) do
+  @doc """
+  The interest booked as accrued when the loan was paid out is booked again for what the schedule now charges.
+  """
+  @spec make_accruals_again!(struct, map, map) :: :ok
+  def make_accruals_again!(user, loan, product) do
     if Accruals.at_disbursement?(product) do
       old =
         TenantRepo.all(

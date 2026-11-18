@@ -4,7 +4,7 @@ defmodule ECBLoans.Schedule do
   carries. A port of Fineract's cumulative schedule generators
   (`AbstractCumulativeLoanScheduleGenerator`, `CumulativeDecliningBalanceInterestLoanScheduleGenerator`,
   `CumulativeFlatInterestLoanScheduleGenerator`) and of the parts of `LoanApplicationTerms` they use, for the core
-  term loan: one disbursement, no interest recalculation, no variations of the terms, no down payment.
+  term loan: one disbursement, no interest recalculation, no down payment.
 
   Amounts are `ECBMoney`, rounded to the currency's decimals after every step as Fineract rounds them, and the
   rate arithmetic carries 19 significant digits. `generate/1` takes the loan's terms (see
@@ -12,11 +12,24 @@ defmodule ECBLoans.Schedule do
 
   The EMI of an equal-installment loan comes from the spreadsheet `PMT` formula worked in floating point, as in
   Fineract; everything else is decimal.
+
+  A schedule can also be worked out again in the middle (`generate/2` with `:variations` and `:resume`), as a
+  loan reschedule does: the installments before the date are kept as they are, and the rest is made again with
+  the *term variations* an approved reschedule request gives (a moved due date, a new rate from an installment,
+  grace on principal or interest, extra installments). The variations are maps
+  `%{id:, type:, from:, decimal:, date:, specific?:}` with Fineract's type numbers (see `@types`).
   """
   alias ECBLoans.Schedule.{Charges, Dates, Rates}
   alias ECBMoney.Precision
 
   @max_periods 10_000
+
+  # Fineract's `LoanTermVariationType`
+  @due_date 4
+  @grace_on_interest 7
+  @grace_on_principal 8
+  @extend_repayment_period 9
+  @interest_rate_from_installment 10
 
   @type period :: %{
           number: pos_integer,
@@ -33,20 +46,24 @@ defmodule ECBLoans.Schedule do
   @doc """
   The schedule for `terms`: `%{periods: [period], disbursement_date:, total_principal_expected:,
   total_interest:, total_fees:, total_penalties:, total_repayment_expected:, loan_term_in_days:}`.
-  """
-  @spec generate(map) :: map
-  def generate(terms) do
-    zero = ECBMoney.zero(terms.currency, terms.context)
-    terms = Map.put(terms, :loan_end_date, Dates.last_repayment_date(terms))
 
-    total_interest_due = if flat?(terms), do: total_interest_charged(terms, zero), else: zero
+  Options: `:variations` (the term variations to apply) and `:resume`, `%{periods: [period],
+  total_interest_due: ECBMoney.t()}`: the installments that stay, which the schedule carries on from.
+  """
+  @spec generate(map, keyword) :: map
+  def generate(terms, opts \\ []) do
+    zero = ECBMoney.zero(terms.currency, terms.context)
+    terms = terms |> Map.put(:loan_end_date, Dates.last_repayment_date(terms)) |> with_graces()
+    variations = opts |> Keyword.get(:variations, []) |> sort_variations()
+    terms = end_date_from_variation(terms, variations)
+
     first_date = Dates.next_repayment_date(terms.repayment_start, terms, true)
     ideal = Dates.minus(first_date, terms.repayment_frequency, terms.repayment_every)
 
     state = %{
       terms: terms,
       zero: zero,
-      total_interest_due: total_interest_due,
+      total_interest_due: zero,
       first_repayment_date: first_date,
       ideal_disbursement_date: ideal,
       fixed_emi: nil,
@@ -64,16 +81,99 @@ defmodule ECBLoans.Schedule do
       total_repayment: zero,
       interest_due_to_grace: zero,
       term_days: 0,
-      periods: []
+      periods: [],
+      # what the variations changed on the way
+      exclude_periods: 0,
+      periods_completed: 0,
+      principal_accounted: zero,
+      interest_accounted: zero,
+      principal_accounted_for_interest: zero,
+      exceptions:
+        Enum.filter(
+          variations,
+          &(&1.type in [@grace_on_interest, @grace_on_principal, @extend_repayment_period])
+        ),
+      due_dates: Enum.filter(variations, &(&1.type == @due_date)),
+      rates_from_installment:
+        Enum.filter(variations, &(&1.type == @interest_rate_from_installment)),
+      processed: MapSet.new()
     }
 
-    state |> start_amortization() |> loop() |> finish() |> with_charges(terms)
+    state = %{state | total_interest_due: initial_interest_due(state)}
+
+    state
+    |> start_amortization()
+    |> resume(Keyword.get(opts, :resume))
+    |> loop()
+    |> finish()
+    |> with_charges(terms)
   end
 
   defp with_charges(schedule, terms) do
     {schedule, details} = Charges.apply_to(schedule, terms)
     Map.put(schedule, :charge_details, details)
   end
+
+  # the period numbers the grace on principal and on interest apply to (Fineract keeps them as sets, as
+  # variations can add more)
+  defp with_graces(terms) do
+    terms
+    |> Map.put(:principal_set, MapSet.new(1..terms.grace_principal//1))
+    |> Map.put(:interest_set, MapSet.new(1..terms.grace_interest//1))
+  end
+
+  defp sort_variations(variations) do
+    Enum.sort_by(variations, fn v -> {Date.to_gregorian_days(v.from), same_date_order(v.type)} end)
+  end
+
+  # `LoanTermVariationsData.sameDateOrder`: a due date first, then the graces, the extension, the rest
+  defp same_date_order(@due_date), do: -1
+  defp same_date_order(@grace_on_interest), do: 0
+  defp same_date_order(@grace_on_principal), do: 0
+  defp same_date_order(@extend_repayment_period), do: 1
+  defp same_date_order(_), do: 2
+
+  # a due date variation on the loan's last date moves the end of the loan
+  defp end_date_from_variation(terms, variations) do
+    case Enum.find(variations, &(&1.type == @due_date and &1.from == terms.loan_end_date)) do
+      nil -> terms
+      variation -> %{terms | loan_end_date: variation.date}
+    end
+  end
+
+  defp initial_interest_due(%{terms: terms, zero: zero} = state),
+    do: if(flat?(terms), do: total_interest_charged(state), else: zero)
+
+  # --- carrying on from the installments that stay ------------------------------------------------
+
+  defp resume(state, nil), do: state
+
+  defp resume(state, %{periods: kept, total_interest_due: total}) do
+    principal = sum(kept, :principal, state.zero)
+    interest = sum(kept, :interest, state.zero)
+    last = List.last(kept)
+
+    %{
+      state
+      | periods: kept,
+        period_number: length(kept) + 1,
+        period_start: last.due,
+        actual_date: last.due,
+        first?: false,
+        balance: ECBMoney.minus(state.terms.principal, principal),
+        balance_per_rest: ECBMoney.minus(state.terms.principal, principal),
+        cumulative_principal: principal,
+        cumulative_interest: interest,
+        total_repayment: sum(kept, :total, state.zero),
+        total_fees: sum(kept, :fees, state.zero),
+        total_penalties: sum(kept, :penalties, state.zero),
+        total_interest_due: total,
+        term_days: Dates.days_between(last.from, last.due)
+    }
+  end
+
+  defp sum(periods, key, zero),
+    do: Enum.reduce(periods, zero, &ECBMoney.plus(&2, Map.fetch!(&1, key)))
 
   # --- amortization set-up ------------------------------------------------------------------
 
@@ -102,11 +202,14 @@ defmodule ECBLoans.Schedule do
 
   defp next_period(%{terms: terms} = state) do
     due = Dates.next_repayment_date(state.actual_date, terms, state.first?)
+    state = %{state | first?: false}
+    {state, due} = apply_variations(state, due)
     start = state.period_start
 
     if Date.compare(start, due) == :gt,
       do: raise(ArgumentError, "Due date can't be before period start date")
 
+    state = ensure_emi(state)
     interest_from = interest_start_date(state, start)
     {principal, interest, grace_interest} = principal_and_interest(state, interest_from, due)
 
@@ -135,7 +238,6 @@ defmodule ECBLoans.Schedule do
       state
       | periods: state.periods ++ [period],
         actual_date: due,
-        first?: false,
         period_start: due,
         period_number: state.period_number + 1,
         balance: balance,
@@ -147,6 +249,13 @@ defmodule ECBLoans.Schedule do
         term_days: state.term_days + Dates.days_between(start, due)
     }
   end
+
+  # An EMI that a variation took away is worked out again from what is left when it is next needed
+  # (`LoanApplicationTerms.paymentPerPeriod`).
+  defp ensure_emi(%{fixed_emi: nil, terms: %{amortization: 1, interest_method: 0}} = state),
+    do: %{state | fixed_emi: emi(state, state.balance_per_rest, state.period_number)}
+
+  defp ensure_emi(state), do: state
 
   defp interest_start_date(state, start) do
     terms = state.terms
@@ -191,6 +300,144 @@ defmodule ECBLoans.Schedule do
       total_repayment_expected: state.total_repayment,
       loan_term_in_days: state.term_days
     }
+  end
+
+  # --- the term variations ------------------------------------------------------------------------
+
+  # `applyLoanTermVariations`: what a reschedule changes, applied as the schedule reaches it. Returns the state
+  # and the due date of the period (a moved due date changes it).
+  defp apply_variations(state, due) do
+    {state, due} = due_date_variation(state, due)
+    state = rates_from_installment(state, due)
+    {exceptions(state, due), due}
+  end
+
+  # a due date that moves applies to the one date it was asked for
+  defp due_date_variation(%{due_dates: [variation | rest]} = state, due) do
+    cond do
+      Date.compare(variation.from, due) == :gt -> {state, due}
+      variation.from == due -> {moved(%{state | due_dates: rest}, variation), variation.date}
+      true -> {%{state | due_dates: rest}, due}
+    end
+  end
+
+  defp due_date_variation(state, due), do: {state, due}
+
+  # the next due dates follow the new one, unless the move is for that installment alone
+  defp moved(state, %{specific?: true}), do: state
+  defp moved(state, variation), do: %{state | actual_date: variation.date}
+
+  defp rates_from_installment(state, due) do
+    Enum.reduce(state.rates_from_installment, state, fn variation, state ->
+      if Date.compare(variation.from, due) != :gt and variation.decimal != nil and
+           not MapSet.member?(state.processed, variation.id) do
+        state |> new_rate(variation.decimal) |> mark(variation)
+      else
+        state
+      end
+    end)
+  end
+
+  defp new_rate(%{terms: terms} = state, rate) do
+    state = %{state | terms: %{terms | annual_rate: rate}, fixed_emi: nil}
+
+    if flat?(terms) do
+      state = %{state | principal_accounted_for_interest: state.cumulative_principal}
+      total = ECBMoney.plus(total_interest_charged(state), state.cumulative_interest)
+      %{state | total_interest_due: total, exclude_periods: state.period_number - 1}
+    else
+      state
+    end
+  end
+
+  defp mark(state, variation), do: %{state | processed: MapSet.put(state.processed, variation.id)}
+
+  # the extension and the graces, in order, up to the date
+  defp exceptions(%{exceptions: [variation | rest]} = state, due) do
+    if Date.compare(variation.from, due) == :gt do
+      state
+    else
+      state |> Map.put(:exceptions, rest) |> exception(variation) |> exceptions(due)
+    end
+  end
+
+  defp exceptions(state, _due), do: state
+
+  defp exception(%{terms: terms} = state, %{type: @extend_repayment_period} = variation) do
+    count = terms.number_of_repayments + Decimal.to_integer(variation.decimal)
+    terms = %{terms | number_of_repayments: count}
+    terms = %{terms | loan_end_date: Dates.last_repayment_date(terms)}
+
+    state = %{
+      state
+      | terms: terms,
+        periods_completed: state.period_number - 1,
+        principal_accounted: state.cumulative_principal,
+        interest_accounted: state.cumulative_interest
+    }
+
+    state |> adjust_installment_or_principal() |> mark(variation)
+  end
+
+  defp exception(%{terms: terms} = state, %{type: @grace_on_principal} = variation) do
+    count = Decimal.to_integer(variation.decimal)
+    terms = %{terms | grace_principal: count, grace_interest: 0}
+    state |> Map.put(:terms, terms) |> add_grace_periods() |> mark(variation)
+  end
+
+  defp exception(%{terms: terms} = state, %{type: @grace_on_interest} = variation) do
+    count = Decimal.to_integer(variation.decimal)
+    terms = %{terms | grace_interest: count, grace_principal: 0}
+
+    state
+    |> Map.put(:terms, terms)
+    |> add_grace_periods()
+    |> Map.put(:interest_accounted, state.cumulative_interest)
+    |> mark(variation)
+  end
+
+  # `updatePeriodNumberApplicableForPrincipalOrInterestGrace`: the next periods are grace periods
+  defp add_grace_periods(%{terms: terms} = state) do
+    first = state.period_number
+
+    principal =
+      if terms.grace_principal > 0,
+        do: Enum.to_list(first..(first + terms.grace_principal - 1)),
+        else: []
+
+    interest =
+      if terms.grace_interest > 0,
+        do: Enum.to_list(first..(first + terms.grace_interest - 1)),
+        else: []
+
+    terms = %{
+      terms
+      | principal_set: MapSet.union(terms.principal_set, MapSet.new(principal)),
+        interest_set: MapSet.union(terms.interest_set, MapSet.new(interest))
+    }
+
+    %{state | terms: terms}
+  end
+
+  # `adjustInstallmentOrPrincipalAmount`: what is left to pay is spread over the periods that are left
+  defp adjust_installment_or_principal(%{terms: terms} = state) do
+    left = ECBMoney.minus(terms.principal, state.cumulative_principal)
+
+    cond do
+      not ECBMoney.positive?(left) ->
+        state
+
+      terms.amortization == 0 ->
+        count = remaining_principal_periods(terms, state.period_number - 1)
+        %{state | fixed_principal: ECBMoney.divide(left, count)}
+
+      terms.interest_method == 0 ->
+        period = max(state.period_number, terms.grace_principal + 1)
+        %{state | fixed_emi: emi(state, left, period)}
+
+      true ->
+        state
+    end
   end
 
   # --- principal and interest of one period ------------------------------------------------------
@@ -301,7 +548,7 @@ defmodule ECBLoans.Schedule do
 
   defp flat_interest(%{terms: terms} = state, number, carried) do
     zero = ECBMoney.zero(terms.currency, terms.context)
-    per = flat_per_installment(terms, zero)
+    per = flat_per_installment(state)
 
     cond do
       interest_payment_grace?(terms, number) ->
@@ -311,7 +558,6 @@ defmodule ECBLoans.Schedule do
         {zero, carried}
 
       number > 0 and number == terms.grace_interest + 1 ->
-        _ = state
         {ECBMoney.plus(carried, per), zero}
 
       true ->
@@ -321,21 +567,26 @@ defmodule ECBLoans.Schedule do
 
   # equal installments: what is left of the interest, spread over the periods that carry it
   defp flat_averaged_interest(%{terms: terms} = state, number) do
-    zero = state.zero
-    total = flat_total(terms, zero)
-    per = flat_per_installment(terms, zero)
+    total = flat_total(state)
+    per = flat_per_installment(state)
     free = ECBMoney.times(per, terms.grace_interest_charged)
     real = ECBMoney.minus(total, free)
-    periods = remaining_interest_periods(terms, 0)
-    interest = ECBMoney.divide(real, periods)
 
-    grace_periods = interest_grace_periods(terms)
+    interest = ECBMoney.divide(real, remaining_interest_periods(terms, state.exclude_periods))
 
-    if grace_periods != [] do
-      elapsed = grace_periods |> Enum.filter(&(&1 < number)) |> Enum.max(fn -> 0 end)
+    interest =
+      if state.exclude_periods < state.periods_completed do
+        left = ECBMoney.minus(state.total_interest_due, state.interest_accounted)
+        ECBMoney.divide(left, remaining_interest_periods(terms, state.periods_completed))
+      else
+        interest
+      end
 
-      if elapsed > 0 do
-        left = ECBMoney.minus(state.total_interest_due, zero)
+    if MapSet.size(terms.interest_set) > 0 do
+      elapsed = last_interest_grace_period(terms, number)
+
+      if elapsed > state.exclude_periods and elapsed > state.periods_completed do
+        left = ECBMoney.minus(state.total_interest_due, state.interest_accounted)
         ECBMoney.divide(left, remaining_interest_periods(terms, elapsed))
       else
         interest
@@ -345,12 +596,17 @@ defmodule ECBLoans.Schedule do
     end
   end
 
+  defp last_interest_grace_period(terms, number) do
+    terms.interest_set |> Enum.filter(&(&1 < number)) |> Enum.max(fn -> 0 end)
+  end
+
   defp flat_principal(%{terms: terms} = state, number, interest) do
     zero = state.zero
-    count = remaining_principal_periods(terms, 0)
+    count = remaining_principal_periods(terms, state.periods_completed)
 
     per =
       terms.principal
+      |> ECBMoney.minus(state.principal_accounted)
       |> ECBMoney.divide(count)
 
     per = if principal_grace?(terms, number), do: zero, else: per
@@ -371,21 +627,32 @@ defmodule ECBLoans.Schedule do
 
   defp flat?(terms), do: terms.interest_method == 1
 
-  defp total_interest_charged(terms, zero) do
-    total = flat_total(terms, zero)
-    per = flat_per_installment(terms, zero)
+  defp total_interest_charged(%{terms: terms} = state) do
+    total = flat_total(state)
+    per = flat_per_installment(state)
     grace = ECBMoney.multiply_retain_scale(per, terms.grace_interest_charged)
     ECBMoney.minus(total, grace)
   end
 
   # all the term's interest, as if there were no grace
-  defp flat_total(terms, _zero) do
+  defp flat_total(%{terms: terms} = state) do
     rate = Rates.flat_for_term(terms)
-    ECBMoney.multiply_retain_scale(terms.principal, rate)
+
+    terms.principal
+    |> ECBMoney.minus(state.principal_accounted_for_interest)
+    |> ECBMoney.multiply_retain_scale(rate)
   end
 
-  defp flat_per_installment(terms, zero) do
-    ECBMoney.divide(flat_total(terms, zero), terms.number_of_repayments)
+  # `flatInterestPerInstallment`
+  defp flat_per_installment(%{terms: terms} = state) do
+    per = ECBMoney.divide(flat_total(state), terms.number_of_repayments - state.exclude_periods)
+
+    if state.exclude_periods < state.periods_completed do
+      left = ECBMoney.minus(state.total_interest_due, state.interest_accounted)
+      ECBMoney.divide(left, terms.number_of_repayments - state.periods_completed)
+    else
+      per
+    end
   end
 
   # --- the EMI -------------------------------------------------------------------------------
@@ -439,25 +706,19 @@ defmodule ECBLoans.Schedule do
 
   # --- grace and counting periods ----------------------------------------------------------
 
-  defp principal_grace?(terms, number), do: number >= 1 and number <= terms.grace_principal
-  defp interest_payment_grace?(terms, number), do: number >= 1 and number <= terms.grace_interest
+  defp principal_grace?(terms, number), do: MapSet.member?(terms.principal_set, number)
+  defp interest_payment_grace?(terms, number), do: MapSet.member?(terms.interest_set, number)
   defp free_period?(terms, number), do: number > 0 and number <= terms.grace_interest_charged
 
-  defp interest_grace_periods(%{grace_interest: 0}), do: []
-  defp interest_grace_periods(%{grace_interest: count}), do: Enum.to_list(1..count)
-
   defp remaining_principal_periods(terms, elapsed) do
-    graces = Enum.count(principal_grace_list(terms), &(&1 > elapsed))
+    graces = Enum.count(terms.principal_set, &(&1 > elapsed))
     terms.number_of_repayments - elapsed - graces
   end
 
   defp remaining_interest_periods(terms, elapsed) do
-    graces = Enum.count(interest_grace_periods(terms), &(&1 > elapsed))
+    graces = Enum.count(terms.interest_set, &(&1 > elapsed))
     terms.number_of_repayments - elapsed - graces - terms.grace_interest_charged
   end
-
-  defp principal_grace_list(%{grace_principal: 0}), do: []
-  defp principal_grace_list(%{grace_principal: count}), do: Enum.to_list(1..count)
 
   # --- the last installment takes up what is left --------------------------------------------
 

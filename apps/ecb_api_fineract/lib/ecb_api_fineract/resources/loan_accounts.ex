@@ -237,8 +237,12 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     |> put("loanPurposeName", l.loan_purpose_name)
   end
 
-  # the installments the loan has now (a loan settled early has fewer than it was made for)
+  # the installments the loan has now (a loan settled early has fewer than it was made for, one that was
+  # rescheduled may have more)
   defp actual_term(%{loan_status_id: 600, loan_sub_status_id: 100} = l),
+    do: l.id |> ECBLoans.Loans.installments() |> length()
+
+  defp actual_term(%{rescheduledon_date: %Date{}} = l),
     do: l.id |> ECBLoans.Loans.installments() |> length()
 
   defp actual_term(l), do: l.number_of_repayments
@@ -647,10 +651,16 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       |> Map.put("disbursementDetails", [])
       |> Map.put("originators", [])
       |> Map.put("emiAmountVariations", [])
-      |> Map.put("loanTermVariations", [])
+      |> Map.put("loanTermVariations", term_variations(loan))
       |> Map.put("delinquent", delinquent(loan))
     end)
   end
+
+  defp term_variations(loan),
+    do:
+      loan.id
+      |> ECBLoans.RescheduleRequests.loan_variations()
+      |> Enum.map(&ECBApiFineract.Resources.RescheduleLoans.variation/1)
 
   @type_flags ~w(disbursement repaymentAtDisbursement repayment merchantIssuedRefund payoutRefund goodwillCredit
                  interestPaymentWaiver chargeRefund contra waiveInterest waiveCharges accrual writeOff

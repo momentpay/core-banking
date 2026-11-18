@@ -107,7 +107,7 @@ defmodule ECBLoans.Loans do
   l.days_in_month_enum, l.days_in_year_enum, l.interest_recalculation_enabled, l.repayment_start_date_type_enum,
   l.created_by, l.approvedon_userid, l.disbursedon_userid, l.closedon_userid, l.rejectedon_userid,
   l.withdrawnon_userid, l.is_npa, l.loan_product_counter, l.is_charged_off, l.charged_off_on_date, l.loan_sub_status_id,
-  l.charge_off_reason_cv_id, l.charged_off_by_userid,
+  l.charge_off_reason_cv_id, l.charged_off_by_userid, l.rescheduledon_date,
   l.principal_disbursed_derived, l.principal_repaid_derived, l.principal_writtenoff_derived,
   l.principal_outstanding_derived, l.interest_charged_derived, l.interest_repaid_derived,
   l.interest_waived_derived, l.interest_writtenoff_derived, l.interest_outstanding_derived,

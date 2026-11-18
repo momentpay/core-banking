@@ -46,6 +46,7 @@ defmodule ECBApiFineract.ApiRouter do
     PaymentTypes,
     Provisioning,
     Rates,
+    RescheduleLoans,
     SavingsProducts,
     Staff,
     Taxes
@@ -228,6 +229,12 @@ defmodule ECBApiFineract.ApiRouter do
 
   delete "/v1/loans/:id/guarantors/:guarantor_id",
     do: LoanGuarantors.delete(conn, id, guarantor_id)
+
+  get "/v1/rescheduleloans/template", do: RescheduleLoans.template(conn)
+  get "/v1/rescheduleloans/:id", do: RescheduleLoans.show(conn, id)
+  get "/v1/rescheduleloans", do: RescheduleLoans.index(conn)
+  post "/v1/rescheduleloans/:id", do: RescheduleLoans.command(conn, id)
+  post "/v1/rescheduleloans", do: RescheduleLoans.create(conn)
 
   get "/v1/loans/:id/collaterals/template", do: LoanCollaterals.template(conn, id)
 

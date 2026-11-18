@@ -427,7 +427,7 @@ defmodule ECBLoans.Loans.Transitions do
     product = ECBLoans.LoanProducts.fetch!(loan.product_id)
     disbursed_on = Keyword.get(opts, :disbursed_on) || loan.expected_disbursedon_date
     charges = Keyword.get(opts, :charges) || ChargeRows.params(id)
-    terms = Request.terms(loan_params(loan, disbursed_on, charges), product)
+    terms = stored_terms(loan, product, disbursed_on, charges)
     schedule = Schedule.generate(terms)
     last = List.last(schedule.periods)
 
@@ -442,6 +442,11 @@ defmodule ECBLoans.Loans.Transitions do
 
     update!(id, [expected_maturedon_date: last.due, maturedon_date: last.due], user)
   end
+
+  @doc "The terms the loan's schedule is worked out from, as the loan stores them."
+  @spec stored_terms(map, map, Date.t(), [map]) :: map
+  def stored_terms(loan, product, disbursed_on, charges),
+    do: Request.terms(loan_params(loan, disbursed_on, charges), product)
 
   # the loan's stored terms, said the way a request would say them
   defp loan_params(loan, disbursed_on, charges) do
