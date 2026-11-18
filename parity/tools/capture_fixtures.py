@@ -275,6 +275,7 @@ RESETS = {
         "DELETE FROM m_loan",
         "SELECT setval(pg_get_serial_sequence('m_loan', 'id'), 1, false)",
         "SELECT setval(pg_get_serial_sequence('m_note', 'id'), 1, false)",
+        "SELECT setval(pg_get_serial_sequence('m_loan_collateral', 'id'), 1, false)",
         "SELECT setval(pg_get_serial_sequence('m_loan_repayment_schedule', 'id'), 1, false)",
         "SELECT setval(pg_get_serial_sequence('m_loan_transaction', 'id'), 1, false)",
         "SELECT setval(pg_get_serial_sequence('m_loan_status_change_history', 'id'), 1, false)",

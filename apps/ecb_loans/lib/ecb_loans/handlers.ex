@@ -156,4 +156,29 @@ defmodule ECBLoans.Handlers do
     defp charge_action(fun, command, user),
       do: fun.(user, command.entity_id, command.subentity_id, Params.parse!(command.json))
   end
+
+  defmodule Collateral do
+    @moduledoc "Every action on `COLLATERAL`: add a collateral to a loan, change its description, remove it."
+    @behaviour ECBPlatform.Commands.Handler
+
+    alias ECBLoans.Collaterals
+    alias ECBPlatform.Params
+
+    @impl true
+    def process(%{action_name: "CREATE"} = command, user),
+      do: {:ok, Collaterals.create!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "UPDATE"} = command, user) do
+      {:ok,
+       Collaterals.update!(
+         user,
+         command.entity_id,
+         command.subentity_id,
+         Params.parse!(command.json)
+       )}
+    end
+
+    def process(%{action_name: "DELETE"} = command, user),
+      do: {:ok, Collaterals.delete!(user, command.entity_id, command.subentity_id)}
+  end
 end

@@ -266,6 +266,15 @@
       "tables": [
         "m_loan_overdue_installment_charge"
       ]
+    },
+    {
+      "kind": "schema",
+      "app": "ecb_loans",
+      "version": "20261118120000",
+      "name": "create_loan_collateral",
+      "tables": [
+        "m_loan_collateral"
+      ]
     }
   ],
   "deferred_foreign_keys": [

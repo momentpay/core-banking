@@ -94,6 +94,7 @@ defmodule ECBLoans.Schedule.Request do
     check_client_given!(p, client)
     check!(p, product, client)
     check_schedule!(p)
+    check_collateral_is_list!(p)
     refuse_beyond_core!(p)
 
     terms = terms(p, product)
@@ -623,6 +624,29 @@ defmodule ECBLoans.Schedule.Request do
       true ->
         _ = product
         :ok
+    end
+  end
+
+  # collateral is a list of items; anything else is Fineract's validation error (a list of items is refused below)
+  defp check_collateral_is_list!(p) do
+    case Params.value(p, "collateral") do
+      nil ->
+        :ok
+
+      list when is_list(list) ->
+        :ok
+
+      _ ->
+        raise ECBPlatform.Errors.PlatformApiDataValidation,
+          errors: [
+            %{
+              code: "validation.msg.loan.collateral.is.not.an.array",
+              developer_message: "The parameter `collateral` is not an array.",
+              default_message: "The parameter `collateral` is not an array.",
+              parameter: "collateral",
+              args: []
+            }
+          ]
     end
   end
 

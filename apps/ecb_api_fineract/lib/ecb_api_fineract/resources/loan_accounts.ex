@@ -566,6 +566,10 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
 
   defp loan_charge_currency(loan), do: Map.delete(currency(loan), "inMultiplesOf")
 
+  @doc "The loan's currency as shown with a charge or a collateral (without its multiples)."
+  @spec charge_currency_json(map) :: map
+  def charge_currency_json(loan), do: loan_charge_currency(loan)
+
   defp charge_option(kind, id) do
     option = apply(ECBCatalog.Charges.Enums, kind, [id])
     %{"id" => option.id, "code" => option.code, "value" => option.value}

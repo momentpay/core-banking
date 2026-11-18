@@ -33,6 +33,7 @@ defmodule ECBApiFineract.ApiRouter do
     JournalEntries,
     LoanAccounts,
     LoanCharges,
+    LoanCollaterals,
     LoanProducts,
     Loans,
     LoanTemplate,
@@ -211,6 +212,20 @@ defmodule ECBApiFineract.ApiRouter do
     do: LoanAccounts.show_transaction(conn, id, transaction_id)
 
   get "/v1/loans/:id/transactions", do: LoanAccounts.transactions(conn, id)
+
+  get "/v1/loans/:id/collaterals/template", do: LoanCollaterals.template(conn, id)
+
+  get "/v1/loans/:id/collaterals/:collateral_id",
+    do: LoanCollaterals.show(conn, id, collateral_id)
+
+  get "/v1/loans/:id/collaterals", do: LoanCollaterals.index(conn, id)
+  post "/v1/loans/:id/collaterals", do: LoanCollaterals.create(conn, id)
+
+  put "/v1/loans/:id/collaterals/:collateral_id",
+    do: LoanCollaterals.update(conn, id, collateral_id)
+
+  delete "/v1/loans/:id/collaterals/:collateral_id",
+    do: LoanCollaterals.delete(conn, id, collateral_id)
 
   get "/v1/loans/:id/charges/template", do: LoanCharges.template(conn, id)
   get "/v1/loans/:id/charges/:charge_id", do: LoanCharges.show(conn, id, charge_id)

@@ -88,6 +88,7 @@ defmodule ECBApiFineract.ApiCase do
           "DELETE FROM m_loan_disbursement_detail",
           "DELETE FROM m_loan_term_variations",
           "DELETE FROM m_loan_account_locks",
+          "DELETE FROM m_loan_collateral",
           "DELETE FROM m_loan",
           "SELECT setval(pg_get_serial_sequence('m_loan', 'id'), 1, false)",
           "SELECT setval(pg_get_serial_sequence('m_loan_repayment_schedule', 'id'), 1, false)",
@@ -96,7 +97,8 @@ defmodule ECBApiFineract.ApiCase do
           "SELECT setval(pg_get_serial_sequence('m_loan_charge_paid_by', 'id'), 1, false)",
           "SELECT setval(pg_get_serial_sequence('m_loan_installment_charge', 'id'), 1, false)",
           "SELECT setval(pg_get_serial_sequence('m_loan_overdue_installment_charge', 'id'), 1, false)",
-          "SELECT setval(pg_get_serial_sequence('m_note', 'id'), 1, false)"
+          "SELECT setval(pg_get_serial_sequence('m_note', 'id'), 1, false)",
+          "SELECT setval(pg_get_serial_sequence('m_loan_collateral', 'id'), 1, false)"
         ] do
       TenantRepo.query!(sql)
     end
