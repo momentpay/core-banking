@@ -162,7 +162,8 @@ defmodule ECBLoans.Loans.ChargeOff do
     do: Journal.check_supported!(product, "Charging a loan off")
 
   # the latest day a user (not accrual) transaction was made, or the disbursement day
-  defp last_user_transaction_date(loan) do
+  @doc false
+  def last_user_transaction_date(loan) do
     TenantRepo.all(
       from(t in "m_loan_transaction",
         where:

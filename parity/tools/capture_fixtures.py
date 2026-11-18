@@ -265,6 +265,7 @@ RESETS = {
         "DELETE FROM m_loan_term_variations",
         "DELETE FROM m_loan_account_locks",
         "DELETE FROM m_loan_collateral",
+        "DELETE FROM m_loan_repayment_schedule_history",
         "DELETE FROM m_guarantor_transaction",
         "DELETE FROM m_guarantor_funding_details",
         "DELETE FROM m_guarantor",

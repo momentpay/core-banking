@@ -191,7 +191,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       "termFrequency" => l.term_frequency,
       "termPeriodFrequencyType" => term_frequency(l.term_period_frequency_enum),
       "numberOfRepayments" => l.number_of_repayments,
-      "actualNoTerm" => l.number_of_repayments,
+      "actualNoTerm" => actual_term(l),
       "repaymentEvery" => l.repay_every,
       "repaymentFrequencyType" => option(:repayment_frequency, l.repayment_period_frequency_enum),
       "interestRatePerPeriod" => l.nominal_interest_rate_per_period,
@@ -215,6 +215,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     })
     |> put("summary", summary(l))
     |> Map.put("chargedOff", l.is_charged_off == true)
+    |> put("subStatus", sub_status(l.loan_sub_status_id))
     |> put("totalOverpaid", l.total_overpaid_derived)
     |> put("overpaidOnDate", l.overpaidon_date)
     |> Map.put("paidInAdvance", %{"paidInAdvance" => paid_in_advance(l)})
@@ -235,6 +236,21 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     |> put("loanPurposeId", l.loanpurpose_cv_id)
     |> put("loanPurposeName", l.loan_purpose_name)
   end
+
+  # the installments the loan has now (a loan settled early has fewer than it was made for)
+  defp actual_term(%{loan_status_id: 600, loan_sub_status_id: 100} = l),
+    do: l.id |> ECBLoans.Loans.installments() |> length()
+
+  defp actual_term(l), do: l.number_of_repayments
+
+  defp sub_status(100),
+    do: %{
+      "id" => 100,
+      "code" => "loanSubStatus.loanSubStatusType.foreclosed",
+      "value" => "Foreclosed"
+    }
+
+  defp sub_status(_other), do: nil
 
   # The running totals of a loan that has left the approval stage (all zero for one that never paid out)
   defp summary(%{loan_status_id: status}) when status in [100, 200], do: nil
@@ -1512,7 +1528,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   end
 
   # the commands Fineract has for a loan transaction that are not built yet: refused, not taken for unknown ones
-  @not_built_transactions ~w(interestPaymentWaiver chargeRefund refundByCash foreclosure down-payment
+  @not_built_transactions ~w(interestPaymentWaiver chargeRefund refundByCash down-payment
                              reAge undo-reAge reAmortize undo-reAmortize capitalizedIncome buyDownFee)
 
   # `command=` of a transaction, and the action it runs
@@ -1526,6 +1542,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     "close-rescheduled" => "CLOSEASRESCHEDULED",
     "close" => "CLOSE",
     "charge-off" => "CHARGEOFF",
+    "foreclosure" => "FORECLOSURE",
     "undo-charge-off" => "UNDOCHARGEOFF",
     "creditBalanceRefund" => "CREDITBALANCEREFUND",
     "waiveinterest" => "WAIVEINTERESTPORTION",

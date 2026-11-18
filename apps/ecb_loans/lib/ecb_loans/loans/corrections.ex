@@ -65,6 +65,7 @@ defmodule ECBLoans.Loans.Corrections do
 
     loan = Loans.fetch!(id)
     tx = transaction!(id, tid)
+    check_not_foreclosed!(loan)
     ChargeOff.guard_change!(loan, tx, amount)
     check_adjustable!(loan, tx)
     refuse_if_later!(loan, tx)
@@ -92,6 +93,15 @@ defmodule ECBLoans.Loans.Corrections do
       changes: Repay.changes(p)
     )
   end
+
+  defp check_not_foreclosed!(%{loan_status_id: 600, loan_sub_status_id: 100} = loan) do
+    raise DomainRuleViolation,
+      code: "loan.cannot.be.reopened.as.it.is.foreclosured",
+      message: "The loan cannot reopened as it is foreclosed.",
+      args: [loan.id]
+  end
+
+  defp check_not_foreclosed!(_loan), do: :ok
 
   defp transaction!(loan_id, tid) do
     Loans.transaction(loan_id, tid) ||

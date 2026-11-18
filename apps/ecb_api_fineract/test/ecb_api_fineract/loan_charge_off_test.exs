@@ -143,4 +143,16 @@ defmodule ECBApiFineract.LoanChargeOffTest do
 
     post!("/v1/loans/1/transactions?command=writeoff", %{"transactionDate" => "20 April 2024"})
   end
+
+  test "a loan that is charged off cannot be foreclosed yet" do
+    conn =
+      send_json(
+        :post,
+        "/v1/loans/1/transactions?command=foreclosure",
+        Map.merge(@dates, %{"transactionDate" => "20 April 2024"})
+      )
+
+    assert conn.status == 403
+    assert code(conn) == "error.msg.loan.feature.not.supported.yet"
+  end
 end
