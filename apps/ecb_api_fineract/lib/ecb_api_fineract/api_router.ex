@@ -37,6 +37,7 @@ defmodule ECBApiFineract.ApiRouter do
     Loans,
     LoanTemplate,
     MakerCheckers,
+    Notes,
     Offices,
     Organisation,
     PaymentTypes,
@@ -169,6 +170,13 @@ defmodule ECBApiFineract.ApiRouter do
   get "/v1/savingsproducts/:id", do: SavingsProducts.show(conn, id)
   put "/v1/savingsproducts/:id", do: SavingsProducts.update(conn, id)
   delete "/v1/savingsproducts/:id", do: SavingsProducts.delete(conn, id)
+  get "/v1/accounts/share/:id/notes", do: Notes.index(conn, "accounts/share", id)
+  post "/v1/accounts/share/:id/notes", do: Notes.create(conn, "accounts/share", id)
+  get "/v1/:type/:id/notes", do: Notes.index(conn, type, id)
+  get "/v1/:type/:id/notes/:note_id", do: Notes.show(conn, type, id, note_id)
+  post "/v1/:type/:id/notes", do: Notes.create(conn, type, id)
+  put "/v1/:type/:id/notes/:note_id", do: Notes.update(conn, type, id, note_id)
+  delete "/v1/:type/:id/notes/:note_id", do: Notes.delete(conn, type, id, note_id)
   get "/v1/loans", do: LoanAccounts.index(conn)
   get "/v1/loans/template", do: LoanTemplate.show(conn)
   post "/v1/loans", do: Loans.create(conn)
