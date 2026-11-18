@@ -179,7 +179,8 @@ defmodule ECBLoans.Loans.Accruals do
     TenantRepo.all(
       from(t in "m_loan_transaction",
         where:
-          t.loan_id == ^loan_id and not t.is_reversed and t.transaction_type_enum in [2, 4, 10] and
+          t.loan_id == ^loan_id and not t.is_reversed and
+            t.transaction_type_enum in [2, 4, 10, 21, 22, 23] and
             t.transaction_date <= ^date,
         order_by: [t.transaction_date, t.id],
         select: {t.transaction_type_enum, t.interest_portion_derived}

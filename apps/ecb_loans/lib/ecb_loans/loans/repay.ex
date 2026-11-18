@@ -24,9 +24,25 @@ defmodule ECBLoans.Loans.Repay do
                 checkNumber routingCode receiptNumber bankNumber)
   @payment_fields ~w(accountNumber checkNumber routingCode receiptNumber bankNumber)
 
-  @doc "Records a repayment on loan `id`; the result carries the new transaction's id."
-  @spec repay!(struct, integer, Params.t()) :: Result.t()
-  def repay!(user, id, %Params{} = p) do
+  # the kinds of transaction that pay the installments the way a repayment does: the repayment itself, the refund a
+  # merchant issued, the refund of a payout, and a goodwill credit
+  @repayment 2
+  @merchant_issued_refund 21
+  @payout_refund 22
+  @goodwill_credit 23
+  @types [@repayment, @merchant_issued_refund, @payout_refund, @goodwill_credit]
+
+  @doc "The transaction types that are paid out of the installments like a repayment (2, 21, 22 and 23)."
+  @spec types() :: [integer]
+  def types, do: @types
+
+  @doc """
+  Records a repayment on loan `id`; the result carries the new transaction's id. `type` is the kind of repayment:
+  a plain one (2), or a merchant issued refund (21), a payout refund (22) or a goodwill credit (23), which pay the
+  installments in the same way.
+  """
+  @spec repay!(struct, integer, Params.t(), integer) :: Result.t()
+  def repay!(user, id, %Params{} = p, type \\ @repayment) do
     Params.check_supported!(p, @supported)
     on = Params.date(p, "transactionDate")
     amount = Params.decimal_with_locale(p, "transactionAmount")
@@ -52,11 +68,13 @@ defmodule ECBLoans.Loans.Repay do
     unique_external_id!(external_id)
     payment_detail_id = payment_detail!(p)
     check_status!(loan)
-    check_dates!(loan, on)
+    check_dates!(loan, on, type)
     check_accounting!(loan)
 
-    tx_id = apply!(user, loan, on, amount, payment_detail_id, external_id)
-    Loans.add_note(id, loan.client_id, note, user.id, tx_id)
+    tx_id = apply!(user, loan, on, amount, payment_detail_id, external_id, type)
+
+    # a merchant issued refund and a payout refund put their note on the loan, the other kinds on the transaction
+    Loans.add_note(id, loan.client_id, note, user.id, if(type in [21, 22], do: nil, else: tx_id))
 
     Result.new(
       office_id: loan.client_office_id,
@@ -150,8 +168,9 @@ defmodule ECBLoans.Loans.Repay do
     |> Validation.raise_if_errors!()
   end
 
+  # a merchant issued refund and a payout refund are not held to the disbursement date (Fineract does not look)
   @doc false
-  def check_dates!(loan, on) do
+  def check_dates!(loan, on, type \\ @repayment) do
     if Date.compare(on, BusinessDate.current()) == :gt do
       raise DomainRuleViolation,
         code: "error.msg.loan.transaction.cannot.be.a.future.date",
@@ -159,7 +178,8 @@ defmodule ECBLoans.Loans.Repay do
         args: [Date.to_iso8601(on)]
     end
 
-    if Date.compare(on, loan.disbursedon_date) == :lt do
+    if type not in [@merchant_issued_refund, @payout_refund] and
+         Date.compare(on, loan.disbursedon_date) == :lt do
       raise DomainRuleViolation,
         code: "error.msg.loan.transaction.cannot.be.before.disbursement.date",
         message:
@@ -174,27 +194,29 @@ defmodule ECBLoans.Loans.Repay do
   # --- the allocation -----------------------------------------------------------------------------
 
   @doc false
-  def apply!(user, loan, on, amount, payment_detail_id, external_id) do
+  def apply!(user, loan, on, amount, payment_detail_id, external_id, type \\ @repayment) do
     if Reprocess.needed?(loan.id, on) do
       new = %{
+        type: type,
         date: on,
         amount: amount,
         payment_detail_id: payment_detail_id,
         external_id: external_id
       }
 
-      Reprocess.run!(user, loan.id, new: new)
+      # a refund is saved before the transactions it changes, a repayment after them
+      Reprocess.run!(user, loan.id, new: new, first: type in [21, 22])
     else
-      apply_latest!(user, loan, on, amount, payment_detail_id, external_id)
+      apply_latest!(user, loan, on, amount, payment_detail_id, external_id, type)
     end
   end
 
-  defp apply_latest!(user, loan, on, amount, payment_detail_id, external_id) do
+  defp apply_latest!(user, loan, on, amount, payment_detail_id, external_id, type) do
     rows = Loans.installments(loan.id)
     {updates, left, portions} = allocate(rows, on, amount)
 
     tx = %{
-      type: 2,
+      type: type,
       date: on,
       amount: amount,
       principal: nil_zero(portions.principal),
@@ -456,7 +478,8 @@ defmodule ECBLoans.Loans.Repay do
     repaid =
       TenantRepo.one(
         from(t in "m_loan_transaction",
-          where: t.loan_id == ^loan.id and t.transaction_type_enum == 2 and not t.is_reversed,
+          where:
+            t.loan_id == ^loan.id and t.transaction_type_enum in ^@types and not t.is_reversed,
           select: sum(t.principal_portion_derived)
         )
       ) || Decimal.new(0)
@@ -516,7 +539,7 @@ defmodule ECBLoans.Loans.Repay do
   defp overpaid_total(loan_id) do
     TenantRepo.one(
       from(t in "m_loan_transaction",
-        where: t.loan_id == ^loan_id and t.transaction_type_enum == 2 and not t.is_reversed,
+        where: t.loan_id == ^loan_id and t.transaction_type_enum in ^@types and not t.is_reversed,
         select: sum(t.overpayment_portion_derived)
       )
     ) || Decimal.new(0)

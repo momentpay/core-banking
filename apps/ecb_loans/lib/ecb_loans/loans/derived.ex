@@ -97,9 +97,82 @@ defmodule ECBLoans.Loans.Derived do
       ]
     )
 
+    balances!(loan_id)
+
     # the arrears follow the loan whenever its totals do, as Fineract's listeners keep them
     Arrears.update!(loan_id)
   end
+
+  # the transactions that move no money and so have no balance of their own: contra, marked for rescheduling,
+  # accrual, the transfers, charge-off, accrual activity and accrual adjustment
+  @non_monetary [3, 7, 10, 12, 13, 14, 15, 27, 32, 34]
+  @adds_principal [1, 19, 35]
+
+  @doc """
+  Works out the principal still outstanding after each transaction that stands (`outstanding_loan_balance_derived`),
+  as Fineract does after every change (`LoanBalanceService.updateLoanOutstandingBalances`): the transactions in the
+  order of their date, the day they were made, the moment they were made, waivers first, and then their number;
+  a disbursement adds to the balance and the principal of the others takes from it, never below nothing.
+  """
+  @spec balances!(integer) :: :ok
+  def balances!(loan_id) do
+    # Fineract leaves a waiver of nothing without a balance
+    ordered =
+      loan_id
+      |> monetary_transactions()
+      |> Enum.reject(&(&1.type == 4 and Decimal.eq?(&1.amount, 0)))
+      |> Enum.sort_by(
+        &{Date.to_gregorian_days(&1.date), submitted_days(&1.submitted), moment(&1.created),
+         if(&1.type == 4 or &1.type == 9, do: 0, else: 1), &1.id}
+      )
+
+    _ = Enum.reduce(ordered, Decimal.new(0), &store_balance/2)
+    :ok
+  end
+
+  defp monetary_transactions(loan_id) do
+    TenantRepo.all(
+      from(t in "m_loan_transaction",
+        where:
+          t.loan_id == ^loan_id and not t.is_reversed and
+            t.transaction_type_enum not in ^@non_monetary,
+        select: %{
+          id: t.id,
+          type: t.transaction_type_enum,
+          date: t.transaction_date,
+          submitted: t.submitted_on_date,
+          created: t.created_on_utc,
+          amount: t.amount,
+          principal: t.principal_portion_derived,
+          overpayment: t.overpayment_portion_derived
+        }
+      )
+    )
+  end
+
+  # the balance after a transaction, which is kept on it; the running balance may go below nothing, what is shown
+  # does not
+  defp store_balance(t, outstanding) do
+    outstanding =
+      if t.type in @adds_principal,
+        do: outstanding |> Decimal.add(t.amount) |> Decimal.sub(t.overpayment || 0),
+        else: Decimal.sub(outstanding, t.principal || 0)
+
+    shown = if Decimal.compare(outstanding, 0) == :lt, do: Decimal.new(0), else: outstanding
+
+    TenantRepo.update_all(from(x in "m_loan_transaction", where: x.id == ^t.id),
+      set: [outstanding_loan_balance_derived: shown]
+    )
+
+    outstanding
+  end
+
+  defp submitted_days(nil), do: :infinity_days
+  defp submitted_days(date), do: Date.to_gregorian_days(date)
+
+  defp moment(nil), do: 0
+  defp moment(%DateTime{} = at), do: DateTime.to_unix(at, :microsecond)
+  defp moment(%NaiveDateTime{} = at), do: at |> DateTime.from_naive!("Etc/UTC") |> moment()
 
   # what has been paid out, from the disbursement transactions that still stand
   defp disbursed(loan_id) do

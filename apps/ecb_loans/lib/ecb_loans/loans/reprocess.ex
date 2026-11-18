@@ -21,6 +21,8 @@ defmodule ECBLoans.Loans.Reprocess do
 
   @repayment 2
   @waive_interest 4
+  # what is applied again: repayments (and the kinds that are paid like them) and waivers
+  @replayed [2, 21, 22, 23, 4]
 
   @doc """
   Whether a transaction on `date` would be before one the loan already has, so that the ones after it must be
@@ -32,7 +34,7 @@ defmodule ECBLoans.Loans.Reprocess do
       from(t in "m_loan_transaction",
         where:
           t.loan_id == ^loan_id and not t.is_reversed and
-            t.transaction_type_enum in [@repayment, @waive_interest] and
+            t.transaction_type_enum in ^@replayed and
             t.transaction_date > ^date
       )
     )
@@ -127,7 +129,7 @@ defmodule ECBLoans.Loans.Reprocess do
       from(t in "m_loan_transaction",
         where:
           t.loan_id == ^loan_id and not t.is_reversed and
-            t.transaction_type_enum in [@repayment, @waive_interest],
+            t.transaction_type_enum in ^@replayed,
         select: %{
           id: t.id,
           type: t.transaction_type_enum,
@@ -372,7 +374,7 @@ defmodule ECBLoans.Loans.Reprocess do
 
     full =
       Map.merge(
-        %{type: @repayment, date: tx.date, amount: tx.amount, balance: balance},
+        %{type: tx.type, date: tx.date, amount: tx.amount, balance: balance},
         Map.merge(Map.take(tx, [:payment_detail_id, :external_id]), now)
       )
 

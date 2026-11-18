@@ -378,7 +378,8 @@ def cmd_scenarios(args) -> int:
         (SCENARIO_DIR / f"{scenario['name']}.json").write_text(
             json.dumps({"name": scenario["name"], "reset": scenario.get("reset", []), "steps": steps}, indent=1, ensure_ascii=False) + "\n",
             encoding="utf-8", newline="\n")
-        for reset in scenario.get("reset", []):
+        # ECB_KEEP_ORACLE=1 leaves what the scenario made in the oracle, to look at it with SQL
+        for reset in ([] if os.environ.get("ECB_KEEP_ORACLE") else scenario.get("reset", [])):
             oracle_sql(RESETS[reset])  # leave the oracle as it was seeded
         count += 1
     print(f"Captured {count} scenario(s) into {SCENARIO_DIR}")

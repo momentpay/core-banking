@@ -51,6 +51,15 @@ defmodule ECBLoans.Handlers do
     def process(%{action_name: "REPAYMENT"} = command, user),
       do: {:ok, Repay.repay!(user, command.entity_id, Params.parse!(command.json))}
 
+    def process(%{action_name: "MERCHANTISSUEDREFUND"} = command, user),
+      do: {:ok, Repay.repay!(user, command.entity_id, Params.parse!(command.json), 21)}
+
+    def process(%{action_name: "PAYOUTREFUND"} = command, user),
+      do: {:ok, Repay.repay!(user, command.entity_id, Params.parse!(command.json), 22)}
+
+    def process(%{action_name: "GOODWILLCREDIT"} = command, user),
+      do: {:ok, Repay.repay!(user, command.entity_id, Params.parse!(command.json), 23)}
+
     def process(%{action_name: "ADJUST"} = command, user),
       do:
         {:ok,

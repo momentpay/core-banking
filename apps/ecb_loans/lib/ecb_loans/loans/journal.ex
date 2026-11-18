@@ -44,6 +44,11 @@ defmodule ECBLoans.Loans.Journal do
   @interest_receivable 7
   @fees_receivable 8
   @penalties_receivable 9
+  @goodwill_credit 13
+  @goodwill_interest 19
+  @goodwill_fees 20
+  @goodwill_penalties 21
+  @goodwill_credit_type 23
 
   @doc "Whether loans of the product can be posted: every accounting rule Fineract has is built."
   @spec supported?(map) :: boolean
@@ -81,13 +86,22 @@ defmodule ECBLoans.Loans.Journal do
     ])
   end
 
-  @doc "Posts the entries of a repayment: `tx` carries `amount` and the `principal`, `interest`, `fees`, `penalties` and `overpayment` portions."
+  @doc """
+  Posts the entries of a repayment: `tx` carries `amount` and the `principal`, `interest`, `fees`, `penalties` and
+  `overpayment` portions. A merchant issued refund and a payout refund are posted as a repayment is. A goodwill
+  credit (type 23) is credited the same way, but its debits go to the goodwill accounts of the product, one for
+  each part, instead of the fund source.
+  """
   @spec repayment!(struct, map, map, map) :: :ok
   def repayment!(_user, _loan, %{accounting_id: id}, _tx) when id in [nil, 1], do: :ok
 
   def repayment!(user, loan, product, tx) do
     accounts = accounts(product)
-    fund = fund_source(product, accounts, payment_type_id(tx))
+
+    debits =
+      if tx[:type] == @goodwill_credit_type,
+        do: goodwill_debits!(product, accounts, tx),
+        else: [{@debit, fund_source(product, accounts, payment_type_id(tx)), tx.amount}]
 
     if accrual?(product) do
       credits =
@@ -99,17 +113,58 @@ defmodule ECBLoans.Loans.Journal do
           {@credit, accounts[@overpayment], tx.overpayment}
         ])
 
-      post!(user, loan, tx, credits ++ [{@debit, fund, tx.amount}])
+      post!(user, loan, tx, credits ++ debits)
     else
       post!(user, loan, tx, [
         {@credit, accounts[@loan_portfolio], tx.principal},
         {@credit, accounts[@interest_on_loans], tx.interest},
         {@credit, accounts[@income_from_fees], tx.fees},
         {@credit, accounts[@income_from_penalties], tx.penalties},
-        {@credit, accounts[@overpayment], tx.overpayment},
-        {@debit, fund, tx.amount}
+        {@credit, accounts[@overpayment], tx.overpayment}
+        | debits
       ])
     end
+  end
+
+  # what a goodwill credit is charged to: the principal and the overpayment to the goodwill credit account, the
+  # interest, fees and penalties to the accounts for the income given up. A part with no account mapped fails the
+  # transaction; cash accounting has posted the credit of each part before it looks for the account of its debit.
+  defp goodwill_debits!(product, accounts, tx) do
+    parts =
+      [
+        {tx[:principal], @goodwill_credit, "GOODWILL CREDIT"},
+        {tx[:interest], @goodwill_interest, "INCOME FROM GOODWILL CREDIT INTEREST"},
+        {tx[:fees], @goodwill_fees, "INCOME FROM GOODWILL CREDIT FEES"},
+        {tx[:penalties], @goodwill_penalties, "INCOME FROM GOODWILL CREDIT PENALTY"},
+        {tx[:overpayment], @goodwill_credit, "GOODWILL CREDIT"}
+      ]
+      |> Enum.filter(fn {amount, _, _} -> amount != nil and Decimal.compare(amount, 0) == :gt end)
+
+    parts
+    |> Enum.with_index(1)
+    |> Enum.map(&goodwill_line!(&1, product, accounts))
+    |> merged()
+  end
+
+  defp goodwill_line!({{amount, placeholder, name}, position}, product, accounts) do
+    case accounts[placeholder] do
+      nil -> missing_mapping!(product, name, if(accrual?(product), do: 0, else: position))
+      account -> {@debit, account, amount}
+    end
+  end
+
+  defp missing_mapping!(product, name, burned) do
+    for _ <- 1..burned//1,
+        do:
+          TenantRepo.query!(
+            "SELECT nextval(pg_get_serial_sequence('acc_gl_journal_entry', 'id'))"
+          )
+
+    raise ECBPlatform.Errors.ResourceNotFound,
+      code: "error.msg.productToAccountMapping.not.found",
+      message:
+        "Mapping for product of type LOAN with Id #{product.id} does not exist for an account of type #{name}",
+      args: ["LOAN", product.id, name]
   end
 
   @doc """

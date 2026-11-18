@@ -368,7 +368,9 @@ defmodule ECBLoans.Loans.ChargeActions do
   defp repayments?(loan_id) do
     TenantRepo.exists?(
       from(t in "m_loan_transaction",
-        where: t.loan_id == ^loan_id and not t.is_reversed and t.transaction_type_enum in [2, 4]
+        where:
+          t.loan_id == ^loan_id and not t.is_reversed and
+            t.transaction_type_enum in [2, 4, 21, 22, 23]
       )
     )
   end

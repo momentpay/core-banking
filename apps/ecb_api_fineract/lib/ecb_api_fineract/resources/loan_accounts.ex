@@ -277,12 +277,12 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       "totalOutstanding" => l.total_outstanding_derived,
       "totalOverdue" => overdue.total,
       "totalRecovered" => l.total_recovered_derived || zero,
-      "totalMerchantRefund" => zero,
-      "totalMerchantRefundReversed" => zero,
-      "totalPayoutRefund" => zero,
-      "totalPayoutRefundReversed" => zero,
-      "totalGoodwillCredit" => zero,
-      "totalGoodwillCreditReversed" => zero,
+      "totalMerchantRefund" => nonzero(sum_transactions(l, 21, false)),
+      "totalMerchantRefundReversed" => nonzero(sum_transactions(l, 21, true)),
+      "totalPayoutRefund" => nonzero(sum_transactions(l, 22, false)),
+      "totalPayoutRefundReversed" => nonzero(sum_transactions(l, 22, true)),
+      "totalGoodwillCredit" => nonzero(sum_transactions(l, 23, false)),
+      "totalGoodwillCreditReversed" => nonzero(sum_transactions(l, 23, true)),
       "totalChargeAdjustment" => zero,
       "totalChargeAdjustmentReversed" => zero,
       "totalChargeback" => zero,
@@ -623,7 +623,12 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     6 => {"loanTransactionType.writeOff", "Close (as written-off)", "writeOff"},
     8 => {"loanTransactionType.recoveryRepayment", "Recovery Repayment", "recoveryRepayment"},
     9 => {"loanTransactionType.waiveCharges", "Waive loan charges", "waiveCharges"},
-    10 => {"loanTransactionType.accrual", "Accrual", "accrual"}
+    10 => {"loanTransactionType.accrual", "Accrual", "accrual"},
+    21 =>
+      {"loanTransactionType.merchantIssuedRefund", "Merchant Issued Refund",
+       "merchantIssuedRefund"},
+    22 => {"loanTransactionType.payoutRefund", "Payout Refund", "payoutRefund"},
+    23 => {"loanTransactionType.goodwillCredit", "Goodwill Credit", "goodwillCredit"}
   }
 
   @doc false
@@ -774,7 +779,8 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       if active?, do: Enum.reject(Loans.installments(loan.id), &(&1.completed == true)), else: []
 
     late = Enum.filter(unpaid, &(Date.compare(&1.due_date, today) == :lt))
-    last = last_repayment(loan)
+    last = last_transaction(loan, ECBLoans.Loans.Repay.types())
+    last_repayment = last_transaction(loan, [2])
 
     %{
       "availableDisbursementAmount" =>
@@ -804,7 +810,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       next_payment_due(unpaid, late, last || loan_written_off(loan), today)
     )
     |> arrears(late, today, loan.grace_on_arrears_ageing || 0)
-    |> last_payment(last)
+    |> last_payment(last, last_repayment)
   end
 
   # the earliest unpaid installment's date, or the day of the last payment when that is later;
@@ -880,22 +886,35 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   defp loan_written_off(%{writtenoffon_date: nil}), do: nil
   defp loan_written_off(loan), do: %{transaction_date: loan.writtenoffon_date}
 
-  defp last_repayment(loan) do
+  # the latest transaction standing of one of the types
+  defp last_transaction(loan, types) do
     loan.id
     |> Loans.transactions()
-    |> Enum.filter(&(&1.transaction_type_enum == 2 and not &1.is_reversed))
+    |> Enum.filter(&(&1.transaction_type_enum in types and not &1.is_reversed))
     |> List.last()
   end
 
-  defp last_payment(map, nil), do: map
-
-  defp last_payment(map, t) do
-    Map.merge(map, %{
-      "lastPaymentDate" => t.transaction_date,
-      "lastPaymentAmount" => t.amount,
-      "lastRepaymentDate" => t.transaction_date,
-      "lastRepaymentAmount" => t.amount
-    })
+  # the last payment is the last of any repayment-like transaction, the last repayment the last plain repayment
+  defp last_payment(map, payment, repayment) do
+    map
+    |> then(fn map ->
+      if payment,
+        do:
+          Map.merge(map, %{
+            "lastPaymentDate" => payment.transaction_date,
+            "lastPaymentAmount" => payment.amount
+          }),
+        else: map
+    end)
+    |> then(fn map ->
+      if repayment,
+        do:
+          Map.merge(map, %{
+            "lastRepaymentDate" => repayment.transaction_date,
+            "lastRepaymentAmount" => repayment.amount
+          }),
+        else: map
+    end)
   end
 
   # --- the repayment schedule of a stored loan ---------------------------------------------------
@@ -1187,6 +1206,11 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     end)
   end
 
+  # the commands Fineract has for a loan transaction that are not built yet: refused, not taken for unknown ones
+  @not_built_transactions ~w(interestPaymentWaiver chargeRefund close-rescheduled close undowriteoff recoverypayment
+                             refundByCash foreclosure creditBalanceRefund charge-off undo-charge-off down-payment
+                             reAge undo-reAge reAmortize undo-reAmortize capitalizedIncome buyDownFee)
+
   @doc "`POST /loans/:id/transactions?command=...`"
   def transaction_command(conn, raw_id) do
     Write.with_path_id(conn, raw_id, fn id ->
@@ -1194,11 +1218,27 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
         "repayment" ->
           Write.execute(conn, @resource, "REPAYMENT", id: id)
 
+        "merchantIssuedRefund" ->
+          Write.execute(conn, @resource, "MERCHANTISSUEDREFUND", id: id)
+
+        "payoutRefund" ->
+          Write.execute(conn, @resource, "PAYOUTREFUND", id: id)
+
+        "goodwillCredit" ->
+          Write.execute(conn, @resource, "GOODWILLCREDIT", id: id)
+
         "waiveinterest" ->
           Write.execute(conn, @resource, "WAIVEINTERESTPORTION", id: id)
 
         "writeoff" ->
           Write.execute(conn, @resource, "WRITEOFF", id: id)
+
+        command when command in @not_built_transactions ->
+          Errors.render(conn, %ECBPlatform.Errors.DomainRuleViolation{
+            code: "error.msg.loan.feature.not.supported.yet",
+            message: "The loan transaction command #{command} is not supported yet by E-CoreBank",
+            args: [command]
+          })
 
         command ->
           Errors.render(conn, %UnrecognizedQueryParameter{

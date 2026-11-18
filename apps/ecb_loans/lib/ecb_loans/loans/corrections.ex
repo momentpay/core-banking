@@ -28,7 +28,6 @@ defmodule ECBLoans.Loans.Corrections do
   alias ECBPlatform.Commands.Result
   alias ECBPlatform.Errors.{DomainRuleViolation, ResourceNotFound}
 
-  @repayment 2
   @waive_interest 4
   @write_off 6
 
@@ -107,7 +106,7 @@ defmodule ECBLoans.Loans.Corrections do
         args: [tx.id]
     end
 
-    if tx.is_reversed or tx.transaction_type_enum not in [@repayment, @waive_interest] do
+    if tx.is_reversed or tx.transaction_type_enum not in [@waive_interest | Repay.types()] do
       raise DomainRuleViolation,
         code:
           "error.msg.loan.transaction.adjustment.is.only.allowed.to.repayment.or.waiver.or.creditbalancerefund.or.capitalizedIncome.or.capitalizedIncomeAdjustment.or.buyDownFee.or.buyDownFeeAdjustment.or.chargeback.transactions",
@@ -141,7 +140,7 @@ defmodule ECBLoans.Loans.Corrections do
     loan.id
     |> Loans.transactions()
     |> Enum.any?(
-      &(&1.transaction_type_enum in [@repayment, @waive_interest] and not &1.is_reversed and
+      &(&1.transaction_type_enum in [@waive_interest | Repay.types()] and not &1.is_reversed and
           &1.id != tx.id and {&1.transaction_date, &1.id} > {tx.transaction_date, tx.id})
     )
   end
@@ -182,13 +181,13 @@ defmodule ECBLoans.Loans.Corrections do
       tx.id
     else
       new = new_repayment!(loan, p, on, amount, tx)
-      Repay.apply!(user, loan, on, amount, new.payment_detail_id, new.external_id)
+      Repay.apply!(user, loan, on, amount, new.payment_detail_id, new.external_id, new.type)
     end
   end
 
   # what a replacement repayment is made of, once it has been checked
   defp new_repayment!(loan, p, on, amount, tx) do
-    if tx.transaction_type_enum != @repayment do
+    if tx.transaction_type_enum == @waive_interest do
       raise DomainRuleViolation,
         code: "error.msg.loan.feature.not.supported.yet",
         message: "Replacing a waiver with another amount is not supported yet by E-CoreBank",
@@ -199,7 +198,14 @@ defmodule ECBLoans.Loans.Corrections do
     adjusted_external_id!(external_id)
     payment_detail_id = Repay.payment_detail!(p)
     Repay.check_dates!(loan, on)
-    %{date: on, amount: amount, payment_detail_id: payment_detail_id, external_id: external_id}
+
+    %{
+      type: tx.transaction_type_enum,
+      date: on,
+      amount: amount,
+      payment_detail_id: payment_detail_id,
+      external_id: external_id
+    }
   end
 
   # a new transaction cannot take an external id another already has; the failed save has used up an id
@@ -263,7 +269,7 @@ defmodule ECBLoans.Loans.Corrections do
     )
   end
 
-  defp unapplied(row, m, %{transaction_type_enum: @repayment} = tx) do
+  defp unapplied(row, m, %{transaction_type_enum: type} = tx) when type != @waive_interest do
     [
       principal_completed_derived: less(row.principal_completed, m.principal),
       interest_completed_derived: less(row.interest_completed, m.interest),
