@@ -51,6 +51,7 @@ defmodule ECBLoans.LoanProducts.Write do
     interest_frequency = Params.integer_in_default_locale(p, "interestRateFrequencyType")
     rate = Params.decimal_with_locale(p, "interestRatePerPeriod")
     days_in_year = Params.integer_in_default_locale(p, "daysInYearType")
+    multi = Validate.multi?(p)
 
     %{
       name: Params.command_string(p, "name"),
@@ -101,7 +102,13 @@ defmodule ECBLoans.LoanProducts.Write do
       can_use_for_topup: flag(p, "canUseForTopup"),
       enable_accrual_activity_posting: flag(p, "enableAccrualActivityPosting"),
       principal_threshold_for_last_installment:
-        Params.decimal_with_locale(p, "principalThresholdForLastInstallment") || Decimal.new(0),
+        Params.decimal_with_locale(p, "principalThresholdForLastInstallment") ||
+          Decimal.new(if(multi, do: 50, else: 0)),
+      allow_multiple_disbursals: multi,
+      max_disbursals: if(multi, do: Params.integer_in_default_locale(p, "maxTrancheCount")),
+      max_outstanding_loan_balance:
+        if(multi, do: Params.decimal_with_locale(p, "outstandingLoanBalance")),
+      disallow_expected_disbursements: flag(p, "disallowExpectedDisbursements"),
       account_moves_out_of_npa_only_on_arrears_completion:
         flag(p, "accountMovesOutOfNPAOnlyOnArrearsCompletion"),
       sync_expected_with_disbursement_date: flag(p, "syncExpectedWithDisbursementDate"),

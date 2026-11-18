@@ -47,7 +47,41 @@ defmodule ECBApiFineract.Resources.Loans do
       "totalRepaymentExpected" => amount(s.total_repayment_expected),
       "totalOutstanding" => zero,
       "totalCredits" => zero,
-      "periods" => [disbursement(s, today) | Enum.map(s.periods, &period(&1, today))]
+      "periods" => rows(s, today)
+    }
+  end
+
+  # the periods in order: what is paid out when the loan starts, then each installment, with a row for every later
+  # tranche just before the installment it falls in
+  defp rows(%{disbursements: [_ | _] = tranches} = s, today) do
+    opening = for %{before: 0} = t <- tranches, do: tranche(t, today)
+    later = Enum.filter(tranches, &(&1.before > 0))
+
+    installments =
+      Enum.flat_map(s.periods, fn p ->
+        for(t <- later, t.before == p.number, do: tranche(t, today)) ++ [period(p, today)]
+      end)
+
+    opening ++ installments
+  end
+
+  defp rows(s, today), do: [disbursement(s, today) | Enum.map(s.periods, &period(&1, today))]
+
+  defp tranche(%{date: date, amount: money}, today) do
+    zero = Decimal.new(0)
+
+    %{
+      "dueDate" => date,
+      "principalDisbursed" => amount(money),
+      "principalLoanBalanceOutstanding" => amount(money),
+      "feeChargesDue" => zero,
+      "feeChargesOutstanding" => zero,
+      "totalOriginalDueForPeriod" => zero,
+      "totalDueForPeriod" => zero,
+      "totalOutstandingForPeriod" => zero,
+      "totalOverdue" => overdue(date, today, zero),
+      "totalActualCostOfLoanForPeriod" => zero,
+      "downPaymentPeriod" => false
     }
   end
 

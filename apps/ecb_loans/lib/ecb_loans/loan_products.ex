@@ -139,6 +139,10 @@ defmodule ECBLoans.LoanProducts do
         overdue_days_for_repayment_event: lp.overdue_days_for_repayment_event,
         repayment_start_id: lp.repayment_start_date_type_enum,
         sync_expected_with_disbursement_date: lp.sync_expected_with_disbursement_date,
+        multi_disburse: lp.allow_multiple_disbursals,
+        max_tranche_count: lp.max_disbursals,
+        outstanding_loan_balance: lp.max_outstanding_loan_balance,
+        disallow_expected_disbursements: lp.disallow_expected_disbursements,
         start_date: lp.start_date,
         close_date: lp.close_date
       }

@@ -100,7 +100,6 @@ defmodule ECBApiFineract.LoanScheduleTest do
 
   test "a request for something beyond the core term loan is refused, not ignored" do
     for extra <- [
-          %{"disbursementData" => [%{"principal" => 100}]},
           %{"fixedEmiAmount" => 900},
           %{"isEqualAmortization" => true},
           %{"collateral" => [%{"clientCollateralId" => 1, "quantity" => 1}]},

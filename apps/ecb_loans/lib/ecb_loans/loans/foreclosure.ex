@@ -29,6 +29,7 @@ defmodule ECBLoans.Loans.Foreclosure do
   @doc "Settles loan `id` on `transactionDate`."
   @spec foreclose!(struct, integer, Params.t()) :: Result.t()
   def foreclose!(user, id, %Params{} = p) do
+    ECBLoans.Tranches.guard!(id, "foreclosure")
     Params.check_supported!(p, @supported)
     on = Params.date(p, "transactionDate")
     note = Params.string(p, "note")

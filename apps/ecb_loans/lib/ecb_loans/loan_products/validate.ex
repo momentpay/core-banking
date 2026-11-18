@@ -85,9 +85,6 @@ defmodule ECBLoans.LoanProducts.Validate do
     "principalVariationsForBorrowerCycle" => [nil, []],
     "interestRateVariationsForBorrowerCycle" => [nil, []],
     "numberOfRepaymentVariationsForBorrowerCycle" => [nil, []],
-    "multiDisburseLoan" => [nil, false],
-    "outstandingLoanBalance" => [nil],
-    "maxTrancheCount" => [nil],
     "isInterestRecalculationEnabled" => [nil, false],
     "rescheduleStrategyMethod" => [nil],
     "interestRecalculationCompoundingMethod" => [nil],
@@ -108,7 +105,6 @@ defmodule ECBLoans.LoanProducts.Validate do
     "isEqualAmortization" => [nil, false],
     "rates" => [nil, []],
     "fixedPrincipalPercentagePerInstallment" => [nil],
-    "disallowExpectedDisbursements" => [nil, false],
     "allowApprovedDisbursedAmountsOverApplied" => [nil, false],
     "overAppliedCalculationType" => [nil],
     "overAppliedNumber" => [nil],
@@ -180,6 +176,10 @@ defmodule ECBLoans.LoanProducts.Validate do
   @spec create!(Params.t()) :: :ok
   def create!(%Params{} = p) do
     Params.check_supported!(p, @supported)
+
+    if multi?(p) and Params.boolean(p, "isEqualAmortization") == true,
+      do: ECBLoans.Schedule.TrancheInput.equal_amortization!()
+
     refuse_beyond_core!(p)
 
     principal = Params.decimal_with_locale(p, "principal")
@@ -273,6 +273,7 @@ defmodule ECBLoans.LoanProducts.Validate do
     )
     |> Validation.zero_or_greater()
     |> repayment_start(p)
+    |> multi_disburse(p)
     |> partial_period(p)
     |> grace_against_term(p, repayments)
     |> Validation.raise_if_errors!()
@@ -645,11 +646,71 @@ defmodule ECBLoans.LoanProducts.Validate do
     end
   end
 
-  # a day-by-day interest calculation takes no partial periods
-  defp partial_period(v, p) do
-    period = Params.integer_in_default_locale(p, "interestCalculationPeriodType")
+  # a loan product may allow several disbursements (tranches), up to a number, with a limit on what may be
+  # outstanding (`validateMultiDisburseLoanData`)
+  defp multi_disburse(v, p) do
+    v =
+      if Params.exists?(p, "multiDisburseLoan"),
+        do:
+          v
+          |> Validation.param("multiDisburseLoan", Params.boolean(p, "multiDisburseLoan"))
+          |> Validation.ignore_if_null()
+          |> Validation.true_or_false(),
+        else: v
 
-    if period != nil and Params.exists?(p, "allowPartialPeriodInterestCalculation") do
+    if multi?(p) do
+      v =
+        if Params.exists?(p, "outstandingLoanBalance"),
+          do:
+            v
+            |> Validation.param(
+              "outstandingLoanBalance",
+              Params.decimal_with_locale(p, "outstandingLoanBalance")
+            )
+            |> Validation.ignore_if_null()
+            |> Validation.zero_or_positive_amount(),
+          else: v
+
+      v
+      |> Validation.param(
+        "maxTrancheCount",
+        Params.integer_in_default_locale(p, "maxTrancheCount")
+      )
+      |> Validation.not_null()
+      |> Validation.greater_than_zero()
+    else
+      v
+    end
+  end
+
+  @doc "Whether the request makes a product that allows several disbursements."
+  def multi?(p), do: Params.boolean(p, "multiDisburseLoan") == true
+
+  # a day-by-day interest calculation takes no partial periods; several disbursements need interest worked out
+  # day by day or by partial period (a product that pays out by the advanced allocation strategy would do too, but
+  # that is not built)
+  defp partial_period(v, p) do
+    case Params.integer_in_default_locale(p, "interestCalculationPeriodType") do
+      nil ->
+        v
+
+      period ->
+        {v, partial?} = partial_given(v, p, period)
+
+        if not partial? and multi?(p),
+          do:
+            v
+            |> Validation.param("multiDisburseLoan", true)
+            |> then(&%{&1 | value: nil})
+            |> Validation.fail_with_code("not.supported.for.selected.interest.calculation.type"),
+          else: v
+    end
+  end
+
+  # the problem with a flag for partial periods on daily interest, and whether interest is worked out by partial
+  # period (daily interest always is)
+  defp partial_given(v, p, period) do
+    if Params.exists?(p, "allowPartialPeriodInterestCalculation") do
       allowed = Params.boolean(p, "allowPartialPeriodInterestCalculation")
 
       v =
@@ -657,11 +718,19 @@ defmodule ECBLoans.LoanProducts.Validate do
         |> Validation.param("allowPartialPeriodInterestCalculation", allowed)
         |> Validation.not_null()
 
-      if period == 0 and allowed == true,
-        do: Validation.fail_with_code(%{v | value: nil}, "not.supported.for.daily.calculations"),
-        else: v
+      cond do
+        period == 0 and allowed == true ->
+          {Validation.fail_with_code(%{v | value: nil}, "not.supported.for.daily.calculations"),
+           true}
+
+        period == 0 ->
+          {v, true}
+
+        true ->
+          {v, allowed == true}
+      end
     else
-      v
+      {v, period == 0}
     end
   end
 

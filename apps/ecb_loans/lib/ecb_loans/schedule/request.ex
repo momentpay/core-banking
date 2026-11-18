@@ -11,7 +11,7 @@ defmodule ECBLoans.Schedule.Request do
   supported yet" and never ignored.
   """
   alias ECBLoans.{Apr, LoanProducts}
-  alias ECBLoans.Schedule.ChargeInput
+  alias ECBLoans.Schedule.{ChargeInput, TrancheInput}
   alias ECBParty.Clients
   alias ECBPlatform.Errors.{DomainRuleViolation, ResourceNotFound}
   alias ECBPlatform.{Json, Params, Validation}
@@ -44,9 +44,7 @@ defmodule ECBLoans.Schedule.Request do
     "linkAccountId" => [nil],
     "createStandingInstructionAtDisbursement" => [nil, false],
     "collateral" => [nil, []],
-    "disbursementData" => [nil, []],
     "fixedEmiAmount" => [nil],
-    "maxOutstandingLoanBalance" => [nil],
     "isEqualAmortization" => [nil, false],
     "isTopup" => [nil, false],
     "loanIdToClose" => [nil],
@@ -98,10 +96,29 @@ defmodule ECBLoans.Schedule.Request do
     refuse_beyond_core!(p)
 
     terms = terms(p, product)
+    refuse_tranche_combinations!(terms)
     if opts[:store], do: ChargeInput.check_dates!(terms, terms.charges)
     check_calendar!(client, terms.disbursement_date)
     check_first_repayment!(terms, product)
     %{product: product, client: client, terms: terms}
+  end
+
+  # What a loan paid out in tranches may not yet be combined with
+  defp refuse_tranche_combinations!(%{tranches: []}), do: :ok
+
+  defp refuse_tranche_combinations!(terms) do
+    cond do
+      terms.charges != [] ->
+        TrancheInput.unsupported!("charges on a loan that is paid out in tranches")
+
+      terms.repayment_start != terms.disbursement_date ->
+        TrancheInput.unsupported!(
+          "repayments counted from the submission date on a loan that is paid out in tranches"
+        )
+
+      true ->
+        :ok
+    end
   end
 
   # --- the checks, in Fineract's order ----------------------------------------------------------
@@ -211,6 +228,7 @@ defmodule ECBLoans.Schedule.Request do
     |> amount(p, "graceOnInterestPayment")
     |> amount(p, "graceOnInterestCharged")
     |> amount(p, "graceOnArrearsAgeing")
+    |> max_outstanding(p)
     |> optional_tolerance(p)
     |> Validation.param("submittedOnDate", Params.date(p, "submittedOnDate"))
     |> Validation.not_null()
@@ -221,6 +239,11 @@ defmodule ECBLoans.Schedule.Request do
     )
     |> Validation.not_null()
     |> days_in_year(p)
+    |> TrancheInput.validate(
+      p,
+      Params.date(p, "expectedDisbursementDate"),
+      Params.decimal_with_locale(p, "principal")
+    )
     |> product_limits(p, product)
     |> rate_limits(p, product)
     |> ECBLoans.LoanProducts.Validate.grace_against_term(
@@ -228,6 +251,10 @@ defmodule ECBLoans.Schedule.Request do
       Params.integer_with_locale(p, "numberOfRepayments")
     )
     |> partial_period(p)
+    |> then(fn v ->
+      TrancheInput.details!(p, product)
+      v
+    end)
     |> Validation.raise_if_errors!()
 
     submitted_on!(p, product, client)
@@ -297,6 +324,20 @@ defmodule ECBLoans.Schedule.Request do
     v
     |> Validation.param(key, Params.integer_with_locale(p, key))
     |> Validation.zero_or_positive_amount()
+  end
+
+  # the most that may be owed at one time, when a tranche is added
+  defp max_outstanding(v, p) do
+    if Params.exists?(p, "maxOutstandingLoanBalance"),
+      do:
+        v
+        |> Validation.param(
+          "maxOutstandingLoanBalance",
+          Params.decimal_with_locale(p, "maxOutstandingLoanBalance")
+        )
+        |> Validation.ignore_if_null()
+        |> Validation.positive_amount(),
+      else: v
   end
 
   defp optional_tolerance(v, p) do
@@ -702,6 +743,9 @@ defmodule ECBLoans.Schedule.Request do
       days_in_month: product.days_in_month_id,
       interest_charged_from: nil,
       charges: ChargeInput.parse!(p),
+      tranches: TrancheInput.terms(p, product, currency, context),
+      max_outstanding:
+        if(TrancheInput.multi?(product), do: max_outstanding_money(p, currency, context)),
       loan_term_frequency: Params.integer_with_locale(p, "loanTermFrequency"),
       installment_multiples_of: product.installment_amount_in_multiples_of,
       principal_threshold: product.principal_threshold_for_last_installment || Decimal.new(0)
@@ -710,6 +754,13 @@ defmodule ECBLoans.Schedule.Request do
     |> Map.merge(grace_terms(p, product))
     |> Map.merge(date_terms(p, product))
     |> then(&Map.merge(&1, rate_terms(p, product, &1)))
+  end
+
+  defp max_outstanding_money(p, currency, context) do
+    case Params.decimal_with_locale(p, "maxOutstandingLoanBalance") do
+      nil -> nil
+      amount -> ECBMoney.new(currency, amount, context)
+    end
   end
 
   defp repayment_terms(p, product) do

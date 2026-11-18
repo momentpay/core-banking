@@ -214,6 +214,9 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
         l.total_charges_due_at_disbursement_derived || Decimal.new("0.0")
     })
     |> put("summary", summary(l))
+    |> Map.put("multiDisburseLoan", l.multi_disburse == true)
+    |> Map.put("disallowExpectedDisbursements", l.disallow_expected_disbursements == true)
+    |> put("maxOutstandingLoanBalance", l.max_outstanding_loan_balance)
     |> Map.put("chargedOff", l.is_charged_off == true)
     |> put("subStatus", sub_status(l.loan_sub_status_id))
     |> put("totalOverpaid", l.total_overpaid_derived)
@@ -243,6 +246,10 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     do: l.id |> ECBLoans.Loans.installments() |> length()
 
   defp actual_term(%{rescheduledon_date: %Date{}} = l),
+    do: l.id |> ECBLoans.Loans.installments() |> length()
+
+  # a loan paid out in tranches may be paid off in fewer installments than it was set up with
+  defp actual_term(%{multi_disburse: true} = l),
     do: l.id |> ECBLoans.Loans.installments() |> length()
 
   defp actual_term(l), do: l.number_of_repayments
@@ -616,7 +623,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     |> maybe(wants?.("repaymentSchedule"), fn b ->
       b
       |> Map.put("repaymentSchedule", repayment_schedule(loan))
-      |> Map.put("disbursementDetails", [])
+      |> Map.put("disbursementDetails", disbursement_details(loan))
       |> Map.put("emiAmountVariations", [])
     end)
     |> maybe(wants?.("guarantors"), fn b ->
@@ -648,12 +655,27 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
         "notes",
         loan.id |> Loans.notes() |> Enum.map(&note/1) |> then(&if(&1 == [], do: nil, else: &1))
       )
-      |> Map.put("disbursementDetails", [])
+      |> Map.put("disbursementDetails", disbursement_details(loan))
       |> Map.put("originators", [])
       |> Map.put("emiAmountVariations", [])
       |> Map.put("loanTermVariations", term_variations(loan))
       |> Map.put("delinquent", delinquent(loan))
     end)
+  end
+
+  # the tranches of a loan paid out in parts, by expected date
+  defp disbursement_details(loan) do
+    for t <- ECBLoans.Tranches.list(loan.id) do
+      %{
+        "id" => t.id,
+        "loanId" => loan.id,
+        "expectedDisbursementDate" => t.expected_date,
+        "principal" => t.principal,
+        "disburseChargeAmount" => 0
+      }
+      |> put("actualDisbursementDate", t.disbursed_on)
+      |> put("netDisbursalAmount", t.net_disbursal_amount)
+    end
   end
 
   defp term_variations(loan),
@@ -1099,6 +1121,34 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   defp note_type(300),
     do: %{"id" => 300, "code" => "noteType.loan.transaction", "value" => "Loan transaction note"}
 
+  # What the approval still allows to be paid out, with and without counting the tranches that are expected: for a
+  # loan paid out in tranches the approval less what has been paid out, for another the fees due when it is
+  # paid out.
+  defp available_disbursement(loan, active?, zero) do
+    case ECBLoans.Tranches.list(loan.id) do
+      [] ->
+        fees =
+          if active?,
+            do: loan.total_charges_due_at_disbursement_derived || Decimal.new("0.0"),
+            else: zero
+
+        {fees, fees}
+
+      _tranches when not active? ->
+        {zero, zero}
+
+      tranches ->
+        sum = fn list -> Enum.reduce(list, Decimal.new(0), &Decimal.add(&2, &1.principal)) end
+        {paid, expected} = Enum.split_with(tranches, &(&1.disbursed_on != nil))
+        left = Decimal.sub(loan.approved_principal, sum.(paid))
+
+        {not_below_zero(left), not_below_zero(Decimal.sub(left, sum.(expected)))}
+    end
+  end
+
+  defp not_below_zero(amount),
+    do: if(Decimal.compare(amount, 0) == :lt, do: Decimal.new("0.0"), else: amount)
+
   defp delinquent(loan) do
     zero = 0
     today = ECBPlatform.BusinessDate.current()
@@ -1111,17 +1161,11 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     last = last_transaction(loan, ECBLoans.Loans.Repay.types())
     last_repayment = last_transaction(loan, [2])
 
+    {available, available_with_expected} = available_disbursement(loan, active?, zero)
+
     %{
-      "availableDisbursementAmount" =>
-        if(active?,
-          do: loan.total_charges_due_at_disbursement_derived || Decimal.new("0.0"),
-          else: zero
-        ),
-      "availableDisbursementAmountWithOverApplied" =>
-        if(active?,
-          do: loan.total_charges_due_at_disbursement_derived || Decimal.new("0.0"),
-          else: zero
-        ),
+      "availableDisbursementAmount" => available,
+      "availableDisbursementAmountWithOverApplied" => available_with_expected,
       "pastDueDays" => zero,
       "nextPaymentAmount" => zero,
       "delinquentDays" => zero,
@@ -1251,6 +1295,21 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   defp repayment_schedule(loan) do
     rows = Loans.installments(loan.id)
     today = ECBPlatform.BusinessDate.current()
+    tranches = ECBLoans.Tranches.list(loan.id)
+
+    {head, periods} =
+      if tranches == [],
+        do: plain_periods(loan, rows, today),
+        else: tranche_periods(loan, rows, tranches, today)
+
+    rows
+    |> totals(loan)
+    |> disbursed_total(tranches)
+    |> Map.put("periods", head ++ periods)
+    |> round_totals(loan.currency_digits)
+  end
+
+  defp plain_periods(loan, rows, today) do
     zero = Decimal.new("0.0")
 
     {periods, _balance} =
@@ -1259,10 +1318,40 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
         {period(r, balance, today), balance}
       end)
 
-    rows
-    |> totals(loan)
-    |> Map.put("periods", [disbursement(loan, today) | periods])
-    |> round_totals(loan.currency_digits)
+    {[disbursement(loan, today)], periods}
+  end
+
+  # A loan paid out in tranches: a row for each tranche, those of the opening day first and the others just
+  # before the installment they fall in, with the balance the installments leave counting every tranche so far.
+  defp tranche_periods(loan, rows, tranches, today) do
+    zero = Decimal.new("0.0")
+    opening_date = loan.disbursedon_date || loan.expected_disbursedon_date
+    tranches = Enum.map(tranches, &Map.put(&1, :date, &1.disbursed_on || &1.expected_date))
+    {opening, later} = Enum.split_with(tranches, &(&1.date == opening_date))
+    start = Enum.reduce(opening, zero, &Decimal.add(&2, &1.principal))
+
+    {periods, _balance} =
+      Enum.flat_map_reduce(rows, start, fn r, balance ->
+        reached =
+          Enum.filter(
+            later,
+            &(Date.compare(&1.date, r.from_date) == :gt and
+                Date.compare(&1.date, r.due_date) != :gt)
+          )
+
+        balance = Enum.reduce(reached, balance, &Decimal.add(&2, &1.principal))
+        balance = Decimal.sub(balance, r.principal || zero)
+        {Enum.map(reached, &tranche_row(loan, &1, today)) ++ [period(r, balance, today)], balance}
+      end)
+
+    {Enum.map(opening, &tranche_row(loan, &1, today)), periods}
+  end
+
+  defp disbursed_total(schedule, []), do: schedule
+
+  defp disbursed_total(schedule, tranches) do
+    total = Enum.reduce(tranches, Decimal.new(0), &Decimal.add(&2, &1.principal))
+    Map.put(schedule, "totalPrincipalDisbursed", total)
   end
 
   defp term_in_days([], _loan), do: 0
@@ -1330,13 +1419,26 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
 
   # Before the loan is paid out the disbursement period shows what is outstanding; afterwards what was paid.
   defp disbursement(loan, today) do
-    zero = Decimal.new("0.0")
-    fees = loan.total_charges_due_at_disbursement_derived || zero
+    fees = loan.total_charges_due_at_disbursement_derived || Decimal.new("0.0")
 
+    disbursement_row(
+      loan.disbursedon_date || loan.expected_disbursedon_date,
+      loan.principal_amount,
+      fees,
+      loan.disbursedon_date != nil,
+      today
+    )
+  end
+
+  # a tranche of a loan paid out in parts (the charges due when it is paid out are not built for tranches)
+  defp tranche_row(_loan, t, today),
+    do: disbursement_row(t.date, t.principal, Decimal.new("0.0"), t.disbursed_on != nil, today)
+
+  defp disbursement_row(date, principal, fees, disbursed?, today) do
     %{
-      "dueDate" => loan.disbursedon_date || loan.expected_disbursedon_date,
-      "principalDisbursed" => loan.principal_amount,
-      "principalLoanBalanceOutstanding" => loan.principal_amount,
+      "dueDate" => date,
+      "principalDisbursed" => principal,
+      "principalLoanBalanceOutstanding" => principal,
       "feeChargesDue" => fees,
       "totalOriginalDueForPeriod" => fees,
       "totalDueForPeriod" => fees,
@@ -1344,18 +1446,11 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       "downPaymentPeriod" => false
     }
     |> Map.merge(
-      if loan.disbursedon_date,
+      if disbursed?,
         do: %{"feeChargesPaid" => fees, "totalPaidForPeriod" => fees},
         else: %{"feeChargesOutstanding" => fees, "totalOutstandingForPeriod" => fees}
     )
-    |> put(
-      "totalOverdue",
-      if(
-        loan.disbursedon_date == nil and
-          Date.compare(loan.expected_disbursedon_date, today) == :lt,
-        do: fees
-      )
-    )
+    |> put("totalOverdue", if(not disbursed? and Date.compare(date, today) == :lt, do: fees))
   end
 
   defp period(r, balance, today) do

@@ -766,6 +766,7 @@ defmodule ECBLoans.Loans.Corrections do
   @doc "Takes the payout of loan `id` back: the loan is approved again, with its schedule as submitted."
   @spec undo_disbursal!(struct, integer, Params.t()) :: Result.t()
   def undo_disbursal!(user, id, %Params{} = p) do
+    ECBLoans.Tranches.guard!(id, "undoing the disbursal")
     Params.check_supported!(p, @undo_disbursal_supported)
     loan = Loans.fetch!(id)
     Repay.active_client!(loan)

@@ -48,6 +48,7 @@ defmodule ECBLoans.Loans.Submit do
 
     generate_account_no!(id, p, product, client)
     insert_installments!(id, schedule, user, now)
+    ECBLoans.Tranches.store!(id, terms.tranches)
     ChargeRows.store!(id, schedule, user, [])
     Loans.add_note(id, client.id, Params.string(p, "submittedOnNote"), user.id)
 
@@ -156,6 +157,8 @@ defmodule ECBLoans.Loans.Submit do
       principal_amount_proposed: principal,
       principal_amount: principal,
       approved_principal: principal,
+      max_outstanding_loan_balance:
+        terms.max_outstanding && ECBMoney.amount(terms.max_outstanding),
       net_disbursal_amount: net_disbursal(principal, schedule),
       arrearstolerance_amount:
         Params.decimal_with_locale(p, "inArrearsTolerance") || product.in_arrears_tolerance,

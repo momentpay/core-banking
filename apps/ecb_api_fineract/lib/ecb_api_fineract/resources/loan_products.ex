@@ -155,7 +155,11 @@ defmodule ECBApiFineract.Resources.LoanProducts do
       "accountMovesOutOfNPAOnlyOnArrearsCompletion" => p.account_moves_out_of_npa == true,
       "dueDaysForRepaymentEvent" => p.due_days_for_repayment_event,
       "overDueDaysForRepaymentEvent" => p.overdue_days_for_repayment_event,
-      "syncExpectedWithDisbursementDate" => p.sync_expected_with_disbursement_date == true
+      "syncExpectedWithDisbursementDate" => p.sync_expected_with_disbursement_date == true,
+      "multiDisburseLoan" => p.multi_disburse == true,
+      "maxTrancheCount" => p.max_tranche_count || 0,
+      "outstandingLoanBalance" => p.outstanding_loan_balance,
+      "disallowExpectedDisbursements" => p.disallow_expected_disbursements == true
     })
   end
 

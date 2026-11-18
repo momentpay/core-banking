@@ -54,6 +54,7 @@ defmodule ECBLoans.Loans.ChargeActions do
   @spec add!(struct, integer, Params.t()) :: Result.t()
   def add!(user, id, %Params{} = p) do
     Params.check_supported!(p, @add_supported)
+    ECBLoans.Tranches.guard!(id, "charges")
     charge_id = Json.long(p, "chargeId")
     amount = Params.decimal_with_locale(p, "amount")
     due = Params.date(p, "dueDate")

@@ -518,6 +518,8 @@ defmodule ECBLoans.RescheduleRequests do
 
   @doc false
   def refuse_loan_unsupported!(loan, mode \\ :approve) do
+    ECBLoans.Tranches.guard!(loan.id, "rescheduling")
+
     cond do
       loan.interest_recalculation_enabled ->
         unsupported!("Rescheduling a loan with interest recalculation")

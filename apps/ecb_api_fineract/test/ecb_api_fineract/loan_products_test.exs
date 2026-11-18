@@ -122,7 +122,6 @@ defmodule ECBApiFineract.LoanProductsTest do
       end
 
       for extra <- [
-            %{"multiDisburseLoan" => true},
             %{"isInterestRecalculationEnabled" => true},
             %{"useBorrowerCycle" => true},
             %{"holdGuaranteeFunds" => true},

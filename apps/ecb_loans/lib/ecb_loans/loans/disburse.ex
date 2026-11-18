@@ -50,6 +50,7 @@ defmodule ECBLoans.Loans.Disburse do
       |> payment_details(p)
 
     loan = Loans.fetch!(id)
+    later_tranche!(loan)
     active_client!(loan)
     check_amount!(loan, amount)
     v = check_state(v, loan)
@@ -58,8 +59,9 @@ defmodule ECBLoans.Loans.Disburse do
 
     check_future!(loan, on)
     check_accounting!(loan)
+    tranche = tranche!(loan, amount, on)
     payment_detail_id = payment_detail!(p)
-    paid_out!(user, loan, on, payment_detail_id, Params.string(p, "externalId"))
+    paid_out!(user, loan, on, tranche, payment_detail_id, Params.string(p, "externalId"))
     Loans.add_note(id, loan.client_id, note, user.id)
 
     tx_id = disbursement_transaction_id(id)
@@ -174,6 +176,40 @@ defmodule ECBLoans.Loans.Disburse do
   defp check_accounting!(loan),
     do: Journal.check_supported!(ECBLoans.LoanProducts.fetch!(loan.product_id), "Disbursing")
 
+  # the tranches after the first are paid out by a later disbursement, which is not built yet
+  defp later_tranche!(loan) do
+    if loan.loan_status_id == Loans.status(:active) and
+         Enum.any?(ECBLoans.Tranches.list(loan.id), &is_nil(&1.disbursed_on)),
+       do: ECBLoans.Tranches.guard!(loan.id, "paying out a tranche after the first")
+  end
+
+  # What is paid out. A loan paid out in one go is paid out in full; one paid out in tranches pays the first
+  # tranche (those expected on its date) on that date. Anything else a tranche loan could be asked is refused.
+  defp tranche!(loan, amount, on) do
+    case ECBLoans.Tranches.list(loan.id) do
+      [] ->
+        %{amount: loan.principal_amount, ids: []}
+
+      [first | _] = tranches ->
+        if amount != nil,
+          do: ECBLoans.Tranches.guard!(loan.id, "disbursing an amount that is asked for")
+
+        if on != first.expected_date,
+          do:
+            ECBLoans.Tranches.guard!(
+              loan.id,
+              "a first disbursement on another date than expected"
+            )
+
+        due = Enum.filter(tranches, &(&1.expected_date == first.expected_date))
+
+        %{
+          amount: Enum.reduce(due, Decimal.new(0), &Decimal.add(&2, &1.principal)),
+          ids: Enum.map(due, & &1.id)
+        }
+    end
+  end
+
   # --- the payment ------------------------------------------------------------------------------
 
   defp payment_detail!(p) do
@@ -205,7 +241,7 @@ defmodule ECBLoans.Loans.Disburse do
     id
   end
 
-  defp paid_out!(user, loan, on, payment_detail_id, external_id) do
+  defp paid_out!(user, loan, on, tranche, payment_detail_id, external_id) do
     now = DateTime.utc_now()
     id = loan.id
 
@@ -222,11 +258,19 @@ defmodule ECBLoans.Loans.Disburse do
     tx = %{
       type: 1,
       date: on,
-      amount: loan.principal_amount,
-      balance: loan.principal_amount,
+      amount: tranche.amount,
+      balance: tranche.amount,
       payment_detail_id: payment_detail_id,
       external_id: external_id
     }
+
+    if tranche.ids != [] do
+      ids = tranche.ids
+
+      TenantRepo.update_all(from(d in "m_loan_disbursement_detail", where: d.id in ^ids),
+        set: [disbursedon_date: on]
+      )
+    end
 
     Counters.assign!(loan, on)
     tx_id = insert_transaction!(user, loan, tx)
@@ -235,7 +279,7 @@ defmodule ECBLoans.Loans.Disburse do
 
     Transitions.regenerate!(id, user, disbursed_on: on)
     paid = Loans.fetch!(id)
-    set_net_disbursal!(paid)
+    set_net_disbursal!(paid, tranche.amount)
     Accruals.charges_on_disbursement!(user, paid, product, on)
     pay_charges!(user, paid, product, on, payment_detail_id)
     Derived.refresh!(id, user)
@@ -244,8 +288,8 @@ defmodule ECBLoans.Loans.Disburse do
   end
 
   # what is paid out is the loan less the fees that are due when it is paid out
-  defp set_net_disbursal!(loan) do
-    net = Decimal.sub(loan.principal_amount, loan.total_charges_due_at_disbursement_derived || 0)
+  defp set_net_disbursal!(loan, amount) do
+    net = Decimal.sub(amount, loan.total_charges_due_at_disbursement_derived || 0)
     id = loan.id
 
     TenantRepo.update_all(from(l in "m_loan", where: l.id == ^id),

@@ -121,6 +121,8 @@ defmodule ECBLoans.Loans do
   c.account_no AS client_account_no, c.display_name AS client_name, c.office_id AS client_office_id,
   o.name AS office_name, o.hierarchy AS office_hierarchy,
   p.name AS product_name, p.description AS product_description,
+  p.allow_multiple_disbursals AS multi_disburse, p.disallow_expected_disbursements AS disallow_expected_disbursements,
+  l.max_outstanding_loan_balance,
   cur.name AS currency_name, cur.display_symbol AS currency_symbol, cur.internationalized_name_code AS currency_name_code,
   f.name AS fund_name, s.display_name AS loan_officer_name, cv.code_value AS loan_purpose_name,
   su.username AS submitted_by_username, su.firstname AS submitted_by_firstname, su.lastname AS submitted_by_lastname,

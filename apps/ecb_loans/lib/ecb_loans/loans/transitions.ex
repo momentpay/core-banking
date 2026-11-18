@@ -61,11 +61,22 @@ defmodule ECBLoans.Loans.Transitions do
 
     v = approval_checks!(v, loan, client, approved_on, expected_on, amount)
     Validation.raise_if_errors!(v)
+    changed_terms_with_tranches!(loan, amount, expected)
 
     changes = apply_approval(user, loan, approved_on, expected, amount, p)
     Loans.add_note(id, loan.client_id, note, user.id)
     changes = if blank?(note), do: changes, else: Map.put(changes, "note", note)
     result(loan, changes)
+  end
+
+  # Approving for another amount or date works a loan paid out in tranches out in ways Fineract itself gets wrong
+  # (the tranches no longer fit the amount, the dates fall apart): refused rather than copied
+  defp changed_terms_with_tranches!(loan, amount, expected) do
+    other_amount? = amount != nil and not Decimal.eq?(amount, loan.principal_amount)
+    other_date? = expected != nil and expected != loan.expected_disbursedon_date
+
+    if other_amount? or other_date?,
+      do: ECBLoans.Tranches.guard!(loan.id, "approving for another amount or disbursement date")
   end
 
   # Fineract throws the first of these it meets and collects the others to report together at the end.
@@ -426,6 +437,7 @@ defmodule ECBLoans.Loans.Transitions do
     loan = Loans.fetch!(id)
     product = ECBLoans.LoanProducts.fetch!(loan.product_id)
     disbursed_on = Keyword.get(opts, :disbursed_on) || loan.expected_disbursedon_date
+    if Keyword.has_key?(opts, :charges), do: ECBLoans.Tranches.guard!(id, "charges")
     charges = Keyword.get(opts, :charges) || ChargeRows.params(id)
     terms = stored_terms(loan, product, disbursed_on, charges)
     schedule = Schedule.generate(terms)
@@ -472,6 +484,11 @@ defmodule ECBLoans.Loans.Transitions do
       "locale" => "en",
       "charges" => charges
     }
+    |> put_some("disbursementData", tranche_params(loan))
+    |> put_some(
+      "maxOutstandingLoanBalance",
+      loan.max_outstanding_loan_balance && number.(loan.max_outstanding_loan_balance)
+    )
     |> put_some("graceOnPrincipalPayment", loan.grace_on_principal_periods)
     |> put_some("graceOnInterestPayment", loan.grace_on_interest_periods)
     |> put_some("graceOnInterestCharged", loan.grace_interest_free_periods)
@@ -481,6 +498,22 @@ defmodule ECBLoans.Loans.Transitions do
     )
     |> Jason.encode!()
     |> Params.parse!()
+  end
+
+  # the tranches the loan has, on the day each was paid out or is expected
+  defp tranche_params(loan) do
+    case ECBLoans.Tranches.list(loan.id) do
+      [] ->
+        nil
+
+      tranches ->
+        for t <- tranches do
+          %{
+            "expectedDisbursementDate" => Date.to_iso8601(t.disbursed_on || t.expected_date),
+            "principal" => Jason.Fragment.new(Decimal.to_string(t.principal, :normal))
+          }
+        end
+    end
   end
 
   defp put_some(map, _key, nil), do: map

@@ -53,7 +53,15 @@ defmodule ECBLoans.Schedule do
   @spec generate(map, keyword) :: map
   def generate(terms, opts \\ []) do
     zero = ECBMoney.zero(terms.currency, terms.context)
-    terms = terms |> Map.put(:loan_end_date, Dates.last_repayment_date(terms)) |> with_graces()
+
+    terms =
+      terms
+      |> Map.put(:loan_end_date, Dates.last_repayment_date(terms))
+      |> Map.put_new(:disbursed_principal, terms.principal)
+      |> Map.put_new(:tranches, [])
+      |> Map.put_new(:max_outstanding, nil)
+      |> with_graces()
+
     variations = opts |> Keyword.get(:variations, []) |> sort_variations()
     terms = end_date_from_variation(terms, variations)
 
@@ -96,13 +104,18 @@ defmodule ECBLoans.Schedule do
       due_dates: Enum.filter(variations, &(&1.type == @due_date)),
       rates_from_installment:
         Enum.filter(variations, &(&1.type == @interest_rate_from_installment)),
-      processed: MapSet.new()
+      processed: MapSet.new(),
+      # tranches still to come, by date, and the ones the schedule has reached
+      pending: %{},
+      disbursements: [],
+      principal_scheduled: terms.principal
     }
 
     state = %{state | total_interest_due: initial_interest_due(state)}
 
     state
     |> start_amortization()
+    |> start_tranches()
     |> resume(Keyword.get(opts, :resume))
     |> loop()
     |> finish()
@@ -187,13 +200,125 @@ defmodule ECBLoans.Schedule do
     %{state | fixed_principal: ECBMoney.divide(terms.principal, count)}
   end
 
+  # --- tranches ---------------------------------------------------------------------------------------
+
+  # A loan that is paid out in tranches is scheduled from its first one: the EMI (or the equal share of principal)
+  # was worked out above from the whole principal, and what is owed grows as each later tranche is reached.
+  defp start_tranches(%{terms: %{tranches: []}} = state), do: state
+
+  defp start_tranches(%{terms: terms} = state) do
+    {first, later} = Enum.split_with(terms.tranches, &(&1.date == terms.repayment_start))
+    amount = Enum.reduce(first, state.zero, &ECBMoney.plus(&2, &1.amount))
+
+    pending =
+      Enum.reduce(later, %{}, fn t, map ->
+        Map.update(map, t.date, t.amount, &ECBMoney.plus(&1, t.amount))
+      end)
+
+    %{
+      state
+      | terms: %{terms | principal: amount},
+        balance: amount,
+        balance_per_rest: amount,
+        principal_scheduled: amount,
+        pending: pending,
+        disbursements: Enum.map(first, &%{date: &1.date, amount: &1.amount, before: 0})
+    }
+  end
+
+  # `processDisbursements`: the tranches that fall in the period add to what is owed and to the principal, and
+  # show in the schedule just before the period
+  defp process_disbursements(%{pending: pending} = state, _due) when map_size(pending) == 0,
+    do: state
+
+  defp process_disbursements(state, due) do
+    state
+    |> tranches_in(due)
+    |> Enum.reduce(state, fn {date, amount}, state ->
+      check_outstanding!(state, amount)
+      terms = %{state.terms | principal: ECBMoney.plus(state.terms.principal, amount)}
+      row = %{date: date, amount: amount, before: state.period_number}
+
+      %{
+        state
+        | terms: terms,
+          balance: ECBMoney.plus(state.balance, amount),
+          principal_scheduled: ECBMoney.plus(state.principal_scheduled, amount),
+          disbursements: state.disbursements ++ [row]
+      }
+    end)
+  end
+
+  # the tranches reached by a period that starts at `period_start` and ends on `due`, by date
+  defp tranches_in(state, due) do
+    state.pending
+    |> Enum.filter(fn {date, _} ->
+      Date.compare(date, state.period_start) == :gt and Date.compare(date, due) != :gt
+    end)
+    |> Enum.sort_by(fn {date, _} -> Date.to_gregorian_days(date) end)
+  end
+
+  # what is owed with the new tranche on it may not be more than the product allows
+  defp check_outstanding!(%{terms: %{max_outstanding: nil}}, _amount), do: :ok
+
+  defp check_outstanding!(%{terms: %{max_outstanding: max}} = state, amount) do
+    if ECBMoney.compare(ECBMoney.plus(state.balance, amount), max) == :gt do
+      raise ECBPlatform.Errors.DomainRuleViolation,
+        code: "error.msg.loanschedule.exceeding.max.outstanding.balance",
+        message: "Outstanding balance must not exceed the amount: " <> ECBMoney.to_string(max),
+        args: [ECBMoney.amount(max), money_json(amount)]
+    end
+  end
+
+  # Fineract writes the whole money object into the error's arguments
+  defp money_json(%ECBMoney{currency: currency} = money) do
+    code = currency.code
+    digits = currency.decimal_places
+    multiples = currency.in_multiples_of || 0
+    amount = ECBMoney.amount(money)
+    currency_data = %{"code" => code, "decimalPlaces" => digits, "inMultiplesOf" => multiples}
+
+    %{
+      "amount" => amount,
+      "currency" => %{
+        "code" => code,
+        "digitsAfterDecimal" => digits,
+        "inMultiplesOf" => multiples
+      },
+      "zero" => ECBMoney.zero?(money),
+      "currencyCode" => code,
+      "greaterThanZero" => ECBMoney.positive?(money),
+      "inMultiplesOf" => multiples,
+      "lessThanZero" => ECBMoney.negative?(money),
+      "mc" => %{"precision" => 19, "roundingMode" => "HALF_EVEN"},
+      "currencyData" => currency_data,
+      "amountDefaultedToNullIfZero" => if(ECBMoney.zero?(money), do: nil, else: amount)
+    }
+  end
+
+  # after the period, the tranches it reached are part of the balance interest is worked out on
+  defp reach_tranches(%{pending: pending} = state, _due) when map_size(pending) == 0, do: state
+
+  defp reach_tranches(state, due) do
+    reached =
+      for {date, amount} <- state.pending, Date.compare(date, due) != :gt, do: {date, amount}
+
+    Enum.reduce(reached, state, fn {date, amount}, state ->
+      %{
+        state
+        | balance_per_rest: ECBMoney.plus(state.balance_per_rest, amount),
+          pending: Map.delete(state.pending, date)
+      }
+    end)
+  end
+
   # --- one period after another -----------------------------------------------------------------
 
   defp loop(%{periods: periods}) when length(periods) > @max_periods,
     do: raise(ArgumentError, "the schedule does not end")
 
   defp loop(state) do
-    if ECBMoney.zero?(state.balance) do
+    if ECBMoney.zero?(state.balance) and map_size(state.pending) == 0 do
       state
     else
       state |> next_period() |> loop()
@@ -209,7 +334,7 @@ defmodule ECBLoans.Schedule do
     if Date.compare(start, due) == :gt,
       do: raise(ArgumentError, "Due date can't be before period start date")
 
-    state = ensure_emi(state)
+    state = state |> ensure_emi() |> process_disbursements(due)
     interest_from = interest_start_date(state, start)
     {principal, interest, grace_interest} = principal_and_interest(state, interest_from, due)
 
@@ -248,6 +373,7 @@ defmodule ECBLoans.Schedule do
         interest_due_to_grace: grace_interest,
         term_days: state.term_days + Dates.days_between(start, due)
     }
+    |> reach_tranches(due)
   end
 
   # An EMI that a variation took away is worked out again from what is left when it is next needed
@@ -292,7 +418,8 @@ defmodule ECBLoans.Schedule do
     %{
       periods: state.periods,
       disbursement_date: state.terms.disbursement_date,
-      principal: state.terms.principal,
+      principal: state.principal_scheduled,
+      disbursements: state.disbursements,
       total_principal_expected: state.cumulative_principal,
       total_interest: state.cumulative_interest,
       total_fees: state.total_fees,
@@ -447,28 +574,13 @@ defmodule ECBLoans.Schedule do
 
   defp principal_and_interest(state, from, to), do: flat(state, from, to)
 
-  # Declining balance: interest on what is still owed, principal from the EMI or an equal share.
+  # Declining balance: interest on what is still owed, principal from the EMI or an equal share. A tranche that
+  # falls in the period splits it: the days before it are charged on the old balance, the rest on the new.
   defp declining(%{terms: terms} = state, from, to) do
     number = state.period_number
     carried = state.interest_due_to_grace
-    before_grace = declining_interest(terms, state.balance_per_rest, from, to)
 
-    after_grace =
-      if interest_payment_grace?(terms, number) or free_period?(terms, number),
-        do: ECBMoney.zero(terms.currency, terms.context),
-        else: before_grace
-
-    {interest, carried_after} =
-      cond do
-        ECBMoney.positive?(after_grace) ->
-          {ECBMoney.plus(carried, after_grace), ECBMoney.zero(terms.currency, terms.context)}
-
-        free_period?(terms, number) ->
-          {ECBMoney.zero(terms.currency, terms.context), carried}
-
-        true ->
-          {after_grace, ECBMoney.plus(carried, before_grace)}
-      end
+    {interest, carried_after} = declining_interest_in_parts(state, carried, from, to)
 
     interest_for_period =
       if ECBMoney.positive?(interest),
@@ -486,6 +598,50 @@ defmodule ECBLoans.Schedule do
       )
 
     {principal, interest, carried_after}
+  end
+
+  # `calculatePrincipalInterestComponentsForPeriod`: one interest figure for each stretch of the period that has
+  # the same balance, added up
+  defp declining_interest_in_parts(state, carried, from, to) do
+    zero = ECBMoney.zero(state.terms.currency, state.terms.context)
+
+    {start, balance, interest, carried} =
+      state.pending
+      |> Enum.filter(fn {date, _} -> Date.compare(date, to) != :gt end)
+      |> Enum.sort_by(fn {date, _} -> Date.to_gregorian_days(date) end)
+      |> Enum.reduce({from, state.balance_per_rest, zero, carried}, &stretch(state, &1, &2))
+
+    {part, carried} = declining_interest_part(state, carried, balance, start, to)
+    {ECBMoney.plus(interest, part), carried}
+  end
+
+  # a tranche on `date`: what was owed until then is charged, then it is added
+  defp stretch(state, {date, amount}, {start, balance, sum, carried}) do
+    if Date.diff(date, start) > 0 do
+      {part, carried} = declining_interest_part(state, carried, balance, start, date)
+      {date, ECBMoney.plus(balance, amount), ECBMoney.plus(sum, part), carried}
+    else
+      {start, ECBMoney.plus(balance, amount), sum, carried}
+    end
+  end
+
+  # `LoanApplicationTerms.calculateTotalInterestForPeriod` for declining balance: the interest of one stretch and
+  # what is carried on because of grace
+  defp declining_interest_part(%{terms: terms} = state, carried, balance, from, to) do
+    number = state.period_number
+    before_grace = declining_interest(terms, balance, from, to)
+    zero = ECBMoney.zero(terms.currency, terms.context)
+
+    after_grace =
+      if interest_payment_grace?(terms, number) or free_period?(terms, number),
+        do: zero,
+        else: before_grace
+
+    cond do
+      ECBMoney.positive?(after_grace) -> {ECBMoney.plus(carried, after_grace), zero}
+      free_period?(terms, number) -> {zero, carried}
+      true -> {after_grace, ECBMoney.plus(carried, before_grace)}
+    end
   end
 
   defp declining_interest(terms, balance, from, to) do
@@ -638,7 +794,7 @@ defmodule ECBLoans.Schedule do
   defp flat_total(%{terms: terms} = state) do
     rate = Rates.flat_for_term(terms)
 
-    terms.principal
+    terms.disbursed_principal
     |> ECBMoney.minus(state.principal_accounted_for_interest)
     |> ECBMoney.multiply_retain_scale(rate)
   end

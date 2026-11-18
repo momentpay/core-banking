@@ -16,11 +16,11 @@ defmodule ECBLoans.Loans.Derived do
   @spec refresh!(integer, struct) :: :ok
   def refresh!(loan_id, user) do
     rows = Loans.installments(loan_id)
-    disbursed = disbursed(loan_id)
+    loan = Loans.fetch!(loan_id)
+    disbursed = disbursed(loan)
 
     principal = sum(rows, & &1.principal)
     interest = sum(rows, & &1.interest)
-    loan = Loans.fetch!(loan_id)
     due_at_disbursement = loan.total_charges_due_at_disbursement_derived || Decimal.new(0)
     fees = rows |> sum(& &1.fee_charges) |> Decimal.add(due_at_disbursement)
     penalties = sum(rows, & &1.penalty_charges)
@@ -183,8 +183,11 @@ defmodule ECBLoans.Loans.Derived do
   defp moment(%DateTime{} = at), do: DateTime.to_unix(at, :microsecond)
   defp moment(%NaiveDateTime{} = at), do: at |> DateTime.from_naive!("Etc/UTC") |> moment()
 
-  # what has been paid out, from the disbursement transactions that still stand
-  defp disbursed(loan_id) do
+  # What has been paid out, from the disbursement transactions that still stand. Fineract counts a loan that is
+  # paid out in tranches as paid out in full from its first one.
+  defp disbursed(%{multi_disburse: true, principal_amount: principal}), do: principal
+
+  defp disbursed(%{id: loan_id}) do
     TenantRepo.one(
       from(t in "m_loan_transaction",
         where:
