@@ -72,9 +72,10 @@ defmodule ECBLoans.Loans.Submit do
   defp fund!(nil), do: nil
   defp fund!(id), do: Funds.fetch!(id)
 
-  defp officer!(nil), do: nil
+  @doc false
+  def officer!(nil), do: nil
 
-  defp officer!(id) do
+  def officer!(id) do
     staff = Staff.fetch!(id)
 
     unless staff.is_loan_officer do

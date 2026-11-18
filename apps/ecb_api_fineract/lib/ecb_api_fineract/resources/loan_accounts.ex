@@ -13,6 +13,8 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
 
   @commands %{
     "approve" => "APPROVE",
+    "assignloanofficer" => "UPDATELOANOFFICER",
+    "unassignloanofficer" => "REMOVELOANOFFICER",
     "undoapproval" => "APPROVALUNDO",
     "reject" => "REJECT",
     "withdrawnByApplicant" => "WITHDRAW",
@@ -563,7 +565,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
 
   defp with_associations(body, loan, associations) do
     all? = MapSet.member?(associations, "all")
-    body = if all?, do: with_accrual_totals(body), else: body
+    body = if all?, do: with_accrual_totals(body), else: without_accrual_totals(body)
     wants? = fn name -> all? or MapSet.member?(associations, name) end
 
     body
@@ -708,6 +710,20 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   end
 
   # asked for with all its associations, an active loan shows the interest not yet due as decimals
+  # the interest that is unpaid and due, and the part of the running installment's that is not due yet, are worked
+  # out only when the loan is asked for with all its associations; without, Fineract shows nothing
+  defp without_accrual_totals(%{"summary" => summary} = body) when is_map(summary) do
+    %{
+      body
+      | "summary" =>
+          summary
+          |> Map.put("totalUnpaidPayableDueInterest", 0)
+          |> Map.put("totalUnpaidPayableNotDueInterest", 0)
+    }
+  end
+
+  defp without_accrual_totals(body), do: body
+
   defp with_accrual_totals(%{"summary" => summary, "status" => %{"id" => status}} = body)
        when status in [300, 600, 601, 602, 700] do
     zero = if body["currency"]["decimalPlaces"] == 0, do: 0, else: Decimal.new("0.0")

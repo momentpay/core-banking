@@ -23,7 +23,17 @@ defmodule ECBLoans.Handlers do
     """
     @behaviour ECBPlatform.Commands.Handler
 
-    alias ECBLoans.Loans.{Closing, Corrections, Disburse, Modify, Repay, Submit, Transitions}
+    alias ECBLoans.Loans.{
+      Closing,
+      Corrections,
+      Disburse,
+      Modify,
+      Officers,
+      Repay,
+      Submit,
+      Transitions
+    }
+
     alias ECBPlatform.Params
 
     @impl true
@@ -59,6 +69,12 @@ defmodule ECBLoans.Handlers do
 
     def process(%{action_name: "GOODWILLCREDIT"} = command, user),
       do: {:ok, Repay.repay!(user, command.entity_id, Params.parse!(command.json), 23)}
+
+    def process(%{action_name: "UPDATELOANOFFICER"} = command, user),
+      do: {:ok, Officers.reassign!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "REMOVELOANOFFICER"} = command, user),
+      do: {:ok, Officers.unassign!(user, command.entity_id, Params.parse!(command.json))}
 
     def process(%{action_name: "RECOVERYPAYMENT"} = command, user),
       do: {:ok, Closing.recovery_payment!(user, command.entity_id, Params.parse!(command.json))}

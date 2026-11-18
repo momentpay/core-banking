@@ -53101,6 +53101,518 @@
           ]
         }
       ]
+    },
+    {
+      "name": "loanofficer1",
+      "reset": [
+        "loans",
+        "loanproducts",
+        "clients",
+        "funds",
+        "glaccounts",
+        "staff",
+        "codes",
+        "configuration"
+      ],
+      "steps": [
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/enable-business-date",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Ann",
+            "lastname": "Lee",
+            "active": true,
+            "activationDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Plain",
+            "shortName": "PLAN",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/staff",
+          "body": {
+            "officeId": 1,
+            "firstname": "Sam",
+            "lastname": "X",
+            "isLoanOfficer": true,
+            "isActive": true,
+            "joiningDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/staff",
+          "body": {
+            "officeId": 1,
+            "firstname": "Tia",
+            "lastname": "X",
+            "isLoanOfficer": true,
+            "isActive": true,
+            "joiningDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/staff",
+          "body": {
+            "officeId": 1,
+            "firstname": "Zed",
+            "lastname": "X",
+            "isLoanOfficer": false,
+            "isActive": true,
+            "joiningDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "loanOfficerId": 1
+          },
+          "save": {
+            "a": "resourceId"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=assignloanofficer",
+          "body": {
+            "fromLoanOfficerId": 1,
+            "toLoanOfficerId": 2,
+            "assignmentDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=assignloanofficer",
+          "body": {
+            "fromLoanOfficerId": 1,
+            "toLoanOfficerId": 2,
+            "assignmentDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=assignloanofficer",
+          "body": {
+            "fromLoanOfficerId": 2,
+            "toLoanOfficerId": 3,
+            "assignmentDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=assignloanofficer",
+          "body": {
+            "fromLoanOfficerId": 2,
+            "toLoanOfficerId": 99,
+            "assignmentDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=assignloanofficer",
+          "body": {
+            "fromLoanOfficerId": 2,
+            "assignmentDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=assignloanofficer",
+          "body": {
+            "fromLoanOfficerId": 2,
+            "toLoanOfficerId": 1,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=assignloanofficer",
+          "body": {
+            "fromLoanOfficerId": 2,
+            "toLoanOfficerId": 1,
+            "assignmentDate": "bogus",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=assignloanofficer",
+          "body": {
+            "fromLoanOfficerId": 2,
+            "toLoanOfficerId": 1,
+            "assignmentDate": "01 March 2024",
+            "x": 1,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=assignloanofficer",
+          "body": {
+            "fromLoanOfficerId": 2,
+            "toLoanOfficerId": 1,
+            "assignmentDate": "01 February 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=assignloanofficer",
+          "body": {
+            "fromLoanOfficerId": 2,
+            "toLoanOfficerId": 1,
+            "assignmentDate": "01 April 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=unassignloanofficer",
+          "body": {
+            "unassignedDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=unassignloanofficer",
+          "body": {
+            "unassignedDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=assignloanofficer",
+          "body": {
+            "fromLoanOfficerId": 2,
+            "toLoanOfficerId": 1,
+            "assignmentDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "loanOfficerId": 1
+          },
+          "save": {
+            "b": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}?command=disburse",
+          "body": {
+            "actualDisbursementDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-10",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}?command=assignloanofficer",
+          "body": {
+            "fromLoanOfficerId": 1,
+            "toLoanOfficerId": 2,
+            "assignmentDate": "10 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-12",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}?command=assignloanofficer",
+          "body": {
+            "fromLoanOfficerId": 2,
+            "toLoanOfficerId": 2,
+            "assignmentDate": "11 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}?command=assignloanofficer",
+          "body": {
+            "fromLoanOfficerId": 2,
+            "toLoanOfficerId": 1,
+            "assignmentDate": "11 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}?command=assignloanofficer",
+          "body": {
+            "fromLoanOfficerId": 1,
+            "toLoanOfficerId": 2,
+            "assignmentDate": "09 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}?command=assignloanofficer",
+          "body": {
+            "fromLoanOfficerId": 1,
+            "toLoanOfficerId": 2,
+            "assignmentDate": "12 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}?command=unassignloanofficer",
+          "body": {
+            "unassignedDate": "11 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}?command=unassignloanofficer",
+          "body": {
+            "unassignedDate": "12 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}?command=unassignloanofficer",
+          "body": {
+            "unassignedDate": "15 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}?command=unassignloanofficer",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}?command=unassignloanofficer",
+          "body": {
+            "unassignedDate": "bogus",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}?command=assignloanofficer",
+          "body": {
+            "fromLoanOfficerId": 2,
+            "toLoanOfficerId": 1,
+            "assignmentDate": "12 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}?command=assignloanofficer",
+          "body": {
+            "toLoanOfficerId": 1,
+            "assignmentDate": "12 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn"
+          ]
+        }
+      ]
     }
   ]
 }

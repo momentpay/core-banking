@@ -73,7 +73,7 @@ defmodule ECBApiFineract.ApiCase do
     # loans refer to clients, products and users
     for sql <- [
           "DELETE FROM acc_gl_journal_entry",
-          "DELETE FROM m_note WHERE loan_id IS NOT NULL",
+          "DELETE FROM m_note",
           "DELETE FROM m_loan_transaction_repayment_schedule_mapping",
           "DELETE FROM m_loan_charge_paid_by",
           "DELETE FROM m_loan_transaction_relation",
