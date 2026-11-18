@@ -599,6 +599,13 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       |> Map.put("disbursementDetails", [])
       |> Map.put("emiAmountVariations", [])
     end)
+    |> maybe(wants?.("guarantors"), fn b ->
+      # Fineract writes each guarantor of the loan as an empty object here
+      case ECBLoans.Guarantors.count(loan.id) do
+        0 -> b
+        n -> Map.put(b, "guarantors", List.duplicate(%{}, n))
+      end
+    end)
     |> maybe(wants?.("charges"), fn b ->
       case Loans.charges(loan.id) do
         [] -> b

@@ -275,6 +275,17 @@
       "tables": [
         "m_loan_collateral"
       ]
+    },
+    {
+      "kind": "schema",
+      "app": "ecb_loans",
+      "version": "20261118121000",
+      "name": "create_guarantor_tables",
+      "tables": [
+        "m_guarantor",
+        "m_guarantor_funding_details",
+        "m_guarantor_transaction"
+      ]
     }
   ],
   "deferred_foreign_keys": [
@@ -343,6 +354,18 @@
       "references": "m_group",
       "sql": "ALTER TABLE ONLY public.m_loan\n    ADD CONSTRAINT m_loan_ibfk_1 FOREIGN KEY (group_id) REFERENCES public.m_group(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
       "migration": "create_loan_account_tables"
+    },
+    {
+      "table": "m_guarantor_transaction",
+      "references": "m_deposit_account_on_hold_transaction",
+      "sql": "ALTER TABLE ONLY public.m_guarantor_transaction\n    ADD CONSTRAINT \"FK_guarantor_transaction_m_deposit_account_on_hold_transaction\" FOREIGN KEY (deposit_on_hold_transaction_id) REFERENCES public.m_deposit_account_on_hold_transaction(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
+      "migration": "create_guarantor_tables"
+    },
+    {
+      "table": "m_guarantor_funding_details",
+      "references": "m_portfolio_account_associations",
+      "sql": "ALTER TABLE ONLY public.m_guarantor_funding_details\n    ADD CONSTRAINT \"FK_m_guarantor_fund_details_account_associations_id\" FOREIGN KEY (account_associations_id) REFERENCES public.m_portfolio_account_associations(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
+      "migration": "create_guarantor_tables"
     }
   ]
 }

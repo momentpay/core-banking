@@ -181,4 +181,36 @@ defmodule ECBLoans.Handlers do
     def process(%{action_name: "DELETE"} = command, user),
       do: {:ok, Collaterals.delete!(user, command.entity_id, command.subentity_id)}
   end
+
+  defmodule Guarantor do
+    @moduledoc "Every action on `GUARANTOR`: add a guarantor to a loan, change one, make one inactive."
+    @behaviour ECBPlatform.Commands.Handler
+
+    alias ECBLoans.Guarantors
+    alias ECBPlatform.Params
+
+    @impl true
+    def process(%{action_name: "CREATE"} = command, user),
+      do: {:ok, Guarantors.create!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "UPDATE"} = command, user) do
+      {:ok,
+       Guarantors.update!(
+         user,
+         command.entity_id,
+         command.subentity_id,
+         Params.parse!(command.json)
+       )}
+    end
+
+    def process(%{action_name: "DELETE"} = command, user) do
+      funding_id =
+        case command.json && Jason.decode(command.json) do
+          {:ok, %{"guarantorFundingId" => id}} -> id
+          _ -> nil
+        end
+
+      {:ok, Guarantors.delete!(user, command.entity_id, command.subentity_id, funding_id)}
+    end
+  end
 end

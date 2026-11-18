@@ -20,7 +20,7 @@ defmodule ECBApiFineract.Resources.Write do
   def execute(conn, entity, action, opts \\ []) do
     command =
       Command.new(action, entity,
-        json: conn.assigns[:raw_body],
+        json: Keyword.get(opts, :json, conn.assigns[:raw_body]),
         entity_id: opts[:id],
         subentity_id: opts[:subentity_id],
         client_id: opts[:client_id],
