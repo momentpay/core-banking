@@ -87,7 +87,8 @@ defmodule ECBLoans.Loans.Corrections do
       client_id: loan.client_id,
       loan_id: id,
       resource_id: new_id,
-      resource_external_id: loan.external_id,
+      resource_external_id:
+        if(Decimal.eq?(amount, 0), do: tx.external_id, else: Params.string(p, "externalId")),
       changes: Repay.changes(p)
     )
   end

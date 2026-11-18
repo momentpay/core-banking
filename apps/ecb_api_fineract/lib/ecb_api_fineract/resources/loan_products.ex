@@ -261,7 +261,9 @@ defmodule ECBApiFineract.Resources.LoanProducts do
   defp none_if_empty([]), do: nil
   defp none_if_empty(list), do: list
 
-  defp code_values(name) do
+  @doc "The values of the code named `name`, as Fineract's code value data."
+  @spec code_values(String.t()) :: [map]
+  def code_values(name) do
     case Codes.get_by_name(name) do
       {:ok, code} ->
         Enum.map(Codes.values(code.id), fn v ->

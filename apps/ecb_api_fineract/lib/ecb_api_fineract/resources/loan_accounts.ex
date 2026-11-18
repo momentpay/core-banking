@@ -23,6 +23,11 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   }
 
   # The names `fields` can choose between (Fineract's response parameters for a loan).
+  # the names `fields=` can take out of a single transaction (those Fineract's serializer knows)
+  @transaction_choosable ~w(id type date currency amount externalId reversalExternalId reversedOnDate classification
+                            numberOfFutureInstallments numberOfPastInstallments nextInstallmentDueDate
+                            calculatedStartDate)
+
   @choosable ~w(id accountNo status externalId clientId group loanProductId loanProductName
                 loanProductDescription isLoanProductLinkedToFloatingRate fundId fundName loanPurposeId
                 loanPurposeName loanOfficerId loanOfficerName currency principal totalOverpaid
@@ -412,6 +417,10 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   defp put(map, _key, nil), do: map
   defp put(map, key, value), do: Map.put(map, key, value)
 
+  @doc "The loan's currency as Fineract shows it with a transaction."
+  @spec currency_json(map) :: map
+  def currency_json(l), do: currency(l)
+
   defp currency(l) do
     Charges.currency(%{
       code: l.currency_code,
@@ -651,6 +660,14 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     23 => {"loanTransactionType.goodwillCredit", "Goodwill Credit", "goodwillCredit"}
   }
 
+  @doc "The type of a transaction as Fineract shows it: its id, code and value, and the flag of its kind."
+  @spec transaction_type_json(integer) :: map
+  def transaction_type_json(type_enum) do
+    {code, value, flag} = Map.fetch!(@transaction_types, type_enum)
+    flags = Map.new(@type_flags, &{&1, &1 == flag})
+    Map.merge(%{"id" => type_enum, "code" => code, "value" => value}, flags)
+  end
+
   @doc false
   def transaction_json(t, loan) do
     zero = 0
@@ -689,8 +706,9 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
 
   defp payment_detail(%{payment_detail_id: nil}), do: nil
 
+  # Fineract shows the id of the transaction as that of its payment details
   defp payment_detail(t) do
-    %{"id" => t.payment_detail_id}
+    %{"id" => t.id}
     |> put("paymentType", payment_type(t))
     |> put("accountNumber", t.account_number)
     |> put("checkNumber", t.check_number)
@@ -713,12 +731,251 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     end
   end
 
+  @doc "`GET /loans/:id/transactions/external-id/:external_id`"
+  def show_transaction_by_external_id(conn, raw_id, external_id) do
+    case Write.path_id(raw_id) do
+      {:ok, id} ->
+        Read.respond(conn, @resource, fn ->
+          one_transaction_by_external_id(id, external_id, conn.query_params)
+        end)
+
+      {:error, error} ->
+        Errors.render(conn, error)
+    end
+  end
+
+  @doc "`GET /loans/external-id/:loan_external_id/transactions/:transaction_id`"
+  def show_transaction_of_external_loan(conn, loan_external_id, raw_tid) do
+    case Write.path_id(raw_tid) do
+      {:ok, tid} ->
+        Read.respond(conn, @resource, fn ->
+          external_loan_transaction(loan_external_id, tid, conn)
+        end)
+
+      {:error, error} ->
+        Errors.render(conn, error)
+    end
+  end
+
+  defp external_loan_transaction(loan_external_id, tid, conn) do
+    case Loans.get_by_external_id(loan_external_id) do
+      nil -> {:error, Loans.not_found_by_external_id(loan_external_id)}
+      loan -> one_transaction(loan.id, tid, conn.query_params)
+    end
+  end
+
+  @doc "`GET /loans/external-id/:loan_external_id/transactions/external-id/:external_id`"
+  def show_transaction_by_both_external_ids(conn, loan_external_id, external_id) do
+    Read.respond(conn, @resource, fn ->
+      case Loans.get_by_external_id(loan_external_id) do
+        nil ->
+          {:error, Loans.not_found_by_external_id(loan_external_id)}
+
+        loan ->
+          one_transaction_by_external_id(loan.id, external_id, conn.query_params)
+      end
+    end)
+  end
+
+  defp one_transaction_by_external_id(id, external_id, q) do
+    loan = Loans.fetch!(id)
+
+    case Loans.transaction_by_external_id(id, external_id) do
+      nil -> {:error, Loans.transaction_not_found_by_external_id(external_id)}
+      t -> t |> transaction_json(loan) |> only_fields(q, @transaction_choosable)
+    end
+  end
+
+  @doc "`GET /loans/:id/transactions`: a page of the loan's transactions."
+  def transactions(conn, raw_id) do
+    case Write.path_id(raw_id) do
+      {:ok, id} ->
+        Read.respond(conn, @resource, fn -> transaction_page(Loans.fetch!(id), conn) end)
+
+      {:error, error} ->
+        Errors.render(conn, error)
+    end
+  end
+
+  @doc "`GET /loans/external-id/:external_id/transactions`"
+  def transactions_by_external_id(conn, external_id) do
+    Read.respond(conn, @resource, fn ->
+      case Loans.get_by_external_id(external_id) do
+        nil -> {:error, Loans.not_found_by_external_id(external_id)}
+        loan -> transaction_page(loan, conn)
+      end
+    end)
+  end
+
+  # The transaction names Fineract's enum gives, shown with each transaction of a page
+  @transaction_enum_names %{
+    1 => "DISBURSEMENT",
+    2 => "REPAYMENT",
+    3 => "CONTRA",
+    4 => "WAIVE_INTEREST",
+    5 => "REPAYMENT_AT_DISBURSEMENT",
+    6 => "WRITEOFF",
+    8 => "RECOVERY_REPAYMENT",
+    9 => "WAIVE_CHARGES",
+    10 => "ACCRUAL",
+    20 => "CREDIT_BALANCE_REFUND",
+    21 => "MERCHANT_ISSUED_REFUND",
+    22 => "PAYOUT_REFUND",
+    23 => "GOODWILL_CREDIT",
+    27 => "CHARGE_OFF",
+    34 => "ACCRUAL_ADJUSTMENT"
+  }
+
+  # the types Fineract calls repayment types (`LoanTransactionType.isRepaymentType`); a page flags them
+  @repayment_types [2, 21, 22, 23, 24, 26, 28, 31]
+
+  # A transaction as the page of them shows it (Jackson's rendering of the data class: dates as text, a value that
+  # is not there left out, no currency names, no payment type)
+  defp transaction_list_item(t, loan) do
+    {code, value, flag} = Map.fetch!(@transaction_types, t.transaction_type_enum)
+    flags = Map.new(@type_flags, &{&1, &1 == flag})
+
+    flags = Map.put(flags, "repaymentType", t.transaction_type_enum in @repayment_types)
+
+    %{
+      "id" => t.id,
+      "loanId" => t.loan_id,
+      "externalLoanId" => loan.external_id || :null,
+      "officeId" => t.office_id,
+      "officeName" => t.office_name,
+      "type" =>
+        Map.merge(%{"id" => t.transaction_type_enum, "code" => code, "value" => value}, flags),
+      "date" => Date.to_iso8601(t.transaction_date),
+      "currency" => Map.take(currency(loan), ["code", "decimalPlaces", "inMultiplesOf"]),
+      "amount" => t.amount,
+      "netDisbursalAmount" => loan.net_disbursal_amount,
+      "externalId" => t.external_id || :null,
+      "submittedOnDate" => Date.to_iso8601(t.submitted_on_date),
+      "manuallyReversed" => t.manually_adjusted_or_reversed == true,
+      "loanChargePaidByList" => Enum.map(Loans.paid_by(t.id), &paid_by(&1, t.id)),
+      "transactionDate" => Date.to_iso8601(t.transaction_date),
+      "transactionType" => Map.fetch!(@transaction_enum_names, t.transaction_type_enum),
+      "reversalExternalId" => t.reversal_external_id || :null,
+      "transactionRelations" => Enum.map(Loans.relations(t.id), &list_relation(&1, t))
+    }
+    |> put("paymentDetailData", list_payment_detail(t))
+    |> put("principalPortion", t.principal_portion_derived)
+    |> put("interestPortion", t.interest_portion_derived)
+    |> put("feeChargesPortion", t.fee_charges_portion_derived)
+    |> put("penaltyChargesPortion", t.penalty_charges_portion_derived)
+    |> put("overpaymentPortion", t.overpayment_portion_derived)
+    |> put("unrecognizedIncomePortion", t.unrecognized_income_portion)
+    |> put("outstandingLoanBalance", t.outstanding_loan_balance_derived)
+    |> put("reversedOnDate", t.reversed_on_date && Date.to_iso8601(t.reversed_on_date))
+  end
+
+  defp list_relation(r, t) do
+    %{
+      "fromLoanTransaction" => t.id,
+      "toLoanTransaction" => r.to,
+      "relationType" => relation_type(r.type),
+      "amount" => t.amount
+    }
+  end
+
+  defp list_payment_detail(%{payment_detail_id: nil}), do: nil
+
+  defp list_payment_detail(t) do
+    %{"id" => t.payment_detail_id}
+    |> put("accountNumber", t.account_number)
+    |> put("checkNumber", t.check_number)
+    |> put("routingCode", t.routing_code)
+    |> put("receiptNumber", t.receipt_number)
+    |> put("bankNumber", t.bank_number)
+  end
+
+  @default_page_size 50
+
+  # Spring's page of the transactions: `page` (from 0), `size` and `sort=property[,asc|desc]` (more than once)
+  defp transaction_page(loan, conn) do
+    build_page(loan, conn.query_string |> URI.query_decoder() |> Enum.to_list())
+  rescue
+    error in [ECBPlatform.Errors.ServerError, ECBApiFineract.Errors.PathNotFound] ->
+      {:error, error}
+  end
+
+  defp build_page(loan, query) do
+    page = page_number(query, "page", 0, 0)
+    size = page_number(query, "size", @default_page_size, 1)
+    sort = sort_orders(query)
+    %{total: total, items: items} = Loans.transactions_page(loan.id, page, size, sort)
+    pages = if total == 0, do: 0, else: div(total + size - 1, size)
+
+    sorted = %{
+      "empty" => sort == [],
+      "sorted" => sort != [],
+      "unsorted" => sort == []
+    }
+
+    %{
+      "content" => Enum.map(items, &transaction_list_item(&1, loan)),
+      "pageable" => %{
+        "pageNumber" => page,
+        "pageSize" => size,
+        "sort" => sorted,
+        "offset" => page * size,
+        "paged" => true,
+        "unpaged" => false
+      },
+      "last" => page + 1 >= pages,
+      "totalElements" => total,
+      "totalPages" => pages,
+      "size" => size,
+      "number" => page,
+      "sort" => sorted,
+      "first" => page == 0,
+      "numberOfElements" => length(items),
+      "empty" => items == []
+    }
+  end
+
+  # a number that is not a whole number is not a request the application sees (404); one that is too small is a 500
+  defp page_number(query, name, default, minimum) do
+    case Enum.find(query, &(elem(&1, 0) == name)) do
+      nil ->
+        default
+
+      {_, text} ->
+        case Integer.parse(text) do
+          {n, ""} when n >= minimum -> n
+          {_, ""} -> raise ECBPlatform.Errors.ServerError
+          _ -> raise ECBApiFineract.Errors.PathNotFound
+        end
+    end
+  end
+
+  defp sort_orders(query) do
+    for {"sort", value} <- query do
+      [property, direction] =
+        case String.split(value, ",") do
+          [property] -> [property, "asc"]
+          [property, direction | _] -> [property, direction]
+        end
+
+      direction =
+        case String.downcase(direction) do
+          "asc" -> :asc
+          "desc" -> :desc
+          _ -> raise ECBPlatform.Errors.ServerError
+        end
+
+      if property in Loans.transaction_sort_properties(),
+        do: {property, direction},
+        else: raise(ECBPlatform.Errors.ServerError)
+    end
+  end
+
   defp one_transaction(id, tid, q) do
     loan = Loans.fetch!(id)
 
     case Loans.transaction(id, tid) do
       nil -> {:error, Loans.transaction_not_found(tid)}
-      t -> t |> transaction_json(loan) |> only_fields(q)
+      t -> t |> transaction_json(loan) |> only_fields(q, @transaction_choosable)
     end
   end
 
@@ -1191,13 +1448,15 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   # --- fields -----------------------------------------------------------------------------------
 
   @doc false
-  def only_fields({:error, _} = error, _q), do: error
+  def only_fields(body, q, choosable \\ @choosable)
 
-  def only_fields(body, q) do
+  def only_fields({:error, _} = error, _q, _choosable), do: error
+
+  def only_fields(body, q, choosable) do
     case q["fields"] do
       fields when is_binary(fields) and fields != "" ->
         wanted = fields |> String.split(",") |> Enum.map(&String.trim/1)
-        drop = MapSet.new(@choosable -- wanted)
+        drop = MapSet.new(choosable -- wanted)
         filter(body, drop)
 
       _ ->

@@ -1,0 +1,3829 @@
+{
+ "name": "loantx3",
+ "reset": [
+  "loans",
+  "loanproducts",
+  "clients",
+  "funds",
+  "glaccounts",
+  "staff",
+  "codes",
+  "configuration"
+ ],
+ "steps": [
+  {
+   "method": "PUT",
+   "path": "/v1/configurations/name/enable-business-date",
+   "body": {
+    "enabled": true
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 44,
+    "changes": {
+     "enabled": true
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "type": "BUSINESS_DATE",
+    "date": "2024-03-01",
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "description": "Business Date",
+    "type": "BUSINESS_DATE",
+    "date": [
+     2024,
+     3,
+     1
+    ],
+    "changes": {
+     "COB_DATE": [
+      2024,
+      2,
+      29
+     ],
+     "BUSINESS_DATE": [
+      2024,
+      3,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Acc A1",
+    "glCode": "A1",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1,
+    "description": "d"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Acc A2",
+    "glCode": "A2",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1,
+    "description": "d"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Acc A3",
+    "glCode": "A3",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1,
+    "description": "d"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Acc A4",
+    "glCode": "A4",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1,
+    "description": "d"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Acc A5",
+    "glCode": "A5",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1,
+    "description": "d"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 5
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Acc A6",
+    "glCode": "A6",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1,
+    "description": "d"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 6
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Acc L1",
+    "glCode": "L1",
+    "manualEntriesAllowed": true,
+    "type": 2,
+    "usage": 1,
+    "description": "d"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 7
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Acc L2",
+    "glCode": "L2",
+    "manualEntriesAllowed": true,
+    "type": 2,
+    "usage": 1,
+    "description": "d"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 8
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Acc I1",
+    "glCode": "I1",
+    "manualEntriesAllowed": true,
+    "type": 4,
+    "usage": 1,
+    "description": "d"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 9
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Acc I2",
+    "glCode": "I2",
+    "manualEntriesAllowed": true,
+    "type": 4,
+    "usage": 1,
+    "description": "d"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 10
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Acc I3",
+    "glCode": "I3",
+    "manualEntriesAllowed": true,
+    "type": 4,
+    "usage": 1,
+    "description": "d"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 11
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Acc X1",
+    "glCode": "X1",
+    "manualEntriesAllowed": true,
+    "type": 5,
+    "usage": 1,
+    "description": "d"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 12
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Acc X2",
+    "glCode": "X2",
+    "manualEntriesAllowed": true,
+    "type": 5,
+    "usage": 1,
+    "description": "d"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 13
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients",
+   "body": {
+    "officeId": 1,
+    "legalFormId": 1,
+    "firstname": "Ann",
+    "lastname": "Lee",
+    "active": true,
+    "activationDate": "01 January 2024",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loanproducts",
+   "body": {
+    "name": "Plain",
+    "shortName": "PLAN",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "principal": 10000,
+    "numberOfRepayments": 12,
+    "repaymentEvery": 1,
+    "repaymentFrequencyType": 2,
+    "interestRatePerPeriod": 12,
+    "interestRateFrequencyType": 3,
+    "amortizationType": 1,
+    "interestType": 0,
+    "interestCalculationPeriodType": 1,
+    "transactionProcessingStrategyCode": "mifos-standard-strategy",
+    "daysInYearType": 365,
+    "daysInMonthType": 30,
+    "isInterestRecalculationEnabled": false,
+    "accountingRule": 1,
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loanproducts",
+   "body": {
+    "name": "Periodic",
+    "shortName": "PERI",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "principal": 10000,
+    "numberOfRepayments": 12,
+    "repaymentEvery": 1,
+    "repaymentFrequencyType": 2,
+    "interestRatePerPeriod": 12,
+    "interestRateFrequencyType": 3,
+    "amortizationType": 1,
+    "interestType": 0,
+    "interestCalculationPeriodType": 1,
+    "transactionProcessingStrategyCode": "mifos-standard-strategy",
+    "daysInYearType": 365,
+    "daysInMonthType": 30,
+    "isInterestRecalculationEnabled": false,
+    "accountingRule": 3,
+    "locale": "en",
+    "fundSourceAccountId": 1,
+    "loanPortfolioAccountId": 2,
+    "transfersInSuspenseAccountId": 3,
+    "receivableInterestAccountId": 4,
+    "receivableFeeAccountId": 5,
+    "receivablePenaltyAccountId": 6,
+    "overpaymentLiabilityAccountId": 7,
+    "interestOnLoanAccountId": 9,
+    "incomeFromFeeAccountId": 10,
+    "incomeFromPenaltyAccountId": 11,
+    "writeOffAccountId": 12,
+    "incomeFromRecoveryAccountId": 11,
+    "paymentChannelToFundSourceMappings": [
+     {
+      "paymentTypeId": 1,
+      "fundSourceAccountId": 3
+     }
+    ]
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/configurations/name/enable-business-date",
+   "body": {
+    "enabled": true
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 44,
+    "changes": {}
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "type": "BUSINESS_DATE",
+    "date": "2024-03-01",
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "description": "Business Date",
+    "type": "BUSINESS_DATE",
+    "date": [
+     2024,
+     3,
+     1
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loans",
+   "body": {
+    "clientId": 1,
+    "productId": 1,
+    "principal": 10000,
+    "loanTermFrequency": 12,
+    "loanTermFrequencyType": 2,
+    "numberOfRepayments": 12,
+    "repaymentEvery": 1,
+    "repaymentFrequencyType": 2,
+    "interestRatePerPeriod": 12,
+    "interestRateFrequencyType": 3,
+    "amortizationType": 1,
+    "interestType": 0,
+    "interestCalculationPeriodType": 1,
+    "transactionProcessingStrategyCode": "mifos-standard-strategy",
+    "expectedDisbursementDate": "01 March 2024",
+    "submittedOnDate": "01 March 2024",
+    "loanType": "individual",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "save": {
+    "a": "resourceId"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "loanId": 1,
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loans/{a}?command=approve",
+   "body": {
+    "approvedOnDate": "01 March 2024",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "loanId": 1,
+    "resourceId": 1,
+    "changes": {
+     "dateFormat": "dd MMMM yyyy",
+     "approvedOnDate": "01 March 2024",
+     "locale": "en",
+     "status": {
+      "id": 200,
+      "code": "loanStatusType.approved",
+      "value": "Approved",
+      "pendingApproval": false,
+      "waitingForDisbursal": true,
+      "active": false,
+      "closedObligationsMet": false,
+      "closedWrittenOff": false,
+      "closedRescheduled": false,
+      "closed": false,
+      "overpaid": false
+     }
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loans/{a}?command=disburse",
+   "body": {
+    "actualDisbursementDate": "01 March 2024",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "loanId": 1,
+    "resourceId": 1,
+    "subResourceId": 1,
+    "changes": {
+     "locale": "en",
+     "dateFormat": "dd MMMM yyyy",
+     "actualDisbursementDate": "01 March 2024",
+     "status": {
+      "id": 300,
+      "code": "loanStatusType.active",
+      "value": "Active",
+      "pendingApproval": false,
+      "waitingForDisbursal": false,
+      "active": true,
+      "closedObligationsMet": false,
+      "closedWrittenOff": false,
+      "closedRescheduled": false,
+      "closed": false,
+      "overpaid": false
+     }
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "type": "BUSINESS_DATE",
+    "date": "2024-04-15",
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "description": "Business Date",
+    "type": "BUSINESS_DATE",
+    "date": [
+     2024,
+     4,
+     15
+    ],
+    "changes": {
+     "COB_DATE": [
+      2024,
+      4,
+      14
+     ],
+     "BUSINESS_DATE": [
+      2024,
+      4,
+      15
+     ]
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loans/{a}/transactions?command=repayment",
+   "body": {
+    "transactionDate": "01 April 2024",
+    "transactionAmount": 1000,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "save": {
+    "ra": "resourceId"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "loanId": 1,
+    "resourceId": 3,
+    "changes": {
+     "transactionDate": "01 April 2024",
+     "transactionAmount": "1000",
+     "locale": "en",
+     "dateFormat": "dd MMMM yyyy"
+    }
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{a}/transactions/template?command=repayment",
+   "status": 200,
+   "response": {
+    "type": {
+     "id": 2,
+     "code": "loanTransactionType.repayment",
+     "value": "Repayment",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": true,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": false,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2024,
+     5,
+     1
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "amount": 776.98,
+    "netDisbursalAmount": 10000.0,
+    "principalPortion": 776.98,
+    "interestPortion": 0.0,
+    "feeChargesPortion": 0,
+    "penaltyChargesPortion": 0,
+    "manuallyReversed": false,
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{a}/transactions/template?command=merchantIssuedRefund",
+   "status": 200,
+   "response": {
+    "loanId": 1,
+    "type": {
+     "id": 21,
+     "code": "loanTransactionType.merchantIssuedRefund",
+     "value": "Merchant Issued Refund",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": false,
+     "merchantIssuedRefund": true,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": false,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2024,
+     4,
+     15
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "amount": 9661.86,
+    "netDisbursalAmount": 10000.0,
+    "principalPortion": 9192.12,
+    "interestPortion": 469.74,
+    "feeChargesPortion": 0.0,
+    "penaltyChargesPortion": 0.0,
+    "outstandingLoanBalance": 9192.12,
+    "manuallyReversed": false,
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{a}/transactions/template?command=payoutRefund",
+   "status": 200,
+   "response": {
+    "loanId": 1,
+    "type": {
+     "id": 22,
+     "code": "loanTransactionType.payoutRefund",
+     "value": "Payout Refund",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": false,
+     "merchantIssuedRefund": false,
+     "payoutRefund": true,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": false,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2024,
+     4,
+     15
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "amount": 9661.86,
+    "netDisbursalAmount": 10000.0,
+    "principalPortion": 9192.12,
+    "interestPortion": 469.74,
+    "feeChargesPortion": 0.0,
+    "penaltyChargesPortion": 0.0,
+    "outstandingLoanBalance": 9192.12,
+    "manuallyReversed": false,
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{a}/transactions/template?command=goodwillCredit",
+   "status": 200,
+   "response": {
+    "loanId": 1,
+    "type": {
+     "id": 23,
+     "code": "loanTransactionType.goodwillCredit",
+     "value": "Goodwill Credit",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": false,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": true,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": false,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2024,
+     4,
+     15
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "amount": 9661.86,
+    "netDisbursalAmount": 10000.0,
+    "principalPortion": 9192.12,
+    "interestPortion": 469.74,
+    "feeChargesPortion": 0.0,
+    "penaltyChargesPortion": 0.0,
+    "outstandingLoanBalance": 9192.12,
+    "manuallyReversed": false,
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{a}/transactions/template?command=waiveinterest",
+   "status": 200,
+   "response": {
+    "loanId": 1,
+    "type": {
+     "id": 4,
+     "code": "loanTransactionType.waiver",
+     "value": "Waive interest",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": false,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": true,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": false,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2024,
+     4,
+     15
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "amount": 469.74,
+    "netDisbursalAmount": 10000.0,
+    "manuallyReversed": false
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{a}/transactions/template?command=writeoff",
+   "status": 200,
+   "response": {
+    "loanId": 1,
+    "type": {
+     "id": 6,
+     "code": "loanTransactionType.writeOff",
+     "value": "Close (as written-off)",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": false,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": true,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2024,
+     4,
+     15
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "amount": 9661.86,
+    "netDisbursalAmount": 10000.0,
+    "manuallyReversed": false,
+    "writeOffReasonOptions": []
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{a}/transactions/template?command=close-rescheduled",
+   "status": 200,
+   "response": {
+    "type": {
+     "id": 6,
+     "code": "loanTransactionType.writeOff",
+     "value": "Close (as written-off)",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": false,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": true,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2024,
+     4,
+     15
+    ],
+    "manuallyReversed": false
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{a}/transactions/template?command=close",
+   "status": 200,
+   "response": {
+    "type": {
+     "id": 6,
+     "code": "loanTransactionType.writeOff",
+     "value": "Close (as written-off)",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": false,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": true,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2024,
+     4,
+     15
+    ],
+    "manuallyReversed": false
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{a}/transactions/template?command=recoverypayment",
+   "status": 200,
+   "response": {
+    "loanId": 1,
+    "type": {
+     "id": 8,
+     "code": "loanTransactionType.recoveryRepayment",
+     "value": "Repayment (after write-off)",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": false,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": false,
+     "recoveryRepayment": true,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "amount": 0.0,
+    "netDisbursalAmount": 10000.0,
+    "manuallyReversed": false,
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{a}/transactions/template?command=prepayLoan",
+   "status": 200,
+   "response": {
+    "loanId": 1,
+    "type": {
+     "id": 2,
+     "code": "loanTransactionType.repayment",
+     "value": "Repayment",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": true,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": false,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2024,
+     4,
+     15
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "amount": 9661.86,
+    "netDisbursalAmount": 10000.0,
+    "principalPortion": 9192.12,
+    "interestPortion": 469.74,
+    "feeChargesPortion": 0.0,
+    "penaltyChargesPortion": 0.0,
+    "outstandingLoanBalance": 9192.12,
+    "manuallyReversed": false,
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{a}/transactions/template?command=creditBalanceRefund",
+   "ignore": [
+    "date"
+   ],
+   "status": 200,
+   "response": {
+    "loanId": 1,
+    "type": {
+     "id": 20,
+     "code": "loanTransactionType.creditBalanceRefund",
+     "value": "Credit Balance Refund",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": false,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": false,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": true,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2026,
+     11,
+     18
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "manuallyReversed": false
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{a}/transactions/template?command=charge-off",
+   "status": 200,
+   "response": {
+    "loanId": 1,
+    "type": {
+     "id": 27,
+     "code": "loanTransactionType.chargeOff",
+     "value": "Charge-off",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": false,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": false,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": true,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2024,
+     4,
+     15
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "amount": 9661.86,
+    "netDisbursalAmount": 10000.0,
+    "principalPortion": 9192.12,
+    "interestPortion": 469.74,
+    "feeChargesPortion": 0.0,
+    "penaltyChargesPortion": 0.0,
+    "manuallyReversed": false,
+    "chargeOffReasonOptions": []
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{a}/transactions/template?command=bogus",
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The query parameter command has an unsupported value of: bogus",
+      "defaultUserMessage": "command",
+      "userMessageGlobalisationCode": "error.msg.query.parameter.value.unsupported",
+      "parameterName": "command",
+      "args": [
+       {
+        "value": "bogus"
+       },
+       {
+        "value": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{a}/transactions/template",
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The query parameter command has an unsupported value of: null",
+      "defaultUserMessage": "command",
+      "userMessageGlobalisationCode": "error.msg.query.parameter.value.unsupported",
+      "parameterName": "command",
+      "args": [
+       {},
+       {
+        "value": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{a}/transactions/template?command=prepayLoan&transactionDate=30%20April%202024&dateFormat=dd%20MMMM%20yyyy&locale=en",
+   "status": 200,
+   "response": {
+    "loanId": 1,
+    "type": {
+     "id": 2,
+     "code": "loanTransactionType.repayment",
+     "value": "Repayment",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": true,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": false,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2024,
+     4,
+     15
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "amount": 9661.86,
+    "netDisbursalAmount": 10000.0,
+    "principalPortion": 9192.12,
+    "interestPortion": 469.74,
+    "feeChargesPortion": 0.0,
+    "penaltyChargesPortion": 0.0,
+    "outstandingLoanBalance": 9192.12,
+    "manuallyReversed": false,
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{a}/transactions/template?command=repayment&fields=amount,date",
+   "status": 200,
+   "response": {
+    "date": [
+     2024,
+     5,
+     1
+    ],
+    "amount": 776.98,
+    "netDisbursalAmount": 10000.0,
+    "principalPortion": 776.98,
+    "interestPortion": 0.0,
+    "feeChargesPortion": 0,
+    "penaltyChargesPortion": 0,
+    "manuallyReversed": false,
+    "paymentTypeOptions": [
+     {
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/99/transactions/template?command=repayment",
+   "status": 500,
+   "response": {
+    "timestamp": "2026-11-18T10:13:57.416Z",
+    "status": 500,
+    "error": "Internal Server Error",
+    "path": "/fineract-provider/api/v1/loans/99/transactions/template"
+   },
+   "ignore": [
+    "path",
+    "timestamp"
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "type": "BUSINESS_DATE",
+    "date": "2024-03-01",
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "description": "Business Date",
+    "type": "BUSINESS_DATE",
+    "date": [
+     2024,
+     3,
+     1
+    ],
+    "changes": {
+     "COB_DATE": [
+      2024,
+      2,
+      29
+     ],
+     "BUSINESS_DATE": [
+      2024,
+      3,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loans",
+   "body": {
+    "clientId": 1,
+    "productId": 2,
+    "principal": 10000,
+    "loanTermFrequency": 12,
+    "loanTermFrequencyType": 2,
+    "numberOfRepayments": 12,
+    "repaymentEvery": 1,
+    "repaymentFrequencyType": 2,
+    "interestRatePerPeriod": 12,
+    "interestRateFrequencyType": 3,
+    "amortizationType": 1,
+    "interestType": 0,
+    "interestCalculationPeriodType": 1,
+    "transactionProcessingStrategyCode": "mifos-standard-strategy",
+    "expectedDisbursementDate": "01 March 2024",
+    "submittedOnDate": "01 March 2024",
+    "loanType": "individual",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "save": {
+    "b": "resourceId"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "loanId": 2,
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loans/{b}?command=approve",
+   "body": {
+    "approvedOnDate": "01 March 2024",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "loanId": 2,
+    "resourceId": 2,
+    "changes": {
+     "dateFormat": "dd MMMM yyyy",
+     "approvedOnDate": "01 March 2024",
+     "locale": "en",
+     "status": {
+      "id": 200,
+      "code": "loanStatusType.approved",
+      "value": "Approved",
+      "pendingApproval": false,
+      "waitingForDisbursal": true,
+      "active": false,
+      "closedObligationsMet": false,
+      "closedWrittenOff": false,
+      "closedRescheduled": false,
+      "closed": false,
+      "overpaid": false
+     }
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loans/{b}?command=disburse",
+   "body": {
+    "actualDisbursementDate": "01 March 2024",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "loanId": 2,
+    "resourceId": 2,
+    "subResourceId": 4,
+    "changes": {
+     "locale": "en",
+     "dateFormat": "dd MMMM yyyy",
+     "actualDisbursementDate": "01 March 2024",
+     "status": {
+      "id": 300,
+      "code": "loanStatusType.active",
+      "value": "Active",
+      "pendingApproval": false,
+      "waitingForDisbursal": false,
+      "active": true,
+      "closedObligationsMet": false,
+      "closedWrittenOff": false,
+      "closedRescheduled": false,
+      "closed": false,
+      "overpaid": false
+     }
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "type": "BUSINESS_DATE",
+    "date": "2024-04-15",
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "description": "Business Date",
+    "type": "BUSINESS_DATE",
+    "date": [
+     2024,
+     4,
+     15
+    ],
+    "changes": {
+     "COB_DATE": [
+      2024,
+      4,
+      14
+     ],
+     "BUSINESS_DATE": [
+      2024,
+      4,
+      15
+     ]
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loans/{b}/transactions?command=charge-off",
+   "body": {
+    "transactionDate": "15 April 2024",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Mapping for product of type LOAN with Id 2 does not exist for an account of type CHARGE OFF EXPENSE",
+      "defaultUserMessage": "Mapping for product of type LOAN with Id 2 does not exist for an account of type CHARGE OFF EXPENSE",
+      "userMessageGlobalisationCode": "error.msg.productToAccountMapping.not.found",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": "LOAN"
+       },
+       {
+        "value": 2
+       },
+       {
+        "value": "CHARGE OFF EXPENSE"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{b}/transactions/template?command=repayment",
+   "status": 200,
+   "response": {
+    "type": {
+     "id": 2,
+     "code": "loanTransactionType.repayment",
+     "value": "Repayment",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": true,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": false,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2024,
+     4,
+     1
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "amount": 888.49,
+    "netDisbursalAmount": 10000.0,
+    "principalPortion": 788.49,
+    "interestPortion": 100.0,
+    "feeChargesPortion": 0,
+    "penaltyChargesPortion": 0,
+    "manuallyReversed": false,
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{b}/transactions/template?command=charge-off",
+   "status": 200,
+   "response": {
+    "loanId": 2,
+    "type": {
+     "id": 27,
+     "code": "loanTransactionType.chargeOff",
+     "value": "Charge-off",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": false,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": false,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": true,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2024,
+     4,
+     15
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "amount": 10661.86,
+    "netDisbursalAmount": 10000.0,
+    "principalPortion": 10000.0,
+    "interestPortion": 661.86,
+    "feeChargesPortion": 0.0,
+    "penaltyChargesPortion": 0.0,
+    "manuallyReversed": false,
+    "chargeOffReasonOptions": []
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{b}/transactions/template?command=prepayLoan",
+   "status": 200,
+   "response": {
+    "loanId": 2,
+    "type": {
+     "id": 2,
+     "code": "loanTransactionType.repayment",
+     "value": "Repayment",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": true,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": false,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2024,
+     4,
+     15
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "amount": 10661.86,
+    "netDisbursalAmount": 10000.0,
+    "principalPortion": 10000.0,
+    "interestPortion": 661.86,
+    "feeChargesPortion": 0.0,
+    "penaltyChargesPortion": 0.0,
+    "outstandingLoanBalance": 10000.0,
+    "manuallyReversed": false,
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{b}/transactions/template?command=merchantIssuedRefund",
+   "status": 200,
+   "response": {
+    "loanId": 2,
+    "type": {
+     "id": 21,
+     "code": "loanTransactionType.merchantIssuedRefund",
+     "value": "Merchant Issued Refund",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": false,
+     "merchantIssuedRefund": true,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": false,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2024,
+     4,
+     15
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "amount": 10661.86,
+    "netDisbursalAmount": 10000.0,
+    "principalPortion": 10000.0,
+    "interestPortion": 661.86,
+    "feeChargesPortion": 0.0,
+    "penaltyChargesPortion": 0.0,
+    "outstandingLoanBalance": 10000.0,
+    "manuallyReversed": false,
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "type": "BUSINESS_DATE",
+    "date": "2024-03-01",
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "description": "Business Date",
+    "type": "BUSINESS_DATE",
+    "date": [
+     2024,
+     3,
+     1
+    ],
+    "changes": {
+     "COB_DATE": [
+      2024,
+      2,
+      29
+     ],
+     "BUSINESS_DATE": [
+      2024,
+      3,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loans",
+   "body": {
+    "clientId": 1,
+    "productId": 1,
+    "principal": 10000,
+    "loanTermFrequency": 12,
+    "loanTermFrequencyType": 2,
+    "numberOfRepayments": 12,
+    "repaymentEvery": 1,
+    "repaymentFrequencyType": 2,
+    "interestRatePerPeriod": 12,
+    "interestRateFrequencyType": 3,
+    "amortizationType": 1,
+    "interestType": 0,
+    "interestCalculationPeriodType": 1,
+    "transactionProcessingStrategyCode": "mifos-standard-strategy",
+    "expectedDisbursementDate": "01 March 2024",
+    "submittedOnDate": "01 March 2024",
+    "loanType": "individual",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "save": {
+    "c": "resourceId"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "loanId": 3,
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loans/{c}?command=approve",
+   "body": {
+    "approvedOnDate": "01 March 2024",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "loanId": 3,
+    "resourceId": 3,
+    "changes": {
+     "dateFormat": "dd MMMM yyyy",
+     "approvedOnDate": "01 March 2024",
+     "locale": "en",
+     "status": {
+      "id": 200,
+      "code": "loanStatusType.approved",
+      "value": "Approved",
+      "pendingApproval": false,
+      "waitingForDisbursal": true,
+      "active": false,
+      "closedObligationsMet": false,
+      "closedWrittenOff": false,
+      "closedRescheduled": false,
+      "closed": false,
+      "overpaid": false
+     }
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loans/{c}?command=disburse",
+   "body": {
+    "actualDisbursementDate": "01 March 2024",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "loanId": 3,
+    "resourceId": 3,
+    "subResourceId": 7,
+    "changes": {
+     "locale": "en",
+     "dateFormat": "dd MMMM yyyy",
+     "actualDisbursementDate": "01 March 2024",
+     "status": {
+      "id": 300,
+      "code": "loanStatusType.active",
+      "value": "Active",
+      "pendingApproval": false,
+      "waitingForDisbursal": false,
+      "active": true,
+      "closedObligationsMet": false,
+      "closedWrittenOff": false,
+      "closedRescheduled": false,
+      "closed": false,
+      "overpaid": false
+     }
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "type": "BUSINESS_DATE",
+    "date": "2024-04-15",
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "description": "Business Date",
+    "type": "BUSINESS_DATE",
+    "date": [
+     2024,
+     4,
+     15
+    ],
+    "changes": {
+     "COB_DATE": [
+      2024,
+      4,
+      14
+     ],
+     "BUSINESS_DATE": [
+      2024,
+      4,
+      15
+     ]
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loans/{c}/transactions?command=writeoff",
+   "body": {
+    "transactionDate": "15 April 2024",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "loanId": 3,
+    "resourceId": 9,
+    "changes": {
+     "transactionDate": "15 April 2024",
+     "locale": "en",
+     "dateFormat": "dd MMMM yyyy",
+     "closedOnDate": "15 April 2024",
+     "writtenOffOnDate": "15 April 2024",
+     "status": {
+      "id": 601,
+      "code": "loanStatusType.closed.written.off",
+      "value": "Closed (written off)",
+      "pendingApproval": false,
+      "waitingForDisbursal": false,
+      "active": false,
+      "closedObligationsMet": false,
+      "closedWrittenOff": true,
+      "closedRescheduled": false,
+      "closed": true,
+      "overpaid": false
+     }
+    }
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{c}/transactions/template?command=repayment",
+   "status": 200,
+   "response": {
+    "type": {
+     "id": 2,
+     "code": "loanTransactionType.repayment",
+     "value": "Repayment",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": true,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": false,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2024,
+     4,
+     1
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "amount": 0.0,
+    "netDisbursalAmount": 10000.0,
+    "principalPortion": 0.0,
+    "interestPortion": 0.0,
+    "feeChargesPortion": 0,
+    "penaltyChargesPortion": 0,
+    "manuallyReversed": false,
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{c}/transactions/template?command=recoverypayment",
+   "status": 200,
+   "response": {
+    "loanId": 3,
+    "type": {
+     "id": 8,
+     "code": "loanTransactionType.recoveryRepayment",
+     "value": "Repayment (after write-off)",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": false,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": false,
+     "recoveryRepayment": true,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "amount": 10661.86,
+    "netDisbursalAmount": 10000.0,
+    "manuallyReversed": false,
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{c}/transactions/template?command=writeoff",
+   "status": 200,
+   "response": {
+    "loanId": 3,
+    "type": {
+     "id": 6,
+     "code": "loanTransactionType.writeOff",
+     "value": "Close (as written-off)",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": false,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": true,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2024,
+     4,
+     15
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "amount": 0.0,
+    "netDisbursalAmount": 10000.0,
+    "manuallyReversed": false,
+    "writeOffReasonOptions": []
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{c}/transactions/template?command=prepayLoan",
+   "status": 200,
+   "response": {
+    "loanId": 3,
+    "type": {
+     "id": 2,
+     "code": "loanTransactionType.repayment",
+     "value": "Repayment",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": true,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": false,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2024,
+     4,
+     15
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "amount": 0.0,
+    "netDisbursalAmount": 10000.0,
+    "principalPortion": 0.0,
+    "interestPortion": 0.0,
+    "feeChargesPortion": 0.0,
+    "penaltyChargesPortion": 0.0,
+    "outstandingLoanBalance": 0.0,
+    "manuallyReversed": false,
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "type": "BUSINESS_DATE",
+    "date": "2024-03-01",
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "description": "Business Date",
+    "type": "BUSINESS_DATE",
+    "date": [
+     2024,
+     3,
+     1
+    ],
+    "changes": {
+     "COB_DATE": [
+      2024,
+      2,
+      29
+     ],
+     "BUSINESS_DATE": [
+      2024,
+      3,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loans",
+   "body": {
+    "clientId": 1,
+    "productId": 1,
+    "principal": 10000,
+    "loanTermFrequency": 12,
+    "loanTermFrequencyType": 2,
+    "numberOfRepayments": 12,
+    "repaymentEvery": 1,
+    "repaymentFrequencyType": 2,
+    "interestRatePerPeriod": 12,
+    "interestRateFrequencyType": 3,
+    "amortizationType": 1,
+    "interestType": 0,
+    "interestCalculationPeriodType": 1,
+    "transactionProcessingStrategyCode": "mifos-standard-strategy",
+    "expectedDisbursementDate": "01 March 2024",
+    "submittedOnDate": "01 March 2024",
+    "loanType": "individual",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "save": {
+    "d": "resourceId"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "loanId": 4,
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loans/{d}?command=approve",
+   "body": {
+    "approvedOnDate": "01 March 2024",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "loanId": 4,
+    "resourceId": 4,
+    "changes": {
+     "dateFormat": "dd MMMM yyyy",
+     "approvedOnDate": "01 March 2024",
+     "locale": "en",
+     "status": {
+      "id": 200,
+      "code": "loanStatusType.approved",
+      "value": "Approved",
+      "pendingApproval": false,
+      "waitingForDisbursal": true,
+      "active": false,
+      "closedObligationsMet": false,
+      "closedWrittenOff": false,
+      "closedRescheduled": false,
+      "closed": false,
+      "overpaid": false
+     }
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loans/{d}?command=disburse",
+   "body": {
+    "actualDisbursementDate": "01 March 2024",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "loanId": 4,
+    "resourceId": 4,
+    "subResourceId": 10,
+    "changes": {
+     "locale": "en",
+     "dateFormat": "dd MMMM yyyy",
+     "actualDisbursementDate": "01 March 2024",
+     "status": {
+      "id": 300,
+      "code": "loanStatusType.active",
+      "value": "Active",
+      "pendingApproval": false,
+      "waitingForDisbursal": false,
+      "active": true,
+      "closedObligationsMet": false,
+      "closedWrittenOff": false,
+      "closedRescheduled": false,
+      "closed": false,
+      "overpaid": false
+     }
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "type": "BUSINESS_DATE",
+    "date": "2024-04-15",
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "description": "Business Date",
+    "type": "BUSINESS_DATE",
+    "date": [
+     2024,
+     4,
+     15
+    ],
+    "changes": {
+     "COB_DATE": [
+      2024,
+      4,
+      14
+     ],
+     "BUSINESS_DATE": [
+      2024,
+      4,
+      15
+     ]
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loans/{d}/transactions?command=repayment",
+   "body": {
+    "transactionDate": "15 April 2024",
+    "transactionAmount": 12000,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "loanId": 4,
+    "resourceId": 12,
+    "changes": {
+     "transactionDate": "15 April 2024",
+     "transactionAmount": "12000",
+     "locale": "en",
+     "dateFormat": "dd MMMM yyyy"
+    }
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{d}/transactions/template?command=repayment",
+   "status": 200,
+   "response": {
+    "type": {
+     "id": 2,
+     "code": "loanTransactionType.repayment",
+     "value": "Repayment",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": true,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": false,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2024,
+     4,
+     15
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "amount": 0.0,
+    "netDisbursalAmount": 10000.0,
+    "principalPortion": 0.0,
+    "interestPortion": 0.0,
+    "feeChargesPortion": 0,
+    "penaltyChargesPortion": 0,
+    "manuallyReversed": false,
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{d}/transactions/template?command=creditBalanceRefund",
+   "ignore": [
+    "date"
+   ],
+   "status": 200,
+   "response": {
+    "loanId": 4,
+    "type": {
+     "id": 20,
+     "code": "loanTransactionType.creditBalanceRefund",
+     "value": "Credit Balance Refund",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": false,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": false,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": true,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2026,
+     11,
+     18
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "amount": 1338.14,
+    "manuallyReversed": false
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{d}/transactions/template?command=prepayLoan",
+   "status": 200,
+   "response": {
+    "loanId": 4,
+    "type": {
+     "id": 2,
+     "code": "loanTransactionType.repayment",
+     "value": "Repayment",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": true,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": false,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2024,
+     4,
+     15
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "amount": 0.0,
+    "netDisbursalAmount": 10000.0,
+    "principalPortion": 0.0,
+    "interestPortion": 0.0,
+    "feeChargesPortion": 0.0,
+    "penaltyChargesPortion": 0.0,
+    "outstandingLoanBalance": 0.0,
+    "manuallyReversed": false,
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "type": "BUSINESS_DATE",
+    "date": "2024-03-01",
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "description": "Business Date",
+    "type": "BUSINESS_DATE",
+    "date": [
+     2024,
+     3,
+     1
+    ],
+    "changes": {
+     "COB_DATE": [
+      2024,
+      2,
+      29
+     ],
+     "BUSINESS_DATE": [
+      2024,
+      3,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loans",
+   "body": {
+    "clientId": 1,
+    "productId": 1,
+    "principal": 10000,
+    "loanTermFrequency": 12,
+    "loanTermFrequencyType": 2,
+    "numberOfRepayments": 12,
+    "repaymentEvery": 1,
+    "repaymentFrequencyType": 2,
+    "interestRatePerPeriod": 12,
+    "interestRateFrequencyType": 3,
+    "amortizationType": 1,
+    "interestType": 0,
+    "interestCalculationPeriodType": 1,
+    "transactionProcessingStrategyCode": "mifos-standard-strategy",
+    "expectedDisbursementDate": "01 March 2024",
+    "submittedOnDate": "01 March 2024",
+    "loanType": "individual",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "save": {
+    "e": "resourceId"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "loanId": 5,
+    "resourceId": 5
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{e}/transactions/template?command=repayment",
+   "status": 200,
+   "response": {
+    "type": {
+     "id": 2,
+     "code": "loanTransactionType.repayment",
+     "value": "Repayment",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": true,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": false,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2024,
+     4,
+     1
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "amount": 888.49,
+    "netDisbursalAmount": 10000.0,
+    "principalPortion": 788.49,
+    "interestPortion": 100.0,
+    "feeChargesPortion": 0,
+    "penaltyChargesPortion": 0,
+    "manuallyReversed": false,
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{e}/transactions/template?command=prepayLoan",
+   "status": 200,
+   "response": {
+    "loanId": 5,
+    "type": {
+     "id": 2,
+     "code": "loanTransactionType.repayment",
+     "value": "Repayment",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": true,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": false,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2024,
+     3,
+     1
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "amount": 10661.86,
+    "netDisbursalAmount": 10000.0,
+    "principalPortion": 10000.0,
+    "interestPortion": 661.86,
+    "feeChargesPortion": 0.0,
+    "penaltyChargesPortion": 0.0,
+    "outstandingLoanBalance": 10000.0,
+    "manuallyReversed": false,
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{e}/transactions/template?command=waiveinterest",
+   "status": 200,
+   "response": {
+    "loanId": 5,
+    "type": {
+     "id": 4,
+     "code": "loanTransactionType.waiver",
+     "value": "Waive interest",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": false,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": true,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": false,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": false,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2024,
+     3,
+     1
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "amount": 661.86,
+    "netDisbursalAmount": 10000.0,
+    "manuallyReversed": false
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loans/{e}/transactions/template?command=charge-off",
+   "status": 200,
+   "response": {
+    "loanId": 5,
+    "type": {
+     "id": 27,
+     "code": "loanTransactionType.chargeOff",
+     "value": "Charge-off",
+     "disbursement": false,
+     "repaymentAtDisbursement": false,
+     "repayment": false,
+     "merchantIssuedRefund": false,
+     "payoutRefund": false,
+     "goodwillCredit": false,
+     "interestPaymentWaiver": false,
+     "chargeRefund": false,
+     "contra": false,
+     "waiveInterest": false,
+     "waiveCharges": false,
+     "accrual": false,
+     "writeOff": false,
+     "recoveryRepayment": false,
+     "initiateTransfer": false,
+     "approveTransfer": false,
+     "withdrawTransfer": false,
+     "rejectTransfer": false,
+     "chargePayment": false,
+     "refund": false,
+     "refundForActiveLoans": false,
+     "creditBalanceRefund": false,
+     "chargeAdjustment": false,
+     "chargeback": false,
+     "chargeoff": true,
+     "downPayment": false,
+     "reAge": false,
+     "reAmortize": false,
+     "accrualActivity": false,
+     "interestRefund": false,
+     "accrualAdjustment": false,
+     "capitalizedIncome": false,
+     "capitalizedIncomeAmortization": false,
+     "capitalizedIncomeAdjustment": false,
+     "capitalizedIncomeAmortizationAdjustment": false,
+     "contractTermination": false,
+     "loanWithdrawal": false,
+     "buyDownFee": false,
+     "buyDownFeeAdjustment": false,
+     "buyDownFeeAmortization": false,
+     "buyDownFeeAmortizationAdjustment": false
+    },
+    "date": [
+     2024,
+     3,
+     1
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "netDisbursalAmount": 10000.0,
+    "manuallyReversed": false,
+    "chargeOffReasonOptions": []
+   }
+  }
+ ]
+}

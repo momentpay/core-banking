@@ -36,6 +36,7 @@ defmodule ECBApiFineract.ApiRouter do
     LoanProducts,
     Loans,
     LoanTemplate,
+    LoanTransactionTemplate,
     MakerCheckers,
     Notes,
     Offices,
@@ -184,8 +185,32 @@ defmodule ECBApiFineract.ApiRouter do
   get "/v1/loans/external-id/:external_id",
     do: LoanAccounts.show_by_external_id(conn, external_id)
 
+  get "/v1/loans/external-id/:external_id/transactions/template",
+    do: LoanTransactionTemplate.show_by_external_id(conn, external_id)
+
+  get "/v1/loans/:id/transactions/template", do: LoanTransactionTemplate.show(conn, id)
+
+  get "/v1/loans/external-id/:external_id/transactions/external-id/:transaction_external_id",
+    do:
+      LoanAccounts.show_transaction_by_both_external_ids(
+        conn,
+        external_id,
+        transaction_external_id
+      )
+
+  get "/v1/loans/external-id/:external_id/transactions/:transaction_id",
+    do: LoanAccounts.show_transaction_of_external_loan(conn, external_id, transaction_id)
+
+  get "/v1/loans/external-id/:external_id/transactions",
+    do: LoanAccounts.transactions_by_external_id(conn, external_id)
+
+  get "/v1/loans/:id/transactions/external-id/:transaction_external_id",
+    do: LoanAccounts.show_transaction_by_external_id(conn, id, transaction_external_id)
+
   get "/v1/loans/:id/transactions/:transaction_id",
     do: LoanAccounts.show_transaction(conn, id, transaction_id)
+
+  get "/v1/loans/:id/transactions", do: LoanAccounts.transactions(conn, id)
 
   get "/v1/loans/:id/charges/template", do: LoanCharges.template(conn, id)
   get "/v1/loans/:id/charges/:charge_id", do: LoanCharges.show(conn, id, charge_id)

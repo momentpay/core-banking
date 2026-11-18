@@ -394,32 +394,96 @@ defmodule ECBLoans.Loans do
   @doc "The transactions of a loan, oldest first, each with its office and payment details."
   @spec transactions(integer) :: [map]
   def transactions(loan_id) do
-    TenantRepo.query!(
-      """
-      SELECT t.id, t.loan_id, t.office_id, o.name AS office_name, t.payment_detail_id, t.is_reversed,
-             t.external_id, t.transaction_type_enum, t.transaction_date, t.amount,
-             t.principal_portion_derived, t.interest_portion_derived, t.fee_charges_portion_derived,
-             t.penalty_charges_portion_derived, t.overpayment_portion_derived, t.unrecognized_income_portion,
-             t.outstanding_loan_balance_derived, t.submitted_on_date, t.manually_adjusted_or_reversed,
-             t.reversal_external_id, t.reversed_on_date,
-             pd.payment_type_id, pt.value AS payment_type_name, pt.description AS payment_type_description,
-             pt.is_cash_payment, pt.order_position AS payment_type_position,
-             pd.account_number, pd.check_number, pd.receipt_number, pd.bank_number, pd.routing_code
-      FROM m_loan_transaction t
-      JOIN m_office o ON o.id = t.office_id
-      LEFT JOIN m_payment_detail pd ON pd.id = t.payment_detail_id
-      LEFT JOIN m_payment_type pt ON pt.id = pd.payment_type_id
-      WHERE t.loan_id = $1
-      ORDER BY t.transaction_date, t.id
-      """,
-      [loan_id]
-    )
-    |> rows()
+    loan_id |> transaction_rows("t.transaction_date, t.id", nil) |> rows()
+  end
+
+  @transaction_select """
+  SELECT t.id, t.loan_id, t.office_id, o.name AS office_name, t.payment_detail_id, t.is_reversed,
+         t.external_id, t.transaction_type_enum, t.transaction_date, t.amount,
+         t.principal_portion_derived, t.interest_portion_derived, t.fee_charges_portion_derived,
+         t.penalty_charges_portion_derived, t.overpayment_portion_derived, t.unrecognized_income_portion,
+         t.outstanding_loan_balance_derived, t.submitted_on_date, t.manually_adjusted_or_reversed,
+         t.reversal_external_id, t.reversed_on_date,
+         pd.payment_type_id, pt.value AS payment_type_name, pt.description AS payment_type_description,
+         pt.is_cash_payment, pt.order_position AS payment_type_position,
+         pd.account_number, pd.check_number, pd.receipt_number, pd.bank_number, pd.routing_code
+  FROM m_loan_transaction t
+  JOIN m_office o ON o.id = t.office_id
+  LEFT JOIN m_payment_detail pd ON pd.id = t.payment_detail_id
+  LEFT JOIN m_payment_type pt ON pt.id = pd.payment_type_id
+  WHERE t.loan_id = $1
+  """
+
+  defp transaction_rows(loan_id, order, nil),
+    do: TenantRepo.query!(@transaction_select <> "ORDER BY " <> order, [loan_id])
+
+  defp transaction_rows(loan_id, order, {limit, offset}),
+    do:
+      TenantRepo.query!(
+        @transaction_select <> "ORDER BY " <> order <> " LIMIT $2 OFFSET $3",
+        [loan_id, limit, offset]
+      )
+
+  # the sort properties Fineract's `LoanTransaction` entity has that are built, and the column each is
+  @sort_columns %{
+    "id" => "t.id",
+    "amount" => "t.amount",
+    "dateOf" => "t.transaction_date",
+    "typeOf" => "t.transaction_type_enum",
+    "externalId" => "t.external_id",
+    "principalPortion" => "t.principal_portion_derived",
+    "interestPortion" => "t.interest_portion_derived",
+    "feeChargesPortion" => "t.fee_charges_portion_derived",
+    "penaltyChargesPortion" => "t.penalty_charges_portion_derived",
+    "overPaymentPortion" => "t.overpayment_portion_derived",
+    "outstandingLoanBalance" => "t.outstanding_loan_balance_derived"
+  }
+
+  @doc "The properties the transactions of a loan can be sorted by."
+  @spec transaction_sort_properties() :: [String.t()]
+  def transaction_sort_properties, do: Map.keys(@sort_columns)
+
+  @doc """
+  A page of the transactions of a loan, as `%{total:, items:}`. `sort` is a list of `{property, :asc | :desc}`
+  (see `transaction_sort_properties/0`); ties, and a list without sort, come in order of id.
+  """
+  @spec transactions_page(integer, non_neg_integer, pos_integer, [{String.t(), :asc | :desc}]) ::
+          %{total: non_neg_integer, items: [map]}
+  def transactions_page(loan_id, page, size, sort) do
+    order =
+      sort
+      |> Enum.map(fn {property, direction} ->
+        Map.fetch!(@sort_columns, property) <> if(direction == :desc, do: " DESC", else: " ASC")
+      end)
+      |> Kernel.++(["t.id"])
+      |> Enum.join(", ")
+
+    [[total]] =
+      TenantRepo.query!("SELECT count(*) FROM m_loan_transaction WHERE loan_id = $1", [loan_id]).rows
+
+    %{
+      total: total,
+      items: loan_id |> transaction_rows(order, {size, page * size}) |> rows()
+    }
   end
 
   @doc "One transaction of a loan, or `nil`."
   @spec transaction(integer, integer) :: map | nil
   def transaction(loan_id, id), do: loan_id |> transactions() |> Enum.find(&(&1.id == id))
+
+  @doc "The transaction of a loan with the external id, or `nil`."
+  @spec transaction_by_external_id(integer, String.t()) :: map | nil
+  def transaction_by_external_id(loan_id, external_id),
+    do: loan_id |> transactions() |> Enum.find(&(&1.external_id == external_id))
+
+  @doc "The not-found error for a loan transaction external id."
+  def transaction_not_found_by_external_id(external_id),
+    do:
+      ResourceNotFound.new(
+        "error.msg.loan.transaction.external.id.invalid",
+        "Transaction with external identifier #{external_id} does not exist",
+        [external_id]
+      )
 
   @doc "The not-found error for a loan transaction id."
   def transaction_not_found(id),
