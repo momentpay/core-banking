@@ -41,6 +41,7 @@ defmodule ECBLoans.Loans.Journal do
   @income_from_penalties 5
   @losses_written_off 6
   @overpayment 11
+  @income_from_recovery 12
   @interest_receivable 7
   @fees_receivable 8
   @penalties_receivable 9
@@ -49,6 +50,7 @@ defmodule ECBLoans.Loans.Journal do
   @goodwill_fees 20
   @goodwill_penalties 21
   @goodwill_credit_type 23
+  @recovery_type 8
 
   @doc "Whether loans of the product can be posted: every accounting rule Fineract has is built."
   @spec supported?(map) :: boolean
@@ -94,6 +96,9 @@ defmodule ECBLoans.Loans.Journal do
   """
   @spec repayment!(struct, map, map, map) :: :ok
   def repayment!(_user, _loan, %{accounting_id: id}, _tx) when id in [nil, 1], do: :ok
+
+  def repayment!(user, loan, product, %{type: @recovery_type} = tx),
+    do: recovery!(user, loan, product, tx)
 
   def repayment!(user, loan, product, tx) do
     accounts = accounts(product)
@@ -165,6 +170,34 @@ defmodule ECBLoans.Loans.Journal do
       message:
         "Mapping for product of type LOAN with Id #{product.id} does not exist for an account of type #{name}",
       args: ["LOAN", product.id, name]
+  end
+
+  @doc "Posts the entries of money recovered after a write-off: the fund source is debited, the income from recovery credited."
+  @spec recovery!(struct, map, map, map) :: :ok
+  def recovery!(_user, _loan, %{accounting_id: id}, _tx) when id in [nil, 1], do: :ok
+
+  def recovery!(user, loan, product, tx) do
+    accounts = accounts(product)
+    fund = fund_source(product, accounts, payment_type_id(tx))
+
+    post!(user, loan, tx, [
+      {@debit, fund, tx.amount},
+      {@credit, accounts[@income_from_recovery], tx.amount}
+    ])
+  end
+
+  @doc "Posts the entries of a credit balance refund: the overpayment liability is debited, the fund source credited."
+  @spec credit_balance_refund!(struct, map, map, map) :: :ok
+  def credit_balance_refund!(_user, _loan, %{accounting_id: id}, _tx) when id in [nil, 1], do: :ok
+
+  def credit_balance_refund!(user, loan, product, tx) do
+    accounts = accounts(product)
+    fund = fund_source(product, accounts, payment_type_id(tx))
+
+    post!(user, loan, tx, [
+      {@debit, accounts[@overpayment], tx.amount},
+      {@credit, fund, tx.amount}
+    ])
   end
 
   @doc """

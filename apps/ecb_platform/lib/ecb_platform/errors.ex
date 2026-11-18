@@ -158,6 +158,14 @@ defmodule ECBPlatform.Errors do
     defexception [:code, :message, args: []]
   end
 
+  defmodule PlatformServiceUnavailable do
+    @moduledoc """
+    The request cannot be carried out in the state the thing is in, answered the way Fineract's
+    `PlatformServiceUnavailableException` is: HTTP 503.
+    """
+    defexception [:code, :message, args: []]
+  end
+
   # --- what an API answers --------------------------------------------------------------------
 
   @doc """
@@ -283,6 +291,17 @@ defmodule ECBPlatform.Errors do
        "validation.msg.domain.rule.violation",
        "Request was understood but caused a domain rule violation.",
        "Errors contain reason for domain rule violation.",
+       [parameter_error(e.code, e.message, "id", e.args)]
+     )}
+  end
+
+  def to_api(%PlatformServiceUnavailable{} = e) do
+    {503,
+     envelope(
+       503,
+       "error.msg.platform.service.unavailable",
+       "The server is currently unable to handle the request , please try after some time.",
+       "The server is currently unable to handle the request , please try after some time.",
        [parameter_error(e.code, e.message, "id", e.args)]
      )}
   end

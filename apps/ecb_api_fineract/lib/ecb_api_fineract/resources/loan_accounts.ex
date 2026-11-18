@@ -286,8 +286,8 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       "totalChargeAdjustment" => zero,
       "totalChargeAdjustmentReversed" => zero,
       "totalChargeback" => zero,
-      "totalCreditBalanceRefund" => zero,
-      "totalCreditBalanceRefundReversed" => zero,
+      "totalCreditBalanceRefund" => nonzero(sum_transactions(l, 20, false)),
+      "totalCreditBalanceRefundReversed" => nonzero(sum_transactions(l, 20, true)),
       "totalRepaymentTransaction" => nonzero(repayment_transactions_total(l)),
       "totalRepaymentTransactionReversed" => nonzero(sum_transactions(l, 2, true)),
       "totalInterestPaymentWaiver" => zero,
@@ -300,7 +300,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
 
   # the interest of the installment now running that has built up since it began, by days,
   # less what was paid or waived of it
-  defp accrued_not_due(%{loan_status_id: status} = l) when status in [300, 600, 601, 700] do
+  defp accrued_not_due(%{loan_status_id: status} = l) when status in [300, 600, 601, 602, 700] do
     today = ECBPlatform.BusinessDate.current()
 
     l.id
@@ -523,6 +523,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       "relationType" => relation_type(r.type),
       "amount" => t.amount
     }
+    |> put("paymentType", t.payment_type_name)
   end
 
   defp relation_type(1), do: "CHARGEBACK"
@@ -621,9 +622,13 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       {"loanTransactionType.repaymentAtDisbursement", "Repayment (at time of disbursement)",
        "repaymentAtDisbursement"},
     6 => {"loanTransactionType.writeOff", "Close (as written-off)", "writeOff"},
-    8 => {"loanTransactionType.recoveryRepayment", "Recovery Repayment", "recoveryRepayment"},
+    8 =>
+      {"loanTransactionType.recoveryRepayment", "Repayment (after write-off)",
+       "recoveryRepayment"},
     9 => {"loanTransactionType.waiveCharges", "Waive loan charges", "waiveCharges"},
     10 => {"loanTransactionType.accrual", "Accrual", "accrual"},
+    20 =>
+      {"loanTransactionType.creditBalanceRefund", "Credit Balance Refund", "creditBalanceRefund"},
     21 =>
       {"loanTransactionType.merchantIssuedRefund", "Merchant Issued Refund",
        "merchantIssuedRefund"},
@@ -704,7 +709,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
 
   # asked for with all its associations, an active loan shows the interest not yet due as decimals
   defp with_accrual_totals(%{"summary" => summary, "status" => %{"id" => status}} = body)
-       when status in [300, 600, 601, 700] do
+       when status in [300, 600, 601, 602, 700] do
     zero = if body["currency"]["decimalPlaces"] == 0, do: 0, else: Decimal.new("0.0")
 
     fix = fn
@@ -1207,40 +1212,41 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   end
 
   # the commands Fineract has for a loan transaction that are not built yet: refused, not taken for unknown ones
-  @not_built_transactions ~w(interestPaymentWaiver chargeRefund close-rescheduled close undowriteoff recoverypayment
-                             refundByCash foreclosure creditBalanceRefund charge-off undo-charge-off down-payment
+  @not_built_transactions ~w(interestPaymentWaiver chargeRefund refundByCash foreclosure charge-off undo-charge-off down-payment
                              reAge undo-reAge reAmortize undo-reAmortize capitalizedIncome buyDownFee)
+
+  # `command=` of a transaction, and the action it runs
+  @transaction_commands %{
+    "repayment" => "REPAYMENT",
+    "merchantIssuedRefund" => "MERCHANTISSUEDREFUND",
+    "payoutRefund" => "PAYOUTREFUND",
+    "goodwillCredit" => "GOODWILLCREDIT",
+    "recoverypayment" => "RECOVERYPAYMENT",
+    "undowriteoff" => "UNDOWRITEOFF",
+    "close-rescheduled" => "CLOSEASRESCHEDULED",
+    "close" => "CLOSE",
+    "creditBalanceRefund" => "CREDITBALANCEREFUND",
+    "waiveinterest" => "WAIVEINTERESTPORTION",
+    "writeoff" => "WRITEOFF"
+  }
 
   @doc "`POST /loans/:id/transactions?command=...`"
   def transaction_command(conn, raw_id) do
     Write.with_path_id(conn, raw_id, fn id ->
-      case conn.query_params["command"] do
-        "repayment" ->
-          Write.execute(conn, @resource, "REPAYMENT", id: id)
+      command = conn.query_params["command"]
 
-        "merchantIssuedRefund" ->
-          Write.execute(conn, @resource, "MERCHANTISSUEDREFUND", id: id)
+      cond do
+        action = @transaction_commands[command] ->
+          Write.execute(conn, @resource, action, id: id)
 
-        "payoutRefund" ->
-          Write.execute(conn, @resource, "PAYOUTREFUND", id: id)
-
-        "goodwillCredit" ->
-          Write.execute(conn, @resource, "GOODWILLCREDIT", id: id)
-
-        "waiveinterest" ->
-          Write.execute(conn, @resource, "WAIVEINTERESTPORTION", id: id)
-
-        "writeoff" ->
-          Write.execute(conn, @resource, "WRITEOFF", id: id)
-
-        command when command in @not_built_transactions ->
+        command in @not_built_transactions ->
           Errors.render(conn, %ECBPlatform.Errors.DomainRuleViolation{
             code: "error.msg.loan.feature.not.supported.yet",
             message: "The loan transaction command #{command} is not supported yet by E-CoreBank",
             args: [command]
           })
 
-        command ->
+        true ->
           Errors.render(conn, %UnrecognizedQueryParameter{
             name: "command",
             value: command,

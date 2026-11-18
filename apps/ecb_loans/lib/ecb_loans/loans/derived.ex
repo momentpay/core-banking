@@ -92,6 +92,7 @@ defmodule ECBLoans.Loans.Derived do
         total_writtenoff_derived: written_off,
         total_outstanding_derived:
           sum_all([principal_out, interest_out, fees_out, penalties_out]),
+        total_recovered_derived: recovered(loan_id),
         last_modified_by: user.id,
         last_modified_on_utc: now
       ]
@@ -154,9 +155,17 @@ defmodule ECBLoans.Loans.Derived do
   # does not
   defp store_balance(t, outstanding) do
     outstanding =
-      if t.type in @adds_principal,
-        do: outstanding |> Decimal.add(t.amount) |> Decimal.sub(t.overpayment || 0),
-        else: Decimal.sub(outstanding, t.principal || 0)
+      cond do
+        t.type in @adds_principal ->
+          outstanding |> Decimal.add(t.amount) |> Decimal.sub(t.overpayment || 0)
+
+        # a credit balance refund adds back only what is not overpayment
+        t.type == 20 ->
+          Decimal.add(outstanding, Decimal.sub(t.amount, t.overpayment || 0))
+
+        true ->
+          Decimal.sub(outstanding, t.principal || 0)
+      end
 
     shown = if Decimal.compare(outstanding, 0) == :lt, do: Decimal.new(0), else: outstanding
 
@@ -183,6 +192,19 @@ defmodule ECBLoans.Loans.Derived do
         select: sum(t.amount)
       )
     ) || Decimal.new(0)
+  end
+
+  # what has been recovered after a write-off, or nothing
+  defp recovered(loan_id) do
+    total =
+      TenantRepo.one(
+        from(t in "m_loan_transaction",
+          where: t.loan_id == ^loan_id and t.transaction_type_enum == 8 and not t.is_reversed,
+          select: sum(t.amount)
+        )
+      )
+
+    if total && Decimal.compare(total, 0) == :gt, do: total
   end
 
   defp sum(rows, fun) do

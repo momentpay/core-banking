@@ -22,7 +22,7 @@ defmodule ECBLoans.Loans.Reprocess do
   @repayment 2
   @waive_interest 4
   # what is applied again: repayments (and the kinds that are paid like them) and waivers
-  @replayed [2, 21, 22, 23, 4]
+  @replayed [2, 21, 22, 23, 8, 4]
 
   @doc """
   Whether a transaction on `date` would be before one the loan already has, so that the ones after it must be
@@ -156,6 +156,10 @@ defmodule ECBLoans.Loans.Reprocess do
         fee_charges_completed_derived: nil,
         penalty_charges_completed_derived: nil,
         interest_waived_derived: nil,
+        principal_writtenoff_derived: nil,
+        interest_writtenoff_derived: nil,
+        fee_charges_writtenoff_derived: nil,
+        penalty_charges_writtenoff_derived: nil,
         completed_derived: false,
         obligations_met_on_date: nil,
         total_paid_in_advance_derived: nil,

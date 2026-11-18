@@ -82,7 +82,10 @@ defmodule ECBLoans.Loans do
     do: {"loanStatusType.closed.obligations.met", "Closed (obligations met)"}
 
   defp status_names(601), do: {"loanStatusType.closed.written.off", "Closed (written off)"}
-  defp status_names(602), do: {"loanStatusType.closed.rescheduled", "Closed (rescheduled)"}
+
+  defp status_names(602),
+    do: {"loanStatusType.closed.reschedule.outstanding.amount", "Closed (rescheduled)"}
+
   defp status_names(700), do: {"loanStatusType.overpaid", "Overpaid"}
   defp status_names(id), do: {"loanStatusType.invalid", "Invalid (#{id})"}
 

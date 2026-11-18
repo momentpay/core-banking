@@ -51263,6 +51263,1375 @@
           }
         }
       ]
+    },
+    {
+      "name": "loanclose1",
+      "reset": [
+        "loans",
+        "loanproducts",
+        "clients",
+        "funds",
+        "glaccounts",
+        "staff",
+        "codes",
+        "configuration"
+      ],
+      "steps": [
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/enable-business-date",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc A1",
+            "glCode": "A1",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc A2",
+            "glCode": "A2",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc A3",
+            "glCode": "A3",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc A4",
+            "glCode": "A4",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc A5",
+            "glCode": "A5",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc A6",
+            "glCode": "A6",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc L1",
+            "glCode": "L1",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc L2",
+            "glCode": "L2",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc I1",
+            "glCode": "I1",
+            "manualEntriesAllowed": true,
+            "type": 4,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc I2",
+            "glCode": "I2",
+            "manualEntriesAllowed": true,
+            "type": 4,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc I3",
+            "glCode": "I3",
+            "manualEntriesAllowed": true,
+            "type": 4,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc X1",
+            "glCode": "X1",
+            "manualEntriesAllowed": true,
+            "type": 5,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc X2",
+            "glCode": "X2",
+            "manualEntriesAllowed": true,
+            "type": 5,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Ann",
+            "lastname": "Lee",
+            "active": true,
+            "activationDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Cash",
+            "shortName": "CASH",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 2,
+            "locale": "en",
+            "fundSourceAccountId": 1,
+            "loanPortfolioAccountId": 2,
+            "transfersInSuspenseAccountId": 3,
+            "overpaymentLiabilityAccountId": 7,
+            "interestOnLoanAccountId": 9,
+            "incomeFromFeeAccountId": 10,
+            "incomeFromPenaltyAccountId": 11,
+            "writeOffAccountId": 12,
+            "incomeFromRecoveryAccountId": 11,
+            "paymentChannelToFundSourceMappings": [
+              {
+                "paymentTypeId": 1,
+                "fundSourceAccountId": 3
+              }
+            ],
+            "goodwillCreditAccountId": 13,
+            "incomeFromGoodwillCreditInterestAccountId": 9,
+            "incomeFromGoodwillCreditFeesAccountId": 10,
+            "incomeFromGoodwillCreditPenaltyAccountId": 11
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Periodic",
+            "shortName": "PERI",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 3,
+            "locale": "en",
+            "fundSourceAccountId": 1,
+            "loanPortfolioAccountId": 2,
+            "transfersInSuspenseAccountId": 3,
+            "receivableInterestAccountId": 4,
+            "receivableFeeAccountId": 5,
+            "receivablePenaltyAccountId": 6,
+            "overpaymentLiabilityAccountId": 7,
+            "interestOnLoanAccountId": 9,
+            "incomeFromFeeAccountId": 10,
+            "incomeFromPenaltyAccountId": 11,
+            "writeOffAccountId": 12,
+            "incomeFromRecoveryAccountId": 11,
+            "paymentChannelToFundSourceMappings": [
+              {
+                "paymentTypeId": 1,
+                "fundSourceAccountId": 3
+              }
+            ],
+            "goodwillCreditAccountId": 13,
+            "incomeFromGoodwillCreditInterestAccountId": 9,
+            "incomeFromGoodwillCreditFeesAccountId": 10,
+            "incomeFromGoodwillCreditPenaltyAccountId": 11
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Plain",
+            "shortName": "PLAN",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Cash2",
+            "shortName": "CAS2",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 2,
+            "locale": "en",
+            "fundSourceAccountId": 1,
+            "loanPortfolioAccountId": 2,
+            "transfersInSuspenseAccountId": 3,
+            "overpaymentLiabilityAccountId": 7,
+            "interestOnLoanAccountId": 9,
+            "incomeFromFeeAccountId": 10,
+            "incomeFromPenaltyAccountId": 11,
+            "writeOffAccountId": 12,
+            "incomeFromRecoveryAccountId": 11,
+            "paymentChannelToFundSourceMappings": [
+              {
+                "paymentTypeId": 1,
+                "fundSourceAccountId": 3
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/charges",
+          "body": {
+            "name": "Penalty due",
+            "currencyCode": "USD",
+            "chargeAppliesTo": 1,
+            "chargeTimeType": 2,
+            "chargeCalculationType": 1,
+            "chargePaymentMode": 0,
+            "amount": 5,
+            "active": true,
+            "penalty": true,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/enable-business-date",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "a": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=disburse",
+          "body": {
+            "actualDisbursementDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}/transactions?command=repayment",
+          "body": {
+            "transactionDate": "01 April 2024",
+            "transactionAmount": 1000,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "ra": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-10",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}/transactions?command=recoverypayment",
+          "body": {
+            "transactionDate": "10 April 2024",
+            "transactionAmount": 100,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}/transactions?command=undowriteoff",
+          "body": {
+            "transactionDate": "10 April 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}/transactions?command=writeoff",
+          "body": {
+            "transactionDate": "10 April 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "wa": "resourceId"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?loanId={a}&orderBy=id&limit=100"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-12",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}/transactions?command=recoverypayment",
+          "body": {
+            "transactionDate": "15 April 2024",
+            "transactionAmount": 10,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}/transactions?command=recoverypayment",
+          "body": {
+            "transactionDate": "01 February 2024",
+            "transactionAmount": 10,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}/transactions?command=recoverypayment",
+          "body": {
+            "transactionDate": "12 April 2024",
+            "transactionAmount": 0,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}/transactions?command=recoverypayment",
+          "body": {
+            "transactionDate": "12 April 2024",
+            "transactionAmount": 100,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "note": "back",
+            "paymentTypeId": 1,
+            "receiptNumber": "RC1"
+          },
+          "save": {
+            "rec1": "resourceId"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?loanId={a}&orderBy=id&limit=100"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}/transactions?command=undowriteoff",
+          "body": {
+            "transactionDate": "12 April 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?loanId={a}&orderBy=id&limit=100"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}/transactions/{rec1}?command=undo",
+          "body": {
+            "transactionDate": "12 April 2024",
+            "transactionAmount": 0,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?loanId={a}&orderBy=id&limit=100"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}/transactions?command=undowriteoff",
+          "body": {
+            "transactionDate": "12 April 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?loanId={a}&orderBy=id&limit=100"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}/transactions?command=repayment",
+          "body": {
+            "transactionDate": "12 April 2024",
+            "transactionAmount": 100,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "rb": "resourceId"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?loanId={a}&orderBy=id&limit=100"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 2,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "b": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}?command=disburse",
+          "body": {
+            "actualDisbursementDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/transactions?command=repayment",
+          "body": {
+            "transactionDate": "01 April 2024",
+            "transactionAmount": 1000,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-10",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/transactions?command=writeoff",
+          "body": {
+            "transactionDate": "10 April 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?loanId={b}&orderBy=id&limit=100"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/transactions?command=recoverypayment",
+          "body": {
+            "transactionDate": "10 April 2024",
+            "transactionAmount": 100,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "recb": "resourceId"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?loanId={b}&orderBy=id&limit=100"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/transactions/{recb}?command=undo",
+          "body": {
+            "transactionDate": "10 April 2024",
+            "transactionAmount": 0,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?loanId={b}&orderBy=id&limit=100"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/transactions?command=undowriteoff",
+          "body": {
+            "transactionDate": "10 April 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?loanId={b}&orderBy=id&limit=100"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "c": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{c}?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{c}?command=disburse",
+          "body": {
+            "actualDisbursementDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{c}/transactions?command=repayment",
+          "body": {
+            "transactionDate": "01 April 2024",
+            "transactionAmount": 1000,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-10",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{c}/transactions?command=close-rescheduled",
+          "body": {
+            "transactionDate": "01 February 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{c}/transactions?command=close-rescheduled",
+          "body": {
+            "transactionDate": "20 April 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{c}/transactions?command=close-rescheduled",
+          "body": {
+            "transactionDate": "10 April 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "note": "gave up"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{c}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?loanId={c}&orderBy=id&limit=100"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{c}/transactions?command=repayment",
+          "body": {
+            "transactionDate": "10 April 2024",
+            "transactionAmount": 100,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{c}/transactions?command=close",
+          "body": {
+            "transactionDate": "10 April 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{c}/transactions?command=writeoff",
+          "body": {
+            "transactionDate": "10 April 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{c}/transactions?command=undowriteoff",
+          "body": {
+            "transactionDate": "10 April 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "d": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{d}?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{d}?command=disburse",
+          "body": {
+            "actualDisbursementDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{d}/transactions?command=repayment",
+          "body": {
+            "transactionDate": "01 April 2024",
+            "transactionAmount": 11000,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "rd": "resourceId"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{d}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?loanId={d}&orderBy=id&limit=100"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{d}/transactions?command=creditBalanceRefund",
+          "body": {
+            "transactionDate": "01 April 2024",
+            "transactionAmount": 100,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "note": "giving back"
+          },
+          "save": {
+            "cbr": "resourceId"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{d}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?loanId={d}&orderBy=id&limit=100"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{d}/transactions?command=creditBalanceRefund",
+          "body": {
+            "transactionDate": "01 April 2024",
+            "transactionAmount": 0,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{d}/transactions?command=creditBalanceRefund",
+          "body": {
+            "transactionDate": "01 April 2024",
+            "transactionAmount": 5000,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "ignore": [
+            "args"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{d}/transactions?command=creditBalanceRefund",
+          "body": {
+            "transactionDate": "01 April 2024",
+            "transactionAmount": 100,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "externalId": "cb-1"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{d}/transactions?command=close",
+          "body": {
+            "transactionDate": "01 April 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{d}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?loanId={d}&orderBy=id&limit=100"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{d}/transactions/{cbr}?command=undo",
+          "body": {
+            "transactionDate": "01 April 2024",
+            "transactionAmount": 0,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{d}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?loanId={d}&orderBy=id&limit=100"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-05",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{d}/transactions?command=creditBalanceRefund",
+          "body": {
+            "transactionDate": "20 April 2024",
+            "transactionAmount": 10,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{d}/transactions?command=creditBalanceRefund",
+          "body": {
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 10,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{d}/transactions?command=creditBalanceRefund",
+          "body": {
+            "transactionDate": "05 April 2024",
+            "transactionAmount": 138.14,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1
+          },
+          "save": {
+            "cbr3": "resourceId"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{d}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?loanId={d}&orderBy=id&limit=100"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{d}/transactions/{cbr3}?command=undo",
+          "body": {
+            "transactionDate": "05 April 2024",
+            "transactionAmount": 0,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{d}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?loanId={d}&orderBy=id&limit=100"
+        }
+      ]
     }
   ]
 }

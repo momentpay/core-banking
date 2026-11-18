@@ -29,6 +29,7 @@ defmodule ECBLoans.Loans.Corrections do
   alias ECBPlatform.Errors.{DomainRuleViolation, ResourceNotFound}
 
   @waive_interest 4
+  @credit_balance_refund 20
   @write_off 6
 
   @adjust_supported ~w(transactionDate transactionAmount externalId note locale dateFormat paymentTypeId
@@ -106,7 +107,8 @@ defmodule ECBLoans.Loans.Corrections do
         args: [tx.id]
     end
 
-    if tx.is_reversed or tx.transaction_type_enum not in [@waive_interest | Repay.types()] do
+    if tx.is_reversed or
+         tx.transaction_type_enum not in [@waive_interest, @credit_balance_refund | Repay.types()] do
       raise DomainRuleViolation,
         code:
           "error.msg.loan.transaction.adjustment.is.only.allowed.to.repayment.or.waiver.or.creditbalancerefund.or.capitalizedIncome.or.capitalizedIncomeAdjustment.or.buyDownFee.or.buyDownFeeAdjustment.or.chargeback.transactions",
@@ -187,10 +189,11 @@ defmodule ECBLoans.Loans.Corrections do
 
   # what a replacement repayment is made of, once it has been checked
   defp new_repayment!(loan, p, on, amount, tx) do
-    if tx.transaction_type_enum == @waive_interest do
+    if tx.transaction_type_enum in [@waive_interest, @credit_balance_refund] do
       raise DomainRuleViolation,
         code: "error.msg.loan.feature.not.supported.yet",
-        message: "Replacing a waiver with another amount is not supported yet by E-CoreBank",
+        message:
+          "Replacing a waiver or a credit balance refund with another amount is not supported yet by E-CoreBank",
         args: ["transactionAmount"]
     end
 

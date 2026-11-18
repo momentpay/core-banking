@@ -536,13 +536,26 @@ defmodule ECBLoans.Loans.Repay do
   defp overpaid_on(%{overpaidon_date: nil}, on), do: on
   defp overpaid_on(%{overpaidon_date: date}, _on), do: date
 
+  # what was overpaid, less what has been paid back by credit balance refunds
   defp overpaid_total(loan_id) do
-    TenantRepo.one(
-      from(t in "m_loan_transaction",
-        where: t.loan_id == ^loan_id and t.transaction_type_enum in ^@types and not t.is_reversed,
-        select: sum(t.overpayment_portion_derived)
-      )
-    ) || Decimal.new(0)
+    overpaid =
+      TenantRepo.one(
+        from(t in "m_loan_transaction",
+          where:
+            t.loan_id == ^loan_id and t.transaction_type_enum in ^@types and not t.is_reversed,
+          select: sum(t.overpayment_portion_derived)
+        )
+      ) || Decimal.new(0)
+
+    refunded =
+      TenantRepo.one(
+        from(t in "m_loan_transaction",
+          where: t.loan_id == ^loan_id and t.transaction_type_enum == 20 and not t.is_reversed,
+          select: sum(t.amount)
+        )
+      ) || Decimal.new(0)
+
+    Decimal.sub(overpaid, refunded)
   end
 
   @doc false
