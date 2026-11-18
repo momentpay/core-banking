@@ -114,9 +114,12 @@ defmodule ECBLoans.Loans.ChargeRows do
   Works out again what has been paid of each charge from what has been paid of each installment, and stores it.
   Each installment's paid fees (and penalties) go to the charges that fall in it, the oldest charge first.
   Returns what is paid of each charge, as `%{loan_charge_id => amount}`.
+
+  A repayment (`reached_only: true`) gives a charge its paid amount only once it has reached an installment the charge
+  falls in; charges of the others are left as they are (Fineract leaves a charge's paid amount empty until then).
   """
-  @spec sync_paid!(integer) :: %{integer => Decimal.t()}
-  def sync_paid!(loan_id) do
+  @spec sync_paid!(integer, keyword) :: %{integer => Decimal.t()}
+  def sync_paid!(loan_id, opts \\ []) do
     slots = slots(loan_id)
 
     paid =
@@ -130,8 +133,28 @@ defmodule ECBLoans.Loans.ChargeRows do
           pay_slots(in_row, completed || Decimal.new(0), acc)
       end
 
-    store_paid!(slots, paid)
+    reached = if opts[:reached_only], do: reached(loan_id), else: :all
+    store_paid!(slots, paid, reached)
     sum_by_charge(paid)
+  end
+
+  # the installments a payment has got to: Fineract works the charges of those out, and leaves the others as they are
+  defp reached(loan_id) do
+    positive? = fn d -> d != nil and Decimal.compare(d, 0) == :gt end
+
+    for row <- ECBLoans.Loans.installments(loan_id),
+        row.completed == true or
+          Enum.any?(
+            [
+              row.principal_completed,
+              row.interest_completed,
+              row.fee_charges_completed,
+              row.penalty_charges_completed
+            ],
+            positive?
+          ),
+        into: MapSet.new(),
+        do: row.installment
   end
 
   @doc """
@@ -210,7 +233,7 @@ defmodule ECBLoans.Loans.ChargeRows do
     end)
   end
 
-  defp store_paid!(slots, paid) do
+  defp store_paid!(slots, paid, reached) do
     totals = sum_by_charge(paid)
 
     for {charge, amount} <- totals do
@@ -219,7 +242,7 @@ defmodule ECBLoans.Loans.ChargeRows do
         |> Enum.filter(&(&1.charge == charge))
         |> Enum.reduce(Decimal.new(0), &Decimal.add(&2, &1.amount))
 
-      set_charge_paid!(charge, amount, total)
+      set_charge_paid!(charge, amount, total, reached?(slots, charge, reached))
     end
 
     for %{slot: slot} = s when not is_nil(slot) <- slots do
@@ -237,18 +260,36 @@ defmodule ECBLoans.Loans.ChargeRows do
     :ok
   end
 
-  defp set_charge_paid!(charge, paid, total) do
+  defp reached?(_slots, _charge, :all), do: true
+
+  defp reached?(slots, charge, reached) do
+    slots
+    |> Enum.filter(&(&1.charge == charge))
+    |> Enum.any?(&MapSet.member?(reached, &1.installment))
+  end
+
+  # A charge that has never been worked out keeps its paid amount as nothing until a payment reaches it; once it has
+  # one it keeps it (as nothing paid, if the payment is taken back).
+  defp set_charge_paid!(charge, paid, total, reached?) do
     outstanding = Decimal.sub(total, paid)
 
-    waived? =
-      TenantRepo.one(from(c in "m_loan_charge", where: c.id == ^charge, select: c.waived))
+    {waived?, current} =
+      TenantRepo.one(
+        from(c in "m_loan_charge",
+          where: c.id == ^charge,
+          select: {c.waived, c.amount_paid_derived}
+        )
+      )
+
+    paid_set = if reached? or current != nil, do: [amount_paid_derived: paid], else: []
 
     TenantRepo.update_all(from(c in "m_loan_charge", where: c.id == ^charge),
-      set: [
-        amount_paid_derived: paid,
-        amount_outstanding_derived: outstanding,
-        is_paid_derived: Decimal.eq?(outstanding, 0) and not waived?
-      ]
+      set:
+        paid_set ++
+          [
+            amount_outstanding_derived: outstanding,
+            is_paid_derived: Decimal.eq?(outstanding, 0) and not waived?
+          ]
     )
   end
 

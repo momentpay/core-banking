@@ -50,6 +50,10 @@ defmodule ECBLoans.Loans.Journal do
   @goodwill_fees 20
   @goodwill_penalties 21
   @goodwill_credit_type 23
+  @income_charge_off_interest 14
+  @income_charge_off_fees 15
+  @charge_off_expense 16
+  @income_charge_off_penalties 18
   @recovery_type 8
 
   @doc "Whether loans of the product can be posted: every accounting rule Fineract has is built."
@@ -108,26 +112,77 @@ defmodule ECBLoans.Loans.Journal do
         do: goodwill_debits!(product, accounts, tx),
         else: [{@debit, fund_source(product, accounts, payment_type_id(tx)), tx.amount}]
 
-    if accrual?(product) do
-      credits =
-        merged([
-          {@credit, accounts[@loan_portfolio], tx.principal},
-          {@credit, accounts[@interest_receivable], tx.interest},
-          {@credit, fee_account(accounts, tx), tx.fees},
-          {@credit, accounts[@penalties_receivable], tx.penalties},
-          {@credit, accounts[@overpayment], tx.overpayment}
-        ])
+    cond do
+      ECBLoans.Loans.ChargeOff.charged_off_on?(loan, tx.date) ->
+        post!(user, loan, tx, charged_off_credits(accounts, tx) ++ debits)
 
-      post!(user, loan, tx, credits ++ debits)
-    else
-      post!(user, loan, tx, [
-        {@credit, accounts[@loan_portfolio], tx.principal},
-        {@credit, accounts[@interest_on_loans], tx.interest},
-        {@credit, accounts[@income_from_fees], tx.fees},
-        {@credit, accounts[@income_from_penalties], tx.penalties},
-        {@credit, accounts[@overpayment], tx.overpayment}
-        | debits
-      ])
+      accrual?(product) ->
+        credits =
+          merged([
+            {@credit, accounts[@loan_portfolio], tx.principal},
+            {@credit, accounts[@interest_receivable], tx.interest},
+            {@credit, fee_account(accounts, tx), tx.fees},
+            {@credit, accounts[@penalties_receivable], tx.penalties},
+            {@credit, accounts[@overpayment], tx.overpayment}
+          ])
+
+        post!(user, loan, tx, credits ++ debits)
+
+      true ->
+        post!(user, loan, tx, [
+          {@credit, accounts[@loan_portfolio], tx.principal},
+          {@credit, accounts[@interest_on_loans], tx.interest},
+          {@credit, accounts[@income_from_fees], tx.fees},
+          {@credit, accounts[@income_from_penalties], tx.penalties},
+          {@credit, accounts[@overpayment], tx.overpayment}
+          | debits
+        ])
+    end
+  end
+
+  # What is paid on a loan that is charged off is no longer owed on the books: a repayment and a goodwill credit are
+  # income from recovery; a merchant issued refund and a payout refund give back the charge-off expense and the
+  # income given up in it. An overpayment is still owed to the borrower.
+  defp charged_off_credits(accounts, %{type: type} = tx) when type in [21, 22] do
+    merged([
+      {@credit, charge_off_account!(accounts, @charge_off_expense, "CHARGE OFF EXPENSE"),
+       tx[:principal]},
+      {@credit,
+       charge_off_account!(
+         accounts,
+         @income_charge_off_interest,
+         "INCOME FROM CHARGE OFF INTEREST"
+       ), tx[:interest]},
+      {@credit,
+       charge_off_account!(accounts, @income_charge_off_fees, "INCOME FROM CHARGE OFF FEES"),
+       tx[:fees]},
+      {@credit,
+       charge_off_account!(
+         accounts,
+         @income_charge_off_penalties,
+         "INCOME FROM CHARGE OFF PENALTY"
+       ), tx[:penalties]},
+      {@credit, accounts[@overpayment], tx[:overpayment]}
+    ])
+  end
+
+  defp charged_off_credits(accounts, tx) do
+    recovery = charge_off_account!(accounts, @income_from_recovery, "INCOME FROM RECOVERY")
+
+    merged([
+      {@credit, recovery, tx[:principal]},
+      {@credit, recovery, tx[:interest]},
+      {@credit, recovery, tx[:fees]},
+      {@credit, recovery, tx[:penalties]},
+      {@credit, accounts[@overpayment], tx[:overpayment]}
+    ])
+  end
+
+  # an account a charged-off loan needs that the product has not been given fails the transaction
+  defp charge_off_account!(accounts, placeholder, name) do
+    case accounts[placeholder] do
+      nil -> missing_mapping!(%{id: accounts[:product_id]}, name, 0)
+      account -> account
     end
   end
 
@@ -221,6 +276,62 @@ defmodule ECBLoans.Loans.Journal do
     else
       :ok
     end
+  end
+
+  @doc """
+  Posts the entries of an accrual adjustment: the interest accrued in excess is taken back, debiting its income and
+  crediting its receivable. Cash accounting books nothing.
+  """
+  @spec accrual_adjustment!(struct, map, map, map) :: :ok
+  def accrual_adjustment!(user, loan, product, tx) do
+    if accrual?(product) do
+      accounts = accounts(product)
+
+      post!(user, loan, tx, [
+        {@debit, accounts[@interest_on_loans], tx[:interest]},
+        {@credit, accounts[@interest_receivable], tx[:interest]},
+        {@debit, accounts[@income_from_fees], tx[:fees]},
+        {@credit, accounts[@fees_receivable], tx[:fees]},
+        {@debit, accounts[@income_from_penalties], tx[:penalties]},
+        {@credit, accounts[@penalties_receivable], tx[:penalties]}
+      ])
+    else
+      :ok
+    end
+  end
+
+  @doc """
+  Posts the entries of a charge-off: what is outstanding leaves the books of the loan. The principal goes to the
+  charge-off expense; the interest, fees and penalties, which are receivable (accrual accounting) or earned when
+  paid (cash accounting), go to the income from the charge-off of each.
+  """
+  @spec charge_off!(struct, map, map, map) :: :ok
+  def charge_off!(_user, _loan, %{accounting_id: id}, _tx) when id in [nil, 1], do: :ok
+
+  def charge_off!(user, loan, product, tx) do
+    accounts = accounts(product)
+    accrual? = accrual?(product)
+
+    parts = [
+      {tx[:principal], accounts[@loan_portfolio], @charge_off_expense, "CHARGE OFF EXPENSE"},
+      {tx[:interest],
+       if(accrual?, do: accounts[@interest_receivable], else: accounts[@interest_on_loans]),
+       @income_charge_off_interest, "INCOME FROM CHARGE OFF INTEREST"},
+      {tx[:fees], if(accrual?, do: accounts[@fees_receivable], else: accounts[@income_from_fees]),
+       @income_charge_off_fees, "INCOME FROM CHARGE OFF FEES"},
+      {tx[:penalties],
+       if(accrual?, do: accounts[@penalties_receivable], else: accounts[@income_from_penalties]),
+       @income_charge_off_penalties, "INCOME FROM CHARGE OFF PENALTY"}
+    ]
+
+    {credits, debits} =
+      for {amount, credit, placeholder, name} <- parts, amount != nil, reduce: {[], []} do
+        {credits, debits} ->
+          debit = charge_off_account!(accounts, placeholder, name)
+          {[{@credit, credit, amount} | credits], [{@debit, debit, amount} | debits]}
+      end
+
+    post!(user, loan, tx, merged(Enum.reverse(credits)) ++ merged(Enum.reverse(debits)))
   end
 
   @doc "Posts the entries of an interest waiver: with accrual accounting the interest receivable is a loss."
@@ -319,6 +430,7 @@ defmodule ECBLoans.Loans.Journal do
     product.id
     |> then(&ProductMappings.regular(ProductMappings.loan(), &1))
     |> Map.new(&{&1.placeholder, &1.account.id})
+    |> Map.put(:product_id, product.id)
   end
 
   defp payment_type_id(%{payment_detail_id: nil}), do: nil

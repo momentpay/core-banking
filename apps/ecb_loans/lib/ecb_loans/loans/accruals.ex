@@ -22,6 +22,7 @@ defmodule ECBLoans.Loans.Accruals do
   alias ECBPlatform.{BusinessDate, Configuration, TenantRepo}
 
   @accrual 10
+  @accrual_adjustment 34
   @closed 600
   @overpaid 700
 
@@ -206,7 +207,8 @@ defmodule ECBLoans.Loans.Accruals do
   def reprocess!(user, loan_id) do
     loan = Loans.fetch!(loan_id)
 
-    if ECBLoans.LoanProducts.fetch!(loan.product_id).accounting_id == 3 do
+    if ECBLoans.LoanProducts.fetch!(loan.product_id).accounting_id == 3 and
+         not loan.is_charged_off do
       rows = Loans.installments(loan_id)
       first = rows |> Enum.map(& &1.installment) |> Enum.min(fn -> nil end)
       Enum.each(rows, &reprocess_installment!(user, loan, &1, &1.installment == first))
@@ -342,6 +344,28 @@ defmodule ECBLoans.Loans.Accruals do
 
     id = Disburse.insert_transaction!(user, loan, tx)
     Journal.accrual!(user, loan, product, Map.put(tx, :id, id))
+    id
+  end
+
+  @doc """
+  Books an accrual adjustment of `amount` on `date`, taking back interest that was accrued in excess, and its
+  entries. Made of `portions` as `post!/6` is.
+  """
+  @spec post_adjustment!(struct, map, map, Date.t(), Decimal.t(), keyword) :: integer
+  def post_adjustment!(user, loan, product, date, amount, opts) do
+    p = opts[:portions]
+
+    tx = %{
+      type: @accrual_adjustment,
+      date: date,
+      amount: amount,
+      interest: p.interest,
+      fees: p.fees,
+      penalties: p.penalties
+    }
+
+    id = Disburse.insert_transaction!(user, loan, tx)
+    Journal.accrual_adjustment!(user, loan, product, Map.put(tx, :id, id))
     id
   end
 

@@ -27,6 +27,8 @@ defmodule ECBLoans.Application do
     {"LOAN", "UNDOWRITEOFF", ECBLoans.Handlers.Loan},
     {"LOAN", "CLOSEASRESCHEDULED", ECBLoans.Handlers.Loan},
     {"LOAN", "CLOSE", ECBLoans.Handlers.Loan},
+    {"LOAN", "CHARGEOFF", ECBLoans.Handlers.Loan},
+    {"LOAN", "UNDOCHARGEOFF", ECBLoans.Handlers.Loan},
     {"LOAN", "CREDITBALANCEREFUND", ECBLoans.Handlers.Loan},
     {"LOAN", "ADJUST", ECBLoans.Handlers.Loan},
     {"LOAN", "WAIVEINTERESTPORTION", ECBLoans.Handlers.Loan},

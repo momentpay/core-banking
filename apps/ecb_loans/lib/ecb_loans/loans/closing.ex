@@ -21,6 +21,7 @@ defmodule ECBLoans.Loans.Closing do
 
   alias ECBLoans.Loans.{
     Accruals,
+    ChargeOff,
     Counters,
     Derived,
     Disburse,
@@ -215,6 +216,7 @@ defmodule ECBLoans.Loans.Closing do
 
     loan = Loans.fetch!(id)
     Repay.active_client!(loan)
+    ChargeOff.guard!(loan, "Closing a loan as rescheduled")
     check_rescheduled_on_active!(loan)
 
     Counters.remove!(loan)
@@ -303,6 +305,7 @@ defmodule ECBLoans.Loans.Closing do
 
     loan = Loans.fetch!(id)
     Repay.active_client!(loan)
+    ChargeOff.guard!(loan, "Closing a loan")
 
     unless loan.loan_status_id == 300 do
       Validation.new("loan.transaction")
@@ -360,6 +363,7 @@ defmodule ECBLoans.Loans.Closing do
     {on, amount, note, external_id} = payment_request!(p)
 
     loan = Loans.fetch!(id)
+    ChargeOff.guard!(loan, "A credit balance refund")
     product = ECBLoans.LoanProducts.fetch!(loan.product_id)
     Journal.check_supported!(product, "A credit balance refund")
     payment_detail_id = Repay.payment_detail!(p)

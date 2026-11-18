@@ -24,6 +24,7 @@ defmodule ECBLoans.Handlers do
     @behaviour ECBPlatform.Commands.Handler
 
     alias ECBLoans.Loans.{
+      ChargeOff,
       Closing,
       Corrections,
       Disburse,
@@ -85,6 +86,12 @@ defmodule ECBLoans.Handlers do
     def process(%{action_name: "CLOSEASRESCHEDULED"} = command, user),
       do:
         {:ok, Closing.close_as_rescheduled!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "CHARGEOFF"} = command, user),
+      do: {:ok, ChargeOff.charge_off!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "UNDOCHARGEOFF"} = command, user),
+      do: {:ok, ChargeOff.undo!(user, command.entity_id, Params.parse!(command.json))}
 
     def process(%{action_name: "CLOSE"} = command, user),
       do: {:ok, Closing.close!(user, command.entity_id, Params.parse!(command.json))}

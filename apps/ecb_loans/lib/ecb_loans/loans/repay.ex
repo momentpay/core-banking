@@ -14,7 +14,7 @@ defmodule ECBLoans.Loans.Repay do
   import Ecto.Query
 
   alias ECBLoans.Loans
-  alias ECBLoans.Loans.{Accruals, ChargeRows, Derived, Disburse, Journal, Reprocess}
+  alias ECBLoans.Loans.{Accruals, ChargeOff, ChargeRows, Derived, Disburse, Journal, Reprocess}
   alias ECBParty.Clients
   alias ECBPlatform.{BusinessDate, Params, TenantRepo, Validation}
   alias ECBPlatform.Commands.Result
@@ -69,6 +69,7 @@ defmodule ECBLoans.Loans.Repay do
     payment_detail_id = payment_detail!(p)
     check_status!(loan)
     check_dates!(loan, on, type)
+    ChargeOff.guard_date!(loan, on)
     check_accounting!(loan)
 
     tx_id = apply!(user, loan, on, amount, payment_detail_id, external_id, type)
@@ -235,7 +236,13 @@ defmodule ECBLoans.Loans.Repay do
 
     before_paid = ChargeRows.paid_map(loan.id)
     save_installments!(updates, tx_id, user)
-    ChargeRows.record_payment!(tx_id, before_paid, ChargeRows.sync_paid!(loan.id))
+
+    ChargeRows.record_payment!(
+      tx_id,
+      before_paid,
+      ChargeRows.sync_paid!(loan.id, reached_only: true)
+    )
+
     after_repayment!(user, loan, on, left)
     tx_id
   end

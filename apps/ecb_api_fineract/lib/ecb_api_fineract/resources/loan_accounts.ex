@@ -209,6 +209,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
         l.total_charges_due_at_disbursement_derived || Decimal.new("0.0")
     })
     |> put("summary", summary(l))
+    |> Map.put("chargedOff", l.is_charged_off == true)
     |> put("totalOverpaid", l.total_overpaid_derived)
     |> put("overpaidOnDate", l.overpaidon_date)
     |> Map.put("paidInAdvance", %{"paidInAdvance" => paid_in_advance(l)})
@@ -297,6 +298,8 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       "totalUnpaidPayableDueInterest" => payable_due(l, overdue),
       "totalUnpaidPayableNotDueInterest" => accrued_not_due(l)
     }
+    |> put("chargeOffReasonId", l.charge_off_reason_cv_id)
+    |> put("chargeOffReason", l.charge_off_reason)
     |> put("overdueSinceDate", overdue.since)
   end
 
@@ -482,6 +485,13 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     |> person("writeOffBy", l.closed_by_username, l.closed_by_firstname, l.closed_by_lastname)
     |> put("actualMaturityDate", l.maturedon_date)
     |> put("expectedMaturityDate", l.expected_maturedon_date)
+    |> put("chargedOffOnDate", l.charged_off_on_date)
+    |> person(
+      "chargedOffBy",
+      l.charged_off_by_username,
+      l.charged_off_by_firstname,
+      l.charged_off_by_lastname
+    )
   end
 
   @doc "A charge of the loan as Fineract shows it."
@@ -565,7 +575,8 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
 
   defp with_associations(body, loan, associations) do
     all? = MapSet.member?(associations, "all")
-    body = if all?, do: with_accrual_totals(body), else: without_accrual_totals(body)
+    schedule? = all? or MapSet.member?(associations, "repaymentSchedule")
+    body = if schedule?, do: with_accrual_totals(body), else: without_accrual_totals(body)
     wants? = fn name -> all? or MapSet.member?(associations, name) end
 
     body
@@ -629,6 +640,8 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
        "recoveryRepayment"},
     9 => {"loanTransactionType.waiveCharges", "Waive loan charges", "waiveCharges"},
     10 => {"loanTransactionType.accrual", "Accrual", "accrual"},
+    27 => {"loanTransactionType.chargeOff", "Charge-off", "chargeoff"},
+    34 => {"loanTransactionType.accrualAdjustment", "Accrual Adjustment", "accrualAdjustment"},
     20 =>
       {"loanTransactionType.creditBalanceRefund", "Credit Balance Refund", "creditBalanceRefund"},
     21 =>
@@ -711,7 +724,8 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
 
   # asked for with all its associations, an active loan shows the interest not yet due as decimals
   # the interest that is unpaid and due, and the part of the running installment's that is not due yet, are worked
-  # out only when the loan is asked for with all its associations; without, Fineract shows nothing
+  # out only when the loan is asked for with its repayment schedule (or all its associations); without, Fineract
+  # shows nothing
   defp without_accrual_totals(%{"summary" => summary} = body) when is_map(summary) do
     %{
       body
@@ -1228,7 +1242,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   end
 
   # the commands Fineract has for a loan transaction that are not built yet: refused, not taken for unknown ones
-  @not_built_transactions ~w(interestPaymentWaiver chargeRefund refundByCash foreclosure charge-off undo-charge-off down-payment
+  @not_built_transactions ~w(interestPaymentWaiver chargeRefund refundByCash foreclosure down-payment
                              reAge undo-reAge reAmortize undo-reAmortize capitalizedIncome buyDownFee)
 
   # `command=` of a transaction, and the action it runs
@@ -1241,6 +1255,8 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     "undowriteoff" => "UNDOWRITEOFF",
     "close-rescheduled" => "CLOSEASRESCHEDULED",
     "close" => "CLOSE",
+    "charge-off" => "CHARGEOFF",
+    "undo-charge-off" => "UNDOCHARGEOFF",
     "creditBalanceRefund" => "CREDITBALANCEREFUND",
     "waiveinterest" => "WAIVEINTERESTPORTION",
     "writeoff" => "WRITEOFF"

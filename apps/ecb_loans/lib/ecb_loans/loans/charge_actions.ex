@@ -22,6 +22,7 @@ defmodule ECBLoans.Loans.ChargeActions do
 
   alias ECBLoans.Loans.{
     Accruals,
+    ChargeOff,
     ChargeRows,
     Derived,
     Disburse,
@@ -69,6 +70,7 @@ defmodule ECBLoans.Loans.ChargeActions do
 
     loan = Loans.fetch!(id)
     Repay.active_client!(loan)
+    ChargeOff.refuse_charge!(loan)
     definition = ChargeInput.definition!(charge_id)
     check_status!(loan, "Adding a charge")
     check_new!(loan, definition, due)
@@ -391,6 +393,7 @@ defmodule ECBLoans.Loans.ChargeActions do
 
     loan = Loans.fetch!(id)
     Repay.active_client!(loan)
+    ChargeOff.guard!(loan, "Waiving a charge")
     charge = charge!(id, charge_id)
 
     if loan.loan_status_id != @active,
@@ -646,6 +649,7 @@ defmodule ECBLoans.Loans.ChargeActions do
 
     loan = Loans.fetch!(id)
     Repay.active_client!(loan)
+    ChargeOff.guard!(loan, "Paying a charge")
     charge = charge!(id, charge_id)
 
     if loan.loan_status_id != @active,

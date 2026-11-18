@@ -14,6 +14,7 @@ defmodule ECBLoans.Loans.Corrections do
 
   alias ECBLoans.Loans.{
     Accruals,
+    ChargeOff,
     ChargeRows,
     Counters,
     Derived,
@@ -64,6 +65,7 @@ defmodule ECBLoans.Loans.Corrections do
 
     loan = Loans.fetch!(id)
     tx = transaction!(id, tid)
+    ChargeOff.guard_change!(loan, tx, amount)
     check_adjustable!(loan, tx)
     refuse_if_later!(loan, tx)
     check_accounting!(loan, "Changing a repayment")
@@ -334,6 +336,7 @@ defmodule ECBLoans.Loans.Corrections do
 
     loan = Loans.fetch!(id)
     Repay.active_client!(loan)
+    ChargeOff.guard_waiver!(loan)
 
     check_active!(
       loan,
@@ -563,6 +566,7 @@ defmodule ECBLoans.Loans.Corrections do
 
     loan = Loans.fetch!(id)
     Repay.active_client!(loan)
+    ChargeOff.guard!(loan, "Writing a loan off")
 
     check_active!(
       loan,

@@ -106,7 +106,8 @@ defmodule ECBLoans.Loans do
   l.withdrawnon_date, l.writtenoffon_date, l.overpaidon_date, l.loan_transaction_strategy_code, l.loan_transaction_strategy_name,
   l.days_in_month_enum, l.days_in_year_enum, l.interest_recalculation_enabled, l.repayment_start_date_type_enum,
   l.created_by, l.approvedon_userid, l.disbursedon_userid, l.closedon_userid, l.rejectedon_userid,
-  l.withdrawnon_userid, l.is_npa, l.loan_product_counter,
+  l.withdrawnon_userid, l.is_npa, l.loan_product_counter, l.is_charged_off, l.charged_off_on_date,
+  l.charge_off_reason_cv_id, l.charged_off_by_userid,
   l.principal_disbursed_derived, l.principal_repaid_derived, l.principal_writtenoff_derived,
   l.principal_outstanding_derived, l.interest_charged_derived, l.interest_repaid_derived,
   l.interest_waived_derived, l.interest_writtenoff_derived, l.interest_outstanding_derived,
@@ -127,7 +128,9 @@ defmodule ECBLoans.Loans do
   du.username AS disbursed_by_username, du.firstname AS disbursed_by_firstname, du.lastname AS disbursed_by_lastname,
   cu.username AS closed_by_username, cu.firstname AS closed_by_firstname, cu.lastname AS closed_by_lastname,
   ru.username AS rejected_by_username, ru.firstname AS rejected_by_firstname, ru.lastname AS rejected_by_lastname,
-  wu.username AS withdrawn_by_username, wu.firstname AS withdrawn_by_firstname, wu.lastname AS withdrawn_by_lastname
+  wu.username AS withdrawn_by_username, wu.firstname AS withdrawn_by_firstname, wu.lastname AS withdrawn_by_lastname,
+  fu.username AS charged_off_by_username, fu.firstname AS charged_off_by_firstname, fu.lastname AS charged_off_by_lastname,
+  fcv.code_value AS charge_off_reason
   """
 
   @from """
@@ -145,6 +148,8 @@ defmodule ECBLoans.Loans do
   LEFT JOIN m_appuser cu ON cu.id = l.closedon_userid
   LEFT JOIN m_appuser ru ON ru.id = l.rejectedon_userid
   LEFT JOIN m_appuser wu ON wu.id = l.withdrawnon_userid
+  LEFT JOIN m_appuser fu ON fu.id = l.charged_off_by_userid
+  LEFT JOIN m_code_value fcv ON fcv.id = l.charge_off_reason_cv_id
   """
 
   @orderings %{
