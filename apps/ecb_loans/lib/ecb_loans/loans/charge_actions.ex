@@ -388,7 +388,7 @@ defmodule ECBLoans.Loans.ChargeActions do
       from(t in "m_loan_transaction",
         where:
           t.loan_id == ^loan_id and not t.is_reversed and
-            t.transaction_type_enum in [2, 4, 21, 22, 23]
+            t.transaction_type_enum in [2, 4, 21, 22, 23, 31]
       )
     )
   end
@@ -441,7 +441,8 @@ defmodule ECBLoans.Loans.ChargeActions do
     )
   end
 
-  defp charge!(loan_id, charge_id) do
+  @doc false
+  def charge!(loan_id, charge_id) do
     case Loans.charge(loan_id, charge_id) do
       nil ->
         if TenantRepo.exists?(from(c in "m_loan_charge", where: c.id == ^charge_id)) do

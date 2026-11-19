@@ -326,7 +326,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       "totalCreditBalanceRefundReversed" => nonzero(sum_transactions(l, 20, true)),
       "totalRepaymentTransaction" => nonzero(repayment_transactions_total(l)),
       "totalRepaymentTransactionReversed" => nonzero(sum_transactions(l, 2, true)),
-      "totalInterestPaymentWaiver" => zero,
+      "totalInterestPaymentWaiver" => nonzero(sum_transactions(l, 31, false)),
       "totalInterestRefund" => zero,
       "totalUnpaidPayableDueInterest" => payable_due(l, overdue),
       "totalUnpaidPayableNotDueInterest" => accrued_not_due(l)
@@ -728,7 +728,11 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       {"loanTransactionType.merchantIssuedRefund", "Merchant Issued Refund",
        "merchantIssuedRefund"},
     22 => {"loanTransactionType.payoutRefund", "Payout Refund", "payoutRefund"},
-    23 => {"loanTransactionType.goodwillCredit", "Goodwill Credit", "goodwillCredit"}
+    24 => {"loanTransactionType.chargeRefund", "Charge Refund", "chargeRefund"},
+    23 => {"loanTransactionType.goodwillCredit", "Goodwill Credit", "goodwillCredit"},
+    31 =>
+      {"loanTransactionType.interestPaymentWaiver", "Interest Payment Waiver",
+       "interestPaymentWaiver"}
   }
 
   @doc "The type of a transaction as Fineract shows it: its id, code and value, and the flag of its kind."
@@ -893,12 +897,14 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     21 => "MERCHANT_ISSUED_REFUND",
     22 => "PAYOUT_REFUND",
     23 => "GOODWILL_CREDIT",
+    24 => "CHARGE_REFUND",
     27 => "CHARGE_OFF",
+    31 => "INTEREST_PAYMENT_WAIVER",
     34 => "ACCRUAL_ADJUSTMENT"
   }
 
   # the types Fineract calls repayment types (`LoanTransactionType.isRepaymentType`); a page flags them
-  @repayment_types [2, 21, 22, 23, 24, 26, 28, 31]
+  @repayment_types [2, 21, 22, 23, 24, 26, 28]
 
   # A transaction as the page of them shows it (Jackson's rendering of the data class: dates as text, a value that
   # is not there left out, no currency names, no payment type)
@@ -1653,7 +1659,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   end
 
   # the commands Fineract has for a loan transaction that are not built yet: refused, not taken for unknown ones
-  @not_built_transactions ~w(interestPaymentWaiver chargeRefund refundByCash down-payment
+  @not_built_transactions ~w(refundByCash down-payment
                              reAge undo-reAge reAmortize undo-reAmortize capitalizedIncome buyDownFee)
 
   # `command=` of a transaction, and the action it runs
@@ -1662,6 +1668,8 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     "merchantIssuedRefund" => "MERCHANTISSUEDREFUND",
     "payoutRefund" => "PAYOUTREFUND",
     "goodwillCredit" => "GOODWILLCREDIT",
+    "interestPaymentWaiver" => "INTERESTPAYMENTWAIVER",
+    "chargeRefund" => "CHARGEREFUND",
     "recoverypayment" => "RECOVERYPAYMENT",
     "undowriteoff" => "UNDOWRITEOFF",
     "close-rescheduled" => "CLOSEASRESCHEDULED",

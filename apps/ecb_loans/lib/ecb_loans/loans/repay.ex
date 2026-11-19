@@ -30,19 +30,28 @@ defmodule ECBLoans.Loans.Repay do
   @merchant_issued_refund 21
   @payout_refund 22
   @goodwill_credit 23
-  @types [@repayment, @merchant_issued_refund, @payout_refund, @goodwill_credit]
+  @charge_refund 24
+  @interest_payment_waiver 31
+  @types [
+    @repayment,
+    @merchant_issued_refund,
+    @payout_refund,
+    @goodwill_credit,
+    @charge_refund,
+    @interest_payment_waiver
+  ]
 
-  @doc "The transaction types that are paid out of the installments like a repayment (2, 21, 22 and 23)."
+  @doc "The transaction types that are paid out of the installments like a repayment (2, 21, 22, 23 and 31)."
   @spec types() :: [integer]
   def types, do: @types
 
   @doc """
   Records a repayment on loan `id`; the result carries the new transaction's id. `type` is the kind of repayment:
-  a plain one (2), or a merchant issued refund (21), a payout refund (22) or a goodwill credit (23), which pay the
+  a plain one (2), or a merchant issued refund (21), a payout refund (22) or a goodwill credit (23) or an interest payment waiver (31), which pay the
   installments in the same way.
   """
   @spec repay!(struct, integer, Params.t(), integer) :: Result.t()
-  def repay!(user, id, %Params{} = p, type \\ @repayment) do
+  def repay!(user, id, %Params{} = p, type \\ @repayment, opts \\ []) do
     Params.check_supported!(p, @supported)
     on = Params.date(p, "transactionDate")
     amount = Params.decimal_with_locale(p, "transactionAmount")
@@ -70,9 +79,11 @@ defmodule ECBLoans.Loans.Repay do
     check_status!(loan)
     check_dates!(loan, on, type)
     ChargeOff.guard_date!(loan, on)
+    refuse_waiver_after_charge_off!(loan, type)
+    check_no_later_refund!(loan, on, type, "created")
     check_accounting!(loan)
 
-    tx_id = apply!(user, loan, on, amount, payment_detail_id, external_id, type)
+    tx_id = apply!(user, loan, on, amount, payment_detail_id, external_id, type, opts[:refund])
 
     # a merchant issued refund and a payout refund put their note on the loan, the other kinds on the transaction
     Loans.add_note(id, loan.client_id, note, user.id, if(type in [21, 22], do: nil, else: tx_id))
@@ -189,14 +200,37 @@ defmodule ECBLoans.Loans.Repay do
     end
   end
 
+  # what Fineract books for a waiver on a loan that is charged off has not been recorded
+  defp refuse_waiver_after_charge_off!(%{is_charged_off: true}, @interest_payment_waiver) do
+    raise DomainRuleViolation,
+      code: "error.msg.loan.feature.not.supported.yet",
+      message:
+        "An interest payment waiver on a loan that is charged off is not supported yet by E-CoreBank",
+      args: ["interestPaymentWaiver"]
+  end
+
+  defp refuse_waiver_after_charge_off!(_loan, _type), do: :ok
+
   defp check_accounting!(loan),
     do: Journal.check_supported!(ECBLoans.LoanProducts.fetch!(loan.product_id), "A repayment")
 
   # --- the allocation -----------------------------------------------------------------------------
 
   @doc false
-  def apply!(user, loan, on, amount, payment_detail_id, external_id, type \\ @repayment) do
+  def apply!(
+        user,
+        loan,
+        on,
+        amount,
+        payment_detail_id,
+        external_id,
+        type \\ @repayment,
+        refund \\ nil
+      ) do
     if Reprocess.needed?(loan.id, on) do
+      if refund,
+        do: refuse_not_supported!("A charge refund dated before other repayments", "chargeRefund")
+
       new = %{
         type: type,
         date: on,
@@ -208,11 +242,11 @@ defmodule ECBLoans.Loans.Repay do
       # a refund is saved before the transactions it changes, a repayment after them
       Reprocess.run!(user, loan.id, new: new, first: type in [21, 22])
     else
-      apply_latest!(user, loan, on, amount, payment_detail_id, external_id, type)
+      apply_latest!(user, loan, on, amount, payment_detail_id, external_id, type, refund)
     end
   end
 
-  defp apply_latest!(user, loan, on, amount, payment_detail_id, external_id, type) do
+  defp apply_latest!(user, loan, on, amount, payment_detail_id, external_id, type, refund) do
     rows = Loans.installments(loan.id)
     {updates, left, portions} = allocate(rows, on, amount)
 
@@ -227,7 +261,8 @@ defmodule ECBLoans.Loans.Repay do
       overpayment: nil_zero(left),
       balance: balance_after(loan, portions.principal),
       payment_detail_id: payment_detail_id,
-      external_id: external_id
+      external_id: external_id,
+      refund_penalty: refund && refund.penalty
     }
 
     tx_id = Disburse.insert_transaction!(user, loan, tx)
@@ -243,8 +278,52 @@ defmodule ECBLoans.Loans.Repay do
       ChargeRows.sync_paid!(loan.id, reached_only: true)
     )
 
+    if refund,
+      do:
+        ChargeRows.record_paid_by!(
+          tx_id,
+          refund.charge,
+          Decimal.negate(amount),
+          refund.installment
+        )
+
     after_repayment!(user, loan, on, left)
     tx_id
+  end
+
+  # a transaction that pays like a repayment cannot be made, or taken back, with a charge refund dated after it
+  @doc false
+  def check_no_later_refund!(loan, on, type, verb) do
+    later? =
+      type != @charge_refund and
+        TenantRepo.exists?(
+          from(t in "m_loan_transaction",
+            where:
+              t.loan_id == ^loan.id and t.transaction_type_enum == @charge_refund and
+                not t.is_reversed and t.transaction_date > ^on
+          )
+        )
+
+    if later? do
+      code = "loan.transaction.cant.be.#{verb}.because.later.charge.refund.exists"
+
+      raise DomainRuleViolation,
+        code: "error.msg." <> code,
+        message: code,
+        args: [
+          "Loan Transaction: #{loan.id} Can't be #{verb} because a Later Charge Refund Exists."
+        ]
+    end
+
+    :ok
+  end
+
+  @doc false
+  def refuse_not_supported!(what, command) do
+    raise DomainRuleViolation,
+      code: "error.msg.loan.feature.not.supported.yet",
+      message: what <> " is not supported yet by E-CoreBank",
+      args: [command]
   end
 
   @doc """

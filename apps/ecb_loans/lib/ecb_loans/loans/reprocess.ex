@@ -22,7 +22,7 @@ defmodule ECBLoans.Loans.Reprocess do
   @repayment 2
   @waive_interest 4
   # what is applied again: repayments (and the kinds that are paid like them) and waivers
-  @replayed [2, 21, 22, 23, 8, 4]
+  @replayed [2, 21, 22, 23, 24, 31, 8, 4]
 
   @doc """
   Whether a transaction on `date` would be before one the loan already has, so that the ones after it must be
@@ -395,10 +395,35 @@ defmodule ECBLoans.Loans.Reprocess do
 
     id = Disburse.insert_transaction!(user, loan, full)
     relate!(user, id, tx.id)
+    full = refund_of(full, tx.id, id)
     Journal.repayment!(user, loan, product, journal(full, id))
     Journal.reverse!(user, loan, tx.id, tx.date)
     id
   end
+
+  # a charge refund keeps what it refunds: the charge is recorded against the new transaction as it was against the old
+  # one, and the journal is told whether it was a penalty
+  defp refund_of(%{type: 24} = full, old_id, new_id) do
+    refunded =
+      TenantRepo.all(
+        from(b in "m_loan_charge_paid_by",
+          join: c in "m_loan_charge",
+          on: c.id == b.loan_charge_id,
+          where: b.loan_transaction_id == ^old_id and b.amount < 0,
+          select: %{
+            charge: b.loan_charge_id,
+            amount: b.amount,
+            installment: b.installment_number,
+            penalty: c.is_penalty
+          }
+        )
+      )
+
+    for r <- refunded, do: ChargeRows.record_paid_by!(new_id, r.charge, r.amount, r.installment)
+    Map.put(full, :refund_penalty, Enum.any?(refunded, & &1.penalty))
+  end
+
+  defp refund_of(full, _old_id, _new_id), do: full
 
   # the new transaction replays the old one, and whatever the old one replayed
   defp relate!(user, new_id, old_id) do

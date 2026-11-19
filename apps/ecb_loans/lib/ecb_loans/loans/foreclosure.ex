@@ -148,6 +148,19 @@ defmodule ECBLoans.Loans.Foreclosure do
     end
   end
 
+  @doc """
+  What foreclosing loan `loan` on `on` would ask, as the template of the foreclosure shows it:
+  `%{principal, interest, fees, penalties}`. A date in the future, or before the loan's last transaction, is refused
+  as the foreclosure itself does it.
+  """
+  @spec template(map, Date.t()) :: map
+  def template(loan, on) do
+    if loan.disbursedon_date != nil, do: check_date!(loan, on)
+    charges = Loans.charges(loan.id)
+    check_charges!(charges)
+    payable(loan, Loans.installments(loan.id), charges, on)
+  end
+
   # --- what is to be paid ---------------------------------------------------------------------
 
   @interest_taken [:interest_completed, :interest_waived, :interest_writtenoff]

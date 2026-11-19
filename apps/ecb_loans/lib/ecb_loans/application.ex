@@ -21,6 +21,8 @@ defmodule ECBLoans.Application do
     {"LOAN", "MERCHANTISSUEDREFUND", ECBLoans.Handlers.Loan},
     {"LOAN", "PAYOUTREFUND", ECBLoans.Handlers.Loan},
     {"LOAN", "GOODWILLCREDIT", ECBLoans.Handlers.Loan},
+    {"LOAN", "INTERESTPAYMENTWAIVER", ECBLoans.Handlers.Loan},
+    {"LOAN", "CHARGEREFUND", ECBLoans.Handlers.Loan},
     {"LOAN", "UPDATELOANOFFICER", ECBLoans.Handlers.Loan},
     {"LOAN", "REMOVELOANOFFICER", ECBLoans.Handlers.Loan},
     {"LOAN", "RECOVERYPAYMENT", ECBLoans.Handlers.Loan},

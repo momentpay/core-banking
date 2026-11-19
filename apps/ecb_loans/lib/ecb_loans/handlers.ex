@@ -25,6 +25,7 @@ defmodule ECBLoans.Handlers do
 
     alias ECBLoans.Loans.{
       ChargeOff,
+      ChargeRefund,
       Closing,
       Corrections,
       Disburse,
@@ -72,6 +73,12 @@ defmodule ECBLoans.Handlers do
 
     def process(%{action_name: "GOODWILLCREDIT"} = command, user),
       do: {:ok, Repay.repay!(user, command.entity_id, Params.parse!(command.json), 23)}
+
+    def process(%{action_name: "INTERESTPAYMENTWAIVER"} = command, user),
+      do: {:ok, Repay.repay!(user, command.entity_id, Params.parse!(command.json), 31)}
+
+    def process(%{action_name: "CHARGEREFUND"} = command, user),
+      do: {:ok, ChargeRefund.refund!(user, command.entity_id, Params.parse!(command.json))}
 
     def process(%{action_name: "UPDATELOANOFFICER"} = command, user),
       do: {:ok, Officers.reassign!(user, command.entity_id, Params.parse!(command.json))}

@@ -67,6 +67,11 @@ defmodule ECBLoans.Loans.Corrections do
     check_not_foreclosed!(loan)
     ChargeOff.guard_change!(loan, tx, amount)
     check_adjustable!(loan, tx)
+
+    if tx.transaction_type_enum == 24 and not Decimal.eq?(amount, 0),
+      do: Repay.refuse_not_supported!("Replacing a charge refund", "transactionId")
+
+    Repay.check_no_later_refund!(loan, tx.transaction_date, tx.transaction_type_enum, "reversed")
     refuse_if_later!(loan, tx)
     check_accounting!(loan, "Changing a repayment")
 

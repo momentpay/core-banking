@@ -34,7 +34,7 @@ defmodule ECBLoans.Loans.UndoLastDisbursal do
 
   # repayments, merchant refunds, payout refunds, goodwill credits, recoveries and the waivers: what may not
   # have happened after the tranche was paid out
-  @after_tranche [2, 4, 8, 9, 21, 22, 23]
+  @after_tranche [2, 4, 8, 9, 21, 22, 23, 31]
 
   @doc "Takes the last tranche of loan `id` back."
   @spec undo!(struct, integer, Params.t()) :: Result.t()

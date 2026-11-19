@@ -4,8 +4,8 @@ defmodule ECBApiFineract.Resources.LoanTransactionTemplate do
   Fineract's `LoanTransactionsApiResource.retrieveTransactionTemplate` answers it.
 
   Built: `repayment` (the next installment due), `prepayLoan`, `merchantIssuedRefund`, `payoutRefund` and
-  `goodwillCredit` (all that is outstanding), `waiveinterest`, `writeoff`, `close`, `close-rescheduled`,
-  `recoverypayment`, `creditBalanceRefund` and `charge-off`. The other commands Fineract has are refused as not
+  `goodwillCredit` and `interestPaymentWaiver` (all that is outstanding), `waiveinterest`, `writeoff`, `close`,
+  `close-rescheduled`, `recoverypayment`, `creditBalanceRefund`, `charge-off` and `foreclosure`. The other commands Fineract has are refused as not
   supported yet; any other command is `The query parameter command has an unsupported value`.
 
   A few oddities are kept: the template of a credit balance refund is dated with the real clock, not the business
@@ -24,13 +24,14 @@ defmodule ECBApiFineract.Resources.LoanTransactionTemplate do
     "prepayLoan" => 2,
     "merchantIssuedRefund" => 21,
     "payoutRefund" => 22,
-    "goodwillCredit" => 23
+    "goodwillCredit" => 23,
+    "interestPaymentWaiver" => 31
   }
 
   @built ~w(repayment recoverypayment creditBalanceRefund waiveinterest writeoff close close-rescheduled
-            charge-off prepayLoan merchantIssuedRefund payoutRefund goodwillCredit)
+            charge-off foreclosure prepayLoan merchantIssuedRefund payoutRefund goodwillCredit interestPaymentWaiver)
 
-  @not_built ~w(interestPaymentWaiver refundbycash refundbytransfer foreclosure downPayment contractTermination
+  @not_built ~w(refundbycash refundbytransfer downPayment contractTermination
                 loanWithdrawal reAge reAmortize capitalizedIncome capitalizedIncomeAdjustment buyDownFee
                 buyDownFeeAdjustment interest-refund disburse disburseToSavings)
 
@@ -74,6 +75,33 @@ defmodule ECBApiFineract.Resources.LoanTransactionTemplate do
 
   # what is sent for `command`; a loan that is not there is a 500 for the repayment template (its query finds
   # nothing), a not-found for the others
+  defp body(%{id: _} = loan, "foreclosure", query) do
+    on = foreclosure_date(query)
+
+    payable =
+      loan
+      |> ECBLoans.Loans.Foreclosure.template(on)
+      |> Map.new(fn {part, amount} -> {part, Decimal.add(amount, Decimal.new("0.0"))} end)
+
+    %{
+      "loanId" => loan.id,
+      "type" => LoanAccounts.transaction_type_json(2),
+      "date" => BusinessDate.current(),
+      "currency" => LoanAccounts.currency_json(loan),
+      "amount" => total(payable),
+      "netDisbursalAmount" => loan.net_disbursal_amount,
+      "principalPortion" => payable.principal,
+      "interestPortion" => payable.interest,
+      "feeChargesPortion" => payable.fees,
+      "penaltyChargesPortion" => payable.penalties,
+      "outstandingLoanBalance" => payable.principal,
+      "manuallyReversed" => false,
+      "paymentTypeOptions" => payment_types()
+    }
+    |> external(loan)
+    |> LoanAccounts.only_fields(query, choosable())
+  end
+
   defp body(%{id: _} = loan, command, query),
     do:
       command
@@ -83,6 +111,17 @@ defmodule ECBApiFineract.Resources.LoanTransactionTemplate do
   defp body(id, "repayment", _query) when is_integer(id), do: {:error, %ServerError{}}
   defp body(id, _command, _query) when is_integer(id), do: {:error, Loans.not_found(id)}
   defp body({:external, ext}, _command, _query), do: {:error, Loans.not_found_by_external_id(ext)}
+
+  # the day the foreclosure is asked about: the business date unless the request names one
+  defp foreclosure_date(%{"transactionDate" => _} = query) do
+    query
+    |> Map.take(["transactionDate", "dateFormat", "locale"])
+    |> Jason.encode!()
+    |> ECBPlatform.Params.parse!()
+    |> ECBPlatform.Params.date("transactionDate")
+  end
+
+  defp foreclosure_date(_query), do: BusinessDate.current()
 
   # the names `fields=` can take out of a template: the same Fineract's transaction serializer knows
   defp choosable,

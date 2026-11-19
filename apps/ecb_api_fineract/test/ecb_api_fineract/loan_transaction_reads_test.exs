@@ -94,7 +94,7 @@ defmodule ECBApiFineract.LoanTransactionReadsTest do
   end
 
   test "the templates that are not built are refused, the others are made" do
-    conn = send_json(:get, "/v1/loans/1/transactions/template?command=foreclosure")
+    conn = send_json(:get, "/v1/loans/1/transactions/template?command=refundbycash")
     assert conn.status == 403
 
     [error] = body(conn)["errors"]

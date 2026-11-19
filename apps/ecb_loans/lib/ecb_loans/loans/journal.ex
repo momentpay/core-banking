@@ -50,6 +50,8 @@ defmodule ECBLoans.Loans.Journal do
   @goodwill_fees 20
   @goodwill_penalties 21
   @goodwill_credit_type 23
+  @interest_payment_waiver 31
+  @charge_refund 24
   @income_charge_off_interest 14
   @income_charge_off_fees 15
   @charge_off_expense 16
@@ -103,6 +105,42 @@ defmodule ECBLoans.Loans.Journal do
 
   def repayment!(user, loan, product, %{type: @recovery_type} = tx),
     do: recovery!(user, loan, product, tx)
+
+  # An interest payment waiver gives income up instead of taking money in: with accrual accounting the loan's
+  # receivables are credited and the income from interest debited; cash accounting posts nothing for it.
+  def repayment!(user, loan, product, %{type: @interest_payment_waiver} = tx) do
+    if accrual?(product) do
+      accounts = accounts(product)
+
+      credits =
+        merged([
+          {@credit, accounts[@loan_portfolio], tx.principal},
+          {@credit, accounts[@interest_receivable], tx.interest},
+          {@credit, fee_account(accounts, tx), tx.fees},
+          {@credit, accounts[@penalties_receivable], tx.penalties},
+          {@credit, accounts[@overpayment], tx.overpayment}
+        ])
+
+      post!(user, loan, tx, credits ++ [{@debit, accounts[@interest_on_loans], tx.amount}])
+    else
+      :ok
+    end
+  end
+
+  # A charge refund is posted as a repayment is, and the income from the fees (or penalties) it gives back is
+  # debited against the fund source besides.
+  def repayment!(user, loan, product, %{type: @charge_refund} = tx) do
+    repayment!(user, loan, product, Map.put(tx, :type, 2))
+    accounts = accounts(product)
+
+    income =
+      if tx[:refund_penalty],
+        do: accounts[@income_from_penalties],
+        else: accounts[@income_from_fees]
+
+    fund = fund_source(product, accounts, payment_type_id(tx))
+    post!(user, loan, tx, [{@debit, income, tx.amount}, {@credit, fund, tx.amount}])
+  end
 
   def repayment!(user, loan, product, tx) do
     accounts = accounts(product)
