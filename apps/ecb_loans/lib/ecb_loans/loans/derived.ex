@@ -6,6 +6,7 @@ defmodule ECBLoans.Loans.Derived do
   """
   import Ecto.Query
 
+  alias ECBLoans.Delinquency.Classify
   alias ECBLoans.Loans
   alias ECBLoans.Loans.{Arrears, ChargeRows}
   alias ECBPlatform.TenantRepo
@@ -102,6 +103,17 @@ defmodule ECBLoans.Loans.Derived do
 
     # the arrears follow the loan whenever its totals do, as Fineract's listeners keep them
     Arrears.update!(loan_id)
+  end
+
+  @doc """
+  Works the totals out again as `refresh!/2` does, and puts the loan in the delinquency range its arrears call for.
+  Fineract does the second after a loan is paid out, repaid, adjusted, written off, given a charge or a waiver and the
+  like, but not after every change (a loan that is foreclosed or whose payout is undone keeps its range).
+  """
+  @spec refresh_classified!(integer, struct) :: :ok
+  def refresh_classified!(loan_id, user) do
+    refresh!(loan_id, user)
+    Classify.classify!(loan_id, user)
   end
 
   # the transactions that move no money and so have no balance of their own: contra, marked for rescheduling,

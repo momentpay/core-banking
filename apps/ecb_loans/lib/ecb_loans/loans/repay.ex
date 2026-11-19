@@ -13,6 +13,7 @@ defmodule ECBLoans.Loans.Repay do
   """
   import Ecto.Query
 
+  alias ECBLoans.Delinquency.Classify
   alias ECBLoans.Loans
   alias ECBLoans.Loans.{Accruals, ChargeOff, ChargeRows, Derived, Disburse, Journal, Reprocess}
   alias ECBParty.Clients
@@ -84,6 +85,7 @@ defmodule ECBLoans.Loans.Repay do
     check_accounting!(loan)
 
     tx_id = apply!(user, loan, on, amount, payment_detail_id, external_id, type, opts[:refund])
+    Classify.classify!(id, user)
 
     # a merchant issued refund and a payout refund put their note on the loan, the other kinds on the transaction
     Loans.add_note(id, loan.client_id, note, user.id, if(type in [21, 22], do: nil, else: tx_id))

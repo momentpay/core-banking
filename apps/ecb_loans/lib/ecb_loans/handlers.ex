@@ -23,6 +23,9 @@ defmodule ECBLoans.Handlers do
     """
     @behaviour ECBPlatform.Commands.Handler
 
+    alias ECBLoans.Delinquency
+    alias ECBLoans.Delinquency.Classify
+
     alias ECBLoans.Loans.{
       ChargeOff,
       ChargeRefund,
@@ -79,6 +82,21 @@ defmodule ECBLoans.Handlers do
 
     def process(%{action_name: "CHARGEREFUND"} = command, user),
       do: {:ok, ChargeRefund.refund!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "UPDATEDELINQUENCY"} = command, user) do
+      changes = Classify.assign_now!(user, command.entity_id)
+
+      changes =
+        for {key, value} <- changes, into: %{} do
+          {key,
+           if(is_map(value) and key != "overdueDays",
+             do: Delinquency.entity(value, "isNew"),
+             else: value
+           )}
+        end
+
+      {:ok, ECBPlatform.Commands.Result.new(resource_id: command.entity_id, changes: changes)}
+    end
 
     def process(%{action_name: "UPDATELOANOFFICER"} = command, user),
       do: {:ok, Officers.reassign!(user, command.entity_id, Params.parse!(command.json))}
@@ -211,6 +229,54 @@ defmodule ECBLoans.Handlers do
 
     def process(%{action_name: "REJECT"} = command, user),
       do: {:ok, RescheduleRequests.reject!(user, command.entity_id, Params.parse!(command.json))}
+  end
+
+  defmodule DelinquencyRange do
+    @moduledoc "Every action on `DELINQUENCY_RANGE`: create, change and remove a delinquency range."
+    @behaviour ECBPlatform.Commands.Handler
+
+    alias ECBLoans.Delinquency
+    alias ECBPlatform.Params
+
+    @impl true
+    def process(%{action_name: "CREATE"} = command, user),
+      do: {:ok, Delinquency.create_range!(user, Params.parse!(command.json))}
+
+    def process(%{action_name: "UPDATE"} = command, user),
+      do: {:ok, Delinquency.update_range!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "DELETE"} = command, user),
+      do: {:ok, Delinquency.delete_range!(user, command.entity_id)}
+  end
+
+  defmodule DelinquencyBucket do
+    @moduledoc "Every action on `DELINQUENCY_BUCKET`: create, change and remove a delinquency bucket."
+    @behaviour ECBPlatform.Commands.Handler
+
+    alias ECBLoans.Delinquency
+    alias ECBPlatform.Params
+
+    @impl true
+    def process(%{action_name: "CREATE"} = command, user),
+      do: {:ok, Delinquency.create_bucket!(user, Params.parse!(command.json))}
+
+    def process(%{action_name: "UPDATE"} = command, user),
+      do: {:ok, Delinquency.update_bucket!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "DELETE"} = command, user),
+      do: {:ok, Delinquency.delete_bucket!(user, command.entity_id)}
+  end
+
+  defmodule DelinquencyAction do
+    @moduledoc "Every action on `DELINQUENCY_ACTION`: pause or resume the delinquency of a loan."
+    @behaviour ECBPlatform.Commands.Handler
+
+    alias ECBLoans.Delinquency.Actions
+    alias ECBPlatform.Params
+
+    @impl true
+    def process(%{action_name: "CREATE"} = command, user),
+      do: {:ok, Actions.create!(user, command.entity_id, Params.parse!(command.json))}
   end
 
   defmodule Collateral do

@@ -10,6 +10,7 @@ defmodule ECBLoans.Loans.Corrections do
   """
   import Ecto.Query
 
+  alias ECBLoans.Delinquency.Classify
   alias ECBLoans.Loans
 
   alias ECBLoans.Loans.{
@@ -85,6 +86,7 @@ defmodule ECBLoans.Loans.Corrections do
         new_id
       end
 
+    Classify.classify!(id, user)
     Loans.add_note(id, loan.client_id, note, user.id, new_id)
 
     Result.new(
@@ -366,6 +368,7 @@ defmodule ECBLoans.Loans.Corrections do
     tx_id = make_waiver!(user, loan, on, amount)
     Derived.refresh!(id, user)
     Repay.after_repayment!(user, Loans.fetch!(id), on, Decimal.new(0))
+    Classify.classify!(id, user)
     Loans.add_note(id, loan.client_id, note, user.id, tx_id)
 
     Result.new(
@@ -605,6 +608,8 @@ defmodule ECBLoans.Loans.Corrections do
       ]
     )
 
+    # a loan that is written off is no longer delinquent
+    Classify.classify!(id, user)
     Loans.add_note(id, loan.client_id, note, user.id, tx_id)
 
     Result.new(

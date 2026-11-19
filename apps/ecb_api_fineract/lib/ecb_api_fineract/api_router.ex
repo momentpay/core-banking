@@ -22,6 +22,7 @@ defmodule ECBApiFineract.ApiRouter do
     ClientIdentifiers,
     Clients,
     Codes,
+    Delinquency,
     FamilyMembers,
     FinancialActivityAccounts,
     FloatingRates,
@@ -259,6 +260,22 @@ defmodule ECBApiFineract.ApiRouter do
 
   put "/v1/loans/:id/disbursements/:disbursement_id",
     do: LoanDisbursements.update(conn, id, disbursement_id)
+
+  get "/v1/loans/:id/delinquencytags", do: Delinquency.tags(conn, id)
+  get "/v1/loans/:id/delinquency-actions", do: Delinquency.actions(conn, id)
+  post "/v1/loans/:id/delinquency-actions", do: Delinquency.create_action(conn, id)
+
+  get "/v1/delinquency/ranges", do: Delinquency.ranges(conn)
+  post "/v1/delinquency/ranges", do: Delinquency.range_create(conn)
+  get "/v1/delinquency/ranges/:id", do: Delinquency.range_show(conn, id)
+  put "/v1/delinquency/ranges/:id", do: Delinquency.range_update(conn, id)
+  delete "/v1/delinquency/ranges/:id", do: Delinquency.range_delete(conn, id)
+  get "/v1/delinquency/buckets/template", do: Delinquency.bucket_template(conn)
+  get "/v1/delinquency/buckets", do: Delinquency.buckets(conn)
+  post "/v1/delinquency/buckets", do: Delinquency.bucket_create(conn)
+  get "/v1/delinquency/buckets/:id", do: Delinquency.bucket_show(conn, id)
+  put "/v1/delinquency/buckets/:id", do: Delinquency.bucket_update(conn, id)
+  delete "/v1/delinquency/buckets/:id", do: Delinquency.bucket_delete(conn, id)
 
   get "/v1/loans/:id/charges/template", do: LoanCharges.template(conn, id)
   get "/v1/loans/:id/charges/:charge_id", do: LoanCharges.show(conn, id, charge_id)

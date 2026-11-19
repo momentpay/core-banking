@@ -167,7 +167,7 @@ defmodule ECBLoans.Loans.Closing do
     )
 
     Reprocess.run!(user, id)
-    Derived.refresh!(id, user)
+    Derived.refresh_classified!(id, user)
     Accruals.reprocess!(user, id)
     Journal.reverse!(user, Loans.fetch!(id), write_off.id, write_off.transaction_date)
 

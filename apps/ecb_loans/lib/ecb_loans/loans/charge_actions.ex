@@ -18,6 +18,7 @@ defmodule ECBLoans.Loans.ChargeActions do
   """
   import Ecto.Query
 
+  alias ECBLoans.Delinquency.Classify
   alias ECBLoans.Loans
 
   alias ECBLoans.Loans.{
@@ -380,6 +381,7 @@ defmodule ECBLoans.Loans.ChargeActions do
       Repay.after_repayment!(user, Loans.fetch!(loan_id), on, Decimal.new(0))
     end
 
+    Classify.classify!(loan_id, user)
     :ok
   end
 

@@ -108,7 +108,6 @@ defmodule ECBLoans.LoanProducts.Validate do
     "allowApprovedDisbursedAmountsOverApplied" => [nil, false],
     "overAppliedCalculationType" => [nil],
     "overAppliedNumber" => [nil],
-    "delinquencyBucketId" => [nil],
     "enableDownPayment" => [nil, false],
     "disbursedAmountPercentageForDownPayment" => [nil],
     "enableAutoRepaymentForDownPayment" => [nil, false],
@@ -244,6 +243,7 @@ defmodule ECBLoans.LoanProducts.Validate do
     |> Validation.ignore_if_null()
     |> Validation.zero_or_positive_amount()
     |> strategy(p)
+    |> delinquency_bucket(p)
     |> grace(p, "graceOnPrincipalPayment", :amount)
     |> grace(p, "graceOnInterestPayment", :amount)
     |> grace(p, "graceOnInterestCharged", :amount)
@@ -526,6 +526,18 @@ defmodule ECBLoans.LoanProducts.Validate do
     |> Validation.param(key, Params.integer_in_default_locale(p, key))
     |> Validation.not_null()
     |> Validation.in_range(min, max)
+  end
+
+  # the bucket a product's loans are classified by, when it has one
+  defp delinquency_bucket(v, p) do
+    if Params.exists?(p, "delinquencyBucketId") do
+      v
+      |> Validation.param("delinquencyBucketId", Json.long(p, "delinquencyBucketId"))
+      |> Validation.ignore_if_null()
+      |> Validation.greater_than_zero()
+    else
+      v
+    end
   end
 
   defp strategy(v, p) do

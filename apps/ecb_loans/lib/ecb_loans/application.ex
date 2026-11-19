@@ -54,7 +54,15 @@ defmodule ECBLoans.Application do
     {"LOANCHARGE", "WAIVE", ECBLoans.Handlers.LoanCharge},
     {"LOANCHARGE", "PAY", ECBLoans.Handlers.LoanCharge},
     {"LOANCHARGE", "ADJUSTMENT", ECBLoans.Handlers.LoanCharge},
-    {"DISBURSEMENTDETAIL", "UPDATE", ECBLoans.Handlers.DisbursementDetail}
+    {"DISBURSEMENTDETAIL", "UPDATE", ECBLoans.Handlers.DisbursementDetail},
+    {"DELINQUENCY_RANGE", "CREATE", ECBLoans.Handlers.DelinquencyRange},
+    {"DELINQUENCY_RANGE", "UPDATE", ECBLoans.Handlers.DelinquencyRange},
+    {"DELINQUENCY_RANGE", "DELETE", ECBLoans.Handlers.DelinquencyRange},
+    {"DELINQUENCY_BUCKET", "CREATE", ECBLoans.Handlers.DelinquencyBucket},
+    {"DELINQUENCY_BUCKET", "UPDATE", ECBLoans.Handlers.DelinquencyBucket},
+    {"DELINQUENCY_BUCKET", "DELETE", ECBLoans.Handlers.DelinquencyBucket},
+    {"DELINQUENCY_ACTION", "CREATE", ECBLoans.Handlers.DelinquencyAction},
+    {"LOAN", "UPDATEDELINQUENCY", ECBLoans.Handlers.Loan}
   ]
 
   @impl true
@@ -64,6 +72,8 @@ defmodule ECBLoans.Application do
     ECBPlatform.Jobs.register("ACC_AATR", ECBLoans.Loans.AccrualInstallmentsJob)
     ECBPlatform.Jobs.register("LA_OPEN", ECBLoans.Loans.OverdueJob)
     ECBPlatform.Jobs.register("LA_ARAG", ECBLoans.Loans.ArrearsAgeingJob)
+    ECBPlatform.Jobs.register("LA_DECL", ECBLoans.Loans.DelinquencyJob)
+    ECBPlatform.Jobs.register("LA_UNPA", ECBLoans.Loans.NpaJob)
 
     Supervisor.start_link([], strategy: :one_for_one, name: ECBLoans.Supervisor)
   end

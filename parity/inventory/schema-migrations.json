@@ -297,6 +297,19 @@
         "m_loan_reschedule_request_term_variations_mapping",
         "m_loan_repayment_schedule_history"
       ]
+    },
+    {
+      "kind": "schema",
+      "app": "ecb_loans",
+      "version": "20261119100000",
+      "name": "create_delinquency_tables",
+      "tables": [
+        "m_delinquency_range",
+        "m_delinquency_bucket",
+        "m_delinquency_bucket_mappings",
+        "m_loan_delinquency_tag_history",
+        "m_loan_delinquency_action"
+      ]
     }
   ],
   "deferred_foreign_keys": [
@@ -329,12 +342,6 @@
       "references": "m_savings_account",
       "sql": "ALTER TABLE ONLY public.m_client\n    ADD CONSTRAINT \"FK_m_client_m_savings_account\" FOREIGN KEY (default_savings_account) REFERENCES public.m_savings_account(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
       "migration": "create_client_tables"
-    },
-    {
-      "table": "m_product_loan",
-      "references": "m_delinquency_bucket",
-      "sql": "ALTER TABLE ONLY public.m_product_loan\n    ADD CONSTRAINT \"FK_m_product_loan_m_delinquency_bucket\" FOREIGN KEY (delinquency_bucket_id) REFERENCES public.m_delinquency_bucket(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
-      "migration": "create_loan_product_tables"
     },
     {
       "table": "m_loan",

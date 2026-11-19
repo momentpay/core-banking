@@ -342,7 +342,7 @@ defmodule ECBLoans.Loans.Disburse do
     # a loan in tranches has its repayments worked out again whenever a tranche is paid,
     # which gives its charges a paid amount
     if tranche.ids != [], do: ChargeRows.sync_paid!(id)
-    Derived.refresh!(id, user)
+    Derived.refresh_classified!(id, user)
     Accruals.on_disbursement!(user, Loans.fetch!(id), product, on)
     :ok
   end

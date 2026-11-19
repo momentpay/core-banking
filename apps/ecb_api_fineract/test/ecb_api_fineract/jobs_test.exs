@@ -75,8 +75,10 @@ defmodule ECBApiFineract.JobsTest do
 
       # before the time nothing runs; after it the jobs due run, those of higher priority first
       assert Scheduler.run_due(~N[2024-05-02 00:01:30]) == [
+               {"apitest", "LA_UNPA"},
                {"apitest", "LA_ARAG"},
                {"apitest", "LA_OPEN"},
+               {"apitest", "LA_DECL"},
                {"apitest", "ACC_AATR"}
              ]
 
@@ -88,8 +90,10 @@ defmodule ECBApiFineract.JobsTest do
 
       # a night that was missed runs the job once, not once per firing
       assert Scheduler.run_due(~N[2024-05-09 08:00:00]) == [
+               {"apitest", "LA_UNPA"},
                {"apitest", "LA_ARAG"},
                {"apitest", "LA_OPEN"},
+               {"apitest", "LA_DECL"},
                {"apitest", "ACC_AATR"},
                {"apitest", "ACC_APTR"}
              ]

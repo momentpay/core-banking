@@ -28,11 +28,13 @@ defmodule ECBLoans.LoanProducts.Write do
     charge_ids = charges!(p, currency_code)
     rule = Params.integer_in_default_locale(p, "accountingRule")
     code = Params.string(p, "transactionProcessingStrategyCode")
+    bucket = bucket!(Json.long(p, "delinquencyBucketId"))
 
     row =
       p
       |> new_row(currency_code, rule)
       |> Map.merge(%{
+        delinquency_bucket_id: bucket,
         fund_id: fund,
         loan_transaction_strategy_code: code,
         loan_transaction_strategy_name: LoanProducts.strategy_name(code)
@@ -137,6 +139,16 @@ defmodule ECBLoans.LoanProducts.Write do
   defp flag(p, key), do: Params.boolean(p, key) == true
 
   # --- fund and charges ---------------------------------------------------------------------------
+
+  # the delinquency bucket the product's loans are classified by must exist
+  defp bucket!(nil), do: nil
+
+  defp bucket!(id) do
+    if ECBLoans.Delinquency.bucket(id) == nil,
+      do: raise(ECBLoans.Delinquency.bucket_not_found(id))
+
+    id
+  end
 
   defp fund!(nil), do: nil
 

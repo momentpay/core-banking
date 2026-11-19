@@ -78427,6 +78427,4228 @@
           ]
         }
       ]
+    },
+    {
+      "name": "delinquency1",
+      "reset": [
+        "loans",
+        "loanproducts",
+        "delinquency",
+        "clients",
+        "funds",
+        "glaccounts",
+        "staff",
+        "codes",
+        "configuration"
+      ],
+      "steps": [
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/enable-business-date",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/delinquency/ranges"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/delinquency/buckets",
+          "sortby": "id",
+          "ignore": [
+            "ranges"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/delinquency/buckets/template"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/delinquency/buckets/1",
+          "sortby": "ranges:id"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/delinquency/ranges/1"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/ranges",
+          "body": {
+            "locale": "en",
+            "classification": "Early",
+            "minimumAgeDays": 1,
+            "maximumAgeDays": 3
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/ranges",
+          "body": {
+            "locale": "en",
+            "classification": "Mid",
+            "minimumAgeDays": 4,
+            "maximumAgeDays": 30
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/ranges",
+          "body": {
+            "locale": "en",
+            "classification": "Late",
+            "minimumAgeDays": 31
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/ranges",
+          "body": {
+            "locale": "en",
+            "classification": "Early",
+            "minimumAgeDays": 1,
+            "maximumAgeDays": 3
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/ranges",
+          "body": {
+            "locale": "en",
+            "classification": "Bad",
+            "minimumAgeDays": 10,
+            "maximumAgeDays": 5
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/ranges",
+          "body": {
+            "locale": "en",
+            "classification": "Zero",
+            "minimumAgeDays": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/ranges",
+          "body": {
+            "classification": "NoLocale",
+            "minimumAgeDays": 3
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/ranges",
+          "body": {
+            "locale": "en",
+            "minimumAgeDays": 3
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/ranges",
+          "body": {
+            "locale": "en",
+            "classification": "NoMin"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/ranges",
+          "body": {
+            "locale": "en",
+            "classification": "Bogus",
+            "minimumAgeDays": 3,
+            "maximumAgeDays": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/ranges",
+          "body": {
+            "locale": "en",
+            "classification": "Str",
+            "minimumAgeDays": "x"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/ranges",
+          "body": {
+            "locale": "en",
+            "classification": "Str",
+            "minimumAgeDays": "5",
+            "maximumAgeDays": "6"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/ranges",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/ranges",
+          "body": {
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/ranges",
+          "body": {
+            "locale": "en",
+            "classification": "",
+            "minimumAgeDays": -1,
+            "maximumAgeDays": -2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/ranges",
+          "body": {
+            "locale": "en",
+            "classification": "Odd",
+            "minimumAgeDays": 200,
+            "maximumAgeDays": 300,
+            "bogus": 1
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/delinquency/ranges",
+          "sortby": "id"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/delinquency/ranges/1"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/delinquency/ranges/3"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/delinquency/ranges/99"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/delinquency/ranges/1",
+          "body": {
+            "locale": "en",
+            "classification": "Early2",
+            "minimumAgeDays": 1,
+            "maximumAgeDays": 3
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/delinquency/ranges/1",
+          "body": {
+            "locale": "en",
+            "classification": "Early2",
+            "minimumAgeDays": 1,
+            "maximumAgeDays": 4
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/delinquency/ranges/1",
+          "body": {
+            "locale": "en",
+            "classification": "EARLY2",
+            "minimumAgeDays": 1,
+            "maximumAgeDays": 4
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/delinquency/ranges/1",
+          "body": {
+            "locale": "en",
+            "classification": "Early2",
+            "minimumAgeDays": 1,
+            "maximumAgeDays": 4
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/delinquency/ranges/1",
+          "body": {
+            "locale": "en",
+            "classification": "Early2",
+            "minimumAgeDays": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/delinquency/ranges/3",
+          "body": {
+            "locale": "en",
+            "classification": "Late",
+            "minimumAgeDays": 31
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/delinquency/ranges/3",
+          "body": {
+            "locale": "en",
+            "classification": "Late2",
+            "minimumAgeDays": 40,
+            "maximumAgeDays": 50
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/delinquency/ranges/99",
+          "body": {
+            "locale": "en",
+            "classification": "X",
+            "minimumAgeDays": 1,
+            "maximumAgeDays": 3
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/delinquency/ranges/2",
+          "body": {
+            "locale": "en",
+            "classification": "Early2",
+            "minimumAgeDays": 4,
+            "maximumAgeDays": 30
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/delinquency/ranges/2",
+          "body": {
+            "locale": "en",
+            "minimumAgeDays": 4,
+            "maximumAgeDays": 30
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/delinquency/ranges/1",
+          "body": {
+            "locale": "en",
+            "classification": "Early",
+            "minimumAgeDays": 1,
+            "maximumAgeDays": 3
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/delinquency/ranges/3",
+          "body": {
+            "locale": "en",
+            "classification": "Late",
+            "minimumAgeDays": 31,
+            "maximumAgeDays": null
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/delinquency/ranges",
+          "sortby": "id"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/delinquency/buckets/template",
+          "sortby": "rangesOptions:id"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/buckets",
+          "body": {
+            "name": "B1",
+            "ranges": [
+              1,
+              2,
+              3
+            ]
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/buckets",
+          "body": {
+            "name": "B1",
+            "ranges": [
+              1,
+              2,
+              3
+            ]
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/buckets",
+          "body": {
+            "name": "B2",
+            "ranges": []
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/buckets",
+          "body": {
+            "name": "B3"
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/buckets",
+          "body": {
+            "ranges": [
+              1
+            ]
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/buckets",
+          "body": {},
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/buckets",
+          "body": {
+            "name": "",
+            "ranges": [
+              1
+            ],
+            "bucketType": "BOGUS"
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/buckets",
+          "body": {
+            "name": "B4",
+            "ranges": [
+              99
+            ]
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/buckets",
+          "body": {
+            "name": "B5",
+            "ranges": [
+              1
+            ],
+            "bucketType": "BOGUS"
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/buckets",
+          "body": {
+            "name": "B6",
+            "ranges": [
+              3,
+              1
+            ],
+            "bucketType": "REGULAR"
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/buckets",
+          "body": {
+            "name": "B7",
+            "ranges": [
+              1
+            ],
+            "bogus": 1
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/buckets",
+          "body": {
+            "name": "B8",
+            "ranges": [
+              "x"
+            ]
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/buckets",
+          "body": {
+            "name": "B9",
+            "ranges": [
+              1,
+              1
+            ]
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/buckets",
+          "body": {
+            "name": "B10",
+            "ranges": [
+              "2",
+              4
+            ]
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/buckets",
+          "body": {
+            "name": "B11",
+            "ranges": [
+              1
+            ],
+            "bucketType": "WORKING_CAPITAL"
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/buckets",
+          "body": {
+            "name": "B12",
+            "ranges": "x"
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/ranges",
+          "body": {
+            "locale": "en",
+            "classification": "Over",
+            "minimumAgeDays": 2,
+            "maximumAgeDays": 5
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/buckets",
+          "body": {
+            "name": "B14",
+            "ranges": [
+              1,
+              6
+            ]
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/buckets",
+          "body": {
+            "name": "B15",
+            "ranges": [
+              3,
+              7
+            ]
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/ranges",
+          "body": {
+            "locale": "en",
+            "classification": "Open",
+            "minimumAgeDays": 50
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/buckets",
+          "body": {
+            "name": "B16",
+            "ranges": [
+              3,
+              8
+            ]
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/delinquency/buckets",
+          "sortby": "id",
+          "ignore": [
+            "ranges"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/delinquency/buckets/1",
+          "sortby": "ranges:id"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/delinquency/buckets/4",
+          "sortby": "ranges:id"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/delinquency/buckets/99",
+          "sortby": "ranges:id"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/delinquency/buckets/abc"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/delinquency/buckets/1",
+          "body": {
+            "name": "B1x",
+            "ranges": [
+              1,
+              2
+            ]
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/delinquency/buckets/1",
+          "body": {
+            "name": "b1X",
+            "ranges": [
+              1,
+              2,
+              3
+            ]
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/delinquency/buckets/1",
+          "body": {
+            "name": "B6",
+            "ranges": [
+              1,
+              2
+            ]
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/delinquency/buckets/99",
+          "body": {
+            "name": "B1y",
+            "ranges": [
+              1
+            ]
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/delinquency/buckets/1",
+          "body": {
+            "name": "B1x",
+            "ranges": []
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/delinquency/buckets/1",
+          "body": {
+            "name": "B1x",
+            "ranges": [
+              1,
+              2
+            ],
+            "bucketType": "REGULAR"
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/delinquency/buckets/1",
+          "body": {
+            "name": "B1x",
+            "ranges": [
+              1,
+              6
+            ]
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/delinquency/buckets/1",
+          "body": {
+            "name": "B1x",
+            "ranges": [
+              1,
+              2
+            ],
+            "bucketType": "WORKING_CAPITAL"
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/delinquency/buckets/1",
+          "sortby": "ranges:id"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Bad id",
+            "shortName": "BADI",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 1,
+            "locale": "en",
+            "delinquencyBucketId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Zero id",
+            "shortName": "ZERO",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 1,
+            "locale": "en",
+            "delinquencyBucketId": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Text id",
+            "shortName": "TEXT",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 1,
+            "locale": "en",
+            "delinquencyBucketId": "x"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "No bucket",
+            "shortName": "NONE",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 1,
+            "locale": "en",
+            "delinquencyBucketId": null
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Bucketed",
+            "shortName": "BUCK",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 1,
+            "locale": "en",
+            "delinquencyBucketId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Other",
+            "shortName": "OTHR",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 1,
+            "locale": "en",
+            "delinquencyBucketId": 4
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Plain",
+            "shortName": "PLAN",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loanproducts",
+          "ignore": [
+            "ranges"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loanproducts/1",
+          "ignore": [
+            "ranges"
+          ],
+          "sortby": "delinquencyBucketOptions:id"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loanproducts/2",
+          "ignore": [
+            "ranges"
+          ],
+          "sortby": "delinquencyBucketOptions:id"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loanproducts/3",
+          "ignore": [
+            "ranges"
+          ],
+          "sortby": "delinquencyBucketOptions:id"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loanproducts/template",
+          "ignore": [
+            "ranges"
+          ],
+          "sortby": "delinquencyBucketOptions:id"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loanproducts/1?template=true",
+          "ignore": [
+            "ranges"
+          ],
+          "sortby": "delinquencyBucketOptions:id"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/delinquency/buckets/1",
+          "body": {}
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/delinquency/buckets/4",
+          "body": {}
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/delinquency/ranges/1",
+          "body": {}
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/delinquency/ranges/99",
+          "body": {}
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/delinquency/buckets/99",
+          "body": {}
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/delinquency/buckets/abc",
+          "body": {}
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/delinquency/buckets/5",
+          "body": {}
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/delinquency/buckets/6",
+          "body": {}
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/delinquency/buckets/7",
+          "body": {}
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/delinquency/buckets/9",
+          "body": {}
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/delinquency/buckets/10",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/delinquency/buckets",
+          "sortby": "id",
+          "ignore": [
+            "ranges"
+          ]
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/delinquency/ranges/4",
+          "body": {}
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/delinquency/ranges/5",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/delinquency/ranges",
+          "sortby": "id"
+        }
+      ]
+    },
+    {
+      "name": "delinquency2",
+      "reset": [
+        "loans",
+        "loanproducts",
+        "delinquency",
+        "clients",
+        "funds",
+        "glaccounts",
+        "staff",
+        "codes",
+        "configuration"
+      ],
+      "steps": [
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/enable-business-date",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Ann",
+            "lastname": "Lee",
+            "active": true,
+            "activationDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/ranges",
+          "body": {
+            "locale": "en",
+            "classification": "Early",
+            "minimumAgeDays": 1,
+            "maximumAgeDays": 3
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/ranges",
+          "body": {
+            "locale": "en",
+            "classification": "Mid",
+            "minimumAgeDays": 4,
+            "maximumAgeDays": 30
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/ranges",
+          "body": {
+            "locale": "en",
+            "classification": "Late",
+            "minimumAgeDays": 31
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/delinquency/buckets",
+          "body": {
+            "name": "Standard",
+            "ranges": [
+              1,
+              2,
+              3
+            ]
+          },
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Bucket",
+            "shortName": "BUCK",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 1,
+            "locale": "en",
+            "delinquencyBucketId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Grace",
+            "shortName": "GRAC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 1,
+            "locale": "en",
+            "delinquencyBucketId": 1,
+            "graceOnArrearsAgeing": 3
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Plain",
+            "shortName": "PLAN",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "a": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=disburse",
+          "body": {
+            "actualDisbursementDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/35?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-02",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/35?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-10",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/35?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-05-20",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/35?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}/transactions?command=repayment",
+          "body": {
+            "transactionDate": "20 May 2024",
+            "transactionAmount": 300,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "a1": "resourceId"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}/transactions?command=repayment",
+          "body": {
+            "transactionDate": "20 May 2024",
+            "transactionAmount": 600,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "a2": "resourceId"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}/transactions?command=repayment",
+          "body": {
+            "transactionDate": "20 May 2024",
+            "transactionAmount": 900,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "a3": "resourceId"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}/transactions/{a3}?command=undo",
+          "body": {
+            "transactionDate": "20 May 2024",
+            "transactionAmount": 0,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}/transactions/{a2}?command=undo",
+          "body": {
+            "transactionDate": "20 May 2024",
+            "transactionAmount": 0,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=assigndelinquency",
+          "body": {},
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=assigndelinquency",
+          "body": {},
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}/delinquencytags"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "b": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}?command=disburse",
+          "body": {
+            "actualDisbursementDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/35?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/delinquency-actions",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "action": "pause",
+            "startDate": "10 April 2024",
+            "endDate": "10 May 2024"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}/delinquency-actions",
+          "ignore": [
+            "id",
+            "createdOn",
+            "lastModifiedOn"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/delinquency-actions",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "action": "pause",
+            "startDate": "05 May 2024",
+            "endDate": "15 May 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/delinquency-actions",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "action": "pause",
+            "startDate": "01 February 2024",
+            "endDate": "05 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/delinquency-actions",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "action": "pause",
+            "startDate": "01 June 2024",
+            "endDate": "01 June 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/delinquency-actions",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "action": "pause",
+            "startDate": "01 June 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/delinquency-actions",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "action": "pause",
+            "endDate": "01 June 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/delinquency-actions",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "action": "bogus",
+            "startDate": "01 June 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/delinquency-actions",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/delinquency-actions",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "action": "resume",
+            "startDate": "19 May 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/delinquency-actions",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "action": "resume",
+            "startDate": "20 May 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/delinquency-actions",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "action": "resume",
+            "startDate": "20 May 2024",
+            "endDate": "25 May 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/delinquency-actions",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "action": "pause",
+            "startDate": "20 May 2024",
+            "endDate": "30 May 2024"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}/delinquency-actions",
+          "ignore": [
+            "id",
+            "createdOn",
+            "lastModifiedOn"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/delinquency-actions",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "action": "pause",
+            "startDate": "25 May 2024",
+            "endDate": "05 June 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/delinquency-actions",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "action": "resume",
+            "startDate": "20 May 2024"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}/delinquency-actions",
+          "ignore": [
+            "id",
+            "createdOn",
+            "lastModifiedOn"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-05-25",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/delinquency-actions",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "action": "resume",
+            "startDate": "25 May 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/delinquency-actions",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "action": "resume",
+            "startDate": "25 May 2024"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/35?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}/delinquency-actions",
+          "ignore": [
+            "id",
+            "createdOn",
+            "lastModifiedOn"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/delinquency-actions",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "action": "pause",
+            "startDate": "25 May 2024",
+            "endDate": "25 June 2024"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-05-20",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/delinquency-actions",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "action": "pause",
+            "startDate": "25 May 2024",
+            "endDate": "25 June 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/delinquency-actions",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "action": "pause",
+            "startDate": "26 May 2024",
+            "endDate": "30 May 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/delinquency-actions",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "action": "resume",
+            "startDate": "20 May 2024"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/99/delinquency-actions"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/99/delinquencytags"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/99/delinquency-actions",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "action": "pause",
+            "startDate": "01 June 2024",
+            "endDate": "05 June 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 2,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "c": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{c}?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{c}?command=disburse",
+          "body": {
+            "actualDisbursementDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-03",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/35?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{c}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{c}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{c}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-06",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/35?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{c}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{c}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{c}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-09",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/35?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{c}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{c}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{c}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 3,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "d": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{d}?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{d}?command=disburse",
+          "body": {
+            "actualDisbursementDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-05-20",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/35?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{d}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{d}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{d}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{d}?command=assigndelinquency",
+          "body": {},
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "e": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{e}?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{e}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{e}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{e}?command=disburse",
+          "body": {
+            "actualDisbursementDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{e}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{e}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{e}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{e}?command=assigndelinquency",
+          "body": {},
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{e}?command=undodisbursal",
+          "body": {
+            "note": "oops",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{e}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{e}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{e}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{e}?command=assigndelinquency",
+          "body": {},
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "f": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{f}?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{f}?command=disburse",
+          "body": {
+            "actualDisbursementDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/35?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{f}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{f}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{f}/transactions?command=waiveinterest",
+          "body": {
+            "transactionDate": "20 May 2024",
+            "transactionAmount": 100,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "f1": "resourceId"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{f}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{f}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{f}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{f}/transactions?command=writeoff",
+          "body": {
+            "transactionDate": "20 May 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{f}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{f}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{f}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/35?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{f}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{f}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "g": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{g}?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{g}?command=disburse",
+          "body": {
+            "actualDisbursementDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/35?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{g}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{g}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{g}/transactions?command=repayment",
+          "body": {
+            "transactionDate": "20 May 2024",
+            "transactionAmount": 10661.85,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{g}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{g}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{g}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{g}?command=assigndelinquency",
+          "body": {},
+          "ignore": [
+            "createdDate",
+            "lastModifiedDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "h": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{h}?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{h}?command=disburse",
+          "body": {
+            "actualDisbursementDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/35?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{h}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{h}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{h}/transactions?command=foreclosure",
+          "body": {
+            "transactionDate": "20 May 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{h}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{h}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{h}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "i": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{i}?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{i}?command=disburse",
+          "body": {
+            "actualDisbursementDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/35?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{i}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{i}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{i}/transactions?command=charge-off",
+          "body": {
+            "transactionDate": "20 May 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{i}/delinquencytags",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{i}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{i}?associations=all",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans?limit=20",
+          "ignore": [
+            "createdOn",
+            "updatedOn"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "npa1",
+      "reset": [
+        "loans",
+        "loanproducts",
+        "clients",
+        "funds",
+        "glaccounts",
+        "staff",
+        "codes",
+        "configuration"
+      ],
+      "steps": [
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/enable-business-date",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc A1",
+            "glCode": "A1",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc A2",
+            "glCode": "A2",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc A3",
+            "glCode": "A3",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc A4",
+            "glCode": "A4",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc A5",
+            "glCode": "A5",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc A6",
+            "glCode": "A6",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc L1",
+            "glCode": "L1",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc L2",
+            "glCode": "L2",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc I1",
+            "glCode": "I1",
+            "manualEntriesAllowed": true,
+            "type": 4,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc I2",
+            "glCode": "I2",
+            "manualEntriesAllowed": true,
+            "type": 4,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc I3",
+            "glCode": "I3",
+            "manualEntriesAllowed": true,
+            "type": 4,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc X1",
+            "glCode": "X1",
+            "manualEntriesAllowed": true,
+            "type": 5,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc X2",
+            "glCode": "X2",
+            "manualEntriesAllowed": true,
+            "type": 5,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Ann",
+            "lastname": "Lee",
+            "active": true,
+            "activationDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Npa",
+            "shortName": "NPAA",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 1,
+            "locale": "en",
+            "overdueDaysForNPA": 10
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Stays",
+            "shortName": "STAY",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 1,
+            "locale": "en",
+            "overdueDaysForNPA": 10,
+            "accountMovesOutOfNPAOnlyOnArrearsCompletion": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Never",
+            "shortName": "NEVR",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Periodic NPA",
+            "shortName": "PNPA",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 3,
+            "locale": "en",
+            "fundSourceAccountId": 1,
+            "loanPortfolioAccountId": 2,
+            "transfersInSuspenseAccountId": 3,
+            "receivableInterestAccountId": 4,
+            "receivableFeeAccountId": 5,
+            "receivablePenaltyAccountId": 6,
+            "overpaymentLiabilityAccountId": 7,
+            "interestOnLoanAccountId": 9,
+            "incomeFromFeeAccountId": 10,
+            "incomeFromPenaltyAccountId": 11,
+            "writeOffAccountId": 12,
+            "incomeFromRecoveryAccountId": 11,
+            "paymentChannelToFundSourceMappings": [
+              {
+                "paymentTypeId": 1,
+                "fundSourceAccountId": 3
+              }
+            ],
+            "overdueDaysForNPA": 10
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Periodic",
+            "shortName": "PERI",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 3,
+            "locale": "en",
+            "fundSourceAccountId": 1,
+            "loanPortfolioAccountId": 2,
+            "transfersInSuspenseAccountId": 3,
+            "receivableInterestAccountId": 4,
+            "receivableFeeAccountId": 5,
+            "receivablePenaltyAccountId": 6,
+            "overpaymentLiabilityAccountId": 7,
+            "interestOnLoanAccountId": 9,
+            "incomeFromFeeAccountId": 10,
+            "incomeFromPenaltyAccountId": 11,
+            "writeOffAccountId": 12,
+            "incomeFromRecoveryAccountId": 11,
+            "paymentChannelToFundSourceMappings": [
+              {
+                "paymentTypeId": 1,
+                "fundSourceAccountId": 3
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Zero",
+            "shortName": "ZERO",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 1,
+            "locale": "en",
+            "overdueDaysForNPA": 0
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/enable-business-date",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "a": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=disburse",
+          "body": {
+            "actualDisbursementDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 2,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "b": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}?command=disburse",
+          "body": {
+            "actualDisbursementDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 3,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "c": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{c}?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{c}?command=disburse",
+          "body": {
+            "actualDisbursementDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 4,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "d": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{d}?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{d}?command=disburse",
+          "body": {
+            "actualDisbursementDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 5,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "e": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{e}?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{e}?command=disburse",
+          "body": {
+            "actualDisbursementDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 6,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "f": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{f}?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{f}?command=disburse",
+          "body": {
+            "actualDisbursementDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-05",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/2?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/13?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{c}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{d}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{e}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{f}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-15",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/2?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/13?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{c}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{d}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{e}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{f}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/16?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{d}?associations=transactions",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{e}?associations=transactions",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "loanChargePaidByList",
+            "charges.id",
+            "id",
+            "fromLoanTransaction",
+            "toLoanTransaction",
+            "transactionRelations"
+          ],
+          "sortby": "transactions:date"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-05-06",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}/transactions?command=repayment",
+          "body": {
+            "transactionDate": "06 May 2024",
+            "transactionAmount": 900,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/transactions?command=repayment",
+          "body": {
+            "transactionDate": "06 May 2024",
+            "transactionAmount": 900,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{c}/transactions?command=repayment",
+          "body": {
+            "transactionDate": "06 May 2024",
+            "transactionAmount": 900,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{d}/transactions?command=repayment",
+          "body": {
+            "transactionDate": "06 May 2024",
+            "transactionAmount": 900,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{e}/transactions?command=repayment",
+          "body": {
+            "transactionDate": "06 May 2024",
+            "transactionAmount": 900,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{f}/transactions?command=repayment",
+          "body": {
+            "transactionDate": "06 May 2024",
+            "transactionAmount": 900,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{c}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{d}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{e}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{f}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/13?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{c}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{d}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{e}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{f}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/2?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/13?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{c}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{d}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{e}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{f}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-06-02",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/2?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/13?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{c}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{d}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{e}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{f}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{b}/transactions?command=repayment",
+          "body": {
+            "transactionDate": "02 June 2024",
+            "transactionAmount": 1800,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}/transactions?command=repayment",
+          "body": {
+            "transactionDate": "02 June 2024",
+            "transactionAmount": 1800,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/13?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{b}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{c}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{d}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{e}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{f}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans?limit=20",
+          "ignore": [
+            "createdOn",
+            "updatedOn"
+          ]
+        }
+      ]
     }
   ]
 }

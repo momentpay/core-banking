@@ -1,0 +1,7612 @@
+{
+ "name": "delinquency1",
+ "reset": [
+  "loans",
+  "loanproducts",
+  "delinquency",
+  "clients",
+  "funds",
+  "glaccounts",
+  "staff",
+  "codes",
+  "configuration"
+ ],
+ "steps": [
+  {
+   "method": "PUT",
+   "path": "/v1/configurations/name/enable-business-date",
+   "body": {
+    "enabled": true
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 44,
+    "changes": {
+     "enabled": true
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "type": "BUSINESS_DATE",
+    "date": "2024-03-01",
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "description": "Business Date",
+    "type": "BUSINESS_DATE",
+    "date": [
+     2024,
+     3,
+     1
+    ],
+    "changes": {
+     "COB_DATE": [
+      2024,
+      2,
+      29
+     ],
+     "BUSINESS_DATE": [
+      2024,
+      3,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/delinquency/ranges",
+   "status": 200,
+   "response": []
+  },
+  {
+   "method": "GET",
+   "path": "/v1/delinquency/buckets",
+   "sortby": "id",
+   "ignore": [
+    "ranges"
+   ],
+   "status": 200,
+   "response": []
+  },
+  {
+   "method": "GET",
+   "path": "/v1/delinquency/buckets/template",
+   "status": 200,
+   "response": {
+    "rangesOptions": [],
+    "bucketTypeOptions": [
+     {
+      "id": "REGULAR",
+      "code": "bucketType.regular",
+      "value": "Reqular Loan Product"
+     },
+     {
+      "id": "WORKING_CAPITAL",
+      "code": "bucketType.workingCapital",
+      "value": "Working Capital Loan Product"
+     }
+    ],
+    "frequencyTypeOptions": [
+     {
+      "id": "DAYS",
+      "code": "delinquencyFrequencyType.days",
+      "value": "Days frequency"
+     },
+     {
+      "id": "WEEKS",
+      "code": "delinquencyFrequencyType.weeks",
+      "value": "Week frequency"
+     },
+     {
+      "id": "MONTHS",
+      "code": "delinquencyFrequencyType.months",
+      "value": "Month frequency"
+     },
+     {
+      "id": "YEARS",
+      "code": "delinquencyFrequencyType.years",
+      "value": "Year frequency"
+     }
+    ],
+    "minimumPaymentOptions": [
+     {
+      "id": "PERCENTAGE",
+      "code": "delinquencyMinimumPayment.percentage",
+      "value": "Percentage payment type"
+     },
+     {
+      "id": "FLAT",
+      "code": "delinquencyMinimumPayment.flat",
+      "value": "Flat payment type"
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/delinquency/buckets/1",
+   "sortby": "ranges:id",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Delinquency bucket with id `1` is not found.",
+      "defaultUserMessage": "Delinquency bucket with id `1` is not found.",
+      "userMessageGlobalisationCode": "error.msg.delinquency.bucket.not.found",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 1
+       },
+       {
+        "value": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/delinquency/ranges/1",
+   "status": 500,
+   "response": {
+    "timestamp": "2026-11-19T11:15:38.297Z",
+    "status": 500,
+    "error": "Internal Server Error",
+    "path": "/fineract-provider/api/v1/delinquency/ranges/1"
+   },
+   "ignore": [
+    "path",
+    "timestamp"
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/ranges",
+   "body": {
+    "locale": "en",
+    "classification": "Early",
+    "minimumAgeDays": 1,
+    "maximumAgeDays": 3
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/ranges",
+   "body": {
+    "locale": "en",
+    "classification": "Mid",
+    "minimumAgeDays": 4,
+    "maximumAgeDays": 30
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/ranges",
+   "body": {
+    "locale": "en",
+    "classification": "Late",
+    "minimumAgeDays": 31
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/ranges",
+   "body": {
+    "locale": "en",
+    "classification": "Early",
+    "minimumAgeDays": 1,
+    "maximumAgeDays": 3
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Data integrity issue with resource: 1",
+    "userMessageGlobalisationCode": "error.msg.data.integrity.issue.entity.duplicated",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "Data integrity issue with resource: 1",
+      "userMessageGlobalisationCode": "error.msg.data.integrity.issue.entity.duplicated",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/ranges",
+   "body": {
+    "locale": "en",
+    "classification": "Bad",
+    "minimumAgeDays": 10,
+    "maximumAgeDays": 5
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "The age days values are invalid, the maximum age days can't be lower than minimum age days",
+      "defaultUserMessage": "The age days values are invalid, the maximum age days can't be lower than minimum age days",
+      "userMessageGlobalisationCode": "error.msg.loan.delinquency.age.days,invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 10
+       },
+       {
+        "value": 5
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/ranges",
+   "body": {
+    "locale": "en",
+    "classification": "Zero",
+    "minimumAgeDays": 0
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `minimumAgeDays` must be greater than 0",
+      "defaultUserMessage": "The parameter `minimumAgeDays` must be greater than 0",
+      "userMessageGlobalisationCode": "validation.msg.delinquencyrange.create.minimumAgeDays.not.greater.than.specified.number",
+      "parameterName": "minimumAgeDays",
+      "args": [
+       {
+        "value": 0
+       },
+       {
+        "value": 0
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/ranges",
+   "body": {
+    "classification": "NoLocale",
+    "minimumAgeDays": 3
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `minimumAgeDays` requires a `locale` parameter to be passed with it.",
+      "defaultUserMessage": "The parameter `minimumAgeDays` requires a `locale` parameter to be passed with it.",
+      "userMessageGlobalisationCode": "validation.msg.missing.locale.parameter",
+      "parameterName": "minimumAgeDays",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/ranges",
+   "body": {
+    "locale": "en",
+    "minimumAgeDays": 3
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `classification` is mandatory.",
+      "defaultUserMessage": "The parameter `classification` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.delinquencyrange.create.classification.cannot.be.blank",
+      "parameterName": "classification",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/ranges",
+   "body": {
+    "locale": "en",
+    "classification": "NoMin"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `minimumAgeDays` is mandatory.",
+      "defaultUserMessage": "The parameter `minimumAgeDays` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.delinquencyrange.create.minimumAgeDays.cannot.be.blank",
+      "parameterName": "minimumAgeDays",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/ranges",
+   "body": {
+    "locale": "en",
+    "classification": "Bogus",
+    "minimumAgeDays": 3,
+    "maximumAgeDays": 0
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `maximumAgeDays` must be greater than 0",
+      "defaultUserMessage": "The parameter `maximumAgeDays` must be greater than 0",
+      "userMessageGlobalisationCode": "validation.msg.delinquencyrange.create.maximumAgeDays.not.greater.than.specified.number",
+      "parameterName": "maximumAgeDays",
+      "args": [
+       {
+        "value": 0
+       },
+       {
+        "value": 0
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/ranges",
+   "body": {
+    "locale": "en",
+    "classification": "Str",
+    "minimumAgeDays": "x"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The parameter `minimumAgeDays` has value: x which is not a valid number.",
+    "defaultUserMessage": "The parameter `minimumAgeDays` has value: x which is not a valid number.",
+    "userMessageGlobalisationCode": "validation.msg.invalid.decimal.format",
+    "parameterName": "minimumAgeDays",
+    "value": "x",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/ranges",
+   "body": {
+    "locale": "en",
+    "classification": "Str",
+    "minimumAgeDays": "5",
+    "maximumAgeDays": "6"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/ranges",
+   "body": {},
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `locale` is mandatory.",
+      "defaultUserMessage": "The parameter `locale` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.delinquencyrange.create.locale.cannot.be.blank",
+      "parameterName": "locale",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `classification` is mandatory.",
+      "defaultUserMessage": "The parameter `classification` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.delinquencyrange.create.classification.cannot.be.blank",
+      "parameterName": "classification",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `minimumAgeDays` is mandatory.",
+      "defaultUserMessage": "The parameter `minimumAgeDays` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.delinquencyrange.create.minimumAgeDays.cannot.be.blank",
+      "parameterName": "minimumAgeDays",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/ranges",
+   "body": {
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `classification` is mandatory.",
+      "defaultUserMessage": "The parameter `classification` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.delinquencyrange.create.classification.cannot.be.blank",
+      "parameterName": "classification",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `minimumAgeDays` is mandatory.",
+      "defaultUserMessage": "The parameter `minimumAgeDays` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.delinquencyrange.create.minimumAgeDays.cannot.be.blank",
+      "parameterName": "minimumAgeDays",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/ranges",
+   "body": {
+    "locale": "en",
+    "classification": "",
+    "minimumAgeDays": -1,
+    "maximumAgeDays": -2
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `classification` is mandatory.",
+      "defaultUserMessage": "The parameter `classification` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.delinquencyrange.create.classification.cannot.be.blank",
+      "parameterName": "classification",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `minimumAgeDays` must be greater than 0",
+      "defaultUserMessage": "The parameter `minimumAgeDays` must be greater than 0",
+      "userMessageGlobalisationCode": "validation.msg.delinquencyrange.create.minimumAgeDays.not.greater.than.specified.number",
+      "parameterName": "minimumAgeDays",
+      "args": [
+       {
+        "value": -1
+       },
+       {
+        "value": 0
+       }
+      ]
+     },
+     {
+      "developerMessage": "The parameter `maximumAgeDays` must be greater than 0",
+      "defaultUserMessage": "The parameter `maximumAgeDays` must be greater than 0",
+      "userMessageGlobalisationCode": "validation.msg.delinquencyrange.create.maximumAgeDays.not.greater.than.specified.number",
+      "parameterName": "maximumAgeDays",
+      "args": [
+       {
+        "value": -2
+       },
+       {
+        "value": 0
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/ranges",
+   "body": {
+    "locale": "en",
+    "classification": "Odd",
+    "minimumAgeDays": 200,
+    "maximumAgeDays": 300,
+    "bogus": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 5
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/delinquency/ranges",
+   "sortby": "id",
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "classification": "Early",
+     "minimumAgeDays": 1,
+     "maximumAgeDays": 3
+    },
+    {
+     "id": 2,
+     "classification": "Mid",
+     "minimumAgeDays": 4,
+     "maximumAgeDays": 30
+    },
+    {
+     "id": 3,
+     "classification": "Late",
+     "minimumAgeDays": 31
+    },
+    {
+     "id": 4,
+     "classification": "Str",
+     "minimumAgeDays": 5,
+     "maximumAgeDays": 6
+    },
+    {
+     "id": 5,
+     "classification": "Odd",
+     "minimumAgeDays": 200,
+     "maximumAgeDays": 300
+    }
+   ]
+  },
+  {
+   "method": "GET",
+   "path": "/v1/delinquency/ranges/1",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "classification": "Early",
+    "minimumAgeDays": 1,
+    "maximumAgeDays": 3
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/delinquency/ranges/3",
+   "status": 200,
+   "response": {
+    "id": 3,
+    "classification": "Late",
+    "minimumAgeDays": 31
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/delinquency/ranges/99",
+   "status": 500,
+   "response": {
+    "timestamp": "2026-11-19T11:15:40.492Z",
+    "status": 500,
+    "error": "Internal Server Error",
+    "path": "/fineract-provider/api/v1/delinquency/ranges/99"
+   },
+   "ignore": [
+    "path",
+    "timestamp"
+   ]
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/delinquency/ranges/1",
+   "body": {
+    "locale": "en",
+    "classification": "Early2",
+    "minimumAgeDays": 1,
+    "maximumAgeDays": 3
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "classification": "Early2"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/delinquency/ranges/1",
+   "body": {
+    "locale": "en",
+    "classification": "Early2",
+    "minimumAgeDays": 1,
+    "maximumAgeDays": 4
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "maximumAgeDays": 4
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/delinquency/ranges/1",
+   "body": {
+    "locale": "en",
+    "classification": "EARLY2",
+    "minimumAgeDays": 1,
+    "maximumAgeDays": 4
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/delinquency/ranges/1",
+   "body": {
+    "locale": "en",
+    "classification": "Early2",
+    "minimumAgeDays": 1,
+    "maximumAgeDays": 4
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/delinquency/ranges/1",
+   "body": {
+    "locale": "en",
+    "classification": "Early2",
+    "minimumAgeDays": 1
+   },
+   "status": 500,
+   "response": {
+    "timestamp": "2026-11-19T11:15:41.105Z",
+    "status": 500,
+    "error": "Internal Server Error",
+    "path": "/fineract-provider/api/v1/delinquency/ranges/1"
+   },
+   "ignore": [
+    "path",
+    "timestamp"
+   ]
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/delinquency/ranges/3",
+   "body": {
+    "locale": "en",
+    "classification": "Late",
+    "minimumAgeDays": 31
+   },
+   "status": 500,
+   "response": {
+    "timestamp": "2026-11-19T11:15:41.273Z",
+    "status": 500,
+    "error": "Internal Server Error",
+    "path": "/fineract-provider/api/v1/delinquency/ranges/3"
+   },
+   "ignore": [
+    "path",
+    "timestamp"
+   ]
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/delinquency/ranges/3",
+   "body": {
+    "locale": "en",
+    "classification": "Late2",
+    "minimumAgeDays": 40,
+    "maximumAgeDays": 50
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3,
+    "changes": {
+     "minimumAgeDays": 40,
+     "classification": "Late2",
+     "maximumAgeDays": 50
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/delinquency/ranges/99",
+   "body": {
+    "locale": "en",
+    "classification": "X",
+    "minimumAgeDays": 1,
+    "maximumAgeDays": 3
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Could not find Entity for id: 99",
+    "userMessageGlobalisationCode": "error.msg.persistence.error",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "Could not find Entity for id: 99",
+      "userMessageGlobalisationCode": "error.msg.persistence.error",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/delinquency/ranges/2",
+   "body": {
+    "locale": "en",
+    "classification": "Early2",
+    "minimumAgeDays": 4,
+    "maximumAgeDays": 30
+   },
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "ERROR: duplicate key value violates unique constraint \"m_delinquency_range_classification_key\"\n  Detail: Key (classification)=(Early2) already exists.",
+    "userMessageGlobalisationCode": "error.msg.data.integrity.issue",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "ERROR: duplicate key value violates unique constraint \"m_delinquency_range_classification_key\"\n  Detail: Key (classification)=(Early2) already exists.",
+      "userMessageGlobalisationCode": "error.msg.data.integrity.issue",
+      "args": []
+     }
+    ]
+   },
+   "ignore": [
+    "defaultUserMessage"
+   ]
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/delinquency/ranges/2",
+   "body": {
+    "locale": "en",
+    "minimumAgeDays": 4,
+    "maximumAgeDays": 30
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `classification` is mandatory.",
+      "defaultUserMessage": "The parameter `classification` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.delinquencyrange.create.classification.cannot.be.blank",
+      "parameterName": "classification",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/delinquency/ranges/1",
+   "body": {
+    "locale": "en",
+    "classification": "Early",
+    "minimumAgeDays": 1,
+    "maximumAgeDays": 3
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "classification": "Early",
+     "maximumAgeDays": 3
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/delinquency/ranges/3",
+   "body": {
+    "locale": "en",
+    "classification": "Late",
+    "minimumAgeDays": 31,
+    "maximumAgeDays": null
+   },
+   "status": 500,
+   "response": {
+    "timestamp": "2026-11-19T11:15:41.956Z",
+    "status": 500,
+    "error": "Internal Server Error",
+    "path": "/fineract-provider/api/v1/delinquency/ranges/3"
+   },
+   "ignore": [
+    "path",
+    "timestamp"
+   ]
+  },
+  {
+   "method": "GET",
+   "path": "/v1/delinquency/ranges",
+   "sortby": "id",
+   "status": 200,
+   "response": [
+    {
+     "id": 2,
+     "classification": "Mid",
+     "minimumAgeDays": 4,
+     "maximumAgeDays": 30
+    },
+    {
+     "id": 4,
+     "classification": "Str",
+     "minimumAgeDays": 5,
+     "maximumAgeDays": 6
+    },
+    {
+     "id": 5,
+     "classification": "Odd",
+     "minimumAgeDays": 200,
+     "maximumAgeDays": 300
+    },
+    {
+     "id": 3,
+     "classification": "Late2",
+     "minimumAgeDays": 40,
+     "maximumAgeDays": 50
+    },
+    {
+     "id": 1,
+     "classification": "Early",
+     "minimumAgeDays": 1,
+     "maximumAgeDays": 3
+    }
+   ]
+  },
+  {
+   "method": "GET",
+   "path": "/v1/delinquency/buckets/template",
+   "sortby": "rangesOptions:id",
+   "status": 200,
+   "response": {
+    "rangesOptions": [
+     {
+      "id": 2,
+      "classification": "Mid",
+      "minimumAgeDays": 4,
+      "maximumAgeDays": 30
+     },
+     {
+      "id": 4,
+      "classification": "Str",
+      "minimumAgeDays": 5,
+      "maximumAgeDays": 6
+     },
+     {
+      "id": 5,
+      "classification": "Odd",
+      "minimumAgeDays": 200,
+      "maximumAgeDays": 300
+     },
+     {
+      "id": 3,
+      "classification": "Late2",
+      "minimumAgeDays": 40,
+      "maximumAgeDays": 50
+     },
+     {
+      "id": 1,
+      "classification": "Early",
+      "minimumAgeDays": 1,
+      "maximumAgeDays": 3
+     }
+    ],
+    "bucketTypeOptions": [
+     {
+      "id": "REGULAR",
+      "code": "bucketType.regular",
+      "value": "Reqular Loan Product"
+     },
+     {
+      "id": "WORKING_CAPITAL",
+      "code": "bucketType.workingCapital",
+      "value": "Working Capital Loan Product"
+     }
+    ],
+    "frequencyTypeOptions": [
+     {
+      "id": "DAYS",
+      "code": "delinquencyFrequencyType.days",
+      "value": "Days frequency"
+     },
+     {
+      "id": "WEEKS",
+      "code": "delinquencyFrequencyType.weeks",
+      "value": "Week frequency"
+     },
+     {
+      "id": "MONTHS",
+      "code": "delinquencyFrequencyType.months",
+      "value": "Month frequency"
+     },
+     {
+      "id": "YEARS",
+      "code": "delinquencyFrequencyType.years",
+      "value": "Year frequency"
+     }
+    ],
+    "minimumPaymentOptions": [
+     {
+      "id": "PERCENTAGE",
+      "code": "delinquencyMinimumPayment.percentage",
+      "value": "Percentage payment type"
+     },
+     {
+      "id": "FLAT",
+      "code": "delinquencyMinimumPayment.flat",
+      "value": "Flat payment type"
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/buckets",
+   "body": {
+    "name": "B1",
+    "ranges": [
+     1,
+     2,
+     3
+    ]
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/buckets",
+   "body": {
+    "name": "B1",
+    "ranges": [
+     1,
+     2,
+     3
+    ]
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Data integrity issue with resource: 1",
+    "userMessageGlobalisationCode": "error.msg.data.integrity.issue.entity.duplicated",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "Data integrity issue with resource: 1",
+      "userMessageGlobalisationCode": "error.msg.data.integrity.issue.entity.duplicated",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/buckets",
+   "body": {
+    "name": "B2",
+    "ranges": []
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `ranges` cannot be empty. You must select at least one.",
+      "defaultUserMessage": "The parameter `ranges` cannot be empty. You must select at least one.",
+      "userMessageGlobalisationCode": "validation.msg.delinquencyBucket.create.ranges.cannot.be.empty",
+      "parameterName": "ranges",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/buckets",
+   "body": {
+    "name": "B3"
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `ranges` is mandatory.",
+      "defaultUserMessage": "The parameter `ranges` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.delinquencyBucket.create.ranges.cannot.be.blank",
+      "parameterName": "ranges",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `ranges` cannot be empty. You must select at least one.",
+      "defaultUserMessage": "The parameter `ranges` cannot be empty. You must select at least one.",
+      "userMessageGlobalisationCode": "validation.msg.delinquencyBucket.create.ranges.cannot.be.empty",
+      "parameterName": "ranges",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/buckets",
+   "body": {
+    "ranges": [
+     1
+    ]
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.delinquencyBucket.create.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/buckets",
+   "body": {},
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.delinquencyBucket.create.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/buckets",
+   "body": {
+    "name": "",
+    "ranges": [
+     1
+    ],
+    "bucketType": "BOGUS"
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.delinquencyBucket.create.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `bucketType` must be one of [ REGULAR, WORKING_CAPITAL ] .",
+      "defaultUserMessage": "The parameter `bucketType` must be one of [ REGULAR, WORKING_CAPITAL ] .",
+      "userMessageGlobalisationCode": "validation.msg.delinquencyBucket.create.bucketType.is.not.one.of.expected.enumerations",
+      "parameterName": "bucketType",
+      "args": [
+       {
+        "value": "BOGUS"
+       },
+       {
+        "value": [
+         "REGULAR",
+         "WORKING_CAPITAL"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/buckets",
+   "body": {
+    "name": "B4",
+    "ranges": [
+     99
+    ]
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/buckets",
+   "body": {
+    "name": "B5",
+    "ranges": [
+     1
+    ],
+    "bucketType": "BOGUS"
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `bucketType` must be one of [ REGULAR, WORKING_CAPITAL ] .",
+      "defaultUserMessage": "The parameter `bucketType` must be one of [ REGULAR, WORKING_CAPITAL ] .",
+      "userMessageGlobalisationCode": "validation.msg.delinquencyBucket.create.bucketType.is.not.one.of.expected.enumerations",
+      "parameterName": "bucketType",
+      "args": [
+       {
+        "value": "BOGUS"
+       },
+       {
+        "value": [
+         "REGULAR",
+         "WORKING_CAPITAL"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/buckets",
+   "body": {
+    "name": "B6",
+    "ranges": [
+     3,
+     1
+    ],
+    "bucketType": "REGULAR"
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/buckets",
+   "body": {
+    "name": "B7",
+    "ranges": [
+     1
+    ],
+    "bogus": 1
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/buckets",
+   "body": {
+    "name": "B8",
+    "ranges": [
+     "x"
+    ]
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The parameter `null` has value: x which is not a valid number.",
+    "defaultUserMessage": "The parameter `null` has value: x which is not a valid number.",
+    "userMessageGlobalisationCode": "validation.msg.invalid.decimal.format",
+    "value": "x",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/buckets",
+   "body": {
+    "name": "B9",
+    "ranges": [
+     1,
+     1
+    ]
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 5
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/buckets",
+   "body": {
+    "name": "B10",
+    "ranges": [
+     "2",
+     4
+    ]
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "The delinquency ranges age days values are overlaped",
+      "defaultUserMessage": "The delinquency ranges age days values are overlaped",
+      "userMessageGlobalisationCode": "error.msg.loan.delinquency.bucket.ages.overlaped",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": {
+         "id": 2,
+         "createdBy": 1,
+         "createdDate": "2026-11-19T16:45:38.527435+05:30",
+         "lastModifiedBy": 1,
+         "lastModifiedDate": "2026-11-19T16:45:38.527435+05:30",
+         "classification": "Mid",
+         "minimumAgeDays": 4,
+         "maximumAgeDays": 30,
+         "version": 1,
+         "new": false
+        }
+       },
+       {
+        "value": {
+         "id": 4,
+         "createdBy": 1,
+         "createdDate": "2026-11-19T16:45:39.675458+05:30",
+         "lastModifiedBy": 1,
+         "lastModifiedDate": "2026-11-19T16:45:39.675458+05:30",
+         "classification": "Str",
+         "minimumAgeDays": 5,
+         "maximumAgeDays": 6,
+         "version": 1,
+         "new": false
+        }
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/buckets",
+   "body": {
+    "name": "B11",
+    "ranges": [
+     1
+    ],
+    "bucketType": "WORKING_CAPITAL"
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `minimumPaymentPeriodAndRule` is mandatory.",
+      "defaultUserMessage": "The parameter `minimumPaymentPeriodAndRule` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.delinquencyBucket.create.minimumPaymentPeriodAndRule.cannot.be.blank",
+      "parameterName": "minimumPaymentPeriodAndRule",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/buckets",
+   "body": {
+    "name": "B12",
+    "ranges": "x"
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+    "defaultUserMessage": "The referenced JSON data is invalid, validate date format as yyyy-MM-dd or other cases like String instead of Number",
+    "userMessageGlobalisationCode": "error.msg.invalid.json.data",
+    "parameterName": "id",
+    "args": []
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/ranges",
+   "body": {
+    "locale": "en",
+    "classification": "Over",
+    "minimumAgeDays": 2,
+    "maximumAgeDays": 5
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 6
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/buckets",
+   "body": {
+    "name": "B14",
+    "ranges": [
+     1,
+     6
+    ]
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "The delinquency ranges age days values are overlaped",
+      "defaultUserMessage": "The delinquency ranges age days values are overlaped",
+      "userMessageGlobalisationCode": "error.msg.loan.delinquency.bucket.ages.overlaped",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": {
+         "id": 1,
+         "createdBy": 1,
+         "createdDate": "2026-11-19T16:45:38.383333+05:30",
+         "lastModifiedBy": 1,
+         "lastModifiedDate": "2026-11-19T16:45:41.815142+05:30",
+         "classification": "Early",
+         "minimumAgeDays": 1,
+         "maximumAgeDays": 3,
+         "version": 4,
+         "new": false
+        }
+       },
+       {
+        "value": {
+         "id": 6,
+         "createdBy": 1,
+         "createdDate": "2026-11-19T16:45:43.903352+05:30",
+         "lastModifiedBy": 1,
+         "lastModifiedDate": "2026-11-19T16:45:43.903352+05:30",
+         "classification": "Over",
+         "minimumAgeDays": 2,
+         "maximumAgeDays": 5,
+         "version": 1,
+         "new": false
+        }
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/buckets",
+   "body": {
+    "name": "B15",
+    "ranges": [
+     3,
+     7
+    ]
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 8
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/ranges",
+   "body": {
+    "locale": "en",
+    "classification": "Open",
+    "minimumAgeDays": 50
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 7
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/delinquency/buckets",
+   "body": {
+    "name": "B16",
+    "ranges": [
+     3,
+     8
+    ]
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 9
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/delinquency/buckets",
+   "sortby": "id",
+   "ignore": [
+    "ranges"
+   ],
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "name": "B1",
+     "ranges": [
+      {
+       "id": 1,
+       "classification": "Early",
+       "minimumAgeDays": 1,
+       "maximumAgeDays": 3
+      },
+      {
+       "id": 3,
+       "classification": "Late2",
+       "minimumAgeDays": 40,
+       "maximumAgeDays": 50
+      },
+      {
+       "id": 2,
+       "classification": "Mid",
+       "minimumAgeDays": 4,
+       "maximumAgeDays": 30
+      }
+     ],
+     "bucketType": {
+      "id": "REGULAR",
+      "code": "bucketType.regular",
+      "value": "Reqular Loan Product"
+     }
+    },
+    {
+     "id": 2,
+     "name": "B4",
+     "ranges": [],
+     "bucketType": {
+      "id": "REGULAR",
+      "code": "bucketType.regular",
+      "value": "Reqular Loan Product"
+     }
+    },
+    {
+     "id": 3,
+     "name": "B6",
+     "ranges": [
+      {
+       "id": 3,
+       "classification": "Late2",
+       "minimumAgeDays": 40,
+       "maximumAgeDays": 50
+      },
+      {
+       "id": 1,
+       "classification": "Early",
+       "minimumAgeDays": 1,
+       "maximumAgeDays": 3
+      }
+     ],
+     "bucketType": {
+      "id": "REGULAR",
+      "code": "bucketType.regular",
+      "value": "Reqular Loan Product"
+     }
+    },
+    {
+     "id": 4,
+     "name": "B7",
+     "ranges": [
+      {
+       "id": 1,
+       "classification": "Early",
+       "minimumAgeDays": 1,
+       "maximumAgeDays": 3
+      }
+     ],
+     "bucketType": {
+      "id": "REGULAR",
+      "code": "bucketType.regular",
+      "value": "Reqular Loan Product"
+     }
+    },
+    {
+     "id": 5,
+     "name": "B9",
+     "ranges": [
+      {
+       "id": 1,
+       "classification": "Early",
+       "minimumAgeDays": 1,
+       "maximumAgeDays": 3
+      }
+     ],
+     "bucketType": {
+      "id": "REGULAR",
+      "code": "bucketType.regular",
+      "value": "Reqular Loan Product"
+     }
+    },
+    {
+     "id": 8,
+     "name": "B15",
+     "ranges": [
+      {
+       "id": 3,
+       "classification": "Late2",
+       "minimumAgeDays": 40,
+       "maximumAgeDays": 50
+      }
+     ],
+     "bucketType": {
+      "id": "REGULAR",
+      "code": "bucketType.regular",
+      "value": "Reqular Loan Product"
+     }
+    },
+    {
+     "id": 9,
+     "name": "B16",
+     "ranges": [
+      {
+       "id": 3,
+       "classification": "Late2",
+       "minimumAgeDays": 40,
+       "maximumAgeDays": 50
+      }
+     ],
+     "bucketType": {
+      "id": "REGULAR",
+      "code": "bucketType.regular",
+      "value": "Reqular Loan Product"
+     }
+    }
+   ]
+  },
+  {
+   "method": "GET",
+   "path": "/v1/delinquency/buckets/1",
+   "sortby": "ranges:id",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "name": "B1",
+    "ranges": [
+     {
+      "id": 1,
+      "classification": "Early",
+      "minimumAgeDays": 1,
+      "maximumAgeDays": 3
+     },
+     {
+      "id": 3,
+      "classification": "Late2",
+      "minimumAgeDays": 40,
+      "maximumAgeDays": 50
+     },
+     {
+      "id": 2,
+      "classification": "Mid",
+      "minimumAgeDays": 4,
+      "maximumAgeDays": 30
+     }
+    ],
+    "bucketType": {
+     "id": "REGULAR",
+     "code": "bucketType.regular",
+     "value": "Reqular Loan Product"
+    }
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/delinquency/buckets/4",
+   "sortby": "ranges:id",
+   "status": 200,
+   "response": {
+    "id": 4,
+    "name": "B7",
+    "ranges": [
+     {
+      "id": 1,
+      "classification": "Early",
+      "minimumAgeDays": 1,
+      "maximumAgeDays": 3
+     }
+    ],
+    "bucketType": {
+     "id": "REGULAR",
+     "code": "bucketType.regular",
+     "value": "Reqular Loan Product"
+    }
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/delinquency/buckets/99",
+   "sortby": "ranges:id",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Delinquency bucket with id `99` is not found.",
+      "defaultUserMessage": "Delinquency bucket with id `99` is not found.",
+      "userMessageGlobalisationCode": "error.msg.delinquency.bucket.not.found",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       },
+       {
+        "value": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/delinquency/buckets/abc",
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-19T11:15:44.768Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/delinquency/buckets/abc"
+   },
+   "ignore": [
+    "path",
+    "timestamp"
+   ]
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/delinquency/buckets/1",
+   "body": {
+    "name": "B1x",
+    "ranges": [
+     1,
+     2
+    ]
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 1,
+    "changes": {
+     "name": "B1x"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/delinquency/buckets/1",
+   "body": {
+    "name": "b1X",
+    "ranges": [
+     1,
+     2,
+     3
+    ]
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/delinquency/buckets/1",
+   "body": {
+    "name": "B6",
+    "ranges": [
+     1,
+     2
+    ]
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Data integrity issue with resource: 3",
+    "userMessageGlobalisationCode": "error.msg.data.integrity.issue.entity.duplicated",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "Data integrity issue with resource: 3",
+      "userMessageGlobalisationCode": "error.msg.data.integrity.issue.entity.duplicated",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/delinquency/buckets/99",
+   "body": {
+    "name": "B1y",
+    "ranges": [
+     1
+    ]
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Could not find Entity for id: 99",
+    "userMessageGlobalisationCode": "error.msg.persistence.error",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "Could not find Entity for id: 99",
+      "userMessageGlobalisationCode": "error.msg.persistence.error",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/delinquency/buckets/1",
+   "body": {
+    "name": "B1x",
+    "ranges": []
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `ranges` cannot be empty. You must select at least one.",
+      "defaultUserMessage": "The parameter `ranges` cannot be empty. You must select at least one.",
+      "userMessageGlobalisationCode": "validation.msg.delinquencyBucket.create.ranges.cannot.be.empty",
+      "parameterName": "ranges",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/delinquency/buckets/1",
+   "body": {
+    "name": "B1x",
+    "ranges": [
+     1,
+     2
+    ],
+    "bucketType": "REGULAR"
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/delinquency/buckets/1",
+   "body": {
+    "name": "B1x",
+    "ranges": [
+     1,
+     6
+    ]
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 403,
+   "response": {
+    "developerMessage": "Request was understood but caused a domain rule violation.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Errors contain reason for domain rule violation.",
+    "userMessageGlobalisationCode": "validation.msg.domain.rule.violation",
+    "errors": [
+     {
+      "developerMessage": "The delinquency ranges age days values are overlaped",
+      "defaultUserMessage": "The delinquency ranges age days values are overlaped",
+      "userMessageGlobalisationCode": "error.msg.loan.delinquency.bucket.ages.overlaped",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": {
+         "id": 1,
+         "createdBy": 1,
+         "createdDate": "2026-11-19T16:45:38.383333+05:30",
+         "lastModifiedBy": 1,
+         "lastModifiedDate": "2026-11-19T16:45:41.815142+05:30",
+         "classification": "Early",
+         "minimumAgeDays": 1,
+         "maximumAgeDays": 3,
+         "version": 4,
+         "new": false
+        }
+       },
+       {
+        "value": {
+         "id": 6,
+         "createdBy": 1,
+         "createdDate": "2026-11-19T16:45:43.903352+05:30",
+         "lastModifiedBy": 1,
+         "lastModifiedDate": "2026-11-19T16:45:43.903352+05:30",
+         "classification": "Over",
+         "minimumAgeDays": 2,
+         "maximumAgeDays": 5,
+         "version": 1,
+         "new": false
+        }
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/delinquency/buckets/1",
+   "body": {
+    "name": "B1x",
+    "ranges": [
+     1,
+     2
+    ],
+    "bucketType": "WORKING_CAPITAL"
+   },
+   "ignore": [
+    "createdDate",
+    "lastModifiedDate"
+   ],
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `minimumPaymentPeriodAndRule` is mandatory.",
+      "defaultUserMessage": "The parameter `minimumPaymentPeriodAndRule` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.delinquencyBucket.create.minimumPaymentPeriodAndRule.cannot.be.blank",
+      "parameterName": "minimumPaymentPeriodAndRule",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/delinquency/buckets/1",
+   "sortby": "ranges:id",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "name": "B1x",
+    "ranges": [
+     {
+      "id": 2,
+      "classification": "Mid",
+      "minimumAgeDays": 4,
+      "maximumAgeDays": 30
+     },
+     {
+      "id": 1,
+      "classification": "Early",
+      "minimumAgeDays": 1,
+      "maximumAgeDays": 3
+     }
+    ],
+    "bucketType": {
+     "id": "REGULAR",
+     "code": "bucketType.regular",
+     "value": "Reqular Loan Product"
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loanproducts",
+   "body": {
+    "name": "Bad id",
+    "shortName": "BADI",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "principal": 10000,
+    "numberOfRepayments": 12,
+    "repaymentEvery": 1,
+    "repaymentFrequencyType": 2,
+    "interestRatePerPeriod": 12,
+    "interestRateFrequencyType": 3,
+    "amortizationType": 1,
+    "interestType": 0,
+    "interestCalculationPeriodType": 1,
+    "transactionProcessingStrategyCode": "mifos-standard-strategy",
+    "daysInYearType": 365,
+    "daysInMonthType": 30,
+    "isInterestRecalculationEnabled": false,
+    "accountingRule": 1,
+    "locale": "en",
+    "delinquencyBucketId": 99
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Delinquency bucket with id `99` is not found.",
+      "defaultUserMessage": "Delinquency bucket with id `99` is not found.",
+      "userMessageGlobalisationCode": "error.msg.delinquency.bucket.not.found",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       },
+       {
+        "value": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loanproducts",
+   "body": {
+    "name": "Zero id",
+    "shortName": "ZERO",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "principal": 10000,
+    "numberOfRepayments": 12,
+    "repaymentEvery": 1,
+    "repaymentFrequencyType": 2,
+    "interestRatePerPeriod": 12,
+    "interestRateFrequencyType": 3,
+    "amortizationType": 1,
+    "interestType": 0,
+    "interestCalculationPeriodType": 1,
+    "transactionProcessingStrategyCode": "mifos-standard-strategy",
+    "daysInYearType": 365,
+    "daysInMonthType": 30,
+    "isInterestRecalculationEnabled": false,
+    "accountingRule": 1,
+    "locale": "en",
+    "delinquencyBucketId": 0
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `delinquencyBucketId` must be greater than 0.",
+      "defaultUserMessage": "The parameter `delinquencyBucketId` must be greater than 0.",
+      "userMessageGlobalisationCode": "validation.msg.loanproduct.delinquencyBucketId.not.greater.than.zero",
+      "parameterName": "delinquencyBucketId",
+      "args": [
+       {
+        "value": 0
+       },
+       {
+        "value": 0
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loanproducts",
+   "body": {
+    "name": "Text id",
+    "shortName": "TEXT",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "principal": 10000,
+    "numberOfRepayments": 12,
+    "repaymentEvery": 1,
+    "repaymentFrequencyType": 2,
+    "interestRatePerPeriod": 12,
+    "interestRateFrequencyType": 3,
+    "amortizationType": 1,
+    "interestType": 0,
+    "interestCalculationPeriodType": 1,
+    "transactionProcessingStrategyCode": "mifos-standard-strategy",
+    "daysInYearType": 365,
+    "daysInMonthType": 30,
+    "isInterestRecalculationEnabled": false,
+    "accountingRule": 1,
+    "locale": "en",
+    "delinquencyBucketId": "x"
+   },
+   "status": 500,
+   "response": {
+    "timestamp": "2026-11-19T11:15:46.107Z",
+    "status": 500,
+    "error": "Internal Server Error",
+    "path": "/fineract-provider/api/v1/loanproducts"
+   },
+   "ignore": [
+    "path",
+    "timestamp"
+   ]
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loanproducts",
+   "body": {
+    "name": "No bucket",
+    "shortName": "NONE",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "principal": 10000,
+    "numberOfRepayments": 12,
+    "repaymentEvery": 1,
+    "repaymentFrequencyType": 2,
+    "interestRatePerPeriod": 12,
+    "interestRateFrequencyType": 3,
+    "amortizationType": 1,
+    "interestType": 0,
+    "interestCalculationPeriodType": 1,
+    "transactionProcessingStrategyCode": "mifos-standard-strategy",
+    "daysInYearType": 365,
+    "daysInMonthType": 30,
+    "isInterestRecalculationEnabled": false,
+    "accountingRule": 1,
+    "locale": "en",
+    "delinquencyBucketId": null
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loanproducts",
+   "body": {
+    "name": "Bucketed",
+    "shortName": "BUCK",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "principal": 10000,
+    "numberOfRepayments": 12,
+    "repaymentEvery": 1,
+    "repaymentFrequencyType": 2,
+    "interestRatePerPeriod": 12,
+    "interestRateFrequencyType": 3,
+    "amortizationType": 1,
+    "interestType": 0,
+    "interestCalculationPeriodType": 1,
+    "transactionProcessingStrategyCode": "mifos-standard-strategy",
+    "daysInYearType": 365,
+    "daysInMonthType": 30,
+    "isInterestRecalculationEnabled": false,
+    "accountingRule": 1,
+    "locale": "en",
+    "delinquencyBucketId": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loanproducts",
+   "body": {
+    "name": "Other",
+    "shortName": "OTHR",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "principal": 10000,
+    "numberOfRepayments": 12,
+    "repaymentEvery": 1,
+    "repaymentFrequencyType": 2,
+    "interestRatePerPeriod": 12,
+    "interestRateFrequencyType": 3,
+    "amortizationType": 1,
+    "interestType": 0,
+    "interestCalculationPeriodType": 1,
+    "transactionProcessingStrategyCode": "mifos-standard-strategy",
+    "daysInYearType": 365,
+    "daysInMonthType": 30,
+    "isInterestRecalculationEnabled": false,
+    "accountingRule": 1,
+    "locale": "en",
+    "delinquencyBucketId": 4
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/loanproducts",
+   "body": {
+    "name": "Plain",
+    "shortName": "PLAN",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "principal": 10000,
+    "numberOfRepayments": 12,
+    "repaymentEvery": 1,
+    "repaymentFrequencyType": 2,
+    "interestRatePerPeriod": 12,
+    "interestRateFrequencyType": 3,
+    "amortizationType": 1,
+    "interestType": 0,
+    "interestCalculationPeriodType": 1,
+    "transactionProcessingStrategyCode": "mifos-standard-strategy",
+    "daysInYearType": 365,
+    "daysInMonthType": 30,
+    "isInterestRecalculationEnabled": false,
+    "accountingRule": 1,
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loanproducts",
+   "ignore": [
+    "ranges"
+   ],
+   "status": 200,
+   "response": [
+    {
+     "id": 1,
+     "name": "No bucket",
+     "shortName": "NONE",
+     "includeInBorrowerCycle": false,
+     "useBorrowerCycle": false,
+     "status": "loanProduct.active",
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "inMultiplesOf": 0,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "principal": 10000.0,
+     "numberOfRepayments": 12,
+     "repaymentEvery": 1,
+     "repaymentFrequencyType": {
+      "id": 2,
+      "code": "repaymentFrequency.periodFrequencyType.months",
+      "value": "Months"
+     },
+     "interestRatePerPeriod": 12.0,
+     "interestRateFrequencyType": {
+      "id": 3,
+      "code": "interestRateFrequency.periodFrequencyType.years",
+      "value": "Per year"
+     },
+     "annualInterestRate": 12.0,
+     "isLinkedToFloatingInterestRates": false,
+     "isFloatingInterestRateCalculationAllowed": false,
+     "allowVariableInstallments": false,
+     "minimumGap": 0,
+     "maximumGap": 0,
+     "amortizationType": {
+      "id": 1,
+      "code": "amortizationType.equal.installments",
+      "value": "Equal installments"
+     },
+     "interestType": {
+      "id": 0,
+      "code": "interestType.declining.balance",
+      "value": "Declining Balance"
+     },
+     "interestCalculationPeriodType": {
+      "id": 1,
+      "code": "interestCalculationPeriodType.same.as.repayment.period",
+      "value": "Same as repayment period"
+     },
+     "allowPartialPeriodInterestCalculation": false,
+     "transactionProcessingStrategyCode": "mifos-standard-strategy",
+     "transactionProcessingStrategyName": "Penalties, Fees, Interest, Principal order",
+     "daysInMonthType": {
+      "id": 30,
+      "code": "DaysInMonthType.days360",
+      "value": "30 Days"
+     },
+     "daysInYearType": {
+      "id": 365,
+      "code": "DaysInYearType.days365",
+      "value": "365 Days"
+     },
+     "isInterestRecalculationEnabled": false,
+     "canDefineInstallmentAmount": false,
+     "repaymentStartDateType": {
+      "id": 1,
+      "code": "repaymentStartDateType.disbursementDate",
+      "value": "Disbursement Date"
+     },
+     "supportedInterestRefundTypes": [],
+     "chargeOffBehaviour": {
+      "id": "REGULAR",
+      "code": "chargeOffBehaviour.regular",
+      "value": "Regular"
+     },
+     "principalVariationsForBorrowerCycle": [],
+     "interestRateVariationsForBorrowerCycle": [],
+     "numberOfRepaymentVariationsForBorrowerCycle": [],
+     "accountingRule": {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     },
+     "canUseForTopup": false,
+     "enableAccrualActivityPosting": false,
+     "isRatesEnabled": false,
+     "advancedPaymentAllocationTransactionTypes": [
+      {
+       "id": 1,
+       "code": "DEFAULT",
+       "value": "Default"
+      },
+      {
+       "id": 2,
+       "code": "REPAYMENT",
+       "value": "Repayment"
+      },
+      {
+       "id": 3,
+       "code": "DOWN_PAYMENT",
+       "value": "Down payment"
+      },
+      {
+       "id": 4,
+       "code": "MERCHANT_ISSUED_REFUND",
+       "value": "Merchant issued refund"
+      },
+      {
+       "id": 5,
+       "code": "PAYOUT_REFUND",
+       "value": "Payout refund"
+      },
+      {
+       "id": 6,
+       "code": "GOODWILL_CREDIT",
+       "value": "Goodwill credit"
+      },
+      {
+       "id": 7,
+       "code": "CHARGE_REFUND",
+       "value": "Charge refund"
+      },
+      {
+       "id": 8,
+       "code": "CHARGE_ADJUSTMENT",
+       "value": "Charge adjustment"
+      },
+      {
+       "id": 9,
+       "code": "WAIVE_INTEREST",
+       "value": "Waive interest"
+      },
+      {
+       "id": 10,
+       "code": "CHARGE_PAYMENT",
+       "value": "Charge payment"
+      },
+      {
+       "id": 11,
+       "code": "REFUND_FOR_ACTIVE_LOAN",
+       "value": "Refund for active loan"
+      },
+      {
+       "id": 12,
+       "code": "INTEREST_PAYMENT_WAIVER",
+       "value": "Interest payment waiver"
+      },
+      {
+       "id": 13,
+       "code": "INTEREST_REFUND",
+       "value": "Interest refund"
+      },
+      {
+       "id": 14,
+       "code": "CAPITALIZED_INCOME_ADJUSTMENT",
+       "value": "Capitalized income adjustment"
+      }
+     ],
+     "advancedPaymentAllocationFutureInstallmentAllocationRules": [
+      {
+       "id": 1,
+       "code": "NEXT_INSTALLMENT",
+       "value": "Next installment"
+      },
+      {
+       "id": 2,
+       "code": "LAST_INSTALLMENT",
+       "value": "Last installment"
+      },
+      {
+       "id": 3,
+       "code": "NEXT_LAST_INSTALLMENT",
+       "value": "Next/Last installment"
+      },
+      {
+       "id": 4,
+       "code": "REAMORTIZATION",
+       "value": "Reamortization"
+      }
+     ],
+     "advancedPaymentAllocationTypes": [
+      {
+       "id": 1,
+       "code": "PAST_DUE_PENALTY",
+       "value": "Past due penalty"
+      },
+      {
+       "id": 2,
+       "code": "PAST_DUE_FEE",
+       "value": "Past due fee"
+      },
+      {
+       "id": 3,
+       "code": "PAST_DUE_PRINCIPAL",
+       "value": "Past due principal"
+      },
+      {
+       "id": 4,
+       "code": "PAST_DUE_INTEREST",
+       "value": "Past due interest"
+      },
+      {
+       "id": 5,
+       "code": "DUE_PENALTY",
+       "value": "Due penalty"
+      },
+      {
+       "id": 6,
+       "code": "DUE_FEE",
+       "value": "Due fee"
+      },
+      {
+       "id": 7,
+       "code": "DUE_PRINCIPAL",
+       "value": "Due principal"
+      },
+      {
+       "id": 8,
+       "code": "DUE_INTEREST",
+       "value": "Due interest"
+      },
+      {
+       "id": 9,
+       "code": "IN_ADVANCE_PENALTY",
+       "value": "In advance penalty"
+      },
+      {
+       "id": 10,
+       "code": "IN_ADVANCE_FEE",
+       "value": "In advance fee"
+      },
+      {
+       "id": 11,
+       "code": "IN_ADVANCE_PRINCIPAL",
+       "value": "In advance principal"
+      },
+      {
+       "id": 12,
+       "code": "IN_ADVANCE_INTEREST",
+       "value": "In advanced interest"
+      }
+     ],
+     "creditAllocationTransactionTypes": [
+      {
+       "id": 1,
+       "code": "CHARGEBACK",
+       "value": "Chargeback"
+      }
+     ],
+     "creditAllocationAllocationTypes": [
+      {
+       "id": 1,
+       "code": "PENALTY",
+       "value": "Penalty"
+      },
+      {
+       "id": 2,
+       "code": "FEE",
+       "value": "Fee"
+      },
+      {
+       "id": 3,
+       "code": "PRINCIPAL",
+       "value": "Principal"
+      },
+      {
+       "id": 4,
+       "code": "INTEREST",
+       "value": "Interest"
+      }
+     ],
+     "multiDisburseLoan": false,
+     "maxTrancheCount": 0,
+     "disallowExpectedDisbursements": false,
+     "allowApprovedDisbursedAmountsOverApplied": false,
+     "overAppliedNumber": 0,
+     "allowFullTermForTranche": false,
+     "principalThresholdForLastInstallment": 0.0,
+     "holdGuaranteeFunds": false,
+     "accountMovesOutOfNPAOnlyOnArrearsCompletion": false,
+     "allowAttributeOverrides": {
+      "amortizationType": true,
+      "interestType": true,
+      "transactionProcessingStrategyCode": true,
+      "interestCalculationPeriodType": true,
+      "inArrearsTolerance": true,
+      "repaymentEvery": true,
+      "graceOnPrincipalAndInterestPayment": true,
+      "graceOnArrearsAgeing": true,
+      "isNew": true
+     },
+     "syncExpectedWithDisbursementDate": false,
+     "isEqualAmortization": false,
+     "delinquencyBucket": {
+      "ranges": [],
+      "bucketType": "REGULAR"
+     },
+     "enableDownPayment": false,
+     "enableAutoRepaymentForDownPayment": false,
+     "enableInstallmentLevelDelinquency": false,
+     "loanScheduleType": {
+      "id": 1,
+      "code": "CUMULATIVE",
+      "value": "Cumulative"
+     },
+     "loanScheduleProcessingType": {
+      "id": 1,
+      "code": "HORIZONTAL",
+      "value": "Horizontal"
+     },
+     "interestRecognitionOnDisbursementDate": false,
+     "daysInYearCustomStrategyOptions": [
+      {
+       "id": "FULL_LEAP_YEAR",
+       "code": "DaysInYearCustomStrategyType.fullLeapYear",
+       "value": "Full Leap Year"
+      },
+      {
+       "id": "FEB_29_PERIOD_ONLY",
+       "code": "DaysInYearCustomStrategyType.feb29PeriodOnly",
+       "value": "Feb 29 Period Only"
+      }
+     ],
+     "enableIncomeCapitalization": false,
+     "capitalizedIncomeCalculationTypeOptions": [
+      {
+       "id": "FLAT",
+       "code": "loanCapitalizedIncomeCalculationType.flat",
+       "value": "Flat"
+      }
+     ],
+     "capitalizedIncomeStrategyOptions": [
+      {
+       "id": "EQUAL_AMORTIZATION",
+       "code": "capitalizedIncome.strategy.equalAmortization",
+       "value": "Equal amortization"
+      }
+     ],
+     "capitalizedIncomeTypeOptions": [
+      {
+       "id": "FEE",
+       "code": "capitalizedIncome.incomeType.fee",
+       "value": "Fee"
+      },
+      {
+       "id": "INTEREST",
+       "code": "capitalizedIncome.incomeType.interest",
+       "value": "Interest"
+      }
+     ],
+     "enableBuyDownFee": false,
+     "merchantBuyDownFee": false,
+     "buyDownFeeCalculationTypeOptions": [
+      {
+       "id": "FLAT",
+       "code": "loanBuyDownFeeCalculationType.flat",
+       "value": "Flat"
+      }
+     ],
+     "buyDownFeeStrategyOptions": [
+      {
+       "id": "EQUAL_AMORTIZATION",
+       "code": "buyDownFee.strategy.equalAmortization",
+       "value": "Equal amortization"
+      }
+     ],
+     "buyDownFeeIncomeTypeOptions": [
+      {
+       "id": "FEE",
+       "code": "buyDownFee.incomeType.fee",
+       "value": "Fee"
+      },
+      {
+       "id": "INTEREST",
+       "code": "buyDownFee.incomeType.interest",
+       "value": "Interest"
+      }
+     ]
+    },
+    {
+     "id": 2,
+     "name": "Bucketed",
+     "shortName": "BUCK",
+     "includeInBorrowerCycle": false,
+     "useBorrowerCycle": false,
+     "status": "loanProduct.active",
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "inMultiplesOf": 0,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "principal": 10000.0,
+     "numberOfRepayments": 12,
+     "repaymentEvery": 1,
+     "repaymentFrequencyType": {
+      "id": 2,
+      "code": "repaymentFrequency.periodFrequencyType.months",
+      "value": "Months"
+     },
+     "interestRatePerPeriod": 12.0,
+     "interestRateFrequencyType": {
+      "id": 3,
+      "code": "interestRateFrequency.periodFrequencyType.years",
+      "value": "Per year"
+     },
+     "annualInterestRate": 12.0,
+     "isLinkedToFloatingInterestRates": false,
+     "isFloatingInterestRateCalculationAllowed": false,
+     "allowVariableInstallments": false,
+     "minimumGap": 0,
+     "maximumGap": 0,
+     "amortizationType": {
+      "id": 1,
+      "code": "amortizationType.equal.installments",
+      "value": "Equal installments"
+     },
+     "interestType": {
+      "id": 0,
+      "code": "interestType.declining.balance",
+      "value": "Declining Balance"
+     },
+     "interestCalculationPeriodType": {
+      "id": 1,
+      "code": "interestCalculationPeriodType.same.as.repayment.period",
+      "value": "Same as repayment period"
+     },
+     "allowPartialPeriodInterestCalculation": false,
+     "transactionProcessingStrategyCode": "mifos-standard-strategy",
+     "transactionProcessingStrategyName": "Penalties, Fees, Interest, Principal order",
+     "daysInMonthType": {
+      "id": 30,
+      "code": "DaysInMonthType.days360",
+      "value": "30 Days"
+     },
+     "daysInYearType": {
+      "id": 365,
+      "code": "DaysInYearType.days365",
+      "value": "365 Days"
+     },
+     "isInterestRecalculationEnabled": false,
+     "canDefineInstallmentAmount": false,
+     "repaymentStartDateType": {
+      "id": 1,
+      "code": "repaymentStartDateType.disbursementDate",
+      "value": "Disbursement Date"
+     },
+     "supportedInterestRefundTypes": [],
+     "chargeOffBehaviour": {
+      "id": "REGULAR",
+      "code": "chargeOffBehaviour.regular",
+      "value": "Regular"
+     },
+     "principalVariationsForBorrowerCycle": [],
+     "interestRateVariationsForBorrowerCycle": [],
+     "numberOfRepaymentVariationsForBorrowerCycle": [],
+     "accountingRule": {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     },
+     "canUseForTopup": false,
+     "enableAccrualActivityPosting": false,
+     "isRatesEnabled": false,
+     "advancedPaymentAllocationTransactionTypes": [
+      {
+       "id": 1,
+       "code": "DEFAULT",
+       "value": "Default"
+      },
+      {
+       "id": 2,
+       "code": "REPAYMENT",
+       "value": "Repayment"
+      },
+      {
+       "id": 3,
+       "code": "DOWN_PAYMENT",
+       "value": "Down payment"
+      },
+      {
+       "id": 4,
+       "code": "MERCHANT_ISSUED_REFUND",
+       "value": "Merchant issued refund"
+      },
+      {
+       "id": 5,
+       "code": "PAYOUT_REFUND",
+       "value": "Payout refund"
+      },
+      {
+       "id": 6,
+       "code": "GOODWILL_CREDIT",
+       "value": "Goodwill credit"
+      },
+      {
+       "id": 7,
+       "code": "CHARGE_REFUND",
+       "value": "Charge refund"
+      },
+      {
+       "id": 8,
+       "code": "CHARGE_ADJUSTMENT",
+       "value": "Charge adjustment"
+      },
+      {
+       "id": 9,
+       "code": "WAIVE_INTEREST",
+       "value": "Waive interest"
+      },
+      {
+       "id": 10,
+       "code": "CHARGE_PAYMENT",
+       "value": "Charge payment"
+      },
+      {
+       "id": 11,
+       "code": "REFUND_FOR_ACTIVE_LOAN",
+       "value": "Refund for active loan"
+      },
+      {
+       "id": 12,
+       "code": "INTEREST_PAYMENT_WAIVER",
+       "value": "Interest payment waiver"
+      },
+      {
+       "id": 13,
+       "code": "INTEREST_REFUND",
+       "value": "Interest refund"
+      },
+      {
+       "id": 14,
+       "code": "CAPITALIZED_INCOME_ADJUSTMENT",
+       "value": "Capitalized income adjustment"
+      }
+     ],
+     "advancedPaymentAllocationFutureInstallmentAllocationRules": [
+      {
+       "id": 1,
+       "code": "NEXT_INSTALLMENT",
+       "value": "Next installment"
+      },
+      {
+       "id": 2,
+       "code": "LAST_INSTALLMENT",
+       "value": "Last installment"
+      },
+      {
+       "id": 3,
+       "code": "NEXT_LAST_INSTALLMENT",
+       "value": "Next/Last installment"
+      },
+      {
+       "id": 4,
+       "code": "REAMORTIZATION",
+       "value": "Reamortization"
+      }
+     ],
+     "advancedPaymentAllocationTypes": [
+      {
+       "id": 1,
+       "code": "PAST_DUE_PENALTY",
+       "value": "Past due penalty"
+      },
+      {
+       "id": 2,
+       "code": "PAST_DUE_FEE",
+       "value": "Past due fee"
+      },
+      {
+       "id": 3,
+       "code": "PAST_DUE_PRINCIPAL",
+       "value": "Past due principal"
+      },
+      {
+       "id": 4,
+       "code": "PAST_DUE_INTEREST",
+       "value": "Past due interest"
+      },
+      {
+       "id": 5,
+       "code": "DUE_PENALTY",
+       "value": "Due penalty"
+      },
+      {
+       "id": 6,
+       "code": "DUE_FEE",
+       "value": "Due fee"
+      },
+      {
+       "id": 7,
+       "code": "DUE_PRINCIPAL",
+       "value": "Due principal"
+      },
+      {
+       "id": 8,
+       "code": "DUE_INTEREST",
+       "value": "Due interest"
+      },
+      {
+       "id": 9,
+       "code": "IN_ADVANCE_PENALTY",
+       "value": "In advance penalty"
+      },
+      {
+       "id": 10,
+       "code": "IN_ADVANCE_FEE",
+       "value": "In advance fee"
+      },
+      {
+       "id": 11,
+       "code": "IN_ADVANCE_PRINCIPAL",
+       "value": "In advance principal"
+      },
+      {
+       "id": 12,
+       "code": "IN_ADVANCE_INTEREST",
+       "value": "In advanced interest"
+      }
+     ],
+     "creditAllocationTransactionTypes": [
+      {
+       "id": 1,
+       "code": "CHARGEBACK",
+       "value": "Chargeback"
+      }
+     ],
+     "creditAllocationAllocationTypes": [
+      {
+       "id": 1,
+       "code": "PENALTY",
+       "value": "Penalty"
+      },
+      {
+       "id": 2,
+       "code": "FEE",
+       "value": "Fee"
+      },
+      {
+       "id": 3,
+       "code": "PRINCIPAL",
+       "value": "Principal"
+      },
+      {
+       "id": 4,
+       "code": "INTEREST",
+       "value": "Interest"
+      }
+     ],
+     "multiDisburseLoan": false,
+     "maxTrancheCount": 0,
+     "disallowExpectedDisbursements": false,
+     "allowApprovedDisbursedAmountsOverApplied": false,
+     "overAppliedNumber": 0,
+     "allowFullTermForTranche": false,
+     "principalThresholdForLastInstallment": 0.0,
+     "holdGuaranteeFunds": false,
+     "accountMovesOutOfNPAOnlyOnArrearsCompletion": false,
+     "allowAttributeOverrides": {
+      "amortizationType": true,
+      "interestType": true,
+      "transactionProcessingStrategyCode": true,
+      "interestCalculationPeriodType": true,
+      "inArrearsTolerance": true,
+      "repaymentEvery": true,
+      "graceOnPrincipalAndInterestPayment": true,
+      "graceOnArrearsAgeing": true,
+      "isNew": true
+     },
+     "syncExpectedWithDisbursementDate": false,
+     "isEqualAmortization": false,
+     "delinquencyBucket": {
+      "id": 1,
+      "name": "B1x",
+      "ranges": [],
+      "bucketType": "REGULAR"
+     },
+     "enableDownPayment": false,
+     "enableAutoRepaymentForDownPayment": false,
+     "enableInstallmentLevelDelinquency": false,
+     "loanScheduleType": {
+      "id": 1,
+      "code": "CUMULATIVE",
+      "value": "Cumulative"
+     },
+     "loanScheduleProcessingType": {
+      "id": 1,
+      "code": "HORIZONTAL",
+      "value": "Horizontal"
+     },
+     "interestRecognitionOnDisbursementDate": false,
+     "daysInYearCustomStrategyOptions": [
+      {
+       "id": "FULL_LEAP_YEAR",
+       "code": "DaysInYearCustomStrategyType.fullLeapYear",
+       "value": "Full Leap Year"
+      },
+      {
+       "id": "FEB_29_PERIOD_ONLY",
+       "code": "DaysInYearCustomStrategyType.feb29PeriodOnly",
+       "value": "Feb 29 Period Only"
+      }
+     ],
+     "enableIncomeCapitalization": false,
+     "capitalizedIncomeCalculationTypeOptions": [
+      {
+       "id": "FLAT",
+       "code": "loanCapitalizedIncomeCalculationType.flat",
+       "value": "Flat"
+      }
+     ],
+     "capitalizedIncomeStrategyOptions": [
+      {
+       "id": "EQUAL_AMORTIZATION",
+       "code": "capitalizedIncome.strategy.equalAmortization",
+       "value": "Equal amortization"
+      }
+     ],
+     "capitalizedIncomeTypeOptions": [
+      {
+       "id": "FEE",
+       "code": "capitalizedIncome.incomeType.fee",
+       "value": "Fee"
+      },
+      {
+       "id": "INTEREST",
+       "code": "capitalizedIncome.incomeType.interest",
+       "value": "Interest"
+      }
+     ],
+     "enableBuyDownFee": false,
+     "merchantBuyDownFee": false,
+     "buyDownFeeCalculationTypeOptions": [
+      {
+       "id": "FLAT",
+       "code": "loanBuyDownFeeCalculationType.flat",
+       "value": "Flat"
+      }
+     ],
+     "buyDownFeeStrategyOptions": [
+      {
+       "id": "EQUAL_AMORTIZATION",
+       "code": "buyDownFee.strategy.equalAmortization",
+       "value": "Equal amortization"
+      }
+     ],
+     "buyDownFeeIncomeTypeOptions": [
+      {
+       "id": "FEE",
+       "code": "buyDownFee.incomeType.fee",
+       "value": "Fee"
+      },
+      {
+       "id": "INTEREST",
+       "code": "buyDownFee.incomeType.interest",
+       "value": "Interest"
+      }
+     ]
+    },
+    {
+     "id": 3,
+     "name": "Other",
+     "shortName": "OTHR",
+     "includeInBorrowerCycle": false,
+     "useBorrowerCycle": false,
+     "status": "loanProduct.active",
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "inMultiplesOf": 0,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "principal": 10000.0,
+     "numberOfRepayments": 12,
+     "repaymentEvery": 1,
+     "repaymentFrequencyType": {
+      "id": 2,
+      "code": "repaymentFrequency.periodFrequencyType.months",
+      "value": "Months"
+     },
+     "interestRatePerPeriod": 12.0,
+     "interestRateFrequencyType": {
+      "id": 3,
+      "code": "interestRateFrequency.periodFrequencyType.years",
+      "value": "Per year"
+     },
+     "annualInterestRate": 12.0,
+     "isLinkedToFloatingInterestRates": false,
+     "isFloatingInterestRateCalculationAllowed": false,
+     "allowVariableInstallments": false,
+     "minimumGap": 0,
+     "maximumGap": 0,
+     "amortizationType": {
+      "id": 1,
+      "code": "amortizationType.equal.installments",
+      "value": "Equal installments"
+     },
+     "interestType": {
+      "id": 0,
+      "code": "interestType.declining.balance",
+      "value": "Declining Balance"
+     },
+     "interestCalculationPeriodType": {
+      "id": 1,
+      "code": "interestCalculationPeriodType.same.as.repayment.period",
+      "value": "Same as repayment period"
+     },
+     "allowPartialPeriodInterestCalculation": false,
+     "transactionProcessingStrategyCode": "mifos-standard-strategy",
+     "transactionProcessingStrategyName": "Penalties, Fees, Interest, Principal order",
+     "daysInMonthType": {
+      "id": 30,
+      "code": "DaysInMonthType.days360",
+      "value": "30 Days"
+     },
+     "daysInYearType": {
+      "id": 365,
+      "code": "DaysInYearType.days365",
+      "value": "365 Days"
+     },
+     "isInterestRecalculationEnabled": false,
+     "canDefineInstallmentAmount": false,
+     "repaymentStartDateType": {
+      "id": 1,
+      "code": "repaymentStartDateType.disbursementDate",
+      "value": "Disbursement Date"
+     },
+     "supportedInterestRefundTypes": [],
+     "chargeOffBehaviour": {
+      "id": "REGULAR",
+      "code": "chargeOffBehaviour.regular",
+      "value": "Regular"
+     },
+     "principalVariationsForBorrowerCycle": [],
+     "interestRateVariationsForBorrowerCycle": [],
+     "numberOfRepaymentVariationsForBorrowerCycle": [],
+     "accountingRule": {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     },
+     "canUseForTopup": false,
+     "enableAccrualActivityPosting": false,
+     "isRatesEnabled": false,
+     "advancedPaymentAllocationTransactionTypes": [
+      {
+       "id": 1,
+       "code": "DEFAULT",
+       "value": "Default"
+      },
+      {
+       "id": 2,
+       "code": "REPAYMENT",
+       "value": "Repayment"
+      },
+      {
+       "id": 3,
+       "code": "DOWN_PAYMENT",
+       "value": "Down payment"
+      },
+      {
+       "id": 4,
+       "code": "MERCHANT_ISSUED_REFUND",
+       "value": "Merchant issued refund"
+      },
+      {
+       "id": 5,
+       "code": "PAYOUT_REFUND",
+       "value": "Payout refund"
+      },
+      {
+       "id": 6,
+       "code": "GOODWILL_CREDIT",
+       "value": "Goodwill credit"
+      },
+      {
+       "id": 7,
+       "code": "CHARGE_REFUND",
+       "value": "Charge refund"
+      },
+      {
+       "id": 8,
+       "code": "CHARGE_ADJUSTMENT",
+       "value": "Charge adjustment"
+      },
+      {
+       "id": 9,
+       "code": "WAIVE_INTEREST",
+       "value": "Waive interest"
+      },
+      {
+       "id": 10,
+       "code": "CHARGE_PAYMENT",
+       "value": "Charge payment"
+      },
+      {
+       "id": 11,
+       "code": "REFUND_FOR_ACTIVE_LOAN",
+       "value": "Refund for active loan"
+      },
+      {
+       "id": 12,
+       "code": "INTEREST_PAYMENT_WAIVER",
+       "value": "Interest payment waiver"
+      },
+      {
+       "id": 13,
+       "code": "INTEREST_REFUND",
+       "value": "Interest refund"
+      },
+      {
+       "id": 14,
+       "code": "CAPITALIZED_INCOME_ADJUSTMENT",
+       "value": "Capitalized income adjustment"
+      }
+     ],
+     "advancedPaymentAllocationFutureInstallmentAllocationRules": [
+      {
+       "id": 1,
+       "code": "NEXT_INSTALLMENT",
+       "value": "Next installment"
+      },
+      {
+       "id": 2,
+       "code": "LAST_INSTALLMENT",
+       "value": "Last installment"
+      },
+      {
+       "id": 3,
+       "code": "NEXT_LAST_INSTALLMENT",
+       "value": "Next/Last installment"
+      },
+      {
+       "id": 4,
+       "code": "REAMORTIZATION",
+       "value": "Reamortization"
+      }
+     ],
+     "advancedPaymentAllocationTypes": [
+      {
+       "id": 1,
+       "code": "PAST_DUE_PENALTY",
+       "value": "Past due penalty"
+      },
+      {
+       "id": 2,
+       "code": "PAST_DUE_FEE",
+       "value": "Past due fee"
+      },
+      {
+       "id": 3,
+       "code": "PAST_DUE_PRINCIPAL",
+       "value": "Past due principal"
+      },
+      {
+       "id": 4,
+       "code": "PAST_DUE_INTEREST",
+       "value": "Past due interest"
+      },
+      {
+       "id": 5,
+       "code": "DUE_PENALTY",
+       "value": "Due penalty"
+      },
+      {
+       "id": 6,
+       "code": "DUE_FEE",
+       "value": "Due fee"
+      },
+      {
+       "id": 7,
+       "code": "DUE_PRINCIPAL",
+       "value": "Due principal"
+      },
+      {
+       "id": 8,
+       "code": "DUE_INTEREST",
+       "value": "Due interest"
+      },
+      {
+       "id": 9,
+       "code": "IN_ADVANCE_PENALTY",
+       "value": "In advance penalty"
+      },
+      {
+       "id": 10,
+       "code": "IN_ADVANCE_FEE",
+       "value": "In advance fee"
+      },
+      {
+       "id": 11,
+       "code": "IN_ADVANCE_PRINCIPAL",
+       "value": "In advance principal"
+      },
+      {
+       "id": 12,
+       "code": "IN_ADVANCE_INTEREST",
+       "value": "In advanced interest"
+      }
+     ],
+     "creditAllocationTransactionTypes": [
+      {
+       "id": 1,
+       "code": "CHARGEBACK",
+       "value": "Chargeback"
+      }
+     ],
+     "creditAllocationAllocationTypes": [
+      {
+       "id": 1,
+       "code": "PENALTY",
+       "value": "Penalty"
+      },
+      {
+       "id": 2,
+       "code": "FEE",
+       "value": "Fee"
+      },
+      {
+       "id": 3,
+       "code": "PRINCIPAL",
+       "value": "Principal"
+      },
+      {
+       "id": 4,
+       "code": "INTEREST",
+       "value": "Interest"
+      }
+     ],
+     "multiDisburseLoan": false,
+     "maxTrancheCount": 0,
+     "disallowExpectedDisbursements": false,
+     "allowApprovedDisbursedAmountsOverApplied": false,
+     "overAppliedNumber": 0,
+     "allowFullTermForTranche": false,
+     "principalThresholdForLastInstallment": 0.0,
+     "holdGuaranteeFunds": false,
+     "accountMovesOutOfNPAOnlyOnArrearsCompletion": false,
+     "allowAttributeOverrides": {
+      "amortizationType": true,
+      "interestType": true,
+      "transactionProcessingStrategyCode": true,
+      "interestCalculationPeriodType": true,
+      "inArrearsTolerance": true,
+      "repaymentEvery": true,
+      "graceOnPrincipalAndInterestPayment": true,
+      "graceOnArrearsAgeing": true,
+      "isNew": true
+     },
+     "syncExpectedWithDisbursementDate": false,
+     "isEqualAmortization": false,
+     "delinquencyBucket": {
+      "id": 4,
+      "name": "B7",
+      "ranges": [],
+      "bucketType": "REGULAR"
+     },
+     "enableDownPayment": false,
+     "enableAutoRepaymentForDownPayment": false,
+     "enableInstallmentLevelDelinquency": false,
+     "loanScheduleType": {
+      "id": 1,
+      "code": "CUMULATIVE",
+      "value": "Cumulative"
+     },
+     "loanScheduleProcessingType": {
+      "id": 1,
+      "code": "HORIZONTAL",
+      "value": "Horizontal"
+     },
+     "interestRecognitionOnDisbursementDate": false,
+     "daysInYearCustomStrategyOptions": [
+      {
+       "id": "FULL_LEAP_YEAR",
+       "code": "DaysInYearCustomStrategyType.fullLeapYear",
+       "value": "Full Leap Year"
+      },
+      {
+       "id": "FEB_29_PERIOD_ONLY",
+       "code": "DaysInYearCustomStrategyType.feb29PeriodOnly",
+       "value": "Feb 29 Period Only"
+      }
+     ],
+     "enableIncomeCapitalization": false,
+     "capitalizedIncomeCalculationTypeOptions": [
+      {
+       "id": "FLAT",
+       "code": "loanCapitalizedIncomeCalculationType.flat",
+       "value": "Flat"
+      }
+     ],
+     "capitalizedIncomeStrategyOptions": [
+      {
+       "id": "EQUAL_AMORTIZATION",
+       "code": "capitalizedIncome.strategy.equalAmortization",
+       "value": "Equal amortization"
+      }
+     ],
+     "capitalizedIncomeTypeOptions": [
+      {
+       "id": "FEE",
+       "code": "capitalizedIncome.incomeType.fee",
+       "value": "Fee"
+      },
+      {
+       "id": "INTEREST",
+       "code": "capitalizedIncome.incomeType.interest",
+       "value": "Interest"
+      }
+     ],
+     "enableBuyDownFee": false,
+     "merchantBuyDownFee": false,
+     "buyDownFeeCalculationTypeOptions": [
+      {
+       "id": "FLAT",
+       "code": "loanBuyDownFeeCalculationType.flat",
+       "value": "Flat"
+      }
+     ],
+     "buyDownFeeStrategyOptions": [
+      {
+       "id": "EQUAL_AMORTIZATION",
+       "code": "buyDownFee.strategy.equalAmortization",
+       "value": "Equal amortization"
+      }
+     ],
+     "buyDownFeeIncomeTypeOptions": [
+      {
+       "id": "FEE",
+       "code": "buyDownFee.incomeType.fee",
+       "value": "Fee"
+      },
+      {
+       "id": "INTEREST",
+       "code": "buyDownFee.incomeType.interest",
+       "value": "Interest"
+      }
+     ]
+    },
+    {
+     "id": 4,
+     "name": "Plain",
+     "shortName": "PLAN",
+     "includeInBorrowerCycle": false,
+     "useBorrowerCycle": false,
+     "status": "loanProduct.active",
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "inMultiplesOf": 0,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "principal": 10000.0,
+     "numberOfRepayments": 12,
+     "repaymentEvery": 1,
+     "repaymentFrequencyType": {
+      "id": 2,
+      "code": "repaymentFrequency.periodFrequencyType.months",
+      "value": "Months"
+     },
+     "interestRatePerPeriod": 12.0,
+     "interestRateFrequencyType": {
+      "id": 3,
+      "code": "interestRateFrequency.periodFrequencyType.years",
+      "value": "Per year"
+     },
+     "annualInterestRate": 12.0,
+     "isLinkedToFloatingInterestRates": false,
+     "isFloatingInterestRateCalculationAllowed": false,
+     "allowVariableInstallments": false,
+     "minimumGap": 0,
+     "maximumGap": 0,
+     "amortizationType": {
+      "id": 1,
+      "code": "amortizationType.equal.installments",
+      "value": "Equal installments"
+     },
+     "interestType": {
+      "id": 0,
+      "code": "interestType.declining.balance",
+      "value": "Declining Balance"
+     },
+     "interestCalculationPeriodType": {
+      "id": 1,
+      "code": "interestCalculationPeriodType.same.as.repayment.period",
+      "value": "Same as repayment period"
+     },
+     "allowPartialPeriodInterestCalculation": false,
+     "transactionProcessingStrategyCode": "mifos-standard-strategy",
+     "transactionProcessingStrategyName": "Penalties, Fees, Interest, Principal order",
+     "daysInMonthType": {
+      "id": 30,
+      "code": "DaysInMonthType.days360",
+      "value": "30 Days"
+     },
+     "daysInYearType": {
+      "id": 365,
+      "code": "DaysInYearType.days365",
+      "value": "365 Days"
+     },
+     "isInterestRecalculationEnabled": false,
+     "canDefineInstallmentAmount": false,
+     "repaymentStartDateType": {
+      "id": 1,
+      "code": "repaymentStartDateType.disbursementDate",
+      "value": "Disbursement Date"
+     },
+     "supportedInterestRefundTypes": [],
+     "chargeOffBehaviour": {
+      "id": "REGULAR",
+      "code": "chargeOffBehaviour.regular",
+      "value": "Regular"
+     },
+     "principalVariationsForBorrowerCycle": [],
+     "interestRateVariationsForBorrowerCycle": [],
+     "numberOfRepaymentVariationsForBorrowerCycle": [],
+     "accountingRule": {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     },
+     "canUseForTopup": false,
+     "enableAccrualActivityPosting": false,
+     "isRatesEnabled": false,
+     "advancedPaymentAllocationTransactionTypes": [
+      {
+       "id": 1,
+       "code": "DEFAULT",
+       "value": "Default"
+      },
+      {
+       "id": 2,
+       "code": "REPAYMENT",
+       "value": "Repayment"
+      },
+      {
+       "id": 3,
+       "code": "DOWN_PAYMENT",
+       "value": "Down payment"
+      },
+      {
+       "id": 4,
+       "code": "MERCHANT_ISSUED_REFUND",
+       "value": "Merchant issued refund"
+      },
+      {
+       "id": 5,
+       "code": "PAYOUT_REFUND",
+       "value": "Payout refund"
+      },
+      {
+       "id": 6,
+       "code": "GOODWILL_CREDIT",
+       "value": "Goodwill credit"
+      },
+      {
+       "id": 7,
+       "code": "CHARGE_REFUND",
+       "value": "Charge refund"
+      },
+      {
+       "id": 8,
+       "code": "CHARGE_ADJUSTMENT",
+       "value": "Charge adjustment"
+      },
+      {
+       "id": 9,
+       "code": "WAIVE_INTEREST",
+       "value": "Waive interest"
+      },
+      {
+       "id": 10,
+       "code": "CHARGE_PAYMENT",
+       "value": "Charge payment"
+      },
+      {
+       "id": 11,
+       "code": "REFUND_FOR_ACTIVE_LOAN",
+       "value": "Refund for active loan"
+      },
+      {
+       "id": 12,
+       "code": "INTEREST_PAYMENT_WAIVER",
+       "value": "Interest payment waiver"
+      },
+      {
+       "id": 13,
+       "code": "INTEREST_REFUND",
+       "value": "Interest refund"
+      },
+      {
+       "id": 14,
+       "code": "CAPITALIZED_INCOME_ADJUSTMENT",
+       "value": "Capitalized income adjustment"
+      }
+     ],
+     "advancedPaymentAllocationFutureInstallmentAllocationRules": [
+      {
+       "id": 1,
+       "code": "NEXT_INSTALLMENT",
+       "value": "Next installment"
+      },
+      {
+       "id": 2,
+       "code": "LAST_INSTALLMENT",
+       "value": "Last installment"
+      },
+      {
+       "id": 3,
+       "code": "NEXT_LAST_INSTALLMENT",
+       "value": "Next/Last installment"
+      },
+      {
+       "id": 4,
+       "code": "REAMORTIZATION",
+       "value": "Reamortization"
+      }
+     ],
+     "advancedPaymentAllocationTypes": [
+      {
+       "id": 1,
+       "code": "PAST_DUE_PENALTY",
+       "value": "Past due penalty"
+      },
+      {
+       "id": 2,
+       "code": "PAST_DUE_FEE",
+       "value": "Past due fee"
+      },
+      {
+       "id": 3,
+       "code": "PAST_DUE_PRINCIPAL",
+       "value": "Past due principal"
+      },
+      {
+       "id": 4,
+       "code": "PAST_DUE_INTEREST",
+       "value": "Past due interest"
+      },
+      {
+       "id": 5,
+       "code": "DUE_PENALTY",
+       "value": "Due penalty"
+      },
+      {
+       "id": 6,
+       "code": "DUE_FEE",
+       "value": "Due fee"
+      },
+      {
+       "id": 7,
+       "code": "DUE_PRINCIPAL",
+       "value": "Due principal"
+      },
+      {
+       "id": 8,
+       "code": "DUE_INTEREST",
+       "value": "Due interest"
+      },
+      {
+       "id": 9,
+       "code": "IN_ADVANCE_PENALTY",
+       "value": "In advance penalty"
+      },
+      {
+       "id": 10,
+       "code": "IN_ADVANCE_FEE",
+       "value": "In advance fee"
+      },
+      {
+       "id": 11,
+       "code": "IN_ADVANCE_PRINCIPAL",
+       "value": "In advance principal"
+      },
+      {
+       "id": 12,
+       "code": "IN_ADVANCE_INTEREST",
+       "value": "In advanced interest"
+      }
+     ],
+     "creditAllocationTransactionTypes": [
+      {
+       "id": 1,
+       "code": "CHARGEBACK",
+       "value": "Chargeback"
+      }
+     ],
+     "creditAllocationAllocationTypes": [
+      {
+       "id": 1,
+       "code": "PENALTY",
+       "value": "Penalty"
+      },
+      {
+       "id": 2,
+       "code": "FEE",
+       "value": "Fee"
+      },
+      {
+       "id": 3,
+       "code": "PRINCIPAL",
+       "value": "Principal"
+      },
+      {
+       "id": 4,
+       "code": "INTEREST",
+       "value": "Interest"
+      }
+     ],
+     "multiDisburseLoan": false,
+     "maxTrancheCount": 0,
+     "disallowExpectedDisbursements": false,
+     "allowApprovedDisbursedAmountsOverApplied": false,
+     "overAppliedNumber": 0,
+     "allowFullTermForTranche": false,
+     "principalThresholdForLastInstallment": 0.0,
+     "holdGuaranteeFunds": false,
+     "accountMovesOutOfNPAOnlyOnArrearsCompletion": false,
+     "allowAttributeOverrides": {
+      "amortizationType": true,
+      "interestType": true,
+      "transactionProcessingStrategyCode": true,
+      "interestCalculationPeriodType": true,
+      "inArrearsTolerance": true,
+      "repaymentEvery": true,
+      "graceOnPrincipalAndInterestPayment": true,
+      "graceOnArrearsAgeing": true,
+      "isNew": true
+     },
+     "syncExpectedWithDisbursementDate": false,
+     "isEqualAmortization": false,
+     "delinquencyBucket": {
+      "ranges": [],
+      "bucketType": "REGULAR"
+     },
+     "enableDownPayment": false,
+     "enableAutoRepaymentForDownPayment": false,
+     "enableInstallmentLevelDelinquency": false,
+     "loanScheduleType": {
+      "id": 1,
+      "code": "CUMULATIVE",
+      "value": "Cumulative"
+     },
+     "loanScheduleProcessingType": {
+      "id": 1,
+      "code": "HORIZONTAL",
+      "value": "Horizontal"
+     },
+     "interestRecognitionOnDisbursementDate": false,
+     "daysInYearCustomStrategyOptions": [
+      {
+       "id": "FULL_LEAP_YEAR",
+       "code": "DaysInYearCustomStrategyType.fullLeapYear",
+       "value": "Full Leap Year"
+      },
+      {
+       "id": "FEB_29_PERIOD_ONLY",
+       "code": "DaysInYearCustomStrategyType.feb29PeriodOnly",
+       "value": "Feb 29 Period Only"
+      }
+     ],
+     "enableIncomeCapitalization": false,
+     "capitalizedIncomeCalculationTypeOptions": [
+      {
+       "id": "FLAT",
+       "code": "loanCapitalizedIncomeCalculationType.flat",
+       "value": "Flat"
+      }
+     ],
+     "capitalizedIncomeStrategyOptions": [
+      {
+       "id": "EQUAL_AMORTIZATION",
+       "code": "capitalizedIncome.strategy.equalAmortization",
+       "value": "Equal amortization"
+      }
+     ],
+     "capitalizedIncomeTypeOptions": [
+      {
+       "id": "FEE",
+       "code": "capitalizedIncome.incomeType.fee",
+       "value": "Fee"
+      },
+      {
+       "id": "INTEREST",
+       "code": "capitalizedIncome.incomeType.interest",
+       "value": "Interest"
+      }
+     ],
+     "enableBuyDownFee": false,
+     "merchantBuyDownFee": false,
+     "buyDownFeeCalculationTypeOptions": [
+      {
+       "id": "FLAT",
+       "code": "loanBuyDownFeeCalculationType.flat",
+       "value": "Flat"
+      }
+     ],
+     "buyDownFeeStrategyOptions": [
+      {
+       "id": "EQUAL_AMORTIZATION",
+       "code": "buyDownFee.strategy.equalAmortization",
+       "value": "Equal amortization"
+      }
+     ],
+     "buyDownFeeIncomeTypeOptions": [
+      {
+       "id": "FEE",
+       "code": "buyDownFee.incomeType.fee",
+       "value": "Fee"
+      },
+      {
+       "id": "INTEREST",
+       "code": "buyDownFee.incomeType.interest",
+       "value": "Interest"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loanproducts/1",
+   "ignore": [
+    "ranges"
+   ],
+   "sortby": "delinquencyBucketOptions:id",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "name": "No bucket",
+    "shortName": "NONE",
+    "includeInBorrowerCycle": false,
+    "useBorrowerCycle": false,
+    "status": "loanProduct.active",
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "principal": 10000.0,
+    "numberOfRepayments": 12,
+    "repaymentEvery": 1,
+    "repaymentFrequencyType": {
+     "id": 2,
+     "code": "repaymentFrequency.periodFrequencyType.months",
+     "value": "Months"
+    },
+    "interestRatePerPeriod": 12.0,
+    "interestRateFrequencyType": {
+     "id": 3,
+     "code": "interestRateFrequency.periodFrequencyType.years",
+     "value": "Per year"
+    },
+    "annualInterestRate": 12.0,
+    "isLinkedToFloatingInterestRates": false,
+    "isFloatingInterestRateCalculationAllowed": false,
+    "allowVariableInstallments": false,
+    "minimumGap": 0,
+    "maximumGap": 0,
+    "amortizationType": {
+     "id": 1,
+     "code": "amortizationType.equal.installments",
+     "value": "Equal installments"
+    },
+    "interestType": {
+     "id": 0,
+     "code": "interestType.declining.balance",
+     "value": "Declining Balance"
+    },
+    "interestCalculationPeriodType": {
+     "id": 1,
+     "code": "interestCalculationPeriodType.same.as.repayment.period",
+     "value": "Same as repayment period"
+    },
+    "allowPartialPeriodInterestCalculation": false,
+    "transactionProcessingStrategyCode": "mifos-standard-strategy",
+    "transactionProcessingStrategyName": "Penalties, Fees, Interest, Principal order",
+    "paymentAllocation": [],
+    "creditAllocation": [],
+    "daysInMonthType": {
+     "id": 30,
+     "code": "DaysInMonthType.days360",
+     "value": "30 Days"
+    },
+    "daysInYearType": {
+     "id": 365,
+     "code": "DaysInYearType.days365",
+     "value": "365 Days"
+    },
+    "isInterestRecalculationEnabled": false,
+    "canDefineInstallmentAmount": false,
+    "repaymentStartDateType": {
+     "id": 1,
+     "code": "repaymentStartDateType.disbursementDate",
+     "value": "Disbursement Date"
+    },
+    "supportedInterestRefundTypes": [],
+    "chargeOffBehaviour": {
+     "id": "REGULAR",
+     "code": "chargeOffBehaviour.regular",
+     "value": "Regular"
+    },
+    "charges": [],
+    "principalVariationsForBorrowerCycle": [],
+    "interestRateVariationsForBorrowerCycle": [],
+    "numberOfRepaymentVariationsForBorrowerCycle": [],
+    "accountingRule": {
+     "id": 1,
+     "code": "accountingRuleType.none",
+     "value": "NONE"
+    },
+    "canUseForTopup": false,
+    "enableAccrualActivityPosting": false,
+    "isRatesEnabled": false,
+    "rates": [],
+    "advancedPaymentAllocationTransactionTypes": [
+     {
+      "id": 1,
+      "code": "DEFAULT",
+      "value": "Default"
+     },
+     {
+      "id": 2,
+      "code": "REPAYMENT",
+      "value": "Repayment"
+     },
+     {
+      "id": 3,
+      "code": "DOWN_PAYMENT",
+      "value": "Down payment"
+     },
+     {
+      "id": 4,
+      "code": "MERCHANT_ISSUED_REFUND",
+      "value": "Merchant issued refund"
+     },
+     {
+      "id": 5,
+      "code": "PAYOUT_REFUND",
+      "value": "Payout refund"
+     },
+     {
+      "id": 6,
+      "code": "GOODWILL_CREDIT",
+      "value": "Goodwill credit"
+     },
+     {
+      "id": 7,
+      "code": "CHARGE_REFUND",
+      "value": "Charge refund"
+     },
+     {
+      "id": 8,
+      "code": "CHARGE_ADJUSTMENT",
+      "value": "Charge adjustment"
+     },
+     {
+      "id": 9,
+      "code": "WAIVE_INTEREST",
+      "value": "Waive interest"
+     },
+     {
+      "id": 10,
+      "code": "CHARGE_PAYMENT",
+      "value": "Charge payment"
+     },
+     {
+      "id": 11,
+      "code": "REFUND_FOR_ACTIVE_LOAN",
+      "value": "Refund for active loan"
+     },
+     {
+      "id": 12,
+      "code": "INTEREST_PAYMENT_WAIVER",
+      "value": "Interest payment waiver"
+     },
+     {
+      "id": 13,
+      "code": "INTEREST_REFUND",
+      "value": "Interest refund"
+     },
+     {
+      "id": 14,
+      "code": "CAPITALIZED_INCOME_ADJUSTMENT",
+      "value": "Capitalized income adjustment"
+     }
+    ],
+    "advancedPaymentAllocationFutureInstallmentAllocationRules": [
+     {
+      "id": 1,
+      "code": "NEXT_INSTALLMENT",
+      "value": "Next installment"
+     },
+     {
+      "id": 2,
+      "code": "LAST_INSTALLMENT",
+      "value": "Last installment"
+     },
+     {
+      "id": 3,
+      "code": "NEXT_LAST_INSTALLMENT",
+      "value": "Next/Last installment"
+     },
+     {
+      "id": 4,
+      "code": "REAMORTIZATION",
+      "value": "Reamortization"
+     }
+    ],
+    "advancedPaymentAllocationTypes": [
+     {
+      "id": 1,
+      "code": "PAST_DUE_PENALTY",
+      "value": "Past due penalty"
+     },
+     {
+      "id": 2,
+      "code": "PAST_DUE_FEE",
+      "value": "Past due fee"
+     },
+     {
+      "id": 3,
+      "code": "PAST_DUE_PRINCIPAL",
+      "value": "Past due principal"
+     },
+     {
+      "id": 4,
+      "code": "PAST_DUE_INTEREST",
+      "value": "Past due interest"
+     },
+     {
+      "id": 5,
+      "code": "DUE_PENALTY",
+      "value": "Due penalty"
+     },
+     {
+      "id": 6,
+      "code": "DUE_FEE",
+      "value": "Due fee"
+     },
+     {
+      "id": 7,
+      "code": "DUE_PRINCIPAL",
+      "value": "Due principal"
+     },
+     {
+      "id": 8,
+      "code": "DUE_INTEREST",
+      "value": "Due interest"
+     },
+     {
+      "id": 9,
+      "code": "IN_ADVANCE_PENALTY",
+      "value": "In advance penalty"
+     },
+     {
+      "id": 10,
+      "code": "IN_ADVANCE_FEE",
+      "value": "In advance fee"
+     },
+     {
+      "id": 11,
+      "code": "IN_ADVANCE_PRINCIPAL",
+      "value": "In advance principal"
+     },
+     {
+      "id": 12,
+      "code": "IN_ADVANCE_INTEREST",
+      "value": "In advanced interest"
+     }
+    ],
+    "creditAllocationTransactionTypes": [
+     {
+      "id": 1,
+      "code": "CHARGEBACK",
+      "value": "Chargeback"
+     }
+    ],
+    "creditAllocationAllocationTypes": [
+     {
+      "id": 1,
+      "code": "PENALTY",
+      "value": "Penalty"
+     },
+     {
+      "id": 2,
+      "code": "FEE",
+      "value": "Fee"
+     },
+     {
+      "id": 3,
+      "code": "PRINCIPAL",
+      "value": "Principal"
+     },
+     {
+      "id": 4,
+      "code": "INTEREST",
+      "value": "Interest"
+     }
+    ],
+    "multiDisburseLoan": false,
+    "maxTrancheCount": 0,
+    "disallowExpectedDisbursements": false,
+    "allowApprovedDisbursedAmountsOverApplied": false,
+    "overAppliedNumber": 0,
+    "allowFullTermForTranche": false,
+    "principalThresholdForLastInstallment": 0.0,
+    "holdGuaranteeFunds": false,
+    "accountMovesOutOfNPAOnlyOnArrearsCompletion": false,
+    "allowAttributeOverrides": {
+     "amortizationType": true,
+     "interestType": true,
+     "transactionProcessingStrategyCode": true,
+     "interestCalculationPeriodType": true,
+     "inArrearsTolerance": true,
+     "repaymentEvery": true,
+     "graceOnPrincipalAndInterestPayment": true,
+     "graceOnArrearsAgeing": true,
+     "isNew": true
+    },
+    "syncExpectedWithDisbursementDate": false,
+    "isEqualAmortization": false,
+    "delinquencyBucketOptions": [
+     {
+      "id": 2,
+      "name": "B4",
+      "ranges": [],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 3,
+      "name": "B6",
+      "ranges": [
+       {
+        "id": 3,
+        "classification": "Late2",
+        "minimumAgeDays": 40,
+        "maximumAgeDays": 50
+       },
+       {
+        "id": 1,
+        "classification": "Early",
+        "minimumAgeDays": 1,
+        "maximumAgeDays": 3
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 4,
+      "name": "B7",
+      "ranges": [
+       {
+        "id": 1,
+        "classification": "Early",
+        "minimumAgeDays": 1,
+        "maximumAgeDays": 3
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 5,
+      "name": "B9",
+      "ranges": [
+       {
+        "id": 1,
+        "classification": "Early",
+        "minimumAgeDays": 1,
+        "maximumAgeDays": 3
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 8,
+      "name": "B15",
+      "ranges": [
+       {
+        "id": 3,
+        "classification": "Late2",
+        "minimumAgeDays": 40,
+        "maximumAgeDays": 50
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 9,
+      "name": "B16",
+      "ranges": [
+       {
+        "id": 3,
+        "classification": "Late2",
+        "minimumAgeDays": 40,
+        "maximumAgeDays": 50
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 1,
+      "name": "B1x",
+      "ranges": [
+       {
+        "id": 2,
+        "classification": "Mid",
+        "minimumAgeDays": 4,
+        "maximumAgeDays": 30
+       },
+       {
+        "id": 1,
+        "classification": "Early",
+        "minimumAgeDays": 1,
+        "maximumAgeDays": 3
+       }
+      ],
+      "bucketType": "REGULAR"
+     }
+    ],
+    "delinquencyBucket": {
+     "ranges": [],
+     "bucketType": "REGULAR"
+    },
+    "enableDownPayment": false,
+    "enableAutoRepaymentForDownPayment": false,
+    "enableInstallmentLevelDelinquency": false,
+    "loanScheduleType": {
+     "id": 1,
+     "code": "CUMULATIVE",
+     "value": "Cumulative"
+    },
+    "loanScheduleProcessingType": {
+     "id": 1,
+     "code": "HORIZONTAL",
+     "value": "Horizontal"
+    },
+    "interestRecognitionOnDisbursementDate": false,
+    "daysInYearCustomStrategyOptions": [
+     {
+      "id": "FULL_LEAP_YEAR",
+      "code": "DaysInYearCustomStrategyType.fullLeapYear",
+      "value": "Full Leap Year"
+     },
+     {
+      "id": "FEB_29_PERIOD_ONLY",
+      "code": "DaysInYearCustomStrategyType.feb29PeriodOnly",
+      "value": "Feb 29 Period Only"
+     }
+    ],
+    "enableIncomeCapitalization": false,
+    "capitalizedIncomeCalculationTypeOptions": [
+     {
+      "id": "FLAT",
+      "code": "loanCapitalizedIncomeCalculationType.flat",
+      "value": "Flat"
+     }
+    ],
+    "capitalizedIncomeStrategyOptions": [
+     {
+      "id": "EQUAL_AMORTIZATION",
+      "code": "capitalizedIncome.strategy.equalAmortization",
+      "value": "Equal amortization"
+     }
+    ],
+    "capitalizedIncomeTypeOptions": [
+     {
+      "id": "FEE",
+      "code": "capitalizedIncome.incomeType.fee",
+      "value": "Fee"
+     },
+     {
+      "id": "INTEREST",
+      "code": "capitalizedIncome.incomeType.interest",
+      "value": "Interest"
+     }
+    ],
+    "enableBuyDownFee": false,
+    "merchantBuyDownFee": false,
+    "buyDownFeeCalculationTypeOptions": [
+     {
+      "id": "FLAT",
+      "code": "loanBuyDownFeeCalculationType.flat",
+      "value": "Flat"
+     }
+    ],
+    "buyDownFeeStrategyOptions": [
+     {
+      "id": "EQUAL_AMORTIZATION",
+      "code": "buyDownFee.strategy.equalAmortization",
+      "value": "Equal amortization"
+     }
+    ],
+    "buyDownFeeIncomeTypeOptions": [
+     {
+      "id": "FEE",
+      "code": "buyDownFee.incomeType.fee",
+      "value": "Fee"
+     },
+     {
+      "id": "INTEREST",
+      "code": "buyDownFee.incomeType.interest",
+      "value": "Interest"
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loanproducts/2",
+   "ignore": [
+    "ranges"
+   ],
+   "sortby": "delinquencyBucketOptions:id",
+   "status": 200,
+   "response": {
+    "id": 2,
+    "name": "Bucketed",
+    "shortName": "BUCK",
+    "includeInBorrowerCycle": false,
+    "useBorrowerCycle": false,
+    "status": "loanProduct.active",
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "principal": 10000.0,
+    "numberOfRepayments": 12,
+    "repaymentEvery": 1,
+    "repaymentFrequencyType": {
+     "id": 2,
+     "code": "repaymentFrequency.periodFrequencyType.months",
+     "value": "Months"
+    },
+    "interestRatePerPeriod": 12.0,
+    "interestRateFrequencyType": {
+     "id": 3,
+     "code": "interestRateFrequency.periodFrequencyType.years",
+     "value": "Per year"
+    },
+    "annualInterestRate": 12.0,
+    "isLinkedToFloatingInterestRates": false,
+    "isFloatingInterestRateCalculationAllowed": false,
+    "allowVariableInstallments": false,
+    "minimumGap": 0,
+    "maximumGap": 0,
+    "amortizationType": {
+     "id": 1,
+     "code": "amortizationType.equal.installments",
+     "value": "Equal installments"
+    },
+    "interestType": {
+     "id": 0,
+     "code": "interestType.declining.balance",
+     "value": "Declining Balance"
+    },
+    "interestCalculationPeriodType": {
+     "id": 1,
+     "code": "interestCalculationPeriodType.same.as.repayment.period",
+     "value": "Same as repayment period"
+    },
+    "allowPartialPeriodInterestCalculation": false,
+    "transactionProcessingStrategyCode": "mifos-standard-strategy",
+    "transactionProcessingStrategyName": "Penalties, Fees, Interest, Principal order",
+    "paymentAllocation": [],
+    "creditAllocation": [],
+    "daysInMonthType": {
+     "id": 30,
+     "code": "DaysInMonthType.days360",
+     "value": "30 Days"
+    },
+    "daysInYearType": {
+     "id": 365,
+     "code": "DaysInYearType.days365",
+     "value": "365 Days"
+    },
+    "isInterestRecalculationEnabled": false,
+    "canDefineInstallmentAmount": false,
+    "repaymentStartDateType": {
+     "id": 1,
+     "code": "repaymentStartDateType.disbursementDate",
+     "value": "Disbursement Date"
+    },
+    "supportedInterestRefundTypes": [],
+    "chargeOffBehaviour": {
+     "id": "REGULAR",
+     "code": "chargeOffBehaviour.regular",
+     "value": "Regular"
+    },
+    "charges": [],
+    "principalVariationsForBorrowerCycle": [],
+    "interestRateVariationsForBorrowerCycle": [],
+    "numberOfRepaymentVariationsForBorrowerCycle": [],
+    "accountingRule": {
+     "id": 1,
+     "code": "accountingRuleType.none",
+     "value": "NONE"
+    },
+    "canUseForTopup": false,
+    "enableAccrualActivityPosting": false,
+    "isRatesEnabled": false,
+    "rates": [],
+    "advancedPaymentAllocationTransactionTypes": [
+     {
+      "id": 1,
+      "code": "DEFAULT",
+      "value": "Default"
+     },
+     {
+      "id": 2,
+      "code": "REPAYMENT",
+      "value": "Repayment"
+     },
+     {
+      "id": 3,
+      "code": "DOWN_PAYMENT",
+      "value": "Down payment"
+     },
+     {
+      "id": 4,
+      "code": "MERCHANT_ISSUED_REFUND",
+      "value": "Merchant issued refund"
+     },
+     {
+      "id": 5,
+      "code": "PAYOUT_REFUND",
+      "value": "Payout refund"
+     },
+     {
+      "id": 6,
+      "code": "GOODWILL_CREDIT",
+      "value": "Goodwill credit"
+     },
+     {
+      "id": 7,
+      "code": "CHARGE_REFUND",
+      "value": "Charge refund"
+     },
+     {
+      "id": 8,
+      "code": "CHARGE_ADJUSTMENT",
+      "value": "Charge adjustment"
+     },
+     {
+      "id": 9,
+      "code": "WAIVE_INTEREST",
+      "value": "Waive interest"
+     },
+     {
+      "id": 10,
+      "code": "CHARGE_PAYMENT",
+      "value": "Charge payment"
+     },
+     {
+      "id": 11,
+      "code": "REFUND_FOR_ACTIVE_LOAN",
+      "value": "Refund for active loan"
+     },
+     {
+      "id": 12,
+      "code": "INTEREST_PAYMENT_WAIVER",
+      "value": "Interest payment waiver"
+     },
+     {
+      "id": 13,
+      "code": "INTEREST_REFUND",
+      "value": "Interest refund"
+     },
+     {
+      "id": 14,
+      "code": "CAPITALIZED_INCOME_ADJUSTMENT",
+      "value": "Capitalized income adjustment"
+     }
+    ],
+    "advancedPaymentAllocationFutureInstallmentAllocationRules": [
+     {
+      "id": 1,
+      "code": "NEXT_INSTALLMENT",
+      "value": "Next installment"
+     },
+     {
+      "id": 2,
+      "code": "LAST_INSTALLMENT",
+      "value": "Last installment"
+     },
+     {
+      "id": 3,
+      "code": "NEXT_LAST_INSTALLMENT",
+      "value": "Next/Last installment"
+     },
+     {
+      "id": 4,
+      "code": "REAMORTIZATION",
+      "value": "Reamortization"
+     }
+    ],
+    "advancedPaymentAllocationTypes": [
+     {
+      "id": 1,
+      "code": "PAST_DUE_PENALTY",
+      "value": "Past due penalty"
+     },
+     {
+      "id": 2,
+      "code": "PAST_DUE_FEE",
+      "value": "Past due fee"
+     },
+     {
+      "id": 3,
+      "code": "PAST_DUE_PRINCIPAL",
+      "value": "Past due principal"
+     },
+     {
+      "id": 4,
+      "code": "PAST_DUE_INTEREST",
+      "value": "Past due interest"
+     },
+     {
+      "id": 5,
+      "code": "DUE_PENALTY",
+      "value": "Due penalty"
+     },
+     {
+      "id": 6,
+      "code": "DUE_FEE",
+      "value": "Due fee"
+     },
+     {
+      "id": 7,
+      "code": "DUE_PRINCIPAL",
+      "value": "Due principal"
+     },
+     {
+      "id": 8,
+      "code": "DUE_INTEREST",
+      "value": "Due interest"
+     },
+     {
+      "id": 9,
+      "code": "IN_ADVANCE_PENALTY",
+      "value": "In advance penalty"
+     },
+     {
+      "id": 10,
+      "code": "IN_ADVANCE_FEE",
+      "value": "In advance fee"
+     },
+     {
+      "id": 11,
+      "code": "IN_ADVANCE_PRINCIPAL",
+      "value": "In advance principal"
+     },
+     {
+      "id": 12,
+      "code": "IN_ADVANCE_INTEREST",
+      "value": "In advanced interest"
+     }
+    ],
+    "creditAllocationTransactionTypes": [
+     {
+      "id": 1,
+      "code": "CHARGEBACK",
+      "value": "Chargeback"
+     }
+    ],
+    "creditAllocationAllocationTypes": [
+     {
+      "id": 1,
+      "code": "PENALTY",
+      "value": "Penalty"
+     },
+     {
+      "id": 2,
+      "code": "FEE",
+      "value": "Fee"
+     },
+     {
+      "id": 3,
+      "code": "PRINCIPAL",
+      "value": "Principal"
+     },
+     {
+      "id": 4,
+      "code": "INTEREST",
+      "value": "Interest"
+     }
+    ],
+    "multiDisburseLoan": false,
+    "maxTrancheCount": 0,
+    "disallowExpectedDisbursements": false,
+    "allowApprovedDisbursedAmountsOverApplied": false,
+    "overAppliedNumber": 0,
+    "allowFullTermForTranche": false,
+    "principalThresholdForLastInstallment": 0.0,
+    "holdGuaranteeFunds": false,
+    "accountMovesOutOfNPAOnlyOnArrearsCompletion": false,
+    "allowAttributeOverrides": {
+     "amortizationType": true,
+     "interestType": true,
+     "transactionProcessingStrategyCode": true,
+     "interestCalculationPeriodType": true,
+     "inArrearsTolerance": true,
+     "repaymentEvery": true,
+     "graceOnPrincipalAndInterestPayment": true,
+     "graceOnArrearsAgeing": true,
+     "isNew": true
+    },
+    "syncExpectedWithDisbursementDate": false,
+    "isEqualAmortization": false,
+    "delinquencyBucketOptions": [
+     {
+      "id": 2,
+      "name": "B4",
+      "ranges": [],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 3,
+      "name": "B6",
+      "ranges": [
+       {
+        "id": 3,
+        "classification": "Late2",
+        "minimumAgeDays": 40,
+        "maximumAgeDays": 50
+       },
+       {
+        "id": 1,
+        "classification": "Early",
+        "minimumAgeDays": 1,
+        "maximumAgeDays": 3
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 4,
+      "name": "B7",
+      "ranges": [
+       {
+        "id": 1,
+        "classification": "Early",
+        "minimumAgeDays": 1,
+        "maximumAgeDays": 3
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 5,
+      "name": "B9",
+      "ranges": [
+       {
+        "id": 1,
+        "classification": "Early",
+        "minimumAgeDays": 1,
+        "maximumAgeDays": 3
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 8,
+      "name": "B15",
+      "ranges": [
+       {
+        "id": 3,
+        "classification": "Late2",
+        "minimumAgeDays": 40,
+        "maximumAgeDays": 50
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 9,
+      "name": "B16",
+      "ranges": [
+       {
+        "id": 3,
+        "classification": "Late2",
+        "minimumAgeDays": 40,
+        "maximumAgeDays": 50
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 1,
+      "name": "B1x",
+      "ranges": [
+       {
+        "id": 2,
+        "classification": "Mid",
+        "minimumAgeDays": 4,
+        "maximumAgeDays": 30
+       },
+       {
+        "id": 1,
+        "classification": "Early",
+        "minimumAgeDays": 1,
+        "maximumAgeDays": 3
+       }
+      ],
+      "bucketType": "REGULAR"
+     }
+    ],
+    "delinquencyBucket": {
+     "id": 1,
+     "name": "B1x",
+     "ranges": [],
+     "bucketType": "REGULAR"
+    },
+    "enableDownPayment": false,
+    "enableAutoRepaymentForDownPayment": false,
+    "enableInstallmentLevelDelinquency": false,
+    "loanScheduleType": {
+     "id": 1,
+     "code": "CUMULATIVE",
+     "value": "Cumulative"
+    },
+    "loanScheduleProcessingType": {
+     "id": 1,
+     "code": "HORIZONTAL",
+     "value": "Horizontal"
+    },
+    "interestRecognitionOnDisbursementDate": false,
+    "daysInYearCustomStrategyOptions": [
+     {
+      "id": "FULL_LEAP_YEAR",
+      "code": "DaysInYearCustomStrategyType.fullLeapYear",
+      "value": "Full Leap Year"
+     },
+     {
+      "id": "FEB_29_PERIOD_ONLY",
+      "code": "DaysInYearCustomStrategyType.feb29PeriodOnly",
+      "value": "Feb 29 Period Only"
+     }
+    ],
+    "enableIncomeCapitalization": false,
+    "capitalizedIncomeCalculationTypeOptions": [
+     {
+      "id": "FLAT",
+      "code": "loanCapitalizedIncomeCalculationType.flat",
+      "value": "Flat"
+     }
+    ],
+    "capitalizedIncomeStrategyOptions": [
+     {
+      "id": "EQUAL_AMORTIZATION",
+      "code": "capitalizedIncome.strategy.equalAmortization",
+      "value": "Equal amortization"
+     }
+    ],
+    "capitalizedIncomeTypeOptions": [
+     {
+      "id": "FEE",
+      "code": "capitalizedIncome.incomeType.fee",
+      "value": "Fee"
+     },
+     {
+      "id": "INTEREST",
+      "code": "capitalizedIncome.incomeType.interest",
+      "value": "Interest"
+     }
+    ],
+    "enableBuyDownFee": false,
+    "merchantBuyDownFee": false,
+    "buyDownFeeCalculationTypeOptions": [
+     {
+      "id": "FLAT",
+      "code": "loanBuyDownFeeCalculationType.flat",
+      "value": "Flat"
+     }
+    ],
+    "buyDownFeeStrategyOptions": [
+     {
+      "id": "EQUAL_AMORTIZATION",
+      "code": "buyDownFee.strategy.equalAmortization",
+      "value": "Equal amortization"
+     }
+    ],
+    "buyDownFeeIncomeTypeOptions": [
+     {
+      "id": "FEE",
+      "code": "buyDownFee.incomeType.fee",
+      "value": "Fee"
+     },
+     {
+      "id": "INTEREST",
+      "code": "buyDownFee.incomeType.interest",
+      "value": "Interest"
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loanproducts/3",
+   "ignore": [
+    "ranges"
+   ],
+   "sortby": "delinquencyBucketOptions:id",
+   "status": 200,
+   "response": {
+    "id": 3,
+    "name": "Other",
+    "shortName": "OTHR",
+    "includeInBorrowerCycle": false,
+    "useBorrowerCycle": false,
+    "status": "loanProduct.active",
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "principal": 10000.0,
+    "numberOfRepayments": 12,
+    "repaymentEvery": 1,
+    "repaymentFrequencyType": {
+     "id": 2,
+     "code": "repaymentFrequency.periodFrequencyType.months",
+     "value": "Months"
+    },
+    "interestRatePerPeriod": 12.0,
+    "interestRateFrequencyType": {
+     "id": 3,
+     "code": "interestRateFrequency.periodFrequencyType.years",
+     "value": "Per year"
+    },
+    "annualInterestRate": 12.0,
+    "isLinkedToFloatingInterestRates": false,
+    "isFloatingInterestRateCalculationAllowed": false,
+    "allowVariableInstallments": false,
+    "minimumGap": 0,
+    "maximumGap": 0,
+    "amortizationType": {
+     "id": 1,
+     "code": "amortizationType.equal.installments",
+     "value": "Equal installments"
+    },
+    "interestType": {
+     "id": 0,
+     "code": "interestType.declining.balance",
+     "value": "Declining Balance"
+    },
+    "interestCalculationPeriodType": {
+     "id": 1,
+     "code": "interestCalculationPeriodType.same.as.repayment.period",
+     "value": "Same as repayment period"
+    },
+    "allowPartialPeriodInterestCalculation": false,
+    "transactionProcessingStrategyCode": "mifos-standard-strategy",
+    "transactionProcessingStrategyName": "Penalties, Fees, Interest, Principal order",
+    "paymentAllocation": [],
+    "creditAllocation": [],
+    "daysInMonthType": {
+     "id": 30,
+     "code": "DaysInMonthType.days360",
+     "value": "30 Days"
+    },
+    "daysInYearType": {
+     "id": 365,
+     "code": "DaysInYearType.days365",
+     "value": "365 Days"
+    },
+    "isInterestRecalculationEnabled": false,
+    "canDefineInstallmentAmount": false,
+    "repaymentStartDateType": {
+     "id": 1,
+     "code": "repaymentStartDateType.disbursementDate",
+     "value": "Disbursement Date"
+    },
+    "supportedInterestRefundTypes": [],
+    "chargeOffBehaviour": {
+     "id": "REGULAR",
+     "code": "chargeOffBehaviour.regular",
+     "value": "Regular"
+    },
+    "charges": [],
+    "principalVariationsForBorrowerCycle": [],
+    "interestRateVariationsForBorrowerCycle": [],
+    "numberOfRepaymentVariationsForBorrowerCycle": [],
+    "accountingRule": {
+     "id": 1,
+     "code": "accountingRuleType.none",
+     "value": "NONE"
+    },
+    "canUseForTopup": false,
+    "enableAccrualActivityPosting": false,
+    "isRatesEnabled": false,
+    "rates": [],
+    "advancedPaymentAllocationTransactionTypes": [
+     {
+      "id": 1,
+      "code": "DEFAULT",
+      "value": "Default"
+     },
+     {
+      "id": 2,
+      "code": "REPAYMENT",
+      "value": "Repayment"
+     },
+     {
+      "id": 3,
+      "code": "DOWN_PAYMENT",
+      "value": "Down payment"
+     },
+     {
+      "id": 4,
+      "code": "MERCHANT_ISSUED_REFUND",
+      "value": "Merchant issued refund"
+     },
+     {
+      "id": 5,
+      "code": "PAYOUT_REFUND",
+      "value": "Payout refund"
+     },
+     {
+      "id": 6,
+      "code": "GOODWILL_CREDIT",
+      "value": "Goodwill credit"
+     },
+     {
+      "id": 7,
+      "code": "CHARGE_REFUND",
+      "value": "Charge refund"
+     },
+     {
+      "id": 8,
+      "code": "CHARGE_ADJUSTMENT",
+      "value": "Charge adjustment"
+     },
+     {
+      "id": 9,
+      "code": "WAIVE_INTEREST",
+      "value": "Waive interest"
+     },
+     {
+      "id": 10,
+      "code": "CHARGE_PAYMENT",
+      "value": "Charge payment"
+     },
+     {
+      "id": 11,
+      "code": "REFUND_FOR_ACTIVE_LOAN",
+      "value": "Refund for active loan"
+     },
+     {
+      "id": 12,
+      "code": "INTEREST_PAYMENT_WAIVER",
+      "value": "Interest payment waiver"
+     },
+     {
+      "id": 13,
+      "code": "INTEREST_REFUND",
+      "value": "Interest refund"
+     },
+     {
+      "id": 14,
+      "code": "CAPITALIZED_INCOME_ADJUSTMENT",
+      "value": "Capitalized income adjustment"
+     }
+    ],
+    "advancedPaymentAllocationFutureInstallmentAllocationRules": [
+     {
+      "id": 1,
+      "code": "NEXT_INSTALLMENT",
+      "value": "Next installment"
+     },
+     {
+      "id": 2,
+      "code": "LAST_INSTALLMENT",
+      "value": "Last installment"
+     },
+     {
+      "id": 3,
+      "code": "NEXT_LAST_INSTALLMENT",
+      "value": "Next/Last installment"
+     },
+     {
+      "id": 4,
+      "code": "REAMORTIZATION",
+      "value": "Reamortization"
+     }
+    ],
+    "advancedPaymentAllocationTypes": [
+     {
+      "id": 1,
+      "code": "PAST_DUE_PENALTY",
+      "value": "Past due penalty"
+     },
+     {
+      "id": 2,
+      "code": "PAST_DUE_FEE",
+      "value": "Past due fee"
+     },
+     {
+      "id": 3,
+      "code": "PAST_DUE_PRINCIPAL",
+      "value": "Past due principal"
+     },
+     {
+      "id": 4,
+      "code": "PAST_DUE_INTEREST",
+      "value": "Past due interest"
+     },
+     {
+      "id": 5,
+      "code": "DUE_PENALTY",
+      "value": "Due penalty"
+     },
+     {
+      "id": 6,
+      "code": "DUE_FEE",
+      "value": "Due fee"
+     },
+     {
+      "id": 7,
+      "code": "DUE_PRINCIPAL",
+      "value": "Due principal"
+     },
+     {
+      "id": 8,
+      "code": "DUE_INTEREST",
+      "value": "Due interest"
+     },
+     {
+      "id": 9,
+      "code": "IN_ADVANCE_PENALTY",
+      "value": "In advance penalty"
+     },
+     {
+      "id": 10,
+      "code": "IN_ADVANCE_FEE",
+      "value": "In advance fee"
+     },
+     {
+      "id": 11,
+      "code": "IN_ADVANCE_PRINCIPAL",
+      "value": "In advance principal"
+     },
+     {
+      "id": 12,
+      "code": "IN_ADVANCE_INTEREST",
+      "value": "In advanced interest"
+     }
+    ],
+    "creditAllocationTransactionTypes": [
+     {
+      "id": 1,
+      "code": "CHARGEBACK",
+      "value": "Chargeback"
+     }
+    ],
+    "creditAllocationAllocationTypes": [
+     {
+      "id": 1,
+      "code": "PENALTY",
+      "value": "Penalty"
+     },
+     {
+      "id": 2,
+      "code": "FEE",
+      "value": "Fee"
+     },
+     {
+      "id": 3,
+      "code": "PRINCIPAL",
+      "value": "Principal"
+     },
+     {
+      "id": 4,
+      "code": "INTEREST",
+      "value": "Interest"
+     }
+    ],
+    "multiDisburseLoan": false,
+    "maxTrancheCount": 0,
+    "disallowExpectedDisbursements": false,
+    "allowApprovedDisbursedAmountsOverApplied": false,
+    "overAppliedNumber": 0,
+    "allowFullTermForTranche": false,
+    "principalThresholdForLastInstallment": 0.0,
+    "holdGuaranteeFunds": false,
+    "accountMovesOutOfNPAOnlyOnArrearsCompletion": false,
+    "allowAttributeOverrides": {
+     "amortizationType": true,
+     "interestType": true,
+     "transactionProcessingStrategyCode": true,
+     "interestCalculationPeriodType": true,
+     "inArrearsTolerance": true,
+     "repaymentEvery": true,
+     "graceOnPrincipalAndInterestPayment": true,
+     "graceOnArrearsAgeing": true,
+     "isNew": true
+    },
+    "syncExpectedWithDisbursementDate": false,
+    "isEqualAmortization": false,
+    "delinquencyBucketOptions": [
+     {
+      "id": 2,
+      "name": "B4",
+      "ranges": [],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 3,
+      "name": "B6",
+      "ranges": [
+       {
+        "id": 3,
+        "classification": "Late2",
+        "minimumAgeDays": 40,
+        "maximumAgeDays": 50
+       },
+       {
+        "id": 1,
+        "classification": "Early",
+        "minimumAgeDays": 1,
+        "maximumAgeDays": 3
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 4,
+      "name": "B7",
+      "ranges": [
+       {
+        "id": 1,
+        "classification": "Early",
+        "minimumAgeDays": 1,
+        "maximumAgeDays": 3
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 5,
+      "name": "B9",
+      "ranges": [
+       {
+        "id": 1,
+        "classification": "Early",
+        "minimumAgeDays": 1,
+        "maximumAgeDays": 3
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 8,
+      "name": "B15",
+      "ranges": [
+       {
+        "id": 3,
+        "classification": "Late2",
+        "minimumAgeDays": 40,
+        "maximumAgeDays": 50
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 9,
+      "name": "B16",
+      "ranges": [
+       {
+        "id": 3,
+        "classification": "Late2",
+        "minimumAgeDays": 40,
+        "maximumAgeDays": 50
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 1,
+      "name": "B1x",
+      "ranges": [
+       {
+        "id": 2,
+        "classification": "Mid",
+        "minimumAgeDays": 4,
+        "maximumAgeDays": 30
+       },
+       {
+        "id": 1,
+        "classification": "Early",
+        "minimumAgeDays": 1,
+        "maximumAgeDays": 3
+       }
+      ],
+      "bucketType": "REGULAR"
+     }
+    ],
+    "delinquencyBucket": {
+     "id": 4,
+     "name": "B7",
+     "ranges": [],
+     "bucketType": "REGULAR"
+    },
+    "enableDownPayment": false,
+    "enableAutoRepaymentForDownPayment": false,
+    "enableInstallmentLevelDelinquency": false,
+    "loanScheduleType": {
+     "id": 1,
+     "code": "CUMULATIVE",
+     "value": "Cumulative"
+    },
+    "loanScheduleProcessingType": {
+     "id": 1,
+     "code": "HORIZONTAL",
+     "value": "Horizontal"
+    },
+    "interestRecognitionOnDisbursementDate": false,
+    "daysInYearCustomStrategyOptions": [
+     {
+      "id": "FULL_LEAP_YEAR",
+      "code": "DaysInYearCustomStrategyType.fullLeapYear",
+      "value": "Full Leap Year"
+     },
+     {
+      "id": "FEB_29_PERIOD_ONLY",
+      "code": "DaysInYearCustomStrategyType.feb29PeriodOnly",
+      "value": "Feb 29 Period Only"
+     }
+    ],
+    "enableIncomeCapitalization": false,
+    "capitalizedIncomeCalculationTypeOptions": [
+     {
+      "id": "FLAT",
+      "code": "loanCapitalizedIncomeCalculationType.flat",
+      "value": "Flat"
+     }
+    ],
+    "capitalizedIncomeStrategyOptions": [
+     {
+      "id": "EQUAL_AMORTIZATION",
+      "code": "capitalizedIncome.strategy.equalAmortization",
+      "value": "Equal amortization"
+     }
+    ],
+    "capitalizedIncomeTypeOptions": [
+     {
+      "id": "FEE",
+      "code": "capitalizedIncome.incomeType.fee",
+      "value": "Fee"
+     },
+     {
+      "id": "INTEREST",
+      "code": "capitalizedIncome.incomeType.interest",
+      "value": "Interest"
+     }
+    ],
+    "enableBuyDownFee": false,
+    "merchantBuyDownFee": false,
+    "buyDownFeeCalculationTypeOptions": [
+     {
+      "id": "FLAT",
+      "code": "loanBuyDownFeeCalculationType.flat",
+      "value": "Flat"
+     }
+    ],
+    "buyDownFeeStrategyOptions": [
+     {
+      "id": "EQUAL_AMORTIZATION",
+      "code": "buyDownFee.strategy.equalAmortization",
+      "value": "Equal amortization"
+     }
+    ],
+    "buyDownFeeIncomeTypeOptions": [
+     {
+      "id": "FEE",
+      "code": "buyDownFee.incomeType.fee",
+      "value": "Fee"
+     },
+     {
+      "id": "INTEREST",
+      "code": "buyDownFee.incomeType.interest",
+      "value": "Interest"
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loanproducts/template",
+   "ignore": [
+    "ranges"
+   ],
+   "sortby": "delinquencyBucketOptions:id",
+   "status": 200,
+   "response": {
+    "includeInBorrowerCycle": false,
+    "useBorrowerCycle": false,
+    "currency": {
+     "code": "",
+     "name": "",
+     "decimalPlaces": 0,
+     "inMultiplesOf": 0,
+     "displaySymbol": "",
+     "nameCode": "",
+     "displayLabel": " []"
+    },
+    "repaymentFrequencyType": {
+     "id": 2,
+     "code": "repaymentFrequency.periodFrequencyType.months",
+     "value": "Months"
+    },
+    "interestRateFrequencyType": {
+     "id": 2,
+     "code": "interestRateFrequency.periodFrequencyType.months",
+     "value": "Per month"
+    },
+    "isLinkedToFloatingInterestRates": false,
+    "isFloatingInterestRateCalculationAllowed": false,
+    "allowVariableInstallments": false,
+    "amortizationType": {
+     "id": 1,
+     "code": "amortizationType.equal.installments",
+     "value": "Equal installments"
+    },
+    "interestType": {
+     "id": 0,
+     "code": "interestType.declining.balance",
+     "value": "Declining Balance"
+    },
+    "interestCalculationPeriodType": {
+     "id": 1,
+     "code": "interestCalculationPeriodType.same.as.repayment.period",
+     "value": "Same as repayment period"
+    },
+    "daysInMonthType": {
+     "id": 1,
+     "code": "DaysInMonthType.actual",
+     "value": "Actual"
+    },
+    "daysInYearType": {
+     "id": 1,
+     "code": "DaysInYearType.actual",
+     "value": "Actual"
+    },
+    "isInterestRecalculationEnabled": false,
+    "interestRecalculationData": {
+     "interestRecalculationCompoundingType": {
+      "id": 0,
+      "code": "interestRecalculationCompoundingMethod.none",
+      "value": "None"
+     },
+     "rescheduleStrategyType": {
+      "id": 3,
+      "code": "loanRescheduleStrategyMethod.reduce.emi.amount",
+      "value": "Reduce EMI amount"
+     },
+     "isArrearsBasedOnOriginalSchedule": false,
+     "isCompoundingToBePostedAsTransaction": false,
+     "preClosureInterestCalculationStrategy": {
+      "id": 1,
+      "code": "loanPreClosureInterestCalculationStrategy.tillPreClosureDate",
+      "value": "Till Pre-Close Date"
+     },
+     "allowCompoundingOnEod": false,
+     "disallowInterestCalculationOnPastDue": false
+    },
+    "canDefineInstallmentAmount": false,
+    "repaymentStartDateType": {
+     "id": 1,
+     "code": "repaymentStartDateType.disbursementDate",
+     "value": "Disbursement Date"
+    },
+    "chargeOffBehaviour": {
+     "id": "REGULAR",
+     "code": "chargeOffBehaviour.regular",
+     "value": "Regular"
+    },
+    "principalVariationsForBorrowerCycle": [],
+    "interestRateVariationsForBorrowerCycle": [],
+    "numberOfRepaymentVariationsForBorrowerCycle": [],
+    "accountingRule": {
+     "id": 1,
+     "code": "accountingRuleType.none",
+     "value": "NONE"
+    },
+    "canUseForTopup": false,
+    "enableAccrualActivityPosting": false,
+    "writeOffReasonOptions": [],
+    "isRatesEnabled": false,
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     }
+    ],
+    "currencyOptions": [
+     {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     }
+    ],
+    "repaymentFrequencyTypeOptions": [
+     {
+      "id": 0,
+      "code": "repaymentFrequency.periodFrequencyType.days",
+      "value": "Days"
+     },
+     {
+      "id": 1,
+      "code": "repaymentFrequency.periodFrequencyType.weeks",
+      "value": "Weeks"
+     },
+     {
+      "id": 2,
+      "code": "repaymentFrequency.periodFrequencyType.months",
+      "value": "Months"
+     }
+    ],
+    "interestRateFrequencyTypeOptions": [
+     {
+      "id": 2,
+      "code": "interestRateFrequency.periodFrequencyType.months",
+      "value": "Per month"
+     },
+     {
+      "id": 3,
+      "code": "interestRateFrequency.periodFrequencyType.years",
+      "value": "Per year"
+     },
+     {
+      "id": 4,
+      "code": "interestRateFrequency.periodFrequencyType.whole_term",
+      "value": "Whole term"
+     }
+    ],
+    "amortizationTypeOptions": [
+     {
+      "id": 1,
+      "code": "amortizationType.equal.installments",
+      "value": "Equal installments"
+     },
+     {
+      "id": 0,
+      "code": "amortizationType.equal.principal",
+      "value": "Equal principal payments"
+     }
+    ],
+    "interestTypeOptions": [
+     {
+      "id": 1,
+      "code": "interestType.flat",
+      "value": "Flat"
+     },
+     {
+      "id": 0,
+      "code": "interestType.declining.balance",
+      "value": "Declining Balance"
+     }
+    ],
+    "interestCalculationPeriodTypeOptions": [
+     {
+      "id": 0,
+      "code": "interestCalculationPeriodType.daily",
+      "value": "Daily"
+     },
+     {
+      "id": 1,
+      "code": "interestCalculationPeriodType.same.as.repayment.period",
+      "value": "Same as repayment period"
+     }
+    ],
+    "transactionProcessingStrategyOptions": [
+     {
+      "code": "creocore-strategy",
+      "name": "Creocore Unique"
+     },
+     {
+      "code": "early-repayment-strategy",
+      "name": "Early Repayment Strategy"
+     },
+     {
+      "code": "mifos-standard-strategy",
+      "name": "Penalties, Fees, Interest, Principal order"
+     },
+     {
+      "code": "heavensfamily-strategy",
+      "name": "HeavensFamily Unique"
+     },
+     {
+      "code": "interest-principal-penalties-fees-order-strategy",
+      "name": "Interest, Principal, Penalties, Fees Order"
+     },
+     {
+      "code": "principal-interest-penalties-fees-order-strategy",
+      "name": "Principal, Interest, Penalties, Fees Order"
+     },
+     {
+      "code": "rbi-india-strategy",
+      "name": "Overdue/Due Fee/Int,Principal"
+     },
+     {
+      "code": "due-penalty-fee-interest-principal-in-advance-principal-penalty-fee-interest-strategy",
+      "name": "Due penalty, fee, interest, principal, In advance principal, penalty, fee, interest"
+     },
+     {
+      "code": "due-penalty-interest-principal-fee-in-advance-penalty-interest-principal-fee-strategy",
+      "name": "Due penalty, interest, principal, fee, In advance penalty, interest, principal, fee"
+     },
+     {
+      "code": "advanced-payment-allocation-strategy",
+      "name": "Advanced payment allocation strategy"
+     }
+    ],
+    "accountingRuleOptions": [
+     {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     },
+     {
+      "id": 2,
+      "code": "accountingRuleType.cash",
+      "value": "CASH BASED"
+     },
+     {
+      "id": 3,
+      "code": "accountingRuleType.accrual.periodic",
+      "value": "ACCRUAL PERIODIC"
+     },
+     {
+      "id": 4,
+      "code": "accountingRuleType.accrual.upfront",
+      "value": "ACCRUAL UPFRONT"
+     }
+    ],
+    "accountingMappingOptions": {},
+    "valueConditionTypeOptions": [
+     {
+      "id": 2,
+      "code": "LoanProductValueConditionType.equal",
+      "value": "equals"
+     },
+     {
+      "id": 3,
+      "code": "LoanProductValueConditionType.greaterThan",
+      "value": "greater than"
+     }
+    ],
+    "daysInMonthTypeOptions": [
+     {
+      "id": 1,
+      "code": "DaysInMonthType.actual",
+      "value": "Actual"
+     },
+     {
+      "id": 30,
+      "code": "DaysInMonthType.days360",
+      "value": "30 Days"
+     }
+    ],
+    "daysInYearTypeOptions": [
+     {
+      "id": 1,
+      "code": "DaysInYearType.actual",
+      "value": "Actual"
+     },
+     {
+      "id": 360,
+      "code": "DaysInYearType.days360",
+      "value": "360 Days"
+     },
+     {
+      "id": 364,
+      "code": "DaysInYearType.days364",
+      "value": "364 Days"
+     },
+     {
+      "id": 365,
+      "code": "DaysInYearType.days365",
+      "value": "365 Days"
+     }
+    ],
+    "interestRecalculationCompoundingTypeOptions": [
+     {
+      "id": 0,
+      "code": "interestRecalculationCompoundingMethod.none",
+      "value": "None"
+     },
+     {
+      "id": 2,
+      "code": "interestRecalculationCompoundingMethod.fee",
+      "value": "Fee"
+     },
+     {
+      "id": 1,
+      "code": "interestRecalculationCompoundingMethod.interest",
+      "value": "Interest"
+     },
+     {
+      "id": 3,
+      "code": "interestRecalculationCompoundingMethod.interest.and.fee",
+      "value": "Fee and Interest"
+     }
+    ],
+    "interestRecalculationNthDayTypeOptions": [
+     {
+      "id": 1,
+      "code": "interestRecalculationCompounding.nthDayType.one",
+      "value": "first"
+     },
+     {
+      "id": 2,
+      "code": "interestRecalculationCompounding.nthDayType.two",
+      "value": "second"
+     },
+     {
+      "id": 3,
+      "code": "interestRecalculationCompounding.nthDayType.three",
+      "value": "third"
+     },
+     {
+      "id": 4,
+      "code": "interestRecalculationCompounding.nthDayType.four",
+      "value": "fourth"
+     },
+     {
+      "id": -1,
+      "code": "interestRecalculationCompounding.nthDayType.last",
+      "value": "last"
+     }
+    ],
+    "interestRecalculationDayOfWeekTypeOptions": [
+     {
+      "id": 7,
+      "code": "interestRecalculationCompounding.weekDayType.sunday",
+      "value": "SUNDAY"
+     },
+     {
+      "id": 1,
+      "code": "interestRecalculationCompounding.weekDayType.monday",
+      "value": "MONDAY"
+     },
+     {
+      "id": 2,
+      "code": "interestRecalculationCompounding.weekDayType.tuesday",
+      "value": "TUESDAY"
+     },
+     {
+      "id": 3,
+      "code": "interestRecalculationCompounding.weekDayType.wednesday",
+      "value": "WEDNESDAY"
+     },
+     {
+      "id": 4,
+      "code": "interestRecalculationCompounding.weekDayType.thursday",
+      "value": "THURSDAY"
+     },
+     {
+      "id": 5,
+      "code": "interestRecalculationCompounding.weekDayType.friday",
+      "value": "FRIDAY"
+     },
+     {
+      "id": 6,
+      "code": "interestRecalculationCompounding.weekDayType.saturday",
+      "value": "SATURDAY"
+     }
+    ],
+    "rescheduleStrategyTypeOptions": [
+     {
+      "id": 3,
+      "code": "loanRescheduleStrategyMethod.reduce.emi.amount",
+      "value": "Reduce EMI amount"
+     },
+     {
+      "id": 2,
+      "code": "loanRescheduleStrategyMethod.reduce.number.of.installments",
+      "value": "Reduce number of installments"
+     },
+     {
+      "id": 1,
+      "code": "loanRescheduleStrategyMethod.reschedule.next.repayments",
+      "value": "Reschedule next repayments"
+     },
+     {
+      "id": 4,
+      "code": "loanRescheduleStrategyMethod.adjust.last.unpaid.period",
+      "value": "Adjust last, unpaid period"
+     }
+    ],
+    "preClosureInterestCalculationStrategyOptions": [
+     {
+      "id": 1,
+      "code": "loanPreClosureInterestCalculationStrategy.tillPreClosureDate",
+      "value": "Till Pre-Close Date"
+     },
+     {
+      "id": 2,
+      "code": "loanPreClosureInterestCalculationStrategy.tillRestFrequencyDate",
+      "value": "Till Rest Frequency Date"
+     }
+    ],
+    "advancedPaymentAllocationTransactionTypes": [
+     {
+      "id": 1,
+      "code": "DEFAULT",
+      "value": "Default"
+     },
+     {
+      "id": 2,
+      "code": "REPAYMENT",
+      "value": "Repayment"
+     },
+     {
+      "id": 3,
+      "code": "DOWN_PAYMENT",
+      "value": "Down payment"
+     },
+     {
+      "id": 4,
+      "code": "MERCHANT_ISSUED_REFUND",
+      "value": "Merchant issued refund"
+     },
+     {
+      "id": 5,
+      "code": "PAYOUT_REFUND",
+      "value": "Payout refund"
+     },
+     {
+      "id": 6,
+      "code": "GOODWILL_CREDIT",
+      "value": "Goodwill credit"
+     },
+     {
+      "id": 7,
+      "code": "CHARGE_REFUND",
+      "value": "Charge refund"
+     },
+     {
+      "id": 8,
+      "code": "CHARGE_ADJUSTMENT",
+      "value": "Charge adjustment"
+     },
+     {
+      "id": 9,
+      "code": "WAIVE_INTEREST",
+      "value": "Waive interest"
+     },
+     {
+      "id": 10,
+      "code": "CHARGE_PAYMENT",
+      "value": "Charge payment"
+     },
+     {
+      "id": 11,
+      "code": "REFUND_FOR_ACTIVE_LOAN",
+      "value": "Refund for active loan"
+     },
+     {
+      "id": 12,
+      "code": "INTEREST_PAYMENT_WAIVER",
+      "value": "Interest payment waiver"
+     },
+     {
+      "id": 13,
+      "code": "INTEREST_REFUND",
+      "value": "Interest refund"
+     },
+     {
+      "id": 14,
+      "code": "CAPITALIZED_INCOME_ADJUSTMENT",
+      "value": "Capitalized income adjustment"
+     }
+    ],
+    "advancedPaymentAllocationFutureInstallmentAllocationRules": [
+     {
+      "id": 1,
+      "code": "NEXT_INSTALLMENT",
+      "value": "Next installment"
+     },
+     {
+      "id": 2,
+      "code": "LAST_INSTALLMENT",
+      "value": "Last installment"
+     },
+     {
+      "id": 3,
+      "code": "NEXT_LAST_INSTALLMENT",
+      "value": "Next/Last installment"
+     },
+     {
+      "id": 4,
+      "code": "REAMORTIZATION",
+      "value": "Reamortization"
+     }
+    ],
+    "advancedPaymentAllocationTypes": [
+     {
+      "id": 1,
+      "code": "PAST_DUE_PENALTY",
+      "value": "Past due penalty"
+     },
+     {
+      "id": 2,
+      "code": "PAST_DUE_FEE",
+      "value": "Past due fee"
+     },
+     {
+      "id": 3,
+      "code": "PAST_DUE_PRINCIPAL",
+      "value": "Past due principal"
+     },
+     {
+      "id": 4,
+      "code": "PAST_DUE_INTEREST",
+      "value": "Past due interest"
+     },
+     {
+      "id": 5,
+      "code": "DUE_PENALTY",
+      "value": "Due penalty"
+     },
+     {
+      "id": 6,
+      "code": "DUE_FEE",
+      "value": "Due fee"
+     },
+     {
+      "id": 7,
+      "code": "DUE_PRINCIPAL",
+      "value": "Due principal"
+     },
+     {
+      "id": 8,
+      "code": "DUE_INTEREST",
+      "value": "Due interest"
+     },
+     {
+      "id": 9,
+      "code": "IN_ADVANCE_PENALTY",
+      "value": "In advance penalty"
+     },
+     {
+      "id": 10,
+      "code": "IN_ADVANCE_FEE",
+      "value": "In advance fee"
+     },
+     {
+      "id": 11,
+      "code": "IN_ADVANCE_PRINCIPAL",
+      "value": "In advance principal"
+     },
+     {
+      "id": 12,
+      "code": "IN_ADVANCE_INTEREST",
+      "value": "In advanced interest"
+     }
+    ],
+    "creditAllocationTransactionTypes": [
+     {
+      "id": 1,
+      "code": "CHARGEBACK",
+      "value": "Chargeback"
+     }
+    ],
+    "creditAllocationAllocationTypes": [
+     {
+      "id": 1,
+      "code": "PENALTY",
+      "value": "Penalty"
+     },
+     {
+      "id": 2,
+      "code": "FEE",
+      "value": "Fee"
+     },
+     {
+      "id": 3,
+      "code": "PRINCIPAL",
+      "value": "Principal"
+     },
+     {
+      "id": 4,
+      "code": "INTEREST",
+      "value": "Interest"
+     }
+    ],
+    "loanScheduleTypeOptions": [
+     {
+      "id": 1,
+      "code": "CUMULATIVE",
+      "value": "Cumulative"
+     },
+     {
+      "id": 2,
+      "code": "PROGRESSIVE",
+      "value": "Progressive"
+     }
+    ],
+    "loanScheduleProcessingTypeOptions": [
+     {
+      "id": 1,
+      "code": "HORIZONTAL",
+      "value": "Horizontal"
+     },
+     {
+      "id": 2,
+      "code": "VERTICAL",
+      "value": "Vertical"
+     }
+    ],
+    "interestRecalculationFrequencyTypeOptions": [
+     {
+      "id": 1,
+      "code": "interestRecalculationFrequencyType.same.as.repayment.period",
+      "value": "Same as repayment period"
+     },
+     {
+      "id": 2,
+      "code": "interestRecalculationFrequencyType.daily",
+      "value": "Daily"
+     },
+     {
+      "id": 3,
+      "code": "interestRecalculationFrequencyType.weekly",
+      "value": "Weekly"
+     },
+     {
+      "id": 4,
+      "code": "interestRecalculationFrequencyType.monthly",
+      "value": "Monthly"
+     }
+    ],
+    "floatingRateOptions": [],
+    "repaymentStartDateTypeOptions": [
+     {
+      "id": 1,
+      "code": "repaymentStartDateType.disbursementDate",
+      "value": "Disbursement Date"
+     },
+     {
+      "id": 2,
+      "code": "repaymentStartDateType.submittedOnDate",
+      "value": "Submitted On Date"
+     }
+    ],
+    "supportedInterestRefundTypesOptions": [
+     {
+      "id": "MERCHANT_ISSUED_REFUND",
+      "code": "loanRefundType.merchant_issued_refund",
+      "value": "Merchant issued refund"
+     },
+     {
+      "id": "PAYOUT_REFUND",
+      "code": "loanRefundType.payout_refund",
+      "value": "Payout refund"
+     }
+    ],
+    "chargeOffBehaviourOptions": [
+     {
+      "id": "REGULAR",
+      "code": "chargeOffBehaviour.regular",
+      "value": "Regular"
+     },
+     {
+      "id": "ZERO_INTEREST",
+      "code": "chargeOffBehaviour.zeroInterest",
+      "value": "Zero interest after charge-off"
+     },
+     {
+      "id": "ACCELERATE_MATURITY",
+      "code": "chargeOffBehaviour.accelerateMaturity",
+      "value": "Accelerate maturity to charge-off date"
+     }
+    ],
+    "disallowExpectedDisbursements": false,
+    "allowApprovedDisbursedAmountsOverApplied": false,
+    "holdGuaranteeFunds": false,
+    "accountMovesOutOfNPAOnlyOnArrearsCompletion": false,
+    "syncExpectedWithDisbursementDate": false,
+    "isEqualAmortization": false,
+    "chargeOffReasonOptions": [],
+    "delinquencyBucketOptions": [
+     {
+      "id": 2,
+      "name": "B4",
+      "ranges": [],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 3,
+      "name": "B6",
+      "ranges": [
+       {
+        "id": 3,
+        "classification": "Late2",
+        "minimumAgeDays": 40,
+        "maximumAgeDays": 50
+       },
+       {
+        "id": 1,
+        "classification": "Early",
+        "minimumAgeDays": 1,
+        "maximumAgeDays": 3
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 4,
+      "name": "B7",
+      "ranges": [
+       {
+        "id": 1,
+        "classification": "Early",
+        "minimumAgeDays": 1,
+        "maximumAgeDays": 3
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 5,
+      "name": "B9",
+      "ranges": [
+       {
+        "id": 1,
+        "classification": "Early",
+        "minimumAgeDays": 1,
+        "maximumAgeDays": 3
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 8,
+      "name": "B15",
+      "ranges": [
+       {
+        "id": 3,
+        "classification": "Late2",
+        "minimumAgeDays": 40,
+        "maximumAgeDays": 50
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 9,
+      "name": "B16",
+      "ranges": [
+       {
+        "id": 3,
+        "classification": "Late2",
+        "minimumAgeDays": 40,
+        "maximumAgeDays": 50
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 1,
+      "name": "B1x",
+      "ranges": [
+       {
+        "id": 2,
+        "classification": "Mid",
+        "minimumAgeDays": 4,
+        "maximumAgeDays": 30
+       },
+       {
+        "id": 1,
+        "classification": "Early",
+        "minimumAgeDays": 1,
+        "maximumAgeDays": 3
+       }
+      ],
+      "bucketType": "REGULAR"
+     }
+    ],
+    "enableDownPayment": false,
+    "enableAutoRepaymentForDownPayment": false,
+    "enableInstallmentLevelDelinquency": false,
+    "loanScheduleType": {
+     "id": 1,
+     "code": "CUMULATIVE",
+     "value": "Cumulative"
+    },
+    "loanScheduleProcessingType": {
+     "id": 1,
+     "code": "HORIZONTAL",
+     "value": "Horizontal"
+    },
+    "interestRecognitionOnDisbursementDate": false,
+    "daysInYearCustomStrategyOptions": [
+     {
+      "id": "FULL_LEAP_YEAR",
+      "code": "DaysInYearCustomStrategyType.fullLeapYear",
+      "value": "Full Leap Year"
+     },
+     {
+      "id": "FEB_29_PERIOD_ONLY",
+      "code": "DaysInYearCustomStrategyType.feb29PeriodOnly",
+      "value": "Feb 29 Period Only"
+     }
+    ],
+    "enableIncomeCapitalization": false,
+    "capitalizedIncomeCalculationTypeOptions": [
+     {
+      "id": "FLAT",
+      "code": "loanCapitalizedIncomeCalculationType.flat",
+      "value": "Flat"
+     }
+    ],
+    "capitalizedIncomeStrategyOptions": [
+     {
+      "id": "EQUAL_AMORTIZATION",
+      "code": "capitalizedIncome.strategy.equalAmortization",
+      "value": "Equal amortization"
+     }
+    ],
+    "capitalizedIncomeTypeOptions": [
+     {
+      "id": "FEE",
+      "code": "capitalizedIncome.incomeType.fee",
+      "value": "Fee"
+     },
+     {
+      "id": "INTEREST",
+      "code": "capitalizedIncome.incomeType.interest",
+      "value": "Interest"
+     }
+    ],
+    "enableBuyDownFee": false,
+    "merchantBuyDownFee": false,
+    "buyDownFeeCalculationTypeOptions": [
+     {
+      "id": "FLAT",
+      "code": "loanBuyDownFeeCalculationType.flat",
+      "value": "Flat"
+     }
+    ],
+    "buyDownFeeStrategyOptions": [
+     {
+      "id": "EQUAL_AMORTIZATION",
+      "code": "buyDownFee.strategy.equalAmortization",
+      "value": "Equal amortization"
+     }
+    ],
+    "buyDownFeeIncomeTypeOptions": [
+     {
+      "id": "FEE",
+      "code": "buyDownFee.incomeType.fee",
+      "value": "Fee"
+     },
+     {
+      "id": "INTEREST",
+      "code": "buyDownFee.incomeType.interest",
+      "value": "Interest"
+     }
+    ],
+    "capitalizedIncomeClassificationOptions": [],
+    "buydownFeeClassificationOptions": []
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/loanproducts/1?template=true",
+   "ignore": [
+    "ranges"
+   ],
+   "sortby": "delinquencyBucketOptions:id",
+   "status": 200,
+   "response": {
+    "id": 1,
+    "name": "No bucket",
+    "shortName": "NONE",
+    "includeInBorrowerCycle": false,
+    "useBorrowerCycle": false,
+    "status": "loanProduct.active",
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "principal": 10000.0,
+    "numberOfRepayments": 12,
+    "repaymentEvery": 1,
+    "repaymentFrequencyType": {
+     "id": 2,
+     "code": "repaymentFrequency.periodFrequencyType.months",
+     "value": "Months"
+    },
+    "interestRatePerPeriod": 12.0,
+    "interestRateFrequencyType": {
+     "id": 3,
+     "code": "interestRateFrequency.periodFrequencyType.years",
+     "value": "Per year"
+    },
+    "annualInterestRate": 12.0,
+    "isLinkedToFloatingInterestRates": false,
+    "isFloatingInterestRateCalculationAllowed": false,
+    "allowVariableInstallments": false,
+    "minimumGap": 0,
+    "maximumGap": 0,
+    "amortizationType": {
+     "id": 1,
+     "code": "amortizationType.equal.installments",
+     "value": "Equal installments"
+    },
+    "interestType": {
+     "id": 0,
+     "code": "interestType.declining.balance",
+     "value": "Declining Balance"
+    },
+    "interestCalculationPeriodType": {
+     "id": 1,
+     "code": "interestCalculationPeriodType.same.as.repayment.period",
+     "value": "Same as repayment period"
+    },
+    "allowPartialPeriodInterestCalculation": false,
+    "transactionProcessingStrategyCode": "mifos-standard-strategy",
+    "transactionProcessingStrategyName": "Penalties, Fees, Interest, Principal order",
+    "paymentAllocation": [],
+    "creditAllocation": [],
+    "daysInMonthType": {
+     "id": 30,
+     "code": "DaysInMonthType.days360",
+     "value": "30 Days"
+    },
+    "daysInYearType": {
+     "id": 365,
+     "code": "DaysInYearType.days365",
+     "value": "365 Days"
+    },
+    "isInterestRecalculationEnabled": false,
+    "canDefineInstallmentAmount": false,
+    "repaymentStartDateType": {
+     "id": 1,
+     "code": "repaymentStartDateType.disbursementDate",
+     "value": "Disbursement Date"
+    },
+    "supportedInterestRefundTypes": [],
+    "chargeOffBehaviour": {
+     "id": "REGULAR",
+     "code": "chargeOffBehaviour.regular",
+     "value": "Regular"
+    },
+    "principalVariationsForBorrowerCycle": [],
+    "interestRateVariationsForBorrowerCycle": [],
+    "numberOfRepaymentVariationsForBorrowerCycle": [],
+    "accountingRule": {
+     "id": 1,
+     "code": "accountingRuleType.none",
+     "value": "NONE"
+    },
+    "canUseForTopup": false,
+    "enableAccrualActivityPosting": false,
+    "writeOffReasonOptions": [],
+    "isRatesEnabled": false,
+    "rates": [],
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     }
+    ],
+    "currencyOptions": [
+     {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     }
+    ],
+    "repaymentFrequencyTypeOptions": [
+     {
+      "id": 0,
+      "code": "repaymentFrequency.periodFrequencyType.days",
+      "value": "Days"
+     },
+     {
+      "id": 1,
+      "code": "repaymentFrequency.periodFrequencyType.weeks",
+      "value": "Weeks"
+     },
+     {
+      "id": 2,
+      "code": "repaymentFrequency.periodFrequencyType.months",
+      "value": "Months"
+     }
+    ],
+    "interestRateFrequencyTypeOptions": [
+     {
+      "id": 2,
+      "code": "interestRateFrequency.periodFrequencyType.months",
+      "value": "Per month"
+     },
+     {
+      "id": 3,
+      "code": "interestRateFrequency.periodFrequencyType.years",
+      "value": "Per year"
+     },
+     {
+      "id": 4,
+      "code": "interestRateFrequency.periodFrequencyType.whole_term",
+      "value": "Whole term"
+     }
+    ],
+    "amortizationTypeOptions": [
+     {
+      "id": 1,
+      "code": "amortizationType.equal.installments",
+      "value": "Equal installments"
+     },
+     {
+      "id": 0,
+      "code": "amortizationType.equal.principal",
+      "value": "Equal principal payments"
+     }
+    ],
+    "interestTypeOptions": [
+     {
+      "id": 1,
+      "code": "interestType.flat",
+      "value": "Flat"
+     },
+     {
+      "id": 0,
+      "code": "interestType.declining.balance",
+      "value": "Declining Balance"
+     }
+    ],
+    "interestCalculationPeriodTypeOptions": [
+     {
+      "id": 0,
+      "code": "interestCalculationPeriodType.daily",
+      "value": "Daily"
+     },
+     {
+      "id": 1,
+      "code": "interestCalculationPeriodType.same.as.repayment.period",
+      "value": "Same as repayment period"
+     }
+    ],
+    "transactionProcessingStrategyOptions": [
+     {
+      "code": "creocore-strategy",
+      "name": "Creocore Unique"
+     },
+     {
+      "code": "early-repayment-strategy",
+      "name": "Early Repayment Strategy"
+     },
+     {
+      "code": "mifos-standard-strategy",
+      "name": "Penalties, Fees, Interest, Principal order"
+     },
+     {
+      "code": "heavensfamily-strategy",
+      "name": "HeavensFamily Unique"
+     },
+     {
+      "code": "interest-principal-penalties-fees-order-strategy",
+      "name": "Interest, Principal, Penalties, Fees Order"
+     },
+     {
+      "code": "principal-interest-penalties-fees-order-strategy",
+      "name": "Principal, Interest, Penalties, Fees Order"
+     },
+     {
+      "code": "rbi-india-strategy",
+      "name": "Overdue/Due Fee/Int,Principal"
+     },
+     {
+      "code": "due-penalty-fee-interest-principal-in-advance-principal-penalty-fee-interest-strategy",
+      "name": "Due penalty, fee, interest, principal, In advance principal, penalty, fee, interest"
+     },
+     {
+      "code": "due-penalty-interest-principal-fee-in-advance-penalty-interest-principal-fee-strategy",
+      "name": "Due penalty, interest, principal, fee, In advance penalty, interest, principal, fee"
+     },
+     {
+      "code": "advanced-payment-allocation-strategy",
+      "name": "Advanced payment allocation strategy"
+     }
+    ],
+    "accountingRuleOptions": [
+     {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     },
+     {
+      "id": 2,
+      "code": "accountingRuleType.cash",
+      "value": "CASH BASED"
+     },
+     {
+      "id": 3,
+      "code": "accountingRuleType.accrual.periodic",
+      "value": "ACCRUAL PERIODIC"
+     },
+     {
+      "id": 4,
+      "code": "accountingRuleType.accrual.upfront",
+      "value": "ACCRUAL UPFRONT"
+     }
+    ],
+    "accountingMappingOptions": {},
+    "valueConditionTypeOptions": [
+     {
+      "id": 2,
+      "code": "LoanProductValueConditionType.equal",
+      "value": "equals"
+     },
+     {
+      "id": 3,
+      "code": "LoanProductValueConditionType.greaterThan",
+      "value": "greater than"
+     }
+    ],
+    "daysInMonthTypeOptions": [
+     {
+      "id": 1,
+      "code": "DaysInMonthType.actual",
+      "value": "Actual"
+     },
+     {
+      "id": 30,
+      "code": "DaysInMonthType.days360",
+      "value": "30 Days"
+     }
+    ],
+    "daysInYearTypeOptions": [
+     {
+      "id": 1,
+      "code": "DaysInYearType.actual",
+      "value": "Actual"
+     },
+     {
+      "id": 360,
+      "code": "DaysInYearType.days360",
+      "value": "360 Days"
+     },
+     {
+      "id": 364,
+      "code": "DaysInYearType.days364",
+      "value": "364 Days"
+     },
+     {
+      "id": 365,
+      "code": "DaysInYearType.days365",
+      "value": "365 Days"
+     }
+    ],
+    "interestRecalculationCompoundingTypeOptions": [
+     {
+      "id": 0,
+      "code": "interestRecalculationCompoundingMethod.none",
+      "value": "None"
+     },
+     {
+      "id": 2,
+      "code": "interestRecalculationCompoundingMethod.fee",
+      "value": "Fee"
+     },
+     {
+      "id": 1,
+      "code": "interestRecalculationCompoundingMethod.interest",
+      "value": "Interest"
+     },
+     {
+      "id": 3,
+      "code": "interestRecalculationCompoundingMethod.interest.and.fee",
+      "value": "Fee and Interest"
+     }
+    ],
+    "interestRecalculationNthDayTypeOptions": [
+     {
+      "id": 1,
+      "code": "interestRecalculationCompounding.nthDayType.one",
+      "value": "first"
+     },
+     {
+      "id": 2,
+      "code": "interestRecalculationCompounding.nthDayType.two",
+      "value": "second"
+     },
+     {
+      "id": 3,
+      "code": "interestRecalculationCompounding.nthDayType.three",
+      "value": "third"
+     },
+     {
+      "id": 4,
+      "code": "interestRecalculationCompounding.nthDayType.four",
+      "value": "fourth"
+     },
+     {
+      "id": -1,
+      "code": "interestRecalculationCompounding.nthDayType.last",
+      "value": "last"
+     }
+    ],
+    "interestRecalculationDayOfWeekTypeOptions": [
+     {
+      "id": 7,
+      "code": "interestRecalculationCompounding.weekDayType.sunday",
+      "value": "SUNDAY"
+     },
+     {
+      "id": 1,
+      "code": "interestRecalculationCompounding.weekDayType.monday",
+      "value": "MONDAY"
+     },
+     {
+      "id": 2,
+      "code": "interestRecalculationCompounding.weekDayType.tuesday",
+      "value": "TUESDAY"
+     },
+     {
+      "id": 3,
+      "code": "interestRecalculationCompounding.weekDayType.wednesday",
+      "value": "WEDNESDAY"
+     },
+     {
+      "id": 4,
+      "code": "interestRecalculationCompounding.weekDayType.thursday",
+      "value": "THURSDAY"
+     },
+     {
+      "id": 5,
+      "code": "interestRecalculationCompounding.weekDayType.friday",
+      "value": "FRIDAY"
+     },
+     {
+      "id": 6,
+      "code": "interestRecalculationCompounding.weekDayType.saturday",
+      "value": "SATURDAY"
+     }
+    ],
+    "rescheduleStrategyTypeOptions": [
+     {
+      "id": 3,
+      "code": "loanRescheduleStrategyMethod.reduce.emi.amount",
+      "value": "Reduce EMI amount"
+     },
+     {
+      "id": 2,
+      "code": "loanRescheduleStrategyMethod.reduce.number.of.installments",
+      "value": "Reduce number of installments"
+     },
+     {
+      "id": 1,
+      "code": "loanRescheduleStrategyMethod.reschedule.next.repayments",
+      "value": "Reschedule next repayments"
+     },
+     {
+      "id": 4,
+      "code": "loanRescheduleStrategyMethod.adjust.last.unpaid.period",
+      "value": "Adjust last, unpaid period"
+     }
+    ],
+    "preClosureInterestCalculationStrategyOptions": [
+     {
+      "id": 1,
+      "code": "loanPreClosureInterestCalculationStrategy.tillPreClosureDate",
+      "value": "Till Pre-Close Date"
+     },
+     {
+      "id": 2,
+      "code": "loanPreClosureInterestCalculationStrategy.tillRestFrequencyDate",
+      "value": "Till Rest Frequency Date"
+     }
+    ],
+    "advancedPaymentAllocationTransactionTypes": [
+     {
+      "id": 1,
+      "code": "DEFAULT",
+      "value": "Default"
+     },
+     {
+      "id": 2,
+      "code": "REPAYMENT",
+      "value": "Repayment"
+     },
+     {
+      "id": 3,
+      "code": "DOWN_PAYMENT",
+      "value": "Down payment"
+     },
+     {
+      "id": 4,
+      "code": "MERCHANT_ISSUED_REFUND",
+      "value": "Merchant issued refund"
+     },
+     {
+      "id": 5,
+      "code": "PAYOUT_REFUND",
+      "value": "Payout refund"
+     },
+     {
+      "id": 6,
+      "code": "GOODWILL_CREDIT",
+      "value": "Goodwill credit"
+     },
+     {
+      "id": 7,
+      "code": "CHARGE_REFUND",
+      "value": "Charge refund"
+     },
+     {
+      "id": 8,
+      "code": "CHARGE_ADJUSTMENT",
+      "value": "Charge adjustment"
+     },
+     {
+      "id": 9,
+      "code": "WAIVE_INTEREST",
+      "value": "Waive interest"
+     },
+     {
+      "id": 10,
+      "code": "CHARGE_PAYMENT",
+      "value": "Charge payment"
+     },
+     {
+      "id": 11,
+      "code": "REFUND_FOR_ACTIVE_LOAN",
+      "value": "Refund for active loan"
+     },
+     {
+      "id": 12,
+      "code": "INTEREST_PAYMENT_WAIVER",
+      "value": "Interest payment waiver"
+     },
+     {
+      "id": 13,
+      "code": "INTEREST_REFUND",
+      "value": "Interest refund"
+     },
+     {
+      "id": 14,
+      "code": "CAPITALIZED_INCOME_ADJUSTMENT",
+      "value": "Capitalized income adjustment"
+     }
+    ],
+    "advancedPaymentAllocationFutureInstallmentAllocationRules": [
+     {
+      "id": 1,
+      "code": "NEXT_INSTALLMENT",
+      "value": "Next installment"
+     },
+     {
+      "id": 2,
+      "code": "LAST_INSTALLMENT",
+      "value": "Last installment"
+     },
+     {
+      "id": 3,
+      "code": "NEXT_LAST_INSTALLMENT",
+      "value": "Next/Last installment"
+     },
+     {
+      "id": 4,
+      "code": "REAMORTIZATION",
+      "value": "Reamortization"
+     }
+    ],
+    "advancedPaymentAllocationTypes": [
+     {
+      "id": 1,
+      "code": "PAST_DUE_PENALTY",
+      "value": "Past due penalty"
+     },
+     {
+      "id": 2,
+      "code": "PAST_DUE_FEE",
+      "value": "Past due fee"
+     },
+     {
+      "id": 3,
+      "code": "PAST_DUE_PRINCIPAL",
+      "value": "Past due principal"
+     },
+     {
+      "id": 4,
+      "code": "PAST_DUE_INTEREST",
+      "value": "Past due interest"
+     },
+     {
+      "id": 5,
+      "code": "DUE_PENALTY",
+      "value": "Due penalty"
+     },
+     {
+      "id": 6,
+      "code": "DUE_FEE",
+      "value": "Due fee"
+     },
+     {
+      "id": 7,
+      "code": "DUE_PRINCIPAL",
+      "value": "Due principal"
+     },
+     {
+      "id": 8,
+      "code": "DUE_INTEREST",
+      "value": "Due interest"
+     },
+     {
+      "id": 9,
+      "code": "IN_ADVANCE_PENALTY",
+      "value": "In advance penalty"
+     },
+     {
+      "id": 10,
+      "code": "IN_ADVANCE_FEE",
+      "value": "In advance fee"
+     },
+     {
+      "id": 11,
+      "code": "IN_ADVANCE_PRINCIPAL",
+      "value": "In advance principal"
+     },
+     {
+      "id": 12,
+      "code": "IN_ADVANCE_INTEREST",
+      "value": "In advanced interest"
+     }
+    ],
+    "creditAllocationTransactionTypes": [
+     {
+      "id": 1,
+      "code": "CHARGEBACK",
+      "value": "Chargeback"
+     }
+    ],
+    "creditAllocationAllocationTypes": [
+     {
+      "id": 1,
+      "code": "PENALTY",
+      "value": "Penalty"
+     },
+     {
+      "id": 2,
+      "code": "FEE",
+      "value": "Fee"
+     },
+     {
+      "id": 3,
+      "code": "PRINCIPAL",
+      "value": "Principal"
+     },
+     {
+      "id": 4,
+      "code": "INTEREST",
+      "value": "Interest"
+     }
+    ],
+    "loanScheduleTypeOptions": [
+     {
+      "id": 1,
+      "code": "CUMULATIVE",
+      "value": "Cumulative"
+     },
+     {
+      "id": 2,
+      "code": "PROGRESSIVE",
+      "value": "Progressive"
+     }
+    ],
+    "loanScheduleProcessingTypeOptions": [
+     {
+      "id": 1,
+      "code": "HORIZONTAL",
+      "value": "Horizontal"
+     },
+     {
+      "id": 2,
+      "code": "VERTICAL",
+      "value": "Vertical"
+     }
+    ],
+    "interestRecalculationFrequencyTypeOptions": [
+     {
+      "id": 1,
+      "code": "interestRecalculationFrequencyType.same.as.repayment.period",
+      "value": "Same as repayment period"
+     },
+     {
+      "id": 2,
+      "code": "interestRecalculationFrequencyType.daily",
+      "value": "Daily"
+     },
+     {
+      "id": 3,
+      "code": "interestRecalculationFrequencyType.weekly",
+      "value": "Weekly"
+     },
+     {
+      "id": 4,
+      "code": "interestRecalculationFrequencyType.monthly",
+      "value": "Monthly"
+     }
+    ],
+    "floatingRateOptions": [],
+    "repaymentStartDateTypeOptions": [
+     {
+      "id": 1,
+      "code": "repaymentStartDateType.disbursementDate",
+      "value": "Disbursement Date"
+     },
+     {
+      "id": 2,
+      "code": "repaymentStartDateType.submittedOnDate",
+      "value": "Submitted On Date"
+     }
+    ],
+    "supportedInterestRefundTypesOptions": [
+     {
+      "id": "MERCHANT_ISSUED_REFUND",
+      "code": "loanRefundType.merchant_issued_refund",
+      "value": "Merchant issued refund"
+     },
+     {
+      "id": "PAYOUT_REFUND",
+      "code": "loanRefundType.payout_refund",
+      "value": "Payout refund"
+     }
+    ],
+    "chargeOffBehaviourOptions": [
+     {
+      "id": "REGULAR",
+      "code": "chargeOffBehaviour.regular",
+      "value": "Regular"
+     },
+     {
+      "id": "ZERO_INTEREST",
+      "code": "chargeOffBehaviour.zeroInterest",
+      "value": "Zero interest after charge-off"
+     },
+     {
+      "id": "ACCELERATE_MATURITY",
+      "code": "chargeOffBehaviour.accelerateMaturity",
+      "value": "Accelerate maturity to charge-off date"
+     }
+    ],
+    "multiDisburseLoan": false,
+    "maxTrancheCount": 0,
+    "disallowExpectedDisbursements": false,
+    "allowApprovedDisbursedAmountsOverApplied": false,
+    "overAppliedNumber": 0,
+    "allowFullTermForTranche": false,
+    "principalThresholdForLastInstallment": 0.0,
+    "holdGuaranteeFunds": false,
+    "accountMovesOutOfNPAOnlyOnArrearsCompletion": false,
+    "allowAttributeOverrides": {
+     "amortizationType": true,
+     "interestType": true,
+     "transactionProcessingStrategyCode": true,
+     "interestCalculationPeriodType": true,
+     "inArrearsTolerance": true,
+     "repaymentEvery": true,
+     "graceOnPrincipalAndInterestPayment": true,
+     "graceOnArrearsAgeing": true,
+     "isNew": true
+    },
+    "syncExpectedWithDisbursementDate": false,
+    "isEqualAmortization": false,
+    "chargeOffReasonOptions": [],
+    "delinquencyBucketOptions": [
+     {
+      "id": 2,
+      "name": "B4",
+      "ranges": [],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 3,
+      "name": "B6",
+      "ranges": [
+       {
+        "id": 3,
+        "classification": "Late2",
+        "minimumAgeDays": 40,
+        "maximumAgeDays": 50
+       },
+       {
+        "id": 1,
+        "classification": "Early",
+        "minimumAgeDays": 1,
+        "maximumAgeDays": 3
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 4,
+      "name": "B7",
+      "ranges": [
+       {
+        "id": 1,
+        "classification": "Early",
+        "minimumAgeDays": 1,
+        "maximumAgeDays": 3
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 5,
+      "name": "B9",
+      "ranges": [
+       {
+        "id": 1,
+        "classification": "Early",
+        "minimumAgeDays": 1,
+        "maximumAgeDays": 3
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 8,
+      "name": "B15",
+      "ranges": [
+       {
+        "id": 3,
+        "classification": "Late2",
+        "minimumAgeDays": 40,
+        "maximumAgeDays": 50
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 9,
+      "name": "B16",
+      "ranges": [
+       {
+        "id": 3,
+        "classification": "Late2",
+        "minimumAgeDays": 40,
+        "maximumAgeDays": 50
+       }
+      ],
+      "bucketType": "REGULAR"
+     },
+     {
+      "id": 1,
+      "name": "B1x",
+      "ranges": [
+       {
+        "id": 2,
+        "classification": "Mid",
+        "minimumAgeDays": 4,
+        "maximumAgeDays": 30
+       },
+       {
+        "id": 1,
+        "classification": "Early",
+        "minimumAgeDays": 1,
+        "maximumAgeDays": 3
+       }
+      ],
+      "bucketType": "REGULAR"
+     }
+    ],
+    "delinquencyBucket": {
+     "ranges": [],
+     "bucketType": "REGULAR"
+    },
+    "enableDownPayment": false,
+    "enableAutoRepaymentForDownPayment": false,
+    "enableInstallmentLevelDelinquency": false,
+    "loanScheduleType": {
+     "id": 1,
+     "code": "CUMULATIVE",
+     "value": "Cumulative"
+    },
+    "loanScheduleProcessingType": {
+     "id": 1,
+     "code": "HORIZONTAL",
+     "value": "Horizontal"
+    },
+    "interestRecognitionOnDisbursementDate": false,
+    "daysInYearCustomStrategyOptions": [
+     {
+      "id": "FULL_LEAP_YEAR",
+      "code": "DaysInYearCustomStrategyType.fullLeapYear",
+      "value": "Full Leap Year"
+     },
+     {
+      "id": "FEB_29_PERIOD_ONLY",
+      "code": "DaysInYearCustomStrategyType.feb29PeriodOnly",
+      "value": "Feb 29 Period Only"
+     }
+    ],
+    "enableIncomeCapitalization": false,
+    "capitalizedIncomeCalculationTypeOptions": [
+     {
+      "id": "FLAT",
+      "code": "loanCapitalizedIncomeCalculationType.flat",
+      "value": "Flat"
+     }
+    ],
+    "capitalizedIncomeStrategyOptions": [
+     {
+      "id": "EQUAL_AMORTIZATION",
+      "code": "capitalizedIncome.strategy.equalAmortization",
+      "value": "Equal amortization"
+     }
+    ],
+    "capitalizedIncomeTypeOptions": [
+     {
+      "id": "FEE",
+      "code": "capitalizedIncome.incomeType.fee",
+      "value": "Fee"
+     },
+     {
+      "id": "INTEREST",
+      "code": "capitalizedIncome.incomeType.interest",
+      "value": "Interest"
+     }
+    ],
+    "enableBuyDownFee": false,
+    "merchantBuyDownFee": false,
+    "buyDownFeeCalculationTypeOptions": [
+     {
+      "id": "FLAT",
+      "code": "loanBuyDownFeeCalculationType.flat",
+      "value": "Flat"
+     }
+    ],
+    "buyDownFeeStrategyOptions": [
+     {
+      "id": "EQUAL_AMORTIZATION",
+      "code": "buyDownFee.strategy.equalAmortization",
+      "value": "Equal amortization"
+     }
+    ],
+    "buyDownFeeIncomeTypeOptions": [
+     {
+      "id": "FEE",
+      "code": "buyDownFee.incomeType.fee",
+      "value": "Fee"
+     },
+     {
+      "id": "INTEREST",
+      "code": "buyDownFee.incomeType.interest",
+      "value": "Interest"
+     }
+    ],
+    "capitalizedIncomeClassificationOptions": [],
+    "buydownFeeClassificationOptions": []
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/delinquency/buckets/1",
+   "body": {},
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Data integrity issue with resource: 1",
+    "userMessageGlobalisationCode": "error.msg.data.integrity.issue.entity.linked",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "Data integrity issue with resource: 1",
+      "userMessageGlobalisationCode": "error.msg.data.integrity.issue.entity.linked",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/delinquency/buckets/4",
+   "body": {},
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "Data integrity issue with resource: 4",
+    "userMessageGlobalisationCode": "error.msg.data.integrity.issue.entity.linked",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "Data integrity issue with resource: 4",
+      "userMessageGlobalisationCode": "error.msg.data.integrity.issue.entity.linked",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/delinquency/ranges/1",
+   "body": {},
+   "status": 403,
+   "response": {
+    "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+    "httpStatusCode": "403",
+    "defaultUserMessage": "ERROR: update or delete on table \"m_delinquency_range\" violates RESTRICT setting of foreign key constraint \"FK_m_delinquency_range_mapping\" on table \"m_delinquency_bucket_mappings\"\n  Detail: Key (id)=(1) is referenced from table \"m_delinquency_bucket_mappings\".",
+    "userMessageGlobalisationCode": "error.msg.data.integrity.issue",
+    "errors": [
+     {
+      "developerMessage": "The request caused a data integrity issue to be fired by the database.",
+      "defaultUserMessage": "ERROR: update or delete on table \"m_delinquency_range\" violates RESTRICT setting of foreign key constraint \"FK_m_delinquency_range_mapping\" on table \"m_delinquency_bucket_mappings\"\n  Detail: Key (id)=(1) is referenced from table \"m_delinquency_bucket_mappings\".",
+      "userMessageGlobalisationCode": "error.msg.data.integrity.issue",
+      "args": []
+     }
+    ]
+   },
+   "ignore": [
+    "defaultUserMessage"
+   ]
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/delinquency/ranges/99",
+   "body": {},
+   "status": 200,
+   "response": {
+    "resourceId": 99
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/delinquency/buckets/99",
+   "body": {},
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Delinquency bucket with id `99` does not exist.",
+      "defaultUserMessage": "Delinquency bucket with id `99` does not exist.",
+      "userMessageGlobalisationCode": "error.msg.delinquency.bucket.id.not.exist",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/delinquency/buckets/abc",
+   "body": {},
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-19T11:15:48.041Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/delinquency/buckets/abc"
+   },
+   "ignore": [
+    "path",
+    "timestamp"
+   ]
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/delinquency/buckets/5",
+   "body": {},
+   "status": 200,
+   "response": {
+    "resourceId": 5
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/delinquency/buckets/6",
+   "body": {},
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Delinquency bucket with id `6` does not exist.",
+      "defaultUserMessage": "Delinquency bucket with id `6` does not exist.",
+      "userMessageGlobalisationCode": "error.msg.delinquency.bucket.id.not.exist",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 6
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/delinquency/buckets/7",
+   "body": {},
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Delinquency bucket with id `7` does not exist.",
+      "defaultUserMessage": "Delinquency bucket with id `7` does not exist.",
+      "userMessageGlobalisationCode": "error.msg.delinquency.bucket.id.not.exist",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 7
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/delinquency/buckets/9",
+   "body": {},
+   "status": 200,
+   "response": {
+    "resourceId": 9
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/delinquency/buckets/10",
+   "body": {},
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Delinquency bucket with id `10` does not exist.",
+      "defaultUserMessage": "Delinquency bucket with id `10` does not exist.",
+      "userMessageGlobalisationCode": "error.msg.delinquency.bucket.id.not.exist",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 10
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/delinquency/buckets",
+   "sortby": "id",
+   "ignore": [
+    "ranges"
+   ],
+   "status": 200,
+   "response": [
+    {
+     "id": 2,
+     "name": "B4",
+     "ranges": [],
+     "bucketType": {
+      "id": "REGULAR",
+      "code": "bucketType.regular",
+      "value": "Reqular Loan Product"
+     }
+    },
+    {
+     "id": 3,
+     "name": "B6",
+     "ranges": [
+      {
+       "id": 3,
+       "classification": "Late2",
+       "minimumAgeDays": 40,
+       "maximumAgeDays": 50
+      },
+      {
+       "id": 1,
+       "classification": "Early",
+       "minimumAgeDays": 1,
+       "maximumAgeDays": 3
+      }
+     ],
+     "bucketType": {
+      "id": "REGULAR",
+      "code": "bucketType.regular",
+      "value": "Reqular Loan Product"
+     }
+    },
+    {
+     "id": 4,
+     "name": "B7",
+     "ranges": [
+      {
+       "id": 1,
+       "classification": "Early",
+       "minimumAgeDays": 1,
+       "maximumAgeDays": 3
+      }
+     ],
+     "bucketType": {
+      "id": "REGULAR",
+      "code": "bucketType.regular",
+      "value": "Reqular Loan Product"
+     }
+    },
+    {
+     "id": 8,
+     "name": "B15",
+     "ranges": [
+      {
+       "id": 3,
+       "classification": "Late2",
+       "minimumAgeDays": 40,
+       "maximumAgeDays": 50
+      }
+     ],
+     "bucketType": {
+      "id": "REGULAR",
+      "code": "bucketType.regular",
+      "value": "Reqular Loan Product"
+     }
+    },
+    {
+     "id": 1,
+     "name": "B1x",
+     "ranges": [
+      {
+       "id": 2,
+       "classification": "Mid",
+       "minimumAgeDays": 4,
+       "maximumAgeDays": 30
+      },
+      {
+       "id": 1,
+       "classification": "Early",
+       "minimumAgeDays": 1,
+       "maximumAgeDays": 3
+      }
+     ],
+     "bucketType": {
+      "id": "REGULAR",
+      "code": "bucketType.regular",
+      "value": "Reqular Loan Product"
+     }
+    }
+   ]
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/delinquency/ranges/4",
+   "body": {},
+   "status": 200,
+   "response": {
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/delinquency/ranges/5",
+   "body": {},
+   "status": 200,
+   "response": {
+    "resourceId": 5
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/delinquency/ranges",
+   "sortby": "id",
+   "status": 200,
+   "response": [
+    {
+     "id": 2,
+     "classification": "Mid",
+     "minimumAgeDays": 4,
+     "maximumAgeDays": 30
+    },
+    {
+     "id": 3,
+     "classification": "Late2",
+     "minimumAgeDays": 40,
+     "maximumAgeDays": 50
+    },
+    {
+     "id": 1,
+     "classification": "Early",
+     "minimumAgeDays": 1,
+     "maximumAgeDays": 3
+    },
+    {
+     "id": 6,
+     "classification": "Over",
+     "minimumAgeDays": 2,
+     "maximumAgeDays": 5
+    },
+    {
+     "id": 7,
+     "classification": "Open",
+     "minimumAgeDays": 50
+    }
+   ]
+  }
+ ]
+}

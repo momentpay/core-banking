@@ -5,7 +5,8 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   and deleting an application. Answers as Fineract's `LoansApiResource` does.
   """
   alias ECBApiFineract.Errors
-  alias ECBApiFineract.Resources.{Charges, LoanProducts, Read, Write}
+  alias ECBApiFineract.Resources.{Charges, Delinquency, LoanProducts, Read, Write}
+  alias ECBLoans.Delinquency.Actions
   alias ECBLoans.{LoanEnums, Loans}
   alias ECBPlatform.Errors.UnrecognizedQueryParameter
 
@@ -20,7 +21,8 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     "withdrawnByApplicant" => "WITHDRAW",
     "disburse" => "DISBURSE",
     "undodisbursal" => "DISBURSALUNDO",
-    "undolastdisbursal" => "DISBURSALLASTUNDO"
+    "undolastdisbursal" => "DISBURSALLASTUNDO",
+    "assigndelinquency" => "UPDATEDELINQUENCY"
   }
 
   # The names `fields` can choose between (Fineract's response parameters for a loan).
@@ -239,6 +241,8 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     |> put("loanOfficerName", l.loan_officer_name)
     |> put("loanPurposeId", l.loanpurpose_cv_id)
     |> put("loanPurposeName", l.loan_purpose_name)
+    |> put("delinquencyRange", Delinquency.loan_range(l.id))
+    |> Map.put("isNPA", l.is_npa == true)
   end
 
   # the installments the loan has now (a loan settled early has fewer than it was made for, one that was
@@ -1195,12 +1199,17 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
       "delinquentFee" => zero,
       "delinquentPenalty" => zero
     }
-    |> then(&if(active?, do: Map.put(&1, "delinquencyPausePeriods", []), else: &1))
+    |> then(
+      &if(active?,
+        do: Map.put(&1, "delinquencyPausePeriods", pause_periods(loan.id, today)),
+        else: &1
+      )
+    )
     |> put(
       "nextPaymentDueDate",
       next_payment_due(unpaid, late, last || loan_written_off(loan), today)
     )
-    |> arrears(late, today, loan.grace_on_arrears_ageing || 0)
+    |> arrears(late, today, loan.grace_on_arrears_ageing || 0, Actions.effective(loan.id))
     |> last_payment(last, last_repayment)
   end
 
@@ -1217,11 +1226,20 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
   defp next_payment_due([first | _], _late, last, _today),
     do: Enum.max([first.due_date, last.transaction_date], Date)
 
-  defp arrears(map, [], _today, _grace), do: map
+  # the pauses of the loan's delinquency, with whether each is running
+  defp pause_periods(loan_id, today) do
+    for p <- Actions.periods(loan_id, today) do
+      %{"active" => p.active, "pausePeriodStart" => p.start, "pausePeriodEnd" => p.end}
+    end
+  end
 
-  # the loan is delinquent once the grace on arrears ageing has gone by since the first due date
-  defp arrears(map, [first | _] = late, today, grace) do
+  defp arrears(map, [], _today, _grace, _pauses), do: map
+
+  # the loan is delinquent once the grace on arrears ageing has gone by since the first due date, not counting the
+  # days its delinquency was paused
+  defp arrears(map, [first | _] = late, today, grace, pauses) do
     days = Date.diff(today, first.due_date)
+    paused = Actions.paused_days(pauses, first.due_date, today)
     sum = fn f -> late |> Enum.map(f) |> Enum.reduce(&Decimal.add/2) end
     zero = Decimal.new(0)
 
@@ -1262,7 +1280,7 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     |> Map.merge(%{
       "pastDueDays" => days,
       "pastDueDate" => first.due_date,
-      "delinquentDays" => max(days - grace, 0),
+      "delinquentDays" => max(days - paused - grace, 0),
       "delinquentDate" => Date.add(first.due_date, grace),
       "delinquentAmount" =>
         principal |> Decimal.add(interest) |> Decimal.add(fee) |> Decimal.add(penalty),

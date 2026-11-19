@@ -143,6 +143,7 @@ defmodule ECBLoans.LoanProducts do
         max_tranche_count: lp.max_disbursals,
         outstanding_loan_balance: lp.max_outstanding_loan_balance,
         disallow_expected_disbursements: lp.disallow_expected_disbursements,
+        delinquency_bucket_id: lp.delinquency_bucket_id,
         start_date: lp.start_date,
         close_date: lp.close_date
       }

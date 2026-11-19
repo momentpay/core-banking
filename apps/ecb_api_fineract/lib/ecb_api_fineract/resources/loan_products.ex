@@ -8,7 +8,7 @@ defmodule ECBApiFineract.Resources.LoanProducts do
   `priv/loan_product_static.json` (recorded from it) and the settings that belong to the product are laid over
   them.
   """
-  alias ECBApiFineract.Resources.{Charges, GLAccounts, PaymentTypes, Read, Write}
+  alias ECBApiFineract.Resources.{Charges, Delinquency, GLAccounts, PaymentTypes, Read, Write}
   alias ECBCatalog.Charges, as: CatalogCharges
   alias ECBLedger.GLAccounts, as: Ledger
   alias ECBLoans.LoanProducts
@@ -81,10 +81,10 @@ defmodule ECBApiFineract.Resources.LoanProducts do
         |> Map.put("charges", Enum.map(CatalogCharges.for_loan_product(id), &charge/1))
         |> with_accounting(product)
 
-      # a read for a form carries the choices instead of the (empty) list of delinquency buckets
+      # a read for a form carries all the choices
       if template?,
-        do: Map.merge(body, template_options()),
-        else: Map.put(body, "delinquencyBucketOptions", [])
+        do: body |> drop_empty("charges") |> Map.merge(template_options()),
+        else: Map.put(body, "delinquencyBucketOptions", bucket_options())
     end
   end
 
@@ -100,9 +100,24 @@ defmodule ECBApiFineract.Resources.LoanProducts do
 
   # --- one product ------------------------------------------------------------------------------
 
+  # a read for a form leaves out a list with nothing in it
+  defp drop_empty(body, key), do: if(body[key] == [], do: Map.delete(body, key), else: body)
+
+  defp bucket_options, do: Enum.map(ECBLoans.Delinquency.buckets(), &Delinquency.bucket_option/1)
+
+  # the bucket a product's loans are classified by; a product without one shows an empty bucket
+  defp bucket_of(%{delinquency_bucket_id: nil}), do: nil
+  defp bucket_of(%{delinquency_bucket_id: id}), do: ECBLoans.Delinquency.bucket(id)
+
   defp product_json(p) do
     LoanProducts.static()["one_static"]
     |> with_dates(p)
+    |> then(fn body ->
+      case bucket_of(p) do
+        nil -> body
+        bucket -> Map.put(body, "delinquencyBucket", Delinquency.product_bucket(bucket))
+      end
+    end)
     |> Map.merge(%{
       "id" => p.id,
       "name" => p.name,
@@ -245,7 +260,8 @@ defmodule ECBApiFineract.Resources.LoanProducts do
     static
     |> Map.take(option_keys)
     |> Map.merge(%{
-      "fundOptions" => Enum.map(Funds.list(), &%{"id" => &1.id, "name" => &1.name}),
+      "fundOptions" =>
+        none_if_empty(Enum.map(Funds.list(), &%{"id" => &1.id, "name" => &1.name})),
       "paymentTypeOptions" => Enum.map(OrgPaymentTypes.list(), &PaymentTypes.serialize/1),
       "currencyOptions" => Enum.map(Currencies.list().selected, &Charges.currency/1),
       "chargeOptions" =>
@@ -253,6 +269,7 @@ defmodule ECBApiFineract.Resources.LoanProducts do
       "penaltyOptions" =>
         none_if_empty(Enum.map(CatalogCharges.applicable_to_loans(true), &charge/1)),
       "accountingMappingOptions" => account_options(),
+      "delinquencyBucketOptions" => none_if_empty(bucket_options()),
       "floatingRateOptions" => [],
       "writeOffReasonOptions" => code_values("WriteOffReasons"),
       "chargeOffReasonOptions" => code_values("ChargeOffReasons"),
