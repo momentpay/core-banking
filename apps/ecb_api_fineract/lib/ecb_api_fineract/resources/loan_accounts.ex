@@ -19,7 +19,8 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     "reject" => "REJECT",
     "withdrawnByApplicant" => "WITHDRAW",
     "disburse" => "DISBURSE",
-    "undodisbursal" => "DISBURSALUNDO"
+    "undodisbursal" => "DISBURSALUNDO",
+    "undolastdisbursal" => "DISBURSALLASTUNDO"
   }
 
   # The names `fields` can choose between (Fineract's response parameters for a loan).

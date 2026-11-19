@@ -40,6 +40,17 @@ defmodule ECBLoans.Loans.Reprocess do
     )
   end
 
+  @doc "Whether the loan has repayments or waivers standing, which `run!/3` would apply again."
+  @spec any?(integer) :: boolean
+  def any?(loan_id) do
+    TenantRepo.exists?(
+      from(t in "m_loan_transaction",
+        where:
+          t.loan_id == ^loan_id and not t.is_reversed and t.transaction_type_enum in ^@replayed
+      )
+    )
+  end
+
   @doc """
   Applies the loan's repayments and waivers again. With `new:` (`%{date, amount, payment_detail_id,
   external_id}`) a repayment not yet made is included; returns the id of its transaction, or `nil`.

@@ -37,7 +37,6 @@ defmodule ECBLoans.Loans.Corrections do
                        accountNumber checkNumber routingCode receiptNumber bankNumber)
   @waive_supported ~w(transactionDate transactionAmount note locale dateFormat externalId)
   @write_off_supported ~w(transactionDate note locale dateFormat writeoffReasonId externalId)
-  @undo_disbursal_supported ~w(note)
 
   # --- undo and adjust ----------------------------------------------------------------------------
 
@@ -766,8 +765,10 @@ defmodule ECBLoans.Loans.Corrections do
   @doc "Takes the payout of loan `id` back: the loan is approved again, with its schedule as submitted."
   @spec undo_disbursal!(struct, integer, Params.t()) :: Result.t()
   def undo_disbursal!(user, id, %Params{} = p) do
-    ECBLoans.Tranches.guard!(id, "undoing the disbursal")
-    Params.check_supported!(p, @undo_disbursal_supported)
+    if ECBLoans.Tranches.reversed?(id),
+      do:
+        ECBLoans.Tranches.unsupported!("undoing the disbursal after the last tranche was undone")
+
     loan = Loans.fetch!(id)
     Repay.active_client!(loan)
 
@@ -781,6 +782,7 @@ defmodule ECBLoans.Loans.Corrections do
     check_accounting!(loan, "Undoing a disbursal")
 
     reverse_disbursal!(user, loan)
+    ECBLoans.Tranches.unpay_all!(id, loan.approved_principal)
     Counters.remove!(loan)
 
     TenantRepo.update_all(from(l in "m_loan", where: l.id == ^id),

@@ -193,17 +193,9 @@ defmodule ECBApiFineract.LoanTrancheTest do
     assert body["netDisbursalAmount"] == 6000.0
   end
 
-  test "a later tranche, a change of the application and a foreclosure are refused" do
+  test "a change of the application and a foreclosure are refused" do
     submit_and_approve()
     post!("/v1/loans/1?command=disburse", %{"actualDisbursementDate" => "01 March 2024"})
-
-    refused?(
-      send_json(
-        :post,
-        "/v1/loans/1?command=disburse",
-        Map.merge(@dates, %{"actualDisbursementDate" => "01 March 2024"})
-      )
-    )
 
     refused?(
       send_json(
@@ -212,14 +204,116 @@ defmodule ECBApiFineract.LoanTrancheTest do
         Map.merge(@dates, %{"transactionDate" => "01 March 2024"})
       )
     )
+  end
 
-    refused?(
+  defp disburse(date, extra \\ %{}),
+    do:
       send_json(
         :post,
-        "/v1/loans/1?command=undodisbursal",
-        Map.merge(@dates, %{"note" => "oops"})
+        "/v1/loans/1?command=disburse",
+        Map.merge(@dates, Map.merge(%{"actualDisbursementDate" => date}, extra))
       )
+
+  defp undo_last, do: send_json(:post, "/v1/loans/1?command=undolastdisbursal", %{"note" => "x"})
+
+  test "a later tranche is paid out on its day; an amount of its own and a day before the first are refused" do
+    submit_and_approve()
+    post!("/v1/loans/1?command=disburse", %{"actualDisbursementDate" => "01 March 2024"})
+
+    refused?(disburse("01 June 2024", %{"transactionAmount" => 3000}))
+    assert disburse("01 June 2024").status == 200
+
+    body = body(send_json(:get, "/v1/loans/1?associations=all"))
+    assert Enum.all?(body["disbursementDetails"], &is_list(&1["actualDisbursementDate"]))
+    assert body["netDisbursalAmount"] == 4000.0
+
+    # every tranche is paid out
+    conn = disburse("01 July 2024")
+    assert conn.status == 400
+    assert code(conn) == "error.msg.loan.disbursal.account.is.not.approve.not.disbursed.state"
+  end
+
+  test "a tranche cannot be paid out on a day before the first one" do
+    tranches = [tranche("10 March 2024", 6000), tranche("01 June 2024", 4000)]
+
+    post!(
+      "/v1/loans",
+      application(%{
+        "disbursementData" => tranches,
+        "expectedDisbursementDate" => "10 March 2024"
+      })
     )
+
+    post!("/v1/loans/1?command=approve", %{"approvedOnDate" => "01 March 2024"})
+    post!("/v1/loans/1?command=disburse", %{"actualDisbursementDate" => "10 March 2024"})
+    refused?(disburse("05 March 2024"))
+  end
+
+  test "taking the last tranche back: Fineract's refusals, and what is not built" do
+    submit_and_approve()
+    post!("/v1/loans/1?command=disburse", %{"actualDisbursementDate" => "01 March 2024"})
+
+    # fewer than two paid out
+    conn = undo_last()
+    assert conn.status == 403
+
+    assert code(conn) ==
+             "error.msg.tranches.should.be.disbursed.more.than.one.to.undo.last.disbursal"
+
+    assert disburse("01 June 2024").status == 200
+
+    # a repayment after the tranche
+    post!("/v1/loans/1/transactions?command=repayment", %{
+      "transactionDate" => "01 July 2024",
+      "transactionAmount" => 900
+    })
+
+    conn = undo_last()
+    assert conn.status == 403
+    assert code(conn) == "error.msg.cannot.undo.last.disbursal.after.repayments or waivers"
+  end
+
+  test "the last tranche is taken back, and the whole disbursal cannot be after that" do
+    submit_and_approve()
+    post!("/v1/loans/1?command=disburse", %{"actualDisbursementDate" => "01 March 2024"})
+    assert disburse("01 June 2024").status == 200
+    assert undo_last().status == 200
+
+    body = body(send_json(:get, "/v1/loans/1"))
+    assert body["principal"] == 6000.0
+
+    refused?(
+      send_json(:post, "/v1/loans/1?command=undodisbursal", Map.merge(@dates, %{"note" => "x"}))
+    )
+  end
+
+  test "a tranche is not taken back while another is still to be paid, nor one that paid several" do
+    post!("/v1/loans", application(%{"disbursementData" => three_tranches()}))
+    post!("/v1/loans/1?command=approve", %{"approvedOnDate" => "01 March 2024"})
+    post!("/v1/loans/1?command=disburse", %{"actualDisbursementDate" => "01 March 2024"})
+    assert disburse("01 May 2024").status == 200
+    refused?(undo_last())
+  end
+
+  defp three_tranches,
+    do: [
+      tranche("01 March 2024", 4000),
+      tranche("01 May 2024", 3000),
+      tranche("01 July 2024", 3000)
+    ]
+
+  test "a disbursal that paid out several tranches at once is not taken back" do
+    tranches = [
+      tranche("01 March 2024", 4000),
+      tranche("01 May 2024", 3000),
+      tranche("01 May 2024", 3000)
+    ]
+
+    post!("/v1/loans", application(%{"disbursementData" => tranches}))
+    post!("/v1/loans/1?command=approve", %{"approvedOnDate" => "01 March 2024"})
+    post!("/v1/loans/1?command=disburse", %{"actualDisbursementDate" => "01 March 2024"})
+    assert disburse("01 May 2024").status == 200
+    refused?(undo_last())
   end
 
   test "a first disbursement on another day than expected is refused" do

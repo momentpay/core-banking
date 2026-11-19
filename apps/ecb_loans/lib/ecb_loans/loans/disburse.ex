@@ -1,7 +1,8 @@
 defmodule ECBLoans.Loans.Disburse do
   @moduledoc """
   Paying out an approved loan, following Fineract's `LoanTransactionValidatorImpl.validateDisbursement` and
-  `LoanWritePlatformServiceJpaRepositoryImpl.disburseLoan`, for a loan paid out in one go.
+  `LoanWritePlatformServiceJpaRepositoryImpl.disburseLoan`, for a loan paid out in one go and for each tranche of
+  one paid out in tranches.
 
   The loan becomes active on the date it is disbursed; the repayment schedule is worked out again from that
   date; a disbursement transaction is recorded, its journal entries are posted and, for the products that
@@ -11,7 +12,18 @@ defmodule ECBLoans.Loans.Disburse do
   import Ecto.Query
 
   alias ECBLoans.Loans
-  alias ECBLoans.Loans.{Accruals, ChargeRows, Counters, Derived, Journal, Transitions}
+
+  alias ECBLoans.Loans.{
+    Accruals,
+    ChargeRows,
+    Counters,
+    Derived,
+    Foreclosure,
+    Journal,
+    Reprocess,
+    Transitions
+  }
+
   alias ECBParty.Clients
   alias ECBPlatform.{BusinessDate, Params, TenantRepo, Validation}
   alias ECBPlatform.Commands.Result
@@ -50,18 +62,24 @@ defmodule ECBLoans.Loans.Disburse do
       |> payment_details(p)
 
     loan = Loans.fetch!(id)
-    later_tranche!(loan)
+    later? = later_tranche?(loan)
     active_client!(loan)
     check_amount!(loan, amount)
-    v = check_state(v, loan)
+    check_charged_off!(loan, later?)
+    v = check_state(v, loan, later?)
     check_dates!(loan, on)
     Validation.raise_if_errors!(v)
 
     check_future!(loan, on)
     check_accounting!(loan)
-    tranche = tranche!(loan, amount, on)
+    tranche = tranche!(loan, amount, on, later?)
     payment_detail_id = payment_detail!(p)
-    paid_out!(user, loan, on, tranche, payment_detail_id, Params.string(p, "externalId"))
+    external_id = Params.string(p, "externalId")
+
+    if later?,
+      do: later_paid_out!(user, loan, on, tranche, payment_detail_id, external_id),
+      else: paid_out!(user, loan, on, tranche, payment_detail_id, external_id)
+
     Loans.add_note(id, loan.client_id, note, user.id)
 
     tx_id = disbursement_transaction_id(id)
@@ -114,11 +132,13 @@ defmodule ECBLoans.Loans.Disburse do
 
   # the whole approved principal is paid out in one go
   defp check_amount!(loan, amount) do
+    disbursed = disbursed(loan)
+
     total =
       cond do
-        amount == nil -> loan.principal_disbursed_derived
-        Decimal.eq?(loan.principal_disbursed_derived, 0) -> amount
-        true -> Decimal.add(loan.principal_disbursed_derived, amount)
+        amount == nil -> disbursed
+        Decimal.eq?(disbursed, 0) -> amount
+        true -> Decimal.add(disbursed, amount)
       end
 
     if Decimal.compare(total, loan.approved_principal) == :gt do
@@ -129,8 +149,23 @@ defmodule ECBLoans.Loans.Disburse do
     end
   end
 
-  defp check_state(v, loan) do
-    if loan.loan_status_id == Loans.status(:approved) do
+  # what has been paid out so far: for a loan in tranches, those that were (the loan counts as paid out in full
+  # from its first tranche, which is not what is meant here)
+  defp disbursed(loan) do
+    case ECBLoans.Tranches.list(loan.id) do
+      [] ->
+        loan.principal_disbursed_derived
+
+      tranches ->
+        for t <- tranches,
+            t.disbursed_on,
+            reduce: Decimal.new(0),
+            do: (sum -> Decimal.add(sum, t.principal))
+    end
+  end
+
+  defp check_state(v, loan, later?) do
+    if later? or loan.loan_status_id == Loans.status(:approved) do
       v
     else
       Validation.add_error(
@@ -176,37 +211,64 @@ defmodule ECBLoans.Loans.Disburse do
   defp check_accounting!(loan),
     do: Journal.check_supported!(ECBLoans.LoanProducts.fetch!(loan.product_id), "Disbursing")
 
-  # the tranches after the first are paid out by a later disbursement, which is not built yet
-  defp later_tranche!(loan) do
-    if loan.loan_status_id == Loans.status(:active) and
-         Enum.any?(ECBLoans.Tranches.list(loan.id), &is_nil(&1.disbursed_on)),
-       do: ECBLoans.Tranches.guard!(loan.id, "paying out a tranche after the first")
+  # a loan that is paid out already and has tranches left to pay: the next disbursement pays one of them
+  defp later_tranche?(loan) do
+    pending? = ECBLoans.Tranches.pending(loan.id) != []
+
+    cond do
+      not pending? ->
+        false
+
+      loan.loan_status_id == Loans.status(:active) ->
+        true
+
+      loan.loan_status_id == Loans.status(:approved) ->
+        false
+
+      true ->
+        ECBLoans.Tranches.guard!(loan.id, "paying out a tranche of a loan that is not active")
+    end
   end
 
-  # What is paid out. A loan paid out in one go is paid out in full; one paid out in tranches pays the first
-  # tranche (those expected on its date) on that date. Anything else a tranche loan could be asked is refused.
-  defp tranche!(loan, amount, on) do
+  defp check_charged_off!(%{is_charged_off: true} = loan, true) do
+    raise DomainRuleViolation,
+      code: "error.msg.loan.disbursal.not.allowed.on.charged.off",
+      message: "Loan: #{loan.id} disbursement is not allowed on charged-off loan.",
+      args: []
+  end
+
+  defp check_charged_off!(_loan, _later?), do: :ok
+
+  # What is paid out. A loan paid out in one go is paid out in full; one paid out in tranches pays those expected
+  # on the earliest date still to come (at once all of them, if more than one is). Anything else a tranche loan
+  # could be asked is refused.
+  defp tranche!(loan, amount, on, later?) do
     case ECBLoans.Tranches.list(loan.id) do
       [] ->
         %{amount: loan.principal_amount, ids: []}
 
-      [first | _] = tranches ->
+      _tranches ->
         if amount != nil,
           do: ECBLoans.Tranches.guard!(loan.id, "disbursing an amount that is asked for")
 
-        if on != first.expected_date,
-          do:
+        due = ECBLoans.Tranches.next_due(loan.id)
+
+        cond do
+          later? and Date.compare(on, loan.disbursedon_date) == :lt ->
+            ECBLoans.Tranches.guard!(loan.id, "a tranche paid out before the first one")
+
+          not later? and on != hd(due).expected_date ->
             ECBLoans.Tranches.guard!(
               loan.id,
               "a first disbursement on another date than expected"
             )
 
-        due = Enum.filter(tranches, &(&1.expected_date == first.expected_date))
-
-        %{
-          amount: Enum.reduce(due, Decimal.new(0), &Decimal.add(&2, &1.principal)),
-          ids: Enum.map(due, & &1.id)
-        }
+          true ->
+            %{
+              amount: Enum.reduce(due, Decimal.new(0), &Decimal.add(&2, &1.principal)),
+              ids: Enum.map(due, & &1.id)
+            }
+        end
     end
   end
 
@@ -264,13 +326,7 @@ defmodule ECBLoans.Loans.Disburse do
       external_id: external_id
     }
 
-    if tranche.ids != [] do
-      ids = tranche.ids
-
-      TenantRepo.update_all(from(d in "m_loan_disbursement_detail", where: d.id in ^ids),
-        set: [disbursedon_date: on]
-      )
-    end
+    ECBLoans.Tranches.pay!(tranche.ids, on)
 
     Counters.assign!(loan, on)
     tx_id = insert_transaction!(user, loan, tx)
@@ -284,6 +340,44 @@ defmodule ECBLoans.Loans.Disburse do
     pay_charges!(user, paid, product, on, payment_detail_id)
     Derived.refresh!(id, user)
     Accruals.on_disbursement!(user, Loans.fetch!(id), product, on)
+    :ok
+  end
+
+  # A tranche after the first: the money is paid out and the schedule is worked out again from the days the
+  # tranches were paid on, what was repaid is applied to it again, and the interest booked as accrued at
+  # disbursement is replaced if the interest of the loan has changed.
+  defp later_paid_out!(user, loan, on, tranche, payment_detail_id, external_id) do
+    id = loan.id
+    ECBLoans.Tranches.pay!(tranche.ids, on)
+    Counters.assign!(loan, on)
+
+    tx = %{
+      type: 1,
+      date: on,
+      amount: tranche.amount,
+      balance: tranche.amount,
+      payment_detail_id: payment_detail_id,
+      external_id: external_id
+    }
+
+    tx_id = insert_transaction!(user, loan, tx)
+    product = ECBLoans.LoanProducts.fetch!(loan.product_id)
+    Journal.disbursement!(user, loan, product, Map.put(tx, :id, tx_id))
+
+    TenantRepo.update_all(from(l in "m_loan", where: l.id == ^id),
+      set: [
+        net_disbursal_amount: tranche.amount,
+        last_modified_by: user.id,
+        last_modified_on_utc: DateTime.utc_now()
+      ]
+    )
+
+    Transitions.regenerate!(id, user, disbursed_on: loan.disbursedon_date)
+
+    # the repayments that stand are given their balance with this tranche counted, before they are applied again
+    Derived.balances!(id)
+    Reprocess.run!(user, id)
+    Foreclosure.make_accruals_again!(user, Loans.fetch!(id), product)
     :ok
   end
 

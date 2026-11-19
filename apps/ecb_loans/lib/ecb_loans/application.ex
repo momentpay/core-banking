@@ -35,6 +35,7 @@ defmodule ECBLoans.Application do
     {"LOAN", "WAIVEINTERESTPORTION", ECBLoans.Handlers.Loan},
     {"LOAN", "WRITEOFF", ECBLoans.Handlers.Loan},
     {"LOAN", "DISBURSALUNDO", ECBLoans.Handlers.Loan},
+    {"LOAN", "DISBURSALLASTUNDO", ECBLoans.Handlers.Loan},
     {"LOAN", "DELETE", ECBLoans.Handlers.Loan},
     {"GUARANTOR", "CREATE", ECBLoans.Handlers.Guarantor},
     {"GUARANTOR", "UPDATE", ECBLoans.Handlers.Guarantor},

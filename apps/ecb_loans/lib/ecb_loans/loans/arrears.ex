@@ -47,6 +47,22 @@ defmodule ECBLoans.Loans.Arrears do
     )
   end
 
+  @doc "The arrears row of loan `loan_id` as stored (`nil` when it has none), to be put back with `restore!/2`."
+  @spec snapshot(integer) :: map | nil
+  def snapshot(loan_id) do
+    TenantRepo.one(
+      from(a in "m_loan_arrears_aging",
+        where: a.loan_id == ^loan_id,
+        select: map(a, ^@columns)
+      )
+    )
+  end
+
+  @doc "Puts the arrears of loan `loan_id` back as `snapshot/1` found them."
+  @spec restore!(integer, map | nil) :: :ok
+  def restore!(loan_id, nil), do: remove!(loan_id)
+  def restore!(loan_id, row), do: write!(loan_id, row)
+
   @doc """
   Works the arrears of loan `loan_id` out again from its schedule and the business date: every installment due
   before the business date and not paid counts, and the loan is in arrears since the earliest of them. The row is

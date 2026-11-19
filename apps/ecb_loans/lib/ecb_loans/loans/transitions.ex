@@ -444,6 +444,7 @@ defmodule ECBLoans.Loans.Transitions do
     last = List.last(schedule.periods)
 
     ChargeRows.clear_installment_charges!(id)
+    clear_repayment_mappings!(id)
     TenantRepo.delete_all(from(r in "m_loan_repayment_schedule", where: r.loan_id == ^id))
     Submit.insert_installments!(id, schedule, user, DateTime.utc_now())
 
@@ -453,6 +454,17 @@ defmodule ECBLoans.Loans.Transitions do
     )
 
     update!(id, [expected_maturedon_date: last.due, maturedon_date: last.due], user)
+  end
+
+  # what each repayment paid of each installment is worked out again once the new schedule stands
+  defp clear_repayment_mappings!(id) do
+    tx_ids = from(t in "m_loan_transaction", where: t.loan_id == ^id, select: t.id)
+
+    TenantRepo.delete_all(
+      from(m in "m_loan_transaction_repayment_schedule_mapping",
+        where: m.loan_transaction_id in subquery(tx_ids)
+      )
+    )
   end
 
   @doc "The terms the loan's schedule is worked out from, as the loan stores them."

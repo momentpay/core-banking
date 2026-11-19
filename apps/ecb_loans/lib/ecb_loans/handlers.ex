@@ -33,7 +33,8 @@ defmodule ECBLoans.Handlers do
       Officers,
       Repay,
       Submit,
-      Transitions
+      Transitions,
+      UndoLastDisbursal
     }
 
     alias ECBPlatform.Params
@@ -123,6 +124,9 @@ defmodule ECBLoans.Handlers do
 
     def process(%{action_name: "DISBURSALUNDO"} = command, user),
       do: {:ok, Corrections.undo_disbursal!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "DISBURSALLASTUNDO"} = command, user),
+      do: {:ok, UndoLastDisbursal.undo!(user, command.entity_id, Params.parse!(command.json))}
 
     def process(%{action_name: "DELETE"} = command, user),
       do: {:ok, Transitions.delete!(user, command.entity_id)}
