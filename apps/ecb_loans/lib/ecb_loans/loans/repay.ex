@@ -16,6 +16,7 @@ defmodule ECBLoans.Loans.Repay do
   alias ECBLoans.Delinquency.Classify
   alias ECBLoans.Loans
   alias ECBLoans.Loans.{Accruals, ChargeOff, ChargeRows, Derived, Disburse, Journal, Reprocess}
+  alias ECBLoans.Schedule.Calendar
   alias ECBParty.Clients
   alias ECBPlatform.{BusinessDate, Params, TenantRepo, Validation}
   alias ECBPlatform.Commands.Result
@@ -79,6 +80,7 @@ defmodule ECBLoans.Loans.Repay do
     payment_detail_id = payment_detail!(p)
     check_status!(loan)
     check_dates!(loan, on, type)
+    Calendar.check_payment_date!(loan.client_office_id, loan.disbursedon_date, on)
     ChargeOff.guard_date!(loan, on)
     refuse_waiver_after_charge_off!(loan, type)
     check_no_later_refund!(loan, on, type, "created")

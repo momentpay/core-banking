@@ -83915,6 +83915,1773 @@
           "sortby": "transactionDate"
         }
       ]
+    },
+    {
+      "name": "workingdays1",
+      "reset": [
+        "loans",
+        "loanproducts",
+        "clients",
+        "funds",
+        "glaccounts",
+        "staff",
+        "codes",
+        "configuration",
+        "workingdays"
+      ],
+      "steps": [
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/enable-business-date",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-04",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Ann",
+            "lastname": "Lee",
+            "active": true,
+            "activationDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Plain",
+            "shortName": "PLAN",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Daily",
+            "shortName": "DAIL",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 0,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA,SU",
+            "repaymentRescheduleType": 2,
+            "extendTermForDailyRepayments": false,
+            "locale": "en"
+          },
+          "ignore": [
+            "changes"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/workingdays"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR",
+            "repaymentRescheduleType": 2,
+            "extendTermForDailyRepayments": false,
+            "locale": "en"
+          },
+          "ignore": [
+            "changes"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 8,
+            "loanTermFrequencyType": 1,
+            "numberOfRepayments": 8,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 1,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "04 March 2024",
+            "submittedOnDate": "04 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 0,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "repaymentsStartingFromDate": "07 April 2024"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR",
+            "repaymentRescheduleType": 3,
+            "extendTermForDailyRepayments": false,
+            "locale": "en"
+          },
+          "ignore": [
+            "changes"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 8,
+            "loanTermFrequencyType": 1,
+            "numberOfRepayments": 8,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 1,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "04 March 2024",
+            "submittedOnDate": "04 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 0,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "repaymentsStartingFromDate": "07 April 2024"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR",
+            "repaymentRescheduleType": 4,
+            "extendTermForDailyRepayments": false,
+            "locale": "en"
+          },
+          "ignore": [
+            "changes"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 8,
+            "loanTermFrequencyType": 1,
+            "numberOfRepayments": 8,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 1,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "04 March 2024",
+            "submittedOnDate": "04 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 0,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "repaymentsStartingFromDate": "07 April 2024"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE",
+            "repaymentRescheduleType": 2,
+            "extendTermForDailyRepayments": false,
+            "locale": "en"
+          },
+          "ignore": [
+            "changes"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 6,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 6,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE",
+            "repaymentRescheduleType": 4,
+            "extendTermForDailyRepayments": false,
+            "locale": "en"
+          },
+          "ignore": [
+            "changes"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 6,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 6,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR",
+            "repaymentRescheduleType": 2,
+            "extendTermForDailyRepayments": false,
+            "locale": "en"
+          },
+          "ignore": [
+            "changes"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 10,
+            "loanTermFrequencyType": 0,
+            "numberOfRepayments": 10,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 0,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "04 March 2024",
+            "submittedOnDate": "04 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR",
+            "repaymentRescheduleType": 2,
+            "extendTermForDailyRepayments": true,
+            "locale": "en"
+          },
+          "ignore": [
+            "changes"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 10,
+            "loanTermFrequencyType": 0,
+            "numberOfRepayments": 10,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 0,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "04 March 2024",
+            "submittedOnDate": "04 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR",
+            "repaymentRescheduleType": 3,
+            "extendTermForDailyRepayments": true,
+            "locale": "en"
+          },
+          "ignore": [
+            "changes"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 10,
+            "loanTermFrequencyType": 0,
+            "numberOfRepayments": 10,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 0,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "04 March 2024",
+            "submittedOnDate": "04 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR",
+            "repaymentRescheduleType": 4,
+            "extendTermForDailyRepayments": true,
+            "locale": "en"
+          },
+          "ignore": [
+            "changes"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 10,
+            "loanTermFrequencyType": 0,
+            "numberOfRepayments": 10,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 0,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "04 March 2024",
+            "submittedOnDate": "04 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR",
+            "repaymentRescheduleType": 2,
+            "extendTermForDailyRepayments": false,
+            "locale": "en"
+          },
+          "ignore": [
+            "changes"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "02 March 2024",
+            "submittedOnDate": "02 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "repaymentsStartingFromDate": "06 April 2024"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/allow-transactions-on-non-workingday",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "02 March 2024",
+            "submittedOnDate": "02 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/allow-transactions-on-non-workingday",
+          "body": {
+            "enabled": false
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR",
+            "repaymentRescheduleType": 2,
+            "extendTermForDailyRepayments": false,
+            "locale": "en"
+          },
+          "ignore": [
+            "changes"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "01 March 2024",
+            "submittedOnDate": "01 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "a": "resourceId"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}?associations=repaymentSchedule",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "id",
+            "transactionRelations"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=approve",
+          "body": {
+            "approvedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=disburse",
+          "body": {
+            "actualDisbursementDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}?associations=repaymentSchedule",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "id",
+            "transactionRelations"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-06-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}/transactions?command=repayment",
+          "body": {
+            "transactionDate": "01 June 2024",
+            "transactionAmount": 100,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-06-02",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}/transactions?command=repayment",
+          "body": {
+            "transactionDate": "02 June 2024",
+            "transactionAmount": 100,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/allow-transactions-on-non-workingday",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}/transactions?command=repayment",
+          "body": {
+            "transactionDate": "02 June 2024",
+            "transactionAmount": 100,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA,SU",
+            "repaymentRescheduleType": 1,
+            "extendTermForDailyRepayments": false,
+            "locale": "en"
+          },
+          "ignore": [
+            "changes"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "holidays1",
+      "reset": [
+        "loans",
+        "loanproducts",
+        "clients",
+        "funds",
+        "glaccounts",
+        "staff",
+        "codes",
+        "configuration",
+        "workingdays",
+        "holidays"
+      ],
+      "steps": [
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/enable-business-date",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-04",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA,SU",
+            "repaymentRescheduleType": 2,
+            "extendTermForDailyRepayments": false,
+            "locale": "en"
+          },
+          "ignore": [
+            "changes"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Ann",
+            "lastname": "Lee",
+            "active": true,
+            "activationDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Plain",
+            "shortName": "PLAN",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loanproducts",
+          "body": {
+            "name": "Daily",
+            "shortName": "DAIL",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "principal": 10000,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 0,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "daysInYearType": 365,
+            "daysInMonthType": 30,
+            "isInterestRecalculationEnabled": false,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/holidays",
+          "body": {
+            "name": "Specific",
+            "fromDate": "03 June 2024",
+            "toDate": "05 June 2024",
+            "repaymentsRescheduledTo": "06 June 2024",
+            "reschedulingType": 2,
+            "offices": [
+              {
+                "officeId": 1
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/holidays",
+          "body": {
+            "name": "Next",
+            "fromDate": "03 August 2024",
+            "toDate": "05 August 2024",
+            "reschedulingType": 1,
+            "offices": [
+              {
+                "officeId": 1
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/holidays",
+          "body": {
+            "name": "Pending",
+            "fromDate": "03 October 2024",
+            "toDate": "05 October 2024",
+            "repaymentsRescheduledTo": "07 October 2024",
+            "reschedulingType": 2,
+            "offices": [
+              {
+                "officeId": 1
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/holidays",
+          "body": {
+            "name": "Other office",
+            "fromDate": "03 November 2024",
+            "toDate": "05 November 2024",
+            "repaymentsRescheduledTo": "07 November 2024",
+            "reschedulingType": 2,
+            "offices": [
+              {
+                "officeId": 99
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/holidays/1?command=activate",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/holidays/2?command=activate",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "04 March 2024",
+            "submittedOnDate": "04 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/reschedule-repayments-on-holidays",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "04 March 2024",
+            "submittedOnDate": "04 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 0,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "04 March 2024",
+            "submittedOnDate": "04 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 8,
+            "loanTermFrequencyType": 1,
+            "numberOfRepayments": 8,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 1,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "04 March 2024",
+            "submittedOnDate": "04 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR",
+            "repaymentRescheduleType": 2,
+            "extendTermForDailyRepayments": false,
+            "locale": "en"
+          },
+          "ignore": [
+            "changes"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "04 March 2024",
+            "submittedOnDate": "04 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR",
+            "repaymentRescheduleType": 4,
+            "extendTermForDailyRepayments": false,
+            "locale": "en"
+          },
+          "ignore": [
+            "changes"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "04 March 2024",
+            "submittedOnDate": "04 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR",
+            "repaymentRescheduleType": 3,
+            "extendTermForDailyRepayments": false,
+            "locale": "en"
+          },
+          "ignore": [
+            "changes"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "04 March 2024",
+            "submittedOnDate": "04 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA,SU",
+            "repaymentRescheduleType": 2,
+            "extendTermForDailyRepayments": false,
+            "locale": "en"
+          },
+          "ignore": [
+            "changes"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/holidays",
+          "body": {
+            "name": "To weekend",
+            "fromDate": "03 September 2024",
+            "toDate": "05 September 2024",
+            "repaymentsRescheduledTo": "07 September 2024",
+            "reschedulingType": 2,
+            "offices": [
+              {
+                "officeId": 1
+              }
+            ],
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/holidays/4?command=activate",
+          "body": {}
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR",
+            "repaymentRescheduleType": 2,
+            "extendTermForDailyRepayments": false,
+            "locale": "en"
+          },
+          "ignore": [
+            "changes"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "04 March 2024",
+            "submittedOnDate": "04 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR",
+            "repaymentRescheduleType": 4,
+            "extendTermForDailyRepayments": false,
+            "locale": "en"
+          },
+          "ignore": [
+            "changes"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "04 March 2024",
+            "submittedOnDate": "04 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA,SU",
+            "repaymentRescheduleType": 2,
+            "extendTermForDailyRepayments": false,
+            "locale": "en"
+          },
+          "ignore": [
+            "changes"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-06-04",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "04 June 2024",
+            "submittedOnDate": "04 June 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/allow-transactions-on-holiday",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "04 June 2024",
+            "submittedOnDate": "04 June 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/reschedule-repayments-on-holidays",
+          "body": {
+            "enabled": false
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "04 June 2024",
+            "submittedOnDate": "04 June 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/allow-transactions-on-holiday",
+          "body": {
+            "enabled": false
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans?command=calculateLoanSchedule",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "04 June 2024",
+            "submittedOnDate": "04 June 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/reschedule-repayments-on-holidays",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "04 March 2024",
+            "submittedOnDate": "04 March 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "a": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=approve",
+          "body": {
+            "approvedOnDate": "04 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}?command=disburse",
+          "body": {
+            "actualDisbursementDate": "04 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/loans/{a}?associations=repaymentSchedule",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "id",
+            "transactionRelations"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}/transactions?command=repayment",
+          "body": {
+            "transactionDate": "04 June 2024",
+            "transactionAmount": 100,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/allow-transactions-on-holiday",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans/{a}/transactions?command=repayment",
+          "body": {
+            "transactionDate": "04 June 2024",
+            "transactionAmount": 100,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/allow-transactions-on-holiday",
+          "body": {
+            "enabled": false
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/loans",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "principal": 10000,
+            "loanTermFrequency": 12,
+            "loanTermFrequencyType": 2,
+            "numberOfRepayments": 12,
+            "repaymentEvery": 1,
+            "repaymentFrequencyType": 2,
+            "interestRatePerPeriod": 12,
+            "interestRateFrequencyType": 3,
+            "amortizationType": 1,
+            "interestType": 0,
+            "interestCalculationPeriodType": 1,
+            "transactionProcessingStrategyCode": "mifos-standard-strategy",
+            "expectedDisbursementDate": "04 June 2024",
+            "submittedOnDate": "04 June 2024",
+            "loanType": "individual",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "b": "resourceId"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/reschedule-repayments-on-holidays",
+          "body": {
+            "enabled": false
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workingdays",
+          "body": {
+            "recurrence": "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA,SU",
+            "repaymentRescheduleType": 2,
+            "extendTermForDailyRepayments": false,
+            "locale": "en"
+          },
+          "ignore": [
+            "changes"
+          ]
+        }
+      ]
     }
   ]
 }

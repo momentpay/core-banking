@@ -19,7 +19,7 @@ defmodule ECBLoans.Schedule do
   grace on principal or interest, extra installments). The variations are maps
   `%{id:, type:, from:, decimal:, date:, specific?:}` with Fineract's type numbers (see `@types`).
   """
-  alias ECBLoans.Schedule.{Charges, Dates, Rates}
+  alias ECBLoans.Schedule.{Calendar, Charges, Dates, Rates}
   alias ECBMoney.Precision
 
   @max_periods 10_000
@@ -56,7 +56,7 @@ defmodule ECBLoans.Schedule do
 
     terms =
       terms
-      |> Map.put(:loan_end_date, Dates.last_repayment_date(terms))
+      |> Map.put(:loan_end_date, Calendar.last_repayment_date(Map.get(terms, :calendar), terms))
       |> Map.put_new(:disbursed_principal, terms.principal)
       |> Map.put_new(:tranches, [])
       |> Map.put_new(:max_outstanding, nil)
@@ -326,9 +326,20 @@ defmodule ECBLoans.Schedule do
   end
 
   defp next_period(%{terms: terms} = state) do
-    due = Dates.next_repayment_date(state.actual_date, terms, state.first?)
-    state = %{state | first?: false}
+    raw = Dates.next_repayment_date(state.actual_date, terms, state.first?)
+    calendar = Map.get(terms, :calendar)
+    {due, actual} = Calendar.adjust(calendar, raw, terms)
+
+    # the repayments after a moved one count on from where the schedule was, unless the term is extended
+    actual = if Calendar.daily_extension?(calendar, terms), do: due, else: actual
+    state = %{state | first?: false, actual_date: actual}
     {state, due} = apply_variations(state, due)
+
+    due =
+      if calendar && not calendar.first_on_holiday?,
+        do: elem(Calendar.adjust(calendar, due, terms), 0),
+        else: due
+
     start = state.period_start
 
     if Date.compare(start, due) == :gt,
@@ -362,7 +373,7 @@ defmodule ECBLoans.Schedule do
     %{
       state
       | periods: state.periods ++ [period],
-        actual_date: due,
+        actual_date: if(calendar, do: state.actual_date, else: due),
         period_start: due,
         period_number: state.period_number + 1,
         balance: balance,

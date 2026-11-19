@@ -11,7 +11,7 @@ defmodule ECBLoans.Schedule.Request do
   supported yet" and never ignored.
   """
   alias ECBLoans.{Apr, LoanProducts}
-  alias ECBLoans.Schedule.{ChargeInput, TrancheInput}
+  alias ECBLoans.Schedule.{Calendar, ChargeInput, TrancheInput}
   alias ECBParty.Clients
   alias ECBPlatform.Errors.{DomainRuleViolation, ResourceNotFound}
   alias ECBPlatform.{Json, Params, Validation}
@@ -101,7 +101,8 @@ defmodule ECBLoans.Schedule.Request do
     # a schedule only worked out (not stored) takes the charges due at disbursement on the whole loan
     terms = if opts[:store], do: terms, else: Map.put(terms, :charge_base, :whole_loan)
     if opts[:store], do: ChargeInput.check_dates!(terms, terms.charges)
-    check_calendar!(client, terms.disbursement_date)
+    calendar = check_calendar!(client, terms.disbursement_date)
+    terms = Map.put(terms, :calendar, calendar)
     check_first_repayment!(terms, product)
     %{product: product, client: client, terms: terms}
   end
@@ -565,6 +566,7 @@ defmodule ECBLoans.Schedule.Request do
     submitted = Params.date(p, "submittedOnDate")
     expected = Params.date(p, "expectedDisbursementDate")
 
+    holiday_validator!(client, expected)
     product_dates!(submitted, product)
     not_in_future!(submitted)
     client_dates!(submitted, client)
@@ -827,49 +829,36 @@ defmodule ECBLoans.Schedule.Request do
     }
   end
 
-  # Due dates that fall on a non-working day or a holiday are moved by Fineract; that is not built yet, so a
-  # tenant whose calendar would move one is refused instead of getting dates that are not moved
+  # A disbursement on a non-working day or a holiday of the client's office is refused unless the tenant allows
+  # transactions on those days; Fineract's application validator does it before the dates are looked at
+  defp holiday_validator!(client, expected),
+    do: Calendar.check_disbursement_date!(client && client.office_id, expected)
+
+  # The disbursement may not be on a non-working day, nor on a holiday of the client's office; the calendar that moves
+  # the due dates is returned (`nil` when nothing can move one)
   @doc false
   def check_calendar!(client, disbursement) do
-    unless seven_day_week?() do
-      refuse!(["working days other than every day of the week"])
-    end
+    office = client && client.office_id
+    calendar = Calendar.load(office, disbursement)
 
-    holidays = if client, do: ECBOrg.Holidays.list(client.office_id), else: []
-
-    active =
-      Enum.filter(holidays, fn h ->
-        h.status_id == 300 and Date.compare(h.to_date, disbursement) != :lt
-      end)
-
-    if active != [] and ECBPlatform.Configuration.enabled?("reschedule-repayments-on-holidays") do
-      refuse!(["holidays that move repayments"])
-    end
-
-    on_holiday =
-      not ECBPlatform.Configuration.enabled?("allow-transactions-on-holiday") and
-        Enum.any?(active, &(Date.compare(&1.from_date, disbursement) != :gt))
-
-    if on_holiday do
+    unless Calendar.working_day?(calendar, disbursement) do
       date_error!(
-        "disbursement.date.on.holiday",
-        "Expected disbursement date cannot be on a holiday",
+        "disbursement.date.on.non.working.day",
+        "The expected disbursement date cannot be on a non working day",
         [Date.to_iso8601(disbursement)]
       )
     end
-  end
 
-  defp seven_day_week? do
-    case ECBOrg.WorkingDays.get() do
-      %{recurrence: recurrence} when is_binary(recurrence) ->
-        case Regex.run(~r/BYDAY=([A-Z,]+)/, recurrence) do
-          [_, days] -> length(String.split(days, ",")) == 7
-          _ -> false
-        end
-
-      _ ->
-        true
+    # the assembler refuses a holiday when holidays move repayments, whatever the tenant allows
+    if Calendar.holiday(calendar, disbursement) do
+      date_error!(
+        "disbursement.date.on.holiday",
+        "The expected disbursement date cannot be on a holiday",
+        [Date.to_iso8601(disbursement)]
+      )
     end
+
+    calendar
   end
 
   # the first repayment must be at least the product's number of days after disbursement

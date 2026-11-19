@@ -181,8 +181,8 @@ defmodule ECBLoans.Loans.Disburse do
   defp check_dates!(_loan, nil), do: :ok
 
   defp check_dates!(loan, on) do
-    ECBLoans.Schedule.Request.check_calendar!(
-      Clients.fetch!(loan.client_id),
+    ECBLoans.Schedule.Calendar.check_disbursement_date!(
+      loan.client_office_id,
       loan.expected_disbursedon_date
     )
 

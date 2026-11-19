@@ -69,6 +69,21 @@ defmodule ECBOrg.Holidays do
     |> Enum.map(&with_status/1)
   end
 
+  @doc """
+  The active holidays of an office that end on or after `date`, oldest first: the ones a loan disbursed on `date` can
+  be moved by.
+  """
+  @spec active_from(integer, Date.t()) :: [map]
+  def active_from(office_id, date) do
+    base()
+    |> join(:inner, [h], oh in "m_holiday_office",
+      on: oh.holiday_id == h.id and oh.office_id == ^office_id
+    )
+    |> where([h], h.status_enum == @active and h.to_date >= ^date)
+    |> order_by([h], h.id)
+    |> TenantRepo.all()
+  end
+
   @doc "One holiday, or `{:error, ResourceNotFound}`."
   @spec get(integer) :: {:ok, map} | {:error, Exception.t()}
   def get(id) do

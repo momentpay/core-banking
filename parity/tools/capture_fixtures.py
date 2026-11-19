@@ -147,6 +147,7 @@ RESETS = {
     ],
     "configuration": [
         "UPDATE c_configuration SET enabled = false, value = NULL, string_value = NULL, date_value = NULL WHERE id = 1",
+        "UPDATE c_configuration SET enabled = false WHERE id IN (6, 7, 8)",
         "UPDATE c_configuration SET enabled = true, value = 2 WHERE id = 10",
         "UPDATE c_configuration SET enabled = true, value = 0 WHERE id IN (12, 24)",
         "UPDATE c_configuration SET enabled = false, value = 0 WHERE id = 11",

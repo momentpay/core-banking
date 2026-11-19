@@ -120,11 +120,11 @@ defmodule ECBApiFineract.LoanScheduleTest do
     assert conn.status == 404
   end
 
-  test "a working week of fewer than seven days is refused until due dates can be moved" do
+  test "the rule that leaves a due date on a non-working day where it is does not hang, as Fineract's loop does" do
     changed =
       send_json(:put, "/v1/workingdays", %{
         "recurrence" => "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR",
-        "repaymentRescheduleType" => 2,
+        "repaymentRescheduleType" => 1,
         "extendTermForDailyRepayments" => false,
         "locale" => "en"
       })
@@ -133,10 +133,14 @@ defmodule ECBApiFineract.LoanScheduleTest do
 
     try do
       conn = calculate()
-      assert conn.status == 403
+      assert conn.status == 200, conn.resp_body
 
-      assert [%{"userMessageGlobalisationCode" => "error.msg.loan.feature.not.supported.yet"}] =
-               body(conn)["errors"]
+      dues =
+        for %{"period" => _, "dueDate" => [y, m, d]} <- body(conn)["periods"],
+            do: Date.new!(y, m, d)
+
+      # 1 June 2024 is a Saturday and stays
+      assert ~D[2024-06-01] in dues
     after
       send_json(:put, "/v1/workingdays", %{
         "recurrence" => "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA,SU",

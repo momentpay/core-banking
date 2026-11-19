@@ -476,8 +476,11 @@ defmodule ECBLoans.Loans.Transitions do
 
   @doc "The terms the loan's schedule is worked out from, as the loan stores them."
   @spec stored_terms(map, map, Date.t(), [map]) :: map
-  def stored_terms(loan, product, disbursed_on, charges),
-    do: Request.terms(loan_params(loan, disbursed_on, charges), product)
+  def stored_terms(loan, product, disbursed_on, charges) do
+    loan_params(loan, disbursed_on, charges)
+    |> Request.terms(product)
+    |> Map.put(:calendar, ECBLoans.Schedule.Calendar.load(loan.client_office_id, disbursed_on))
+  end
 
   # the loan's stored terms, said the way a request would say them
   defp loan_params(loan, disbursed_on, charges) do
