@@ -22,11 +22,12 @@ defmodule ECBDeposits.Handlers do
   defmodule SavingsAccount do
     @moduledoc """
     Every action on `SAVINGSACCOUNT` so far: apply, change and delete an application, approve it, take the approval
-    back, reject it, withdraw it, activate the account and close it.
+    back, reject it, withdraw it, activate the account and close it, and the deposits, withdrawals and corrections of
+    its transactions.
     """
     @behaviour ECBPlatform.Commands.Handler
 
-    alias ECBDeposits.Savings.{Submit, Transitions}
+    alias ECBDeposits.Savings.{Postings, Submit, Transitions}
     alias ECBPlatform.Params
 
     @impl true
@@ -56,5 +57,30 @@ defmodule ECBDeposits.Handlers do
 
     def process(%{action_name: "CLOSE"} = command, user),
       do: {:ok, Transitions.close!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "DEPOSIT"} = command, user),
+      do: {:ok, Postings.deposit!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "WITHDRAWAL"} = command, user),
+      do: {:ok, Postings.withdraw!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "FORCE_WITHDRAWAL"} = command, user),
+      do: {:ok, Postings.withdraw!(user, command.entity_id, Params.parse!(command.json), true)}
+
+    def process(%{action_name: "UNDOTRANSACTION"} = command, user),
+      do: {:ok, Postings.undo!(user, command.entity_id, command.subentity_id)}
+
+    def process(%{action_name: "REVERSETRANSACTION"} = command, user),
+      do: {:ok, Postings.reverse!(user, command.entity_id, command.subentity_id)}
+
+    def process(%{action_name: "ADJUSTTRANSACTION"} = command, user),
+      do:
+        {:ok,
+         Postings.adjust!(
+           user,
+           command.entity_id,
+           command.subentity_id,
+           Params.parse!(command.json)
+         )}
   end
 end

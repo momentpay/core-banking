@@ -1,0 +1,6606 @@
+{
+ "name": "savings3",
+ "reset": [
+  "savingsaccounts",
+  "savingsproducts",
+  "paymenttypes",
+  "clients",
+  "funds",
+  "glaccounts",
+  "staff",
+  "codes",
+  "configuration"
+ ],
+ "steps": [
+  {
+   "method": "PUT",
+   "path": "/v1/configurations/name/enable-business-date",
+   "body": {
+    "enabled": true
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 44,
+    "changes": {
+     "enabled": true
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "type": "BUSINESS_DATE",
+    "date": "2024-03-01",
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "description": "Business Date",
+    "type": "BUSINESS_DATE",
+    "date": [
+     2024,
+     3,
+     1
+    ],
+    "changes": {
+     "BUSINESS_DATE": [
+      2024,
+      3,
+      1
+     ],
+     "COB_DATE": [
+      2024,
+      2,
+      29
+     ]
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients",
+   "body": {
+    "officeId": 1,
+    "legalFormId": 1,
+    "firstname": "Ann",
+    "lastname": "Lee",
+    "active": true,
+    "activationDate": "01 January 2024",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Acc A1",
+    "glCode": "A1",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1,
+    "description": "d"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Acc A2",
+    "glCode": "A2",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1,
+    "description": "d"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Acc L1",
+    "glCode": "L1",
+    "manualEntriesAllowed": true,
+    "type": 2,
+    "usage": 1,
+    "description": "d"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Acc L2",
+    "glCode": "L2",
+    "manualEntriesAllowed": true,
+    "type": 2,
+    "usage": 1,
+    "description": "d"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Acc L3",
+    "glCode": "L3",
+    "manualEntriesAllowed": true,
+    "type": 2,
+    "usage": 1,
+    "description": "d"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 5
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Acc I1",
+    "glCode": "I1",
+    "manualEntriesAllowed": true,
+    "type": 4,
+    "usage": 1,
+    "description": "d"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 6
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Acc I2",
+    "glCode": "I2",
+    "manualEntriesAllowed": true,
+    "type": 4,
+    "usage": 1,
+    "description": "d"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 7
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Acc X1",
+    "glCode": "X1",
+    "manualEntriesAllowed": true,
+    "type": 5,
+    "usage": 1,
+    "description": "d"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 8
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Acc X2",
+    "glCode": "X2",
+    "manualEntriesAllowed": true,
+    "type": 5,
+    "usage": 1,
+    "description": "d"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 9
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Acc A3",
+    "glCode": "A3",
+    "manualEntriesAllowed": true,
+    "type": 1,
+    "usage": 1,
+    "description": "d"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 10
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/glaccounts",
+   "body": {
+    "name": "Acc L4",
+    "glCode": "L4",
+    "manualEntriesAllowed": true,
+    "type": 2,
+    "usage": 1,
+    "description": "d"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 11
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/paymenttypes",
+   "body": {
+    "name": "Cash",
+    "description": "cash",
+    "isCashPayment": true,
+    "position": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsproducts",
+   "body": {
+    "name": "Cash0",
+    "shortName": "CSH0",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "nominalAnnualInterestRate": 0,
+    "interestCompoundingPeriodType": 1,
+    "interestPostingPeriodType": 4,
+    "interestCalculationType": 1,
+    "interestCalculationDaysInYearType": 365,
+    "locale": "en",
+    "accountingRule": 2,
+    "savingsReferenceAccountId": 1,
+    "savingsControlAccountId": 3,
+    "interestOnSavingsAccountId": 8,
+    "incomeFromFeeAccountId": 6,
+    "incomeFromPenaltyAccountId": 7,
+    "transfersInSuspenseAccountId": 4,
+    "overdraftPortfolioControlId": 2,
+    "incomeFromInterestId": 6,
+    "writeOffAccountId": 9,
+    "paymentChannelToFundSourceMappings": [
+     {
+      "paymentTypeId": 4,
+      "fundSourceAccountId": 10
+     }
+    ]
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsproducts",
+   "body": {
+    "name": "Open",
+    "shortName": "OPEN",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "nominalAnnualInterestRate": 0,
+    "interestCompoundingPeriodType": 1,
+    "interestPostingPeriodType": 4,
+    "interestCalculationType": 1,
+    "interestCalculationDaysInYearType": 365,
+    "locale": "en",
+    "accountingRule": 2,
+    "savingsReferenceAccountId": 1,
+    "savingsControlAccountId": 3,
+    "interestOnSavingsAccountId": 8,
+    "incomeFromFeeAccountId": 6,
+    "incomeFromPenaltyAccountId": 7,
+    "transfersInSuspenseAccountId": 4,
+    "overdraftPortfolioControlId": 2,
+    "incomeFromInterestId": 6,
+    "writeOffAccountId": 9,
+    "minRequiredOpeningBalance": 100,
+    "allowOverdraft": true,
+    "overdraftLimit": 300,
+    "nominalAnnualInterestRateOverdraft": 0,
+    "minOverdraftForInterestCalculation": 0
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsproducts",
+   "body": {
+    "name": "Accr",
+    "shortName": "ACCR",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "nominalAnnualInterestRate": 0,
+    "interestCompoundingPeriodType": 1,
+    "interestPostingPeriodType": 4,
+    "interestCalculationType": 1,
+    "interestCalculationDaysInYearType": 365,
+    "locale": "en",
+    "accountingRule": 3,
+    "savingsReferenceAccountId": 1,
+    "savingsControlAccountId": 3,
+    "interestOnSavingsAccountId": 8,
+    "incomeFromFeeAccountId": 6,
+    "incomeFromPenaltyAccountId": 7,
+    "transfersInSuspenseAccountId": 4,
+    "overdraftPortfolioControlId": 2,
+    "incomeFromInterestId": 6,
+    "writeOffAccountId": 9,
+    "feesReceivableAccountId": 10,
+    "penaltiesReceivableAccountId": 10,
+    "interestPayableAccountId": 5
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts",
+   "body": {
+    "clientId": 1,
+    "productId": 1,
+    "submittedOnDate": "01 March 2024",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "save": {
+    "a": "resourceId"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 1,
+    "resourceId": 1,
+    "gsimId": 0
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{a}?command=approve",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "approvedOnDate": "01 March 2024"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 1,
+    "resourceId": 1,
+    "changes": {
+     "status": {
+      "id": 200,
+      "code": "savingsAccountStatusType.approved",
+      "value": "Approved",
+      "submittedAndPendingApproval": false,
+      "approved": true,
+      "rejected": false,
+      "withdrawnByApplicant": false,
+      "active": false,
+      "closed": false,
+      "prematureClosed": false,
+      "transferInProgress": false,
+      "transferOnHold": false,
+      "matured": false
+     },
+     "locale": "en",
+     "dateFormat": "dd MMMM yyyy",
+     "approvedOnDate": "01 March 2024"
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{a}?command=activate",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "activatedOnDate": "01 March 2024"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 1,
+    "resourceId": 1,
+    "changes": {
+     "status": {
+      "id": 300,
+      "code": "savingsAccountStatusType.active",
+      "value": "Active",
+      "submittedAndPendingApproval": false,
+      "approved": false,
+      "rejected": false,
+      "withdrawnByApplicant": false,
+      "active": true,
+      "closed": false,
+      "prematureClosed": false,
+      "transferInProgress": false,
+      "transferOnHold": false,
+      "matured": false
+     },
+     "locale": "en",
+     "dateFormat": "dd MMMM yyyy",
+     "activatedOnDate": "01 March 2024"
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts",
+   "body": {
+    "clientId": 1,
+    "productId": 2,
+    "submittedOnDate": "01 March 2024",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "save": {
+    "b": "resourceId"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 2,
+    "resourceId": 2,
+    "gsimId": 0
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{b}?command=approve",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "approvedOnDate": "01 March 2024"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 2,
+    "resourceId": 2,
+    "changes": {
+     "status": {
+      "id": 200,
+      "code": "savingsAccountStatusType.approved",
+      "value": "Approved",
+      "submittedAndPendingApproval": false,
+      "approved": true,
+      "rejected": false,
+      "withdrawnByApplicant": false,
+      "active": false,
+      "closed": false,
+      "prematureClosed": false,
+      "transferInProgress": false,
+      "transferOnHold": false,
+      "matured": false
+     },
+     "locale": "en",
+     "dateFormat": "dd MMMM yyyy",
+     "approvedOnDate": "01 March 2024"
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{b}?command=activate",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "activatedOnDate": "01 March 2024"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 2,
+    "resourceId": 2,
+    "changes": {
+     "status": {
+      "id": 300,
+      "code": "savingsAccountStatusType.active",
+      "value": "Active",
+      "submittedAndPendingApproval": false,
+      "approved": false,
+      "rejected": false,
+      "withdrawnByApplicant": false,
+      "active": true,
+      "closed": false,
+      "prematureClosed": false,
+      "transferInProgress": false,
+      "transferOnHold": false,
+      "matured": false
+     },
+     "locale": "en",
+     "dateFormat": "dd MMMM yyyy",
+     "activatedOnDate": "01 March 2024"
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts",
+   "body": {
+    "clientId": 1,
+    "productId": 2,
+    "submittedOnDate": "01 March 2024",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "minRequiredOpeningBalance": 0
+   },
+   "save": {
+    "c": "resourceId"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 3,
+    "resourceId": 3,
+    "gsimId": 0
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{c}?command=approve",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "approvedOnDate": "01 March 2024"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 3,
+    "resourceId": 3,
+    "changes": {
+     "status": {
+      "id": 200,
+      "code": "savingsAccountStatusType.approved",
+      "value": "Approved",
+      "submittedAndPendingApproval": false,
+      "approved": true,
+      "rejected": false,
+      "withdrawnByApplicant": false,
+      "active": false,
+      "closed": false,
+      "prematureClosed": false,
+      "transferInProgress": false,
+      "transferOnHold": false,
+      "matured": false
+     },
+     "locale": "en",
+     "dateFormat": "dd MMMM yyyy",
+     "approvedOnDate": "01 March 2024"
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{c}?command=activate",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "activatedOnDate": "01 March 2024"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 3,
+    "resourceId": 3,
+    "changes": {
+     "status": {
+      "id": 300,
+      "code": "savingsAccountStatusType.active",
+      "value": "Active",
+      "submittedAndPendingApproval": false,
+      "approved": false,
+      "rejected": false,
+      "withdrawnByApplicant": false,
+      "active": true,
+      "closed": false,
+      "prematureClosed": false,
+      "transferInProgress": false,
+      "transferOnHold": false,
+      "matured": false
+     },
+     "locale": "en",
+     "dateFormat": "dd MMMM yyyy",
+     "activatedOnDate": "01 March 2024"
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts",
+   "body": {
+    "clientId": 1,
+    "productId": 3,
+    "submittedOnDate": "01 March 2024",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "save": {
+    "d": "resourceId"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 4,
+    "resourceId": 4,
+    "gsimId": 0
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{d}?command=approve",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "approvedOnDate": "01 March 2024"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 4,
+    "resourceId": 4,
+    "changes": {
+     "status": {
+      "id": 200,
+      "code": "savingsAccountStatusType.approved",
+      "value": "Approved",
+      "submittedAndPendingApproval": false,
+      "approved": true,
+      "rejected": false,
+      "withdrawnByApplicant": false,
+      "active": false,
+      "closed": false,
+      "prematureClosed": false,
+      "transferInProgress": false,
+      "transferOnHold": false,
+      "matured": false
+     },
+     "locale": "en",
+     "dateFormat": "dd MMMM yyyy",
+     "approvedOnDate": "01 March 2024"
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{d}?command=activate",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "activatedOnDate": "01 March 2024"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 4,
+    "resourceId": 4,
+    "changes": {
+     "status": {
+      "id": 300,
+      "code": "savingsAccountStatusType.active",
+      "value": "Active",
+      "submittedAndPendingApproval": false,
+      "approved": false,
+      "rejected": false,
+      "withdrawnByApplicant": false,
+      "active": true,
+      "closed": false,
+      "prematureClosed": false,
+      "transferInProgress": false,
+      "transferOnHold": false,
+      "matured": false
+     },
+     "locale": "en",
+     "dateFormat": "dd MMMM yyyy",
+     "activatedOnDate": "01 March 2024"
+    }
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/journalentries?savingsId={b}&orderBy=id&limit=100",
+   "ignore": [
+    "createdOn",
+    "updatedOn",
+    "paymentDetailData.id",
+    "createdByUserName",
+    "submittedOnDate"
+   ],
+   "status": 200,
+   "response": {
+    "totalFilteredRecords": 2,
+    "pageItems": [
+     {
+      "id": 1,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S1",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 2,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 2,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S1",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 2,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{a}/transactions?command=deposit",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "paymentTypeId": 1,
+    "transactionDate": "01 March 2024",
+    "transactionAmount": 1000
+   },
+   "save": {
+    "t1": "resourceId"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 1,
+    "resourceId": 2,
+    "changes": {
+     "paymentTypeId": 1
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{a}/transactions?command=deposit",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "paymentTypeId": 4,
+    "transactionDate": "01 March 2024",
+    "transactionAmount": 200
+   },
+   "save": {
+    "t2": "resourceId"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 1,
+    "resourceId": 3,
+    "changes": {
+     "paymentTypeId": 4
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{a}/transactions?command=withdrawal",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "paymentTypeId": 4,
+    "transactionDate": "01 March 2024",
+    "transactionAmount": 150
+   },
+   "save": {
+    "t3": "resourceId"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 1,
+    "resourceId": 4,
+    "changes": {
+     "paymentTypeId": 4
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{a}/transactions?command=withdrawal",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "paymentTypeId": 1,
+    "transactionDate": "01 March 2024",
+    "transactionAmount": 100
+   },
+   "save": {
+    "t4": "resourceId"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 1,
+    "resourceId": 5,
+    "changes": {
+     "paymentTypeId": 1
+    }
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/journalentries?savingsId={a}&orderBy=id&limit=100",
+   "ignore": [
+    "createdOn",
+    "updatedOn",
+    "paymentDetailData.id",
+    "createdByUserName",
+    "submittedOnDate"
+   ],
+   "status": 200,
+   "response": {
+    "totalFilteredRecords": 8,
+    "pageItems": [
+     {
+      "id": 3,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 1000.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S2",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 4,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 1000.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S2",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 5,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A3",
+      "glAccountId": 10,
+      "glAccountCode": "A3",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 200.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S3",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 6,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 200.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S3",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 7,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 150.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S4",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 8,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A3",
+      "glAccountId": 10,
+      "glAccountCode": "A3",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 150.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S4",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 9,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S5",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 10,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S5",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{a}/transactions/{t1}?command=undo",
+   "body": {},
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "Failed data validation due to: results.in.balance.going.negative.",
+      "defaultUserMessage": "Failed data validation due to: results.in.balance.going.negative.",
+      "userMessageGlobalisationCode": "validation.msg.savingsaccount.undotransaction.results.in.balance.going.negative",
+      "args": [
+       {},
+       {
+        "value": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{a}/transactions/{t1}?command=undo",
+   "body": {},
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "Failed data validation due to: results.in.balance.going.negative.",
+      "defaultUserMessage": "Failed data validation due to: results.in.balance.going.negative.",
+      "userMessageGlobalisationCode": "validation.msg.savingsaccount.undotransaction.results.in.balance.going.negative",
+      "args": [
+       {},
+       {
+        "value": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{a}/transactions/{t3}?command=reverse",
+   "body": {},
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 1,
+    "resourceId": 6
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/journalentries?savingsId={a}&orderBy=id&limit=100",
+   "ignore": [
+    "createdOn",
+    "updatedOn",
+    "paymentDetailData.id",
+    "createdByUserName",
+    "submittedOnDate"
+   ],
+   "status": 200,
+   "response": {
+    "totalFilteredRecords": 10,
+    "pageItems": [
+     {
+      "id": 3,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 1000.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S2",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 4,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 1000.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S2",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 5,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A3",
+      "glAccountId": 10,
+      "glAccountCode": "A3",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 200.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S3",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 6,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 200.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S3",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 7,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 150.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S4",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 8,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A3",
+      "glAccountId": 10,
+      "glAccountCode": "A3",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 150.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S4",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 9,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S5",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 10,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S5",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 11,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A3",
+      "glAccountId": 10,
+      "glAccountCode": "A3",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 150.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S4",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 12,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 150.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S4",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{a}/transactions?command=deposit",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "paymentTypeId": 1,
+    "transactionDate": "01 March 2024",
+    "transactionAmount": 500
+   },
+   "save": {
+    "t5": "resourceId"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 1,
+    "resourceId": 7,
+    "changes": {
+     "paymentTypeId": 1
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{a}/transactions/{t5}?command=modify",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "transactionDate": "01 March 2024",
+    "transactionAmount": 450,
+    "paymentTypeId": 4
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 1,
+    "resourceId": 8,
+    "changes": {
+     "paymentTypeId": 4
+    }
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/journalentries?savingsId={a}&orderBy=id&limit=100",
+   "ignore": [
+    "createdOn",
+    "updatedOn",
+    "paymentDetailData.id",
+    "createdByUserName",
+    "submittedOnDate"
+   ],
+   "status": 200,
+   "response": {
+    "totalFilteredRecords": 16,
+    "pageItems": [
+     {
+      "id": 3,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 1000.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S2",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 4,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 1000.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S2",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 5,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A3",
+      "glAccountId": 10,
+      "glAccountCode": "A3",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 200.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S3",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 6,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 200.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S3",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 7,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 150.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S4",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 8,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A3",
+      "glAccountId": 10,
+      "glAccountCode": "A3",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 150.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S4",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 9,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S5",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 10,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S5",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 11,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A3",
+      "glAccountId": 10,
+      "glAccountCode": "A3",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 150.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S4",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 12,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 150.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S4",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 13,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S7",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 14,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S7",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 15,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S7",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 16,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 500.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S7",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 17,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A3",
+      "glAccountId": 10,
+      "glAccountCode": "A3",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 450.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S8",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 18,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 450.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S8",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 1,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{c}/transactions?command=withdrawal",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "paymentTypeId": 1,
+    "transactionDate": "01 March 2024",
+    "transactionAmount": 100
+   },
+   "save": {
+    "w1": "resourceId"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 3,
+    "resourceId": 9,
+    "changes": {
+     "paymentTypeId": 1
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{c}/transactions?command=withdrawal",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "paymentTypeId": 1,
+    "transactionDate": "01 March 2024",
+    "transactionAmount": 150
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 3,
+    "resourceId": 10,
+    "changes": {
+     "paymentTypeId": 1
+    }
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/journalentries?savingsId={c}&orderBy=id&limit=100",
+   "ignore": [
+    "createdOn",
+    "updatedOn",
+    "paymentDetailData.id",
+    "createdByUserName",
+    "submittedOnDate"
+   ],
+   "status": 200,
+   "response": {
+    "totalFilteredRecords": 4,
+    "pageItems": [
+     {
+      "id": 19,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A2",
+      "glAccountId": 2,
+      "glAccountCode": "A2",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S9",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 20,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S9",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 21,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A2",
+      "glAccountId": 2,
+      "glAccountCode": "A2",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 150.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S10",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 22,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 150.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S10",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{c}/transactions?command=deposit",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "paymentTypeId": 1,
+    "transactionDate": "01 March 2024",
+    "transactionAmount": 120
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 3,
+    "resourceId": 11,
+    "changes": {
+     "paymentTypeId": 1
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{c}/transactions?command=deposit",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "paymentTypeId": 1,
+    "transactionDate": "01 March 2024",
+    "transactionAmount": 200
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 3,
+    "resourceId": 12,
+    "changes": {
+     "paymentTypeId": 1
+    }
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/journalentries?savingsId={c}&orderBy=id&limit=100",
+   "ignore": [
+    "createdOn",
+    "updatedOn",
+    "paymentDetailData.id",
+    "createdByUserName",
+    "submittedOnDate"
+   ],
+   "status": 200,
+   "response": {
+    "totalFilteredRecords": 10,
+    "pageItems": [
+     {
+      "id": 19,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A2",
+      "glAccountId": 2,
+      "glAccountCode": "A2",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S9",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 20,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S9",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 21,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A2",
+      "glAccountId": 2,
+      "glAccountCode": "A2",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 150.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S10",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 22,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 150.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S10",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 23,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 120.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S11",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 24,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A2",
+      "glAccountId": 2,
+      "glAccountCode": "A2",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 120.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S11",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 25,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 130.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S12",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 26,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A2",
+      "glAccountId": 2,
+      "glAccountCode": "A2",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 130.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S12",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 27,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 70.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S12",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 28,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 70.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S12",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{c}/transactions/{w1}?command=undo",
+   "body": {},
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 3,
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/journalentries?savingsId={c}&orderBy=id&limit=100",
+   "ignore": [
+    "createdOn",
+    "updatedOn",
+    "paymentDetailData.id",
+    "createdByUserName",
+    "submittedOnDate"
+   ],
+   "status": 200,
+   "response": {
+    "totalFilteredRecords": 12,
+    "pageItems": [
+     {
+      "id": 19,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A2",
+      "glAccountId": 2,
+      "glAccountCode": "A2",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S9",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 20,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S9",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 21,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A2",
+      "glAccountId": 2,
+      "glAccountCode": "A2",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 150.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S10",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 22,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 150.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S10",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 23,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 120.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S11",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 24,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A2",
+      "glAccountId": 2,
+      "glAccountCode": "A2",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 120.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S11",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 25,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 130.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S12",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 26,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A2",
+      "glAccountId": 2,
+      "glAccountCode": "A2",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 130.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S12",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 27,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 70.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S12",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 28,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 70.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S12",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 29,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S9",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 30,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A2",
+      "glAccountId": 2,
+      "glAccountCode": "A2",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S9",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 3,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{d}/transactions?command=deposit",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "paymentTypeId": 1,
+    "transactionDate": "01 March 2024",
+    "transactionAmount": 300
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 4,
+    "resourceId": 13,
+    "changes": {
+     "paymentTypeId": 1
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{d}/transactions?command=withdrawal",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "paymentTypeId": 1,
+    "transactionDate": "01 March 2024",
+    "transactionAmount": 80
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 4,
+    "resourceId": 14,
+    "changes": {
+     "paymentTypeId": 1
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{d}/transactions?command=withdrawal",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "paymentTypeId": 4,
+    "transactionDate": "01 March 2024",
+    "transactionAmount": 20
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 4,
+    "resourceId": 15,
+    "changes": {
+     "paymentTypeId": 4
+    }
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/journalentries?savingsId={d}&orderBy=id&limit=100",
+   "ignore": [
+    "createdOn",
+    "updatedOn",
+    "paymentDetailData.id",
+    "createdByUserName",
+    "submittedOnDate"
+   ],
+   "status": 200,
+   "response": {
+    "totalFilteredRecords": 6,
+    "pageItems": [
+     {
+      "id": 31,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 300.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S13",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 4,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 32,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 300.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S13",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 4,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 33,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 80.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S14",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 4,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 34,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 80.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S14",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 4,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 35,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 20.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S15",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 4,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 36,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 20.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S15",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 4,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/savingsaccounts/{d}?associations=transactions",
+   "status": 200,
+   "response": {
+    "id": 4,
+    "accountNo": "000000004",
+    "depositType": {
+     "id": 100,
+     "code": "depositAccountType.savingsDeposit",
+     "value": "Savings"
+    },
+    "clientId": 1,
+    "clientName": "Ann Lee",
+    "savingsProductId": 3,
+    "savingsProductName": "Accr",
+    "fieldOfficerId": 0,
+    "status": {
+     "id": 300,
+     "code": "savingsAccountStatusType.active",
+     "value": "Active",
+     "submittedAndPendingApproval": false,
+     "approved": false,
+     "rejected": false,
+     "withdrawnByApplicant": false,
+     "active": true,
+     "closed": false,
+     "prematureClosed": false,
+     "transferInProgress": false,
+     "transferOnHold": false,
+     "matured": false
+    },
+    "subStatus": {
+     "id": 0,
+     "code": "SavingsAccountSubStatusEnum.none",
+     "value": "None",
+     "none": true,
+     "inactive": false,
+     "dormant": false,
+     "escheat": false,
+     "block": false,
+     "blockCredit": false,
+     "blockDebit": false
+    },
+    "timeline": {
+     "submittedOnDate": [
+      2024,
+      3,
+      1
+     ],
+     "submittedByUsername": "mifos",
+     "submittedByFirstname": "App",
+     "submittedByLastname": "Administrator",
+     "approvedOnDate": [
+      2024,
+      3,
+      1
+     ],
+     "approvedByUsername": "mifos",
+     "approvedByFirstname": "App",
+     "approvedByLastname": "Administrator",
+     "activatedOnDate": [
+      2024,
+      3,
+      1
+     ],
+     "activatedByUsername": "mifos",
+     "activatedByFirstname": "App",
+     "activatedByLastname": "Administrator"
+    },
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "nominalAnnualInterestRate": 0.0,
+    "interestCompoundingPeriodType": {
+     "id": 1,
+     "code": "savings.interest.period.savingsCompoundingInterestPeriodType.daily",
+     "value": "Daily"
+    },
+    "interestPostingPeriodType": {
+     "id": 4,
+     "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+     "value": "Monthly"
+    },
+    "interestCalculationType": {
+     "id": 1,
+     "code": "savingsInterestCalculationType.dailybalance",
+     "value": "Daily Balance"
+    },
+    "interestCalculationDaysInYearType": {
+     "id": 365,
+     "code": "savingsInterestCalculationDaysInYearType.days365",
+     "value": "365 Days"
+    },
+    "withdrawalFeeForTransfers": false,
+    "allowOverdraft": false,
+    "enforceMinRequiredBalance": false,
+    "lienAllowed": false,
+    "withHoldTax": false,
+    "lastActiveTransactionDate": [
+     2024,
+     3,
+     1
+    ],
+    "isDormancyTrackingActive": false,
+    "summary": {
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "totalDeposits": 300.0,
+     "totalWithdrawals": 100.0,
+     "totalInterestPosted": 0,
+     "accountBalance": 200.0,
+     "totalOverdraftInterestDerived": 0,
+     "interestNotPosted": 0,
+     "availableBalance": 200.0,
+     "runningBalanceOnPivotDate": 0,
+     "runningBalanceOnInterestPostingTillDate": 0
+    },
+    "transactions": [
+     {
+      "id": 15,
+      "transactionType": {
+       "id": 2,
+       "code": "savingsAccountTransactionType.withdrawal",
+       "value": "Withdrawal",
+       "deposit": false,
+       "dividendPayout": false,
+       "withdrawal": true,
+       "interestPosting": false,
+       "feeDeduction": false,
+       "initiateTransfer": false,
+       "approveTransfer": false,
+       "withdrawTransfer": false,
+       "rejectTransfer": false,
+       "overdraftInterest": false,
+       "writtenoff": false,
+       "overdraftFee": false,
+       "withholdTax": false,
+       "escheat": false,
+       "amountHold": false,
+       "amountRelease": false,
+       "accrual": false,
+       "debit": true,
+       "credit": false,
+       "payCharge": false,
+       "overDraftInterestPosting": false,
+       "incomeFromInterest": false,
+       "entryType": "DEBIT",
+       "withdrawalFee": false,
+       "chargeTransaction": false,
+       "annualFee": false,
+       "depositOrWithdrawal": true,
+       "transactionTypeEnum": "WITHDRAWAL"
+      },
+      "paymentDetailData": {
+       "id": 15,
+       "paymentType": {
+        "id": 4,
+        "name": "Cash"
+       },
+       "accountNumber": "",
+       "checkNumber": "",
+       "routingCode": "",
+       "receiptNumber": "",
+       "bankNumber": ""
+      },
+      "externalId": null,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "amount": 20.0,
+      "runningBalance": 200.0,
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ],
+      "interestedPostedAsOn": false,
+      "submittedByUsername": "mifos",
+      "isReversal": false,
+      "originalTransactionId": 0,
+      "isManualTransaction": false,
+      "lienTransaction": false,
+      "releaseTransactionId": 0,
+      "isOverdraft": false,
+      "entryType": "DEBIT",
+      "accountId": 4,
+      "accountNo": "000000004",
+      "date": [
+       2024,
+       3,
+       1
+      ],
+      "chargesPaidByData": [],
+      "debit": true,
+      "credit": false,
+      "amountOnHold": false,
+      "payCharge": false,
+      "waivePenaltyCharge": false,
+      "waiveFeeCharge": false,
+      "taxDetails": [],
+      "deposit": false,
+      "accrual": false,
+      "interestPosting": false,
+      "withdrawal": true,
+      "penaltyCharge": false,
+      "amountRelease": false,
+      "savingsAccountChargesPaid": [],
+      "interestPostingAndNotReversed": false,
+      "overdraftInterestAndNotReversed": false,
+      "manualTransaction": false,
+      "notReversed": true,
+      "waiveCharge": false,
+      "reversalTransaction": false,
+      "chargeTransaction": false,
+      "feeCharge": false,
+      "dividendPayoutAndNotReversed": false,
+      "withdrawalFeeAndNotReversed": false,
+      "penaltyChargeAndNotReversed": false,
+      "withHoldTaxAndNotReversed": false,
+      "waiveFeeChargeAndNotReversed": false,
+      "waivePenaltyChargeAndNotReversed": false,
+      "annualFee": false,
+      "feeChargeAndNotReversed": false,
+      "depositAndNotReversed": false,
+      "annualFeeAndNotReversed": false,
+      "chargeTransactionAndNotReversed": false
+     },
+     {
+      "id": 14,
+      "transactionType": {
+       "id": 2,
+       "code": "savingsAccountTransactionType.withdrawal",
+       "value": "Withdrawal",
+       "deposit": false,
+       "dividendPayout": false,
+       "withdrawal": true,
+       "interestPosting": false,
+       "feeDeduction": false,
+       "initiateTransfer": false,
+       "approveTransfer": false,
+       "withdrawTransfer": false,
+       "rejectTransfer": false,
+       "overdraftInterest": false,
+       "writtenoff": false,
+       "overdraftFee": false,
+       "withholdTax": false,
+       "escheat": false,
+       "amountHold": false,
+       "amountRelease": false,
+       "accrual": false,
+       "debit": true,
+       "credit": false,
+       "payCharge": false,
+       "overDraftInterestPosting": false,
+       "incomeFromInterest": false,
+       "entryType": "DEBIT",
+       "withdrawalFee": false,
+       "chargeTransaction": false,
+       "annualFee": false,
+       "depositOrWithdrawal": true,
+       "transactionTypeEnum": "WITHDRAWAL"
+      },
+      "paymentDetailData": {
+       "id": 14,
+       "paymentType": {
+        "id": 1,
+        "name": "Money Transfer"
+       },
+       "accountNumber": "",
+       "checkNumber": "",
+       "routingCode": "",
+       "receiptNumber": "",
+       "bankNumber": ""
+      },
+      "externalId": null,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "amount": 80.0,
+      "runningBalance": 220.0,
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ],
+      "interestedPostedAsOn": false,
+      "submittedByUsername": "mifos",
+      "isReversal": false,
+      "originalTransactionId": 0,
+      "isManualTransaction": false,
+      "lienTransaction": false,
+      "releaseTransactionId": 0,
+      "isOverdraft": false,
+      "entryType": "DEBIT",
+      "accountId": 4,
+      "accountNo": "000000004",
+      "date": [
+       2024,
+       3,
+       1
+      ],
+      "chargesPaidByData": [],
+      "debit": true,
+      "credit": false,
+      "amountOnHold": false,
+      "payCharge": false,
+      "waivePenaltyCharge": false,
+      "waiveFeeCharge": false,
+      "taxDetails": [],
+      "deposit": false,
+      "accrual": false,
+      "interestPosting": false,
+      "withdrawal": true,
+      "penaltyCharge": false,
+      "amountRelease": false,
+      "savingsAccountChargesPaid": [],
+      "interestPostingAndNotReversed": false,
+      "overdraftInterestAndNotReversed": false,
+      "manualTransaction": false,
+      "notReversed": true,
+      "waiveCharge": false,
+      "reversalTransaction": false,
+      "chargeTransaction": false,
+      "feeCharge": false,
+      "dividendPayoutAndNotReversed": false,
+      "withdrawalFeeAndNotReversed": false,
+      "penaltyChargeAndNotReversed": false,
+      "withHoldTaxAndNotReversed": false,
+      "waiveFeeChargeAndNotReversed": false,
+      "waivePenaltyChargeAndNotReversed": false,
+      "annualFee": false,
+      "feeChargeAndNotReversed": false,
+      "depositAndNotReversed": false,
+      "annualFeeAndNotReversed": false,
+      "chargeTransactionAndNotReversed": false
+     },
+     {
+      "id": 13,
+      "transactionType": {
+       "id": 1,
+       "code": "savingsAccountTransactionType.deposit",
+       "value": "Deposit",
+       "deposit": true,
+       "dividendPayout": false,
+       "withdrawal": false,
+       "interestPosting": false,
+       "feeDeduction": false,
+       "initiateTransfer": false,
+       "approveTransfer": false,
+       "withdrawTransfer": false,
+       "rejectTransfer": false,
+       "overdraftInterest": false,
+       "writtenoff": false,
+       "overdraftFee": false,
+       "withholdTax": false,
+       "escheat": false,
+       "amountHold": false,
+       "amountRelease": false,
+       "accrual": false,
+       "debit": false,
+       "credit": true,
+       "payCharge": false,
+       "overDraftInterestPosting": false,
+       "incomeFromInterest": false,
+       "entryType": "CREDIT",
+       "withdrawalFee": false,
+       "chargeTransaction": false,
+       "annualFee": false,
+       "depositOrWithdrawal": true,
+       "transactionTypeEnum": "DEPOSIT"
+      },
+      "paymentDetailData": {
+       "id": 13,
+       "paymentType": {
+        "id": 1,
+        "name": "Money Transfer"
+       },
+       "accountNumber": "",
+       "checkNumber": "",
+       "routingCode": "",
+       "receiptNumber": "",
+       "bankNumber": ""
+      },
+      "externalId": null,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "amount": 300.0,
+      "runningBalance": 300.0,
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ],
+      "interestedPostedAsOn": false,
+      "submittedByUsername": "mifos",
+      "isReversal": false,
+      "originalTransactionId": 0,
+      "isManualTransaction": false,
+      "lienTransaction": false,
+      "releaseTransactionId": 0,
+      "isOverdraft": false,
+      "entryType": "CREDIT",
+      "accountId": 4,
+      "accountNo": "000000004",
+      "date": [
+       2024,
+       3,
+       1
+      ],
+      "chargesPaidByData": [],
+      "debit": false,
+      "credit": true,
+      "amountOnHold": false,
+      "payCharge": false,
+      "waivePenaltyCharge": false,
+      "waiveFeeCharge": false,
+      "taxDetails": [],
+      "deposit": true,
+      "accrual": false,
+      "interestPosting": false,
+      "withdrawal": false,
+      "penaltyCharge": false,
+      "amountRelease": false,
+      "savingsAccountChargesPaid": [],
+      "interestPostingAndNotReversed": false,
+      "overdraftInterestAndNotReversed": false,
+      "manualTransaction": false,
+      "notReversed": true,
+      "waiveCharge": false,
+      "reversalTransaction": false,
+      "chargeTransaction": false,
+      "feeCharge": false,
+      "dividendPayoutAndNotReversed": false,
+      "withdrawalFeeAndNotReversed": false,
+      "penaltyChargeAndNotReversed": false,
+      "withHoldTaxAndNotReversed": false,
+      "waiveFeeChargeAndNotReversed": false,
+      "waivePenaltyChargeAndNotReversed": false,
+      "annualFee": false,
+      "feeChargeAndNotReversed": false,
+      "depositAndNotReversed": true,
+      "annualFeeAndNotReversed": false,
+      "chargeTransactionAndNotReversed": false
+     }
+    ],
+    "interestPostingPeriodTypeId": 4,
+    "newSavingsAccountTransactionData": [],
+    "existingReversedTransactionIds": [],
+    "interestCalculationDaysInYearTypeId": 365,
+    "savingsAccountTransactionData": [],
+    "interestCalculationTypeId": 1,
+    "interestCompoundingPeriodTypeId": 1,
+    "savingsAccountTransactionsWithPivotConfig": [
+     {
+      "id": 15,
+      "transactionType": {
+       "id": 2,
+       "code": "savingsAccountTransactionType.withdrawal",
+       "value": "Withdrawal",
+       "deposit": false,
+       "dividendPayout": false,
+       "withdrawal": true,
+       "interestPosting": false,
+       "feeDeduction": false,
+       "initiateTransfer": false,
+       "approveTransfer": false,
+       "withdrawTransfer": false,
+       "rejectTransfer": false,
+       "overdraftInterest": false,
+       "writtenoff": false,
+       "overdraftFee": false,
+       "withholdTax": false,
+       "escheat": false,
+       "amountHold": false,
+       "amountRelease": false,
+       "accrual": false,
+       "debit": true,
+       "credit": false,
+       "payCharge": false,
+       "overDraftInterestPosting": false,
+       "incomeFromInterest": false,
+       "entryType": "DEBIT",
+       "withdrawalFee": false,
+       "chargeTransaction": false,
+       "annualFee": false,
+       "depositOrWithdrawal": true,
+       "transactionTypeEnum": "WITHDRAWAL"
+      },
+      "paymentDetailData": {
+       "id": 15,
+       "paymentType": {
+        "id": 4,
+        "name": "Cash"
+       },
+       "accountNumber": "",
+       "checkNumber": "",
+       "routingCode": "",
+       "receiptNumber": "",
+       "bankNumber": ""
+      },
+      "externalId": null,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "amount": 20.0,
+      "runningBalance": 200.0,
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ],
+      "interestedPostedAsOn": false,
+      "submittedByUsername": "mifos",
+      "isReversal": false,
+      "originalTransactionId": 0,
+      "isManualTransaction": false,
+      "lienTransaction": false,
+      "releaseTransactionId": 0,
+      "isOverdraft": false,
+      "entryType": "DEBIT",
+      "accountId": 4,
+      "accountNo": "000000004",
+      "date": [
+       2024,
+       3,
+       1
+      ],
+      "chargesPaidByData": [],
+      "debit": true,
+      "credit": false,
+      "amountOnHold": false,
+      "payCharge": false,
+      "waivePenaltyCharge": false,
+      "waiveFeeCharge": false,
+      "taxDetails": [],
+      "deposit": false,
+      "accrual": false,
+      "interestPosting": false,
+      "withdrawal": true,
+      "penaltyCharge": false,
+      "amountRelease": false,
+      "savingsAccountChargesPaid": [],
+      "interestPostingAndNotReversed": false,
+      "overdraftInterestAndNotReversed": false,
+      "manualTransaction": false,
+      "notReversed": true,
+      "waiveCharge": false,
+      "reversalTransaction": false,
+      "chargeTransaction": false,
+      "feeCharge": false,
+      "dividendPayoutAndNotReversed": false,
+      "withdrawalFeeAndNotReversed": false,
+      "penaltyChargeAndNotReversed": false,
+      "withHoldTaxAndNotReversed": false,
+      "waiveFeeChargeAndNotReversed": false,
+      "waivePenaltyChargeAndNotReversed": false,
+      "annualFee": false,
+      "feeChargeAndNotReversed": false,
+      "depositAndNotReversed": false,
+      "annualFeeAndNotReversed": false,
+      "chargeTransactionAndNotReversed": false
+     },
+     {
+      "id": 14,
+      "transactionType": {
+       "id": 2,
+       "code": "savingsAccountTransactionType.withdrawal",
+       "value": "Withdrawal",
+       "deposit": false,
+       "dividendPayout": false,
+       "withdrawal": true,
+       "interestPosting": false,
+       "feeDeduction": false,
+       "initiateTransfer": false,
+       "approveTransfer": false,
+       "withdrawTransfer": false,
+       "rejectTransfer": false,
+       "overdraftInterest": false,
+       "writtenoff": false,
+       "overdraftFee": false,
+       "withholdTax": false,
+       "escheat": false,
+       "amountHold": false,
+       "amountRelease": false,
+       "accrual": false,
+       "debit": true,
+       "credit": false,
+       "payCharge": false,
+       "overDraftInterestPosting": false,
+       "incomeFromInterest": false,
+       "entryType": "DEBIT",
+       "withdrawalFee": false,
+       "chargeTransaction": false,
+       "annualFee": false,
+       "depositOrWithdrawal": true,
+       "transactionTypeEnum": "WITHDRAWAL"
+      },
+      "paymentDetailData": {
+       "id": 14,
+       "paymentType": {
+        "id": 1,
+        "name": "Money Transfer"
+       },
+       "accountNumber": "",
+       "checkNumber": "",
+       "routingCode": "",
+       "receiptNumber": "",
+       "bankNumber": ""
+      },
+      "externalId": null,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "amount": 80.0,
+      "runningBalance": 220.0,
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ],
+      "interestedPostedAsOn": false,
+      "submittedByUsername": "mifos",
+      "isReversal": false,
+      "originalTransactionId": 0,
+      "isManualTransaction": false,
+      "lienTransaction": false,
+      "releaseTransactionId": 0,
+      "isOverdraft": false,
+      "entryType": "DEBIT",
+      "accountId": 4,
+      "accountNo": "000000004",
+      "date": [
+       2024,
+       3,
+       1
+      ],
+      "chargesPaidByData": [],
+      "debit": true,
+      "credit": false,
+      "amountOnHold": false,
+      "payCharge": false,
+      "waivePenaltyCharge": false,
+      "waiveFeeCharge": false,
+      "taxDetails": [],
+      "deposit": false,
+      "accrual": false,
+      "interestPosting": false,
+      "withdrawal": true,
+      "penaltyCharge": false,
+      "amountRelease": false,
+      "savingsAccountChargesPaid": [],
+      "interestPostingAndNotReversed": false,
+      "overdraftInterestAndNotReversed": false,
+      "manualTransaction": false,
+      "notReversed": true,
+      "waiveCharge": false,
+      "reversalTransaction": false,
+      "chargeTransaction": false,
+      "feeCharge": false,
+      "dividendPayoutAndNotReversed": false,
+      "withdrawalFeeAndNotReversed": false,
+      "penaltyChargeAndNotReversed": false,
+      "withHoldTaxAndNotReversed": false,
+      "waiveFeeChargeAndNotReversed": false,
+      "waivePenaltyChargeAndNotReversed": false,
+      "annualFee": false,
+      "feeChargeAndNotReversed": false,
+      "depositAndNotReversed": false,
+      "annualFeeAndNotReversed": false,
+      "chargeTransactionAndNotReversed": false
+     },
+     {
+      "id": 13,
+      "transactionType": {
+       "id": 1,
+       "code": "savingsAccountTransactionType.deposit",
+       "value": "Deposit",
+       "deposit": true,
+       "dividendPayout": false,
+       "withdrawal": false,
+       "interestPosting": false,
+       "feeDeduction": false,
+       "initiateTransfer": false,
+       "approveTransfer": false,
+       "withdrawTransfer": false,
+       "rejectTransfer": false,
+       "overdraftInterest": false,
+       "writtenoff": false,
+       "overdraftFee": false,
+       "withholdTax": false,
+       "escheat": false,
+       "amountHold": false,
+       "amountRelease": false,
+       "accrual": false,
+       "debit": false,
+       "credit": true,
+       "payCharge": false,
+       "overDraftInterestPosting": false,
+       "incomeFromInterest": false,
+       "entryType": "CREDIT",
+       "withdrawalFee": false,
+       "chargeTransaction": false,
+       "annualFee": false,
+       "depositOrWithdrawal": true,
+       "transactionTypeEnum": "DEPOSIT"
+      },
+      "paymentDetailData": {
+       "id": 13,
+       "paymentType": {
+        "id": 1,
+        "name": "Money Transfer"
+       },
+       "accountNumber": "",
+       "checkNumber": "",
+       "routingCode": "",
+       "receiptNumber": "",
+       "bankNumber": ""
+      },
+      "externalId": null,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "amount": 300.0,
+      "runningBalance": 300.0,
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ],
+      "interestedPostedAsOn": false,
+      "submittedByUsername": "mifos",
+      "isReversal": false,
+      "originalTransactionId": 0,
+      "isManualTransaction": false,
+      "lienTransaction": false,
+      "releaseTransactionId": 0,
+      "isOverdraft": false,
+      "entryType": "CREDIT",
+      "accountId": 4,
+      "accountNo": "000000004",
+      "date": [
+       2024,
+       3,
+       1
+      ],
+      "chargesPaidByData": [],
+      "debit": false,
+      "credit": true,
+      "amountOnHold": false,
+      "payCharge": false,
+      "waivePenaltyCharge": false,
+      "waiveFeeCharge": false,
+      "taxDetails": [],
+      "deposit": true,
+      "accrual": false,
+      "interestPosting": false,
+      "withdrawal": false,
+      "penaltyCharge": false,
+      "amountRelease": false,
+      "savingsAccountChargesPaid": [],
+      "interestPostingAndNotReversed": false,
+      "overdraftInterestAndNotReversed": false,
+      "manualTransaction": false,
+      "notReversed": true,
+      "waiveCharge": false,
+      "reversalTransaction": false,
+      "chargeTransaction": false,
+      "feeCharge": false,
+      "dividendPayoutAndNotReversed": false,
+      "withdrawalFeeAndNotReversed": false,
+      "penaltyChargeAndNotReversed": false,
+      "withHoldTaxAndNotReversed": false,
+      "waiveFeeChargeAndNotReversed": false,
+      "waivePenaltyChargeAndNotReversed": false,
+      "annualFee": false,
+      "feeChargeAndNotReversed": false,
+      "depositAndNotReversed": true,
+      "annualFeeAndNotReversed": false,
+      "chargeTransactionAndNotReversed": false
+     }
+    ],
+    "startInterestCalculationDate": [
+     2024,
+     3,
+     1
+    ],
+    "cashBasedAccountingEnabledOnSavingsProduct": false,
+    "accrualBasedAccountingEnabledOnSavingsProduct": false,
+    "depositTypeId": 100,
+    "existingTransactionIds": [],
+    "activationLocalDate": [
+     2024,
+     3,
+     1
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "type": "BUSINESS_DATE",
+    "date": "2024-03-02",
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "description": "Business Date",
+    "type": "BUSINESS_DATE",
+    "date": [
+     2024,
+     3,
+     2
+    ],
+    "changes": {
+     "BUSINESS_DATE": [
+      2024,
+      3,
+      2
+     ],
+     "COB_DATE": [
+      2024,
+      3,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/savingsaccounts/{b}?command=close",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "closedOnDate": "02 March 2024",
+    "withdrawBalance": true,
+    "paymentTypeId": 1
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 2,
+    "resourceId": 2,
+    "changes": {
+     "paymentTypeId": 1,
+     "status": {
+      "id": 600,
+      "code": "savingsAccountStatusType.closed",
+      "value": "Closed",
+      "submittedAndPendingApproval": false,
+      "approved": false,
+      "rejected": false,
+      "withdrawnByApplicant": false,
+      "active": false,
+      "closed": true,
+      "prematureClosed": false,
+      "transferInProgress": false,
+      "transferOnHold": false,
+      "matured": false
+     },
+     "locale": "en",
+     "dateFormat": "dd MMMM yyyy",
+     "closedOnDate": "02 March 2024"
+    }
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/journalentries?savingsId={b}&orderBy=id&limit=100",
+   "ignore": [
+    "createdOn",
+    "updatedOn",
+    "paymentDetailData.id",
+    "createdByUserName",
+    "submittedOnDate"
+   ],
+   "status": 200,
+   "response": {
+    "totalFilteredRecords": 4,
+    "pageItems": [
+     {
+      "id": 1,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S1",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 2,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 2,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       1
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S1",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 2,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       1
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ]
+     },
+     {
+      "id": 37,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc L1",
+      "glAccountId": 3,
+      "glAccountCode": "L1",
+      "glAccountType": {
+       "id": 2,
+       "code": "accountType.liability",
+       "value": "LIABILITY"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       2
+      ],
+      "entryType": {
+       "id": 2,
+       "code": "journalEntrytType.debit",
+       "value": "DEBIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S16",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 2,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       2
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       2
+      ]
+     },
+     {
+      "id": 38,
+      "officeId": 1,
+      "officeName": "Head Office",
+      "glAccountName": "Acc A1",
+      "glAccountId": 1,
+      "glAccountCode": "A1",
+      "glAccountType": {
+       "id": 1,
+       "code": "accountType.asset",
+       "value": "ASSET"
+      },
+      "transactionDate": [
+       2024,
+       3,
+       2
+      ],
+      "entryType": {
+       "id": 1,
+       "code": "journalEntryType.credit",
+       "value": "CREDIT"
+      },
+      "amount": 100.0,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "transactionId": "S16",
+      "manualEntry": false,
+      "entityType": {
+       "id": 2,
+       "code": "productType.saving",
+       "value": "SAVING"
+      },
+      "entityId": 2,
+      "createdByUserId": 1,
+      "createdDate": [
+       2024,
+       3,
+       2
+      ],
+      "createdByUserName": "mifos",
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       2
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/savingsaccounts/{b}?associations=transactions",
+   "status": 200,
+   "response": {
+    "id": 2,
+    "accountNo": "000000002",
+    "depositType": {
+     "id": 100,
+     "code": "depositAccountType.savingsDeposit",
+     "value": "Savings"
+    },
+    "clientId": 1,
+    "clientName": "Ann Lee",
+    "savingsProductId": 2,
+    "savingsProductName": "Open",
+    "fieldOfficerId": 0,
+    "status": {
+     "id": 600,
+     "code": "savingsAccountStatusType.closed",
+     "value": "Closed",
+     "submittedAndPendingApproval": false,
+     "approved": false,
+     "rejected": false,
+     "withdrawnByApplicant": false,
+     "active": false,
+     "closed": true,
+     "prematureClosed": false,
+     "transferInProgress": false,
+     "transferOnHold": false,
+     "matured": false
+    },
+    "subStatus": {
+     "id": 0,
+     "code": "SavingsAccountSubStatusEnum.none",
+     "value": "None",
+     "none": true,
+     "inactive": false,
+     "dormant": false,
+     "escheat": false,
+     "block": false,
+     "blockCredit": false,
+     "blockDebit": false
+    },
+    "timeline": {
+     "submittedOnDate": [
+      2024,
+      3,
+      1
+     ],
+     "submittedByUsername": "mifos",
+     "submittedByFirstname": "App",
+     "submittedByLastname": "Administrator",
+     "approvedOnDate": [
+      2024,
+      3,
+      1
+     ],
+     "approvedByUsername": "mifos",
+     "approvedByFirstname": "App",
+     "approvedByLastname": "Administrator",
+     "activatedOnDate": [
+      2024,
+      3,
+      1
+     ],
+     "activatedByUsername": "mifos",
+     "activatedByFirstname": "App",
+     "activatedByLastname": "Administrator",
+     "closedOnDate": [
+      2024,
+      3,
+      2
+     ],
+     "closedByUsername": "mifos",
+     "closedByFirstname": "App",
+     "closedByLastname": "Administrator"
+    },
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "nominalAnnualInterestRate": 0.0,
+    "interestCompoundingPeriodType": {
+     "id": 1,
+     "code": "savings.interest.period.savingsCompoundingInterestPeriodType.daily",
+     "value": "Daily"
+    },
+    "interestPostingPeriodType": {
+     "id": 4,
+     "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+     "value": "Monthly"
+    },
+    "interestCalculationType": {
+     "id": 1,
+     "code": "savingsInterestCalculationType.dailybalance",
+     "value": "Daily Balance"
+    },
+    "interestCalculationDaysInYearType": {
+     "id": 365,
+     "code": "savingsInterestCalculationDaysInYearType.days365",
+     "value": "365 Days"
+    },
+    "minRequiredOpeningBalance": 100.0,
+    "withdrawalFeeForTransfers": false,
+    "allowOverdraft": true,
+    "overdraftLimit": 300.0,
+    "enforceMinRequiredBalance": false,
+    "lienAllowed": false,
+    "withHoldTax": false,
+    "lastActiveTransactionDate": [
+     2024,
+     3,
+     2
+    ],
+    "isDormancyTrackingActive": false,
+    "summary": {
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "totalDeposits": 100.0,
+     "totalWithdrawals": 100.0,
+     "totalInterestPosted": 0,
+     "accountBalance": 0.0,
+     "totalOverdraftInterestDerived": 0,
+     "interestNotPosted": 0,
+     "availableBalance": 0.0,
+     "runningBalanceOnPivotDate": 0,
+     "runningBalanceOnInterestPostingTillDate": 0
+    },
+    "transactions": [
+     {
+      "id": 16,
+      "transactionType": {
+       "id": 2,
+       "code": "savingsAccountTransactionType.withdrawal",
+       "value": "Withdrawal",
+       "deposit": false,
+       "dividendPayout": false,
+       "withdrawal": true,
+       "interestPosting": false,
+       "feeDeduction": false,
+       "initiateTransfer": false,
+       "approveTransfer": false,
+       "withdrawTransfer": false,
+       "rejectTransfer": false,
+       "overdraftInterest": false,
+       "writtenoff": false,
+       "overdraftFee": false,
+       "withholdTax": false,
+       "escheat": false,
+       "amountHold": false,
+       "amountRelease": false,
+       "accrual": false,
+       "debit": true,
+       "credit": false,
+       "payCharge": false,
+       "overDraftInterestPosting": false,
+       "incomeFromInterest": false,
+       "entryType": "DEBIT",
+       "withdrawalFee": false,
+       "chargeTransaction": false,
+       "annualFee": false,
+       "depositOrWithdrawal": true,
+       "transactionTypeEnum": "WITHDRAWAL"
+      },
+      "paymentDetailData": {
+       "id": 16,
+       "paymentType": {
+        "id": 1,
+        "name": "Money Transfer"
+       },
+       "accountNumber": "",
+       "checkNumber": "",
+       "routingCode": "",
+       "receiptNumber": "",
+       "bankNumber": ""
+      },
+      "externalId": null,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "amount": 100.0,
+      "runningBalance": 0.0,
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       2
+      ],
+      "interestedPostedAsOn": false,
+      "submittedByUsername": "mifos",
+      "isReversal": false,
+      "originalTransactionId": 0,
+      "isManualTransaction": false,
+      "lienTransaction": false,
+      "releaseTransactionId": 0,
+      "isOverdraft": false,
+      "entryType": "DEBIT",
+      "accountId": 2,
+      "accountNo": "000000002",
+      "date": [
+       2024,
+       3,
+       2
+      ],
+      "chargesPaidByData": [],
+      "debit": true,
+      "credit": false,
+      "amountOnHold": false,
+      "payCharge": false,
+      "waivePenaltyCharge": false,
+      "waiveFeeCharge": false,
+      "taxDetails": [],
+      "deposit": false,
+      "accrual": false,
+      "interestPosting": false,
+      "withdrawal": true,
+      "penaltyCharge": false,
+      "amountRelease": false,
+      "savingsAccountChargesPaid": [],
+      "interestPostingAndNotReversed": false,
+      "overdraftInterestAndNotReversed": false,
+      "manualTransaction": false,
+      "notReversed": true,
+      "waiveCharge": false,
+      "reversalTransaction": false,
+      "chargeTransaction": false,
+      "feeCharge": false,
+      "dividendPayoutAndNotReversed": false,
+      "withdrawalFeeAndNotReversed": false,
+      "penaltyChargeAndNotReversed": false,
+      "withHoldTaxAndNotReversed": false,
+      "waiveFeeChargeAndNotReversed": false,
+      "waivePenaltyChargeAndNotReversed": false,
+      "annualFee": false,
+      "feeChargeAndNotReversed": false,
+      "depositAndNotReversed": false,
+      "annualFeeAndNotReversed": false,
+      "chargeTransactionAndNotReversed": false
+     },
+     {
+      "id": 1,
+      "transactionType": {
+       "id": 1,
+       "code": "savingsAccountTransactionType.deposit",
+       "value": "Deposit",
+       "deposit": true,
+       "dividendPayout": false,
+       "withdrawal": false,
+       "interestPosting": false,
+       "feeDeduction": false,
+       "initiateTransfer": false,
+       "approveTransfer": false,
+       "withdrawTransfer": false,
+       "rejectTransfer": false,
+       "overdraftInterest": false,
+       "writtenoff": false,
+       "overdraftFee": false,
+       "withholdTax": false,
+       "escheat": false,
+       "amountHold": false,
+       "amountRelease": false,
+       "accrual": false,
+       "debit": false,
+       "credit": true,
+       "payCharge": false,
+       "overDraftInterestPosting": false,
+       "incomeFromInterest": false,
+       "entryType": "CREDIT",
+       "withdrawalFee": false,
+       "chargeTransaction": false,
+       "annualFee": false,
+       "depositOrWithdrawal": true,
+       "transactionTypeEnum": "DEPOSIT"
+      },
+      "externalId": null,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "amount": 100.0,
+      "runningBalance": 100.0,
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ],
+      "interestedPostedAsOn": false,
+      "submittedByUsername": "mifos",
+      "isReversal": false,
+      "originalTransactionId": 0,
+      "isManualTransaction": false,
+      "lienTransaction": false,
+      "releaseTransactionId": 0,
+      "isOverdraft": false,
+      "entryType": "CREDIT",
+      "accountId": 2,
+      "accountNo": "000000002",
+      "date": [
+       2024,
+       3,
+       1
+      ],
+      "chargesPaidByData": [],
+      "debit": false,
+      "credit": true,
+      "amountOnHold": false,
+      "payCharge": false,
+      "waivePenaltyCharge": false,
+      "waiveFeeCharge": false,
+      "taxDetails": [],
+      "deposit": true,
+      "accrual": false,
+      "interestPosting": false,
+      "withdrawal": false,
+      "penaltyCharge": false,
+      "amountRelease": false,
+      "savingsAccountChargesPaid": [],
+      "interestPostingAndNotReversed": false,
+      "overdraftInterestAndNotReversed": false,
+      "manualTransaction": false,
+      "notReversed": true,
+      "waiveCharge": false,
+      "reversalTransaction": false,
+      "chargeTransaction": false,
+      "feeCharge": false,
+      "dividendPayoutAndNotReversed": false,
+      "withdrawalFeeAndNotReversed": false,
+      "penaltyChargeAndNotReversed": false,
+      "withHoldTaxAndNotReversed": false,
+      "waiveFeeChargeAndNotReversed": false,
+      "waivePenaltyChargeAndNotReversed": false,
+      "annualFee": false,
+      "feeChargeAndNotReversed": false,
+      "depositAndNotReversed": true,
+      "annualFeeAndNotReversed": false,
+      "chargeTransactionAndNotReversed": false
+     }
+    ],
+    "interestPostingPeriodTypeId": 4,
+    "newSavingsAccountTransactionData": [],
+    "existingReversedTransactionIds": [],
+    "interestCalculationDaysInYearTypeId": 365,
+    "savingsAccountTransactionData": [],
+    "interestCalculationTypeId": 1,
+    "interestCompoundingPeriodTypeId": 1,
+    "savingsAccountTransactionsWithPivotConfig": [
+     {
+      "id": 16,
+      "transactionType": {
+       "id": 2,
+       "code": "savingsAccountTransactionType.withdrawal",
+       "value": "Withdrawal",
+       "deposit": false,
+       "dividendPayout": false,
+       "withdrawal": true,
+       "interestPosting": false,
+       "feeDeduction": false,
+       "initiateTransfer": false,
+       "approveTransfer": false,
+       "withdrawTransfer": false,
+       "rejectTransfer": false,
+       "overdraftInterest": false,
+       "writtenoff": false,
+       "overdraftFee": false,
+       "withholdTax": false,
+       "escheat": false,
+       "amountHold": false,
+       "amountRelease": false,
+       "accrual": false,
+       "debit": true,
+       "credit": false,
+       "payCharge": false,
+       "overDraftInterestPosting": false,
+       "incomeFromInterest": false,
+       "entryType": "DEBIT",
+       "withdrawalFee": false,
+       "chargeTransaction": false,
+       "annualFee": false,
+       "depositOrWithdrawal": true,
+       "transactionTypeEnum": "WITHDRAWAL"
+      },
+      "paymentDetailData": {
+       "id": 16,
+       "paymentType": {
+        "id": 1,
+        "name": "Money Transfer"
+       },
+       "accountNumber": "",
+       "checkNumber": "",
+       "routingCode": "",
+       "receiptNumber": "",
+       "bankNumber": ""
+      },
+      "externalId": null,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "amount": 100.0,
+      "runningBalance": 0.0,
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       2
+      ],
+      "interestedPostedAsOn": false,
+      "submittedByUsername": "mifos",
+      "isReversal": false,
+      "originalTransactionId": 0,
+      "isManualTransaction": false,
+      "lienTransaction": false,
+      "releaseTransactionId": 0,
+      "isOverdraft": false,
+      "entryType": "DEBIT",
+      "accountId": 2,
+      "accountNo": "000000002",
+      "date": [
+       2024,
+       3,
+       2
+      ],
+      "chargesPaidByData": [],
+      "debit": true,
+      "credit": false,
+      "amountOnHold": false,
+      "payCharge": false,
+      "waivePenaltyCharge": false,
+      "waiveFeeCharge": false,
+      "taxDetails": [],
+      "deposit": false,
+      "accrual": false,
+      "interestPosting": false,
+      "withdrawal": true,
+      "penaltyCharge": false,
+      "amountRelease": false,
+      "savingsAccountChargesPaid": [],
+      "interestPostingAndNotReversed": false,
+      "overdraftInterestAndNotReversed": false,
+      "manualTransaction": false,
+      "notReversed": true,
+      "waiveCharge": false,
+      "reversalTransaction": false,
+      "chargeTransaction": false,
+      "feeCharge": false,
+      "dividendPayoutAndNotReversed": false,
+      "withdrawalFeeAndNotReversed": false,
+      "penaltyChargeAndNotReversed": false,
+      "withHoldTaxAndNotReversed": false,
+      "waiveFeeChargeAndNotReversed": false,
+      "waivePenaltyChargeAndNotReversed": false,
+      "annualFee": false,
+      "feeChargeAndNotReversed": false,
+      "depositAndNotReversed": false,
+      "annualFeeAndNotReversed": false,
+      "chargeTransactionAndNotReversed": false
+     },
+     {
+      "id": 1,
+      "transactionType": {
+       "id": 1,
+       "code": "savingsAccountTransactionType.deposit",
+       "value": "Deposit",
+       "deposit": true,
+       "dividendPayout": false,
+       "withdrawal": false,
+       "interestPosting": false,
+       "feeDeduction": false,
+       "initiateTransfer": false,
+       "approveTransfer": false,
+       "withdrawTransfer": false,
+       "rejectTransfer": false,
+       "overdraftInterest": false,
+       "writtenoff": false,
+       "overdraftFee": false,
+       "withholdTax": false,
+       "escheat": false,
+       "amountHold": false,
+       "amountRelease": false,
+       "accrual": false,
+       "debit": false,
+       "credit": true,
+       "payCharge": false,
+       "overDraftInterestPosting": false,
+       "incomeFromInterest": false,
+       "entryType": "CREDIT",
+       "withdrawalFee": false,
+       "chargeTransaction": false,
+       "annualFee": false,
+       "depositOrWithdrawal": true,
+       "transactionTypeEnum": "DEPOSIT"
+      },
+      "externalId": null,
+      "currency": {
+       "code": "USD",
+       "name": "US Dollar",
+       "decimalPlaces": 2,
+       "displaySymbol": "$",
+       "nameCode": "currency.USD",
+       "displayLabel": "US Dollar ($)"
+      },
+      "amount": 100.0,
+      "runningBalance": 100.0,
+      "reversed": false,
+      "submittedOnDate": [
+       2024,
+       3,
+       1
+      ],
+      "interestedPostedAsOn": false,
+      "submittedByUsername": "mifos",
+      "isReversal": false,
+      "originalTransactionId": 0,
+      "isManualTransaction": false,
+      "lienTransaction": false,
+      "releaseTransactionId": 0,
+      "isOverdraft": false,
+      "entryType": "CREDIT",
+      "accountId": 2,
+      "accountNo": "000000002",
+      "date": [
+       2024,
+       3,
+       1
+      ],
+      "chargesPaidByData": [],
+      "debit": false,
+      "credit": true,
+      "amountOnHold": false,
+      "payCharge": false,
+      "waivePenaltyCharge": false,
+      "waiveFeeCharge": false,
+      "taxDetails": [],
+      "deposit": true,
+      "accrual": false,
+      "interestPosting": false,
+      "withdrawal": false,
+      "penaltyCharge": false,
+      "amountRelease": false,
+      "savingsAccountChargesPaid": [],
+      "interestPostingAndNotReversed": false,
+      "overdraftInterestAndNotReversed": false,
+      "manualTransaction": false,
+      "notReversed": true,
+      "waiveCharge": false,
+      "reversalTransaction": false,
+      "chargeTransaction": false,
+      "feeCharge": false,
+      "dividendPayoutAndNotReversed": false,
+      "withdrawalFeeAndNotReversed": false,
+      "penaltyChargeAndNotReversed": false,
+      "withHoldTaxAndNotReversed": false,
+      "waiveFeeChargeAndNotReversed": false,
+      "waivePenaltyChargeAndNotReversed": false,
+      "annualFee": false,
+      "feeChargeAndNotReversed": false,
+      "depositAndNotReversed": true,
+      "annualFeeAndNotReversed": false,
+      "chargeTransactionAndNotReversed": false
+     }
+    ],
+    "startInterestCalculationDate": [
+     2024,
+     3,
+     1
+    ],
+    "cashBasedAccountingEnabledOnSavingsProduct": false,
+    "accrualBasedAccountingEnabledOnSavingsProduct": false,
+    "depositTypeId": 100,
+    "existingTransactionIds": [],
+    "activationLocalDate": [
+     2024,
+     3,
+     1
+    ]
+   }
+  }
+ ]
+}

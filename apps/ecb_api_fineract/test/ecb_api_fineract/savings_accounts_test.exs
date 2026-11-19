@@ -185,7 +185,7 @@ defmodule ECBApiFineract.SavingsAccountsTest do
       end
     end
 
-    test "activating an account with an opening balance to deposit is refused" do
+    test "activating an account that earns interest with an opening balance to deposit is refused" do
       id = approved_account(%{"minRequiredOpeningBalance" => 100})
 
       conn = command(id, "activate", %{"activatedOnDate" => today()})
@@ -244,6 +244,148 @@ defmodule ECBApiFineract.SavingsAccountsTest do
 
       assert hd(body(conn)["errors"])["userMessageGlobalisationCode"] ==
                "validation.msg.savingsaccount.close.results.in.balance.not.zero"
+    end
+  end
+
+  @zero %{"nominalAnnualInterestRate" => 0}
+
+  defp live_account(product_extra \\ @zero) do
+    id = approved_account(product_extra)
+    assert command(id, "activate", %{"activatedOnDate" => today()}).status == 200
+    id
+  end
+
+  defp money(id, kind, amount, extra \\ %{}, auth \\ admin()) do
+    body =
+      Map.merge(
+        %{
+          "transactionDate" => today(),
+          "transactionAmount" => amount,
+          "paymentTypeId" => 1
+        },
+        Map.merge(@dates, extra)
+      )
+
+    send_json(:post, "/v1/savingsaccounts/#{id}/transactions?command=#{kind}", body, auth)
+  end
+
+  describe "money in and out" do
+    test "each kind of money movement needs its own permission" do
+      id = live_account()
+
+      assert money(id, "deposit", 10, %{}, make_user("tx-none", ["READ_SAVINGSACCOUNT"])).status ==
+               403
+
+      assert money(id, "deposit", 10, %{}, make_user("tx-dep", ["DEPOSIT_SAVINGSACCOUNT"])).status ==
+               200
+
+      assert money(id, "withdrawal", 5, %{}, make_user("tx-no-wd", ["DEPOSIT_SAVINGSACCOUNT"])).status ==
+               403
+
+      assert money(id, "withdrawal", 5, %{}, make_user("tx-wd", ["WITHDRAWAL_SAVINGSACCOUNT"])).status ==
+               200
+
+      tx = body(money(id, "deposit", 20))["resourceId"]
+      undo = "/v1/savingsaccounts/#{id}/transactions/#{tx}?command=undo"
+
+      assert send_json(:post, undo, %{}, make_user("tx-no-undo", ["DEPOSIT_SAVINGSACCOUNT"])).status ==
+               403
+
+      assert send_json(:post, undo, %{}, make_user("tx-undo", ["UNDOTRANSACTION_SAVINGSACCOUNT"])).status ==
+               200
+    end
+
+    test "an account that earns interest is refused money in and out until interest is built" do
+      id = live_account(%{"nominalAnnualInterestRate" => 5})
+
+      for kind <- ["deposit", "withdrawal"] do
+        conn = money(id, kind, 10)
+        assert conn.status == 403, conn.resp_body
+
+        assert hd(body(conn)["errors"])["userMessageGlobalisationCode"] ==
+                 "error.msg.savingsaccount.feature.not.supported.yet"
+      end
+
+      assert body(send_json(:get, "/v1/savingsaccounts/#{id}"))["summary"]["accountBalance"] == 0
+    end
+
+    test "an opening balance is deposited when the account is activated" do
+      id = live_account(%{"nominalAnnualInterestRate" => 0, "minRequiredOpeningBalance" => 100})
+
+      account = body(send_json(:get, "/v1/savingsaccounts/#{id}?associations=transactions"))
+      assert account["summary"]["accountBalance"] == 100
+
+      assert [deposit] = account["transactions"]
+      assert deposit["amount"] == 100
+      assert deposit["transactionType"]["value"] == "Deposit"
+    end
+
+    test "a forced withdrawal may take the balance below nothing as far as the configuration allows" do
+      id = live_account()
+      assert money(id, "deposit", 50).status == 200
+
+      # without the configuration a forced withdrawal is a plain one
+      assert money(id, "force-withdrawal", 80).status == 403
+
+      assert send_json(
+               :put,
+               "/v1/configurations/name/allow-force-withdrawal-on-savings-account",
+               %{
+                 "enabled" => true,
+                 "value" => 100
+               }
+             ).status == 200
+
+      try do
+        assert money(id, "force-withdrawal", 80).status == 200
+        assert money(id, "force-withdrawal", 80).status == 403
+        assert money(id, "withdrawal", 1).status == 403
+
+        assert body(send_json(:get, "/v1/savingsaccounts/#{id}"))["summary"]["accountBalance"] ==
+                 -30
+      after
+        # the configuration is the tenant's, and the other tests find it as it was seeded
+        send_json(:put, "/v1/configurations/name/allow-force-withdrawal-on-savings-account", %{
+          "enabled" => false,
+          "value" => 0
+        })
+      end
+    end
+
+    test "an account is closed with its balance taken out when asked" do
+      id = live_account()
+      assert money(id, "deposit", 40).status == 200
+
+      assert command(id, "close", %{"closedOnDate" => today()}).status == 400
+
+      conn =
+        command(id, "close", %{
+          "closedOnDate" => today(),
+          "withdrawBalance" => true,
+          "paymentTypeId" => 1
+        })
+
+      assert conn.status == 200, conn.resp_body
+
+      account = body(send_json(:get, "/v1/savingsaccounts/#{id}?associations=transactions"))
+      assert account["status"]["value"] == "Closed"
+      assert account["summary"]["accountBalance"] == 0
+      assert length(account["transactions"]) == 2
+
+      # a closed account takes no more money
+      assert money(id, "deposit", 1).status == 400
+    end
+
+    test "undoing a deposit that money was taken out of is refused" do
+      id = live_account()
+      tx = body(money(id, "deposit", 40))["resourceId"]
+      assert money(id, "withdrawal", 30).status == 200
+
+      conn = send_json(:post, "/v1/savingsaccounts/#{id}/transactions/#{tx}?command=undo", %{})
+      assert conn.status == 400
+
+      assert hd(body(conn)["errors"])["userMessageGlobalisationCode"] ==
+               "validation.msg.savingsaccount.undotransaction.results.in.balance.going.negative"
     end
   end
 end

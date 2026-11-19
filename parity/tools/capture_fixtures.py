@@ -326,7 +326,7 @@ RESETS = {
         "DELETE FROM m_note WHERE savings_account_id IS NOT NULL",
         "DELETE FROM m_savings_account_charge_paid_by",
         "DELETE FROM m_savings_account_transaction_tax_details",
-        "DELETE FROM m_savings_account_transaction",
+        "WITH d AS (DELETE FROM m_savings_account_transaction RETURNING payment_detail_id) DELETE FROM m_payment_detail WHERE id IN (SELECT payment_detail_id FROM d)",
         "DELETE FROM m_savings_account_charge",
         "DELETE FROM m_savings_officer_assignment_history",
         "DELETE FROM m_portfolio_account_associations",
@@ -338,6 +338,7 @@ RESETS = {
         "SELECT setval(pg_get_serial_sequence('m_savings_account_charge_paid_by', 'id'), 1, false)",
     ],
     "savingsproducts": [
+        "DELETE FROM acc_product_mapping WHERE product_type = 2",
         "DELETE FROM m_savings_product_charge",
         "DELETE FROM m_savings_product",
         "SELECT setval(pg_get_serial_sequence('m_savings_product', 'id'), 1, false)",

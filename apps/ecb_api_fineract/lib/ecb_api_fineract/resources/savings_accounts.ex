@@ -5,7 +5,7 @@ defmodule ECBApiFineract.Resources.SavingsAccounts do
   active account and on to closed. Answers as Fineract's `SavingsAccountsApiResource` does.
   """
   alias ECBApiFineract.Errors
-  alias ECBApiFineract.Resources.{Charges, Read, Write}
+  alias ECBApiFineract.Resources.{Charges, Read, SavingsTransactions, Write}
   alias ECBCatalog.Charges, as: CatalogCharges
   alias ECBDeposits.{Savings, SavingsEnums, SavingsProducts}
   alias ECBParty.Clients
@@ -58,7 +58,7 @@ defmodule ECBApiFineract.Resources.SavingsAccounts do
   @doc "`GET /savingsaccounts/:id`"
   def show(conn, raw_id) do
     Write.with_path_id(conn, raw_id, fn id ->
-      Read.respond(conn, @resource, fn -> id |> Savings.fetch!() |> one() end)
+      Read.respond(conn, @resource, fn -> id |> Savings.fetch!() |> one(conn.query_params) end)
     end)
   end
 
@@ -67,12 +67,37 @@ defmodule ECBApiFineract.Resources.SavingsAccounts do
     Read.respond(conn, @resource, fn ->
       case Savings.get_by_external_id(external_id) do
         nil -> {:error, Savings.not_found_by_external_id(external_id)}
-        account -> one(account)
+        account -> one(account, conn.query_params)
       end
     end)
   end
 
-  defp one(a), do: a |> list_item(Savings.users(user_ids(a))) |> with_detail(a)
+  defp one(a, q),
+    do:
+      a
+      |> list_item(Savings.users(user_ids(a)))
+      |> with_detail(a)
+      |> with_associations(a, associations(q["associations"]))
+
+  # `associations=`: the transactions come with `transactions` and with `all`
+  defp associations(nil), do: []
+  defp associations(text), do: text |> String.split(",") |> Enum.map(&String.trim/1)
+
+  defp with_associations(body, a, associations) do
+    list =
+      if Enum.any?(associations, &(&1 in ["transactions", "all"])),
+        do: SavingsTransactions.list_json(a),
+        else: []
+
+    # an account without a transaction has no list of them to show
+    if list == [],
+      do: body,
+      else:
+        Map.merge(body, %{
+          "transactions" => list,
+          "savingsAccountTransactionsWithPivotConfig" => list
+        })
+  end
 
   # what the page leaves out: the longer summary, the ids of the choices, and what depends on the account having
   # been activated
@@ -93,9 +118,11 @@ defmodule ECBApiFineract.Resources.SavingsAccounts do
       "interestCalculationTypeId" => a.interest_calculation_type_enum,
       "interestCompoundingPeriodTypeId" => a.interest_compounding_period_enum,
       "startInterestCalculationDate" => a.start_interest_calculation_date,
-      "cashBasedAccountingEnabledOnSavingsProduct" => a.accounting_type == 2,
-      "accrualBasedAccountingEnabledOnSavingsProduct" => a.accounting_type in [3, 4],
+      "cashBasedAccountingEnabledOnSavingsProduct" => false,
+      "accrualBasedAccountingEnabledOnSavingsProduct" => false,
       "depositTypeId" => 100,
+      "lockinPeriodFrequencyTypeId" =>
+        a.lockin_period_frequency && a.lockin_period_frequency_enum,
       "existingTransactionIds" => [],
       "activationLocalDate" => a.activatedon_date
     })
@@ -150,7 +177,8 @@ defmodule ECBApiFineract.Resources.SavingsAccounts do
       "lienAllowed" => a.is_lien_allowed == true,
       "maxAllowedLienLimit" => nonzero(a.max_allowed_lien_limit),
       "withHoldTax" => a.withhold_tax == true,
-      "lastActiveTransactionDate" => a.activatedon_date,
+      "lastActiveTransactionDate" =>
+        a.activatedon_date && (a.last_transaction_date || a.activatedon_date),
       "isDormancyTrackingActive" => a.dormancy_tracking_active == true,
       "summary" => summary(a)
     }
@@ -170,7 +198,8 @@ defmodule ECBApiFineract.Resources.SavingsAccounts do
   defp option(nil), do: nil
   defp option(option), do: Read.option(option)
 
-  defp currency(a) do
+  @doc false
+  def currency(a) do
     Charges.currency(%{
       code: a.currency_code,
       name: a.currency_name,

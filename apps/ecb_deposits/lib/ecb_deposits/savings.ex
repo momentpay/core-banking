@@ -46,7 +46,9 @@ defmodule ECBDeposits.Savings do
          a.enforce_min_required_balance, a.min_balance_for_interest_calculation, a.withhold_tax, a.tax_group_id,
          a.is_lien_allowed, a.max_allowed_lien_limit, a.on_hold_funds_derived, a.version,
          a.start_interest_calculation_date, p.is_dormancy_tracking_active AS dormancy_tracking_active,
-         p.accounting_type AS accounting_type
+         p.accounting_type AS accounting_type,
+         (SELECT max(x.transaction_date) FROM m_savings_account_transaction x
+           WHERE x.savings_account_id = a.id AND NOT x.is_reversed AND NOT x.is_reversal) AS last_transaction_date
   FROM m_savings_account a
   LEFT JOIN m_client c ON c.id = a.client_id
   LEFT JOIN m_savings_product p ON p.id = a.product_id
@@ -74,6 +76,16 @@ defmodule ECBDeposits.Savings do
         "error.msg.saving.account.id.invalid",
         "Savings account with identifier #{id} does not exist",
         [id]
+      )
+
+  @doc "The not-found error for an external id on the transaction routes, which do name it."
+  @spec not_found_by_external_id_named(term) :: Exception.t()
+  def not_found_by_external_id_named(external_id),
+    do:
+      ResourceNotFound.new(
+        "error.msg.saving.account.id.invalid",
+        "Savings account with external identifier #{external_id} does not exist",
+        [external_id]
       )
 
   @doc "The not-found error for an external id; Fineract names no identifier."

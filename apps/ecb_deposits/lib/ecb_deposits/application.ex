@@ -19,7 +19,13 @@ defmodule ECBDeposits.Application do
     {"SAVINGSACCOUNT", "REJECT", ECBDeposits.Handlers.SavingsAccount},
     {"SAVINGSACCOUNT", "WITHDRAW", ECBDeposits.Handlers.SavingsAccount},
     {"SAVINGSACCOUNT", "ACTIVATE", ECBDeposits.Handlers.SavingsAccount},
-    {"SAVINGSACCOUNT", "CLOSE", ECBDeposits.Handlers.SavingsAccount}
+    {"SAVINGSACCOUNT", "CLOSE", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "DEPOSIT", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "WITHDRAWAL", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "FORCE_WITHDRAWAL", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "UNDOTRANSACTION", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "REVERSETRANSACTION", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "ADJUSTTRANSACTION", ECBDeposits.Handlers.SavingsAccount}
   ]
 
   @impl true

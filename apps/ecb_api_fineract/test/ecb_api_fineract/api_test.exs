@@ -314,7 +314,7 @@ defmodule ECBApiFineract.ApiTest do
   # --- everything else ------------------------------------------------------------------------
 
   test "an operation that is in Fineract's API but not built yet is HTTP 501, not 404" do
-    conn = call(:get, "/api/v1/savingsaccounts/1/transactions/1", auth: admin())
+    conn = call(:get, "/api/v1/savingsaccounts/1/charges", auth: admin())
     assert conn.status == 501
 
     assert %{
@@ -323,7 +323,7 @@ defmodule ECBApiFineract.ApiTest do
              "errors" => [
                %{
                  "developerMessage" =>
-                   "GET /api/v1/savingsaccounts/1/transactions/1 is not implemented in E-CoreBank yet"
+                   "GET /api/v1/savingsaccounts/1/charges is not implemented in E-CoreBank yet"
                }
              ]
            } = body(conn)

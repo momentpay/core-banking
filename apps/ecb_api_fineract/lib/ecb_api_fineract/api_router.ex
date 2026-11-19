@@ -51,6 +51,7 @@ defmodule ECBApiFineract.ApiRouter do
     RescheduleLoans,
     SavingsAccounts,
     SavingsProducts,
+    SavingsTransactions,
     Staff,
     Taxes
   }
@@ -172,6 +173,25 @@ defmodule ECBApiFineract.ApiRouter do
   put "/v1/clients/:id", do: Clients.update(conn, id)
   delete "/v1/clients/:id", do: Clients.delete(conn, id)
   get "/v1/savingsaccounts/template", do: SavingsAccounts.template(conn)
+
+  get "/v1/savingsaccounts/external-id/:external_id/transactions/template",
+    do: SavingsTransactions.template_by_external_id(conn, external_id)
+
+  get "/v1/savingsaccounts/external-id/:external_id/transactions/:transaction_id",
+    do: SavingsTransactions.show_of_external_account(conn, external_id, transaction_id)
+
+  get "/v1/savingsaccounts/:id/transactions/template", do: SavingsTransactions.template(conn, id)
+
+  get "/v1/savingsaccounts/:id/transactions/external-id/:external_id",
+    do: SavingsTransactions.show_by_external_id(conn, id, external_id)
+
+  get "/v1/savingsaccounts/:id/transactions/:transaction_id",
+    do: SavingsTransactions.show(conn, id, transaction_id)
+
+  post "/v1/savingsaccounts/:id/transactions", do: SavingsTransactions.command(conn, id)
+
+  post "/v1/savingsaccounts/:id/transactions/:transaction_id",
+    do: SavingsTransactions.adjust(conn, id, transaction_id)
 
   get "/v1/savingsaccounts/external-id/:external_id",
     do: SavingsAccounts.show_by_external_id(conn, external_id)

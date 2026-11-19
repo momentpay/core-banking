@@ -8,6 +8,7 @@ defmodule ECBDeposits.Savings.Transitions do
   import Ecto.Query
 
   alias ECBDeposits.{Savings, SavingsEnums}
+  alias ECBDeposits.Savings.Postings
   alias ECBParty.Clients
   alias ECBPlatform.{BusinessDate, Params, TenantRepo, Validation}
   alias ECBPlatform.Commands.Result
@@ -47,7 +48,7 @@ defmodule ECBDeposits.Savings.Transitions do
       approvedon_userid: user.id
     )
 
-    note!(account, note, user)
+    note!(account, note, user, 500)
 
     changes =
       %{"status" => SavingsEnums.account_status(@approved)}
@@ -83,7 +84,7 @@ defmodule ECBDeposits.Savings.Transitions do
       closedon_userid: user.id
     )
 
-    note!(account, note, user)
+    note!(account, note, user, 500)
 
     changes =
       %{"status" => SavingsEnums.account_status(@rejected)}
@@ -120,7 +121,7 @@ defmodule ECBDeposits.Savings.Transitions do
       closedon_userid: user.id
     )
 
-    note!(account, note, user)
+    note!(account, note, user, 500)
 
     changes =
       %{"status" => SavingsEnums.account_status(@withdrawn)}
@@ -157,7 +158,7 @@ defmodule ECBDeposits.Savings.Transitions do
       closedon_userid: nil
     )
 
-    note!(account, note, user)
+    note!(account, note, user, 500)
 
     changes =
       %{"status" => SavingsEnums.account_status(@pending), "approvedOnDate" => ""}
@@ -183,15 +184,6 @@ defmodule ECBDeposits.Savings.Transitions do
     require_status!(account, @approved, "activate", "activatedOnDate", "not.in.approved.state")
     activation_checks!(account, on, p)
 
-    if account.min_required_opening_balance != nil and
-         Decimal.gt?(account.min_required_opening_balance, 0) do
-      raise DomainRuleViolation,
-        code: "error.msg.savingsaccount.feature.not.supported.yet",
-        message:
-          "Activating an account with a minimum opening balance is not supported yet by E-CoreBank",
-        args: ["minRequiredOpeningBalance"]
-    end
-
     update!(id, user,
       status_enum: @active,
       rejectedon_date: nil,
@@ -205,6 +197,11 @@ defmodule ECBDeposits.Savings.Transitions do
       start_interest_calculation_date: on,
       lockedin_until_date_derived: locked_until(account, on)
     )
+
+    opening = account.min_required_opening_balance
+
+    if opening != nil and Decimal.gt?(opening, 0),
+      do: Postings.opening_deposit!(user, Savings.fetch!(id), on, opening)
 
     changes =
       %{"status" => SavingsEnums.account_status(@active)}
@@ -263,15 +260,26 @@ defmodule ECBDeposits.Savings.Transitions do
   @spec close!(struct, integer, Params.t()) :: Result.t()
   def close!(user, id, %Params{} = p) do
     Params.check_supported!(p, @close_supported)
+    account = account!(id)
     on = Params.date(p, "closedOnDate")
+    withdraw = Params.boolean(p, "withdrawBalance")
+    type_id = Params.integer_with_locale(p, "paymentTypeId")
 
     Validation.new("savingsaccount")
     |> Validation.param("closedOnDate", on)
     |> Validation.not_null()
+    |> then(
+      &if(Params.exists?(p, "withdrawBalance"),
+        do:
+          &1 |> Validation.param("withdrawBalance", withdraw) |> Validation.one_of([true, false]),
+        else: &1
+      )
+    )
+    |> Postings.payment_type_details(p, type_id)
     |> Validation.raise_if_errors!()
 
-    account = account!(id)
-    check_closable!(account, on, Params.boolean(p, "withdrawBalance") == true)
+    {account, changes} = withdraw_balance!(user, account, p, on, withdraw == true)
+    check_closable!(account, on)
 
     update!(id, user,
       status_enum: @closed,
@@ -283,14 +291,31 @@ defmodule ECBDeposits.Savings.Transitions do
       closedon_userid: user.id
     )
 
+    note = Params.string(p, "note")
+    note!(account, note, user, 500)
+
     changes =
-      %{"status" => SavingsEnums.account_status(@closed)}
+      changes
+      |> Map.put("status", SavingsEnums.account_status(@closed))
       |> put_request(p, "closedOnDate")
+      |> put_note(note)
 
     result(account, changes)
   end
 
-  defp check_closable!(account, on, withdraw_balance?) do
+  # Fineract takes what is left out of the account first, then closes it
+  defp withdraw_balance!(user, account, p, on, true) do
+    if Decimal.gt?(account.account_balance_derived, 0) do
+      changes = Postings.closing_withdrawal!(user, account, p, on)
+      {Savings.fetch!(account.id), changes}
+    else
+      {account, %{}}
+    end
+  end
+
+  defp withdraw_balance!(_user, account, _p, _on, false), do: {account, %{}}
+
+  defp check_closable!(account, on) do
     if account.status_enum != @active, do: error!("close", nil, "not.in.active.state", nil)
 
     cond do
@@ -304,20 +329,13 @@ defmodule ECBDeposits.Savings.Transitions do
         :ok
     end
 
-    cond do
-      Decimal.eq?(account.account_balance_derived, 0) ->
-        :ok
+    last = Postings.last_transaction_date(account.id)
 
-      withdraw_balance? ->
-        raise DomainRuleViolation,
-          code: "error.msg.savingsaccount.feature.not.supported.yet",
-          message:
-            "Withdrawing the balance when closing an account is not supported yet by E-CoreBank",
-          args: ["withdrawBalance"]
+    if last != nil and Date.compare(last, on) == :gt,
+      do: code_error!("close", "closedOnDate", "must.be.after.last.transaction.date", on)
 
-      true ->
-        error!("close", nil, "results.in.balance.not.zero", nil)
-    end
+    if not Decimal.eq?(account.account_balance_derived, 0),
+      do: error!("close", nil, "results.in.balance.not.zero", nil)
   end
 
   # --- shared ---------------------------------------------------------------------------------------
@@ -337,7 +355,9 @@ defmodule ECBDeposits.Savings.Transitions do
     {on, note}
   end
 
-  defp account!(id) do
+  @doc false
+  @spec account!(integer) :: map
+  def account!(id) do
     account = Savings.fetch!(id)
 
     if account.client_id do
@@ -412,9 +432,9 @@ defmodule ECBDeposits.Savings.Transitions do
         else: changes
       )
 
-  defp note!(_account, nil, _user), do: :ok
+  defp note!(_account, nil, _user, _type), do: :ok
 
-  defp note!(account, note, user) do
+  defp note!(account, note, user, type) do
     if String.trim(note) != "" do
       now = DateTime.utc_now()
 
@@ -422,7 +442,7 @@ defmodule ECBDeposits.Savings.Transitions do
         %{
           savings_account_id: account.id,
           client_id: account.client_id,
-          note_type_enum: 500,
+          note_type_enum: type,
           note: note,
           created_by: user.id,
           created_on_utc: now,
