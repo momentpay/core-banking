@@ -81,7 +81,18 @@ defmodule ECBApiFineract.ScenariosTest do
   defp save(nil, _answer, vars), do: vars
 
   defp save(wanted, answer, vars),
-    do: Enum.reduce(wanted, vars, fn {name, key}, acc -> Map.put(acc, name, answer[key]) end)
+    do: Enum.reduce(wanted, vars, fn {name, key}, acc -> Map.put(acc, name, dig(answer, key)) end)
+
+  # a name, or names and list positions joined by dots (`disbursementDetails.0.id`)
+  defp dig(answer, key) do
+    key
+    |> String.split(".")
+    |> Enum.reduce(answer, fn
+      part, %{} = map -> map[part]
+      part, list when is_list(list) -> with {n, ""} <- Integer.parse(part), do: Enum.at(list, n)
+      _part, _other -> nil
+    end)
+  end
 
   defp substitute(step, vars) when vars == %{}, do: step
 

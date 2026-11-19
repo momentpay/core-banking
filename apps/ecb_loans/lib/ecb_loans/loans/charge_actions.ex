@@ -54,7 +54,6 @@ defmodule ECBLoans.Loans.ChargeActions do
   @spec add!(struct, integer, Params.t()) :: Result.t()
   def add!(user, id, %Params{} = p) do
     Params.check_supported!(p, @add_supported)
-    ECBLoans.Tranches.guard!(id, "charges")
     charge_id = Json.long(p, "chargeId")
     amount = Params.decimal_with_locale(p, "amount")
     due = Params.date(p, "dueDate")
@@ -133,6 +132,8 @@ defmodule ECBLoans.Loans.ChargeActions do
   # what makes a charge impossible to add, in the order Fineract finds it
   defp check_new!(loan, definition, due) do
     if loan.loan_status_id == @active and definition.time == 1 do
+      ECBLoans.Tranches.guard!(loan.id, "a charge due at disbursement for a tranche")
+
       raise DomainRuleViolation,
         code: "error.msg.charge.cannot.be.updated.no.pending.disbursements.in.loan",
         message: "This charge cannot be added, No disbursement is pending",
@@ -262,7 +263,7 @@ defmodule ECBLoans.Loans.ChargeActions do
     currency = currency_of(product)
     context = ECBMoney.Context.new(:half_even)
     money = &ECBMoney.new(currency, &1, context)
-    principal = money.(loan.principal_amount)
+    principal = money.(charged_on(loan))
     interest = money.(sum(rows, & &1.interest))
     loan_base = base_of(entry.calc, principal, interest)
     amount_for = &amount_on(entry, &1, money)
@@ -293,6 +294,20 @@ defmodule ECBLoans.Loans.ChargeActions do
       applied_to: if(entry.calc == 1, do: nil, else: ECBMoney.amount(loan_base)),
       installments: installments
     }
+  end
+
+  # what a percentage of the loan is taken of: the principal, or for a loan in tranches what has been paid out so far
+  defp charged_on(loan) do
+    case ECBLoans.Tranches.list(loan.id) do
+      [] ->
+        loan.principal_amount
+
+      tranches ->
+        for t <- tranches,
+            t.disbursed_on,
+            reduce: Decimal.new(0),
+            do: (sum -> Decimal.add(sum, t.principal))
+    end
   end
 
   # what a percentage is of: the principal, the principal and interest, or the interest

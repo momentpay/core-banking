@@ -330,6 +330,19 @@ def oracle_sql(statements: list[str]) -> None:
             check=True, capture_output=True, text=True)
 
 
+def dig(body, key: str):
+    """The value at `key` in an answer: a name, or names and list positions joined by dots (`disbursementDetails.0.id`)."""
+    value = body
+    for part in key.split("."):
+        if isinstance(value, dict):
+            value = value.get(part)
+        elif isinstance(value, list) and part.isdigit() and int(part) < len(value):
+            value = value[int(part)]
+        else:
+            return None
+    return value
+
+
 def substitute(text: str | None, saved: dict) -> str | None:
     if text is None:
         return None
@@ -374,7 +387,7 @@ def cmd_scenarios(args) -> int:
             if step.get("method") == "POST" and path.startswith("/v1/jobs/"):
                 time.sleep(4)  # a job runs after the answer (202), so give it the time to finish
             for name, key in step.get("save", {}).items():
-                saved[name] = body.get(key) if isinstance(body, dict) else None
+                saved[name] = dig(body, key)
             recorded = {k: v for k, v in step.items() if k in ("method", "path", "body", "raw", "auth", "ignore", "save", "sortby")}
             # the oracle's generated values in its answers become `{name}` again, for the replay to fill in
             body = json.loads(unsubstitute(json.dumps(body), saved))

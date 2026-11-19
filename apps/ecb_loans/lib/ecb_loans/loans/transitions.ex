@@ -193,7 +193,15 @@ defmodule ECBLoans.Loans.Transitions do
         do:
           set ++
             [approved_principal: amount, principal_amount: amount, net_disbursal_amount: amount],
-        else: set ++ [net_disbursal_amount: loan.approved_principal]
+        else:
+          set ++
+            [
+              net_disbursal_amount:
+                Decimal.sub(
+                  loan.approved_principal,
+                  loan.total_charges_due_at_disbursement_derived || 0
+                )
+            ]
 
     update!(loan.id, set, user)
 
@@ -437,7 +445,6 @@ defmodule ECBLoans.Loans.Transitions do
     loan = Loans.fetch!(id)
     product = ECBLoans.LoanProducts.fetch!(loan.product_id)
     disbursed_on = Keyword.get(opts, :disbursed_on) || loan.expected_disbursedon_date
-    if Keyword.has_key?(opts, :charges), do: ECBLoans.Tranches.guard!(id, "charges")
     charges = Keyword.get(opts, :charges) || ChargeRows.params(id)
     terms = stored_terms(loan, product, disbursed_on, charges)
     schedule = Schedule.generate(terms)

@@ -20,8 +20,8 @@ defmodule ECBApiFineract.LoanTrancheTest do
 
   defp code(conn), do: hd(body(conn)["errors"])["userMessageGlobalisationCode"]
 
-  defp tranche(date, principal),
-    do: %{"expectedDisbursementDate" => date, "principal" => principal}
+  defp tranche(date, principal, extra \\ %{}),
+    do: Map.merge(%{"expectedDisbursementDate" => date, "principal" => principal}, extra)
 
   defp application(extra \\ %{}) do
     Map.merge(
@@ -115,12 +115,12 @@ defmodule ECBApiFineract.LoanTrancheTest do
     end
   end
 
-  test "charges on a loan that is paid out in tranches are refused" do
+  test "a charge due at disbursement is not added to a tranche loan that is paid out" do
     post!("/v1/charges", %{
       "name" => "Fee",
       "currencyCode" => "USD",
       "chargeAppliesTo" => 1,
-      "chargeTimeType" => 8,
+      "chargeTimeType" => 1,
       "chargeCalculationType" => 1,
       "chargePaymentMode" => 0,
       "amount" => 10,
@@ -128,22 +128,27 @@ defmodule ECBApiFineract.LoanTrancheTest do
       "penalty" => false
     })
 
-    conn =
-      send_json(
-        :post,
-        "/v1/loans",
-        Map.merge(@dates, application(%{"charges" => [%{"chargeId" => 1, "amount" => 10}]}))
-      )
-
-    refused?(conn)
-
     submit_and_approve()
+    post!("/v1/loans/1?command=disburse", %{"actualDisbursementDate" => "01 March 2024"})
 
     refused?(
       send_json(
         :post,
         "/v1/loans/1/charges",
-        Map.merge(@dates, %{"chargeId" => 1, "amount" => 10, "dueDate" => "10 April 2024"})
+        Map.merge(@dates, %{"chargeId" => 1, "amount" => 10})
+      )
+    )
+  end
+
+  test "a loan with a tranche still to be paid out is not foreclosed" do
+    submit_and_approve()
+    post!("/v1/loans/1?command=disburse", %{"actualDisbursementDate" => "01 March 2024"})
+
+    refused?(
+      send_json(
+        :post,
+        "/v1/loans/1/transactions?command=foreclosure",
+        Map.merge(@dates, %{"transactionDate" => "10 March 2024"})
       )
     )
   end
@@ -314,6 +319,96 @@ defmodule ECBApiFineract.LoanTrancheTest do
     post!("/v1/loans/1?command=disburse", %{"actualDisbursementDate" => "01 March 2024"})
     assert disburse("01 May 2024").status == 200
     refused?(undo_last())
+  end
+
+  defp edit_all(data, extra \\ %{}),
+    do:
+      send_json(
+        :put,
+        "/v1/loans/1/disbursements/editDisbursements",
+        Map.merge(@dates, Map.merge(%{"disbursementData" => data}, extra))
+      )
+
+  defp tranche_id(index) do
+    body = body(send_json(:get, "/v1/loans/1?associations=all"))
+    body["disbursementDetails"] |> Enum.at(index) |> Map.fetch!("id")
+  end
+
+  test "the tranches of a loan that is paid out are not changed; before that they are" do
+    submit_and_approve()
+    first = tranche_id(0)
+    second = tranche_id(1)
+
+    # tranches that add up to more than the loan are not worked out
+    refused?(
+      edit_all([tranche("01 March 2024", 8000, %{"id" => first}), tranche("01 June 2024", 4000)])
+    )
+
+    # a change that works
+    assert edit_all([
+             tranche("01 March 2024", 6000, %{"id" => first}),
+             tranche("01 June 2024", 3000, %{"id" => second})
+           ]).status == 200
+
+    post!("/v1/loans/1?command=disburse", %{"actualDisbursementDate" => "01 March 2024"})
+
+    refused?(
+      edit_all([
+        tranche("01 March 2024", 6000, %{"id" => first}),
+        tranche("01 June 2024", 2000, %{"id" => second})
+      ])
+    )
+
+    refused?(
+      send_json(
+        :put,
+        "/v1/loans/1/disbursements/#{second}",
+        Map.merge(@dates, %{
+          "expectedDisbursementDate" => "01 June 2024",
+          "updatedExpectedDisbursementDate" => "01 July 2024",
+          "updatedPrincipal" => 2000
+        })
+      )
+    )
+
+    # the tranche that was paid cannot be moved: Fineract says so
+    conn =
+      send_json(
+        :put,
+        "/v1/loans/1/disbursements/#{first}",
+        Map.merge(@dates, %{
+          "expectedDisbursementDate" => "01 March 2024",
+          "updatedExpectedDisbursementDate" => "02 March 2024",
+          "updatedPrincipal" => 6000
+        })
+      )
+
+    assert conn.status == 400
+  end
+
+  test "a tranche without its date, or a change of one without its new date, is refused" do
+    submit_and_approve()
+    first = tranche_id(0)
+    second = tranche_id(1)
+
+    refused?(
+      edit_all([%{"principal" => 6000}, tranche("01 June 2024", 3000)], %{
+        "approvedLoanAmount" => nil
+      })
+    )
+
+    refused?(
+      send_json(
+        :put,
+        "/v1/loans/1/disbursements/#{second}",
+        Map.merge(@dates, %{
+          "expectedDisbursementDate" => "01 June 2024",
+          "updatedPrincipal" => 3000
+        })
+      )
+    )
+
+    assert first != second
   end
 
   test "a first disbursement on another day than expected is refused" do

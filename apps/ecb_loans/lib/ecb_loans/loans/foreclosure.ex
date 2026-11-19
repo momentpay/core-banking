@@ -29,7 +29,6 @@ defmodule ECBLoans.Loans.Foreclosure do
   @doc "Settles loan `id` on `transactionDate`."
   @spec foreclose!(struct, integer, Params.t()) :: Result.t()
   def foreclose!(user, id, %Params{} = p) do
-    ECBLoans.Tranches.guard!(id, "foreclosure")
     Params.check_supported!(p, @supported)
     on = Params.date(p, "transactionDate")
     note = Params.string(p, "note")
@@ -45,6 +44,11 @@ defmodule ECBLoans.Loans.Foreclosure do
     loan = Loans.fetch!(id)
     check_status!(loan)
     check_date!(loan, on)
+
+    # Fineract settles such a loan against the whole principal and leaves it overpaid; that is not copied
+    if ECBLoans.Tranches.pending(id) != [],
+      do: ECBLoans.Tranches.unsupported!("foreclosure while a tranche is still to be paid out")
+
     ChargeOff.guard!(loan, "Foreclosing a loan")
     product = ECBLoans.LoanProducts.fetch!(loan.product_id)
     Journal.check_supported!(product, "Foreclosing a loan")
@@ -353,12 +357,48 @@ defmodule ECBLoans.Loans.Foreclosure do
 
   # --- the accruals ----------------------------------------------------------------------------
 
+  # the accrual of a charge that now comes to another amount is replaced by one of the new amount
+  defp charge_accruals_again!(user, loan, product) do
+    charges = Map.new(Loans.charges(loan.id), &{&1.id, &1})
+
+    old =
+      TenantRepo.all(
+        from(t in "m_loan_transaction",
+          join: p in "m_loan_charge_paid_by",
+          on: p.loan_transaction_id == t.id,
+          where:
+            t.loan_id == ^loan.id and t.transaction_type_enum == @accrual and not t.is_reversed and
+              t.transaction_date == ^loan.disbursedon_date and
+              (not is_nil(t.fee_charges_portion_derived) or
+                 not is_nil(t.penalty_charges_portion_derived)),
+          order_by: t.id,
+          select: %{
+            id: t.id,
+            date: t.transaction_date,
+            amount: t.amount,
+            charge: p.loan_charge_id
+          }
+        )
+      )
+
+    for tx <- old,
+        charge = charges[tx.charge],
+        charge != nil and Decimal.compare(tx.amount, charge.amount) != :eq do
+      Accruals.take_back!(user, loan, tx)
+      Accruals.accrue_charge!(user, loan, product, charge, loan.disbursedon_date)
+    end
+
+    :ok
+  end
+
   @doc """
   The interest booked as accrued when the loan was paid out is booked again for what the schedule now charges.
   """
   @spec make_accruals_again!(struct, map, map) :: :ok
   def make_accruals_again!(user, loan, product) do
     if Accruals.at_disbursement?(product) do
+      charge_accruals_again!(user, loan, product)
+
       old =
         TenantRepo.all(
           from(t in "m_loan_transaction",

@@ -782,7 +782,7 @@ defmodule ECBLoans.Loans.Corrections do
     check_accounting!(loan, "Undoing a disbursal")
 
     reverse_disbursal!(user, loan)
-    ECBLoans.Tranches.unpay_all!(id, loan.approved_principal)
+    ECBLoans.Tranches.unpay_all!(id)
     Counters.remove!(loan)
 
     TenantRepo.update_all(from(l in "m_loan", where: l.id == ^id),
@@ -798,6 +798,7 @@ defmodule ECBLoans.Loans.Corrections do
 
     Transitions.regenerate!(id, user)
     ChargeRows.reset!(id)
+    ECBLoans.Tranches.reset_net!(id)
     Derived.refresh!(id, user)
     Loans.add_note(id, loan.client_id, Params.string(p, "note"), user.id)
 

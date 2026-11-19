@@ -666,14 +666,25 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
 
   # the tranches of a loan paid out in parts, by expected date
   defp disbursement_details(loan) do
+    # what the loan's charges due at disbursement come to is shown against every tranche
+    at_disbursement = for c <- ECBLoans.Loans.charges(loan.id), c.time == 1, do: c
+
+    fees =
+      Enum.reduce(at_disbursement, nil, fn c, sum ->
+        if sum, do: Decimal.add(sum, c.amount), else: c.amount
+      end)
+
+    charge_ids = at_disbursement |> Enum.map_join(",", & &1.id)
+
     for t <- ECBLoans.Tranches.list(loan.id) do
       %{
         "id" => t.id,
         "loanId" => loan.id,
         "expectedDisbursementDate" => t.expected_date,
         "principal" => t.principal,
-        "disburseChargeAmount" => 0
+        "disburseChargeAmount" => fees || 0
       }
+      |> put("loanChargeId", if(charge_ids == "", do: nil, else: charge_ids))
       |> put("actualDisbursementDate", t.disbursed_on)
       |> put("netDisbursalAmount", t.net_disbursal_amount)
     end
@@ -1345,7 +1356,12 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
         {Enum.map(reached, &tranche_row(loan, &1, today)) ++ [period(r, balance, today)], balance}
       end)
 
-    {Enum.map(opening, &tranche_row(loan, &1, today)), periods}
+    # the fees due when the loan is paid out are shown against the first tranche
+    first =
+      for {t, index} <- Enum.with_index(opening),
+          do: tranche_row(loan, t, today, if(index == 0, do: at_disbursement(loan), else: zero))
+
+    {first, periods}
   end
 
   defp disbursed_total(schedule, []), do: schedule
@@ -1431,9 +1447,12 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     )
   end
 
-  # a tranche of a loan paid out in parts (the charges due when it is paid out are not built for tranches)
-  defp tranche_row(_loan, t, today),
-    do: disbursement_row(t.date, t.principal, Decimal.new("0.0"), t.disbursed_on != nil, today)
+  defp at_disbursement(loan),
+    do: loan.total_charges_due_at_disbursement_derived || Decimal.new("0.0")
+
+  # a tranche of a loan paid out in parts
+  defp tranche_row(_loan, t, today, fees \\ Decimal.new("0.0")),
+    do: disbursement_row(t.date, t.principal, fees, t.disbursed_on != nil, today)
 
   defp disbursement_row(date, principal, fees, disbursed?, today) do
     %{

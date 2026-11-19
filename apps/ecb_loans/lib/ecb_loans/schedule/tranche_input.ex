@@ -40,6 +40,7 @@ defmodule ECBLoans.Schedule.TrancheInput do
 
   defp entry(entry) do
     %{
+      id: ECBPlatform.Json.long(entry, "id"),
       date: Params.date(entry, "expectedDisbursementDate"),
       principal: principal(entry)
     }
@@ -59,33 +60,47 @@ defmodule ECBLoans.Schedule.TrancheInput do
   @spec details!(Params.t(), map) :: :ok
   def details!(%Params{} = p, product) do
     if multi?(product) do
-      count = length(entries(p))
+      required!(p, product)
+      max!(length(entries(p)), product)
+    else
+      :ok
+    end
+  end
 
-      cond do
-        product.disallow_expected_disbursements and count > 0 ->
-          refuse!(
-            "error.msg.disbursementData.not.allowed",
-            "For this loan product, disbursement details are not allowed",
-            []
-          )
+  @doc "Refuses tranches for a product that allows none, and none for a product that needs them."
+  @spec required!(Params.t(), map) :: :ok
+  def required!(%Params{} = p, product) do
+    count = length(entries(p))
 
-        not product.disallow_expected_disbursements and count == 0 ->
-          refuse!(
-            "error.msg.disbursementData.required",
-            "For this loan product, disbursement details must be provided",
-            []
-          )
+    cond do
+      product.disallow_expected_disbursements and count > 0 ->
+        refuse!(
+          "error.msg.disbursementData.not.allowed",
+          "For this loan product, disbursement details are not allowed",
+          []
+        )
 
-        count > (product.max_tranche_count || 0) ->
-          refuse!(
-            "error.msg.disbursementData.exceeding.max.tranche.count",
-            "Number of tranche shouldn't be greater than #{product.max_tranche_count}",
-            [product.max_tranche_count, count]
-          )
+      not product.disallow_expected_disbursements and count == 0 ->
+        refuse!(
+          "error.msg.disbursementData.required",
+          "For this loan product, disbursement details must be provided",
+          []
+        )
 
-        true ->
-          :ok
-      end
+      true ->
+        :ok
+    end
+  end
+
+  @doc "Refuses more tranches than the product allows."
+  @spec max!(non_neg_integer, map) :: :ok
+  def max!(count, product) do
+    if count > (product.max_tranche_count || 0) do
+      refuse!(
+        "error.msg.disbursementData.exceeding.max.tranche.count",
+        "Number of tranche shouldn't be greater than #{product.max_tranche_count}",
+        [product.max_tranche_count, count]
+      )
     else
       :ok
     end

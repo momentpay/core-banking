@@ -51,7 +51,8 @@ defmodule ECBLoans.Application do
     {"LOANCHARGE", "DELETE", ECBLoans.Handlers.LoanCharge},
     {"LOANCHARGE", "WAIVE", ECBLoans.Handlers.LoanCharge},
     {"LOANCHARGE", "PAY", ECBLoans.Handlers.LoanCharge},
-    {"LOANCHARGE", "ADJUSTMENT", ECBLoans.Handlers.LoanCharge}
+    {"LOANCHARGE", "ADJUSTMENT", ECBLoans.Handlers.LoanCharge},
+    {"DISBURSEMENTDETAIL", "UPDATE", ECBLoans.Handlers.DisbursementDetail}
   ]
 
   @impl true

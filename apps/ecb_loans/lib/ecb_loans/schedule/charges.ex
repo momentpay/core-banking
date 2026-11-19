@@ -38,29 +38,33 @@ defmodule ECBLoans.Schedule.Charges do
        |> Map.put_new(:disbursement_fees, nil)
        |> Map.put_new(:disbursement_fees_shown, nil), []}
 
-  def apply_to(schedule, %{charges: charges}) do
-    details = Enum.map(charges, &detail(&1, schedule))
-    {with_amounts(schedule, details), details}
+  def apply_to(schedule, %{charges: charges} = terms) do
+    whole? = Map.get(terms, :charge_base) == :whole_loan
+    details = Enum.map(charges, &detail(&1, schedule, whole?))
+    {schedule |> with_amounts(details) |> Map.put(:charges_on_whole_loan, whole?), details}
   end
 
   def apply_to(schedule, _terms), do: {schedule, []}
 
   # --- what a charge comes to ----------------------------------------------------------------------------
 
-  defp detail(%{time: @disbursement} = charge, schedule) do
-    amount = money(charge, loan_base(charge, schedule))
+  defp detail(%{time: @disbursement} = charge, schedule, whole?) do
+    # a loan paid out in tranches takes a percentage of what is paid out on its first day, not of the whole loan
+    paid_out = if whole?, do: schedule, else: opening(schedule)
+    amount = money(charge, loan_base(charge, paid_out))
 
     %{
       charge: charge,
       total: amount,
-      applied_to: applied_to(charge, schedule),
+      applied_to: applied_to(charge, paid_out),
       installments: [],
       at_disbursement: amount,
+      on_whole_loan: money(charge, loan_base(charge, schedule)),
       shown: if(charge.calc == @flat, do: charge.amount, else: ECBMoney.amount(amount))
     }
   end
 
-  defp detail(%{time: @specified_due_date} = charge, schedule) do
+  defp detail(%{time: @specified_due_date} = charge, schedule, _whole?) do
     case period_holding(schedule.periods, charge.due_date) do
       nil ->
         none(charge, schedule)
@@ -77,7 +81,7 @@ defmodule ECBLoans.Schedule.Charges do
     end
   end
 
-  defp detail(%{time: @installment} = charge, schedule) do
+  defp detail(%{time: @installment} = charge, schedule, _whole?) do
     installments =
       for p <- schedule.periods do
         base =
@@ -109,6 +113,19 @@ defmodule ECBLoans.Schedule.Charges do
       applied_to: applied_to(charge, schedule),
       installments: []
     }
+
+  # the schedule with what is paid out on the first day as its principal: that of a loan paid out in tranches
+  defp opening(%{disbursements: [_ | _] = tranches} = schedule) do
+    amount =
+      tranches
+      |> Enum.filter(&(&1.before == 0))
+      |> Enum.map(& &1.amount)
+      |> Enum.reduce(&ECBMoney.plus/2)
+
+    %{schedule | principal: amount}
+  end
+
+  defp opening(schedule), do: schedule
 
   # the amount of a charge worked out on `base` (a flat charge ignores it)
   defp money(%{calc: @flat, amount: amount}, base),
@@ -181,7 +198,13 @@ defmodule ECBLoans.Schedule.Charges do
       ECBMoney.plus(schedule.total_repayment_expected, total_charged)
     )
     |> Map.put(:disbursement_fees, Enum.reduce(at_disbursement, zero, &ECBMoney.plus(&2, &1)))
+    |> Map.put(:disbursement_fees_on_whole_loan, on_whole_loan(details, zero))
     |> Map.put(:disbursement_fees_shown, shown_at_disbursement(details))
+  end
+
+  # what the charges due at disbursement would come to if they were worked out on the whole loan
+  defp on_whole_loan(details, zero) do
+    for %{on_whole_loan: money} <- details, reduce: zero, do: (sum -> ECBMoney.plus(sum, money))
   end
 
   # a flat charge at disbursement shows as it was given, a percentage as the currency rounds it

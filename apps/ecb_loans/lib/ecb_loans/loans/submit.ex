@@ -218,7 +218,11 @@ defmodule ECBLoans.Loans.Submit do
     }
   end
 
-  # what is paid out: the loan less the fees that are due when it is paid out
+  # what is paid out: the loan less the fees that are due when it is paid out (a loan in tranches takes the fees
+  # worked out on the whole loan here, and those of its first tranche once it is approved)
+  defp net_disbursal(principal, %{disbursement_fees_on_whole_loan: fees}) when not is_nil(fees),
+    do: Decimal.sub(principal, ECBMoney.amount(fees))
+
   defp net_disbursal(principal, %{disbursement_fees: fees}) when not is_nil(fees),
     do: Decimal.sub(principal, ECBMoney.amount(fees))
 

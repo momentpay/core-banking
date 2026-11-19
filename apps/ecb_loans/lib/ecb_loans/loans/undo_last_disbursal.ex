@@ -16,7 +16,17 @@ defmodule ECBLoans.Loans.UndoLastDisbursal do
   import Ecto.Query
 
   alias ECBLoans.Loans
-  alias ECBLoans.Loans.{Arrears, Foreclosure, Journal, Repay, Reprocess, Transitions}
+
+  alias ECBLoans.Loans.{
+    Arrears,
+    ChargeRows,
+    Foreclosure,
+    Journal,
+    Repay,
+    Reprocess,
+    Transitions
+  }
+
   alias ECBLoans.Tranches
   alias ECBPlatform.{BusinessDate, Params, TenantRepo}
   alias ECBPlatform.Commands.Result
@@ -62,7 +72,9 @@ defmodule ECBLoans.Loans.UndoLastDisbursal do
       ]
     )
 
+    fees_paid = ChargeRows.disbursement_charges(id)
     Transitions.regenerate!(id, user, disbursed_on: loan.disbursedon_date)
+    ChargeRows.restore_disbursement_charges!(fees_paid)
     Reprocess.run!(user, id)
     Foreclosure.make_accruals_again!(user, Loans.fetch!(id), product)
     # Fineract brings the arrears up to date only by working repayments out again

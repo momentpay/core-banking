@@ -97,6 +97,9 @@ defmodule ECBLoans.Schedule.Request do
 
     terms = terms(p, product)
     refuse_tranche_combinations!(terms)
+
+    # a schedule only worked out (not stored) takes the charges due at disbursement on the whole loan
+    terms = if opts[:store], do: terms, else: Map.put(terms, :charge_base, :whole_loan)
     if opts[:store], do: ChargeInput.check_dates!(terms, terms.charges)
     check_calendar!(client, terms.disbursement_date)
     check_first_repayment!(terms, product)
@@ -107,17 +110,10 @@ defmodule ECBLoans.Schedule.Request do
   defp refuse_tranche_combinations!(%{tranches: []}), do: :ok
 
   defp refuse_tranche_combinations!(terms) do
-    cond do
-      terms.charges != [] ->
-        TrancheInput.unsupported!("charges on a loan that is paid out in tranches")
-
-      terms.repayment_start != terms.disbursement_date ->
-        TrancheInput.unsupported!(
-          "repayments counted from the submission date on a loan that is paid out in tranches"
-        )
-
-      true ->
-        :ok
+    if terms.repayment_start != terms.disbursement_date do
+      TrancheInput.unsupported!(
+        "repayments counted from the submission date on a loan that is paid out in tranches"
+      )
     end
   end
 

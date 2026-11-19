@@ -34,6 +34,7 @@ defmodule ECBApiFineract.ApiRouter do
     LoanAccounts,
     LoanCharges,
     LoanCollaterals,
+    LoanDisbursements,
     LoanGuarantors,
     LoanProducts,
     Loans,
@@ -249,6 +250,15 @@ defmodule ECBApiFineract.ApiRouter do
 
   delete "/v1/loans/:id/collaterals/:collateral_id",
     do: LoanCollaterals.delete(conn, id, collateral_id)
+
+  put "/v1/loans/:id/disbursements/editDisbursements",
+    do: LoanDisbursements.update_all(conn, id)
+
+  get "/v1/loans/:id/disbursements/:disbursement_id",
+    do: LoanDisbursements.show(conn, id, disbursement_id)
+
+  put "/v1/loans/:id/disbursements/:disbursement_id",
+    do: LoanDisbursements.update(conn, id, disbursement_id)
 
   get "/v1/loans/:id/charges/template", do: LoanCharges.template(conn, id)
   get "/v1/loans/:id/charges/:charge_id", do: LoanCharges.show(conn, id, charge_id)

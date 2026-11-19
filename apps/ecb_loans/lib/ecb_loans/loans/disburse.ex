@@ -338,6 +338,10 @@ defmodule ECBLoans.Loans.Disburse do
     set_net_disbursal!(paid, tranche.amount)
     Accruals.charges_on_disbursement!(user, paid, product, on)
     pay_charges!(user, paid, product, on, payment_detail_id)
+
+    # a loan in tranches has its repayments worked out again whenever a tranche is paid,
+    # which gives its charges a paid amount
+    if tranche.ids != [], do: ChargeRows.sync_paid!(id)
     Derived.refresh!(id, user)
     Accruals.on_disbursement!(user, Loans.fetch!(id), product, on)
     :ok
@@ -366,13 +370,18 @@ defmodule ECBLoans.Loans.Disburse do
 
     TenantRepo.update_all(from(l in "m_loan", where: l.id == ^id),
       set: [
-        net_disbursal_amount: tranche.amount,
         last_modified_by: user.id,
         last_modified_on_utc: DateTime.utc_now()
       ]
     )
 
+    fees_paid = ChargeRows.disbursement_charges(id)
+    dated = ChargeRows.dated_amounts(id)
     Transitions.regenerate!(id, user, disbursed_on: loan.disbursedon_date)
+    ChargeRows.restore_disbursement_charges!(fees_paid)
+    ChargeRows.restore_dated_amounts!(dated)
+    ChargeRows.refresh_installments!(id)
+    set_net_disbursal!(Loans.fetch!(id), tranche.amount)
 
     # the repayments that stand are given their balance with this tranche counted, before they are applied again
     Derived.balances!(id)

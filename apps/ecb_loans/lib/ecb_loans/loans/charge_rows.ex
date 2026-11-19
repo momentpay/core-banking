@@ -90,6 +90,77 @@ defmodule ECBLoans.Loans.ChargeRows do
     )
   end
 
+  @doc """
+  What the charges on a date (and the penalties) come to, to be put back with `restore_dated_amounts!/1` after the
+  schedule of a loan has been worked out again: Fineract keeps the amount such a charge had when it was added, while
+  the schedule would work a percentage out again on the loan as it is now.
+  """
+  @spec dated_amounts(integer) :: [map]
+  def dated_amounts(loan_id) do
+    TenantRepo.all(
+      from(c in "m_loan_charge",
+        where: c.loan_id == ^loan_id and c.charge_time_enum in [2, 9],
+        select: %{
+          id: c.id,
+          amount: c.amount,
+          calculation_on_amount: c.calculation_on_amount,
+          amount_outstanding_derived: c.amount_outstanding_derived
+        }
+      )
+    )
+  end
+
+  @doc "Puts back what `dated_amounts/1` found."
+  @spec restore_dated_amounts!([map]) :: :ok
+  def restore_dated_amounts!(charges) do
+    for %{id: id} = c <- charges do
+      TenantRepo.update_all(from(m in "m_loan_charge", where: m.id == ^id),
+        set: [
+          amount: c.amount,
+          calculation_on_amount: c.calculation_on_amount,
+          amount_outstanding_derived: c.amount_outstanding_derived
+        ]
+      )
+    end
+
+    :ok
+  end
+
+  @doc """
+  What the charges due at disbursement have paid, to be put back with `restore_disbursement_charges!/2` after the
+  schedule of a loan has been worked out again (which would otherwise make them owed once more).
+  """
+  @spec disbursement_charges(integer) :: [map]
+  def disbursement_charges(loan_id) do
+    TenantRepo.all(
+      from(c in "m_loan_charge",
+        where: c.loan_id == ^loan_id and c.charge_time_enum == 1,
+        select: %{
+          id: c.id,
+          amount_paid_derived: c.amount_paid_derived,
+          amount_outstanding_derived: c.amount_outstanding_derived,
+          is_paid_derived: c.is_paid_derived
+        }
+      )
+    )
+  end
+
+  @doc "Puts back what `disbursement_charges/1` found."
+  @spec restore_disbursement_charges!([map]) :: :ok
+  def restore_disbursement_charges!(charges) do
+    for %{id: id} = c <- charges do
+      TenantRepo.update_all(from(m in "m_loan_charge", where: m.id == ^id),
+        set: [
+          amount_paid_derived: c.amount_paid_derived,
+          amount_outstanding_derived: c.amount_outstanding_derived,
+          is_paid_derived: c.is_paid_derived
+        ]
+      )
+    end
+
+    :ok
+  end
+
   @doc "Marks the charges paid by transaction `tx_id`, each in full."
   @spec pay_in_full!(integer, [map]) :: :ok
   def pay_in_full!(tx_id, charges) do
@@ -208,7 +279,11 @@ defmodule ECBLoans.Loans.ChargeRows do
         })
       end)
 
-    Enum.sort_by(installment_rows ++ dated, & &1.charge)
+    # Fineract pays the charge due earliest first (`findEarliestUnpaidChargeFromUnOrderedSet`): those on a date, by
+    # their date, then the fees of the installment
+    Enum.sort_by(installment_rows ++ dated, fn s ->
+      if s.slot == nil, do: {0, Date.to_gregorian_days(s.due), s.charge}, else: {1, 0, s.charge}
+    end)
   end
 
   # what a slot asks for is its amount less what was waived of it

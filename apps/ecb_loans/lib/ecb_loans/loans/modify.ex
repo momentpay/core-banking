@@ -32,6 +32,7 @@ defmodule ECBLoans.Loans.Modify do
   @doc "Changes application `id` as `p` says, for `user`."
   @spec modify!(struct, integer, Params.t()) :: Result.t()
   def modify!(user, id, %Params{} = p) do
+    # Fineract itself fails on this (a data integrity error), so there is nothing to match
     ECBLoans.Tranches.guard!(id, "changing the application")
     loan = Loans.fetch!(id)
     Params.check_supported!(p, Request.supported())

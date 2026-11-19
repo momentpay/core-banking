@@ -165,6 +165,28 @@ defmodule ECBLoans.Handlers do
       do: fun.(user, command.entity_id, command.subentity_id, Params.parse!(command.json))
   end
 
+  defmodule DisbursementDetail do
+    @moduledoc "Every action on `DISBURSEMENTDETAIL`: change the tranches of a loan, all at once or one of them."
+    @behaviour ECBPlatform.Commands.Handler
+
+    alias ECBLoans.Loans.TrancheEdits
+    alias ECBPlatform.Params
+
+    @impl true
+    def process(%{subentity_id: nil} = command, user),
+      do: {:ok, TrancheEdits.update_all!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(command, user),
+      do:
+        {:ok,
+         TrancheEdits.update_one!(
+           user,
+           command.entity_id,
+           command.subentity_id,
+           Params.parse!(command.json)
+         )}
+  end
+
   defmodule RescheduleLoan do
     @moduledoc "Every action on `RESCHEDULELOAN`: ask for a loan to be rescheduled, approve or reject the request."
     @behaviour ECBPlatform.Commands.Handler

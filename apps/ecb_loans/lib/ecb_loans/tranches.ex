@@ -27,6 +27,56 @@ defmodule ECBLoans.Tranches do
     :ok
   end
 
+  @doc "Adds one tranche to a loan; it takes what the loan pays out (`net`) as its net disbursal amount."
+  @spec insert!(integer, Date.t(), Decimal.t(), Decimal.t() | nil) :: :ok
+  def insert!(loan_id, date, principal, net) do
+    TenantRepo.insert_all("m_loan_disbursement_detail", [
+      %{
+        loan_id: loan_id,
+        expected_disburse_date: date,
+        principal: principal,
+        net_disbursal_amount: net,
+        is_reversed: false
+      }
+    ])
+
+    :ok
+  end
+
+  @doc "Changes the expected date and principal of tranche `id`."
+  @spec update!(integer, Date.t(), Decimal.t()) :: :ok
+  def update!(id, date, principal) do
+    TenantRepo.update_all(from(d in "m_loan_disbursement_detail", where: d.id == ^id),
+      set: [expected_disburse_date: date, principal: principal, net_disbursal_amount: nil]
+    )
+
+    :ok
+  end
+
+  @doc "Removes tranches `ids` from their loan."
+  @spec delete!([integer]) :: :ok
+  def delete!(ids) do
+    TenantRepo.delete_all(from(d in "m_loan_disbursement_detail", where: d.id in ^ids))
+    :ok
+  end
+
+  @doc "Tranche `id` of loan `loan_id` (standing or not), or `nil`."
+  @spec get(integer, integer) :: map | nil
+  def get(loan_id, id) do
+    from(d in "m_loan_disbursement_detail",
+      where: d.loan_id == ^loan_id and d.id == ^id,
+      select: %{
+        id: d.id,
+        loan_id: d.loan_id,
+        expected_date: d.expected_disburse_date,
+        disbursed_on: d.disbursedon_date,
+        principal: d.principal,
+        is_reversed: d.is_reversed
+      }
+    )
+    |> TenantRepo.one()
+  end
+
   @doc "The tranches of a loan that stand, by expected date, as maps."
   @spec list(integer) :: [map]
   def list(loan_id) do
@@ -92,18 +142,28 @@ defmodule ECBLoans.Tranches do
   end
 
   @doc """
-  Makes every tranche of the loan one that is still to be paid out (the disbursal was undone); what the loan pays
-  out is the approved principal again. Nothing happens for a loan that is not paid out in tranches.
+  Makes every tranche of the loan one that is still to be paid out (the disbursal was undone). Nothing happens
+  for a loan that is not paid out in tranches.
   """
-  @spec unpay_all!(integer, Decimal.t()) :: :ok
-  def unpay_all!(loan_id, approved) do
-    if any?(loan_id) do
-      TenantRepo.update_all(from(d in "m_loan_disbursement_detail", where: d.loan_id == ^loan_id),
-        set: [disbursedon_date: nil]
-      )
+  @spec unpay_all!(integer) :: :ok
+  def unpay_all!(loan_id) do
+    TenantRepo.update_all(from(d in "m_loan_disbursement_detail", where: d.loan_id == ^loan_id),
+      set: [disbursedon_date: nil]
+    )
 
-      TenantRepo.update_all(from(l in "m_loan", where: l.id == ^loan_id),
-        set: [net_disbursal_amount: approved]
+    :ok
+  end
+
+  @doc """
+  What a loan in tranches pays out once its disbursal is undone: the approved principal less the fees due when it
+  is paid out. Nothing happens for a loan that is not paid out in tranches.
+  """
+  @spec reset_net!(integer) :: :ok
+  def reset_net!(loan_id) do
+    if any?(loan_id) do
+      TenantRepo.query!(
+        "UPDATE m_loan SET net_disbursal_amount = approved_principal - COALESCE(total_charges_due_at_disbursement_derived, 0) WHERE id = $1",
+        [loan_id]
       )
     end
 

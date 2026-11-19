@@ -54,12 +54,28 @@ defmodule ECBApiFineract.Resources.Loans do
   # the periods in order: what is paid out when the loan starts, then each installment, with a row for every later
   # tranche just before the installment it falls in
   defp rows(%{disbursements: [_ | _] = tranches} = s, today) do
-    opening = for %{before: 0} = t <- tranches, do: tranche(t, today)
+    # the fees due when the loan is paid out are shown against the first tranche
+    fees =
+      if s.disbursement_fees && ECBMoney.positive?(s.disbursement_fees),
+        do: s.disbursement_fees_shown,
+        else: Decimal.new(0)
+
+    # a schedule that is only worked out shows them against every tranche
+    every? = Map.get(s, :charges_on_whole_loan, false)
+    zero = Decimal.new(0)
+
+    opening =
+      for {%{before: 0} = t, index} <- Enum.with_index(tranches),
+          do: tranche(t, today, if(index == 0 or every?, do: fees, else: zero))
+
     later = Enum.filter(tranches, &(&1.before > 0))
+
+    later_fees = if every?, do: fees, else: zero
 
     installments =
       Enum.flat_map(s.periods, fn p ->
-        for(t <- later, t.before == p.number, do: tranche(t, today)) ++ [period(p, today)]
+        Enum.map(Enum.filter(later, &(&1.before == p.number)), &tranche(&1, today, later_fees)) ++
+          [period(p, today)]
       end)
 
     opening ++ installments
@@ -67,20 +83,18 @@ defmodule ECBApiFineract.Resources.Loans do
 
   defp rows(s, today), do: [disbursement(s, today) | Enum.map(s.periods, &period(&1, today))]
 
-  defp tranche(%{date: date, amount: money}, today) do
-    zero = Decimal.new(0)
-
+  defp tranche(%{date: date, amount: money}, today, fees) do
     %{
       "dueDate" => date,
       "principalDisbursed" => amount(money),
       "principalLoanBalanceOutstanding" => amount(money),
-      "feeChargesDue" => zero,
-      "feeChargesOutstanding" => zero,
-      "totalOriginalDueForPeriod" => zero,
-      "totalDueForPeriod" => zero,
-      "totalOutstandingForPeriod" => zero,
-      "totalOverdue" => overdue(date, today, zero),
-      "totalActualCostOfLoanForPeriod" => zero,
+      "feeChargesDue" => fees,
+      "feeChargesOutstanding" => fees,
+      "totalOriginalDueForPeriod" => fees,
+      "totalDueForPeriod" => fees,
+      "totalOutstandingForPeriod" => fees,
+      "totalOverdue" => overdue(date, today, fees),
+      "totalActualCostOfLoanForPeriod" => fees,
       "downPaymentPeriod" => false
     }
   end
