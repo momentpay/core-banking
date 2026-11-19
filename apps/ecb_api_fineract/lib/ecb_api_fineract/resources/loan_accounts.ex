@@ -245,19 +245,9 @@ defmodule ECBApiFineract.Resources.LoanAccounts do
     |> Map.put("isNPA", l.is_npa == true)
   end
 
-  # the installments the loan has now (a loan settled early has fewer than it was made for, one that was
-  # rescheduled may have more)
-  defp actual_term(%{loan_status_id: 600, loan_sub_status_id: 100} = l),
-    do: l.id |> ECBLoans.Loans.installments() |> length()
-
-  defp actual_term(%{rescheduledon_date: %Date{}} = l),
-    do: l.id |> ECBLoans.Loans.installments() |> length()
-
-  # a loan paid out in tranches may be paid off in fewer installments than it was set up with
-  defp actual_term(%{multi_disburse: true} = l),
-    do: l.id |> ECBLoans.Loans.installments() |> length()
-
-  defp actual_term(l), do: l.number_of_repayments
+  # the installments the loan has now, not counting those made for charges past the last one (a loan settled early
+  # has fewer than it was made for, one that was rescheduled may have more)
+  defp actual_term(l), do: ECBLoans.Loans.actual_term(l.id)
 
   defp sub_status(100),
     do: %{

@@ -19,16 +19,18 @@ defmodule ECBLoans.Loans.OverdueJob do
   accrual accounting, or none and cash accounting while `allow-cash-and-non-cash-accrual` is on) the penalty is
   accrued on its date; periodic accrual accounting leaves that to the periodic accrual job.
 
-  A loan the job cannot add penalties to (a charge it does not support yet, or a repeating penalty that would
-  fall after the last installment) is left as it was and the others are done; the run then fails, naming them.
+  A repeating penalty keeps being added after the last installment fell due; those penalties are held by an
+  installment of their own (see `penalties_after_maturity!/3`).
+
+  A loan the job cannot add penalties to (a charge it does not support yet) is left as it was and the others are
+  done; the run then fails, naming them.
   """
   import Ecto.Query
 
   alias ECBLoans.Loans
-  alias ECBLoans.Loans.{Accruals, ChargeActions, ChargeRows}
+  alias ECBLoans.Loans.{Accruals, Arrears, ChargeActions, ChargeRows}
   alias ECBLoans.Schedule.{ChargeInput, Dates}
   alias ECBPlatform.{BusinessDate, Configuration, TenantRepo}
-  alias ECBPlatform.Errors.DomainRuleViolation
 
   @doc "Runs the job on behalf of `user`."
   @spec run(struct) :: :ok
@@ -122,34 +124,93 @@ defmodule ECBLoans.Loans.OverdueJob do
   defp apply_charges!(user, loan_id, rows, today, settings) do
     loan = Loans.fetch!(loan_id)
     product = ECBLoans.LoanProducts.fetch!(loan.product_id)
-    last_due = loan_id |> Loans.installments() |> List.last() |> Map.fetch!(:due_date)
 
     added =
       for row <- rows,
           definition = ChargeInput.definition!(row.charge_id),
           _ = ChargeInput.refuse!(definition, [9]),
           {number, date} <- new_dates(loan_id, definition, row, today, settings) do
-        if Date.compare(date, last_due) == :gt, do: after_last_installment!(date)
-        add_charge!(user, loan, product, definition, row, number, date)
+        {add_charge!(user, loan, product, definition, row, number, date), date}
       end
+      |> Enum.reject(fn {id, _date} -> is_nil(id) end)
 
-    ids = Enum.reject(added, &is_nil/1)
+    ids = Enum.map(added, &elem(&1, 0))
 
     if ids != [] do
+      stale = penalties_after_maturity!(user, loan_id, Enum.map(added, &elem(&1, 1)))
       ChargeRows.refresh_installments!(loan_id)
       Enum.each(ids, &accrue!(user, loan, product, &1, today))
       ChargeActions.worked_out_again!(user, loan_id, today)
+      if stale, do: Arrears.restore!(loan_id, stale.arrears)
     end
 
     :ok
   end
 
-  defp after_last_installment!(date) do
-    raise DomainRuleViolation,
-      code: "error.msg.loan.feature.not.supported.yet",
-      message:
-        "A penalty on #{date}, after the last installment of the loan, is not supported yet by E-CoreBank",
-      args: ["charges"]
+  # A penalty dated after the last installment fell due goes into an installment of its own, as Fineract's
+  # `addInstallmentIfPenaltyAppliedAfterLastDueDate` makes it: one that holds nothing but penalties, is flagged as a
+  # recalculated interest component (and not as an additional installment), ends on the latest date of the penalties
+  # added in the run and is made again, with a later end, by the run that follows.
+  #
+  # Fineract works the loan's arrears out before it makes that installment, so the arrears the run leaves count
+  # the installment as the last run left it (or not at all, the first time). That is returned as `%{arrears: row}`
+  # to be put back once the loan is worked out, or `nil` when no installment was needed.
+  defp penalties_after_maturity!(user, loan_id, dates) do
+    latest = Enum.max(dates, Date)
+    rows = Loans.installments(loan_id)
+    last = List.last(rows)
+
+    if Date.compare(latest, last.due_date) == :gt do
+      ChargeRows.refresh_installments!(loan_id)
+      Arrears.update!(loan_id)
+      stale = %{arrears: Arrears.snapshot(loan_id)}
+      base = if recalculated?(last.id), do: drop_installment!(rows, last), else: last
+      insert_installment!(user, loan_id, base, latest)
+      stale
+    end
+  end
+
+  defp recalculated?(schedule_id) do
+    TenantRepo.one(
+      from(r in "m_loan_repayment_schedule",
+        where: r.id == ^schedule_id,
+        select: r.recalculated_interest_component
+      )
+    ) == true
+  end
+
+  # the installment made for the penalties of an earlier run goes, and the one before it is the last again
+  defp drop_installment!(rows, last) do
+    TenantRepo.delete_all(
+      from(m in "m_loan_transaction_repayment_schedule_mapping",
+        where: m.loan_repayment_schedule_id == ^last.id
+      )
+    )
+
+    TenantRepo.delete_all(from(r in "m_loan_repayment_schedule", where: r.id == ^last.id))
+    Enum.at(rows, -2)
+  end
+
+  defp insert_installment!(user, loan_id, base, due) do
+    now = DateTime.utc_now()
+
+    TenantRepo.insert_all("m_loan_repayment_schedule", [
+      %{
+        loan_id: loan_id,
+        fromdate: base.due_date,
+        duedate: due,
+        installment: base.installment + 1,
+        completed_derived: false,
+        recalculated_interest_component: true,
+        is_additional: false,
+        is_down_payment: false,
+        is_re_aged: false,
+        created_by: user.id,
+        last_modified_by: user.id,
+        created_on_utc: now,
+        last_modified_on_utc: now
+      }
+    ])
   end
 
   # the dates a penalty is wanted on (by frequency number) that it has not been made for yet

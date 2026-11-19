@@ -1,7 +1,7 @@
 defmodule ECBApiFineract.LoanOverdueTest do
   @moduledoc """
   The job that adds penalties to overdue installments beyond what was recorded from Fineract (`ScenariosTest`,
-  `loanoverdue1` to `loanoverdue3`): that it adds each penalty once, that it does what it can for the loans it
+  `loanoverdue1` to `loanoverdue4`): that it adds each penalty once, that it does what it can for the loans it
   can and fails naming the others, and what it keeps a loan from doing afterwards.
   """
   use ECBApiFineract.ApiCase
@@ -49,7 +49,8 @@ defmodule ECBApiFineract.LoanOverdueTest do
     for {name, calc, amount, extra} <- [
           {"Flat", 1, 5, %{}},
           {"Weekly", 1, 3, %{"feeFrequency" => 1, "feeInterval" => 1}},
-          {"Percent", 2, 1, %{}}
+          {"Percent", 2, 1, %{}},
+          {"Transfer", 1, 5, %{"chargePaymentMode" => 1}}
         ] do
       post!(
         "/v1/charges",
@@ -74,7 +75,8 @@ defmodule ECBApiFineract.LoanOverdueTest do
     for {name, short, charge} <- [
           {"Flat", "FLAT", 1},
           {"Weekly", "WEEK", 2},
-          {"Percent", "PCT", 3}
+          {"Percent", "PCT", 3},
+          {"Transfer", "TRAN", 4}
         ] do
       post!("/v1/loanproducts", %{
         "name" => name,
@@ -171,22 +173,38 @@ defmodule ECBApiFineract.LoanOverdueTest do
   end
 
   test "a loan the job cannot add a penalty to does not stop the others, and the run fails naming it" do
-    weekly = active_loan(2)
+    transfer = active_loan(4)
     flat = active_loan(1)
 
-    # a year and two months on, a weekly penalty would fall after the last installment
-    business_date!("2025-05-01")
+    business_date!("2024-04-10")
     conn = run_job()
     assert conn.status == 202
 
-    assert length(charges(flat)) == 12
-    assert charges(weekly) == []
+    assert charges(flat) != []
+    assert charges(transfer) == []
 
     assert [%{"status" => "failed", "jobRunErrorMessage" => message}] =
              body(send_json(:get, "/v1/jobs/12/runhistory"))["pageItems"]
 
-    assert message =~ "loan #{weekly}"
+    assert message =~ "loan #{transfer}"
     assert message =~ "not supported yet"
+  end
+
+  test "a penalty that repeats goes on after the last installment, in an installment of its own" do
+    weekly = active_loan(2)
+
+    # a year and two months on, the weekly penalties are past the last installment (1 March 2025)
+    business_date!("2025-05-01")
+    assert run_job().status == 202
+
+    loan = body(send_json(:get, "/v1/loans/#{weekly}?associations=repaymentSchedule"))
+    periods = loan["repaymentSchedule"]["periods"]
+    last = List.last(periods)
+
+    assert last["period"] == 13
+    assert last["penaltyChargesDue"] > 0
+    assert last["principalDue"] in [nil, 0, 0.0]
+    assert loan["actualNoTerm"] == 13
   end
 
   test "the disbursal of a loan with penalties for overdue installments is not undone yet" do

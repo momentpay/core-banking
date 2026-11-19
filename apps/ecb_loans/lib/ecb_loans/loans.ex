@@ -258,6 +258,20 @@ defmodule ECBLoans.Loans do
     for row <- rows, do: names |> Enum.zip(row) |> Map.new()
   end
 
+  @doc """
+  The number of installments a loan was planned with and has now, as Fineract counts them for `actualNoTerm`: those
+  that are not additional (an installment made for a charge or penalty past the last one is) nor a down payment.
+  """
+  @spec actual_term(integer) :: non_neg_integer
+  def actual_term(loan_id) do
+    TenantRepo.aggregate(
+      from(r in "m_loan_repayment_schedule",
+        where: r.loan_id == ^loan_id and not r.is_additional and not r.is_down_payment
+      ),
+      :count
+    )
+  end
+
   @doc "The repayment schedule rows of a loan, in order, as maps."
   @spec installments(integer) :: [map]
   def installments(loan_id) do
