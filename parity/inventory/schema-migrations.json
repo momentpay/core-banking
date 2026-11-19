@@ -310,6 +310,20 @@
         "m_loan_delinquency_tag_history",
         "m_loan_delinquency_action"
       ]
+    },
+    {
+      "kind": "schema",
+      "app": "ecb_deposits",
+      "version": "20261120100000",
+      "name": "create_savings_account_tables",
+      "tables": [
+        "m_savings_account",
+        "m_savings_account_transaction",
+        "m_savings_account_charge",
+        "m_savings_account_charge_paid_by",
+        "m_savings_account_transaction_tax_details",
+        "m_savings_officer_assignment_history"
+      ]
     }
   ],
   "deferred_foreign_keys": [
@@ -321,12 +335,6 @@
     },
     {
       "table": "acc_gl_journal_entry",
-      "references": "m_savings_account_transaction",
-      "sql": "ALTER TABLE ONLY public.acc_gl_journal_entry\n    ADD CONSTRAINT \"FK_acc_gl_journal_entry_m_savings_account_transaction\" FOREIGN KEY (savings_transaction_id) REFERENCES public.m_savings_account_transaction(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
-      "migration": "create_accounting_tables"
-    },
-    {
-      "table": "acc_gl_journal_entry",
       "references": "m_share_account_transactions",
       "sql": "ALTER TABLE ONLY public.acc_gl_journal_entry\n    ADD CONSTRAINT \"FK_acc_gl_journal_entry_m_share_account_transaction\" FOREIGN KEY (share_transaction_id) REFERENCES public.m_share_account_transactions(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
       "migration": "create_accounting_tables"
@@ -335,12 +343,6 @@
       "table": "m_client",
       "references": "m_image",
       "sql": "ALTER TABLE ONLY public.m_client\n    ADD CONSTRAINT \"FK_m_client_m_image\" FOREIGN KEY (image_id) REFERENCES public.m_image(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
-      "migration": "create_client_tables"
-    },
-    {
-      "table": "m_client",
-      "references": "m_savings_account",
-      "sql": "ALTER TABLE ONLY public.m_client\n    ADD CONSTRAINT \"FK_m_client_m_savings_account\" FOREIGN KEY (default_savings_account) REFERENCES public.m_savings_account(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
       "migration": "create_client_tables"
     },
     {
@@ -362,12 +364,6 @@
       "migration": "create_loan_account_tables"
     },
     {
-      "table": "m_note",
-      "references": "m_savings_account",
-      "sql": "ALTER TABLE ONLY public.m_note\n    ADD CONSTRAINT \"FK_savings_account_id\" FOREIGN KEY (savings_account_id) REFERENCES public.m_savings_account(id);",
-      "migration": "create_loan_account_tables"
-    },
-    {
       "table": "m_loan",
       "references": "m_group",
       "sql": "ALTER TABLE ONLY public.m_loan\n    ADD CONSTRAINT m_loan_ibfk_1 FOREIGN KEY (group_id) REFERENCES public.m_group(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
@@ -384,6 +380,24 @@
       "references": "m_portfolio_account_associations",
       "sql": "ALTER TABLE ONLY public.m_guarantor_funding_details\n    ADD CONSTRAINT \"FK_m_guarantor_fund_details_account_associations_id\" FOREIGN KEY (account_associations_id) REFERENCES public.m_portfolio_account_associations(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
       "migration": "create_guarantor_tables"
+    },
+    {
+      "table": "m_savings_account",
+      "references": "gsim_accounts",
+      "sql": "ALTER TABLE ONLY public.m_savings_account\n    ADD CONSTRAINT \"FK_gsim_id\" FOREIGN KEY (gsim_id) REFERENCES public.gsim_accounts(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
+      "migration": "create_savings_account_tables"
+    },
+    {
+      "table": "m_savings_account_transaction",
+      "references": "m_payment_detail",
+      "sql": "ALTER TABLE ONLY public.m_savings_account_transaction\n    ADD CONSTRAINT \"FK_m_savings_account_transaction_m_payment_detail\" FOREIGN KEY (payment_detail_id) REFERENCES public.m_payment_detail(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
+      "migration": "create_savings_account_tables"
+    },
+    {
+      "table": "m_savings_account",
+      "references": "m_group",
+      "sql": "ALTER TABLE ONLY public.m_savings_account\n    ADD CONSTRAINT fksa00000000000002 FOREIGN KEY (group_id) REFERENCES public.m_group(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
+      "migration": "create_savings_account_tables"
     }
   ]
 }

@@ -10,7 +10,16 @@ defmodule ECBDeposits.Application do
   @commands [
     {"SAVINGSPRODUCT", "CREATE", ECBDeposits.Handlers.SavingsProduct},
     {"SAVINGSPRODUCT", "UPDATE", ECBDeposits.Handlers.SavingsProduct},
-    {"SAVINGSPRODUCT", "DELETE", ECBDeposits.Handlers.SavingsProduct}
+    {"SAVINGSPRODUCT", "DELETE", ECBDeposits.Handlers.SavingsProduct},
+    {"SAVINGSACCOUNT", "CREATE", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "UPDATE", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "DELETE", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "APPROVE", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "APPROVALUNDO", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "REJECT", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "WITHDRAW", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "ACTIVATE", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "CLOSE", ECBDeposits.Handlers.SavingsAccount}
   ]
 
   @impl true

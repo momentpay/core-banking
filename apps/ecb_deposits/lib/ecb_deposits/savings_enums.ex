@@ -106,4 +106,57 @@ defmodule ECBDeposits.SavingsEnums do
       nil -> nil
     end
   end
+
+  @statuses [
+    {100, "savingsAccountStatusType.submitted.and.pending.approval",
+     "Submitted and pending approval"},
+    {200, "savingsAccountStatusType.approved", "Approved"},
+    {300, "savingsAccountStatusType.active", "Active"},
+    {400, "savingsAccountStatusType.withdrawn.by.applicant", "Withdrawn by applicant"},
+    {500, "savingsAccountStatusType.rejected", "Rejected"},
+    {600, "savingsAccountStatusType.closed", "Closed"}
+  ]
+
+  @doc """
+  An account's status as Fineract shows it: the option and one flag for each state (a rejected or withdrawn
+  application counts as closed too).
+  """
+  @spec account_status(integer) :: map | nil
+  def account_status(id) do
+    with %{} = option <- one(@statuses, id) do
+      Map.merge(option, %{
+        submittedAndPendingApproval: id == 100,
+        approved: id == 200,
+        rejected: id == 500,
+        withdrawnByApplicant: id == 400,
+        active: id == 300,
+        closed: id in [400, 500, 600],
+        prematureClosed: false,
+        transferInProgress: false,
+        transferOnHold: false,
+        matured: false
+      })
+    end
+  end
+
+  @doc "The sub status of an account that is neither dormant nor blocked."
+  @spec sub_status_none() :: map
+  def sub_status_none do
+    %{
+      id: 0,
+      code: "SavingsAccountSubStatusEnum.none",
+      value: "None",
+      none: true,
+      inactive: false,
+      dormant: false,
+      escheat: false,
+      block: false,
+      blockCredit: false,
+      blockDebit: false
+    }
+  end
+
+  @doc "The deposit type of an ordinary savings account."
+  @spec deposit_type() :: map
+  def deposit_type, do: %{id: 100, code: "depositAccountType.savingsDeposit", value: "Savings"}
 end

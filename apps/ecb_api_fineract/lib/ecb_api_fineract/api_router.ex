@@ -49,6 +49,7 @@ defmodule ECBApiFineract.ApiRouter do
     Provisioning,
     Rates,
     RescheduleLoans,
+    SavingsAccounts,
     SavingsProducts,
     Staff,
     Taxes
@@ -170,6 +171,18 @@ defmodule ECBApiFineract.ApiRouter do
   post "/v1/clients/:id", do: Clients.command(conn, id)
   put "/v1/clients/:id", do: Clients.update(conn, id)
   delete "/v1/clients/:id", do: Clients.delete(conn, id)
+  get "/v1/savingsaccounts/template", do: SavingsAccounts.template(conn)
+
+  get "/v1/savingsaccounts/external-id/:external_id",
+    do: SavingsAccounts.show_by_external_id(conn, external_id)
+
+  get "/v1/savingsaccounts", do: SavingsAccounts.index(conn)
+  post "/v1/savingsaccounts", do: SavingsAccounts.create(conn)
+  get "/v1/savingsaccounts/:id", do: SavingsAccounts.show(conn, id)
+  put "/v1/savingsaccounts/:id", do: SavingsAccounts.update(conn, id)
+  delete "/v1/savingsaccounts/:id", do: SavingsAccounts.delete(conn, id)
+  post "/v1/savingsaccounts/:id", do: SavingsAccounts.command(conn, id)
+
   get "/v1/savingsproducts/template", do: SavingsProducts.template(conn)
   get "/v1/savingsproducts", do: SavingsProducts.index(conn)
   post "/v1/savingsproducts", do: SavingsProducts.create(conn)

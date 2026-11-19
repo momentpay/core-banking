@@ -516,7 +516,7 @@ defmodule ECBPlatform.Validation do
       developer_message: "Failed data validation due to: #{code}.",
       default_message: "Failed data validation due to: #{code}.",
       parameter: v.parameter,
-      args: [v.value, []]
+      args: [arg(v.value), []]
     }
 
     %{v | errors: [error | v.errors]}
@@ -531,7 +531,11 @@ defmodule ECBPlatform.Validation do
   """
   @spec fail_with_code(t, String.t()) :: t
   def fail_with_code(v, code),
-    do: add(v, code, "Failed data validation due to: #{code}.", [v.value, []])
+    do: add(v, code, "Failed data validation due to: #{code}.", [arg(v.value), []])
+
+  # a date in the arguments of an error is its text, as Fineract writes it
+  defp arg(%Date{} = date), do: Date.to_iso8601(date)
+  defp arg(value), do: value
 
   @doc """
   Records that an update carried nothing to change: `validation.msg.<resource>.no.parameters.for.update`,
