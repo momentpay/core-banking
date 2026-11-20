@@ -113314,6 +113314,1377 @@
           "sortby": "id"
         }
       ]
+    },
+    {
+      "name": "rdaccount1",
+      "reset": [
+        "savingsaccounts",
+        "savingsproducts",
+        "paymenttypes",
+        "clients",
+        "funds",
+        "glaccounts",
+        "staff",
+        "codes",
+        "configuration"
+      ],
+      "steps": [
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/enable-business-date",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Ann",
+            "lastname": "Lee",
+            "active": true,
+            "activationDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Bob",
+            "lastname": "Ray",
+            "active": true,
+            "activationDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/paymenttypes",
+          "body": {
+            "name": "Cash",
+            "description": "cash",
+            "isCashPayment": true,
+            "position": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc A1",
+            "glCode": "A1",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc A2",
+            "glCode": "A2",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc L1",
+            "glCode": "L1",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc L2",
+            "glCode": "L2",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc L3",
+            "glCode": "L3",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc I1",
+            "glCode": "I1",
+            "manualEntriesAllowed": true,
+            "type": 4,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc I2",
+            "glCode": "I2",
+            "manualEntriesAllowed": true,
+            "type": 4,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc X1",
+            "glCode": "X1",
+            "manualEntriesAllowed": true,
+            "type": 5,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc X2",
+            "glCode": "X2",
+            "manualEntriesAllowed": true,
+            "type": 5,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositproducts",
+          "body": {
+            "name": "RD one",
+            "shortName": "RD1",
+            "description": "Recurring",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "minDepositTerm": 6,
+            "minDepositTermTypeId": 2,
+            "maxDepositTerm": 60,
+            "maxDepositTermTypeId": 2,
+            "inMultiplesOfDepositTerm": 6,
+            "inMultiplesOfDepositTermTypeId": 2,
+            "preClosurePenalApplicable": true,
+            "preClosurePenalInterest": 1,
+            "preClosurePenalInterestOnTypeId": 1,
+            "depositAmount": 1000,
+            "minDepositAmount": 500,
+            "maxDepositAmount": 100000,
+            "accountingRule": 1,
+            "charts": [
+              {
+                "name": "C",
+                "description": "d",
+                "fromDate": "01 January 2024",
+                "dateFormat": "dd MMMM yyyy",
+                "locale": "en",
+                "chartSlabs": [
+                  {
+                    "periodType": 2,
+                    "fromPeriod": 1,
+                    "toPeriod": 12,
+                    "annualInterestRate": 6,
+                    "currencyCode": "USD"
+                  },
+                  {
+                    "periodType": 2,
+                    "fromPeriod": 13,
+                    "toPeriod": null,
+                    "annualInterestRate": 7,
+                    "currencyCode": "USD"
+                  }
+                ]
+              }
+            ],
+            "locale": "en",
+            "isMandatoryDeposit": true,
+            "allowWithdrawal": true,
+            "adjustAdvanceTowardsFuturePayments": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositproducts",
+          "body": {
+            "name": "RD cash",
+            "shortName": "RDC",
+            "description": "Recurring",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "minDepositTerm": 6,
+            "minDepositTermTypeId": 2,
+            "maxDepositTerm": 60,
+            "maxDepositTermTypeId": 2,
+            "inMultiplesOfDepositTerm": 6,
+            "inMultiplesOfDepositTermTypeId": 2,
+            "preClosurePenalApplicable": true,
+            "preClosurePenalInterest": 1,
+            "preClosurePenalInterestOnTypeId": 1,
+            "depositAmount": 1000,
+            "minDepositAmount": 500,
+            "maxDepositAmount": 100000,
+            "accountingRule": 2,
+            "charts": [
+              {
+                "name": "C",
+                "description": "d",
+                "fromDate": "01 January 2024",
+                "dateFormat": "dd MMMM yyyy",
+                "locale": "en",
+                "chartSlabs": [
+                  {
+                    "periodType": 2,
+                    "fromPeriod": 1,
+                    "toPeriod": 12,
+                    "annualInterestRate": 6,
+                    "currencyCode": "USD"
+                  },
+                  {
+                    "periodType": 2,
+                    "fromPeriod": 13,
+                    "toPeriod": null,
+                    "annualInterestRate": 7,
+                    "currencyCode": "USD"
+                  }
+                ]
+              }
+            ],
+            "locale": "en",
+            "isMandatoryDeposit": true,
+            "allowWithdrawal": true,
+            "adjustAdvanceTowardsFuturePayments": true,
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositproducts",
+          "body": {
+            "name": "RD strict",
+            "shortName": "RDS",
+            "description": "Recurring",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "minDepositTerm": 6,
+            "minDepositTermTypeId": 2,
+            "maxDepositTerm": 60,
+            "maxDepositTermTypeId": 2,
+            "inMultiplesOfDepositTerm": 6,
+            "inMultiplesOfDepositTermTypeId": 2,
+            "preClosurePenalApplicable": true,
+            "preClosurePenalInterest": 1,
+            "preClosurePenalInterestOnTypeId": 1,
+            "depositAmount": 1000,
+            "minDepositAmount": 500,
+            "maxDepositAmount": 100000,
+            "accountingRule": 1,
+            "charts": [
+              {
+                "name": "C",
+                "description": "d",
+                "fromDate": "01 January 2024",
+                "dateFormat": "dd MMMM yyyy",
+                "locale": "en",
+                "chartSlabs": [
+                  {
+                    "periodType": 2,
+                    "fromPeriod": 1,
+                    "toPeriod": 12,
+                    "annualInterestRate": 6,
+                    "currencyCode": "USD"
+                  },
+                  {
+                    "periodType": 2,
+                    "fromPeriod": 13,
+                    "toPeriod": null,
+                    "annualInterestRate": 7,
+                    "currencyCode": "USD"
+                  }
+                ]
+              }
+            ],
+            "locale": "en",
+            "isMandatoryDeposit": false,
+            "allowWithdrawal": false,
+            "adjustAdvanceTowardsFuturePayments": false
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "a": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 2,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "b": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{b}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{b}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 3,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "c": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{c}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{c}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 2,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "d": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{d}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{d}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions/template?command=deposit"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions/template?command=withdrawal"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions/template?command=bogus"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions/template"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/99/transactions/template?command=deposit"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions/99"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/99/transactions/1"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/abc/transactions/template?command=deposit"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionAmount": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": -5
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": "abc"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "31 February 2024",
+            "transactionAmount": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "02 March 2024",
+            "transactionAmount": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "29 February 2024",
+            "transactionAmount": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2025",
+            "transactionAmount": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 100,
+            "paymentTypeId": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 100,
+            "paymentTypeId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 100,
+            "checkNumber": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 100,
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 100,
+            "note": "n"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=bogus",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/99/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 100,
+            "paymentTypeId": 1,
+            "receiptNumber": "r1",
+            "note": "first"
+          },
+          "save": {
+            "t1": "resourceId"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions/{t1}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{b}/transactions/{t1}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions/{t1}?template=true"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 150
+          },
+          "save": {
+            "t2": "resourceId"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{b}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 100
+          },
+          "save": {
+            "b1": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{b}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 100
+          },
+          "save": {
+            "b2": "resourceId"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?savingsId={b}&orderBy=id&limit=100",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "pageItems.id",
+            "pageItems.transactionId"
+          ],
+          "sortby": "transactionDate"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{c}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 100
+          },
+          "save": {
+            "c1": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{c}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 30
+          },
+          "save": {
+            "c2": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{d}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 100
+          },
+          "save": {
+            "d1": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=withdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 10
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{c}/transactions?command=withdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 10
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=withdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 10,
+            "paymentTypeId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=withdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 1000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=withdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 0
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?savingsId={b}&orderBy=id&limit=100",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "pageItems.id",
+            "pageItems.transactionId"
+          ],
+          "sortby": "transactionDate"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-15",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{c}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "15 April 2024",
+            "transactionAmount": 80
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{c}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "15 April 2024",
+            "transactionAmount": 500
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{c}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 April 2024",
+            "transactionAmount": 100
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 100
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{d}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}?command=calculateInterest",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}?command=postInterest",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}?command=calculateInterest",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{b}?command=postInterest",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{b}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?savingsId={b}&orderBy=id&limit=100",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "pageItems.id",
+            "pageItems.transactionId"
+          ],
+          "sortby": "transactionDate"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/99?command=calculateInterest",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/99?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{d}?command=postInterest",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{d}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-05-02",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}?command=postInterest",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{b}?command=postInterest",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{b}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?savingsId={b}&orderBy=id&limit=100",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "pageItems.id",
+            "pageItems.transactionId"
+          ],
+          "sortby": "transactionDate"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions/{t2}?command=undo",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions/{t2}?command=undo",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions/99?command=undo",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions/{t1}?command=modify",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions/{t1}?command=modify",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 120
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions/{t1}?command=bogus",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}/transactions/{t1}?command=modify",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 120
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{b}/transactions/{b1}?command=undo",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{b}/transactions/{b1}?command=undo",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{b}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?savingsId={b}&orderBy=id&limit=100",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "pageItems.id",
+            "pageItems.transactionId"
+          ],
+          "sortby": "transactionDate"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{d}?command=updateDepositAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{d}?command=updateDepositAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "mandatoryRecommendedDepositAmount": 200
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{d}?command=updateDepositAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "effectiveDate": "01 May 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{d}?command=updateDepositAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "mandatoryRecommendedDepositAmount": 0,
+            "effectiveDate": "01 May 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{d}?command=updateDepositAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "mandatoryRecommendedDepositAmount": 200,
+            "effectiveDate": "31 February 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{d}?command=updateDepositAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "mandatoryRecommendedDepositAmount": 200,
+            "effectiveDate": "01 May 2024",
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/99?command=updateDepositAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "mandatoryRecommendedDepositAmount": 200,
+            "effectiveDate": "01 May 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{d}?command=updateDepositAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "mandatoryRecommendedDepositAmount": 200,
+            "effectiveDate": "01 May 2024"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{d}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{d}?command=updateDepositAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "mandatoryRecommendedDepositAmount": 50,
+            "effectiveDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{d}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        }
+      ]
     }
   ]
 }

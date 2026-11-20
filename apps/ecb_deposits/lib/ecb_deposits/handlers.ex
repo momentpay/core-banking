@@ -160,7 +160,7 @@ defmodule ECBDeposits.Handlers do
     """
     @behaviour ECBPlatform.Commands.Handler
 
-    alias ECBDeposits.DepositAccounts.{Activation, RecurringSubmit}
+    alias ECBDeposits.DepositAccounts.{Activation, RecurringSubmit, RecurringTransactions}
     alias ECBDeposits.Savings.Transitions
     alias ECBPlatform.Params
 
@@ -178,6 +178,35 @@ defmodule ECBDeposits.Handlers do
       do:
         {:ok,
          Activation.activate!(user, command.entity_id, Params.parse!(command.json), :recurring)}
+
+    def process(%{action_name: "DEPOSIT"} = command, user),
+      do:
+        {:ok,
+         RecurringTransactions.deposit!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "WITHDRAWAL"} = command, user),
+      do:
+        {:ok,
+         RecurringTransactions.withdraw!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "UNDOTRANSACTION"} = command, user),
+      do: {:ok, RecurringTransactions.undo!(user, command.entity_id, command.subentity_id)}
+
+    def process(%{action_name: "ADJUSTTRANSACTION"} = command, user) do
+      params = Params.parse!(command.json)
+      {:ok, RecurringTransactions.adjust!(user, command.entity_id, command.subentity_id, params)}
+    end
+
+    def process(%{action_name: "UPDATEDEPOSITAMOUNT"} = command, user) do
+      params = Params.parse!(command.json)
+      {:ok, RecurringTransactions.update_deposit_amount!(user, command.entity_id, params)}
+    end
+
+    def process(%{action_name: "CALCULATEINTEREST"} = command, user),
+      do: {:ok, RecurringTransactions.calculate!(user, command.entity_id)}
+
+    def process(%{action_name: "POSTINTEREST"} = command, user),
+      do: {:ok, RecurringTransactions.post!(user, command.entity_id)}
 
     def process(%{action_name: name} = command, user)
         when name in ~w(APPROVE APPROVALUNDO REJECT WITHDRAW) do

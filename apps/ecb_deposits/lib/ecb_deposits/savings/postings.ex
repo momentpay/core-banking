@@ -84,7 +84,8 @@ defmodule ECBDeposits.Savings.Postings do
   end
 
   # an account that was inactive or dormant is active again once money moves in or out
-  defp wake!(account) do
+  @doc false
+  def wake!(account) do
     TenantRepo.update_all(
       from(a in "m_savings_account",
         where: a.id == ^account.id and a.sub_status_enum in [100, 200]
@@ -288,15 +289,17 @@ defmodule ECBDeposits.Savings.Postings do
   # --- the rules of the account ---------------------------------------------------------------------
 
   # what `SavingsAccount.deposit` and `withdraw` ask before anything else: an active account, a date in the past and
-  # not before the account was activated
-  defp check_open!(account, req, p) do
+  # not before the account was activated. The codes name the kind of account (`savingsaccount` by default).
+  @doc false
+  def check_open!(account, req, p, resource \\ "savingsaccount") do
     pattern = Params.date_format(p)
     text = DatePattern.format(req.date, pattern)
+    prefix = "error.msg." <> resource <> ".transaction."
 
     cond do
       account.status_enum != @active ->
         date_error!(
-          "error.msg.savingsaccount.transaction.account.is.not.active",
+          prefix <> "account.is.not.active",
           "Transaction is not allowed. Account is not active.",
           text,
           []
@@ -304,7 +307,7 @@ defmodule ECBDeposits.Savings.Postings do
 
       Date.compare(req.date, BusinessDate.current()) == :gt ->
         date_error!(
-          "error.msg.savingsaccount.transaction.in.the.future",
+          prefix <> "in.the.future",
           "Transaction date cannot be in the future.",
           text,
           []
@@ -313,7 +316,7 @@ defmodule ECBDeposits.Savings.Postings do
       Date.compare(req.date, account.activatedon_date) == :lt ->
         raise_errors!([
           Errors.parameter_error(
-            "error.msg.savingsaccount.transaction.before.activation.date",
+            prefix <> "before.activation.date",
             "Transaction date cannot be before accounts activation date.",
             "transactionDate",
             [text, DatePattern.format(account.activatedon_date, pattern)]
@@ -325,9 +328,10 @@ defmodule ECBDeposits.Savings.Postings do
     end
   end
 
-  defp check_lock_in!(%{lockedin_until_date_derived: nil}, _req, _p), do: :ok
+  @doc false
+  def check_lock_in!(%{lockedin_until_date_derived: nil}, _req, _p), do: :ok
 
-  defp check_lock_in!(account, req, p) do
+  def check_lock_in!(account, req, p) do
     until = account.lockedin_until_date_derived
 
     if Date.compare(req.date, until) == :lt do
@@ -343,7 +347,8 @@ defmodule ECBDeposits.Savings.Postings do
     end
   end
 
-  defp check_active_for!(account, action) do
+  @doc false
+  def check_active_for!(account, action) do
     if account.status_enum != @active do
       Validation.new("savingsaccount." <> action)
       |> Validation.fail_without_parameter("account.is.not.active")
@@ -368,7 +373,8 @@ defmodule ECBDeposits.Savings.Postings do
     ])
   end
 
-  defp update_not_allowed(account_id, tx_id),
+  @doc false
+  def update_not_allowed(account_id, tx_id),
     do: %PlatformServiceUnavailable{
       code: "error.msg.saving.account.trasaction.update.notallowed",
       message:
@@ -404,7 +410,8 @@ defmodule ECBDeposits.Savings.Postings do
   # balance rules are asked, and then it is written, followed by the postings and the entries in the books
   # (the reversed postings first, as Fineract lists them, then the transaction, then the new postings). A
   # withdrawal brings the withdrawal fees of the account's charges with it, which Fineract lists before it.
-  defp add_tx!(user, account, type, req, detail_id, opts \\ []) do
+  @doc false
+  def add_tx!(user, account, type, req, detail_id, opts \\ []) do
     ref_no = Ecto.UUID.generate()
 
     fees =
@@ -539,7 +546,8 @@ defmodule ECBDeposits.Savings.Postings do
   # marked reversed and, for a reversal, the reversal is put in its place after the postings are made again. Undoing a
   # withdrawal undoes the withdrawal fees it made, and undoing the payment of a charge or a waiver gives the charge
   # back what it was.
-  defp remove_tx!(user, account, tx, action, opts) do
+  @doc false
+  def remove_tx!(user, account, tx, action, opts) do
     removed = [tx | if(opts[:fees?] == false, do: [], else: fees_of(account.id, tx))]
     ids = Enum.map(removed, & &1.id)
     live = Enum.reject(Balance.live(account.id), &(&1.id in ids))
@@ -549,7 +557,11 @@ defmodule ECBDeposits.Savings.Postings do
       Interest.plan(
         account,
         live,
-        plan_opts(dates, opts[:precision], post_reversals: opts[:post_reversals] == true)
+        plan_opts(
+          dates,
+          opts[:precision],
+          [post_reversals: opts[:post_reversals] == true] ++ up_to_opts(opts)
+        )
       )
 
     check_balance_after!(account, plan.live_after, action)
@@ -616,7 +628,8 @@ defmodule ECBDeposits.Savings.Postings do
 
   # Changes a transaction: the old one goes (and the withdrawal fees it made), the new one comes (with its own fees),
   # the interest is planned on what that leaves
-  defp replace_tx!(user, account, tx, req, detail_id) do
+  @doc false
+  def replace_tx!(user, account, tx, req, detail_id, opts \\ []) do
     type = tx.transaction_type_enum
     removed = [tx | fees_of(account.id, tx)]
     ids = Enum.map(removed, & &1.id)
@@ -635,7 +648,12 @@ defmodule ECBDeposits.Savings.Postings do
       Enum.reject(Balance.live(account.id), &(&1.id in ids)) ++
         fee_entries ++ [pending(type, req)]
 
-    plan = Interest.plan(account, live, plan_opts([req.date, tx.transaction_date], 10))
+    plan =
+      Interest.plan(
+        account,
+        live,
+        plan_opts([req.date, tx.transaction_date], 10, up_to_opts(opts))
+      )
 
     TenantRepo.update_all(from(t in "m_savings_account_transaction", where: t.id in ^ids),
       set: [is_reversed: true]
@@ -850,7 +868,8 @@ defmodule ECBDeposits.Savings.Postings do
   end
 
   # an undone or changed transaction must not leave the account with less than it may have
-  defp check_balance_after!(account, live, action) do
+  @doc false
+  def check_balance_after!(account, live, action) do
     Balance.check!(account, live, amount: nil)
   rescue
     DomainRuleViolation -> Balance.going_negative!(action)
@@ -862,9 +881,10 @@ defmodule ECBDeposits.Savings.Postings do
     )
   end
 
-  defp note!(_user, _account, _tx_id, nil), do: :ok
+  @doc false
+  def note!(_user, _account, _tx_id, nil), do: :ok
 
-  defp note!(user, account, tx_id, note) do
+  def note!(user, account, tx_id, note) do
     if String.trim(note) != "" do
       now = DateTime.utc_now()
 

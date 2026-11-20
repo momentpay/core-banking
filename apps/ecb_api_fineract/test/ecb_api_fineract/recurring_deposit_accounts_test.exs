@@ -392,7 +392,7 @@ defmodule ECBApiFineract.RecurringDepositAccountsTest do
     command(id, "approve", %{"approvedOnDate" => "2024-03-01"}) |> ok()
     command(id, "activate", %{"activatedOnDate" => "2024-03-01"}) |> ok()
 
-    for name <- ~w(calculateInterest postInterest close prematureClose calculatePrematureAmount) do
+    for name <- ~w(close prematureClose calculatePrematureAmount) do
       refused = command(id, name, %{"closedOnDate" => "2024-03-02"})
       assert refused.status == 403
       assert code(refused) == "error.msg.depositaccount.feature.not.supported.yet"
@@ -412,5 +412,212 @@ defmodule ECBApiFineract.RecurringDepositAccountsTest do
     refused = product() |> apply_for(%{"accountNo" => "RD-1"})
     assert refused.status == 403
     assert code(refused) == "error.msg.savingsaccount.unknown.data.integrity.issue"
+  end
+
+  describe "deposits, withdrawals and interest" do
+    defp live do
+      id = applied()
+      command(id, "approve", %{"approvedOnDate" => "2024-03-01"}) |> ok()
+      command(id, "activate", %{"activatedOnDate" => "2024-03-01"}) |> ok()
+      id
+    end
+
+    defp deposit(id, amount, date \\ "2024-03-01"),
+      do:
+        send_json(
+          :post,
+          "/v1/recurringdepositaccounts/#{id}/transactions?command=deposit",
+          Map.merge(@dates, %{"transactionDate" => date, "transactionAmount" => amount})
+        )
+
+    defp paid(id) do
+      from(s in "m_mandatory_savings_schedule",
+        where: s.savings_account_id == ^id,
+        order_by: s.installment,
+        select: {s.installment, s.deposit_amount_completed_derived, s.completed_derived}
+      )
+      |> ECBPlatform.TenantRepo.all()
+    end
+
+    test "a deposit pays the earliest installments first and what is over goes on to the next" do
+      id = live()
+      deposit(id, 250) |> ok()
+
+      assert [{1, first, true}, {2, second, true}, {3, third, false}, {4, nil, false} | _] =
+               paid(id)
+
+      assert Decimal.eq?(first, 100) and Decimal.eq?(second, 100) and Decimal.eq?(third, 50)
+      assert read(id)["summary"]["accountBalance"] == 250
+    end
+
+    test "an account that takes no payments in advance puts nothing towards an installment not yet due" do
+      business_date("2024-03-01")
+
+      strict =
+        product()
+        |> then(fn _ ->
+          send_json(:post, "/v1/recurringdepositproducts", %{
+            "name" => "Strict",
+            "shortName" => "STR",
+            "description" => "s",
+            "currencyCode" => "USD",
+            "digitsAfterDecimal" => 2,
+            "nominalAnnualInterestRate" => 5,
+            "interestCompoundingPeriodType" => 1,
+            "interestPostingPeriodType" => 4,
+            "interestCalculationType" => 1,
+            "interestCalculationDaysInYearType" => 365,
+            "minDepositTerm" => 6,
+            "minDepositTermTypeId" => 2,
+            "depositAmount" => 1000,
+            "accountingRule" => 1,
+            "adjustAdvanceTowardsFuturePayments" => false,
+            "allowWithdrawal" => false,
+            "locale" => "en",
+            "charts" => [
+              %{
+                "name" => "C",
+                "fromDate" => "01 January 2020",
+                "dateFormat" => "dd MMMM yyyy",
+                "locale" => "en",
+                "chartSlabs" => [
+                  %{
+                    "periodType" => 2,
+                    "fromPeriod" => 1,
+                    "annualInterestRate" => 5,
+                    "currencyCode" => "USD"
+                  }
+                ]
+              }
+            ]
+          })
+          |> ok()
+          |> Map.fetch!("resourceId")
+        end)
+
+      id = strict |> apply_for(%{}) |> ok() |> Map.fetch!("resourceId")
+      command(id, "approve", %{"approvedOnDate" => "2024-03-01"}) |> ok()
+      command(id, "activate", %{"activatedOnDate" => "2024-03-01"}) |> ok()
+
+      deposit(id, 250) |> ok()
+      assert [{1, first, true}, {2, nil, false} | _] = paid(id)
+      assert Decimal.eq?(first, 100)
+
+      # nor may money be taken out of an account that does not allow it
+      withdrawal =
+        send_json(
+          :post,
+          "/v1/recurringdepositaccounts/#{id}/transactions?command=withdrawal",
+          Map.merge(@dates, %{"transactionDate" => "2024-03-01", "transactionAmount" => 10})
+        )
+
+      assert withdrawal.status == 503
+    end
+
+    test "installments that fall due and are not paid are counted as overdue" do
+      id = live()
+      deposit(id, 100) |> ok()
+      business_date("2024-05-02")
+      deposit(id, 100, "2024-05-02") |> ok()
+
+      account = read(id)
+      # 1 March, 1 April and 1 May have come; two installments are paid
+      assert account["noOfOverdueInstallments"] == 1
+      assert account["totalOverdueAmount"] == 100
+    end
+
+    test "a deposit undone gives its installments back and a change pays them from the deposits as they are now" do
+      id = live()
+      first = deposit(id, 100) |> ok() |> Map.fetch!("resourceId")
+      second = deposit(id, 150) |> ok() |> Map.fetch!("resourceId")
+
+      send_json(
+        :post,
+        "/v1/recurringdepositaccounts/#{id}/transactions/#{second}?command=undo",
+        %{}
+      )
+      |> ok()
+
+      assert [{1, paid1, true}, {2, nil, false} | _] = paid(id)
+      assert Decimal.eq?(paid1, 100)
+
+      changed =
+        send_json(
+          :post,
+          "/v1/recurringdepositaccounts/#{id}/transactions/#{first}?command=modify",
+          Map.merge(@dates, %{"transactionDate" => "2024-03-01", "transactionAmount" => 120})
+        )
+        |> ok()
+
+      assert changed["resourceId"] > first
+
+      # Fineract pays the replaced deposit's installments twice and the new one's not at all
+      assert [{1, paid1, true}, {2, paid2, false}, {3, nil, false} | _] = paid(id)
+      assert Decimal.eq?(paid1, 100) and Decimal.eq?(paid2, 20)
+
+      again =
+        send_json(
+          :post,
+          "/v1/recurringdepositaccounts/#{id}/transactions/#{first}?command=modify",
+          Map.merge(@dates, %{"transactionDate" => "2024-03-01", "transactionAmount" => 120})
+        )
+
+      assert again.status == 503
+    end
+
+    test "interest stops the day before the term ends, whatever the day" do
+      id = live()
+      deposit(id, 1000) |> ok()
+      business_date("2026-01-01")
+      command(id, "postInterest", %{}) |> ok()
+
+      postings =
+        from(t in "m_savings_account_transaction",
+          where: t.savings_account_id == ^id and t.transaction_type_enum == 3,
+          select: t.transaction_date
+        )
+        |> ECBPlatform.TenantRepo.all()
+
+      # the last period ends with the term, and is posted when the deposit matures
+      assert Enum.max(postings, Date) == ~D[2025-02-01]
+      assert length(postings) == 11
+    end
+
+    test "the amount asked of each installment can change from a day, and the deposits are put towards them again" do
+      id = live()
+      deposit(id, 100) |> ok()
+      business_date("2024-05-02")
+
+      changed =
+        command(id, "updateDepositAmount", %{
+          "mandatoryRecommendedDepositAmount" => 200,
+          "effectiveDate" => "2024-05-01"
+        })
+        |> ok()
+
+      assert changed["changes"]["mandatoryRecommendedDepositAmount"] == 200
+      account = read(id)
+      assert account["mandatoryRecommendedDepositAmount"] == 200
+      # 1 April (100) and 1 May (200) are unpaid and have fallen due
+      assert account["noOfOverdueInstallments"] == 2
+      assert account["totalOverdueAmount"] == 300
+    end
+
+    test "the template of a deposit asks for what the next installment needs on the day it falls due" do
+      id = live()
+      deposit(id, 60) |> ok()
+
+      template =
+        send_json(
+          :get,
+          "/v1/recurringdepositaccounts/#{id}/transactions/template?command=deposit"
+        )
+        |> ok()
+
+      assert template["amount"] == 40
+      assert template["date"] == [2024, 3, 1]
+
+      assert send_json(:get, "/v1/recurringdepositaccounts/#{id}/transactions").status == 405
+    end
   end
 end

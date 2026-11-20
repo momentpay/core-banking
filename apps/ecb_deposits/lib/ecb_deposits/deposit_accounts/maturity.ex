@@ -117,7 +117,7 @@ defmodule ECBDeposits.DepositAccounts.Maturity do
       at_period_end: at_period_end?(),
       as_on: [],
       business_date: BusinessDate.current(),
-      txs: Calc.balances(deposits, up_to)
+      txs: Calc.balances(Calc.order(deposits), up_to)
     }
     |> Calc.periods()
     |> Enum.reduce(Decimal.new(0), &Decimal.add(&1.interest, &2))

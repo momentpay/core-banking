@@ -98,39 +98,13 @@ defmodule ECBDeposits.DepositAccounts.Activation do
   # that is not the day it was applied for, and what is overdue is counted
   defp finish!(:recurring, user, id, account, on) do
     if account.submittedon_date != on, do: RecurringSubmit.regenerate!(user, id, check?: false)
-    update_overdue!(id)
+    Recurring.update_overdue!(id)
 
     TenantRepo.update_all(from(a in "m_savings_account", where: a.id == ^id),
       set: [
         total_interest_earned_derived: Decimal.new(0),
         last_interest_calculation_date: BusinessDate.current()
       ]
-    )
-  end
-
-  # the installments that were due before today (or before the term ended) and are not paid
-  defp update_overdue!(id) do
-    term = DepositAccounts.term(id)
-    today = BusinessDate.current()
-
-    until =
-      if term.maturity_date == nil or Date.compare(term.maturity_date, today) == :gt,
-        do: today,
-        else: term.maturity_date
-
-    overdue =
-      id
-      |> Recurring.schedule()
-      |> Enum.filter(&(&1.completed != true and Date.compare(until, &1.due) == :gt))
-
-    outstanding =
-      Enum.reduce(overdue, Decimal.new(0), fn i, sum ->
-        sum |> Decimal.add(i.amount || Decimal.new(0)) |> Decimal.sub(i.paid || Decimal.new(0))
-      end)
-
-    TenantRepo.update_all(
-      from(d in "m_deposit_account_recurring_detail", where: d.savings_account_id == ^id),
-      set: [no_of_overdue_installments: length(overdue), total_overdue_amount: outstanding]
     )
   end
 

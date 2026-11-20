@@ -52,6 +52,7 @@ defmodule ECBApiFineract.ApiRouter do
     Provisioning,
     Rates,
     RecurringDepositAccounts,
+    RecurringDepositTransactions,
     RescheduleLoans,
     SavingsAccountCharges,
     SavingsAccounts,
@@ -220,6 +221,21 @@ defmodule ECBApiFineract.ApiRouter do
   put "/v1/recurringdepositaccounts/:id", do: RecurringDepositAccounts.update(conn, id)
   delete "/v1/recurringdepositaccounts/:id", do: RecurringDepositAccounts.delete(conn, id)
   post "/v1/recurringdepositaccounts/:id", do: RecurringDepositAccounts.command(conn, id)
+
+  get "/v1/recurringdepositaccounts/:id/transactions/template",
+    do: RecurringDepositTransactions.template(conn, id)
+
+  get "/v1/recurringdepositaccounts/:id/transactions",
+    do: RecurringDepositTransactions.method_not_allowed(conn)
+
+  get "/v1/recurringdepositaccounts/:id/transactions/:transaction_id",
+    do: RecurringDepositTransactions.show(conn, id, transaction_id)
+
+  post "/v1/recurringdepositaccounts/:id/transactions",
+    do: RecurringDepositTransactions.command(conn, id)
+
+  post "/v1/recurringdepositaccounts/:id/transactions/:transaction_id",
+    do: RecurringDepositTransactions.adjust(conn, id, transaction_id)
 
   get "/v1/savingsaccounts/template", do: SavingsAccounts.template(conn)
 

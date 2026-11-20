@@ -31,7 +31,8 @@ defmodule ECBApiFineract.Resources.RecurringDepositAccounts do
     "postinterest" => "POSTINTEREST",
     "close" => "CLOSE",
     "prematureclose" => "PREMATURECLOSE",
-    "calculateprematureamount" => "CALCULATEPREMATUREAMOUNT"
+    "calculateprematureamount" => "CALCULATEPREMATUREAMOUNT",
+    "updatedepositamount" => "UPDATEDEPOSITAMOUNT"
   }
 
   @command_names ~w(reject withdrawnByApplicant approve undoapproval activate calculateInterest postInterest close

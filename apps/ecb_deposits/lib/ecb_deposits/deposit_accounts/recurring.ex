@@ -8,8 +8,9 @@ defmodule ECBDeposits.DepositAccounts.Recurring do
   import Ecto.Query
 
   alias ECBDeposits.DepositAccounts.Maturity
+  alias ECBDeposits.Savings.Balance
+  alias ECBPlatform.{BusinessDate, TenantRepo}
   alias ECBPlatform.Errors.ServerError
-  alias ECBPlatform.TenantRepo
 
   @collection 1
   @savings_entity 5
@@ -138,6 +139,8 @@ defmodule ECBDeposits.DepositAccounts.Recurring do
           due: s.duedate,
           amount: s.deposit_amount,
           paid: s.deposit_amount_completed_derived,
+          in_advance: s.total_paid_in_advance_derived,
+          late: s.total_paid_late_derived,
           completed: s.completed_derived
         }
       )
@@ -232,6 +235,197 @@ defmodule ECBDeposits.DepositAccounts.Recurring do
 
     TenantRepo.delete_all(from(c in "m_calendar_history", where: c.calendar_id in ^ids))
     TenantRepo.delete_all(from(c in "m_calendar", where: c.id in ^ids))
+    :ok
+  end
+
+  # --- paying installments ------------------------------------------------------------------------------
+
+  @doc """
+  Puts a deposit of `amount` made on `date` towards the installments that are not paid yet, the earliest first, as
+  Fineract does: what it covers of one is that much paid (in advance or late according to the day), and what is left
+  goes on to the next. An account that does not take payments in advance (`adjust_advance?` false) puts nothing
+  towards an installment that is not yet due.
+  """
+  @spec pay_installments!(integer, Date.t(), Decimal.t(), boolean) :: :ok
+  def pay_installments!(account_id, date, amount, adjust_advance?) do
+    id_schedule = account_id |> schedule() |> Enum.reject(&(&1.completed == true))
+
+    _left =
+      Enum.reduce(id_schedule, amount, fn installment, remaining ->
+        cond do
+          not Decimal.gt?(remaining, 0) ->
+            remaining
+
+          not adjust_advance? and Date.compare(date, installment.due) == :lt ->
+            Decimal.new(0)
+
+          true ->
+            pay!(installment, date, remaining)
+        end
+      end)
+
+    :ok
+  end
+
+  # an installment takes what is outstanding of it; answers what is left of the amount
+  defp pay!(installment, date, remaining) do
+    paid = installment.paid || Decimal.new(0)
+    outstanding = Decimal.sub(installment.amount || Decimal.new(0), paid)
+    portion = if Decimal.compare(remaining, outstanding) == :lt, do: remaining, else: outstanding
+    completed = Decimal.add(paid, portion)
+    met? = Decimal.eq?(Decimal.sub(installment.amount || Decimal.new(0), completed), 0)
+
+    set =
+      [
+        deposit_amount_completed_derived: if(Decimal.eq?(completed, 0), do: nil, else: completed),
+        completed_derived: met?,
+        obligations_met_on_date: if(met?, do: date)
+      ] ++ advance_or_late(installment, date, portion)
+
+    TenantRepo.update_all(
+      from(s in "m_mandatory_savings_schedule", where: s.id == ^installment.id),
+      set: set
+    )
+
+    Decimal.sub(remaining, portion)
+  end
+
+  defp advance_or_late(installment, date, portion) do
+    {column, current} =
+      cond do
+        Date.compare(date, installment.due) == :lt ->
+          {:total_paid_in_advance_derived, installment.in_advance}
+
+        Date.compare(date, installment.due) == :gt ->
+          {:total_paid_late_derived, installment.late}
+
+        true ->
+          {nil, nil}
+      end
+
+    if column, do: [{column, Decimal.add(current || Decimal.new(0), portion)}], else: []
+  end
+
+  @doc """
+  Starts the payments of the installments again from nothing and puts every deposit the account has (the earliest
+  first) towards them, as Fineract does after a deposit is undone or the recommended amount changes.
+  """
+  @spec replay!(integer, boolean) :: :ok
+  def replay!(account_id, adjust_advance?) do
+    TenantRepo.update_all(
+      from(s in "m_mandatory_savings_schedule", where: s.savings_account_id == ^account_id),
+      set: [
+        deposit_amount_completed_derived: nil,
+        total_paid_in_advance_derived: nil,
+        total_paid_late_derived: nil,
+        completed_derived: false,
+        obligations_met_on_date: nil
+      ]
+    )
+
+    for tx <- Balance.live(account_id), tx.type == 1 do
+      pay_installments!(account_id, tx.date, tx.amount, adjust_advance?)
+    end
+
+    :ok
+  end
+
+  @doc "Gives the installments due on `effective_from` or later a new amount (those before it keep theirs)."
+  @spec new_amount!(integer, Date.t(), Decimal.t()) :: :ok
+  def new_amount!(account_id, effective_from, amount) do
+    TenantRepo.update_all(
+      from(s in "m_mandatory_savings_schedule",
+        where: s.savings_account_id == ^account_id and s.duedate >= ^effective_from
+      ),
+      set: [deposit_amount: amount]
+    )
+
+    :ok
+  end
+
+  @doc "Counts the installments due before today (or the end of the term) that are not paid, and what is outstanding."
+  @spec update_overdue!(integer) :: :ok
+  def update_overdue!(id) do
+    today = BusinessDate.current()
+    maturity = ECBDeposits.DepositAccounts.term(id).maturity_date
+    until = if maturity == nil or Date.compare(maturity, today) == :gt, do: today, else: maturity
+
+    overdue =
+      id
+      |> schedule()
+      |> Enum.filter(&(&1.completed != true and Date.compare(until, &1.due) == :gt))
+
+    outstanding =
+      Enum.reduce(overdue, Decimal.new(0), fn i, sum ->
+        sum |> Decimal.add(i.amount || Decimal.new(0)) |> Decimal.sub(i.paid || Decimal.new(0))
+      end)
+
+    TenantRepo.update_all(
+      from(d in "m_deposit_account_recurring_detail", where: d.savings_account_id == ^id),
+      set: [no_of_overdue_installments: length(overdue), total_overdue_amount: outstanding]
+    )
+
+    :ok
+  end
+
+  # --- what the account will come to --------------------------------------------------------------------
+
+  @doc """
+  Works the deposit amount and the maturity amount out again from what the account holds now: its deposits and
+  withdrawals so far and, for each installment not paid in full, a deposit of what is outstanding on its day (not
+  before the last transaction). The deposit amount is what that nets to; the maturity amount adds the interest it
+  earns until the day before the term ends. `account` carries the interest settings and `rate` is the rate to use.
+  """
+  @spec reproject!(map, Decimal.t()) :: :ok
+  def reproject!(account, rate) do
+    term = account.term
+    start = term.expected_first_deposit_on || account.activatedon_date || account.submittedon_date
+    live = Balance.live(account.id) |> Enum.filter(&(&1.type in [1, 2]))
+    latest = live |> Enum.map(& &1.date) |> Enum.max(Date, fn -> nil end)
+
+    future =
+      for i <- schedule(account.id),
+          outstanding = Decimal.sub(i.amount || Decimal.new(0), i.paid || Decimal.new(0)),
+          Decimal.gt?(outstanding, 0) do
+        due = if latest != nil and Date.compare(i.due, latest) == :lt, do: latest, else: i.due
+
+        %{
+          id: 1_000_000 + i.number,
+          type: 1,
+          date: due,
+          amount: outstanding,
+          manual: false,
+          overdraft: nil
+        }
+      end
+
+    txs = live ++ future
+
+    net =
+      Enum.reduce(txs, Decimal.new(0), fn tx, sum ->
+        if tx.type == 2, do: Decimal.sub(sum, tx.amount), else: Decimal.add(sum, tx.amount)
+      end)
+
+    interest =
+      Maturity.interest_on(txs, %{
+        start: start,
+        maturity: term.maturity_date,
+        rate: rate,
+        posting: account.interest_posting_period_enum,
+        compounding: account.interest_compounding_period_enum,
+        calculation: account.interest_calculation_type_enum,
+        days_in_year: account.interest_calculation_days_in_year_type_enum,
+        min_balance: account.min_balance_for_interest_calculation,
+        decimals: account.currency_digits
+      })
+
+    TenantRepo.update_all(
+      from(t in "m_deposit_account_term_and_preclosure",
+        where: t.savings_account_id == ^account.id
+      ),
+      set: [deposit_amount: net, maturity_amount: Decimal.add(net, interest)]
+    )
+
     :ok
   end
 end
