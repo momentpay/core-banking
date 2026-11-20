@@ -114,15 +114,14 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
 
   # a transaction as Fineract writes it: shorter when it comes alone, with every flag when it is part of an account
   defp json(t, a, full?) do
-    kind = kind(t.transaction_type_enum)
-    credit_type? = kind in [:deposit, :interest_posting]
+    type = t.transaction_type_enum
     reversed? = t.is_reversed == true
     reversal? = t.is_reversal == true
 
     base = %{
       "id" => t.id,
       "transactionType" => type_json(t.transaction_type_enum, full?),
-      "entryType" => if(credit_type? != reversal?, do: "CREDIT", else: "DEBIT"),
+      "entryType" => entry(type, reversal?),
       "accountId" => a.id,
       "accountNo" => a.account_no,
       "externalId" => t.external_id,
@@ -150,7 +149,7 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
       do:
         base
         |> Map.put("externalId", t.external_id || :null)
-        |> Map.merge(flags(t, kind, reversed?, reversal?)),
+        |> Map.merge(flags(t, type, reversed?, reversal?)),
       else: base
   end
 
@@ -168,99 +167,166 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
     }
   end
 
-  @type_names %{
-    1 => {"savingsAccountTransactionType.deposit", "Deposit", "DEPOSIT", "deposit"},
-    2 => {"savingsAccountTransactionType.withdrawal", "Withdrawal", "WITHDRAWAL", "withdrawal"},
-    3 =>
-      {"savingsAccountTransactionType.interestPosting", "Interest posting", "INTEREST_POSTING",
-       "interestPosting"},
-    17 =>
-      {"savingsAccountTransactionType.overdraftInterest", "Overdraft Interest",
-       "OVERDRAFT_INTEREST", "overdraftInterest"}
+  # What each kind of transaction is called and which flags it carries. `credit?` is nil for a transaction that moves
+  # no money (a waiver), `flags` the ones of the type that are on, `extra` the ones of the full type that are on.
+  @types %{
+    1 => %{
+      code: "savingsAccountTransactionType.deposit",
+      value: "Deposit",
+      enum: "DEPOSIT",
+      credit?: true,
+      flags: ["deposit"],
+      extra: ["depositOrWithdrawal"]
+    },
+    2 => %{
+      code: "savingsAccountTransactionType.withdrawal",
+      value: "Withdrawal",
+      enum: "WITHDRAWAL",
+      credit?: false,
+      flags: ["withdrawal"],
+      extra: ["depositOrWithdrawal"]
+    },
+    3 => %{
+      code: "savingsAccountTransactionType.interestPosting",
+      value: "Interest posting",
+      enum: "INTEREST_POSTING",
+      credit?: true,
+      flags: ["interestPosting"],
+      extra: []
+    },
+    4 => %{
+      code: "savingsAccountTransactionType.withdrawalFee",
+      value: "Withdrawal fee",
+      enum: "WITHDRAWAL_FEE",
+      credit?: false,
+      flags: ["feeDeduction"],
+      extra: ["withdrawalFee", "chargeTransaction"]
+    },
+    5 => %{
+      code: "savingsAccountTransactionType.annualFee",
+      value: "Annual fee",
+      enum: "ANNUAL_FEE",
+      credit?: false,
+      flags: ["feeDeduction"],
+      extra: ["annualFee", "chargeTransaction"]
+    },
+    6 => %{
+      code: "savingsAccountTransactionType.waiveCharge",
+      value: "Waive Charge",
+      enum: "WAIVE_CHARGES",
+      credit?: nil,
+      flags: [],
+      extra: []
+    },
+    7 => %{
+      code: "savingsAccountTransactionType.payCharge",
+      value: "Pay Charge",
+      enum: "PAY_CHARGE",
+      credit?: false,
+      flags: ["feeDeduction"],
+      extra: ["payCharge", "chargeTransaction"]
+    },
+    17 => %{
+      code: "savingsAccountTransactionType.overdraftInterest",
+      value: "Overdraft Interest",
+      enum: "OVERDRAFT_INTEREST",
+      credit?: false,
+      flags: ["overdraftInterest"],
+      extra: ["overDraftInterestPosting", "incomeFromInterest"]
+    }
   }
-
-  @kinds %{
-    1 => :deposit,
-    2 => :withdrawal,
-    3 => :interest_posting,
-    17 => :overdraft_interest
-  }
-
-  defp kind(type), do: Map.fetch!(@kinds, type)
 
   @type_flags ~w(deposit dividendPayout withdrawal interestPosting feeDeduction initiateTransfer approveTransfer
                  withdrawTransfer rejectTransfer overdraftInterest writtenoff overdraftFee withholdTax escheat
                  amountHold amountRelease accrual)
+  @extra_flags ~w(payCharge overDraftInterestPosting incomeFromInterest withdrawalFee chargeTransaction annualFee
+                  depositOrWithdrawal)
 
-  defp type_json(type, full?) do
-    {code, value, enum, flag} = Map.fetch!(@type_names, type)
+  defp entry_type(%{credit?: nil}), do: nil
+  defp entry_type(%{credit?: true}), do: "CREDIT"
+  defp entry_type(%{credit?: false}), do: "DEBIT"
+
+  @doc "The type of a transaction as Fineract shows it, `full?` with the entry type and what kind of charge it is."
+  @spec type_json(integer, boolean) :: map
+  def type_json(type, full?) do
+    t = Map.fetch!(@types, type)
 
     base =
       @type_flags
-      |> Map.new(&{&1, &1 == flag})
-      |> Map.merge(%{"id" => type, "code" => code, "value" => value})
+      |> Map.new(&{&1, &1 in t.flags})
+      |> Map.merge(%{"id" => type, "code" => t.code, "value" => t.value})
 
     if full? do
-      credit? = flag in ["deposit", "interestPosting"]
-      overdraft? = flag == "overdraftInterest"
-
-      Map.merge(base, %{
-        "debit" => not credit?,
-        "credit" => credit?,
-        "payCharge" => false,
-        "overDraftInterestPosting" => overdraft?,
-        "incomeFromInterest" => overdraft?,
-        "entryType" => if(credit?, do: "CREDIT", else: "DEBIT"),
-        "withdrawalFee" => false,
-        "chargeTransaction" => false,
-        "annualFee" => false,
-        "depositOrWithdrawal" => flag in ["deposit", "withdrawal"],
-        "transactionTypeEnum" => enum
+      @extra_flags
+      |> Map.new(&{&1, &1 in t.extra})
+      |> Map.merge(base)
+      |> Map.merge(%{
+        "debit" => t.credit? == false,
+        "credit" => t.credit? == true,
+        "entryType" => entry_type(t),
+        "transactionTypeEnum" => t.enum
       })
     else
       base
     end
   end
 
-  defp flags(_t, kind, reversed?, reversal?) do
-    live? = not reversed? and not reversal?
-    credit_type? = kind in [:deposit, :interest_posting]
-
+  # the flags of a transaction in an account: the type's, and whether it is live
+  defp interest_flags(type, reversed?) do
     %{
-      "debit" => live? and not credit_type?,
-      "credit" => live? and credit_type?,
+      "interestPosting" => type in [3, 17],
+      "interestPostingAndNotReversed" => type == 3 and not reversed?,
+      "overdraftInterestAndNotReversed" => type == 17 and not reversed?
+    }
+  end
+
+  defp flags(_t, type, reversed?, reversal?) do
+    t = Map.fetch!(@types, type)
+    live? = not reversed? and not reversal?
+    charge? = "chargeTransaction" in t.extra
+    fee_flag? = type in [4, 5, 7]
+    interest = interest_flags(type, reversed?)
+
+    Map.merge(interest, %{
+      "debit" => live? and t.credit? == false,
+      "credit" => live? and t.credit? == true,
       "amountOnHold" => false,
-      "payCharge" => false,
+      "payCharge" => type == 7,
       "waivePenaltyCharge" => false,
       "waiveFeeCharge" => false,
       "taxDetails" => [],
-      "deposit" => kind == :deposit,
+      "deposit" => type == 1,
       "accrual" => false,
-      "interestPosting" => kind in [:interest_posting, :overdraft_interest],
-      "withdrawal" => kind == :withdrawal,
+      "withdrawal" => type == 2,
       "penaltyCharge" => false,
       "amountRelease" => false,
       "savingsAccountChargesPaid" => [],
-      "interestPostingAndNotReversed" => kind == :interest_posting and not reversed?,
-      "overdraftInterestAndNotReversed" => kind == :overdraft_interest and not reversed?,
       "manualTransaction" => false,
       "notReversed" => not reversed?,
-      "waiveCharge" => false,
+      "waiveCharge" => type == 6,
       "reversalTransaction" => reversal?,
-      "chargeTransaction" => false,
+      "chargeTransaction" => charge?,
       "feeCharge" => false,
       "dividendPayoutAndNotReversed" => false,
-      "withdrawalFeeAndNotReversed" => false,
+      "withdrawalFeeAndNotReversed" => fee_flag? and not reversed?,
       "penaltyChargeAndNotReversed" => false,
       "withHoldTaxAndNotReversed" => false,
       "waiveFeeChargeAndNotReversed" => false,
       "waivePenaltyChargeAndNotReversed" => false,
-      "annualFee" => false,
+      "annualFee" => type == 5,
       "feeChargeAndNotReversed" => false,
-      "depositAndNotReversed" => kind == :deposit and not reversed?,
-      "annualFeeAndNotReversed" => false,
-      "chargeTransactionAndNotReversed" => false
-    }
+      "depositAndNotReversed" => type == 1 and not reversed?,
+      "annualFeeAndNotReversed" => type == 5 and not reversed?,
+      "chargeTransactionAndNotReversed" => charge? and not reversed?
+    })
+  end
+
+  # a reversal enters the books the other way round
+  defp entry(type, reversal?) do
+    case Map.fetch!(@types, type).credit? do
+      nil -> nil
+      credit? -> if(credit? != reversal?, do: "CREDIT", else: "DEBIT")
+    end
   end
 
   # --- writes ---------------------------------------------------------------------------------

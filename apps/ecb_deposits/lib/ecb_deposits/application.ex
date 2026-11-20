@@ -27,13 +27,21 @@ defmodule ECBDeposits.Application do
     {"SAVINGSACCOUNT", "REVERSETRANSACTION", ECBDeposits.Handlers.SavingsAccount},
     {"SAVINGSACCOUNT", "ADJUSTTRANSACTION", ECBDeposits.Handlers.SavingsAccount},
     {"SAVINGSACCOUNT", "CALCULATEINTEREST", ECBDeposits.Handlers.SavingsAccount},
-    {"SAVINGSACCOUNT", "POSTINTEREST", ECBDeposits.Handlers.SavingsAccount}
+    {"SAVINGSACCOUNT", "POSTINTEREST", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNTCHARGE", "CREATE", ECBDeposits.Handlers.SavingsAccountCharge},
+    {"SAVINGSACCOUNTCHARGE", "UPDATE", ECBDeposits.Handlers.SavingsAccountCharge},
+    {"SAVINGSACCOUNTCHARGE", "DELETE", ECBDeposits.Handlers.SavingsAccountCharge},
+    {"SAVINGSACCOUNTCHARGE", "WAIVE", ECBDeposits.Handlers.SavingsAccountCharge},
+    {"SAVINGSACCOUNTCHARGE", "PAY", ECBDeposits.Handlers.SavingsAccountCharge},
+    {"SAVINGSACCOUNTCHARGE", "INACTIVATE", ECBDeposits.Handlers.SavingsAccountCharge}
   ]
 
   @impl true
   def start(_type, _args) do
     for {entity, action, handler} <- @commands, do: Handlers.register(entity, action, handler)
     ECBPlatform.Jobs.register("SA_PINT", ECBDeposits.Savings.PostInterestJob)
+    ECBPlatform.Jobs.register("SA_PDCH", ECBDeposits.Savings.PayDueChargesJob)
+    ECBPlatform.Jobs.register("SA_AANF", ECBDeposits.Savings.ApplyAnnualFeeJob)
 
     Supervisor.start_link([], strategy: :one_for_one, name: ECBDeposits.Supervisor)
   end

@@ -5,12 +5,13 @@ defmodule ECBDeposits.Savings.Submit do
   `SavingsAccountDataValidator`.
 
   The account copies the interest, overdraft and balance rules of its product, any of which the application may
-  override. Applications with charges, a withholding tax, a lien, a group or data tables are refused as not
+  override. Applications with a withholding tax, a lien, a group or data tables are refused as not
   supported yet.
   """
   import Ecto.Query
 
   alias ECBDeposits.{Savings, SavingsEnums, SavingsProducts}
+  alias ECBDeposits.Savings.{ApplicationCharges, Charges}
   alias ECBParty.Clients
   alias ECBPlatform.{BusinessDate, Integrity, Json, Params, TenantRepo, Validation}
   alias ECBPlatform.Commands.Result
@@ -34,6 +35,7 @@ defmodule ECBDeposits.Savings.Submit do
     Params.check_supported!(p, @supported)
     on = Params.date(p, "submittedOnDate")
     validate!(p, :create)
+    ApplicationCharges.validate!(p)
     refuse_beyond_core!(p)
 
     product = SavingsProducts.fetch!(Json.long(p, "productId"))
@@ -41,9 +43,11 @@ defmodule ECBDeposits.Savings.Submit do
     staff = staff!(p)
     row = new_row(user, p, product, client, staff, on)
     validate_application!(row, client, product)
+    charges = ApplicationCharges.build!(p, product)
 
     supplied? = blank_to_nil(Params.string(p, "accountNo")) != nil
     id = insert!(row)
+    Enum.each(charges, &Charges.create!(user, id, &1))
     unless supplied?, do: generate_account_no!(id, product, client)
 
     # without an account number of its own Fineract has not saved the account yet when it answers, so it
@@ -228,7 +232,6 @@ defmodule ECBDeposits.Savings.Submit do
   defp refuse_beyond_core!(p) do
     asked =
       [
-        {"charges", Params.value(p, "charges") not in [nil, []]},
         {"datatables", Params.exists?(p, "datatables")},
         {"lienAllowed", Params.boolean(p, "lienAllowed") == true},
         {"withHoldTax", Params.boolean(p, "withHoldTax") == true},

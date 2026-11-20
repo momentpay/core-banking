@@ -89,4 +89,48 @@ defmodule ECBDeposits.Handlers do
            Params.parse!(command.json)
          )}
   end
+
+  defmodule SavingsAccountCharge do
+    @moduledoc """
+    Every action on `SAVINGSACCOUNTCHARGE`: add a charge to a savings account, change, delete, pay, waive and
+    inactivate one. The account is the command's entity, the charge its sub-entity.
+    """
+    @behaviour ECBPlatform.Commands.Handler
+
+    alias ECBDeposits.Savings.ChargeCommands
+    alias ECBPlatform.Params
+
+    @impl true
+    def process(%{action_name: "CREATE"} = command, user),
+      do: {:ok, ChargeCommands.add!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "UPDATE"} = command, user),
+      do:
+        {:ok,
+         ChargeCommands.update!(
+           user,
+           command.entity_id,
+           command.subentity_id,
+           Params.parse!(command.json)
+         )}
+
+    def process(%{action_name: "DELETE"} = command, user),
+      do: {:ok, ChargeCommands.delete!(user, command.entity_id, command.subentity_id)}
+
+    def process(%{action_name: "WAIVE"} = command, user),
+      do: {:ok, ChargeCommands.waive!(user, command.entity_id, command.subentity_id)}
+
+    def process(%{action_name: "PAY"} = command, user),
+      do:
+        {:ok,
+         ChargeCommands.pay!(
+           user,
+           command.entity_id,
+           command.subentity_id,
+           Params.parse!(command.json)
+         )}
+
+    def process(%{action_name: "INACTIVATE"} = command, user),
+      do: {:ok, ChargeCommands.inactivate!(user, command.entity_id, command.subentity_id)}
+  end
 end

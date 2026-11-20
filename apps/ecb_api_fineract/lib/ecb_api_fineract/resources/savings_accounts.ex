@@ -5,9 +5,18 @@ defmodule ECBApiFineract.Resources.SavingsAccounts do
   active account and on to closed. Answers as Fineract's `SavingsAccountsApiResource` does.
   """
   alias ECBApiFineract.Errors
-  alias ECBApiFineract.Resources.{Charges, Read, SavingsTransactions, Write}
+
+  alias ECBApiFineract.Resources.{
+    Charges,
+    Read,
+    SavingsAccountCharges,
+    SavingsTransactions,
+    Write
+  }
+
   alias ECBCatalog.Charges, as: CatalogCharges
   alias ECBDeposits.{Savings, SavingsEnums, SavingsProducts}
+  alias ECBDeposits.Savings.Charges, as: AccountCharges
   alias ECBParty.Clients
   alias ECBPlatform.Errors.{DomainRuleViolation, UnrecognizedQueryParameter}
 
@@ -92,14 +101,31 @@ defmodule ECBApiFineract.Resources.SavingsAccounts do
         else: []
 
     # an account without a transaction has no list of them to show
-    if list == [],
-      do: body,
-      else:
-        Map.merge(body, %{
-          "transactions" => list,
-          "savingsAccountTransactionsWithPivotConfig" => list
-        })
+    body =
+      if list == [],
+        do: body,
+        else:
+          Map.merge(body, %{
+            "transactions" => list,
+            "savingsAccountTransactionsWithPivotConfig" => list
+          })
+
+    charges = AccountCharges.list(a.id)
+
+    if charges != [] and Enum.any?(associations, &(&1 in ["charges", "all"])),
+      do:
+        body
+        |> Map.put("charges", Enum.map(charges, &SavingsAccountCharges.account_json(&1, a)))
+        |> put_fee("withdrawalFee", Enum.filter(charges, &AccountCharges.withdrawal_fee?/1), a)
+        |> put_fee("annualFee", Enum.filter(charges, &AccountCharges.annual?/1), a),
+      else: body
   end
+
+  # the account names its annual fee and a withdrawal fee (the last it has) beside its charges
+  defp put_fee(body, _key, [], _a), do: body
+
+  defp put_fee(body, key, charges, a),
+    do: Map.put(body, key, SavingsAccountCharges.account_json(List.last(charges), a))
 
   # what the page leaves out: the longer summary, the ids of the choices, and what depends on the account having
   # been activated
@@ -224,6 +250,10 @@ defmodule ECBApiFineract.Resources.SavingsAccounts do
       "currency" => currency(a),
       "totalDeposits" => nonzero(a.total_deposits_derived),
       "totalWithdrawals" => nonzero(a.total_withdrawals_derived),
+      "totalWithdrawalFees" => nonzero(a.total_withdrawal_fees_derived),
+      "totalAnnualFees" => nonzero(a.total_annual_fees_derived),
+      "totalFeeCharge" => nonzero(a.total_fees_charge_derived),
+      "totalPenaltyCharge" => nonzero(a.total_penalty_charge_derived),
       "totalInterestEarned" => earned,
       "totalInterestPosted" => whole_zero(a.total_interest_posted_derived),
       "accountBalance" => balance,

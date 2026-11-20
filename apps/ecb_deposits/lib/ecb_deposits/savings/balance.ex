@@ -14,6 +14,9 @@ defmodule ECBDeposits.Savings.Balance do
   @deposit 1
   @withdrawal 2
   @interest_posting 3
+  @withdrawal_fee 4
+  @annual_fee 5
+  @pay_charge 7
   @dividend 8
   @overdraft_interest 17
 
@@ -25,7 +28,7 @@ defmodule ECBDeposits.Savings.Balance do
   def live(account_id) do
     from(t in "m_savings_account_transaction",
       where: t.savings_account_id == ^account_id and not t.is_reversed and not t.is_reversal,
-      order_by: [t.transaction_date, t.id],
+      order_by: [t.transaction_date, t.created_date, t.id],
       select: %{
         id: t.id,
         type: t.transaction_type_enum,
@@ -34,7 +37,17 @@ defmodule ECBDeposits.Savings.Balance do
         manual: t.is_manual,
         overdraft: t.overdraft_amount_derived,
         payment_detail_id: t.payment_detail_id,
-        ref_no: t.ref_no
+        ref_no: t.ref_no,
+        charge_time:
+          fragment(
+            "(SELECT sc.charge_time_enum FROM m_savings_account_charge_paid_by pb JOIN m_savings_account_charge sc ON sc.id = pb.savings_account_charge_id WHERE pb.savings_account_transaction_id = ? LIMIT 1)",
+            t.id
+          ),
+        penalty:
+          fragment(
+            "(SELECT sc.is_penalty FROM m_savings_account_charge_paid_by pb JOIN m_savings_account_charge sc ON sc.id = pb.savings_account_charge_id WHERE pb.savings_account_transaction_id = ? LIMIT 1)",
+            t.id
+          )
       }
     )
     |> TenantRepo.all()
@@ -72,17 +85,30 @@ defmodule ECBDeposits.Savings.Balance do
     posted = sum(live, [@interest_posting])
     overdraft_interest = sum(live, [@overdraft_interest])
 
+    withdrawal_fees = sum(live, [@withdrawal_fee])
+    annual_fees = sum(live, [@annual_fee])
+    fees = live |> Enum.filter(&(&1.penalty != true)) |> sum([@pay_charge])
+    penalties = live |> Enum.filter(&(&1.penalty == true)) |> sum([@pay_charge])
+
     balance =
       deposits
       |> Decimal.add(posted)
       |> Decimal.sub(withdrawals)
+      |> Decimal.sub(withdrawal_fees)
+      |> Decimal.sub(annual_fees)
+      |> Decimal.sub(fees)
+      |> Decimal.sub(penalties)
       |> Decimal.sub(overdraft_interest)
 
     set =
       [
         account_balance_derived: balance,
         total_interest_posted_derived: posted,
-        total_overdraft_interest_derived: overdraft_interest
+        total_overdraft_interest_derived: overdraft_interest,
+        total_withdrawal_fees_derived: withdrawal_fees,
+        total_annual_fees_derived: annual_fees,
+        total_fees_charge_derived: fees,
+        total_penalty_charge_derived: penalties
       ]
       |> put_total(:total_deposits_derived, account_id, @deposit, deposits)
       |> put_total(:total_withdrawals_derived, account_id, @withdrawal, withdrawals)
@@ -129,13 +155,19 @@ defmodule ECBDeposits.Savings.Balance do
       else
         not exception? and
           Enum.any?(rows, fn {tx, balance} ->
-            Calc.direction(tx.type) == :debit and below?(balance, minimum) and
+            Calc.direction(tx.type) == :debit and checked?(tx) and below?(balance, minimum) and
               not forced?(force?, balance)
           end)
       end
 
     if violated?, do: insufficient!(final, opts[:amount]), else: :ok
   end
+
+  # a charge that is not an activation or a withdrawal fee may take the balance below what is allowed
+  defp checked?(%{type: type} = tx) when type in [@annual_fee, @pay_charge],
+    do: tx[:charge_time] in [3, 5]
+
+  defp checked?(_tx), do: true
 
   # the least the balance may be: what must stay in the account, less what may be overdrawn
   defp minimum(account) do
@@ -176,7 +208,13 @@ defmodule ECBDeposits.Savings.Balance do
   end
 
   @doc "The error of undoing or changing a transaction that would leave the account with less than it may have."
-  @spec going_negative!(String.t()) :: no_return
+  @spec going_negative!(String.t() | {:resource, String.t()}) :: no_return
+  def going_negative!({:resource, resource}) do
+    ECBPlatform.Validation.new(resource)
+    |> ECBPlatform.Validation.fail_without_parameter("results.in.balance.going.negative")
+    |> ECBPlatform.Validation.raise_if_errors!()
+  end
+
   def going_negative!(action) do
     ECBPlatform.Validation.new("savingsaccount." <> action)
     |> ECBPlatform.Validation.fail_without_parameter("results.in.balance.going.negative")

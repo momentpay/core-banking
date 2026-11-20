@@ -20,6 +20,8 @@ defmodule ECBDeposits.Savings.Journal do
   @savings_reference 1
   @savings_control 2
   @interest_on_savings 3
+  @income_from_fees 4
+  @income_from_penalties 5
   @overdraft_control 11
   @income_from_interest 12
   @interest_payable 17
@@ -54,6 +56,29 @@ defmodule ECBDeposits.Savings.Journal do
 
         true ->
           interest_rest(accounts, tx.amount)
+      end
+
+    insert!(user, account, tx, lines)
+  end
+
+  # a fee, a penalty or a withdrawal fee paid: the savings control account pays the account the charge earns into (the
+  # charge's own, or the one the product maps it to, or the product's for fees or penalties)
+  def post!(user, account, %{type: type, charge: charge} = tx) when type in [4, 5, 7] do
+    accounts = accounts(account.product_id)
+    income = charge_income(account.product_id, charge, accounts)
+    control = accounts[@savings_control]
+    over = Map.get(tx, :overdraft, Decimal.new(0))
+    rest = Decimal.sub(tx.amount, over)
+
+    lines =
+      if Decimal.gt?(over, 0) do
+        [{@debit, accounts[@overdraft_control], over}, {@credit, income, over}] ++
+          if(Decimal.gt?(rest, 0),
+            do: [{@debit, control, rest}, {@credit, income, rest}],
+            else: []
+          )
+      else
+        [{@debit, control, tx.amount}, {@credit, income, tx.amount}]
       end
 
     insert!(user, account, tx, lines)
@@ -94,6 +119,26 @@ defmodule ECBDeposits.Savings.Journal do
       end
 
     insert!(user, account, tx, lines)
+  end
+
+  defp charge_income(product_id, charge, accounts) do
+    cond do
+      charge[:gl_account_id] ->
+        charge.gl_account_id
+
+      mapped = mapped_charge_account(product_id, charge) ->
+        mapped
+
+      true ->
+        accounts[if(charge.penalty == true, do: @income_from_penalties, else: @income_from_fees)]
+    end
+  end
+
+  defp mapped_charge_account(product_id, charge) do
+    ProductMappings.saving()
+    |> ProductMappings.charges(product_id, charge.penalty == true)
+    |> Enum.find(&(&1.charge.id == charge.id))
+    |> then(&(&1 && &1.account.id))
   end
 
   defp interest_rest(accounts, rest),
@@ -196,14 +241,6 @@ defmodule ECBDeposits.Savings.Journal do
         lines |> Enum.chunk_every(2) |> Enum.flat_map(&flip_pair/1)
       )
 
-  defp flip_pair(pair),
-    do:
-      pair
-      |> Enum.reverse()
-      |> Enum.map(fn {type, account_id, amount} ->
-        {if(type == @debit, do: @credit, else: @debit), account_id, amount}
-      end)
-
   defp insert!(user, account, tx, lines) do
     check_not_closed!(account.client_office_id, tx.date)
     now = DateTime.utc_now()
@@ -239,6 +276,14 @@ defmodule ECBDeposits.Savings.Journal do
 
     :ok
   end
+
+  defp flip_pair(pair),
+    do:
+      pair
+      |> Enum.reverse()
+      |> Enum.map(fn {type, account_id, amount} ->
+        {if(type == @debit, do: @credit, else: @debit), account_id, amount}
+      end)
 
   defp check_not_closed!(office_id, date) do
     closed = Closures.closed_until(office_id)

@@ -11,7 +11,7 @@ defmodule ECBDeposits.Savings.Postings do
   """
   import Ecto.Query
 
-  alias ECBDeposits.Savings.{Balance, Interest, Journal, Transactions, Transitions}
+  alias ECBDeposits.Savings.{Balance, Charges, Interest, Journal, Transactions, Transitions}
   alias ECBDeposits.Savings.Interest.Calc
   alias ECBPlatform.{BusinessDate, Configuration, Integrity, Params, TenantRepo, Validation}
   alias ECBPlatform.Commands.Result
@@ -94,7 +94,8 @@ defmodule ECBDeposits.Savings.Postings do
     check_lock_in!(account, req, p)
 
     add_tx!(user, account, @withdrawal, req, detail_id,
-      check: [exception?: true, amount: req.amount]
+      check: [exception?: true, amount: req.amount],
+      fees: false
     )
 
     changes
@@ -127,7 +128,8 @@ defmodule ECBDeposits.Savings.Postings do
       remove_tx!(user, account, tx, "undotransaction",
         precision: 15,
         post_reversals: true,
-        reversal: true
+        reversal: true,
+        fees?: false
       )
 
     Result.new(
@@ -371,23 +373,132 @@ defmodule ECBDeposits.Savings.Postings do
 
   # Adds a transaction. What it leaves is planned first (the interest earned and the postings made again), the
   # balance rules are asked, and then it is written, followed by the postings and the entries in the books
-  # (the reversed postings first, as Fineract lists them, then the transaction, then the new postings).
+  # (the reversed postings first, as Fineract lists them, then the transaction, then the new postings). A
+  # withdrawal brings the withdrawal fees of the account's charges with it, which Fineract lists before it.
   defp add_tx!(user, account, type, req, detail_id, opts \\ []) do
-    entry = pending(type, req)
-    live = Balance.live(account.id) ++ [entry]
+    ref_no = Ecto.UUID.generate()
+
+    fees =
+      if type == @withdrawal and opts[:fees] != false, do: withdrawal_fees(account, req), else: []
+
+    fee_entries =
+      fees
+      |> Enum.with_index(1)
+      |> Enum.map(fn {fee, i} ->
+        %{pending(4, fee.req) | id: @pending_id + i}
+        |> Map.merge(%{charge_time: 5, penalty: fee.charge.penalty})
+      end)
+
+    live = Balance.live(account.id) ++ fee_entries ++ [pending(type, req)]
     plan = Interest.plan(account, live, plan_opts([req.date], 16))
     if opts[:check], do: Balance.check!(account, plan.live_after, opts[:check])
 
-    id = insert_row!(user, account, type, req, detail_id)
+    now = NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:millisecond)
+    id = insert_row!(user, account, type, req, detail_id, ref_no, now)
+
+    # the fees were made just before the withdrawal, though they are saved after it, and are counted first
+    made = NaiveDateTime.add(now, -1, :millisecond)
+
+    fee_rows =
+      for fee <- fees do
+        fee_id = insert_row!(user, account, 4, fee.req, nil, ref_no, made)
+        record_payment!(user, fee_id, fee.charge, fee.req.amount)
+        {fee_id, 4, fee.req, nil, fee.charge}
+      end
+
     applied = Interest.apply!(user, account, plan)
-    book!(user, account, applied, [], [{id, type, req, detail_id}])
+    book!(user, account, applied, [], fee_rows ++ [{id, type, req, detail_id}])
     id
   end
 
+  @doc """
+  Pays `amount` of a charge of the account on `date`: a fee, a penalty, an annual fee or an activation fee takes the
+  money out of the account as a transaction of its own (type 7, 5 or 7). The balance rules are asked as Fineract asks
+  them after a charge is paid. Answers with the id of the transaction.
+  """
+  @spec pay_charge!(struct, map, map, Date.t(), Decimal.t(), keyword) :: integer
+  def pay_charge!(user, account, charge, date, amount, opts \\ []) do
+    type = if Charges.annual?(charge), do: 5, else: 7
+    req = %{date: date, amount: amount, external_id: nil}
+    entry = Map.merge(pending(type, req), %{charge_time: charge.time, penalty: charge.penalty})
+    plan = Interest.plan(account, Balance.live(account.id) ++ [entry], plan_opts([date], 16))
+
+    action =
+      if opts[:action] == :activation,
+        do: {:resource, "savingsaccountPAY_CHARGE"},
+        else: "savingsAccountTransactionType.payCharge"
+
+    check_balance_after!(account, plan.live_after, action)
+
+    id = insert_row!(user, account, type, req, nil)
+    record_payment!(user, id, charge, amount)
+    applied = Interest.apply!(user, account, plan)
+    book!(user, account, applied, [], [{id, type, req, nil, charge}])
+    id
+  end
+
+  @doc "Waives what is outstanding of a charge: a transaction that takes nothing out, dated today."
+  @spec waive_charge!(struct, map, map) :: integer
+  def waive_charge!(user, account, charge) do
+    req = %{date: BusinessDate.current(), amount: charge.outstanding, external_id: nil}
+
+    plan =
+      Interest.plan(
+        account,
+        Balance.live(account.id) ++ [pending(6, req)],
+        plan_opts([charge.due_date || req.date], 16)
+      )
+
+    check_balance_after!(account, plan.live_after, "waiveCharge")
+
+    id = insert_row!(user, account, 6, req, nil)
+
+    TenantRepo.insert_all("m_savings_account_charge_paid_by", [
+      %{
+        savings_account_transaction_id: id,
+        savings_account_charge_id: charge.id,
+        amount: req.amount
+      }
+    ])
+
+    Charges.save!(user, Charges.after_waiver(charge))
+    applied = Interest.apply!(user, account, plan)
+    book!(user, account, applied, [], [])
+    id
+  end
+
+  # the withdrawal fees a withdrawal of `req.amount` makes the account pay: those of its active charges
+  defp withdrawal_fees(account, req) do
+    for charge <- Charges.list(account.id, "active"), Charges.withdrawal_fee?(charge) do
+      fee = Charges.withdrawal_fee_amount(charge, req.amount, account.currency_digits)
+      %{charge: charge, req: %{date: req.date, amount: fee, external_id: nil}}
+    end
+  end
+
+  # the payment is linked to the charge and the charge is left as paying it leaves it
+  defp record_payment!(user, tx_id, charge, amount) do
+    TenantRepo.insert_all("m_savings_account_charge_paid_by", [
+      %{
+        savings_account_transaction_id: tx_id,
+        savings_account_charge_id: charge.id,
+        amount: amount
+      }
+    ])
+
+    # the charge as it is now (an undo just before may have changed it)
+    charge = Charges.get(charge.id) || charge
+    charge = if Charges.withdrawal_fee?(charge), do: %{charge | outstanding: amount}, else: charge
+    Charges.save!(user, Charges.after_payment(charge, amount))
+  end
+
   # Takes a transaction away (undo or reverse): the balance rules are asked on what is left, the transaction is
-  # marked reversed and, for a reversal, the reversal is put in its place after the postings are made again.
+  # marked reversed and, for a reversal, the reversal is put in its place after the postings are made again. Undoing a
+  # withdrawal undoes the withdrawal fees it made, and undoing the payment of a charge or a waiver gives the charge
+  # back what it was.
   defp remove_tx!(user, account, tx, action, opts) do
-    live = Enum.reject(Balance.live(account.id), &(&1.id == tx.id))
+    removed = [tx | if(opts[:fees?] == false, do: [], else: fees_of(account.id, tx))]
+    ids = Enum.map(removed, & &1.id)
+    live = Enum.reject(Balance.live(account.id), &(&1.id in ids))
     dates = if post_calculation?(tx), do: [tx.transaction_date], else: []
 
     plan =
@@ -399,32 +510,116 @@ defmodule ECBDeposits.Savings.Postings do
 
     check_balance_after!(account, plan.live_after, action)
 
-    TenantRepo.update_all(from(t in "m_savings_account_transaction", where: t.id == ^tx.id),
+    TenantRepo.update_all(from(t in "m_savings_account_transaction", where: t.id in ^ids),
       set: [is_reversed: true]
     )
+
+    Enum.each(removed, &undo_charge_effect!(user, &1))
 
     # Fineract saves the reversal of the transaction after the postings of interest made again
     applied = Interest.apply!(user, account, plan)
     reversal_id = if opts[:reversal], do: insert_reversal!(user, account, tx)
-    book!(user, account, applied, [flip(tx)], [])
+    book!(user, account, applied, Enum.map(removed, &flip/1), [])
     reversal_id
   end
 
-  # Changes a transaction: the old one goes, the new one comes, the interest is planned on what that leaves
+  # the withdrawal fees a withdrawal made are those that share its reference and are not undone
+  defp fees_of(_account_id, %{transaction_type_enum: type}) when type != @withdrawal, do: []
+  defp fees_of(_account_id, %{ref_no: nil}), do: []
+
+  defp fees_of(account_id, tx) do
+    from(t in "m_savings_account_transaction",
+      where:
+        t.savings_account_id == ^account_id and t.ref_no == ^tx.ref_no and
+          t.transaction_type_enum == 4 and
+          not t.is_reversed and t.id != ^tx.id,
+      order_by: t.id,
+      select: %{
+        id: t.id,
+        transaction_date: t.transaction_date,
+        transaction_type_enum: t.transaction_type_enum,
+        amount: t.amount,
+        ref_no: t.ref_no
+      }
+    )
+    |> TenantRepo.all()
+  end
+
+  # undoing the payment of a charge gives it back what it was; undoing a waiver does the same
+  defp undo_charge_effect!(user, %{transaction_type_enum: type} = tx) when type in [4, 5, 6, 7] do
+    links =
+      TenantRepo.all(
+        from(p in "m_savings_account_charge_paid_by",
+          where: p.savings_account_transaction_id == ^tx.id,
+          select: p.savings_account_charge_id
+        )
+      )
+
+    for charge_id <- links, charge = Charges.get(charge_id) do
+      Charges.save!(
+        user,
+        if(type == 6,
+          do: Charges.after_undone_waiver(charge, tx.amount),
+          else: Charges.after_undone_payment(charge, tx.amount)
+        )
+      )
+    end
+
+    :ok
+  end
+
+  defp undo_charge_effect!(_user, _tx), do: :ok
+
+  # Changes a transaction: the old one goes (and the withdrawal fees it made), the new one comes (with its own fees),
+  # the interest is planned on what that leaves
   defp replace_tx!(user, account, tx, req, detail_id) do
     type = tx.transaction_type_enum
-    live = Enum.reject(Balance.live(account.id), &(&1.id == tx.id)) ++ [pending(type, req)]
+    removed = [tx | fees_of(account.id, tx)]
+    ids = Enum.map(removed, & &1.id)
+    ref_no = Ecto.UUID.generate()
+    fees = if type == @withdrawal, do: withdrawal_fees(account, req), else: []
+
+    fee_entries =
+      fees
+      |> Enum.with_index(1)
+      |> Enum.map(fn {fee, i} ->
+        %{pending(4, fee.req) | id: @pending_id + i}
+        |> Map.merge(%{charge_time: 5, penalty: fee.charge.penalty})
+      end)
+
+    live =
+      Enum.reject(Balance.live(account.id), &(&1.id in ids)) ++
+        fee_entries ++ [pending(type, req)]
+
     plan = Interest.plan(account, live, plan_opts([req.date, tx.transaction_date], 10))
 
-    TenantRepo.update_all(from(t in "m_savings_account_transaction", where: t.id == ^tx.id),
+    TenantRepo.update_all(from(t in "m_savings_account_transaction", where: t.id in ^ids),
       set: [is_reversed: true]
     )
 
+    Enum.each(removed, &undo_charge_effect!(user, &1))
+
     # Fineract saves the new transaction before it asks the balance rules, so a refusal uses an id up
-    id = insert_row!(user, account, type, req, detail_id)
+    id = insert_row!(user, account, type, req, detail_id, ref_no)
     check_balance_after!(account, plan.live_after, "adjusttransaction")
+
+    fee_rows =
+      for fee <- fees do
+        fee_id = insert_row!(user, account, 4, fee.req, nil, ref_no)
+        record_payment!(user, fee_id, fee.charge, fee.req.amount)
+        {fee_id, 4, fee.req, nil, fee.charge}
+      end
+
     applied = Interest.apply!(user, account, plan)
-    book!(user, account, applied, [flip(tx)], [{id, type, req, detail_id}])
+
+    book!(
+      user,
+      account,
+      applied,
+      Enum.map(removed, &flip/1),
+      fee_rows ++ [{id, type, req, detail_id}]
+    )
+
     id
   end
 
@@ -468,8 +663,7 @@ defmodule ECBDeposits.Savings.Postings do
 
     for tx <- reversed, do: Journal.reverse!(user, account, tx.id)
 
-    for {id, type, req, detail_id} <- added,
-        do: post_entries!(user, account, id, type, req, detail_id)
+    for added_tx <- added, do: post_entries!(user, account, added_tx)
 
     for row <- applied.created do
       Journal.post!(user, account, %{
@@ -487,7 +681,7 @@ defmodule ECBDeposits.Savings.Postings do
   end
 
   # the row of a transaction (the derived columns are worked out by `Interest.apply!`)
-  defp insert_row!(user, account, type, req, detail_id) do
+  defp insert_row!(user, account, type, req, detail_id, ref_no \\ nil, created \\ nil) do
     now = DateTime.utc_now()
 
     Integrity.translate(
@@ -504,10 +698,10 @@ defmodule ECBDeposits.Savings.Postings do
                 is_reversed: false,
                 transaction_date: req.date,
                 amount: req.amount,
-                created_date: NaiveDateTime.utc_now(),
+                created_date: created || NaiveDateTime.utc_now(),
                 created_by: user.id,
                 is_manual: false,
-                ref_no: Ecto.UUID.generate(),
+                ref_no: ref_no || Ecto.UUID.generate(),
                 is_reversal: false,
                 is_lien_transaction: false,
                 submitted_on_date: BusinessDate.current(),
@@ -533,13 +727,17 @@ defmodule ECBDeposits.Savings.Postings do
     )
   end
 
-  defp post_entries!(user, account, id, type, req, detail_id) do
+  defp post_entries!(user, account, {id, type, req, detail_id}),
+    do: post_entries!(user, account, {id, type, req, detail_id, nil})
+
+  defp post_entries!(user, account, {id, type, req, detail_id, charge}) do
     Journal.post!(user, account, %{
       id: id,
       type: type,
       date: req.date,
       amount: req.amount,
       payment_detail_id: detail_id,
+      charge: charge,
       overdraft: overdraft_part(id, type, req.amount)
     })
   end

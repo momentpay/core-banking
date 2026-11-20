@@ -70,13 +70,14 @@ defmodule ECBApiFineract.JobsTest do
       assert body(send_json(:get, "/v1/jobs/16/runhistory"))["totalFilteredRecords"] == 0
 
       # a job that has no code behind it, or is switched off, is left alone
-      assert next_run("SA_AANF") == nil
+      assert next_run("SA_TINT") == nil
       assert next_run("BDT_INC1") == nil
 
       # before the time nothing runs; after it the jobs due run, those of higher priority first
       assert Scheduler.run_due(~N[2024-05-02 00:01:30]) == [
                {"apitest", "LA_UNPA"},
                {"apitest", "LA_ARAG"},
+               {"apitest", "SA_AANF"},
                {"apitest", "SA_PINT"},
                {"apitest", "LA_OPEN"},
                {"apitest", "LA_DECL"},
@@ -93,7 +94,9 @@ defmodule ECBApiFineract.JobsTest do
       assert Scheduler.run_due(~N[2024-05-09 08:00:00]) == [
                {"apitest", "LA_UNPA"},
                {"apitest", "LA_ARAG"},
+               {"apitest", "SA_AANF"},
                {"apitest", "SA_PINT"},
+               {"apitest", "SA_PDCH"},
                {"apitest", "LA_OPEN"},
                {"apitest", "LA_DECL"},
                {"apitest", "ACC_AATR"},

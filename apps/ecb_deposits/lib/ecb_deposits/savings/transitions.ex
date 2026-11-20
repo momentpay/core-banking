@@ -8,7 +8,7 @@ defmodule ECBDeposits.Savings.Transitions do
   import Ecto.Query
 
   alias ECBDeposits.{Savings, SavingsEnums}
-  alias ECBDeposits.Savings.Postings
+  alias ECBDeposits.Savings.{Charges, Postings}
   alias ECBParty.Clients
   alias ECBPlatform.{BusinessDate, Params, TenantRepo, Validation}
   alias ECBPlatform.Commands.Result
@@ -203,6 +203,8 @@ defmodule ECBDeposits.Savings.Transitions do
     if opening != nil and Decimal.gt?(opening, 0),
       do: Postings.opening_deposit!(user, Savings.fetch!(id), on, opening)
 
+    activate_charges!(user, id, on)
+
     changes =
       %{"status" => SavingsEnums.account_status(@active)}
       |> put_request(p, "activatedOnDate")
@@ -236,6 +238,24 @@ defmodule ECBDeposits.Savings.Transitions do
       true ->
         :ok
     end
+  end
+
+  # the charges that recur fall due next after the day of activation, and those due on activation are paid out of the
+  # account at once
+  defp activate_charges!(user, id, on) do
+    charges = Charges.list(id)
+
+    for charge <- charges, Charges.recurring?(charge) do
+      Charges.save!(user, %{charge | due_date: Charges.next_due_from(charge, on)})
+    end
+
+    for charge <- charges, Charges.activation?(charge) do
+      Postings.pay_charge!(user, Savings.fetch!(id), charge, on, charge.outstanding,
+        action: :activation
+      )
+    end
+
+    :ok
   end
 
   # the day the account is no longer locked in, when it has a lock-in period

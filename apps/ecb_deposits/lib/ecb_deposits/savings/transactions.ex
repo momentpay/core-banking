@@ -18,7 +18,7 @@ defmodule ECBDeposits.Savings.Transactions do
   SELECT t.id, t.savings_account_id, t.transaction_type_enum, t.is_reversed, t.transaction_date, t.amount,
          t.overdraft_amount_derived, t.running_balance_derived, t.is_reversal, t.original_transaction_id,
          t.submitted_on_date, t.external_id, t.created_by, t.is_manual, t.is_lien_transaction,
-         t.release_id_of_hold_amount, t.payment_detail_id, u.username AS submitted_by_username, n.note,
+         t.release_id_of_hold_amount, t.payment_detail_id, t.ref_no, u.username AS submitted_by_username, n.note,
          pd.payment_type_id, pt.value AS payment_type_name, pd.account_number, pd.check_number, pd.routing_code,
          pd.receipt_number, pd.bank_number
   FROM m_savings_account_transaction t

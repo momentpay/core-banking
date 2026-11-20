@@ -173,7 +173,6 @@ defmodule ECBApiFineract.SavingsAccountsTest do
       product_id = product()
 
       for extra <- [
-            %{"charges" => [%{"chargeId" => 1}]},
             %{"lienAllowed" => true},
             %{"withHoldTax" => true}
           ] do
