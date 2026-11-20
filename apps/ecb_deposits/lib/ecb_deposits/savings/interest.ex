@@ -57,8 +57,11 @@ defmodule ECBDeposits.Savings.Interest do
   manual, overdraft, payment_detail_id, ref_no}`, a transaction not stored yet with an id above every other).
   Options: `:precision` (digits Fineract divides the rate by 100 with: 16 after a deposit or a withdrawal, 15 after
   an undo, 10 after a change), `:dates` (dates of the transactions that were changed, which decide whether interest
-  is posted again), `:mode` (`:calculate` or `:post`, to override), `:as_on` (the day to post interest as on) and
-  `:post_reversals`.
+  is posted again), `:mode` (`:calculate` or `:post`, to override), `:as_on` (the day to post interest as on),
+  `:post_reversals`, `:up_to` (the day interest is worked out to, the business date by default), `:post_until` (the
+  last day a posting can be made on, `:up_to` by default), `:cap_dates` (a period that ends after that day is posted
+  on it, as a fixed deposit does when it matures) and `:balances_until` (the day the last balance holds
+  until, `:up_to` by default: a fixed deposit's own last balance stops earlier than the days asked for).
   """
   @spec plan(map, [map], keyword) :: plan
   def plan(account, live, opts) do
@@ -74,7 +77,11 @@ defmodule ECBDeposits.Savings.Interest do
       earned = Enum.reduce(periods, Decimal.new(0), &Decimal.add(&1.interest, &2))
       mode = Keyword.get(opts, :mode) || mode(state.live, Keyword.get(opts, :dates, []))
 
-      state = if mode == :post, do: post_again(state, periods, up_to, reversals?), else: state
+      post_until = Keyword.get(opts, :post_until) || up_to
+      periods = if opts[:cap_dates], do: cap_dates(periods, post_until), else: periods
+
+      state =
+        if mode == :post, do: post_again(state, periods, post_until, reversals?), else: state
 
       finish(live, state, earned, up_to)
     else
@@ -88,6 +95,15 @@ defmodule ECBDeposits.Savings.Interest do
         posted_till: nil
       }
     end
+  end
+
+  # a period that goes on past the day posting stops on is posted on that day (a fixed deposit's last period)
+  defp cap_dates(periods, until) do
+    Enum.map(periods, fn period ->
+      if Date.compare(period.posting_date, until) == :gt,
+        do: %{period | posting_date: until},
+        else: period
+    end)
   end
 
   # postings made, and then, when they changed anything, the copies they make necessary
@@ -208,7 +224,7 @@ defmodule ECBDeposits.Savings.Interest do
       at_period_end: at_period_end,
       as_on: as_on,
       business_date: BusinessDate.current(),
-      txs: Calc.balances(live, up_to)
+      txs: Calc.balances(live, Keyword.get(opts, :balances_until) || up_to)
     })
   end
 

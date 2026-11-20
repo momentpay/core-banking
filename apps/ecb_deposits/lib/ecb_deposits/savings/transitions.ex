@@ -500,9 +500,11 @@ defmodule ECBDeposits.Savings.Transitions do
         else: changes
       )
 
-  defp note!(_account, nil, _user, _type), do: :ok
+  @doc false
+  @spec note!(map, String.t() | nil, struct, integer) :: :ok
+  def note!(_account, nil, _user, _type), do: :ok
 
-  defp note!(account, note, user, type) do
+  def note!(account, note, user, type) do
     if String.trim(note) != "" do
       now = DateTime.utc_now()
 

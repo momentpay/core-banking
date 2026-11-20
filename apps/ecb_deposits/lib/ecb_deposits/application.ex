@@ -25,6 +25,14 @@ defmodule ECBDeposits.Application do
     {"FIXEDDEPOSITACCOUNT", "REJECT", ECBDeposits.Handlers.FixedDepositAccount},
     {"FIXEDDEPOSITACCOUNT", "WITHDRAW", ECBDeposits.Handlers.FixedDepositAccount},
     {"FIXEDDEPOSITACCOUNT", "ACTIVATE", ECBDeposits.Handlers.FixedDepositAccount},
+    {"FIXEDDEPOSITACCOUNT", "CALCULATEINTEREST", ECBDeposits.Handlers.FixedDepositAccount},
+    {"FIXEDDEPOSITACCOUNT", "POSTINTEREST", ECBDeposits.Handlers.FixedDepositAccount},
+    {"FIXEDDEPOSITACCOUNT", "CLOSE", ECBDeposits.Handlers.FixedDepositAccount},
+    {"FIXEDDEPOSITACCOUNT", "PREMATURECLOSE", ECBDeposits.Handlers.FixedDepositAccount},
+    {"FIXEDDEPOSITACCOUNT", "DEPOSIT", ECBDeposits.Handlers.FixedDepositAccount},
+    {"FIXEDDEPOSITACCOUNT", "WITHDRAWAL", ECBDeposits.Handlers.FixedDepositAccount},
+    {"FIXEDDEPOSITACCOUNT", "UNDOTRANSACTION", ECBDeposits.Handlers.FixedDepositAccount},
+    {"FIXEDDEPOSITACCOUNT", "ADJUSTTRANSACTION", ECBDeposits.Handlers.FixedDepositAccount},
     {"SAVINGSACCOUNT", "CREATE", ECBDeposits.Handlers.SavingsAccount},
     {"SAVINGSACCOUNT", "UPDATE", ECBDeposits.Handlers.SavingsAccount},
     {"SAVINGSACCOUNT", "DELETE", ECBDeposits.Handlers.SavingsAccount},
@@ -67,6 +75,7 @@ defmodule ECBDeposits.Application do
     ECBPlatform.Jobs.register("SA_PDCH", ECBDeposits.Savings.PayDueChargesJob)
     ECBPlatform.Jobs.register("SA_AANF", ECBDeposits.Savings.ApplyAnnualFeeJob)
     ECBPlatform.Jobs.register("SA_UDOR", ECBDeposits.Savings.DormancyJob)
+    ECBPlatform.Jobs.register("SA_MATD", ECBDeposits.DepositAccounts.MaturityJob)
 
     Supervisor.start_link([], strategy: :one_for_one, name: ECBDeposits.Supervisor)
   end

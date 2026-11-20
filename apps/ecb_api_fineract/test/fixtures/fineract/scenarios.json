@@ -108566,6 +108566,2329 @@
           }
         }
       ]
+    },
+    {
+      "name": "fdaccount1",
+      "reset": [
+        "savingsaccounts",
+        "savingsproducts",
+        "paymenttypes",
+        "clients",
+        "funds",
+        "glaccounts",
+        "staff",
+        "codes",
+        "configuration"
+      ],
+      "steps": [
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/enable-business-date",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Ann",
+            "lastname": "Lee",
+            "active": true,
+            "activationDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Bob",
+            "lastname": "Ray",
+            "active": true,
+            "activationDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/paymenttypes",
+          "body": {
+            "name": "Cash",
+            "description": "cash",
+            "isCashPayment": true,
+            "position": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc A1",
+            "glCode": "A1",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc A2",
+            "glCode": "A2",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc L1",
+            "glCode": "L1",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc L2",
+            "glCode": "L2",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc L3",
+            "glCode": "L3",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc I1",
+            "glCode": "I1",
+            "manualEntriesAllowed": true,
+            "type": 4,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc I2",
+            "glCode": "I2",
+            "manualEntriesAllowed": true,
+            "type": 4,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc X1",
+            "glCode": "X1",
+            "manualEntriesAllowed": true,
+            "type": 5,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc X2",
+            "glCode": "X2",
+            "manualEntriesAllowed": true,
+            "type": 5,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc A3",
+            "glCode": "A3",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc L4",
+            "glCode": "L4",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositproducts",
+          "body": {
+            "name": "FD one",
+            "shortName": "FD1",
+            "description": "Fixed",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "minDepositTerm": 6,
+            "minDepositTermTypeId": 2,
+            "maxDepositTerm": 60,
+            "maxDepositTermTypeId": 2,
+            "inMultiplesOfDepositTerm": 6,
+            "inMultiplesOfDepositTermTypeId": 2,
+            "preClosurePenalApplicable": true,
+            "preClosurePenalInterest": 1,
+            "preClosurePenalInterestOnTypeId": 1,
+            "depositAmount": 1000,
+            "minDepositAmount": 500,
+            "maxDepositAmount": 100000,
+            "accountingRule": 1,
+            "charts": [
+              {
+                "name": "C",
+                "description": "d",
+                "fromDate": "01 January 2024",
+                "dateFormat": "dd MMMM yyyy",
+                "locale": "en",
+                "chartSlabs": [
+                  {
+                    "periodType": 2,
+                    "fromPeriod": 1,
+                    "toPeriod": 12,
+                    "annualInterestRate": 6,
+                    "currencyCode": "USD"
+                  },
+                  {
+                    "periodType": 2,
+                    "fromPeriod": 13,
+                    "toPeriod": null,
+                    "annualInterestRate": 7,
+                    "currencyCode": "USD"
+                  }
+                ]
+              }
+            ],
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositproducts",
+          "body": {
+            "name": "FD cash",
+            "shortName": "FDC",
+            "description": "Fixed",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "minDepositTerm": 6,
+            "minDepositTermTypeId": 2,
+            "maxDepositTerm": 60,
+            "maxDepositTermTypeId": 2,
+            "inMultiplesOfDepositTerm": 6,
+            "inMultiplesOfDepositTermTypeId": 2,
+            "preClosurePenalApplicable": true,
+            "preClosurePenalInterest": 1,
+            "preClosurePenalInterestOnTypeId": 1,
+            "depositAmount": 1000,
+            "minDepositAmount": 500,
+            "maxDepositAmount": 100000,
+            "accountingRule": 2,
+            "charts": [
+              {
+                "name": "C",
+                "description": "d",
+                "fromDate": "01 January 2024",
+                "dateFormat": "dd MMMM yyyy",
+                "locale": "en",
+                "chartSlabs": [
+                  {
+                    "periodType": 2,
+                    "fromPeriod": 1,
+                    "toPeriod": 12,
+                    "annualInterestRate": 6,
+                    "currencyCode": "USD"
+                  },
+                  {
+                    "periodType": 2,
+                    "fromPeriod": 13,
+                    "toPeriod": null,
+                    "annualInterestRate": 7,
+                    "currencyCode": "USD"
+                  }
+                ]
+              }
+            ],
+            "locale": "en",
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositproducts",
+          "body": {
+            "name": "FD nopen",
+            "shortName": "FDN",
+            "description": "Fixed",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "minDepositTerm": 6,
+            "minDepositTermTypeId": 2,
+            "maxDepositTerm": 60,
+            "maxDepositTermTypeId": 2,
+            "inMultiplesOfDepositTerm": 6,
+            "inMultiplesOfDepositTermTypeId": 2,
+            "preClosurePenalApplicable": false,
+            "depositAmount": 1000,
+            "minDepositAmount": 500,
+            "maxDepositAmount": 100000,
+            "accountingRule": 1,
+            "charts": [
+              {
+                "name": "C",
+                "description": "d",
+                "fromDate": "01 January 2024",
+                "dateFormat": "dd MMMM yyyy",
+                "locale": "en",
+                "chartSlabs": [
+                  {
+                    "periodType": 2,
+                    "fromPeriod": 1,
+                    "toPeriod": 12,
+                    "annualInterestRate": 6,
+                    "currencyCode": "USD"
+                  },
+                  {
+                    "periodType": 2,
+                    "fromPeriod": 13,
+                    "toPeriod": null,
+                    "annualInterestRate": 7,
+                    "currencyCode": "USD"
+                  }
+                ]
+              }
+            ],
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Plain",
+            "shortName": "PL",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 0,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "depositAmount": 5000,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "f": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "depositAmount": 5000,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "a": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "depositAmount": 5000,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "b": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{b}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{b}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "depositAmount": 2000,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "c": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{c}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{c}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 2,
+            "submittedOnDate": "01 March 2024",
+            "depositAmount": 5000,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "e": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{e}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{e}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 2,
+            "submittedOnDate": "01 March 2024",
+            "depositAmount": 5000,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "e2": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{e2}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{e2}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts",
+          "body": {
+            "clientId": 2,
+            "productId": 3,
+            "submittedOnDate": "01 March 2024",
+            "depositAmount": 5000,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "g": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{g}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{g}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "depositAmount": 1000,
+            "depositPeriod": 6,
+            "depositPeriodFrequencyId": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "h": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{h}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{h}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?savingsId={e}&orderBy=id&limit=100",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "pageItems.id",
+            "pageItems.transactionId"
+          ],
+          "sortby": "transactionDate"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{a}/transactions",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{f}?command=calculateInterest",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{f}?command=postInterest",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=calculateInterest",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=calculateInterest",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=postInterest",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{a}/transactions",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/99?command=calculateInterest",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/99?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-15",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=calculateInterest",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=postInterest",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{a}/transactions",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?savingsId={a}&orderBy=id&limit=100",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "pageItems.id",
+            "pageItems.transactionId"
+          ],
+          "sortby": "transactionDate"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{a}/transactions/template"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{a}/transactions/99"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/99/transactions"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/abc/transactions"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-02",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{c}?command=postInterest",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{c}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{c}/transactions",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{c}?command=calculateInterest",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{c}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}/transactions?command=withdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "02 April 2024",
+            "transactionAmount": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}/transactions?command=bogus",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}/transactions/1?command=bogus",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}/transactions/1?command=modify",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{a}/template"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{a}/template?command=close"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{a}/template?command=bogus"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/99/template?command=close"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{f}/template?command=close"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 April 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 February 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 June 2025"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "31 February 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 April 2024",
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{f}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 April 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/99?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 April 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 September 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{e}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 September 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{g}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 September 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{b}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 April 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{h}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 April 2024"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-09-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=prematureClose",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=prematureClose",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=prematureClose",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024",
+            "onAccountClosureId": 9
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=prematureClose",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024",
+            "onAccountClosureId": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=prematureClose",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024",
+            "onAccountClosureId": 300
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=prematureClose",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024",
+            "onAccountClosureId": 400
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=prematureClose",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024",
+            "onAccountClosureId": 200
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=prematureClose",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024",
+            "onAccountClosureId": 200,
+            "toSavingsId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=prematureClose",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024",
+            "onAccountClosureId": 200,
+            "toSavingsAccountId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=prematureClose",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024",
+            "onAccountClosureId": 100,
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=prematureClose",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 February 2024",
+            "onAccountClosureId": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=prematureClose",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 September 2024",
+            "onAccountClosureId": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=prematureClose",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 June 2025",
+            "onAccountClosureId": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=prematureClose",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024",
+            "onAccountClosureId": 100,
+            "paymentTypeId": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=prematureClose",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024",
+            "onAccountClosureId": 100,
+            "paymentTypeId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=prematureClose",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024",
+            "onAccountClosureId": 100,
+            "checkNumber": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{f}?command=prematureClose",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024",
+            "onAccountClosureId": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/99?command=prematureClose",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024",
+            "onAccountClosureId": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{e}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{g}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{h}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=prematureClose",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024",
+            "onAccountClosureId": 100,
+            "paymentTypeId": 1,
+            "note": "early",
+            "receiptNumber": "r1"
+          },
+          "save": {
+            "pa": "resourceId"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{a}?associations=all",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{a}/transactions",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?savingsId={a}&orderBy=id&limit=100",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "pageItems.id",
+            "pageItems.transactionId"
+          ],
+          "sortby": "transactionDate"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=prematureClose",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024",
+            "onAccountClosureId": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024",
+            "onAccountClosureId": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{a}?command=undoapproval",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/fixeddepositaccounts/{a}"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/fixeddepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "depositAmount": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{e}?command=prematureClose",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024",
+            "onAccountClosureId": 100,
+            "paymentTypeId": 1
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{e}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{e}/transactions",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{g}?command=prematureClose",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024",
+            "onAccountClosureId": 100
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{g}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{g}/transactions",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{b}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024",
+            "onAccountClosureId": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{h}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 September 2024",
+            "onAccountClosureId": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2025-02-28",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{b}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "28 February 2025",
+            "onAccountClosureId": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/15?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{b}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{h}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{c}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{h}/transactions",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2025-03-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/15?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{b}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{b}/transactions",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{c}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{h}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{h}/transactions",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{e}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{f}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?savingsId={h}&orderBy=id&limit=100",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "pageItems.id",
+            "pageItems.transactionId"
+          ],
+          "sortby": "transactionDate"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?savingsId={e2}&orderBy=id&limit=100",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "pageItems.id",
+            "pageItems.transactionId"
+          ],
+          "sortby": "transactionDate"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{b}/template?command=close"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{b}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{b}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "28 February 2025",
+            "onAccountClosureId": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{b}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 March 2025"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{b}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 March 2025",
+            "onAccountClosureId": 9
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{b}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 March 2025",
+            "onAccountClosureId": 200
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{b}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 March 2025",
+            "onAccountClosureId": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{b}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 March 2024",
+            "onAccountClosureId": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{b}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 March 2025",
+            "onAccountClosureId": 100,
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{f}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 March 2025",
+            "onAccountClosureId": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{h}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 March 2025",
+            "onAccountClosureId": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{c}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 March 2025",
+            "onAccountClosureId": 100,
+            "paymentTypeId": 1,
+            "note": "done"
+          },
+          "save": {
+            "cc": "resourceId"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{c}?associations=all",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{c}/transactions",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{c}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 March 2025",
+            "onAccountClosureId": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{c}?command=prematureClose",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 March 2025",
+            "onAccountClosureId": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{e2}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 March 2025",
+            "onAccountClosureId": 100,
+            "paymentTypeId": 1
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{e2}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{e2}/transactions",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?savingsId={e2}&orderBy=id&limit=100",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate",
+            "pageItems.id",
+            "pageItems.transactionId"
+          ],
+          "sortby": "transactionDate"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{b}",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{b}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 March 2025",
+            "onAccountClosureId": 100
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{b}?associations=all",
+          "ignore": [
+            "accountChart.chartSlabs.id",
+            "transactions.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{b}/transactions",
+          "ignore": [
+            "id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts",
+          "sortby": "id"
+        }
+      ]
+    },
+    {
+      "name": "fdaccount2",
+      "reset": [
+        "savingsaccounts",
+        "savingsproducts",
+        "paymenttypes",
+        "clients",
+        "funds",
+        "glaccounts",
+        "staff",
+        "codes",
+        "configuration"
+      ],
+      "steps": [
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/enable-business-date",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Ann",
+            "lastname": "Lee",
+            "active": true,
+            "activationDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/paymenttypes",
+          "body": {
+            "name": "Cash",
+            "description": "cash",
+            "isCashPayment": true,
+            "position": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositproducts",
+          "body": {
+            "name": "FD one",
+            "shortName": "FD1",
+            "description": "Fixed",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "minDepositTerm": 6,
+            "minDepositTermTypeId": 2,
+            "maxDepositTerm": 60,
+            "maxDepositTermTypeId": 2,
+            "inMultiplesOfDepositTerm": 6,
+            "inMultiplesOfDepositTermTypeId": 2,
+            "preClosurePenalApplicable": false,
+            "depositAmount": 1000,
+            "minDepositAmount": 500,
+            "maxDepositAmount": 100000,
+            "accountingRule": 1,
+            "charts": [
+              {
+                "name": "C",
+                "description": "d",
+                "fromDate": "01 January 2024",
+                "dateFormat": "dd MMMM yyyy",
+                "locale": "en",
+                "chartSlabs": [
+                  {
+                    "periodType": 2,
+                    "fromPeriod": 1,
+                    "toPeriod": 12,
+                    "annualInterestRate": 6,
+                    "currencyCode": "USD"
+                  },
+                  {
+                    "periodType": 2,
+                    "fromPeriod": 13,
+                    "toPeriod": null,
+                    "annualInterestRate": 7,
+                    "currencyCode": "USD"
+                  }
+                ]
+              }
+            ],
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "depositAmount": 5000,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "x": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{x}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{x}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "depositAmount": 5000,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "y": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{y}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{y}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "depositAmount": 5000,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "z": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{z}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{z}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "depositAmount": 5000,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "w": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{w}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{w}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{x}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 April 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{x}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 April 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{y}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 April 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{y}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{y}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-15",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{x}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 April 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{y}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 April 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{z}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 April 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{z}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 April 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{w}?command=calculateInterest",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{w}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 April 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{w}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "20 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-02",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{x}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 April 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{y}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 April 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{z}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 April 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{w}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 April 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{w}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 April 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-05-02",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{x}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 May 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{y}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 May 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{z}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 May 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{w}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 May 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{w}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/fixeddepositaccounts/{w}?command=calculatePrematureAmount",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 May 2024"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/fixeddepositaccounts/{w}",
+          "ignore": [
+            "accountChart.chartSlabs.id"
+          ]
+        }
+      ]
     }
   ]
 }

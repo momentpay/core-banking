@@ -59,7 +59,7 @@ defmodule ECBDeposits.Handlers do
     @moduledoc "Every action on `FIXEDDEPOSITACCOUNT`: applying, changing, the steps to activation."
     @behaviour ECBPlatform.Commands.Handler
 
-    alias ECBDeposits.DepositAccounts.{Activation, Submit}
+    alias ECBDeposits.DepositAccounts.{Activation, Closing, FixedInterest, Submit}
     alias ECBDeposits.Savings.Transitions
     alias ECBPlatform.Params
 
@@ -76,6 +76,58 @@ defmodule ECBDeposits.Handlers do
     def process(%{action_name: "ACTIVATE"} = command, user),
       do: {:ok, Activation.activate!(user, command.entity_id, Params.parse!(command.json))}
 
+    def process(%{action_name: "CALCULATEINTEREST"} = command, user),
+      do: {:ok, FixedInterest.calculate!(user, command.entity_id)}
+
+    def process(%{action_name: "POSTINTEREST"} = command, user),
+      do: {:ok, FixedInterest.post!(user, command.entity_id)}
+
+    def process(%{action_name: "CLOSE"} = command, user),
+      do: {:ok, Closing.close!(user, command.entity_id, Params.parse!(body(command.json)))}
+
+    def process(%{action_name: "PREMATURECLOSE"} = command, user),
+      do:
+        {:ok,
+         Closing.premature_close!(user, command.entity_id, Params.parse!(body(command.json)))}
+
+    # what Fineract lets a deposit's transactions endpoint do besides what is built here: a deposit and a correction
+    # of a transaction are refused, and a fixed deposit cannot be withdrawn from but by closing it
+    def process(%{action_name: "DEPOSIT"} = command, _user) do
+      Submit.writable!(command.entity_id)
+      unsupported!("Depositing into a fixed deposit account is", "deposit")
+    end
+
+    def process(%{action_name: "UNDOTRANSACTION"} = command, _user) do
+      Submit.writable!(command.entity_id)
+      unsupported!("Undoing a transaction of a fixed deposit account is", "undo")
+    end
+
+    def process(%{action_name: "ADJUSTTRANSACTION"} = command, _user) do
+      Submit.writable!(command.entity_id)
+
+      p = Params.parse!(body(command.json))
+
+      "fixeddepositaccount"
+      |> ECBPlatform.Validation.new()
+      |> ECBPlatform.Validation.param("transactionDate", Params.date(p, "transactionDate"))
+      |> ECBPlatform.Validation.not_null()
+      |> ECBPlatform.Validation.param("transactionAmount", Params.decimal(p, "transactionAmount"))
+      |> ECBPlatform.Validation.not_null()
+      |> ECBPlatform.Validation.raise_if_errors!()
+
+      unsupported!("Changing a transaction of a fixed deposit account is", "modify")
+    end
+
+    def process(%{action_name: "WITHDRAWAL"} = command, _user) do
+      id = Submit.writable!(command.entity_id).id
+
+      raise ECBPlatform.Errors.PlatformServiceUnavailable,
+        code: "error.msg.fixeddepositaccount.account.trasaction.withdraw.notallowed",
+        message:
+          "Fixed Depositaccount withdraw transaction not allowed with account identifier #{id}",
+        args: [id]
+    end
+
     def process(%{action_name: name} = command, user)
         when name in ~w(APPROVE APPROVALUNDO REJECT WITHDRAW) do
       id = Submit.writable!(command.entity_id).id
@@ -88,6 +140,16 @@ defmodule ECBDeposits.Handlers do
          "REJECT" -> Transitions.reject!(user, id, params)
          "WITHDRAW" -> Transitions.withdraw!(user, id, params)
        end}
+    end
+
+    defp body(json) when json in [nil, ""], do: "{}"
+    defp body(json), do: json
+
+    defp unsupported!(what, parameter) do
+      raise ECBPlatform.Errors.DomainRuleViolation,
+        code: "error.msg.depositaccount.feature.not.supported.yet",
+        message: "#{what} not supported yet by E-CoreBank: #{parameter}",
+        args: [parameter]
     end
   end
 

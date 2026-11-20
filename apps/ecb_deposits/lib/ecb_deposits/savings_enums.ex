@@ -114,7 +114,9 @@ defmodule ECBDeposits.SavingsEnums do
     {300, "savingsAccountStatusType.active", "Active"},
     {400, "savingsAccountStatusType.withdrawn.by.applicant", "Withdrawn by applicant"},
     {500, "savingsAccountStatusType.rejected", "Rejected"},
-    {600, "savingsAccountStatusType.closed", "Closed"}
+    {600, "savingsAccountStatusType.closed", "Closed"},
+    {700, "savingsAccountStatusType.pre.mature.closure", "Premature Closed"},
+    {800, "savingsAccountStatusType.matured", "Matured"}
   ]
 
   @doc """
@@ -131,10 +133,10 @@ defmodule ECBDeposits.SavingsEnums do
         withdrawnByApplicant: id == 400,
         active: id == 300,
         closed: id in [400, 500, 600],
-        prematureClosed: false,
+        prematureClosed: id == 700,
         transferInProgress: false,
         transferOnHold: false,
-        matured: false
+        matured: id == 800
       })
     end
   end

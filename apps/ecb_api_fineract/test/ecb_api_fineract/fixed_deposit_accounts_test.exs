@@ -273,4 +273,204 @@ defmodule ECBApiFineract.FixedDepositAccountsTest do
              Map.merge(@dates, %{"depositAmount" => 1})
            ).status == 404
   end
+
+  describe "interest, closing and maturity" do
+    # a product with terms in days, so that a deposit matures within days
+    defp day_product do
+      product(%{
+        "minDepositTerm" => 1,
+        "minDepositTermTypeId" => 0,
+        "maxDepositTerm" => 400,
+        "maxDepositTermTypeId" => 0,
+        "inMultiplesOfDepositTerm" => 1,
+        "inMultiplesOfDepositTermTypeId" => 0,
+        "preClosurePenalApplicable" => false,
+        "charts" => [
+          %{
+            "name" => "Days",
+            "fromDate" => "01 January 2020",
+            "dateFormat" => "dd MMMM yyyy",
+            "locale" => "en",
+            "chartSlabs" => [
+              %{
+                "periodType" => 0,
+                "fromPeriod" => 1,
+                "toPeriod" => 400,
+                "annualInterestRate" => 6,
+                "currencyCode" => "USD"
+              }
+            ]
+          }
+        ]
+      })
+    end
+
+    defp business_date(date) do
+      send_json(:put, "/v1/configurations/name/enable-business-date", %{"enabled" => true})
+      |> ok()
+
+      send_json(:post, "/v1/businessdate", %{
+        "type" => "BUSINESS_DATE",
+        "date" => date,
+        "dateFormat" => "yyyy-MM-dd",
+        "locale" => "en"
+      })
+      |> ok()
+    end
+
+    defp live_deposit(days) do
+      business_date("2024-03-01")
+
+      id =
+        day_product()
+        |> apply_for(%{
+          "submittedOnDate" => "2024-03-01",
+          "depositPeriod" => days,
+          "depositPeriodFrequencyId" => 0
+        })
+        |> ok()
+        |> Map.fetch!("resourceId")
+
+      command(id, "approve", %{"approvedOnDate" => "2024-03-01"}) |> ok()
+      command(id, "activate", %{"activatedOnDate" => "2024-03-01"}) |> ok()
+      id
+    end
+
+    defp closing(id, name, extra),
+      do:
+        command(
+          id,
+          name,
+          Map.merge(%{"closedOnDate" => "2024-03-11", "onAccountClosureId" => 100}, extra)
+        )
+
+    test "the job matures a deposit at the end of its term and closing pays it out" do
+      id = live_deposit(10)
+      business_date("2024-03-11")
+
+      assert closing(id, "close", %{}).status == 400
+      assert code(closing(id, "close", %{})) =~ "not.in.matured.state"
+
+      send_json(:post, "/v1/jobs/15?command=executeJob", %{})
+      |> then(&assert(&1.status in [200, 202]))
+
+      matured = read(id)
+      assert matured["status"]["value"] == "Matured"
+      assert matured["summary"]["accountBalance"] == matured["maturityAmount"]
+
+      closed = closing(id, "close", %{"note" => "paid"}) |> ok()
+      assert closed["changes"]["status"]["value"] == "Closed"
+      assert closed["changes"]["note"] == "paid"
+      assert read(id)["summary"]["accountBalance"] == 0
+    end
+
+    test "a deposit that has not matured is not matured by the job" do
+      id = live_deposit(10)
+      business_date("2024-03-05")
+      send_json(:post, "/v1/jobs/15?command=executeJob", %{})
+      assert read(id)["status"]["value"] == "Active"
+    end
+
+    test "closing early posts the interest earned, takes the balance out and closes the account" do
+      id = live_deposit(60)
+      business_date("2024-03-11")
+
+      amount =
+        command(id, "calculatePrematureAmount", %{"closedOnDate" => "2024-03-11"}) |> ok()
+
+      assert amount["maturityAmount"] > 5000
+
+      closed = closing(id, "prematureClose", %{}) |> ok()
+      assert closed["changes"]["status"]["value"] == "Premature Closed"
+
+      account =
+        send_json(:get, "/v1/fixeddepositaccounts/#{id}?associations=transactions") |> ok()
+
+      assert account["summary"]["accountBalance"] == 0
+
+      assert [withdrawal, interest, deposit] = account["transactions"]
+      assert withdrawal["transactionType"]["value"] == "Withdrawal"
+      assert withdrawal["amount"] == amount["maturityAmount"]
+      assert interest["transactionType"]["value"] == "Interest posting"
+      assert deposit["amount"] == 5000
+    end
+
+    test "closing early cannot invest the money again and a closed deposit cannot be closed again" do
+      id = live_deposit(60)
+      business_date("2024-03-11")
+
+      assert closing(id, "prematureClose", %{"onAccountClosureId" => 300}).status == 400
+      closing(id, "prematureClose", %{}) |> ok()
+      assert closing(id, "prematureClose", %{}).status == 400
+      assert closing(id, "close", %{}).status == 400
+    end
+
+    test "paying a closed deposit into a savings account or investing it again is not supported yet" do
+      id = live_deposit(10)
+      business_date("2024-03-11")
+      send_json(:post, "/v1/jobs/15?command=executeJob", %{})
+
+      for closure <- [300, 400] do
+        refused = closing(id, "close", %{"onAccountClosureId" => closure})
+        assert refused.status == 403
+        assert code(refused) == "error.msg.depositaccount.feature.not.supported.yet"
+      end
+
+      transfer =
+        closing(id, "close", %{"onAccountClosureId" => 200, "toSavingsAccountId" => 99_999})
+
+      assert transfer.status == 404
+
+      assert read(id)["status"]["value"] == "Matured"
+    end
+
+    test "a fixed deposit cannot be withdrawn from or deposited into, only closed" do
+      id = live_deposit(10)
+      body = Map.merge(@dates, %{"transactionDate" => "2024-03-02", "transactionAmount" => 10})
+
+      withdrawal =
+        send_json(:post, "/v1/fixeddepositaccounts/#{id}/transactions?command=withdrawal", body)
+
+      assert withdrawal.status == 503
+
+      deposit =
+        send_json(:post, "/v1/fixeddepositaccounts/#{id}/transactions?command=deposit", body)
+
+      assert deposit.status == 403
+      assert code(deposit) == "error.msg.depositaccount.feature.not.supported.yet"
+    end
+
+    test "interest is worked out and posted up to the end of the term and no further" do
+      id = live_deposit(40)
+      business_date("2025-03-01")
+
+      command(id, "postInterest", %{}) |> ok()
+      account = read(id)
+
+      transactions = send_json(:get, "/v1/fixeddepositaccounts/#{id}/transactions") |> ok()
+
+      postings =
+        Enum.filter(transactions, &(&1["transactionType"]["value"] == "Interest posting"))
+
+      assert length(postings) == 2
+      assert account["summary"]["accountBalance"] > 5000
+      assert account["status"]["value"] == "Active"
+    end
+
+    test "the transactions of a deposit and the template of closing it can be read" do
+      id = live_deposit(10)
+      [deposit] = send_json(:get, "/v1/fixeddepositaccounts/#{id}/transactions") |> ok()
+
+      one =
+        send_json(:get, "/v1/fixeddepositaccounts/#{id}/transactions/#{deposit["id"]}") |> ok()
+
+      assert one["amount"] == 5000
+
+      assert send_json(:get, "/v1/fixeddepositaccounts/#{id}/transactions/99999").status == 404
+
+      template = send_json(:get, "/v1/fixeddepositaccounts/#{id}/template?command=close") |> ok()
+      assert length(template["onAccountClosureOptions"]) == 4
+      assert send_json(:get, "/v1/fixeddepositaccounts/#{id}/template").status == 204
+    end
+  end
 end

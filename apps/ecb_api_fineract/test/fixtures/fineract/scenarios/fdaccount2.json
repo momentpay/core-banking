@@ -1,0 +1,2373 @@
+{
+ "name": "fdaccount2",
+ "reset": [
+  "savingsaccounts",
+  "savingsproducts",
+  "paymenttypes",
+  "clients",
+  "funds",
+  "glaccounts",
+  "staff",
+  "codes",
+  "configuration"
+ ],
+ "steps": [
+  {
+   "method": "PUT",
+   "path": "/v1/configurations/name/enable-business-date",
+   "body": {
+    "enabled": true
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 44,
+    "changes": {
+     "enabled": true
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "type": "BUSINESS_DATE",
+    "date": "2024-03-01",
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "description": "Business Date",
+    "type": "BUSINESS_DATE",
+    "date": [
+     2024,
+     3,
+     1
+    ],
+    "changes": {
+     "BUSINESS_DATE": [
+      2024,
+      3,
+      1
+     ],
+     "COB_DATE": [
+      2024,
+      2,
+      29
+     ]
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/clients",
+   "body": {
+    "officeId": 1,
+    "legalFormId": 1,
+    "firstname": "Ann",
+    "lastname": "Lee",
+    "active": true,
+    "activationDate": "01 January 2024",
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/paymenttypes",
+   "body": {
+    "name": "Cash",
+    "description": "cash",
+    "isCashPayment": true,
+    "position": 1
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositproducts",
+   "body": {
+    "name": "FD one",
+    "shortName": "FD1",
+    "description": "Fixed",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "nominalAnnualInterestRate": 5,
+    "interestCompoundingPeriodType": 1,
+    "interestPostingPeriodType": 4,
+    "interestCalculationType": 1,
+    "interestCalculationDaysInYearType": 365,
+    "minDepositTerm": 6,
+    "minDepositTermTypeId": 2,
+    "maxDepositTerm": 60,
+    "maxDepositTermTypeId": 2,
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermTypeId": 2,
+    "preClosurePenalApplicable": false,
+    "depositAmount": 1000,
+    "minDepositAmount": 500,
+    "maxDepositAmount": 100000,
+    "accountingRule": 1,
+    "charts": [
+     {
+      "name": "C",
+      "description": "d",
+      "fromDate": "01 January 2024",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en",
+      "chartSlabs": [
+       {
+        "periodType": 2,
+        "fromPeriod": 1,
+        "toPeriod": 12,
+        "annualInterestRate": 6,
+        "currencyCode": "USD"
+       },
+       {
+        "periodType": 2,
+        "fromPeriod": 13,
+        "toPeriod": null,
+        "annualInterestRate": 7,
+        "currencyCode": "USD"
+       }
+      ]
+     }
+    ],
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts",
+   "body": {
+    "clientId": 1,
+    "productId": 1,
+    "submittedOnDate": "01 March 2024",
+    "depositAmount": 5000,
+    "depositPeriod": 12,
+    "depositPeriodFrequencyId": 2,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "save": {
+    "x": "resourceId"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 1,
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{x}?command=approve",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "approvedOnDate": "01 March 2024"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 1,
+    "resourceId": 1,
+    "changes": {
+     "status": {
+      "id": 200,
+      "code": "savingsAccountStatusType.approved",
+      "value": "Approved",
+      "submittedAndPendingApproval": false,
+      "approved": true,
+      "rejected": false,
+      "withdrawnByApplicant": false,
+      "active": false,
+      "closed": false,
+      "prematureClosed": false,
+      "transferInProgress": false,
+      "transferOnHold": false,
+      "matured": false
+     },
+     "locale": "en",
+     "dateFormat": "dd MMMM yyyy",
+     "approvedOnDate": "01 March 2024"
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{x}?command=activate",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "activatedOnDate": "01 March 2024"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 1,
+    "resourceId": 1,
+    "changes": {
+     "status": {
+      "id": 300,
+      "code": "savingsAccountStatusType.active",
+      "value": "Active",
+      "submittedAndPendingApproval": false,
+      "approved": false,
+      "rejected": false,
+      "withdrawnByApplicant": false,
+      "active": true,
+      "closed": false,
+      "prematureClosed": false,
+      "transferInProgress": false,
+      "transferOnHold": false,
+      "matured": false
+     },
+     "locale": "en",
+     "dateFormat": "dd MMMM yyyy",
+     "activatedOnDate": "01 March 2024"
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts",
+   "body": {
+    "clientId": 1,
+    "productId": 1,
+    "submittedOnDate": "01 March 2024",
+    "depositAmount": 5000,
+    "depositPeriod": 12,
+    "depositPeriodFrequencyId": 2,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "save": {
+    "y": "resourceId"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 2,
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{y}?command=approve",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "approvedOnDate": "01 March 2024"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 2,
+    "resourceId": 2,
+    "changes": {
+     "status": {
+      "id": 200,
+      "code": "savingsAccountStatusType.approved",
+      "value": "Approved",
+      "submittedAndPendingApproval": false,
+      "approved": true,
+      "rejected": false,
+      "withdrawnByApplicant": false,
+      "active": false,
+      "closed": false,
+      "prematureClosed": false,
+      "transferInProgress": false,
+      "transferOnHold": false,
+      "matured": false
+     },
+     "locale": "en",
+     "dateFormat": "dd MMMM yyyy",
+     "approvedOnDate": "01 March 2024"
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{y}?command=activate",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "activatedOnDate": "01 March 2024"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 2,
+    "resourceId": 2,
+    "changes": {
+     "status": {
+      "id": 300,
+      "code": "savingsAccountStatusType.active",
+      "value": "Active",
+      "submittedAndPendingApproval": false,
+      "approved": false,
+      "rejected": false,
+      "withdrawnByApplicant": false,
+      "active": true,
+      "closed": false,
+      "prematureClosed": false,
+      "transferInProgress": false,
+      "transferOnHold": false,
+      "matured": false
+     },
+     "locale": "en",
+     "dateFormat": "dd MMMM yyyy",
+     "activatedOnDate": "01 March 2024"
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts",
+   "body": {
+    "clientId": 1,
+    "productId": 1,
+    "submittedOnDate": "01 March 2024",
+    "depositAmount": 5000,
+    "depositPeriod": 12,
+    "depositPeriodFrequencyId": 2,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "save": {
+    "z": "resourceId"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 3,
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{z}?command=approve",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "approvedOnDate": "01 March 2024"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 3,
+    "resourceId": 3,
+    "changes": {
+     "status": {
+      "id": 200,
+      "code": "savingsAccountStatusType.approved",
+      "value": "Approved",
+      "submittedAndPendingApproval": false,
+      "approved": true,
+      "rejected": false,
+      "withdrawnByApplicant": false,
+      "active": false,
+      "closed": false,
+      "prematureClosed": false,
+      "transferInProgress": false,
+      "transferOnHold": false,
+      "matured": false
+     },
+     "locale": "en",
+     "dateFormat": "dd MMMM yyyy",
+     "approvedOnDate": "01 March 2024"
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{z}?command=activate",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "activatedOnDate": "01 March 2024"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 3,
+    "resourceId": 3,
+    "changes": {
+     "status": {
+      "id": 300,
+      "code": "savingsAccountStatusType.active",
+      "value": "Active",
+      "submittedAndPendingApproval": false,
+      "approved": false,
+      "rejected": false,
+      "withdrawnByApplicant": false,
+      "active": true,
+      "closed": false,
+      "prematureClosed": false,
+      "transferInProgress": false,
+      "transferOnHold": false,
+      "matured": false
+     },
+     "locale": "en",
+     "dateFormat": "dd MMMM yyyy",
+     "activatedOnDate": "01 March 2024"
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts",
+   "body": {
+    "clientId": 1,
+    "productId": 1,
+    "submittedOnDate": "01 March 2024",
+    "depositAmount": 5000,
+    "depositPeriod": 12,
+    "depositPeriodFrequencyId": 2,
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en"
+   },
+   "save": {
+    "w": "resourceId"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 4,
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{w}?command=approve",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "approvedOnDate": "01 March 2024"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 4,
+    "resourceId": 4,
+    "changes": {
+     "status": {
+      "id": 200,
+      "code": "savingsAccountStatusType.approved",
+      "value": "Approved",
+      "submittedAndPendingApproval": false,
+      "approved": true,
+      "rejected": false,
+      "withdrawnByApplicant": false,
+      "active": false,
+      "closed": false,
+      "prematureClosed": false,
+      "transferInProgress": false,
+      "transferOnHold": false,
+      "matured": false
+     },
+     "locale": "en",
+     "dateFormat": "dd MMMM yyyy",
+     "approvedOnDate": "01 March 2024"
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{w}?command=activate",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "activatedOnDate": "01 March 2024"
+   },
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 4,
+    "resourceId": 4,
+    "changes": {
+     "status": {
+      "id": 300,
+      "code": "savingsAccountStatusType.active",
+      "value": "Active",
+      "submittedAndPendingApproval": false,
+      "approved": false,
+      "rejected": false,
+      "withdrawnByApplicant": false,
+      "active": true,
+      "closed": false,
+      "prematureClosed": false,
+      "transferInProgress": false,
+      "transferOnHold": false,
+      "matured": false
+     },
+     "locale": "en",
+     "dateFormat": "dd MMMM yyyy",
+     "activatedOnDate": "01 March 2024"
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{x}?command=calculatePrematureAmount",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "closedOnDate": "02 April 2024"
+   },
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": false,
+    "maturityAmount": 5001.64,
+    "savingsAccounts": [],
+    "onAccountClosureOptions": [
+     {
+      "id": 100,
+      "code": "depositAccountClosureType.withdrawDeposit",
+      "value": "Withdraw Deposit"
+     },
+     {
+      "id": 200,
+      "code": "depositAccountClosureType.transferToSavings",
+      "value": "Transfer to Savings"
+     }
+    ],
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     },
+     {
+      "id": 4,
+      "name": "Cash",
+      "description": "cash",
+      "isCashPayment": true,
+      "position": 1,
+      "isSystemDefined": false
+     }
+    ],
+    "id": 1,
+    "withdrawalFeeForTransfers": false,
+    "depositType": {
+     "id": 200,
+     "code": "depositAccountType.fixedDeposit",
+     "value": "Fixed Deposit"
+    },
+    "withHoldTax": false
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{x}?command=calculatePrematureAmount",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "closedOnDate": "02 April 2024"
+   },
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": false,
+    "maturityAmount": 5001.64,
+    "savingsAccounts": [],
+    "onAccountClosureOptions": [
+     {
+      "id": 100,
+      "code": "depositAccountClosureType.withdrawDeposit",
+      "value": "Withdraw Deposit"
+     },
+     {
+      "id": 200,
+      "code": "depositAccountClosureType.transferToSavings",
+      "value": "Transfer to Savings"
+     }
+    ],
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     },
+     {
+      "id": 4,
+      "name": "Cash",
+      "description": "cash",
+      "isCashPayment": true,
+      "position": 1,
+      "isSystemDefined": false
+     }
+    ],
+    "id": 1,
+    "withdrawalFeeForTransfers": false,
+    "depositType": {
+     "id": 200,
+     "code": "depositAccountType.fixedDeposit",
+     "value": "Fixed Deposit"
+    },
+    "withHoldTax": false
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{y}?command=calculatePrematureAmount",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "closedOnDate": "02 April 2024"
+   },
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": false,
+    "maturityAmount": 5001.64,
+    "savingsAccounts": [],
+    "onAccountClosureOptions": [
+     {
+      "id": 100,
+      "code": "depositAccountClosureType.withdrawDeposit",
+      "value": "Withdraw Deposit"
+     },
+     {
+      "id": 200,
+      "code": "depositAccountClosureType.transferToSavings",
+      "value": "Transfer to Savings"
+     }
+    ],
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     },
+     {
+      "id": 4,
+      "name": "Cash",
+      "description": "cash",
+      "isCashPayment": true,
+      "position": 1,
+      "isSystemDefined": false
+     }
+    ],
+    "id": 2,
+    "withdrawalFeeForTransfers": false,
+    "depositType": {
+     "id": 200,
+     "code": "depositAccountType.fixedDeposit",
+     "value": "Fixed Deposit"
+    },
+    "withHoldTax": false
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{y}?command=calculatePrematureAmount",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "closedOnDate": "01 March 2024"
+   },
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": false,
+    "maturityAmount": 5000.0,
+    "savingsAccounts": [],
+    "onAccountClosureOptions": [
+     {
+      "id": 100,
+      "code": "depositAccountClosureType.withdrawDeposit",
+      "value": "Withdraw Deposit"
+     },
+     {
+      "id": 200,
+      "code": "depositAccountClosureType.transferToSavings",
+      "value": "Transfer to Savings"
+     }
+    ],
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     },
+     {
+      "id": 4,
+      "name": "Cash",
+      "description": "cash",
+      "isCashPayment": true,
+      "position": 1,
+      "isSystemDefined": false
+     }
+    ],
+    "id": 2,
+    "withdrawalFeeForTransfers": false,
+    "depositType": {
+     "id": 200,
+     "code": "depositAccountType.fixedDeposit",
+     "value": "Fixed Deposit"
+    },
+    "withHoldTax": false
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{y}?command=calculatePrematureAmount",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "closedOnDate": "02 March 2024"
+   },
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": false,
+    "maturityAmount": 5000.82,
+    "savingsAccounts": [],
+    "onAccountClosureOptions": [
+     {
+      "id": 100,
+      "code": "depositAccountClosureType.withdrawDeposit",
+      "value": "Withdraw Deposit"
+     },
+     {
+      "id": 200,
+      "code": "depositAccountClosureType.transferToSavings",
+      "value": "Transfer to Savings"
+     }
+    ],
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     },
+     {
+      "id": 4,
+      "name": "Cash",
+      "description": "cash",
+      "isCashPayment": true,
+      "position": 1,
+      "isSystemDefined": false
+     }
+    ],
+    "id": 2,
+    "withdrawalFeeForTransfers": false,
+    "depositType": {
+     "id": 200,
+     "code": "depositAccountType.fixedDeposit",
+     "value": "Fixed Deposit"
+    },
+    "withHoldTax": false
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "type": "BUSINESS_DATE",
+    "date": "2024-03-15",
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "description": "Business Date",
+    "type": "BUSINESS_DATE",
+    "date": [
+     2024,
+     3,
+     15
+    ],
+    "changes": {
+     "BUSINESS_DATE": [
+      2024,
+      3,
+      15
+     ],
+     "COB_DATE": [
+      2024,
+      3,
+      14
+     ]
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{x}?command=calculatePrematureAmount",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "closedOnDate": "02 April 2024"
+   },
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": false,
+    "maturityAmount": 5001.64,
+    "savingsAccounts": [],
+    "onAccountClosureOptions": [
+     {
+      "id": 100,
+      "code": "depositAccountClosureType.withdrawDeposit",
+      "value": "Withdraw Deposit"
+     },
+     {
+      "id": 200,
+      "code": "depositAccountClosureType.transferToSavings",
+      "value": "Transfer to Savings"
+     }
+    ],
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     },
+     {
+      "id": 4,
+      "name": "Cash",
+      "description": "cash",
+      "isCashPayment": true,
+      "position": 1,
+      "isSystemDefined": false
+     }
+    ],
+    "id": 1,
+    "withdrawalFeeForTransfers": false,
+    "depositType": {
+     "id": 200,
+     "code": "depositAccountType.fixedDeposit",
+     "value": "Fixed Deposit"
+    },
+    "withHoldTax": false
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{y}?command=calculatePrematureAmount",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "closedOnDate": "02 April 2024"
+   },
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": false,
+    "maturityAmount": 5001.64,
+    "savingsAccounts": [],
+    "onAccountClosureOptions": [
+     {
+      "id": 100,
+      "code": "depositAccountClosureType.withdrawDeposit",
+      "value": "Withdraw Deposit"
+     },
+     {
+      "id": 200,
+      "code": "depositAccountClosureType.transferToSavings",
+      "value": "Transfer to Savings"
+     }
+    ],
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     },
+     {
+      "id": 4,
+      "name": "Cash",
+      "description": "cash",
+      "isCashPayment": true,
+      "position": 1,
+      "isSystemDefined": false
+     }
+    ],
+    "id": 2,
+    "withdrawalFeeForTransfers": false,
+    "depositType": {
+     "id": 200,
+     "code": "depositAccountType.fixedDeposit",
+     "value": "Fixed Deposit"
+    },
+    "withHoldTax": false
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{z}?command=calculatePrematureAmount",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "closedOnDate": "02 April 2024"
+   },
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": false,
+    "maturityAmount": 5001.64,
+    "savingsAccounts": [],
+    "onAccountClosureOptions": [
+     {
+      "id": 100,
+      "code": "depositAccountClosureType.withdrawDeposit",
+      "value": "Withdraw Deposit"
+     },
+     {
+      "id": 200,
+      "code": "depositAccountClosureType.transferToSavings",
+      "value": "Transfer to Savings"
+     }
+    ],
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     },
+     {
+      "id": 4,
+      "name": "Cash",
+      "description": "cash",
+      "isCashPayment": true,
+      "position": 1,
+      "isSystemDefined": false
+     }
+    ],
+    "id": 3,
+    "withdrawalFeeForTransfers": false,
+    "depositType": {
+     "id": 200,
+     "code": "depositAccountType.fixedDeposit",
+     "value": "Fixed Deposit"
+    },
+    "withHoldTax": false
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{z}?command=calculatePrematureAmount",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "closedOnDate": "02 April 2024"
+   },
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": false,
+    "maturityAmount": 5001.64,
+    "savingsAccounts": [],
+    "onAccountClosureOptions": [
+     {
+      "id": 100,
+      "code": "depositAccountClosureType.withdrawDeposit",
+      "value": "Withdraw Deposit"
+     },
+     {
+      "id": 200,
+      "code": "depositAccountClosureType.transferToSavings",
+      "value": "Transfer to Savings"
+     }
+    ],
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     },
+     {
+      "id": 4,
+      "name": "Cash",
+      "description": "cash",
+      "isCashPayment": true,
+      "position": 1,
+      "isSystemDefined": false
+     }
+    ],
+    "id": 3,
+    "withdrawalFeeForTransfers": false,
+    "depositType": {
+     "id": 200,
+     "code": "depositAccountType.fixedDeposit",
+     "value": "Fixed Deposit"
+    },
+    "withHoldTax": false
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{w}?command=calculateInterest",
+   "body": {},
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 4,
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{w}?command=calculatePrematureAmount",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "closedOnDate": "02 April 2024"
+   },
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": false,
+    "maturityAmount": 5013.16,
+    "savingsAccounts": [],
+    "onAccountClosureOptions": [
+     {
+      "id": 100,
+      "code": "depositAccountClosureType.withdrawDeposit",
+      "value": "Withdraw Deposit"
+     },
+     {
+      "id": 200,
+      "code": "depositAccountClosureType.transferToSavings",
+      "value": "Transfer to Savings"
+     }
+    ],
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     },
+     {
+      "id": 4,
+      "name": "Cash",
+      "description": "cash",
+      "isCashPayment": true,
+      "position": 1,
+      "isSystemDefined": false
+     }
+    ],
+    "id": 4,
+    "withdrawalFeeForTransfers": false,
+    "depositType": {
+     "id": 200,
+     "code": "depositAccountType.fixedDeposit",
+     "value": "Fixed Deposit"
+    },
+    "withHoldTax": false
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{w}?command=calculatePrematureAmount",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "closedOnDate": "20 March 2024"
+   },
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": false,
+    "maturityAmount": 5012.34,
+    "savingsAccounts": [],
+    "onAccountClosureOptions": [
+     {
+      "id": 100,
+      "code": "depositAccountClosureType.withdrawDeposit",
+      "value": "Withdraw Deposit"
+     },
+     {
+      "id": 200,
+      "code": "depositAccountClosureType.transferToSavings",
+      "value": "Transfer to Savings"
+     }
+    ],
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     },
+     {
+      "id": 4,
+      "name": "Cash",
+      "description": "cash",
+      "isCashPayment": true,
+      "position": 1,
+      "isSystemDefined": false
+     }
+    ],
+    "id": 4,
+    "withdrawalFeeForTransfers": false,
+    "depositType": {
+     "id": 200,
+     "code": "depositAccountType.fixedDeposit",
+     "value": "Fixed Deposit"
+    },
+    "withHoldTax": false
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "type": "BUSINESS_DATE",
+    "date": "2024-04-02",
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "description": "Business Date",
+    "type": "BUSINESS_DATE",
+    "date": [
+     2024,
+     4,
+     2
+    ],
+    "changes": {
+     "BUSINESS_DATE": [
+      2024,
+      4,
+      2
+     ],
+     "COB_DATE": [
+      2024,
+      4,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{x}?command=calculatePrematureAmount",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "closedOnDate": "02 April 2024"
+   },
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": false,
+    "maturityAmount": 5001.64,
+    "savingsAccounts": [],
+    "onAccountClosureOptions": [
+     {
+      "id": 100,
+      "code": "depositAccountClosureType.withdrawDeposit",
+      "value": "Withdraw Deposit"
+     },
+     {
+      "id": 200,
+      "code": "depositAccountClosureType.transferToSavings",
+      "value": "Transfer to Savings"
+     }
+    ],
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     },
+     {
+      "id": 4,
+      "name": "Cash",
+      "description": "cash",
+      "isCashPayment": true,
+      "position": 1,
+      "isSystemDefined": false
+     }
+    ],
+    "id": 1,
+    "withdrawalFeeForTransfers": false,
+    "depositType": {
+     "id": 200,
+     "code": "depositAccountType.fixedDeposit",
+     "value": "Fixed Deposit"
+    },
+    "withHoldTax": false
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{y}?command=calculatePrematureAmount",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "closedOnDate": "02 April 2024"
+   },
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": false,
+    "maturityAmount": 5001.64,
+    "savingsAccounts": [],
+    "onAccountClosureOptions": [
+     {
+      "id": 100,
+      "code": "depositAccountClosureType.withdrawDeposit",
+      "value": "Withdraw Deposit"
+     },
+     {
+      "id": 200,
+      "code": "depositAccountClosureType.transferToSavings",
+      "value": "Transfer to Savings"
+     }
+    ],
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     },
+     {
+      "id": 4,
+      "name": "Cash",
+      "description": "cash",
+      "isCashPayment": true,
+      "position": 1,
+      "isSystemDefined": false
+     }
+    ],
+    "id": 2,
+    "withdrawalFeeForTransfers": false,
+    "depositType": {
+     "id": 200,
+     "code": "depositAccountType.fixedDeposit",
+     "value": "Fixed Deposit"
+    },
+    "withHoldTax": false
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{z}?command=calculatePrematureAmount",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "closedOnDate": "02 April 2024"
+   },
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": false,
+    "maturityAmount": 5001.64,
+    "savingsAccounts": [],
+    "onAccountClosureOptions": [
+     {
+      "id": 100,
+      "code": "depositAccountClosureType.withdrawDeposit",
+      "value": "Withdraw Deposit"
+     },
+     {
+      "id": 200,
+      "code": "depositAccountClosureType.transferToSavings",
+      "value": "Transfer to Savings"
+     }
+    ],
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     },
+     {
+      "id": 4,
+      "name": "Cash",
+      "description": "cash",
+      "isCashPayment": true,
+      "position": 1,
+      "isSystemDefined": false
+     }
+    ],
+    "id": 3,
+    "withdrawalFeeForTransfers": false,
+    "depositType": {
+     "id": 200,
+     "code": "depositAccountType.fixedDeposit",
+     "value": "Fixed Deposit"
+    },
+    "withHoldTax": false
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{w}?command=calculatePrematureAmount",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "closedOnDate": "02 April 2024"
+   },
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": false,
+    "maturityAmount": 5013.16,
+    "savingsAccounts": [],
+    "onAccountClosureOptions": [
+     {
+      "id": 100,
+      "code": "depositAccountClosureType.withdrawDeposit",
+      "value": "Withdraw Deposit"
+     },
+     {
+      "id": 200,
+      "code": "depositAccountClosureType.transferToSavings",
+      "value": "Transfer to Savings"
+     }
+    ],
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     },
+     {
+      "id": 4,
+      "name": "Cash",
+      "description": "cash",
+      "isCashPayment": true,
+      "position": 1,
+      "isSystemDefined": false
+     }
+    ],
+    "id": 4,
+    "withdrawalFeeForTransfers": false,
+    "depositType": {
+     "id": 200,
+     "code": "depositAccountType.fixedDeposit",
+     "value": "Fixed Deposit"
+    },
+    "withHoldTax": false
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{w}?command=calculatePrematureAmount",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "closedOnDate": "02 April 2024"
+   },
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": false,
+    "maturityAmount": 5013.16,
+    "savingsAccounts": [],
+    "onAccountClosureOptions": [
+     {
+      "id": 100,
+      "code": "depositAccountClosureType.withdrawDeposit",
+      "value": "Withdraw Deposit"
+     },
+     {
+      "id": 200,
+      "code": "depositAccountClosureType.transferToSavings",
+      "value": "Transfer to Savings"
+     }
+    ],
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     },
+     {
+      "id": 4,
+      "name": "Cash",
+      "description": "cash",
+      "isCashPayment": true,
+      "position": 1,
+      "isSystemDefined": false
+     }
+    ],
+    "id": 4,
+    "withdrawalFeeForTransfers": false,
+    "depositType": {
+     "id": 200,
+     "code": "depositAccountType.fixedDeposit",
+     "value": "Fixed Deposit"
+    },
+    "withHoldTax": false
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "type": "BUSINESS_DATE",
+    "date": "2024-05-02",
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "description": "Business Date",
+    "type": "BUSINESS_DATE",
+    "date": [
+     2024,
+     5,
+     2
+    ],
+    "changes": {
+     "BUSINESS_DATE": [
+      2024,
+      5,
+      2
+     ],
+     "COB_DATE": [
+      2024,
+      5,
+      1
+     ]
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{x}?command=calculatePrematureAmount",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "closedOnDate": "02 May 2024"
+   },
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": false,
+    "maturityAmount": 5026.37,
+    "savingsAccounts": [],
+    "onAccountClosureOptions": [
+     {
+      "id": 100,
+      "code": "depositAccountClosureType.withdrawDeposit",
+      "value": "Withdraw Deposit"
+     },
+     {
+      "id": 200,
+      "code": "depositAccountClosureType.transferToSavings",
+      "value": "Transfer to Savings"
+     }
+    ],
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     },
+     {
+      "id": 4,
+      "name": "Cash",
+      "description": "cash",
+      "isCashPayment": true,
+      "position": 1,
+      "isSystemDefined": false
+     }
+    ],
+    "id": 1,
+    "withdrawalFeeForTransfers": false,
+    "depositType": {
+     "id": 200,
+     "code": "depositAccountType.fixedDeposit",
+     "value": "Fixed Deposit"
+    },
+    "withHoldTax": false
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{y}?command=calculatePrematureAmount",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "closedOnDate": "02 May 2024"
+   },
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": false,
+    "maturityAmount": 5026.37,
+    "savingsAccounts": [],
+    "onAccountClosureOptions": [
+     {
+      "id": 100,
+      "code": "depositAccountClosureType.withdrawDeposit",
+      "value": "Withdraw Deposit"
+     },
+     {
+      "id": 200,
+      "code": "depositAccountClosureType.transferToSavings",
+      "value": "Transfer to Savings"
+     }
+    ],
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     },
+     {
+      "id": 4,
+      "name": "Cash",
+      "description": "cash",
+      "isCashPayment": true,
+      "position": 1,
+      "isSystemDefined": false
+     }
+    ],
+    "id": 2,
+    "withdrawalFeeForTransfers": false,
+    "depositType": {
+     "id": 200,
+     "code": "depositAccountType.fixedDeposit",
+     "value": "Fixed Deposit"
+    },
+    "withHoldTax": false
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{z}?command=calculatePrematureAmount",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "closedOnDate": "02 May 2024"
+   },
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": false,
+    "maturityAmount": 5026.37,
+    "savingsAccounts": [],
+    "onAccountClosureOptions": [
+     {
+      "id": 100,
+      "code": "depositAccountClosureType.withdrawDeposit",
+      "value": "Withdraw Deposit"
+     },
+     {
+      "id": 200,
+      "code": "depositAccountClosureType.transferToSavings",
+      "value": "Transfer to Savings"
+     }
+    ],
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     },
+     {
+      "id": 4,
+      "name": "Cash",
+      "description": "cash",
+      "isCashPayment": true,
+      "position": 1,
+      "isSystemDefined": false
+     }
+    ],
+    "id": 3,
+    "withdrawalFeeForTransfers": false,
+    "depositType": {
+     "id": 200,
+     "code": "depositAccountType.fixedDeposit",
+     "value": "Fixed Deposit"
+    },
+    "withHoldTax": false
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{w}?command=calculatePrematureAmount",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "closedOnDate": "02 May 2024"
+   },
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": false,
+    "maturityAmount": 5037.95,
+    "savingsAccounts": [],
+    "onAccountClosureOptions": [
+     {
+      "id": 100,
+      "code": "depositAccountClosureType.withdrawDeposit",
+      "value": "Withdraw Deposit"
+     },
+     {
+      "id": 200,
+      "code": "depositAccountClosureType.transferToSavings",
+      "value": "Transfer to Savings"
+     }
+    ],
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     },
+     {
+      "id": 4,
+      "name": "Cash",
+      "description": "cash",
+      "isCashPayment": true,
+      "position": 1,
+      "isSystemDefined": false
+     }
+    ],
+    "id": 4,
+    "withdrawalFeeForTransfers": false,
+    "depositType": {
+     "id": 200,
+     "code": "depositAccountType.fixedDeposit",
+     "value": "Fixed Deposit"
+    },
+    "withHoldTax": false
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{w}?command=postInterest",
+   "body": {},
+   "status": 200,
+   "response": {
+    "officeId": 1,
+    "clientId": 1,
+    "savingsId": 4,
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/fixeddepositaccounts/{w}?command=calculatePrematureAmount",
+   "body": {
+    "dateFormat": "dd MMMM yyyy",
+    "locale": "en",
+    "closedOnDate": "02 May 2024"
+   },
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": false,
+    "maturityAmount": 5051.21,
+    "savingsAccounts": [],
+    "onAccountClosureOptions": [
+     {
+      "id": 100,
+      "code": "depositAccountClosureType.withdrawDeposit",
+      "value": "Withdraw Deposit"
+     },
+     {
+      "id": 200,
+      "code": "depositAccountClosureType.transferToSavings",
+      "value": "Transfer to Savings"
+     }
+    ],
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     },
+     {
+      "id": 4,
+      "name": "Cash",
+      "description": "cash",
+      "isCashPayment": true,
+      "position": 1,
+      "isSystemDefined": false
+     }
+    ],
+    "id": 4,
+    "withdrawalFeeForTransfers": false,
+    "depositType": {
+     "id": 200,
+     "code": "depositAccountType.fixedDeposit",
+     "value": "Fixed Deposit"
+    },
+    "withHoldTax": false
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/fixeddepositaccounts/{w}",
+   "ignore": [
+    "accountChart.chartSlabs.id"
+   ],
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": false,
+    "minDepositTerm": 6,
+    "maxDepositTerm": 60,
+    "minDepositTermType": {
+     "id": 2,
+     "code": "deposit.term.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "maxDepositTermType": {
+     "id": 2,
+     "code": "deposit.term.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermType": {
+     "id": 2,
+     "code": "deposit.term.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "depositAmount": 5000.0,
+    "maturityAmount": 5309.15,
+    "maturityDate": [
+     2025,
+     3,
+     1
+    ],
+    "depositPeriod": 12,
+    "depositPeriodFrequency": {
+     "id": 2,
+     "code": "deposit.period.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "activationCharge": 0,
+    "transferInterestToSavings": false,
+    "id": 4,
+    "accountNo": "000000004",
+    "clientId": 1,
+    "clientName": "Ann Lee",
+    "depositProductId": 1,
+    "depositProductName": "FD one",
+    "fieldOfficerId": 0,
+    "status": {
+     "id": 300,
+     "code": "savingsAccountStatusType.active",
+     "value": "Active",
+     "submittedAndPendingApproval": false,
+     "approved": false,
+     "rejected": false,
+     "withdrawnByApplicant": false,
+     "active": true,
+     "closed": false,
+     "prematureClosed": false,
+     "transferInProgress": false,
+     "transferOnHold": false,
+     "matured": false
+    },
+    "timeline": {
+     "submittedOnDate": [
+      2024,
+      3,
+      1
+     ],
+     "submittedByUsername": "mifos",
+     "submittedByFirstname": "App",
+     "submittedByLastname": "Administrator",
+     "approvedOnDate": [
+      2024,
+      3,
+      1
+     ],
+     "approvedByUsername": "mifos",
+     "approvedByFirstname": "App",
+     "approvedByLastname": "Administrator",
+     "activatedOnDate": [
+      2024,
+      3,
+      1
+     ]
+    },
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "nominalAnnualInterestRate": 6.0,
+    "interestCompoundingPeriodType": {
+     "id": 1,
+     "code": "savings.interest.period.savingsCompoundingInterestPeriodType.daily",
+     "value": "Daily"
+    },
+    "interestPostingPeriodType": {
+     "id": 4,
+     "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+     "value": "Monthly"
+    },
+    "interestCalculationType": {
+     "id": 1,
+     "code": "savingsInterestCalculationType.dailybalance",
+     "value": "Daily Balance"
+    },
+    "interestCalculationDaysInYearType": {
+     "id": 365,
+     "code": "savingsInterestCalculationDaysInYearType.days365",
+     "value": "365 Days"
+    },
+    "withdrawalFeeForTransfers": false,
+    "depositType": {
+     "id": 200,
+     "code": "depositAccountType.fixedDeposit",
+     "value": "Fixed Deposit"
+    },
+    "withHoldTax": false,
+    "summary": {
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "inMultiplesOf": 0,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "totalDeposits": 5000.0,
+     "totalInterestPosted": 50.38,
+     "accountBalance": 5050.38,
+     "interestPostedTillDate": [
+      2024,
+      5,
+      1
+     ]
+    },
+    "accountChart": {
+     "id": 4,
+     "name": "C",
+     "description": "d",
+     "fromDate": [
+      2024,
+      1,
+      1
+     ],
+     "isPrimaryGroupingByAmount": false,
+     "accountId": 4,
+     "accountNumber": "000000004",
+     "chartSlabs": [
+      {
+       "id": 7,
+       "periodType": {
+        "id": 2,
+        "code": "periodFrequencyType.months",
+        "value": "Months"
+       },
+       "fromPeriod": 1,
+       "toPeriod": 12,
+       "annualInterestRate": 6.0,
+       "currency": {
+        "code": "USD",
+        "name": "US Dollar",
+        "decimalPlaces": 2,
+        "displaySymbol": "$",
+        "nameCode": "currency.USD",
+        "displayLabel": "US Dollar ($)"
+       }
+      },
+      {
+       "id": 8,
+       "periodType": {
+        "id": 2,
+        "code": "periodFrequencyType.months",
+        "value": "Months"
+       },
+       "fromPeriod": 13,
+       "annualInterestRate": 7.0,
+       "currency": {
+        "code": "USD",
+        "name": "US Dollar",
+        "decimalPlaces": 2,
+        "displaySymbol": "$",
+        "nameCode": "currency.USD",
+        "displayLabel": "US Dollar ($)"
+       }
+      }
+     ],
+     "periodTypes": [
+      {
+       "id": 0,
+       "code": "periodFrequencyType.days",
+       "value": "Days"
+      },
+      {
+       "id": 1,
+       "code": "periodFrequencyType.weeks",
+       "value": "Weeks"
+      },
+      {
+       "id": 2,
+       "code": "periodFrequencyType.months",
+       "value": "Months"
+      },
+      {
+       "id": 3,
+       "code": "periodFrequencyType.years",
+       "value": "Years"
+      },
+      {
+       "id": 4,
+       "code": "periodFrequencyType.whole_term",
+       "value": "Whole Term"
+      }
+     ]
+    }
+   }
+  }
+ ]
+}

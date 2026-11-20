@@ -30,7 +30,8 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
     end)
   end
 
-  defp template_json(a) do
+  @doc false
+  def template_json(a) do
     today = BusinessDate.current()
 
     %{
@@ -49,7 +50,8 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
     }
   end
 
-  defp payment_type_options, do: Enum.map(OrgPaymentTypes.list(), &PaymentTypes.serialize/1)
+  @doc false
+  def payment_type_options, do: Enum.map(OrgPaymentTypes.list(), &PaymentTypes.serialize/1)
 
   defp account_by_external_id!(external_id),
     do:

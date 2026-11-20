@@ -62,6 +62,7 @@ defmodule ECBDeposits.DepositAccounts.Activation do
       do: Postings.opening_deposit!(user, ECBDeposits.Savings.fetch!(id), on, deposit)
 
     mature!(id, on)
+    ECBDeposits.DepositAccounts.FixedInterest.store_end!(id, BusinessDate.current())
 
     # the projection to maturity leaves nothing earned on the account's summary until interest is asked for
     TenantRepo.update_all(from(a in "m_savings_account", where: a.id == ^id),

@@ -4,10 +4,11 @@ defmodule ECBApiFineract.Resources.FixedDepositAccounts do
   an application, applying, changing and deleting an application, and the commands that take an application to an
   active account. Answers as Fineract's `FixedDepositAccountsApiResource` does.
   """
-  alias ECBApiFineract.Errors
+  alias ECBApiFineract.{Errors, Response}
 
   alias ECBApiFineract.Resources.{
     Charges,
+    PaymentTypes,
     Read,
     SavingsAccounts,
     SavingsProducts,
@@ -16,8 +17,11 @@ defmodule ECBApiFineract.Resources.FixedDepositAccounts do
   }
 
   alias ECBDeposits.{DepositAccounts, DepositEnums, DepositProducts, Savings, SavingsEnums}
+  alias ECBDeposits.DepositAccounts.Closing
+  alias ECBOrg.PaymentTypes, as: OrgPaymentTypes
   alias ECBParty.Clients
   alias ECBPlatform.Errors.UnrecognizedQueryParameter
+  alias ECBPlatform.{Params, Security, TenantRepo}
 
   @resource "FIXEDDEPOSITACCOUNT"
 
@@ -26,7 +30,11 @@ defmodule ECBApiFineract.Resources.FixedDepositAccounts do
     "withdrawnbyapplicant" => "WITHDRAW",
     "approve" => "APPROVE",
     "undoapproval" => "APPROVALUNDO",
-    "activate" => "ACTIVATE"
+    "activate" => "ACTIVATE",
+    "calculateinterest" => "CALCULATEINTEREST",
+    "postinterest" => "POSTINTEREST",
+    "close" => "CLOSE",
+    "prematureclose" => "PREMATURECLOSE"
   }
 
   @command_names ~w(reject withdrawnByApplicant approve undoapproval activate calculateInterest postInterest close
@@ -210,7 +218,6 @@ defmodule ECBApiFineract.Resources.FixedDepositAccounts do
       "interestNotPosted",
       "lastInterestCalculationDate",
       "totalOverdraftInterestDerived",
-      "totalWithdrawals",
       "totalWithdrawalFees",
       "totalAnnualFees",
       "totalFeeCharge",
@@ -444,17 +451,105 @@ defmodule ECBApiFineract.Resources.FixedDepositAccounts do
   def command(conn, raw_id) do
     Write.with_path_id(conn, raw_id, fn id ->
       command = conn.query_params["command"]
-      key = command && String.downcase(command)
+      key = command && command |> String.trim() |> String.downcase()
 
-      if Map.has_key?(@commands, key) do
-        Write.execute(conn, @resource, Map.fetch!(@commands, key), id: id)
-      else
-        Errors.render(conn, %UnrecognizedQueryParameter{
-          name: "command",
-          value: command,
-          allowed: @command_names
-        })
+      cond do
+        key == "calculateprematureamount" ->
+          premature_amount(conn, id)
+
+        Map.has_key?(@commands, key) ->
+          Write.execute(conn, @resource, Map.fetch!(@commands, key), id: id)
+
+        true ->
+          Errors.render(conn, %UnrecognizedQueryParameter{
+            name: "command",
+            value: command,
+            allowed: @command_names
+          })
       end
+    end)
+  end
+
+  # --- what closing early would pay, and the template of a closing -------------------------------------
+
+  # Fineract asks nothing of the user but to be signed in
+  defp premature_amount(conn, id) do
+    body = if blank?(conn.assigns[:raw_body]), do: "{}", else: conn.assigns[:raw_body]
+
+    case run(fn -> Closing.premature_amount!(id, Params.parse!(body)) end) do
+      {:ok, %{account: account, amount: amount}} ->
+        Response.json(conn, 200, %{
+          "preClosurePenalApplicable" => false,
+          "maturityAmount" => amount,
+          "savingsAccounts" => active_savings(account),
+          "onAccountClosureOptions" =>
+            DepositEnums.maturity_instructions() |> Enum.take(2) |> Enum.map(&Read.option/1),
+          "paymentTypeOptions" => payment_type_options(),
+          "id" => account.id,
+          "withdrawalFeeForTransfers" => false,
+          "depositType" => deposit_type(),
+          "withHoldTax" => false
+        })
+
+      {:error, error} ->
+        Errors.render(conn, error)
+    end
+  end
+
+  defp blank?(text), do: text == nil or String.trim(text) == ""
+
+  defp run(fun) do
+    case TenantRepo.transaction(fun) do
+      {:ok, result} -> {:ok, result}
+      {:error, error} -> {:error, error}
+    end
+  rescue
+    error ->
+      if ECBPlatform.Errors.to_api(error),
+        do: {:error, error},
+        else: reraise(error, __STACKTRACE__)
+  end
+
+  defp deposit_type,
+    do: %{"id" => 200, "code" => "depositAccountType.fixedDeposit", "value" => "Fixed Deposit"}
+
+  defp payment_type_options, do: Enum.map(OrgPaymentTypes.list(), &PaymentTypes.serialize/1)
+
+  # the active savings accounts of the client of an account
+  defp active_savings(account) do
+    for s <- DepositAccounts.active_savings(account.client_id),
+        do: %{"id" => s.id, "accountNo" => s.account_no, "productId" => s.product_id}
+  end
+
+  @doc "`GET /fixeddepositaccounts/:id/template`: with `command=close`, the account and the choices of closing it."
+  def closing_template(conn, raw_id) do
+    Write.with_path_id(conn, raw_id, fn id ->
+      case Security.validate_has_read_permission(conn.assigns.current_user, @resource) do
+        :ok -> closing_template(conn, id, conn.query_params["command"])
+        {:error, error} -> Errors.render(conn, error)
+      end
+    end)
+  end
+
+  defp closing_template(conn, id, command) do
+    if String.downcase(String.trim(command || "")) == "close",
+      do: closing_template_body(conn, id),
+      else: Plug.Conn.send_resp(conn, 204, "")
+  end
+
+  defp closing_template_body(conn, id) do
+    Read.respond(conn, @resource, fn ->
+      a = DepositAccounts.fetch!(:fixed, id)
+      users = Savings.users(SavingsAccounts.user_ids(a))
+
+      a
+      |> list_item(users)
+      |> Map.put("savingsAccounts", active_savings(a))
+      |> Map.put(
+        "onAccountClosureOptions",
+        Enum.map(DepositEnums.maturity_instructions(), &Read.option/1)
+      )
+      |> Map.put("paymentTypeOptions", payment_type_options())
     end)
   end
 end

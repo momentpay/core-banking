@@ -108,17 +108,20 @@ defmodule ECBDeposits.Savings.Postings do
   Withdraws what is left in the account when it is closed, on the day of closing, as Fineract does for
   `withdrawBalance`: whatever the account's rules for its balance, it goes to nothing.
   """
-  @spec closing_withdrawal!(struct, map, Params.t(), Date.t()) :: map
-  def closing_withdrawal!(user, account, %Params{} = p, on) do
+  @spec closing_withdrawal!(struct, map, Params.t(), Date.t(), keyword) :: map
+  def closing_withdrawal!(user, account, %Params{} = p, on, opts \\ []) do
     {detail_id, changes} = payment_detail!(p)
     req = %{date: on, amount: account.account_balance_derived, external_id: nil}
 
-    check_open!(account, req, p)
+    check_open!(Map.merge(account, Keyword.get(opts, :as, %{})), req, p)
     check_lock_in!(account, req, p)
 
     add_tx!(user, account, @withdrawal, req, detail_id,
-      check: [exception?: true, amount: req.amount],
-      fees: false
+      check: Keyword.get(opts, :check, exception?: true, amount: req.amount),
+      fees: false,
+      up_to: opts[:up_to],
+      post_until: opts[:post_until],
+      cap_dates: opts[:cap_dates]
     )
 
     changes
@@ -416,7 +419,7 @@ defmodule ECBDeposits.Savings.Postings do
       end)
 
     live = Balance.live(account.id) ++ fee_entries ++ [pending(type, req)]
-    plan = Interest.plan(account, live, plan_opts([req.date], 16))
+    plan = Interest.plan(account, live, plan_opts([req.date], 16, up_to_opts(opts)))
     if opts[:check], do: Balance.check!(account, plan.live_after, opts[:check])
 
     now = NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:millisecond)
@@ -673,6 +676,8 @@ defmodule ECBDeposits.Savings.Postings do
       manual: false,
       overdraft: nil
     }
+
+  defp up_to_opts(opts), do: Keyword.take(opts, [:up_to, :post_until, :cap_dates])
 
   defp plan_opts(dates, precision, extra \\ []),
     do:

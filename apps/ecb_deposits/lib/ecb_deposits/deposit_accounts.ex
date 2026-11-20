@@ -37,6 +37,20 @@ defmodule ECBDeposits.DepositAccounts do
     for %{deposit_type_enum: ^t} = account <- accounts, do: with_term(account)
   end
 
+  @doc "The active savings accounts of a client (to pay a closed deposit into), by id."
+  @spec active_savings(integer) :: [map]
+  def active_savings(client_id) do
+    TenantRepo.all(
+      from(a in "m_savings_account",
+        where:
+          a.client_id == ^client_id and a.status_enum == 300 and
+            a.deposit_type_enum == ^DepositEnums.savings(),
+        order_by: a.id,
+        select: %{id: a.id, account_no: a.account_no, product_id: a.product_id}
+      )
+    )
+  end
+
   @doc "The error for an account of the kind that does not exist."
   @spec not_found(:fixed | :recurring, term) :: Exception.t()
   def not_found(:fixed, id),

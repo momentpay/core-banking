@@ -5,8 +5,12 @@ defmodule ECBDeposits.DepositEnums do
   chart services).
   """
 
+  @savings 100
   @fixed 200
   @recurring 300
+
+  @doc "The deposit type of plain savings accounts."
+  def savings, do: @savings
 
   @doc "The deposit type of fixed deposits."
   def fixed, do: @fixed

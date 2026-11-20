@@ -80,6 +80,7 @@ defmodule ECBApiFineract.JobsTest do
                {"apitest", "SA_AANF"},
                {"apitest", "SA_PINT"},
                {"apitest", "LA_OPEN"},
+               {"apitest", "SA_MATD"},
                {"apitest", "LA_DECL"},
                {"apitest", "ACC_AATR"},
                {"apitest", "SA_UDOR"}
@@ -99,6 +100,7 @@ defmodule ECBApiFineract.JobsTest do
                {"apitest", "SA_PINT"},
                {"apitest", "SA_PDCH"},
                {"apitest", "LA_OPEN"},
+               {"apitest", "SA_MATD"},
                {"apitest", "LA_DECL"},
                {"apitest", "ACC_AATR"},
                {"apitest", "SA_UDOR"},
