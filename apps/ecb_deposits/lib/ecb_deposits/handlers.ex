@@ -27,7 +27,7 @@ defmodule ECBDeposits.Handlers do
     """
     @behaviour ECBPlatform.Commands.Handler
 
-    alias ECBDeposits.Savings.{Postings, Submit, Transitions}
+    alias ECBDeposits.Savings.{InterestCommands, Postings, Submit, Transitions}
     alias ECBPlatform.Params
 
     @impl true
@@ -72,6 +72,12 @@ defmodule ECBDeposits.Handlers do
 
     def process(%{action_name: "REVERSETRANSACTION"} = command, user),
       do: {:ok, Postings.reverse!(user, command.entity_id, command.subentity_id)}
+
+    def process(%{action_name: "CALCULATEINTEREST"} = command, user),
+      do: {:ok, InterestCommands.calculate!(user, command.entity_id)}
+
+    def process(%{action_name: "POSTINTEREST"} = command, user),
+      do: {:ok, InterestCommands.post!(user, command.entity_id, Params.parse!(command.json))}
 
     def process(%{action_name: "ADJUSTTRANSACTION"} = command, user),
       do:

@@ -114,7 +114,8 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
 
   # a transaction as Fineract writes it: shorter when it comes alone, with every flag when it is part of an account
   defp json(t, a, full?) do
-    credit_type? = t.transaction_type_enum == 1
+    kind = kind(t.transaction_type_enum)
+    credit_type? = kind in [:deposit, :interest_posting]
     reversed? = t.is_reversed == true
     reversal? = t.is_reversal == true
 
@@ -137,7 +138,7 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
       "note" => t.note,
       "isReversal" => reversal?,
       "originalTransactionId" => t.original_transaction_id || 0,
-      "isManualTransaction" => t.is_manual == true,
+      "isManualTransaction" => false,
       "lienTransaction" => t.is_lien_transaction == true,
       "releaseTransactionId" => t.release_id_of_hold_amount || 0,
       "chargesPaidByData" => [],
@@ -149,7 +150,7 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
       do:
         base
         |> Map.put("externalId", t.external_id || :null)
-        |> Map.merge(flags(t, credit_type?, reversed?, reversal?)),
+        |> Map.merge(flags(t, kind, reversed?, reversal?)),
       else: base
   end
 
@@ -169,33 +170,51 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
 
   @type_names %{
     1 => {"savingsAccountTransactionType.deposit", "Deposit", "DEPOSIT", "deposit"},
-    2 => {"savingsAccountTransactionType.withdrawal", "Withdrawal", "WITHDRAWAL", "withdrawal"}
+    2 => {"savingsAccountTransactionType.withdrawal", "Withdrawal", "WITHDRAWAL", "withdrawal"},
+    3 =>
+      {"savingsAccountTransactionType.interestPosting", "Interest posting", "INTEREST_POSTING",
+       "interestPosting"},
+    17 =>
+      {"savingsAccountTransactionType.overdraftInterest", "Overdraft Interest",
+       "OVERDRAFT_INTEREST", "overdraftInterest"}
   }
+
+  @kinds %{
+    1 => :deposit,
+    2 => :withdrawal,
+    3 => :interest_posting,
+    17 => :overdraft_interest
+  }
+
+  defp kind(type), do: Map.fetch!(@kinds, type)
 
   @type_flags ~w(deposit dividendPayout withdrawal interestPosting feeDeduction initiateTransfer approveTransfer
                  withdrawTransfer rejectTransfer overdraftInterest writtenoff overdraftFee withholdTax escheat
                  amountHold amountRelease accrual)
 
   defp type_json(type, full?) do
-    {code, value, enum, kind} = Map.fetch!(@type_names, type)
+    {code, value, enum, flag} = Map.fetch!(@type_names, type)
 
     base =
       @type_flags
-      |> Map.new(&{&1, &1 == kind})
+      |> Map.new(&{&1, &1 == flag})
       |> Map.merge(%{"id" => type, "code" => code, "value" => value})
 
     if full? do
+      credit? = flag in ["deposit", "interestPosting"]
+      overdraft? = flag == "overdraftInterest"
+
       Map.merge(base, %{
-        "debit" => kind == "withdrawal",
-        "credit" => kind == "deposit",
+        "debit" => not credit?,
+        "credit" => credit?,
         "payCharge" => false,
-        "overDraftInterestPosting" => false,
-        "incomeFromInterest" => false,
-        "entryType" => if(kind == "deposit", do: "CREDIT", else: "DEBIT"),
+        "overDraftInterestPosting" => overdraft?,
+        "incomeFromInterest" => overdraft?,
+        "entryType" => if(credit?, do: "CREDIT", else: "DEBIT"),
         "withdrawalFee" => false,
         "chargeTransaction" => false,
         "annualFee" => false,
-        "depositOrWithdrawal" => true,
+        "depositOrWithdrawal" => flag in ["deposit", "withdrawal"],
         "transactionTypeEnum" => enum
       })
     else
@@ -203,8 +222,9 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
     end
   end
 
-  defp flags(t, credit_type?, reversed?, reversal?) do
+  defp flags(_t, kind, reversed?, reversal?) do
     live? = not reversed? and not reversal?
+    credit_type? = kind in [:deposit, :interest_posting]
 
     %{
       "debit" => live? and not credit_type?,
@@ -214,16 +234,16 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
       "waivePenaltyCharge" => false,
       "waiveFeeCharge" => false,
       "taxDetails" => [],
-      "deposit" => credit_type?,
+      "deposit" => kind == :deposit,
       "accrual" => false,
-      "interestPosting" => false,
-      "withdrawal" => not credit_type?,
+      "interestPosting" => kind in [:interest_posting, :overdraft_interest],
+      "withdrawal" => kind == :withdrawal,
       "penaltyCharge" => false,
       "amountRelease" => false,
       "savingsAccountChargesPaid" => [],
-      "interestPostingAndNotReversed" => false,
-      "overdraftInterestAndNotReversed" => false,
-      "manualTransaction" => t.is_manual == true,
+      "interestPostingAndNotReversed" => kind == :interest_posting and not reversed?,
+      "overdraftInterestAndNotReversed" => kind == :overdraft_interest and not reversed?,
+      "manualTransaction" => false,
       "notReversed" => not reversed?,
       "waiveCharge" => false,
       "reversalTransaction" => reversal?,
@@ -237,7 +257,7 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
       "waivePenaltyChargeAndNotReversed" => false,
       "annualFee" => false,
       "feeChargeAndNotReversed" => false,
-      "depositAndNotReversed" => credit_type? and not reversed?,
+      "depositAndNotReversed" => kind == :deposit and not reversed?,
       "annualFeeAndNotReversed" => false,
       "chargeTransactionAndNotReversed" => false
     }
@@ -261,6 +281,9 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
       cond do
         Map.has_key?(@transaction_commands, command) ->
           Write.execute(conn, @resource, Map.fetch!(@transaction_commands, command), id: id)
+
+        command == "postInterestAsOn" ->
+          Write.execute(conn, @resource, "POSTINTEREST", id: id)
 
         command == "holdAmount" ->
           not_supported(conn, command)

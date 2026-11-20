@@ -45,10 +45,12 @@ defmodule ECBDeposits.Savings do
          a.total_overdraft_interest_derived, a.account_balance_derived, a.min_required_balance,
          a.enforce_min_required_balance, a.min_balance_for_interest_calculation, a.withhold_tax, a.tax_group_id,
          a.is_lien_allowed, a.max_allowed_lien_limit, a.on_hold_funds_derived, a.version,
-         a.start_interest_calculation_date, p.is_dormancy_tracking_active AS dormancy_tracking_active,
+         a.start_interest_calculation_date, a.total_interest_earned_derived, a.last_interest_calculation_date,
+         a.interest_posted_till_date, p.is_dormancy_tracking_active AS dormancy_tracking_active,
          p.accounting_type AS accounting_type,
          (SELECT max(x.transaction_date) FROM m_savings_account_transaction x
-           WHERE x.savings_account_id = a.id AND NOT x.is_reversed AND NOT x.is_reversal) AS last_transaction_date
+           WHERE x.savings_account_id = a.id AND NOT x.is_reversed AND NOT x.is_reversal
+             AND x.transaction_type_enum IN (1, 2)) AS last_transaction_date
   FROM m_savings_account a
   LEFT JOIN m_client c ON c.id = a.client_id
   LEFT JOIN m_savings_product p ON p.id = a.product_id

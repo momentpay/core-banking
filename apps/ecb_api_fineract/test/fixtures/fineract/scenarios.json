@@ -88496,6 +88496,4165 @@
           "path": "/v1/savingsaccounts/{b}?associations=transactions"
         }
       ]
+    },
+    {
+      "name": "savingsint0",
+      "reset": [
+        "savingsaccounts",
+        "savingsproducts",
+        "paymenttypes",
+        "clients",
+        "funds",
+        "glaccounts",
+        "staff",
+        "codes",
+        "configuration"
+      ],
+      "steps": [
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/enable-business-date",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Ann",
+            "lastname": "Lee",
+            "active": true,
+            "activationDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/paymenttypes",
+          "body": {
+            "name": "Cash",
+            "description": "cash",
+            "isCashPayment": true,
+            "position": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "P1",
+            "shortName": "P1",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 10,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "locale": "en",
+            "accountingRule": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "P2",
+            "shortName": "P2",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 10,
+            "interestCompoundingPeriodType": 4,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 2,
+            "interestCalculationDaysInYearType": 365,
+            "locale": "en",
+            "accountingRule": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "P3",
+            "shortName": "P3",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 6,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 5,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 360,
+            "locale": "en",
+            "accountingRule": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "a": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 1000
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=all"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-10",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "10 March 2024",
+            "transactionAmount": 500
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=all"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-20",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}?command=calculateInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=all"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=all"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}/transactions?command=withdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "20 March 2024",
+            "transactionAmount": 100
+          },
+          "ignore": [
+            "resourceId"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=all"
+        }
+      ]
+    },
+    {
+      "name": "savingsint1",
+      "reset": [
+        "savingsaccounts",
+        "savingsproducts",
+        "paymenttypes",
+        "clients",
+        "funds",
+        "glaccounts",
+        "staff",
+        "codes",
+        "configuration"
+      ],
+      "steps": [
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/enable-business-date",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-01-15",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Ann",
+            "lastname": "Lee",
+            "active": true,
+            "activationDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/paymenttypes",
+          "body": {
+            "name": "Cash",
+            "description": "cash",
+            "isCashPayment": true,
+            "position": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Pa",
+            "shortName": "PA",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 10,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "locale": "en",
+            "accountingRule": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Pb",
+            "shortName": "PB",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 10,
+            "interestCompoundingPeriodType": 4,
+            "interestPostingPeriodType": 5,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 360,
+            "locale": "en",
+            "accountingRule": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Pc",
+            "shortName": "PC",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 9,
+            "interestCompoundingPeriodType": 5,
+            "interestPostingPeriodType": 6,
+            "interestCalculationType": 2,
+            "interestCalculationDaysInYearType": 365,
+            "locale": "en",
+            "accountingRule": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Pd",
+            "shortName": "PD",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 8,
+            "interestCompoundingPeriodType": 6,
+            "interestPostingPeriodType": 7,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "locale": "en",
+            "accountingRule": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Pe",
+            "shortName": "PE",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 7.5,
+            "interestCompoundingPeriodType": 7,
+            "interestPostingPeriodType": 7,
+            "interestCalculationType": 2,
+            "interestCalculationDaysInYearType": 360,
+            "locale": "en",
+            "accountingRule": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Pf",
+            "shortName": "PF",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 6,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 8,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "locale": "en",
+            "accountingRule": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Pg",
+            "shortName": "PG",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 12,
+            "interestCompoundingPeriodType": 4,
+            "interestPostingPeriodType": 9,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "locale": "en",
+            "accountingRule": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Ph",
+            "shortName": "PH",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 10,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "locale": "en",
+            "accountingRule": 1,
+            "minBalanceForInterestCalculation": 500
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "15 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "a": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 2,
+            "submittedOnDate": "15 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "b": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 3,
+            "submittedOnDate": "15 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "c": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 4,
+            "submittedOnDate": "15 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "d": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 5,
+            "submittedOnDate": "15 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "e": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 6,
+            "submittedOnDate": "15 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "f": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 7,
+            "submittedOnDate": "15 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "g": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 8,
+            "submittedOnDate": "15 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "h": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{d}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{d}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{e}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{e}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{f}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{f}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{g}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{g}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{h}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{h}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "15 January 2024",
+            "transactionAmount": 2000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "15 January 2024",
+            "transactionAmount": 2000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "15 January 2024",
+            "transactionAmount": 2000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{d}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "15 January 2024",
+            "transactionAmount": 2000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{e}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "15 January 2024",
+            "transactionAmount": 2000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{f}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "15 January 2024",
+            "transactionAmount": 2000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{g}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "15 January 2024",
+            "transactionAmount": 2000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{h}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "15 January 2024",
+            "transactionAmount": 2000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-02-20",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}/transactions?command=withdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "20 February 2024",
+            "transactionAmount": 300
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}/transactions?command=withdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "20 February 2024",
+            "transactionAmount": 300
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}/transactions?command=withdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "20 February 2024",
+            "transactionAmount": 300
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{d}/transactions?command=withdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "20 February 2024",
+            "transactionAmount": 300
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{e}/transactions?command=withdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "20 February 2024",
+            "transactionAmount": 300
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{f}/transactions?command=withdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "20 February 2024",
+            "transactionAmount": 300
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{g}/transactions?command=withdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "20 February 2024",
+            "transactionAmount": 300
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{h}/transactions?command=withdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "20 February 2024",
+            "transactionAmount": 300
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-05",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "05 March 2024",
+            "transactionAmount": 700
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "05 March 2024",
+            "transactionAmount": 700
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "05 March 2024",
+            "transactionAmount": 700
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{d}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "05 March 2024",
+            "transactionAmount": 700
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{e}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "05 March 2024",
+            "transactionAmount": 700
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{f}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "05 March 2024",
+            "transactionAmount": 700
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{g}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "05 March 2024",
+            "transactionAmount": 700
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{h}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "05 March 2024",
+            "transactionAmount": 700
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{b}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{c}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{d}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{e}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{f}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{g}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{h}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-02",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}?command=calculateInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}?command=calculateInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{b}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}?command=calculateInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{c}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{d}?command=calculateInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{d}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{e}?command=calculateInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{e}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{f}?command=calculateInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{f}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{g}?command=calculateInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{g}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{h}?command=calculateInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{h}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{b}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{c}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{d}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{d}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{e}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{e}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{f}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{f}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{g}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{g}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{h}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{h}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-07-20",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "20 July 2024",
+            "transactionAmount": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "20 July 2024",
+            "transactionAmount": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "20 July 2024",
+            "transactionAmount": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{d}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "20 July 2024",
+            "transactionAmount": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{e}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "20 July 2024",
+            "transactionAmount": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{f}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "20 July 2024",
+            "transactionAmount": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{g}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "20 July 2024",
+            "transactionAmount": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{h}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "20 July 2024",
+            "transactionAmount": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{b}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{c}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{d}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{d}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{e}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{e}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{f}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{f}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{g}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{g}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{h}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{h}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2025-02-10",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{b}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{c}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{d}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{d}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{e}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{e}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{f}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{f}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{g}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{g}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{h}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{h}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "savingsint3",
+      "reset": [
+        "savingsaccounts",
+        "savingsproducts",
+        "paymenttypes",
+        "clients",
+        "funds",
+        "glaccounts",
+        "staff",
+        "codes",
+        "configuration"
+      ],
+      "steps": [
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/enable-business-date",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Ann",
+            "lastname": "Lee",
+            "active": true,
+            "activationDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc A1",
+            "glCode": "A1",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc A2",
+            "glCode": "A2",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc L1",
+            "glCode": "L1",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc L2",
+            "glCode": "L2",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc L3",
+            "glCode": "L3",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc I1",
+            "glCode": "I1",
+            "manualEntriesAllowed": true,
+            "type": 4,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc I2",
+            "glCode": "I2",
+            "manualEntriesAllowed": true,
+            "type": 4,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc X1",
+            "glCode": "X1",
+            "manualEntriesAllowed": true,
+            "type": 5,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc X2",
+            "glCode": "X2",
+            "manualEntriesAllowed": true,
+            "type": 5,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc A3",
+            "glCode": "A3",
+            "manualEntriesAllowed": true,
+            "type": 1,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/glaccounts",
+          "body": {
+            "name": "Acc L4",
+            "glCode": "L4",
+            "manualEntriesAllowed": true,
+            "type": 2,
+            "usage": 1,
+            "description": "d"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/paymenttypes",
+          "body": {
+            "name": "Cash",
+            "description": "cash",
+            "isCashPayment": true,
+            "position": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Cash",
+            "shortName": "CSH",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 10,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "locale": "en",
+            "accountingRule": 2,
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Accr",
+            "shortName": "ACCR",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 10,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "locale": "en",
+            "accountingRule": 3,
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9,
+            "feesReceivableAccountId": 10,
+            "penaltiesReceivableAccountId": 10,
+            "interestPayableAccountId": 5
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Over",
+            "shortName": "OVR",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 4,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "locale": "en",
+            "accountingRule": 2,
+            "savingsReferenceAccountId": 1,
+            "savingsControlAccountId": 3,
+            "interestOnSavingsAccountId": 8,
+            "incomeFromFeeAccountId": 6,
+            "incomeFromPenaltyAccountId": 7,
+            "transfersInSuspenseAccountId": 4,
+            "overdraftPortfolioControlId": 2,
+            "incomeFromInterestId": 6,
+            "writeOffAccountId": 9,
+            "allowOverdraft": true,
+            "overdraftLimit": 500,
+            "nominalAnnualInterestRateOverdraft": 18,
+            "minOverdraftForInterestCalculation": 0,
+            "minRequiredOpeningBalance": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "a": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 1000
+          },
+          "save": {
+            "a1": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 2,
+            "submittedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "b": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 1000
+          },
+          "save": {
+            "b1": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 3,
+            "submittedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "c": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}/transactions?command=withdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 300
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-10",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "10 March 2024",
+            "transactionAmount": 500
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "10 March 2024",
+            "transactionAmount": 500
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-10",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?savingsId={a}&orderBy=id&limit=100",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?savingsId={b}&orderBy=id&limit=100",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?savingsId={c}&orderBy=id&limit=100",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=transactions"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{b}?associations=transactions"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{c}?associations=transactions"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "15 March 2024",
+            "transactionAmount": 200
+          },
+          "save": {
+            "a3": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "15 March 2024",
+            "transactionAmount": 200
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "15 March 2024",
+            "transactionAmount": 400
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?savingsId={a}&orderBy=id&limit=100",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?savingsId={b}&orderBy=id&limit=100",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?savingsId={c}&orderBy=id&limit=100",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{c}?associations=transactions"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=transactions",
+          "save": {
+            "pa": "transactions.0.id"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{b}?associations=transactions",
+          "save": {
+            "pb": "transactions.0.id"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{c}?associations=transactions",
+          "save": {
+            "pc": "transactions.0.id"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}/transactions/{pa}?command=undo",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}/transactions/{pb}?command=undo",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}/transactions/{pc}?command=undo",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?savingsId={a}&orderBy=id&limit=100",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?savingsId={b}&orderBy=id&limit=100",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?savingsId={c}&orderBy=id&limit=100",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?savingsId={a}&orderBy=id&limit=100",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?savingsId={b}&orderBy=id&limit=100",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/journalentries?savingsId={c}&orderBy=id&limit=100",
+          "ignore": [
+            "createdOn",
+            "updatedOn",
+            "paymentDetailData.id",
+            "createdByUserName",
+            "submittedOnDate"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=transactions"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{c}?associations=transactions"
+        }
+      ]
+    },
+    {
+      "name": "savingsint4",
+      "reset": [
+        "savingsaccounts",
+        "savingsproducts",
+        "paymenttypes",
+        "clients",
+        "funds",
+        "glaccounts",
+        "staff",
+        "codes",
+        "configuration"
+      ],
+      "steps": [
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/enable-business-date",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-01-15",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Ann",
+            "lastname": "Lee",
+            "active": true,
+            "activationDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/paymenttypes",
+          "body": {
+            "name": "Cash",
+            "description": "cash",
+            "isCashPayment": true,
+            "position": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/financial-year-beginning-month",
+          "body": {
+            "enabled": true,
+            "value": 4
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Pq",
+            "shortName": "PQ",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 8,
+            "interestCompoundingPeriodType": 5,
+            "interestPostingPeriodType": 5,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "locale": "en",
+            "accountingRule": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Ps",
+            "shortName": "PS",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 9,
+            "interestCompoundingPeriodType": 4,
+            "interestPostingPeriodType": 6,
+            "interestCalculationType": 2,
+            "interestCalculationDaysInYearType": 365,
+            "locale": "en",
+            "accountingRule": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Py",
+            "shortName": "PY",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 7,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 7,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 360,
+            "locale": "en",
+            "accountingRule": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Pt",
+            "shortName": "PT",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 6,
+            "interestCompoundingPeriodType": 6,
+            "interestPostingPeriodType": 7,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "locale": "en",
+            "accountingRule": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "15 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "q": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{q}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{q}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{q}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "15 January 2024",
+            "transactionAmount": 5000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 2,
+            "submittedOnDate": "15 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "s": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{s}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{s}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{s}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "15 January 2024",
+            "transactionAmount": 5000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 3,
+            "submittedOnDate": "15 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "y": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{y}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{y}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{y}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "15 January 2024",
+            "transactionAmount": 5000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 4,
+            "submittedOnDate": "15 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "t": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{t}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{t}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{t}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "15 January 2024",
+            "transactionAmount": 5000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-05-10",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{q}/transactions?command=withdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "10 May 2024",
+            "transactionAmount": 1000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{s}/transactions?command=withdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "10 May 2024",
+            "transactionAmount": 1000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{y}/transactions?command=withdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "10 May 2024",
+            "transactionAmount": 1000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{t}/transactions?command=withdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "10 May 2024",
+            "transactionAmount": 1000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2025-05-05",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{q}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{s}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{y}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{t}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{q}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{s}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{y}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{t}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "savingsint5",
+      "reset": [
+        "savingsaccounts",
+        "savingsproducts",
+        "paymenttypes",
+        "clients",
+        "funds",
+        "glaccounts",
+        "staff",
+        "codes",
+        "configuration"
+      ],
+      "steps": [
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/enable-business-date",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-01-15",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Ann",
+            "lastname": "Lee",
+            "active": true,
+            "activationDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/paymenttypes",
+          "body": {
+            "name": "Cash",
+            "description": "cash",
+            "isCashPayment": true,
+            "position": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/savings-interest-posting-current-period-end",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Mo",
+            "shortName": "MO",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 10,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "locale": "en",
+            "accountingRule": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Dy",
+            "shortName": "DY",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 7,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 1,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "locale": "en",
+            "accountingRule": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Od",
+            "shortName": "OD",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 3,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 360,
+            "locale": "en",
+            "accountingRule": 1,
+            "allowOverdraft": true,
+            "overdraftLimit": 1000,
+            "nominalAnnualInterestRateOverdraft": 20,
+            "minOverdraftForInterestCalculation": 100,
+            "minRequiredOpeningBalance": 500
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Op",
+            "shortName": "OP",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "locale": "en",
+            "accountingRule": 1,
+            "minRequiredOpeningBalance": 1000,
+            "minBalanceForInterestCalculation": 200
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "15 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "m": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{m}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{m}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{m}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "15 January 2024",
+            "transactionAmount": 3000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 2,
+            "submittedOnDate": "15 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "d": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{d}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{d}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{d}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "15 January 2024",
+            "transactionAmount": 3000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 3,
+            "submittedOnDate": "15 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "o": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{o}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{o}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 4,
+            "submittedOnDate": "15 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "p": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{p}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{p}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "15 January 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-01-16",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{o}/transactions?command=withdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "16 January 2024",
+            "transactionAmount": 900
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{p}/transactions?command=withdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "16 January 2024",
+            "transactionAmount": 850
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-01-20",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{m}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{d}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{o}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{p}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{m}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{d}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{m}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{d}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-02-05",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{m}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{d}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{o}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{p}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{m}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{d}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{o}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{p}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{m}/transactions?command=postInterestAsOn",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "03 February 2024",
+            "isPostInterestAsOn": true
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{m}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{o}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "01 February 2024",
+            "transactionAmount": 700
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{o}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{m}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "20 January 2024",
+            "transactionAmount": 100
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{m}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "savingsint2",
+      "reset": [
+        "savingsaccounts",
+        "savingsproducts",
+        "paymenttypes",
+        "clients",
+        "funds",
+        "glaccounts",
+        "staff",
+        "codes",
+        "configuration"
+      ],
+      "steps": [
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/enable-business-date",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Ann",
+            "lastname": "Lee",
+            "active": true,
+            "activationDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/paymenttypes",
+          "body": {
+            "name": "Cash",
+            "description": "cash",
+            "isCashPayment": true,
+            "position": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "P1",
+            "shortName": "P1",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 10,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "locale": "en",
+            "accountingRule": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "P0",
+            "shortName": "P0",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 0,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "locale": "en",
+            "accountingRule": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "a": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "01 March 2024",
+            "transactionAmount": 1000
+          },
+          "save": {
+            "a1": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-10",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "10 March 2024",
+            "transactionAmount": 500
+          },
+          "save": {
+            "a2": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-20",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ],
+          "save": {
+            "p1": "transactions.0.id"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "15 March 2024",
+            "transactionAmount": 200
+          },
+          "save": {
+            "a3": "resourceId"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}/transactions?command=withdrawal",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "20 March 2024",
+            "transactionAmount": 100
+          },
+          "save": {
+            "a4": "resourceId"
+          },
+          "ignore": [
+            "resourceId"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}/transactions/{a3}?command=undo",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}/transactions/{a4}?command=modify",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "25 March 2024",
+            "transactionAmount": 150
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}/transactions/{p1}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}/transactions/{p1}?template=true"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}/transactions/{p1}?command=undo",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ],
+          "save": {
+            "p2": "transactions.0.id"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}/transactions/{p2}?command=undo",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "02 April 2024",
+            "transactionAmount": 50
+          },
+          "save": {
+            "a5": "resourceId"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}?command=calculateInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{a}/transactions/{a5}?command=reverse",
+          "body": {},
+          "ignore": [
+            "resourceId"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{a}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-04-25",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "25 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "b": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "25 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "25 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "25 March 2024",
+            "transactionAmount": 1000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-05-02",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}/transactions?command=postInterestAsOn",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "15 April 2024",
+            "isPostInterestAsOn": true,
+            "externalId": "manual-1"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{b}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}/transactions?command=postInterestAsOn",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "28 April 2024",
+            "isPostInterestAsOn": true
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{b}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}?command=postInterest",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "30 April 2024",
+            "postInterestManualOrAutomatic": true
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{b}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}/transactions?command=postInterestAsOn",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "isPostInterestAsOn": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}/transactions?command=postInterestAsOn",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "01 March 2024",
+            "isPostInterestAsOn": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}/transactions?command=postInterestAsOn",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "03 May 2024",
+            "isPostInterestAsOn": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}/transactions?command=postInterestAsOn",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "26 March 2024",
+            "isPostInterestAsOn": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}/transactions?command=postInterestAsOn",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "26 April 2024",
+            "isPostInterestAsOn": true,
+            "externalId": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}/transactions?command=postInterestAsOn",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "26 April 2024",
+            "isPostInterestAsOn": "maybe"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}/transactions?command=postInterestAsOn",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transactionDate": "26 April 2024",
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{b}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{b}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 2,
+            "submittedOnDate": "01 March 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "z": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{z}?command=calculateInterest",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{z}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{z}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{z}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "02 May 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{z}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "02 May 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{z}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "02 May 2024",
+            "transactionAmount": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{z}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{z}?command=calculateInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{z}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "02 May 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "y": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{y}?command=calculateInterest",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{y}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{y}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-05-02",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "02 April 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "c": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "02 April 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "02 April 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "02 April 2024",
+            "transactionAmount": 1000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "02 May 2024",
+            "postInterestValidationOnClosure": true,
+            "withdrawBalance": true,
+            "paymentTypeId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{c}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 May 2024",
+            "postInterestValidationOnClosure": true,
+            "withdrawBalance": true,
+            "paymentTypeId": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-06-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}?command=postInterest",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{c}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{c}?command=close",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "closedOnDate": "01 June 2024",
+            "postInterestValidationOnClosure": true,
+            "withdrawBalance": true,
+            "paymentTypeId": 1
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{c}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-06-02",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "02 June 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "d": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{d}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "02 June 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{d}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "02 June 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsaccounts/{d}/transactions?command=deposit",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "paymentTypeId": 1,
+            "transactionDate": "02 June 2024",
+            "transactionAmount": 2000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-07-02",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/6?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{d}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-07-03",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/6?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{d}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-08-05",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/jobs/6?command=executeJob",
+          "body": {}
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{d}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/savingsaccounts/{c}?associations=transactions",
+          "ignore": [
+            "transactions.id",
+            "savingsAccountTransactionsWithPivotConfig.id"
+          ]
+        }
+      ]
     }
   ]
 }

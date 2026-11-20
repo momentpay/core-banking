@@ -185,23 +185,25 @@ defmodule ECBApiFineract.SavingsAccountsTest do
       end
     end
 
-    test "activating an account that earns interest with an opening balance to deposit is refused" do
-      id = approved_account(%{"minRequiredOpeningBalance" => 100})
+    test "activating an account that earns interest deposits the opening balance and works the interest out" do
+      id =
+        approved_account(%{
+          "minRequiredOpeningBalance" => 365_000,
+          "nominalAnnualInterestRate" => 10
+        })
 
-      conn = command(id, "activate", %{"activatedOnDate" => today()})
-      assert conn.status == 403
+      assert command(id, "activate", %{"activatedOnDate" => today()}).status == 200
 
-      assert hd(body(conn)["errors"])["userMessageGlobalisationCode"] ==
-               "error.msg.savingsaccount.feature.not.supported.yet"
-
-      # and the account stays approved
-      assert body(send_json(:get, "/v1/savingsaccounts/#{id}"))["status"]["value"] == "Approved"
+      summary = body(send_json(:get, "/v1/savingsaccounts/#{id}"))["summary"]
+      assert summary["accountBalance"] == 365_000
+      assert summary["totalInterestEarned"] == 100
+      assert summary["interestNotPosted"] == 100
     end
 
     test "the commands for interest, officers and blocks are refused, not taken for unknown" do
       id = approved_account()
 
-      for name <- ["calculateInterest", "postInterest", "assignSavingsOfficer", "block"] do
+      for name <- ["assignSavingsOfficer", "block"] do
         conn = command(id, name, %{})
         assert conn.status == 403, name
 
@@ -295,18 +297,23 @@ defmodule ECBApiFineract.SavingsAccountsTest do
                200
     end
 
-    test "an account that earns interest is refused money in and out until interest is built" do
-      id = live_account(%{"nominalAnnualInterestRate" => 5})
+    test "an account that earns interest takes money in and out, and its interest can be worked out and posted" do
+      id = live_account(%{"nominalAnnualInterestRate" => 10})
 
-      for kind <- ["deposit", "withdrawal"] do
-        conn = money(id, kind, 10)
-        assert conn.status == 403, conn.resp_body
+      assert money(id, "deposit", 365_000).status == 200
+      assert money(id, "withdrawal", 365_000 - 1000).status == 200
 
-        assert hd(body(conn)["errors"])["userMessageGlobalisationCode"] ==
-                 "error.msg.savingsaccount.feature.not.supported.yet"
-      end
+      # a day of interest on what was left at the end of the day
+      summary = body(send_json(:get, "/v1/savingsaccounts/#{id}"))["summary"]
+      assert summary["accountBalance"] == 1000
+      assert summary["totalInterestEarned"] == 0.27
 
-      assert body(send_json(:get, "/v1/savingsaccounts/#{id}"))["summary"]["accountBalance"] == 0
+      assert command(id, "calculateInterest", %{}).status == 200
+      assert command(id, "postInterest", %{}).status == 200
+
+      # nothing is posted before the period has ended
+      assert body(send_json(:get, "/v1/savingsaccounts/#{id}"))["summary"]["totalInterestPosted"] ==
+               0
     end
 
     test "an opening balance is deposited when the account is activated" do

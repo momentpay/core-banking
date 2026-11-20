@@ -278,6 +278,9 @@ defmodule ECBDeposits.Savings.Transitions do
     |> Postings.payment_type_details(p, type_id)
     |> Validation.raise_if_errors!()
 
+    if Params.boolean(p, "postInterestValidationOnClosure") == true,
+      do: check_interest_posted!(account, on)
+
     {account, changes} = withdraw_balance!(user, account, p, on, withdraw == true)
     check_closable!(account, on)
 
@@ -301,6 +304,22 @@ defmodule ECBDeposits.Savings.Transitions do
       |> put_note(note)
 
     result(account, changes)
+  end
+
+  # asked for, the interest must have been posted on the day of closing
+  defp check_interest_posted!(account, on) do
+    unless TenantRepo.exists?(
+             from(t in "m_savings_account_transaction",
+               where:
+                 t.savings_account_id == ^account.id and t.transaction_type_enum == 3 and
+                   not t.is_reversed and t.transaction_date == ^on
+             )
+           ) do
+      raise DomainRuleViolation,
+        code: "error.msg.postInterest.notDone",
+        message: "Please do a post interest on the closing date",
+        args: []
+    end
   end
 
   # Fineract takes what is left out of the account first, then closes it

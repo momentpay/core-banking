@@ -19,12 +19,55 @@ defmodule ECBDeposits.Savings.Journal do
 
   @savings_reference 1
   @savings_control 2
+  @interest_on_savings 3
   @overdraft_control 11
+  @income_from_interest 12
+  @interest_payable 17
 
   @doc "Posts the entries of a deposit or a withdrawal: `tx` carries `id`, `type`, `date`, `amount`, `payment_detail_id` and, when the transaction takes the
   account into overdraft or pays it back, `overdraft`, the part of the amount that does."
   @spec post!(struct, map, map) :: :ok
   def post!(_user, %{accounting_type: rule}, _tx) when rule in [nil, 1], do: :ok
+
+  def post!(user, account, %{type: 3} = tx) do
+    accounts = accounts(account.product_id)
+    over = Map.get(tx, :overdraft, Decimal.new(0))
+    rest = Decimal.sub(tx.amount, over)
+
+    lines =
+      cond do
+        Decimal.lte?(tx.amount, 0) ->
+          []
+
+        Decimal.gt?(over, 0) ->
+          [
+            {@debit, accounts[@interest_on_savings], over},
+            {@credit, accounts[@overdraft_control], over}
+          ] ++
+            interest_rest(accounts, rest)
+
+        account.accounting_type in [3, 4] ->
+          [
+            {@debit, accounts[@interest_payable], tx.amount},
+            {@credit, accounts[@savings_control], tx.amount}
+          ]
+
+        true ->
+          interest_rest(accounts, tx.amount)
+      end
+
+    insert!(user, account, tx, lines)
+  end
+
+  # what an overdraft owes is charged to the savings reference account, as income from interest
+  def post!(user, account, %{type: 17} = tx) do
+    accounts = accounts(account.product_id)
+
+    insert!(user, account, tx, [
+      {@debit, accounts[@savings_reference], tx.amount},
+      {@credit, accounts[@income_from_interest], tx.amount}
+    ])
+  end
 
   def post!(user, account, tx) do
     accounts = accounts(account.product_id)
@@ -52,6 +95,16 @@ defmodule ECBDeposits.Savings.Journal do
 
     insert!(user, account, tx, lines)
   end
+
+  defp interest_rest(accounts, rest),
+    do:
+      if(Decimal.gt?(rest, 0),
+        do: [
+          {@debit, accounts[@interest_on_savings], rest},
+          {@credit, accounts[@savings_control], rest}
+        ],
+        else: []
+      )
 
   # what goes beyond the overdraft goes through the savings control account
   defp deposit_rest(fund, control, rest),
@@ -131,6 +184,25 @@ defmodule ECBDeposits.Savings.Journal do
 
     if mapped, do: mapped.account.id, else: accounts[@savings_reference]
   end
+
+  # a transaction made and reversed in one go leaves only the reverse of its entries: each pair of lines the other way
+  # round, the line that was the credit first
+  defp insert!(user, account, %{reversed: true} = tx, lines),
+    do:
+      insert!(
+        user,
+        account,
+        Map.delete(tx, :reversed),
+        lines |> Enum.chunk_every(2) |> Enum.flat_map(&flip_pair/1)
+      )
+
+  defp flip_pair(pair),
+    do:
+      pair
+      |> Enum.reverse()
+      |> Enum.map(fn {type, account_id, amount} ->
+        {if(type == @debit, do: @credit, else: @debit), account_id, amount}
+      end)
 
   defp insert!(user, account, tx, lines) do
     check_not_closed!(account.client_office_id, tx.date)

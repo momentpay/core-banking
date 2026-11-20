@@ -20,11 +20,13 @@ defmodule ECBApiFineract.Resources.SavingsAccounts do
     "approve" => "APPROVE",
     "undoapproval" => "APPROVALUNDO",
     "activate" => "ACTIVATE",
-    "close" => "CLOSE"
+    "close" => "CLOSE",
+    "calculateinterest" => "CALCULATEINTEREST",
+    "postinterest" => "POSTINTEREST"
   }
 
   # what Fineract has besides: refused, not taken for unknown ones
-  @not_built ~w(calculateinterest postinterest assignsavingsofficer unassignsavingsofficer blockdebit unblockdebit
+  @not_built ~w(assignsavingsofficer unassignsavingsofficer blockdebit unblockdebit
                 blockcredit unblockcredit block unblock)
 
   # what Fineract lists as the commands it knows, in its order
@@ -214,15 +216,22 @@ defmodule ECBApiFineract.Resources.SavingsAccounts do
   defp summary(a) do
     balance = a.account_balance_derived
     on_hold = a.on_hold_funds_derived || Decimal.new(0)
+    earned = nonzero(a.total_interest_earned_derived)
+    posted = a.total_interest_posted_derived || Decimal.new(0)
+    overdraft_interest = a.total_overdraft_interest_derived || Decimal.new(0)
 
     %{
       "currency" => currency(a),
-      "totalDeposits" => a.total_deposits_derived,
-      "totalWithdrawals" => a.total_withdrawals_derived,
+      "totalDeposits" => nonzero(a.total_deposits_derived),
+      "totalWithdrawals" => nonzero(a.total_withdrawals_derived),
+      "totalInterestEarned" => earned,
       "totalInterestPosted" => whole_zero(a.total_interest_posted_derived),
       "accountBalance" => balance,
       "totalOverdraftInterestDerived" => whole_zero(a.total_overdraft_interest_derived),
-      "interestNotPosted" => 0,
+      "interestNotPosted" =>
+        if(earned, do: earned |> Decimal.sub(posted) |> Decimal.add(overdraft_interest), else: 0),
+      "lastInterestCalculationDate" => earned && a.last_interest_calculation_date,
+      "interestPostedTillDate" => a.interest_posted_till_date,
       "availableBalance" => Decimal.sub(balance, on_hold)
     }
   end

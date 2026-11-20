@@ -5,13 +5,15 @@ defmodule ECBDeposits.Savings.Postings do
   `undoTransaction`, `reverseTransaction`, `adjustSavingsTransaction`), `SavingsAccountDomainServiceJpa` and the
   rules of `SavingsAccount.deposit` and `withdraw`.
 
-  An account that earns or owes interest is refused for now: Fineract calculates it after every transaction, and
-  that is the next slice. Must run inside a tenant scope.
+  Every change to the transactions of an account is followed, as in Fineract, by the working out of the interest
+  the account has earned and, when the change falls before interest already posted, by posting it again
+  (`ECBDeposits.Savings.Interest`). Must run inside a tenant scope.
   """
   import Ecto.Query
 
-  alias ECBDeposits.Savings.{Balance, Journal, Transactions, Transitions}
-  alias ECBPlatform.{BusinessDate, Integrity, Params, TenantRepo, Validation}
+  alias ECBDeposits.Savings.{Balance, Interest, Journal, Transactions, Transitions}
+  alias ECBDeposits.Savings.Interest.Calc
+  alias ECBPlatform.{BusinessDate, Configuration, Integrity, Params, TenantRepo, Validation}
   alias ECBPlatform.Commands.Result
   alias ECBPlatform.Errors
 
@@ -41,11 +43,10 @@ defmodule ECBDeposits.Savings.Postings do
   def deposit!(user, id, %Params{} = p) do
     req = request!(p)
     account = Transitions.account!(id)
-    refuse_interest!(account)
     {detail_id, changes} = payment_detail!(p)
 
     check_open!(account, req, p)
-    tx_id = insert_tx!(user, account, @deposit, req, detail_id)
+    tx_id = add_tx!(user, account, @deposit, req, detail_id)
     note!(user, account, tx_id, Params.string(p, "note"))
     result(account, tx_id, changes)
   end
@@ -56,11 +57,15 @@ defmodule ECBDeposits.Savings.Postings do
     req = request!(p)
     {detail_id, changes} = payment_detail!(p)
     account = Transitions.account!(id)
-    refuse_interest!(account)
 
     check_open!(account, req, p)
     check_lock_in!(account, req, p)
-    tx_id = withdraw_row!(user, account, req, detail_id, force?: force?, amount: req.amount)
+
+    tx_id =
+      add_tx!(user, account, @withdrawal, req, detail_id,
+        check: [force?: force?, amount: req.amount]
+      )
+
     note!(user, account, tx_id, Params.string(p, "note"))
     result(account, tx_id, changes)
   end
@@ -71,10 +76,8 @@ defmodule ECBDeposits.Savings.Postings do
   """
   @spec opening_deposit!(struct, map, Date.t(), Decimal.t()) :: :ok
   def opening_deposit!(user, account, on, amount) do
-    refuse_interest!(account)
-
     req = %{date: on, amount: amount, external_id: nil}
-    insert_tx!(user, account, @deposit, req, nil)
+    add_tx!(user, account, @deposit, req, nil)
     :ok
   end
 
@@ -84,13 +87,16 @@ defmodule ECBDeposits.Savings.Postings do
   """
   @spec closing_withdrawal!(struct, map, Params.t(), Date.t()) :: map
   def closing_withdrawal!(user, account, %Params{} = p, on) do
-    refuse_interest!(account)
     {detail_id, changes} = payment_detail!(p)
     req = %{date: on, amount: account.account_balance_derived, external_id: nil}
 
     check_open!(account, req, p)
     check_lock_in!(account, req, p)
-    withdraw_row!(user, account, req, detail_id, exception?: true, amount: req.amount)
+
+    add_tx!(user, account, @withdrawal, req, detail_id,
+      check: [exception?: true, amount: req.amount]
+    )
+
     changes
   end
 
@@ -99,16 +105,14 @@ defmodule ECBDeposits.Savings.Postings do
   def undo!(user, id, tx_id) do
     account = Transitions.account!(id)
     tx = Transactions.get(id, tx_id) || raise(Transactions.not_found(id, tx_id))
-    refuse_interest!(account)
     check_active_for!(account, "undotransaction")
 
-    if tx.is_reversed != true do
-      mark_reversed!(account, tx)
-      check_balance_after!(account, "undotransaction")
-      reverse_entries!(user, account, tx)
+    if tx.is_reversed == true do
+      check_balance_after!(account, Balance.live(account.id), "undotransaction")
+    else
+      remove_tx!(user, account, tx, "undotransaction", precision: 15)
     end
 
-    check_balance_after!(account, "undotransaction")
     result(account, id, %{})
   end
 
@@ -117,13 +121,14 @@ defmodule ECBDeposits.Savings.Postings do
   def reverse!(user, id, tx_id) do
     account = Transitions.account!(id)
     tx = live_tx!(id, tx_id)
-    refuse_interest!(account)
     check_active_for!(account, "undotransaction")
 
-    mark_reversed!(account, tx)
-    check_balance_after!(account, "undotransaction")
-    reversal_id = insert_reversal!(user, account, tx)
-    reverse_entries!(user, account, tx)
+    reversal_id =
+      remove_tx!(user, account, tx, "undotransaction",
+        precision: 15,
+        post_reversals: true,
+        reversal: true
+      )
 
     Result.new(
       resource_id: reversal_id,
@@ -144,18 +149,12 @@ defmodule ECBDeposits.Savings.Postings do
     req = request!(p)
     {detail_id, changes} = payment_detail!(p)
     account = Transitions.account!(id)
-    refuse_interest!(account)
     check_active_for!(account, "adjusttransaction")
 
-    mark_reversed!(account, tx)
     check_open!(account, req, p)
-
     if tx.transaction_type_enum == @withdrawal, do: check_lock_in!(account, req, p)
-    new_id = insert_tx!(user, account, tx.transaction_type_enum, req, detail_id, entries?: false)
 
-    check_balance_after!(account, "adjusttransaction")
-    reverse_entries!(user, account, tx)
-    post_entries!(user, account, new_id, tx.transaction_type_enum, req, detail_id)
+    new_id = replace_tx!(user, account, tx, req, detail_id)
     result(account, new_id, changes)
   end
 
@@ -257,16 +256,6 @@ defmodule ECBDeposits.Savings.Postings do
 
   # --- the rules of the account ---------------------------------------------------------------------
 
-  defp refuse_interest!(account) do
-    if Balance.interest_bearing?(account) do
-      raise DomainRuleViolation,
-        code: "error.msg.savingsaccount.feature.not.supported.yet",
-        message:
-          "Money in and out of an account that earns or owes interest is not supported yet by E-CoreBank",
-        args: ["nominalAnnualInterestRate"]
-    end
-  end
-
   # what `SavingsAccount.deposit` and `withdraw` ask before anything else: an active account, a date in the past and
   # not before the account was activated
   defp check_open!(account, req, p) do
@@ -366,69 +355,182 @@ defmodule ECBDeposits.Savings.Postings do
     end
   end
 
-  # a withdrawal is first tried against the rules for the balance
-  defp withdraw_row!(user, account, req, detail_id, opts) do
-    live =
-      Balance.live(account.id) ++
-        [%{id: :infinity, type: @withdrawal, date: req.date, amount: req.amount}]
-
-    Balance.check!(account, Enum.sort_by(live, &{&1.date, &1.id}), opts)
-    insert_tx!(user, account, @withdrawal, req, detail_id)
+  @doc """
+  Writes the plan of a command that changes no transaction (working interest out, or posting it): the postings it
+  reverses and makes, and their entries in the books. Answers with `Interest.apply!/3`'s answer.
+  """
+  @spec settle!(struct, map, Interest.plan()) :: %{reversed: [map], created: [map]}
+  def settle!(user, account, plan) do
+    applied = Interest.apply!(user, account, plan)
+    book!(user, account, applied, [], [])
+    applied
   end
 
-  defp insert_tx!(user, account, type, req, detail_id, opts \\ []) do
-    now = DateTime.utc_now()
+  # the id a transaction that is not stored yet takes in the lists the interest is planned on
+  @pending_id 1_000_000_000_000_000
 
-    id =
-      Integrity.translate(
-        fn ->
-          {1, [%{id: id}]} =
-            TenantRepo.insert_all(
-              "m_savings_account_transaction",
-              [
-                %{
-                  savings_account_id: account.id,
-                  office_id: account.client_office_id,
-                  payment_detail_id: detail_id,
-                  transaction_type_enum: type,
-                  is_reversed: false,
-                  transaction_date: req.date,
-                  amount: req.amount,
-                  created_date: NaiveDateTime.utc_now(),
-                  created_by: user.id,
-                  is_manual: false,
-                  ref_no: Ecto.UUID.generate(),
-                  is_reversal: false,
-                  is_lien_transaction: false,
-                  submitted_on_date: BusinessDate.current(),
-                  last_modified_by: user.id,
-                  created_on_utc: now,
-                  last_modified_on_utc: now,
-                  external_id: req.external_id
-                }
-              ],
-              returning: [:id]
-            )
+  # Adds a transaction. What it leaves is planned first (the interest earned and the postings made again), the
+  # balance rules are asked, and then it is written, followed by the postings and the entries in the books
+  # (the reversed postings first, as Fineract lists them, then the transaction, then the new postings).
+  defp add_tx!(user, account, type, req, detail_id, opts \\ []) do
+    entry = pending(type, req)
+    live = Balance.live(account.id) ++ [entry]
+    plan = Interest.plan(account, live, plan_opts([req.date], 16))
+    if opts[:check], do: Balance.check!(account, plan.live_after, opts[:check])
 
-          id
-        end,
-        %{
-          "uk_m_sat_external_id" =>
-            {"error.msg.data.integrity.issue",
-             "ERROR: duplicate key value violates unique constraint \"uk_m_sat_external_id\"\n  Detail: Key (external_id)=(#{req.external_id}) already exists.",
-             nil, []}
-        },
-        {"error.msg.data.integrity.issue",
-         "Data integrity issue with a savings account transaction."}
+    id = insert_row!(user, account, type, req, detail_id)
+    applied = Interest.apply!(user, account, plan)
+    book!(user, account, applied, [], [{id, type, req, detail_id}])
+    id
+  end
+
+  # Takes a transaction away (undo or reverse): the balance rules are asked on what is left, the transaction is
+  # marked reversed and, for a reversal, the reversal is put in its place after the postings are made again.
+  defp remove_tx!(user, account, tx, action, opts) do
+    live = Enum.reject(Balance.live(account.id), &(&1.id == tx.id))
+    dates = if post_calculation?(tx), do: [tx.transaction_date], else: []
+
+    plan =
+      Interest.plan(
+        account,
+        live,
+        plan_opts(dates, opts[:precision], post_reversals: opts[:post_reversals] == true)
       )
 
-    Balance.refresh!(account.id)
+    check_balance_after!(account, plan.live_after, action)
 
-    if Keyword.get(opts, :entries?, true),
-      do: post_entries!(user, account, id, type, req, detail_id)
+    TenantRepo.update_all(from(t in "m_savings_account_transaction", where: t.id == ^tx.id),
+      set: [is_reversed: true]
+    )
+
+    # Fineract saves the reversal of the transaction after the postings of interest made again
+    applied = Interest.apply!(user, account, plan)
+    reversal_id = if opts[:reversal], do: insert_reversal!(user, account, tx)
+    book!(user, account, applied, [flip(tx)], [])
+    reversal_id
+  end
+
+  # Changes a transaction: the old one goes, the new one comes, the interest is planned on what that leaves
+  defp replace_tx!(user, account, tx, req, detail_id) do
+    type = tx.transaction_type_enum
+    live = Enum.reject(Balance.live(account.id), &(&1.id == tx.id)) ++ [pending(type, req)]
+    plan = Interest.plan(account, live, plan_opts([req.date, tx.transaction_date], 10))
+
+    TenantRepo.update_all(from(t in "m_savings_account_transaction", where: t.id == ^tx.id),
+      set: [is_reversed: true]
+    )
+
+    # Fineract saves the new transaction before it asks the balance rules, so a refusal uses an id up
+    id = insert_row!(user, account, type, req, detail_id)
+    check_balance_after!(account, plan.live_after, "adjusttransaction")
+    applied = Interest.apply!(user, account, plan)
+    book!(user, account, applied, [flip(tx)], [{id, type, req, detail_id}])
+    id
+  end
+
+  defp pending(type, req),
+    do: %{
+      id: @pending_id,
+      type: type,
+      date: req.date,
+      amount: req.amount,
+      manual: false,
+      overdraft: nil
+    }
+
+  defp plan_opts(dates, precision, extra \\ []),
+    do:
+      Keyword.merge(
+        [dates: dates, precision: precision, post_reversals: post_reversals?()],
+        extra
+      )
+
+  defp post_reversals?,
+    do:
+      match?(
+        %{enabled: true},
+        Configuration.get("enable-post-reversal-txns-for-reverse-transactions")
+      )
+
+  # deposits, withdrawals, charges, dividends and postings of interest make interest to be worked out again
+  defp post_calculation?(tx), do: tx.transaction_type_enum in [1, 2, 3, 4, 5, 7, 8]
+
+  defp flip(tx), do: %{id: tx.id, date: tx[:transaction_date] || tx.date}
+
+  # The entries in the books of a change: those of what was reversed are posted the other way (in the order Fineract
+  # lists transactions: by date, then id), then those of the transactions added, then those of the postings made.
+  defp book!(user, account, applied, reversed, added) do
+    reversed =
+      Enum.sort_by(
+        reversed ++ Enum.map(applied.reversed, &flip/1),
+        &{Date.to_gregorian_days(&1.date), &1.id}
+      )
+
+    for tx <- reversed, do: Journal.reverse!(user, account, tx.id)
+
+    for {id, type, req, detail_id} <- added,
+        do: post_entries!(user, account, id, type, req, detail_id)
+
+    for row <- applied.created do
+      Journal.post!(user, account, %{
+        id: row.id,
+        type: row.type,
+        date: row.date,
+        amount: row.amount,
+        payment_detail_id: row.payment_detail_id,
+        reversed: row.reversed?,
+        overdraft: row.overdraft || overdraft_part(row.id, row.type, row.amount)
+      })
+    end
 
     touch_account!(user, account)
-    id
+  end
+
+  # the row of a transaction (the derived columns are worked out by `Interest.apply!`)
+  defp insert_row!(user, account, type, req, detail_id) do
+    now = DateTime.utc_now()
+
+    Integrity.translate(
+      fn ->
+        {1, [%{id: id}]} =
+          TenantRepo.insert_all(
+            "m_savings_account_transaction",
+            [
+              %{
+                savings_account_id: account.id,
+                office_id: account.client_office_id,
+                payment_detail_id: detail_id,
+                transaction_type_enum: type,
+                is_reversed: false,
+                transaction_date: req.date,
+                amount: req.amount,
+                created_date: NaiveDateTime.utc_now(),
+                created_by: user.id,
+                is_manual: false,
+                ref_no: Ecto.UUID.generate(),
+                is_reversal: false,
+                is_lien_transaction: false,
+                submitted_on_date: BusinessDate.current(),
+                last_modified_by: user.id,
+                created_on_utc: now,
+                last_modified_on_utc: now,
+                external_id: req.external_id
+              }
+            ],
+            returning: [:id]
+          )
+
+        id
+      end,
+      %{
+        "uk_m_sat_external_id" =>
+          {"error.msg.data.integrity.issue",
+           "ERROR: duplicate key value violates unique constraint \"uk_m_sat_external_id\"\n  Detail: Key (external_id)=(#{req.external_id}) already exists.",
+           nil, []}
+      },
+      {"error.msg.data.integrity.issue",
+       "Data integrity issue with a savings account transaction."}
+    )
   end
 
   defp post_entries!(user, account, id, type, req, detail_id) do
@@ -453,10 +555,10 @@ defmodule ECBDeposits.Savings.Postings do
         )
       )
 
-    case {type, balance} do
+    case {Calc.direction(type), balance} do
       {_, nil} -> Decimal.new(0)
-      {1, after_} -> part(Decimal.sub(after_, amount), amount)
-      {2, after_} -> part(after_, amount)
+      {:credit, after_} -> part(Decimal.sub(after_, amount), amount)
+      {:debit, after_} -> part(after_, amount)
     end
   end
 
@@ -467,21 +569,6 @@ defmodule ECBDeposits.Savings.Postings do
         do: Decimal.min(amount, Decimal.negate(balance)),
         else: Decimal.new(0)
       )
-
-  # the transaction counts for nothing from now on
-  defp mark_reversed!(account, tx) do
-    TenantRepo.update_all(from(t in "m_savings_account_transaction", where: t.id == ^tx.id),
-      set: [is_reversed: true]
-    )
-
-    Balance.refresh!(account.id)
-  end
-
-  # and its entries in the books are posted the other way
-  defp reverse_entries!(user, account, tx) do
-    Journal.reverse!(user, account, tx.id)
-    touch_account!(user, account)
-  end
 
   defp insert_reversal!(user, account, tx) do
     now = DateTime.utc_now()
@@ -518,8 +605,8 @@ defmodule ECBDeposits.Savings.Postings do
   end
 
   # an undone or changed transaction must not leave the account with less than it may have
-  defp check_balance_after!(account, action) do
-    Balance.check!(account, Balance.live(account.id), amount: nil)
+  defp check_balance_after!(account, live, action) do
+    Balance.check!(account, live, amount: nil)
   rescue
     DomainRuleViolation -> Balance.going_negative!(action)
   end

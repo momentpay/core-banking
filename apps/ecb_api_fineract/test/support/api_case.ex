@@ -62,6 +62,8 @@ defmodule ECBApiFineract.ApiCase do
           "UPDATE c_configuration SET enabled = false WHERE id = 44",
           "UPDATE c_configuration SET enabled = false WHERE id IN (6, 7, 8)",
           "UPDATE c_configuration SET enabled = true WHERE id = 45",
+          "UPDATE c_configuration SET enabled = false WHERE id = 15",
+          "UPDATE c_configuration SET enabled = true, value = 1 WHERE id = 16",
           "DELETE FROM m_business_date",
           "DELETE FROM job_run_history",
           "UPDATE job SET previous_run_start_time = NULL, next_run_time = NULL, currently_running = false",

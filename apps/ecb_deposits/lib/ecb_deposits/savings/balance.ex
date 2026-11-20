@@ -7,15 +7,19 @@ defmodule ECBDeposits.Savings.Balance do
   """
   import Ecto.Query
 
+  alias ECBDeposits.Savings.Interest.Calc
   alias ECBPlatform.{Configuration, TenantRepo}
   alias ECBPlatform.Errors.DomainRuleViolation
 
   @deposit 1
   @withdrawal 2
+  @interest_posting 3
+  @dividend 8
+  @overdraft_interest 17
 
   @doc """
-  The live transactions of the account (those not reversed and not reversals) as `%{id, type, date, amount}`,
-  in the order of their dates and then their ids.
+  The live transactions of the account (those not reversed and not reversals) as `%{id, type, date, amount, manual,
+  overdraft, payment_detail_id, ref_no}`, in the order of their dates and then their ids.
   """
   @spec live(integer) :: [map]
   def live(account_id) do
@@ -26,7 +30,11 @@ defmodule ECBDeposits.Savings.Balance do
         id: t.id,
         type: t.transaction_type_enum,
         date: t.transaction_date,
-        amount: t.amount
+        amount: t.amount,
+        manual: t.is_manual,
+        overdraft: t.overdraft_amount_derived,
+        payment_detail_id: t.payment_detail_id,
+        ref_no: t.ref_no
       }
     )
     |> TenantRepo.all()
@@ -34,28 +42,19 @@ defmodule ECBDeposits.Savings.Balance do
 
   @doc "The balance after each transaction, as `[{transaction, balance}]`, for a list in the order they happened."
   @spec running([map]) :: [{map, Decimal.t()}]
-  def running(transactions) do
-    {rows, _} =
-      Enum.map_reduce(transactions, Decimal.new(0), fn tx, balance ->
-        balance = apply_tx(balance, tx)
-        {{tx, balance}, balance}
-      end)
-
-    rows
-  end
-
-  defp apply_tx(balance, %{type: @deposit, amount: amount}), do: Decimal.add(balance, amount)
-  defp apply_tx(balance, %{type: @withdrawal, amount: amount}), do: Decimal.sub(balance, amount)
+  def running(transactions), do: Calc.running(transactions)
 
   @doc """
   Works the totals and balances out again from the account's transactions and stores them: the running balance
-  of every live transaction (a reversed one has none), the totals of deposits and withdrawals (left alone until the
+  of every live transaction (a reversed one has none), the part of each that was overdrawn, the totals of deposits,
+  withdrawals, interest posted and overdraft interest (those of deposits and withdrawals are left alone until the
   account has had one of that kind) and the balance of the account.
   """
   @spec refresh!(integer) :: :ok
   def refresh!(account_id) do
     live = live(account_id)
     rows = running(live)
+    overdrafts = Calc.overdrafts(live)
 
     TenantRepo.update_all(
       from(t in "m_savings_account_transaction", where: t.savings_account_id == ^account_id),
@@ -64,15 +63,27 @@ defmodule ECBDeposits.Savings.Balance do
 
     for {tx, balance} <- rows do
       TenantRepo.update_all(from(t in "m_savings_account_transaction", where: t.id == ^tx.id),
-        set: [running_balance_derived: balance]
+        set: [running_balance_derived: balance, overdraft_amount_derived: overdrafts[tx.id]]
       )
     end
 
-    deposits = sum(live, @deposit)
-    withdrawals = sum(live, @withdrawal)
+    deposits = sum(live, [@deposit, @dividend])
+    withdrawals = sum(live, [@withdrawal])
+    posted = sum(live, [@interest_posting])
+    overdraft_interest = sum(live, [@overdraft_interest])
+
+    balance =
+      deposits
+      |> Decimal.add(posted)
+      |> Decimal.sub(withdrawals)
+      |> Decimal.sub(overdraft_interest)
 
     set =
-      [account_balance_derived: Decimal.sub(deposits, withdrawals)]
+      [
+        account_balance_derived: balance,
+        total_interest_posted_derived: posted,
+        total_overdraft_interest_derived: overdraft_interest
+      ]
       |> put_total(:total_deposits_derived, account_id, @deposit, deposits)
       |> put_total(:total_withdrawals_derived, account_id, @withdrawal, withdrawals)
 
@@ -80,10 +91,10 @@ defmodule ECBDeposits.Savings.Balance do
     :ok
   end
 
-  defp sum(live, type),
+  defp sum(live, types),
     do:
       live
-      |> Enum.filter(&(&1.type == type))
+      |> Enum.filter(&(&1.type in types))
       |> Enum.reduce(Decimal.new(0), &Decimal.add(&1.amount, &2))
 
   # a total is first written when the account has a transaction of that kind, reversed or not
@@ -118,7 +129,8 @@ defmodule ECBDeposits.Savings.Balance do
       else
         not exception? and
           Enum.any?(rows, fn {tx, balance} ->
-            tx.type == @withdrawal and below?(balance, minimum) and not forced?(force?, balance)
+            Calc.direction(tx.type) == :debit and below?(balance, minimum) and
+              not forced?(force?, balance)
           end)
       end
 
@@ -170,15 +182,4 @@ defmodule ECBDeposits.Savings.Balance do
     |> ECBPlatform.Validation.fail_without_parameter("results.in.balance.going.negative")
     |> ECBPlatform.Validation.raise_if_errors!()
   end
-
-  @doc "Whether the account earns, or owes, interest, which is not built yet."
-  @spec interest_bearing?(map) :: boolean
-  def interest_bearing?(account) do
-    positive?(account.nominal_annual_interest_rate) or
-      (account.allow_overdraft == true and
-         positive?(account.nominal_annual_interest_rate_overdraft))
-  end
-
-  defp positive?(nil), do: false
-  defp positive?(%Decimal{} = d), do: Decimal.gt?(d, 0)
 end

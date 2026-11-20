@@ -25,12 +25,15 @@ defmodule ECBDeposits.Application do
     {"SAVINGSACCOUNT", "FORCE_WITHDRAWAL", ECBDeposits.Handlers.SavingsAccount},
     {"SAVINGSACCOUNT", "UNDOTRANSACTION", ECBDeposits.Handlers.SavingsAccount},
     {"SAVINGSACCOUNT", "REVERSETRANSACTION", ECBDeposits.Handlers.SavingsAccount},
-    {"SAVINGSACCOUNT", "ADJUSTTRANSACTION", ECBDeposits.Handlers.SavingsAccount}
+    {"SAVINGSACCOUNT", "ADJUSTTRANSACTION", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "CALCULATEINTEREST", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "POSTINTEREST", ECBDeposits.Handlers.SavingsAccount}
   ]
 
   @impl true
   def start(_type, _args) do
     for {entity, action, handler} <- @commands, do: Handlers.register(entity, action, handler)
+    ECBPlatform.Jobs.register("SA_PINT", ECBDeposits.Savings.PostInterestJob)
 
     Supervisor.start_link([], strategy: :one_for_one, name: ECBDeposits.Supervisor)
   end

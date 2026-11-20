@@ -77,6 +77,7 @@ defmodule ECBApiFineract.JobsTest do
       assert Scheduler.run_due(~N[2024-05-02 00:01:30]) == [
                {"apitest", "LA_UNPA"},
                {"apitest", "LA_ARAG"},
+               {"apitest", "SA_PINT"},
                {"apitest", "LA_OPEN"},
                {"apitest", "LA_DECL"},
                {"apitest", "ACC_AATR"}
@@ -92,6 +93,7 @@ defmodule ECBApiFineract.JobsTest do
       assert Scheduler.run_due(~N[2024-05-09 08:00:00]) == [
                {"apitest", "LA_UNPA"},
                {"apitest", "LA_ARAG"},
+               {"apitest", "SA_PINT"},
                {"apitest", "LA_OPEN"},
                {"apitest", "LA_DECL"},
                {"apitest", "ACC_AATR"},

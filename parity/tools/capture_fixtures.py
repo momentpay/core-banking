@@ -156,6 +156,8 @@ RESETS = {
         "UPDATE c_configuration SET enabled = false, value = 3 WHERE id = 62",
         "UPDATE c_configuration SET enabled = false WHERE id = 44",
         "UPDATE c_configuration SET enabled = true WHERE id = 45",
+        "UPDATE c_configuration SET enabled = false WHERE id = 15",
+        "UPDATE c_configuration SET enabled = true, value = 1 WHERE id = 16",
         "DELETE FROM m_business_date",
         "UPDATE m_password_validation_policy SET active = (id = 3)",
         "UPDATE m_permission SET can_maker_checker = false WHERE code IN ('CREATE_OFFICE', 'UPDATE_OFFICE', 'CREATE_CLIENT', 'DELETE_FUND', 'CREATE_FUND')",
