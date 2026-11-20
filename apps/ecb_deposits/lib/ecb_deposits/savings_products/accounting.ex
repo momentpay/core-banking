@@ -111,15 +111,17 @@ defmodule ECBDeposits.SavingsProducts.Accounting do
   (after checking the request names every account the new rule needs); otherwise the accounts named change
   one by one. Answers what to add to the response's `changes`.
   """
-  @spec update!(integer, Params.t(), integer, boolean) :: map
-  def update!(product_id, %Params{} = p, rule, true = _rule_changed) do
-    check_rule_change!(p, rule)
+  @spec update!(integer, Params.t(), integer, boolean, :savings | :deposit) :: map
+  def update!(product_id, p, rule, rule_changed, kind \\ :savings)
+
+  def update!(product_id, %Params{} = p, rule, true = _rule_changed, kind) do
+    check_rule_change!(p, rule, kind)
     ProductMappings.delete_all!(@saving, product_id)
     create!(product_id, p, rule)
     new_mapping_changes(p, rule)
   end
 
-  def update!(product_id, %Params{} = p, rule, false = _rule_changed) do
+  def update!(product_id, %Params{} = p, rule, false = _rule_changed, _kind) do
     changes = merge_changes(product_id, p, rule, %{})
 
     changes
@@ -128,7 +130,7 @@ defmodule ECBDeposits.SavingsProducts.Accounting do
   end
 
   # the full set of accounts a new rule needs; Fineract checks only some of them for accruals
-  defp check_rule_change!(p, rule) do
+  defp check_rule_change!(p, rule, kind) do
     v = Validation.new("savingsproduct")
 
     v =
@@ -137,23 +139,27 @@ defmodule ECBDeposits.SavingsProducts.Accounting do
       |> Validation.not_null()
       |> Validation.in_range(1, 3)
 
-    v = if rule == 2, do: rule_accounts(v, p, true), else: v
+    v = if rule == 2, do: rule_accounts(v, p, kind), else: v
     v = if rule in [3, 4], do: accrual_accounts(v, p), else: v
     Validation.raise_if_errors!(v)
   end
 
-  defp rule_accounts(v, p, dormancy?) do
+  # a deposit product has no overdraft and no dormancy: only the base accounts
+  defp rule_accounts(v, p, kind) do
     ~w(savingsControlAccountId savingsReferenceAccountId transfersInSuspenseAccountId
        interestOnSavingsAccountId incomeFromFeeAccountId incomeFromPenaltyAccountId)
     |> required(v, p)
     |> then(fn v ->
-      if dormancy? and Params.boolean(p, "isDormancyTrackingActive") == true,
+      if kind == :savings and Params.boolean(p, "isDormancyTrackingActive") == true,
         do: required(["escheatLiabilityId"], v, p),
         else: v
     end)
-    |> then(
-      &required(~w(overdraftPortfolioControlId incomeFromInterestId writeOffAccountId), &1, p)
-    )
+    |> then(fn v ->
+      if kind == :savings,
+        do:
+          required(~w(overdraftPortfolioControlId incomeFromInterestId writeOffAccountId), v, p),
+        else: v
+    end)
   end
 
   defp accrual_accounts(v, p),

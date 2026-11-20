@@ -19,6 +19,42 @@ defmodule ECBDeposits.Handlers do
       do: {:ok, Write.delete!(command.entity_id)}
   end
 
+  defmodule FixedDepositProduct do
+    @moduledoc "Every action on `FIXEDDEPOSITPRODUCT`: create, update and delete."
+    @behaviour ECBPlatform.Commands.Handler
+
+    alias ECBDeposits.DepositProducts.Write
+    alias ECBPlatform.Params
+
+    @impl true
+    def process(%{action_name: "CREATE"} = command, _user),
+      do: {:ok, Write.create!(:fixed, Params.parse!(command.json))}
+
+    def process(%{action_name: "UPDATE"} = command, _user),
+      do: {:ok, Write.update!(:fixed, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "DELETE"} = command, _user),
+      do: {:ok, Write.delete!(:fixed, command.entity_id)}
+  end
+
+  defmodule RecurringDepositProduct do
+    @moduledoc "Every action on `RECURRINGDEPOSITPRODUCT`: create, update and delete."
+    @behaviour ECBPlatform.Commands.Handler
+
+    alias ECBDeposits.DepositProducts.Write
+    alias ECBPlatform.Params
+
+    @impl true
+    def process(%{action_name: "CREATE"} = command, _user),
+      do: {:ok, Write.create!(:recurring, Params.parse!(command.json))}
+
+    def process(%{action_name: "UPDATE"} = command, _user),
+      do: {:ok, Write.update!(:recurring, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "DELETE"} = command, _user),
+      do: {:ok, Write.delete!(:recurring, command.entity_id)}
+  end
+
   defmodule SavingsAccount do
     @moduledoc """
     Every action on `SAVINGSACCOUNT` so far: apply, change and delete an application, approve it, take the approval

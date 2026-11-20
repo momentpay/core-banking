@@ -139,26 +139,30 @@ defmodule ECBDeposits.SavingsProducts.Validate do
   defp read(p, key, :integer), do: Params.integer(p, key)
   defp read(p, key, :decimal), do: Params.decimal_with_locale(p, key)
 
-  defp present(v, p, key, checks, kind) do
+  @doc false
+  def present(v, p, key, checks, kind) do
     if Params.exists?(p, key),
       do: v |> Validation.param(key, read(p, key, kind)) |> checks.(),
       else: v
   end
 
-  defp update_enum(v, p, key, checks) do
+  @doc false
+  def update_enum(v, p, key, checks) do
     if Params.exists?(p, key),
       do: v |> Validation.param(key, Params.integer(p, key)) |> checks.(),
       else: v
   end
 
-  defp enum_param(v, p, key, ids) do
+  @doc false
+  def enum_param(v, p, key, ids) do
     v
     |> Validation.param(key, Params.integer(p, key))
     |> Validation.not_null()
     |> Validation.one_of(ids)
   end
 
-  defp in_multiples_of(v, p) do
+  @doc false
+  def in_multiples_of(v, p) do
     if Params.exists?(p, "inMultiplesOf") do
       v
       |> Validation.param("inMultiplesOf", Params.integer_in_default_locale(p, "inMultiplesOf"))
@@ -199,7 +203,8 @@ defmodule ECBDeposits.SavingsProducts.Validate do
   end
 
   # the lock-in period and its unit go together on create; on update each is checked on its own
-  defp lockin(v, p, :create) do
+  @doc false
+  def lockin(v, p, :create) do
     v =
       if Params.exists?(p, "lockinPeriodFrequency") do
         frequency = Params.integer_with_locale(p, "lockinPeriodFrequency")
@@ -244,7 +249,7 @@ defmodule ECBDeposits.SavingsProducts.Validate do
     end
   end
 
-  defp lockin(v, p, :update) do
+  def lockin(v, p, :update) do
     v =
       if Params.exists?(p, "lockinPeriodFrequency") do
         v
@@ -429,7 +434,8 @@ defmodule ECBDeposits.SavingsProducts.Validate do
   defp accounting_accounts(v, _p, _rule, _dormancy?, _required?), do: v
 
   # each account must be a positive id; on create every one must be named, on update only those that are
-  defp accounts(v, p, keys, required?) do
+  @doc false
+  def accounts(v, p, keys, required?) do
     Enum.reduce(keys, v, fn key, v ->
       if required? or Params.exists?(p, key) do
         v
@@ -442,7 +448,8 @@ defmodule ECBDeposits.SavingsProducts.Validate do
     end)
   end
 
-  defp payment_channels(v, p) do
+  @doc false
+  def payment_channels(v, p) do
     case Params.value(p, "paymentChannelToFundSourceMappings") do
       [_ | _] = mappings ->
         mappings
@@ -469,7 +476,8 @@ defmodule ECBDeposits.SavingsProducts.Validate do
   end
 
   # Fineract checks the penalty mappings twice and the fee mappings never
-  defp charge_mappings(v, p) do
+  @doc false
+  def charge_mappings(v, p) do
     v
     |> charge_mapping(p, "penaltyToIncomeAccountMappings")
     |> charge_mapping(p, "penaltyToIncomeAccountMappings")
@@ -555,7 +563,8 @@ defmodule ECBDeposits.SavingsProducts.Validate do
     end
   end
 
-  defp tax_withholding(v, p, mode) do
+  @doc false
+  def tax_withholding(v, p, mode) do
     v =
       if Params.exists?(p, "withHoldTax"),
         do:

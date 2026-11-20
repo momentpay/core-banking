@@ -39,7 +39,8 @@ defmodule ECBDeposits.SavingsProducts.Write do
     Result.new(resource_id: id)
   end
 
-  defp new_row(p, currency_code, rule) do
+  @doc false
+  def new_row(p, currency_code, rule) do
     digits = Params.integer_with_locale(p, "digitsAfterDecimal")
     allow_overdraft = flag(p, "allowOverdraft")
     lockin_frequency = zero_to_nil(Params.integer_with_locale(p, "lockinPeriodFrequency"))
@@ -96,13 +97,15 @@ defmodule ECBDeposits.SavingsProducts.Write do
       else: Decimal.new(0)
   end
 
-  defp flag(p, key), do: Params.boolean(p, key) == true
+  @doc false
+  def flag(p, key), do: Params.boolean(p, key) == true
 
-  defp zero_to_nil(nil), do: nil
-  defp zero_to_nil(0), do: nil
+  @doc false
+  def zero_to_nil(nil), do: nil
+  def zero_to_nil(0), do: nil
 
-  defp zero_to_nil(%Decimal{} = d), do: if(Decimal.equal?(d, 0), do: nil, else: d)
-  defp zero_to_nil(other), do: other
+  def zero_to_nil(%Decimal{} = d), do: if(Decimal.equal?(d, 0), do: nil, else: d)
+  def zero_to_nil(other), do: other
 
   defp round_to(nil, _digits), do: nil
   defp round_to(value, digits), do: Decimal.round(value, digits, :half_even)
@@ -125,7 +128,8 @@ defmodule ECBDeposits.SavingsProducts.Write do
   # --- charges and tax group ---------------------------------------------------------------------
 
   # the charges named in the request (by `id`) as ids, each of which must suit a savings product in the currency
-  defp charges!(p, currency_code) do
+  @doc false
+  def charges!(p, currency_code) do
     case Params.value(p, "charges") do
       list when is_list(list) ->
         for %{"id" => raw} <- list,
@@ -182,7 +186,8 @@ defmodule ECBDeposits.SavingsProducts.Write do
     end
   end
 
-  defp tax_group!(p) do
+  @doc false
+  def tax_group!(p) do
     case Json.long(p, "taxGroupId") do
       nil -> nil
       id -> existing_tax_group!(id)
@@ -201,7 +206,8 @@ defmodule ECBDeposits.SavingsProducts.Write do
   end
 
   # a lock-in period needs its unit, and a unit needs a period
-  defp check_lockin!(frequency, type) do
+  @doc false
+  def check_lockin!(frequency, type) do
     Validation.new(@resource)
     |> lockin_problems(frequency, type)
     |> Validation.raise_if_errors!()
@@ -240,7 +246,8 @@ defmodule ECBDeposits.SavingsProducts.Write do
 
   # Fineract looks for its own constraint names in the database's message, which PostgreSQL's names never
   # contain, so a duplicate name or short name is an unknown data-integrity problem there too.
-  defp guard(_p, fun) do
+  @doc false
+  def guard(_p, fun) do
     Integrity.translate(
       fun,
       %{},
@@ -274,15 +281,34 @@ defmodule ECBDeposits.SavingsProducts.Write do
       days_to_escheat: state.days_to_escheat
     })
 
+    {changes, state} = change!(id, p, state)
+
+    rule_changed? = Map.has_key?(changes, "accountingRule")
+    mapping_changes = Accounting.update!(id, p, state.accounting_type, rule_changed?)
+
+    Result.new(resource_id: id, changes: Map.merge(changes, mapping_changes))
+  end
+
+  @doc false
+  # What a request changes in the product itself (not its accounting), stored; answers the changes and the state.
+  @spec change!(integer, Params.t(), map) :: {map, map}
+  def change!(id, %Params{} = p, state), do: id |> change_start(p, state) |> change_finish!(id)
+
+  @doc false
+  # The changes the request makes to the fields of the product, before its charges and tax group are looked up.
+  @spec change_start(integer, Params.t(), map) :: map
+  def change_start(_id, %Params{} = p, state) do
     acc = %{p: p, changes: %{}, set: [], state: state, locale: Params.locale(p) || ""}
     acc = apply_changes(acc)
     check_lockin!(acc.state.lockin_period_frequency, acc.state.lockin_period_frequency_enum)
+    acc
+  end
 
+  @doc false
+  # Looks up the charges and the tax group the change names and stores the product.
+  @spec change_finish!(map, integer) :: {map, map}
+  def change_finish!(acc, id) do
     {changes, state} = charges_and_tax!(acc, id)
-
-    rule_changed? = Map.has_key?(acc.changes, "accountingRule")
-    mapping_changes = Accounting.update!(id, p, state.accounting_type, rule_changed?)
-    changes = Map.merge(changes, mapping_changes)
 
     set =
       acc.set
@@ -290,19 +316,21 @@ defmodule ECBDeposits.SavingsProducts.Write do
       |> Enum.uniq_by(&elem(&1, 0))
       |> Keyword.merge(state_columns(state))
 
-    unless set == [], do: store!(p, id, set)
-
-    Result.new(resource_id: id, changes: changes)
+    unless set == [], do: store!(acc.p, id, set)
+    {changes, state}
   end
 
-  defp stored!(id) do
+  @doc false
+  # The product as stored, to be changed, or the error for one that does not exist.
+  @spec stored!(integer, integer, (-> Exception.t())) :: map
+  def stored!(id, type \\ @savings_deposit, not_found \\ nil) do
     row =
       TenantRepo.one(
         from(sp in "m_savings_product",
-          where: sp.id == ^id and sp.deposit_type_enum == ^@savings_deposit,
+          where: sp.id == ^id and sp.deposit_type_enum in ^List.wrap(type),
           select: map(sp, ^@columns)
         )
-      ) || raise SavingsProducts.not_found(id)
+      ) || raise(if(not_found, do: not_found.(), else: SavingsProducts.not_found(id)))
 
     Map.update!(row, :lockin_period_frequency, &SavingsProducts.whole/1)
   end

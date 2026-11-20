@@ -324,6 +324,20 @@
         "m_savings_account_transaction_tax_details",
         "m_savings_officer_assignment_history"
       ]
+    },
+    {
+      "kind": "schema",
+      "app": "ecb_deposits",
+      "version": "20261121100000",
+      "name": "create_deposit_product_tables",
+      "tables": [
+        "m_deposit_product_term_and_preclosure",
+        "m_deposit_product_recurring_detail",
+        "m_interest_rate_chart",
+        "m_interest_rate_slab",
+        "m_interest_incentives",
+        "m_deposit_product_interest_rate_chart"
+      ]
     }
   ],
   "deferred_foreign_keys": [

@@ -23,6 +23,7 @@ defmodule ECBApiFineract.ApiRouter do
     Clients,
     Codes,
     Delinquency,
+    DepositProducts,
     FamilyMembers,
     FinancialActivityAccounts,
     FloatingRates,
@@ -173,6 +174,20 @@ defmodule ECBApiFineract.ApiRouter do
   post "/v1/clients/:id", do: Clients.command(conn, id)
   put "/v1/clients/:id", do: Clients.update(conn, id)
   delete "/v1/clients/:id", do: Clients.delete(conn, id)
+  get "/v1/fixeddepositproducts/template", do: DepositProducts.template(conn, :fixed)
+  get "/v1/fixeddepositproducts", do: DepositProducts.index(conn, :fixed)
+  post "/v1/fixeddepositproducts", do: DepositProducts.create(conn, :fixed)
+  get "/v1/fixeddepositproducts/:id", do: DepositProducts.show(conn, :fixed, id)
+  put "/v1/fixeddepositproducts/:id", do: DepositProducts.update(conn, :fixed, id)
+  delete "/v1/fixeddepositproducts/:id", do: DepositProducts.delete(conn, :fixed, id)
+
+  get "/v1/recurringdepositproducts/template", do: DepositProducts.template(conn, :recurring)
+  get "/v1/recurringdepositproducts", do: DepositProducts.index(conn, :recurring)
+  post "/v1/recurringdepositproducts", do: DepositProducts.create(conn, :recurring)
+  get "/v1/recurringdepositproducts/:id", do: DepositProducts.show(conn, :recurring, id)
+  put "/v1/recurringdepositproducts/:id", do: DepositProducts.update(conn, :recurring, id)
+  delete "/v1/recurringdepositproducts/:id", do: DepositProducts.delete(conn, :recurring, id)
+
   get "/v1/savingsaccounts/template", do: SavingsAccounts.template(conn)
 
   get "/v1/savingsaccounts/external-id/:external_id/transactions/template",

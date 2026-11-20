@@ -22,7 +22,12 @@ defmodule ECBDeposits.SavingsProducts do
 
   @doc "Every savings product, by id."
   @spec list() :: [map]
-  def list, do: base() |> order_by([sp], sp.id) |> TenantRepo.all() |> Enum.map(&finish/1)
+  def list, do: list(@savings_deposit)
+
+  @doc "Every product of a deposit type (100 savings, 200 fixed, 300 recurring), by id."
+  @spec list(integer) :: [map]
+  def list(type),
+    do: type |> base() |> order_by([sp], sp.id) |> TenantRepo.all() |> Enum.map(&finish/1)
 
   @doc "`%{id, name}` of every savings product, by id (for choosing one)."
   @spec lookup() :: [map]
@@ -37,8 +42,12 @@ defmodule ECBDeposits.SavingsProducts do
 
   @doc "One savings product, or `{:error, ResourceNotFound}`."
   @spec get(integer) :: {:ok, map} | {:error, Exception.t()}
-  def get(id) do
-    case base() |> where([sp], sp.id == ^id) |> TenantRepo.one() do
+  def get(id), do: get(@savings_deposit, id)
+
+  @doc "One product of a deposit type, or `{:error, ResourceNotFound}` (that of savings products)."
+  @spec get(integer, integer) :: {:ok, map} | {:error, Exception.t()}
+  def get(type, id) do
+    case type |> base() |> where([sp], sp.id == ^id) |> TenantRepo.one() do
       nil -> {:error, not_found(id)}
       row -> {:ok, finish(row)}
     end
@@ -63,13 +72,13 @@ defmodule ECBDeposits.SavingsProducts do
         [id]
       )
 
-  defp base do
+  defp base(type) do
     from(sp in "m_savings_product",
       join: curr in "m_currency",
       on: curr.code == sp.currency_code,
       left_join: tg in "m_tax_group",
       on: tg.id == sp.tax_group_id,
-      where: sp.deposit_type_enum == ^@savings_deposit,
+      where: sp.deposit_type_enum == ^type,
       select: %{
         id: sp.id,
         name: sp.name,

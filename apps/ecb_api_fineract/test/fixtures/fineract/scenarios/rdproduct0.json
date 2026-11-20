@@ -1,0 +1,6346 @@
+{
+ "name": "rdproduct0",
+ "reset": [
+  "savingsaccounts",
+  "savingsproducts",
+  "paymenttypes",
+  "clients",
+  "funds",
+  "glaccounts",
+  "staff",
+  "codes",
+  "configuration"
+ ],
+ "steps": [
+  {
+   "method": "PUT",
+   "path": "/v1/configurations/name/enable-business-date",
+   "body": {
+    "enabled": true
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 44,
+    "changes": {
+     "enabled": true
+    }
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/businessdate",
+   "body": {
+    "type": "BUSINESS_DATE",
+    "date": "2024-03-01",
+    "dateFormat": "yyyy-MM-dd",
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "description": "Business Date",
+    "type": "BUSINESS_DATE",
+    "date": [
+     2024,
+     3,
+     1
+    ],
+    "changes": {
+     "BUSINESS_DATE": [
+      2024,
+      3,
+      1
+     ],
+     "COB_DATE": [
+      2024,
+      2,
+      29
+     ]
+    }
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/recurringdepositproducts",
+   "sortby": "id",
+   "status": 200,
+   "response": []
+  },
+  {
+   "method": "GET",
+   "path": "/v1/recurringdepositproducts/template",
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": false,
+    "isMandatoryDeposit": false,
+    "allowWithdrawal": false,
+    "adjustAdvanceTowardsFuturePayments": false,
+    "preClosurePenalInterestOnTypeOptions": [
+     {
+      "id": 1,
+      "code": "preClosurePenalInterestOnType.wholeTerm",
+      "value": "Whole term"
+     },
+     {
+      "id": 2,
+      "code": "preClosurePenalInterestOnType.tillPrematureWithdrawal",
+      "value": "Till Premature Withdrawal"
+     }
+    ],
+    "periodFrequencyTypeOptions": [
+     {
+      "id": 0,
+      "code": "frequencyperiodFrequencyType.days",
+      "value": "Days"
+     },
+     {
+      "id": 1,
+      "code": "frequencyperiodFrequencyType.weeks",
+      "value": "Weeks"
+     },
+     {
+      "id": 2,
+      "code": "frequencyperiodFrequencyType.months",
+      "value": "Months"
+     },
+     {
+      "id": 3,
+      "code": "frequencyperiodFrequencyType.years",
+      "value": "Years"
+     },
+     {
+      "id": 5,
+      "code": "periodFrequencyType.invalid",
+      "value": "Invalid"
+     }
+    ],
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "interestCompoundingPeriodType": {
+     "id": 1,
+     "code": "savings.interest.period.savingsCompoundingInterestPeriodType.daily",
+     "value": "Daily"
+    },
+    "interestPostingPeriodType": {
+     "id": 4,
+     "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+     "value": "Monthly"
+    },
+    "interestCalculationType": {
+     "id": 1,
+     "code": "savingsInterestCalculationType.dailybalance",
+     "value": "Daily Balance"
+    },
+    "interestCalculationDaysInYearType": {
+     "id": 365,
+     "code": "savingsInterestCalculationDaysInYearType.days365",
+     "value": "365 Days"
+    },
+    "withHoldTax": false,
+    "accountingRule": {
+     "id": 1,
+     "code": "accountingRuleType.none",
+     "value": "NONE"
+    },
+    "currencyOptions": [
+     {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     }
+    ],
+    "interestCompoundingPeriodTypeOptions": [
+     {
+      "id": 1,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.daily",
+      "value": "Daily"
+     },
+     {
+      "id": 4,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     {
+      "id": 5,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.quarterly",
+      "value": "Quarterly"
+     },
+     {
+      "id": 6,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.biannual",
+      "value": "Semi-Annual"
+     },
+     {
+      "id": 7,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.annual",
+      "value": "Annually"
+     }
+    ],
+    "interestPostingPeriodTypeOptions": [
+     {
+      "id": 1,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.daily",
+      "value": "Daily"
+     },
+     {
+      "id": 4,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     {
+      "id": 5,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.quarterly",
+      "value": "Quarterly"
+     },
+     {
+      "id": 6,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.biannual",
+      "value": "BiAnnual"
+     },
+     {
+      "id": 7,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.annual",
+      "value": "Annually"
+     },
+     {
+      "id": 8,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.anniversaryMonthly",
+      "value": "Anniversary Monthly"
+     },
+     {
+      "id": 9,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.anniversaryQuarterly",
+      "value": "Anniversary Quarterly"
+     },
+     {
+      "id": 10,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.anniversaryBiAnnual",
+      "value": "Anniversary BiAnnual"
+     },
+     {
+      "id": 11,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.anniversaryAnnual",
+      "value": "Anniversary Annually"
+     }
+    ],
+    "interestCalculationTypeOptions": [
+     {
+      "id": 1,
+      "code": "savingsInterestCalculationType.dailybalance",
+      "value": "Daily Balance"
+     },
+     {
+      "id": 2,
+      "code": "savingsInterestCalculationType.averagedailybalance",
+      "value": "Average Daily Balance"
+     }
+    ],
+    "interestCalculationDaysInYearTypeOptions": [
+     {
+      "id": 360,
+      "code": "savingsInterestCalculationDaysInYearType.days360",
+      "value": "360 Days"
+     },
+     {
+      "id": 365,
+      "code": "savingsInterestCalculationDaysInYearType.days365",
+      "value": "365 Days"
+     }
+    ],
+    "lockinPeriodFrequencyTypeOptions": [
+     {
+      "id": 0,
+      "code": "savings.lockin.savingsPeriodFrequencyType.days",
+      "value": "Days"
+     },
+     {
+      "id": 1,
+      "code": "savings.lockin.savingsPeriodFrequencyType.weeks",
+      "value": "Weeks"
+     },
+     {
+      "id": 2,
+      "code": "savings.lockin.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     {
+      "id": 3,
+      "code": "savings.lockin.savingsPeriodFrequencyType.years",
+      "value": "Years"
+     }
+    ],
+    "withdrawalFeeTypeOptions": [
+     {
+      "id": 1,
+      "code": "savingsWithdrawalFeesType.flat",
+      "value": "Flat"
+     },
+     {
+      "id": 2,
+      "code": "savingsWithdrawalFeesType.percent.of.amount",
+      "value": "% of Amount"
+     }
+    ],
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     }
+    ],
+    "accountingRuleOptions": [
+     {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     },
+     {
+      "id": 2,
+      "code": "accountingRuleType.cash",
+      "value": "CASH BASED"
+     },
+     {
+      "id": 3,
+      "code": "accountingRuleType.accrual.periodic",
+      "value": "ACCRUAL PERIODIC"
+     },
+     {
+      "id": 4,
+      "code": "accountingRuleType.accrual.upfront",
+      "value": "ACCRUAL UPFRONT"
+     }
+    ],
+    "accountingMappingOptions": {},
+    "chartTemplate": {
+     "isPrimaryGroupingByAmount": false,
+     "chartSlabs": [],
+     "periodTypes": [
+      {
+       "id": 0,
+       "code": "periodFrequencyType.days",
+       "value": "Days"
+      },
+      {
+       "id": 1,
+       "code": "periodFrequencyType.weeks",
+       "value": "Weeks"
+      },
+      {
+       "id": 2,
+       "code": "periodFrequencyType.months",
+       "value": "Months"
+      },
+      {
+       "id": 3,
+       "code": "periodFrequencyType.years",
+       "value": "Years"
+      },
+      {
+       "id": 4,
+       "code": "periodFrequencyType.whole_term",
+       "value": "Whole Term"
+      }
+     ],
+     "entityTypeOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveEntityType.customer",
+       "value": "Customer"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveEntityType.account",
+       "value": "account"
+      }
+     ],
+     "attributeNameOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveAttributeName.gender",
+       "value": "Gender"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveAttributeName.age",
+       "value": "age"
+      },
+      {
+       "id": 4,
+       "code": "InterestIncentiveAttributeName.clientType",
+       "value": "Client Type"
+      },
+      {
+       "id": 5,
+       "code": "InterestIncentiveAttributeName.clientClassification",
+       "value": "Client Classification"
+      }
+     ],
+     "conditionTypeOptions": [
+      {
+       "id": 1,
+       "code": "incentiveConditionType.lessthan",
+       "value": "lessthan"
+      },
+      {
+       "id": 2,
+       "code": "incentiveConditionType.equal",
+       "value": "equal"
+      },
+      {
+       "id": 3,
+       "code": "incentiveConditionType.greaterthan",
+       "value": "greaterthan"
+      },
+      {
+       "id": 4,
+       "code": "incentiveConditionType.notequal",
+       "value": "notEqual"
+      }
+     ],
+     "incentiveTypeOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveType.fixed",
+       "value": "Fixed"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveType.incentive",
+       "value": "Incentive"
+      }
+     ],
+     "genderOptions": [],
+     "clientTypeOptions": [],
+     "clientClassificationOptions": []
+    },
+    "taxGroupOptions": []
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/recurringdepositproducts/1",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Fixed deposit product with identifier 1 does not exist",
+      "defaultUserMessage": "Fixed deposit product with identifier 1 does not exist",
+      "userMessageGlobalisationCode": "error.msg.fixeddepositproduct.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 1
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/recurringdepositproducts",
+   "body": {},
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `shortName` is mandatory.",
+      "defaultUserMessage": "The parameter `shortName` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.shortName.cannot.be.blank",
+      "parameterName": "shortName",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `description` is mandatory.",
+      "defaultUserMessage": "The parameter `description` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.description.cannot.be.blank",
+      "parameterName": "description",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `currencyCode` is mandatory.",
+      "defaultUserMessage": "The parameter `currencyCode` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.currencyCode.cannot.be.blank",
+      "parameterName": "currencyCode",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `digitsAfterDecimal` is mandatory.",
+      "defaultUserMessage": "The parameter `digitsAfterDecimal` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.digitsAfterDecimal.cannot.be.blank",
+      "parameterName": "digitsAfterDecimal",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `interestCompoundingPeriodType` is mandatory.",
+      "defaultUserMessage": "The parameter `interestCompoundingPeriodType` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.interestCompoundingPeriodType.cannot.be.blank",
+      "parameterName": "interestCompoundingPeriodType",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `interestCompoundingPeriodType` must be one of [ 1, 4, 5, 6, 7 ] .",
+      "defaultUserMessage": "The parameter `interestCompoundingPeriodType` must be one of [ 1, 4, 5, 6, 7 ] .",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.interestCompoundingPeriodType.is.not.one.of.expected.enumerations",
+      "parameterName": "interestCompoundingPeriodType",
+      "args": [
+       {},
+       {
+        "value": [
+         1,
+         4,
+         5,
+         6,
+         7
+        ]
+       }
+      ]
+     },
+     {
+      "developerMessage": "The parameter `interestPostingPeriodType` is mandatory.",
+      "defaultUserMessage": "The parameter `interestPostingPeriodType` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.interestPostingPeriodType.cannot.be.blank",
+      "parameterName": "interestPostingPeriodType",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `interestPostingPeriodType` must be one of [ 1, 4, 5, 6, 7, 8, 9, 10, 11 ] .",
+      "defaultUserMessage": "The parameter `interestPostingPeriodType` must be one of [ 1, 4, 5, 6, 7, 8, 9, 10, 11 ] .",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.interestPostingPeriodType.is.not.one.of.expected.enumerations",
+      "parameterName": "interestPostingPeriodType",
+      "args": [
+       {},
+       {
+        "value": [
+         1,
+         4,
+         5,
+         6,
+         7,
+         8,
+         9,
+         10,
+         11
+        ]
+       }
+      ]
+     },
+     {
+      "developerMessage": "The parameter `interestCalculationType` is mandatory.",
+      "defaultUserMessage": "The parameter `interestCalculationType` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.interestCalculationType.cannot.be.blank",
+      "parameterName": "interestCalculationType",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `interestCalculationType` must be one of [ 1, 2 ] .",
+      "defaultUserMessage": "The parameter `interestCalculationType` must be one of [ 1, 2 ] .",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.interestCalculationType.is.not.one.of.expected.enumerations",
+      "parameterName": "interestCalculationType",
+      "args": [
+       {},
+       {
+        "value": [
+         1,
+         2
+        ]
+       }
+      ]
+     },
+     {
+      "developerMessage": "The parameter `interestCalculationDaysInYearType` is mandatory.",
+      "defaultUserMessage": "The parameter `interestCalculationDaysInYearType` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.interestCalculationDaysInYearType.cannot.be.blank",
+      "parameterName": "interestCalculationDaysInYearType",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `interestCalculationDaysInYearType` must be one of [ 360, 365 ] .",
+      "defaultUserMessage": "The parameter `interestCalculationDaysInYearType` must be one of [ 360, 365 ] .",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.interestCalculationDaysInYearType.is.not.one.of.expected.enumerations",
+      "parameterName": "interestCalculationDaysInYearType",
+      "args": [
+       {},
+       {
+        "value": [
+         360,
+         365
+        ]
+       }
+      ]
+     },
+     {
+      "developerMessage": "The parameter `accountingRule` is mandatory.",
+      "defaultUserMessage": "The parameter `accountingRule` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.accountingRule.cannot.be.blank",
+      "parameterName": "accountingRule",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `minDepositTerm` is mandatory.",
+      "defaultUserMessage": "The parameter `minDepositTerm` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.minDepositTerm.cannot.be.blank",
+      "parameterName": "minDepositTerm",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `charts` is mandatory.",
+      "defaultUserMessage": "The parameter `charts` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.charts.cannot.be.blank",
+      "parameterName": "charts",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `depositAmount` is mandatory.",
+      "defaultUserMessage": "The parameter `depositAmount` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.depositAmount.cannot.be.blank",
+      "parameterName": "depositAmount",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/recurringdepositproducts",
+   "body": {
+    "bogus": 1
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter bogus is not supported.",
+      "defaultUserMessage": "bogus",
+      "userMessageGlobalisationCode": "error.msg.parameter.unsupported",
+      "parameterName": "bogus",
+      "args": []
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/recurringdepositproducts",
+   "body": {
+    "shortName": "R000",
+    "description": "Fixed",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "nominalAnnualInterestRate": 5,
+    "interestCompoundingPeriodType": 4,
+    "interestPostingPeriodType": 4,
+    "interestCalculationType": 1,
+    "interestCalculationDaysInYearType": 365,
+    "minDepositTerm": 6,
+    "minDepositTermTypeId": 2,
+    "maxDepositTerm": 60,
+    "maxDepositTermTypeId": 2,
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermTypeId": 2,
+    "preClosurePenalApplicable": true,
+    "preClosurePenalInterest": 1,
+    "preClosurePenalInterestOnTypeId": 1,
+    "depositAmount": 1000,
+    "minDepositAmount": 500,
+    "maxDepositAmount": 100000,
+    "accountingRule": 1,
+    "charts": [
+     {
+      "name": "Chart",
+      "description": "d",
+      "fromDate": "01 January 2024",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en",
+      "isPrimaryGroupingByAmount": false,
+      "chartSlabs": [
+       {
+        "description": "s1",
+        "periodType": 2,
+        "fromPeriod": 1,
+        "toPeriod": 12,
+        "annualInterestRate": 5,
+        "currencyCode": "USD"
+       }
+      ]
+     }
+    ],
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `name` is mandatory.",
+      "defaultUserMessage": "The parameter `name` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.name.cannot.be.blank",
+      "parameterName": "name",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/recurringdepositproducts",
+   "body": {
+    "name": "RCase 1",
+    "shortName": "R001",
+    "description": "Fixed",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "nominalAnnualInterestRate": 5,
+    "interestCompoundingPeriodType": 4,
+    "interestPostingPeriodType": 4,
+    "interestCalculationType": 1,
+    "interestCalculationDaysInYearType": 365,
+    "minDepositTermTypeId": 2,
+    "maxDepositTerm": 60,
+    "maxDepositTermTypeId": 2,
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermTypeId": 2,
+    "preClosurePenalApplicable": true,
+    "preClosurePenalInterest": 1,
+    "preClosurePenalInterestOnTypeId": 1,
+    "depositAmount": 1000,
+    "minDepositAmount": 500,
+    "maxDepositAmount": 100000,
+    "accountingRule": 1,
+    "charts": [
+     {
+      "name": "Chart",
+      "description": "d",
+      "fromDate": "01 January 2024",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en",
+      "isPrimaryGroupingByAmount": false,
+      "chartSlabs": [
+       {
+        "description": "s1",
+        "periodType": 2,
+        "fromPeriod": 1,
+        "toPeriod": 12,
+        "annualInterestRate": 5,
+        "currencyCode": "USD"
+       }
+      ]
+     }
+    ],
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `minDepositTerm` is mandatory.",
+      "defaultUserMessage": "The parameter `minDepositTerm` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.minDepositTerm.cannot.be.blank",
+      "parameterName": "minDepositTerm",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/recurringdepositproducts",
+   "body": {
+    "name": "RCase 2",
+    "shortName": "R002",
+    "description": "Fixed",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "nominalAnnualInterestRate": 5,
+    "interestCompoundingPeriodType": 4,
+    "interestPostingPeriodType": 4,
+    "interestCalculationType": 1,
+    "interestCalculationDaysInYearType": 365,
+    "minDepositTerm": 6,
+    "minDepositTermTypeId": 2,
+    "maxDepositTerm": 60,
+    "maxDepositTermTypeId": 2,
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermTypeId": 2,
+    "preClosurePenalApplicable": true,
+    "preClosurePenalInterest": 1,
+    "preClosurePenalInterestOnTypeId": 1,
+    "minDepositAmount": 500,
+    "maxDepositAmount": 100000,
+    "accountingRule": 1,
+    "charts": [
+     {
+      "name": "Chart",
+      "description": "d",
+      "fromDate": "01 January 2024",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en",
+      "isPrimaryGroupingByAmount": false,
+      "chartSlabs": [
+       {
+        "description": "s1",
+        "periodType": 2,
+        "fromPeriod": 1,
+        "toPeriod": 12,
+        "annualInterestRate": 5,
+        "currencyCode": "USD"
+       }
+      ]
+     }
+    ],
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `depositAmount` is mandatory.",
+      "defaultUserMessage": "The parameter `depositAmount` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.depositAmount.cannot.be.blank",
+      "parameterName": "depositAmount",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/recurringdepositproducts",
+   "body": {
+    "name": "RCase 3",
+    "shortName": "R003",
+    "description": "Fixed",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "nominalAnnualInterestRate": 5,
+    "interestCompoundingPeriodType": 4,
+    "interestPostingPeriodType": 4,
+    "interestCalculationType": 1,
+    "interestCalculationDaysInYearType": 365,
+    "minDepositTerm": 6,
+    "minDepositTermTypeId": 2,
+    "maxDepositTerm": 60,
+    "maxDepositTermTypeId": 2,
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermTypeId": 2,
+    "preClosurePenalApplicable": true,
+    "preClosurePenalInterest": 1,
+    "preClosurePenalInterestOnTypeId": 1,
+    "depositAmount": 1000,
+    "minDepositAmount": 500,
+    "maxDepositAmount": 100000,
+    "accountingRule": 1,
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `charts` is mandatory.",
+      "defaultUserMessage": "The parameter `charts` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.charts.cannot.be.blank",
+      "parameterName": "charts",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/recurringdepositproducts",
+   "body": {
+    "name": "RCase 4",
+    "shortName": "R004",
+    "description": "Fixed",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "nominalAnnualInterestRate": 5,
+    "interestCompoundingPeriodType": 4,
+    "interestPostingPeriodType": 4,
+    "interestCalculationType": 1,
+    "interestCalculationDaysInYearType": 365,
+    "minDepositTerm": 6,
+    "minDepositTermTypeId": 2,
+    "maxDepositTerm": 60,
+    "maxDepositTermTypeId": 2,
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermTypeId": 2,
+    "preClosurePenalApplicable": true,
+    "preClosurePenalInterest": 1,
+    "preClosurePenalInterestOnTypeId": 1,
+    "depositAmount": 1000,
+    "minDepositAmount": 500,
+    "maxDepositAmount": 100000,
+    "accountingRule": 1,
+    "charts": [
+     {
+      "name": "Chart",
+      "description": "d",
+      "fromDate": "01 January 2024",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en",
+      "isPrimaryGroupingByAmount": false,
+      "chartSlabs": [
+       {
+        "description": "s1",
+        "periodType": 2,
+        "fromPeriod": 1,
+        "toPeriod": 12,
+        "annualInterestRate": 5,
+        "currencyCode": "USD"
+       }
+      ]
+     }
+    ],
+    "locale": "en",
+    "isMandatoryDeposit": "abc"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 1
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/recurringdepositproducts",
+   "body": {
+    "name": "RCase 5",
+    "shortName": "R005",
+    "description": "Fixed",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "nominalAnnualInterestRate": 5,
+    "interestCompoundingPeriodType": 4,
+    "interestPostingPeriodType": 4,
+    "interestCalculationType": 1,
+    "interestCalculationDaysInYearType": 365,
+    "minDepositTerm": 6,
+    "minDepositTermTypeId": 2,
+    "maxDepositTerm": 60,
+    "maxDepositTermTypeId": 2,
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermTypeId": 2,
+    "preClosurePenalApplicable": true,
+    "preClosurePenalInterest": 1,
+    "preClosurePenalInterestOnTypeId": 1,
+    "depositAmount": 1000,
+    "minDepositAmount": 500,
+    "maxDepositAmount": 100000,
+    "accountingRule": 1,
+    "charts": [
+     {
+      "name": "Chart",
+      "description": "d",
+      "fromDate": "01 January 2024",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en",
+      "isPrimaryGroupingByAmount": false,
+      "chartSlabs": [
+       {
+        "description": "s1",
+        "periodType": 2,
+        "fromPeriod": 1,
+        "toPeriod": 12,
+        "annualInterestRate": 5,
+        "currencyCode": "USD"
+       }
+      ]
+     }
+    ],
+    "locale": "en",
+    "allowWithdrawal": "abc"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 2
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/recurringdepositproducts",
+   "body": {
+    "name": "RCase 6",
+    "shortName": "R006",
+    "description": "Fixed",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "nominalAnnualInterestRate": 5,
+    "interestCompoundingPeriodType": 4,
+    "interestPostingPeriodType": 4,
+    "interestCalculationType": 1,
+    "interestCalculationDaysInYearType": 365,
+    "minDepositTerm": 6,
+    "minDepositTermTypeId": 2,
+    "maxDepositTerm": 60,
+    "maxDepositTermTypeId": 2,
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermTypeId": 2,
+    "preClosurePenalApplicable": true,
+    "preClosurePenalInterest": 1,
+    "preClosurePenalInterestOnTypeId": 1,
+    "depositAmount": 1000,
+    "minDepositAmount": 500,
+    "maxDepositAmount": 100000,
+    "accountingRule": 1,
+    "charts": [
+     {
+      "name": "Chart",
+      "description": "d",
+      "fromDate": "01 January 2024",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en",
+      "isPrimaryGroupingByAmount": false,
+      "chartSlabs": [
+       {
+        "description": "s1",
+        "periodType": 2,
+        "fromPeriod": 1,
+        "toPeriod": 12,
+        "annualInterestRate": 5,
+        "currencyCode": "USD"
+       }
+      ]
+     }
+    ],
+    "locale": "en",
+    "adjustAdvanceTowardsFuturePayments": "abc"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 3
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/recurringdepositproducts",
+   "body": {
+    "name": "RCase 7",
+    "shortName": "R007",
+    "description": "Fixed",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "nominalAnnualInterestRate": 5,
+    "interestCompoundingPeriodType": 4,
+    "interestPostingPeriodType": 4,
+    "interestCalculationType": 1,
+    "interestCalculationDaysInYearType": 365,
+    "minDepositTerm": 6,
+    "minDepositTermTypeId": 2,
+    "maxDepositTerm": 60,
+    "maxDepositTermTypeId": 2,
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermTypeId": 2,
+    "preClosurePenalApplicable": true,
+    "preClosurePenalInterest": 1,
+    "preClosurePenalInterestOnTypeId": 1,
+    "depositAmount": 1000,
+    "minDepositAmount": 500,
+    "maxDepositAmount": 100000,
+    "accountingRule": 1,
+    "charts": [
+     {
+      "name": "Chart",
+      "description": "d",
+      "fromDate": "01 January 2024",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en",
+      "isPrimaryGroupingByAmount": false,
+      "chartSlabs": [
+       {
+        "description": "s1",
+        "periodType": 2,
+        "fromPeriod": 1,
+        "toPeriod": 12,
+        "annualInterestRate": 5,
+        "currencyCode": "USD"
+       }
+      ]
+     }
+    ],
+    "locale": "en",
+    "isMandatoryDeposit": true,
+    "allowWithdrawal": true,
+    "adjustAdvanceTowardsFuturePayments": true
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 4
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/recurringdepositproducts",
+   "body": {
+    "name": "RCase 8",
+    "shortName": "R008",
+    "description": "Fixed",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "nominalAnnualInterestRate": 5,
+    "interestCompoundingPeriodType": 4,
+    "interestPostingPeriodType": 4,
+    "interestCalculationType": 1,
+    "interestCalculationDaysInYearType": 365,
+    "minDepositTerm": 6,
+    "minDepositTermTypeId": 2,
+    "maxDepositTerm": 60,
+    "maxDepositTermTypeId": 2,
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermTypeId": 2,
+    "preClosurePenalApplicable": true,
+    "preClosurePenalInterest": 1,
+    "preClosurePenalInterestOnTypeId": 1,
+    "depositAmount": 1000,
+    "minDepositAmount": 500,
+    "maxDepositAmount": 100000,
+    "accountingRule": 1,
+    "charts": [
+     {
+      "name": "Chart",
+      "description": "d",
+      "fromDate": "01 January 2024",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en",
+      "isPrimaryGroupingByAmount": false,
+      "chartSlabs": [
+       {
+        "description": "s1",
+        "periodType": 2,
+        "fromPeriod": 1,
+        "toPeriod": 12,
+        "annualInterestRate": 5,
+        "currencyCode": "USD"
+       }
+      ]
+     }
+    ],
+    "locale": "en",
+    "isMandatoryDeposit": false
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 5
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/recurringdepositproducts",
+   "body": {
+    "name": "RCase 9",
+    "shortName": "R009",
+    "description": "Fixed",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "nominalAnnualInterestRate": 5,
+    "interestCompoundingPeriodType": 4,
+    "interestPostingPeriodType": 4,
+    "interestCalculationType": 1,
+    "interestCalculationDaysInYearType": 365,
+    "minDepositTerm": 6,
+    "minDepositTermTypeId": 2,
+    "maxDepositTerm": 60,
+    "maxDepositTermTypeId": 2,
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermTypeId": 2,
+    "preClosurePenalApplicable": true,
+    "preClosurePenalInterest": 1,
+    "preClosurePenalInterestOnTypeId": 1,
+    "depositAmount": 1000,
+    "minDepositAmount": 500,
+    "maxDepositAmount": 100000,
+    "accountingRule": 1,
+    "charts": [
+     {
+      "name": "Chart",
+      "description": "d",
+      "fromDate": "01 January 2024",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en",
+      "isPrimaryGroupingByAmount": false,
+      "chartSlabs": [
+       {
+        "description": "s1",
+        "periodType": 2,
+        "fromPeriod": 1,
+        "toPeriod": 12,
+        "annualInterestRate": 5,
+        "currencyCode": "USD"
+       }
+      ]
+     }
+    ],
+    "locale": "en",
+    "mandatoryRecommendedDepositAmount": 100,
+    "recurringFrequency": 1,
+    "recurringFrequencyType": 2,
+    "isCalendarInherited": false
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 6
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/recurringdepositproducts",
+   "body": {
+    "name": "RCase 10",
+    "shortName": "R010",
+    "description": "Fixed",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "nominalAnnualInterestRate": 5,
+    "interestCompoundingPeriodType": 4,
+    "interestPostingPeriodType": 4,
+    "interestCalculationType": 1,
+    "interestCalculationDaysInYearType": 365,
+    "minDepositTerm": 6,
+    "minDepositTermTypeId": 2,
+    "maxDepositTerm": 60,
+    "maxDepositTermTypeId": 2,
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermTypeId": 2,
+    "preClosurePenalApplicable": true,
+    "preClosurePenalInterest": 1,
+    "preClosurePenalInterestOnTypeId": 1,
+    "depositAmount": 1000,
+    "minDepositAmount": 500,
+    "maxDepositAmount": 100000,
+    "accountingRule": 1,
+    "charts": [
+     {
+      "name": "Chart",
+      "description": "d",
+      "fromDate": "01 January 2024",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en",
+      "isPrimaryGroupingByAmount": false,
+      "chartSlabs": [
+       {
+        "description": "s1",
+        "periodType": 2,
+        "fromPeriod": 1,
+        "toPeriod": 12,
+        "annualInterestRate": 5,
+        "currencyCode": "USD"
+       }
+      ]
+     }
+    ],
+    "locale": "en",
+    "mandatoryRecommendedDepositAmount": "abc"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 7
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/recurringdepositproducts",
+   "body": {
+    "name": "RCase 11",
+    "shortName": "R011",
+    "description": "Fixed",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "nominalAnnualInterestRate": 5,
+    "interestCompoundingPeriodType": 4,
+    "interestPostingPeriodType": 4,
+    "interestCalculationType": 1,
+    "interestCalculationDaysInYearType": 365,
+    "minDepositTerm": 6,
+    "minDepositTermTypeId": 2,
+    "maxDepositTerm": 60,
+    "maxDepositTermTypeId": 2,
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermTypeId": 2,
+    "preClosurePenalApplicable": true,
+    "preClosurePenalInterest": 1,
+    "preClosurePenalInterestOnTypeId": 1,
+    "depositAmount": 1000,
+    "minDepositAmount": 500,
+    "maxDepositAmount": 100000,
+    "accountingRule": 1,
+    "charts": [
+     {
+      "name": "Chart",
+      "description": "d",
+      "fromDate": "01 January 2024",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en",
+      "isPrimaryGroupingByAmount": false,
+      "chartSlabs": [
+       {
+        "description": "s1",
+        "periodType": 2,
+        "fromPeriod": 1,
+        "toPeriod": 12,
+        "annualInterestRate": 5,
+        "currencyCode": "USD"
+       }
+      ]
+     }
+    ],
+    "locale": "en",
+    "recurringFrequency": "abc"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 8
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/recurringdepositproducts",
+   "body": {
+    "name": "RCase 12",
+    "shortName": "R012",
+    "description": "Fixed",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "nominalAnnualInterestRate": 5,
+    "interestCompoundingPeriodType": 4,
+    "interestPostingPeriodType": 4,
+    "interestCalculationType": 1,
+    "interestCalculationDaysInYearType": 365,
+    "minDepositTerm": 6,
+    "minDepositTermTypeId": 2,
+    "maxDepositTerm": 60,
+    "maxDepositTermTypeId": 2,
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermTypeId": 2,
+    "preClosurePenalApplicable": true,
+    "preClosurePenalInterest": 1,
+    "preClosurePenalInterestOnTypeId": 1,
+    "depositAmount": 1000,
+    "minDepositAmount": 500,
+    "maxDepositAmount": 100000,
+    "accountingRule": 2,
+    "charts": [
+     {
+      "name": "Chart",
+      "description": "d",
+      "fromDate": "01 January 2024",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en",
+      "isPrimaryGroupingByAmount": false,
+      "chartSlabs": [
+       {
+        "description": "s1",
+        "periodType": 2,
+        "fromPeriod": 1,
+        "toPeriod": 12,
+        "annualInterestRate": 5,
+        "currencyCode": "USD"
+       }
+      ]
+     }
+    ],
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `savingsControlAccountId` is mandatory.",
+      "defaultUserMessage": "The parameter `savingsControlAccountId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.savingsControlAccountId.cannot.be.blank",
+      "parameterName": "savingsControlAccountId",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `savingsReferenceAccountId` is mandatory.",
+      "defaultUserMessage": "The parameter `savingsReferenceAccountId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.savingsReferenceAccountId.cannot.be.blank",
+      "parameterName": "savingsReferenceAccountId",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `transfersInSuspenseAccountId` is mandatory.",
+      "defaultUserMessage": "The parameter `transfersInSuspenseAccountId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.transfersInSuspenseAccountId.cannot.be.blank",
+      "parameterName": "transfersInSuspenseAccountId",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `interestOnSavingsAccountId` is mandatory.",
+      "defaultUserMessage": "The parameter `interestOnSavingsAccountId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.interestOnSavingsAccountId.cannot.be.blank",
+      "parameterName": "interestOnSavingsAccountId",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `incomeFromFeeAccountId` is mandatory.",
+      "defaultUserMessage": "The parameter `incomeFromFeeAccountId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.incomeFromFeeAccountId.cannot.be.blank",
+      "parameterName": "incomeFromFeeAccountId",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `incomeFromPenaltyAccountId` is mandatory.",
+      "defaultUserMessage": "The parameter `incomeFromPenaltyAccountId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.incomeFromPenaltyAccountId.cannot.be.blank",
+      "parameterName": "incomeFromPenaltyAccountId",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/recurringdepositproducts",
+   "body": {
+    "name": "RCase 13",
+    "shortName": "R013",
+    "description": "Fixed",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "nominalAnnualInterestRate": 5,
+    "interestCompoundingPeriodType": 4,
+    "interestPostingPeriodType": 4,
+    "interestCalculationType": 1,
+    "interestCalculationDaysInYearType": 365,
+    "minDepositTerm": 6,
+    "minDepositTermTypeId": 2,
+    "maxDepositTerm": 60,
+    "maxDepositTermTypeId": 2,
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermTypeId": 2,
+    "preClosurePenalApplicable": true,
+    "preClosurePenalInterest": 1,
+    "preClosurePenalInterestOnTypeId": 1,
+    "depositAmount": 1000,
+    "minDepositAmount": 500,
+    "maxDepositAmount": 100000,
+    "accountingRule": 3,
+    "charts": [
+     {
+      "name": "Chart",
+      "description": "d",
+      "fromDate": "01 January 2024",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en",
+      "isPrimaryGroupingByAmount": false,
+      "chartSlabs": [
+       {
+        "description": "s1",
+        "periodType": 2,
+        "fromPeriod": 1,
+        "toPeriod": 12,
+        "annualInterestRate": 5,
+        "currencyCode": "USD"
+       }
+      ]
+     }
+    ],
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "The parameter `savingsControlAccountId` is mandatory.",
+      "defaultUserMessage": "The parameter `savingsControlAccountId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.savingsControlAccountId.cannot.be.blank",
+      "parameterName": "savingsControlAccountId",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `savingsReferenceAccountId` is mandatory.",
+      "defaultUserMessage": "The parameter `savingsReferenceAccountId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.savingsReferenceAccountId.cannot.be.blank",
+      "parameterName": "savingsReferenceAccountId",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `transfersInSuspenseAccountId` is mandatory.",
+      "defaultUserMessage": "The parameter `transfersInSuspenseAccountId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.transfersInSuspenseAccountId.cannot.be.blank",
+      "parameterName": "transfersInSuspenseAccountId",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `interestOnSavingsAccountId` is mandatory.",
+      "defaultUserMessage": "The parameter `interestOnSavingsAccountId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.interestOnSavingsAccountId.cannot.be.blank",
+      "parameterName": "interestOnSavingsAccountId",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `incomeFromFeeAccountId` is mandatory.",
+      "defaultUserMessage": "The parameter `incomeFromFeeAccountId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.incomeFromFeeAccountId.cannot.be.blank",
+      "parameterName": "incomeFromFeeAccountId",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `incomeFromPenaltyAccountId` is mandatory.",
+      "defaultUserMessage": "The parameter `incomeFromPenaltyAccountId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.incomeFromPenaltyAccountId.cannot.be.blank",
+      "parameterName": "incomeFromPenaltyAccountId",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `feesReceivableAccountId` is mandatory.",
+      "defaultUserMessage": "The parameter `feesReceivableAccountId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.feesReceivableAccountId.cannot.be.blank",
+      "parameterName": "feesReceivableAccountId",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `penaltiesReceivableAccountId` is mandatory.",
+      "defaultUserMessage": "The parameter `penaltiesReceivableAccountId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.penaltiesReceivableAccountId.cannot.be.blank",
+      "parameterName": "penaltiesReceivableAccountId",
+      "args": [
+       {}
+      ]
+     },
+     {
+      "developerMessage": "The parameter `interestPayableAccountId` is mandatory.",
+      "defaultUserMessage": "The parameter `interestPayableAccountId` is mandatory.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.interestPayableAccountId.cannot.be.blank",
+      "parameterName": "interestPayableAccountId",
+      "args": [
+       {}
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/recurringdepositproducts",
+   "body": {
+    "name": "RCase 14",
+    "shortName": "R014",
+    "description": "Fixed",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "nominalAnnualInterestRate": 5,
+    "interestCompoundingPeriodType": 4,
+    "interestPostingPeriodType": 1,
+    "interestCalculationType": 1,
+    "interestCalculationDaysInYearType": 365,
+    "minDepositTerm": 6,
+    "minDepositTermTypeId": 2,
+    "maxDepositTerm": 60,
+    "maxDepositTermTypeId": 2,
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermTypeId": 2,
+    "preClosurePenalApplicable": true,
+    "preClosurePenalInterest": 1,
+    "preClosurePenalInterestOnTypeId": 1,
+    "depositAmount": 1000,
+    "minDepositAmount": 500,
+    "maxDepositAmount": 100000,
+    "accountingRule": 1,
+    "charts": [
+     {
+      "name": "Chart",
+      "description": "d",
+      "fromDate": "01 January 2024",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en",
+      "isPrimaryGroupingByAmount": false,
+      "chartSlabs": [
+       {
+        "description": "s1",
+        "periodType": 2,
+        "fromPeriod": 1,
+        "toPeriod": 12,
+        "annualInterestRate": 5,
+        "currencyCode": "USD"
+       }
+      ]
+     }
+    ],
+    "locale": "en"
+   },
+   "status": 400,
+   "response": {
+    "developerMessage": "The request was invalid. This typically will happen due to validation errors which are provided.",
+    "httpStatusCode": "400",
+    "defaultUserMessage": "Validation errors exist.",
+    "userMessageGlobalisationCode": "validation.msg.validation.errors.exist",
+    "errors": [
+     {
+      "developerMessage": "Failed data validation due to: posting.period.type.is.less.than.compound.period.type.",
+      "defaultUserMessage": "Failed data validation due to: posting.period.type.is.less.than.compound.period.type.",
+      "userMessageGlobalisationCode": "validation.msg.recurringdepositproduct.posting.period.type.is.less.than.compound.period.type",
+      "args": [
+       {},
+       {
+        "value": [
+         "DAILY",
+         "MONTHLY"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/recurringdepositproducts",
+   "body": {
+    "name": "RD one",
+    "shortName": "RD1",
+    "description": "Fixed",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "nominalAnnualInterestRate": 5,
+    "interestCompoundingPeriodType": 4,
+    "interestPostingPeriodType": 4,
+    "interestCalculationType": 1,
+    "interestCalculationDaysInYearType": 365,
+    "minDepositTerm": 6,
+    "minDepositTermTypeId": 2,
+    "maxDepositTerm": 60,
+    "maxDepositTermTypeId": 2,
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermTypeId": 2,
+    "preClosurePenalApplicable": true,
+    "preClosurePenalInterest": 1,
+    "preClosurePenalInterestOnTypeId": 1,
+    "depositAmount": 1000,
+    "minDepositAmount": 500,
+    "maxDepositAmount": 100000,
+    "accountingRule": 1,
+    "charts": [
+     {
+      "name": "Chart",
+      "description": "d",
+      "fromDate": "01 January 2024",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en",
+      "isPrimaryGroupingByAmount": false,
+      "chartSlabs": [
+       {
+        "description": "s1",
+        "periodType": 2,
+        "fromPeriod": 1,
+        "toPeriod": 12,
+        "annualInterestRate": 5,
+        "currencyCode": "USD"
+       }
+      ]
+     }
+    ],
+    "locale": "en",
+    "isMandatoryDeposit": true,
+    "allowWithdrawal": true,
+    "adjustAdvanceTowardsFuturePayments": true
+   },
+   "save": {
+    "a": "resourceId"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 9
+   }
+  },
+  {
+   "method": "POST",
+   "path": "/v1/recurringdepositproducts",
+   "body": {
+    "name": "RD two",
+    "shortName": "RD2",
+    "description": "Fixed",
+    "currencyCode": "USD",
+    "digitsAfterDecimal": 2,
+    "inMultiplesOf": 0,
+    "nominalAnnualInterestRate": 5,
+    "interestCompoundingPeriodType": 4,
+    "interestPostingPeriodType": 4,
+    "interestCalculationType": 1,
+    "interestCalculationDaysInYearType": 365,
+    "minDepositTerm": 6,
+    "minDepositTermTypeId": 2,
+    "maxDepositTerm": 60,
+    "maxDepositTermTypeId": 2,
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermTypeId": 2,
+    "preClosurePenalApplicable": true,
+    "preClosurePenalInterest": 1,
+    "preClosurePenalInterestOnTypeId": 1,
+    "depositAmount": 1000,
+    "minDepositAmount": 500,
+    "maxDepositAmount": 100000,
+    "accountingRule": 1,
+    "charts": [
+     {
+      "name": "Chart",
+      "description": "d",
+      "fromDate": "01 January 2024",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en",
+      "isPrimaryGroupingByAmount": false,
+      "chartSlabs": [
+       {
+        "description": "s1",
+        "periodType": 2,
+        "fromPeriod": 1,
+        "toPeriod": 12,
+        "annualInterestRate": 5,
+        "currencyCode": "USD"
+       }
+      ]
+     }
+    ],
+    "locale": "en"
+   },
+   "save": {
+    "b": "resourceId"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 10
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/recurringdepositproducts/{a}",
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": true,
+    "preClosurePenalInterest": 1.0,
+    "preClosurePenalInterestOnType": {
+     "id": 1,
+     "code": "preClosurePenalInterestOnType.wholeTerm",
+     "value": "Whole term"
+    },
+    "minDepositTerm": 6,
+    "maxDepositTerm": 60,
+    "minDepositTermType": {
+     "id": 2,
+     "code": "deposit.term.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "maxDepositTermType": {
+     "id": 2,
+     "code": "deposit.term.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermType": {
+     "id": 2,
+     "code": "deposit.term.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "minDepositAmount": 500.0,
+    "depositAmount": 1000.0,
+    "maxDepositAmount": 100000.0,
+    "isMandatoryDeposit": true,
+    "allowWithdrawal": true,
+    "adjustAdvanceTowardsFuturePayments": true,
+    "id": 9,
+    "name": "RD one",
+    "shortName": "RD1",
+    "description": "Fixed",
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "nominalAnnualInterestRate": 5.0,
+    "interestCompoundingPeriodType": {
+     "id": 4,
+     "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+     "value": "Monthly"
+    },
+    "interestPostingPeriodType": {
+     "id": 4,
+     "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+     "value": "Monthly"
+    },
+    "interestCalculationType": {
+     "id": 1,
+     "code": "savingsInterestCalculationType.dailybalance",
+     "value": "Daily Balance"
+    },
+    "interestCalculationDaysInYearType": {
+     "id": 365,
+     "code": "savingsInterestCalculationDaysInYearType.days365",
+     "value": "365 Days"
+    },
+    "withHoldTax": false,
+    "accountingRule": {
+     "id": 1,
+     "code": "accountingRuleType.none",
+     "value": "NONE"
+    },
+    "charges": [],
+    "interestRateCharts": [
+     {
+      "id": 9,
+      "name": "Chart",
+      "description": "d",
+      "fromDate": [
+       2024,
+       1,
+       1
+      ],
+      "productId": 9,
+      "productName": "RD one",
+      "isPrimaryGroupingByAmount": false,
+      "chartSlabs": [
+       {
+        "id": 9,
+        "description": "s1",
+        "periodType": {
+         "id": 2,
+         "code": "periodFrequencyType.months",
+         "value": "Months"
+        },
+        "fromPeriod": 1,
+        "toPeriod": 12,
+        "annualInterestRate": 5.0,
+        "currency": {
+         "code": "USD",
+         "name": "US Dollar",
+         "decimalPlaces": 2,
+         "displaySymbol": "$",
+         "nameCode": "currency.USD",
+         "displayLabel": "US Dollar ($)"
+        }
+       }
+      ],
+      "periodTypes": [
+       {
+        "id": 0,
+        "code": "periodFrequencyType.days",
+        "value": "Days"
+       },
+       {
+        "id": 1,
+        "code": "periodFrequencyType.weeks",
+        "value": "Weeks"
+       },
+       {
+        "id": 2,
+        "code": "periodFrequencyType.months",
+        "value": "Months"
+       },
+       {
+        "id": 3,
+        "code": "periodFrequencyType.years",
+        "value": "Years"
+       },
+       {
+        "id": 4,
+        "code": "periodFrequencyType.whole_term",
+        "value": "Whole Term"
+       }
+      ],
+      "entityTypeOptions": [
+       {
+        "id": 2,
+        "code": "InterestIncentiveEntityType.customer",
+        "value": "Customer"
+       },
+       {
+        "id": 3,
+        "code": "InterestIncentiveEntityType.account",
+        "value": "account"
+       }
+      ],
+      "attributeNameOptions": [
+       {
+        "id": 2,
+        "code": "InterestIncentiveAttributeName.gender",
+        "value": "Gender"
+       },
+       {
+        "id": 3,
+        "code": "InterestIncentiveAttributeName.age",
+        "value": "age"
+       },
+       {
+        "id": 4,
+        "code": "InterestIncentiveAttributeName.clientType",
+        "value": "Client Type"
+       },
+       {
+        "id": 5,
+        "code": "InterestIncentiveAttributeName.clientClassification",
+        "value": "Client Classification"
+       }
+      ],
+      "conditionTypeOptions": [
+       {
+        "id": 1,
+        "code": "incentiveConditionType.lessthan",
+        "value": "lessthan"
+       },
+       {
+        "id": 2,
+        "code": "incentiveConditionType.equal",
+        "value": "equal"
+       },
+       {
+        "id": 3,
+        "code": "incentiveConditionType.greaterthan",
+        "value": "greaterthan"
+       },
+       {
+        "id": 4,
+        "code": "incentiveConditionType.notequal",
+        "value": "notEqual"
+       }
+      ],
+      "incentiveTypeOptions": [
+       {
+        "id": 2,
+        "code": "InterestIncentiveType.fixed",
+        "value": "Fixed"
+       },
+       {
+        "id": 3,
+        "code": "InterestIncentiveType.incentive",
+        "value": "Incentive"
+       }
+      ],
+      "genderOptions": [],
+      "clientTypeOptions": [],
+      "clientClassificationOptions": []
+     }
+    ],
+    "activeChart": {
+     "id": 9,
+     "name": "Chart",
+     "description": "d",
+     "fromDate": [
+      2024,
+      1,
+      1
+     ],
+     "productId": 9,
+     "productName": "RD one",
+     "isPrimaryGroupingByAmount": false,
+     "chartSlabs": [
+      {
+       "id": 9,
+       "description": "s1",
+       "periodType": {
+        "id": 2,
+        "code": "periodFrequencyType.months",
+        "value": "Months"
+       },
+       "fromPeriod": 1,
+       "toPeriod": 12,
+       "annualInterestRate": 5.0,
+       "currency": {
+        "code": "USD",
+        "name": "US Dollar",
+        "decimalPlaces": 2,
+        "displaySymbol": "$",
+        "nameCode": "currency.USD",
+        "displayLabel": "US Dollar ($)"
+       }
+      }
+     ],
+     "periodTypes": [
+      {
+       "id": 0,
+       "code": "periodFrequencyType.days",
+       "value": "Days"
+      },
+      {
+       "id": 1,
+       "code": "periodFrequencyType.weeks",
+       "value": "Weeks"
+      },
+      {
+       "id": 2,
+       "code": "periodFrequencyType.months",
+       "value": "Months"
+      },
+      {
+       "id": 3,
+       "code": "periodFrequencyType.years",
+       "value": "Years"
+      },
+      {
+       "id": 4,
+       "code": "periodFrequencyType.whole_term",
+       "value": "Whole Term"
+      }
+     ],
+     "entityTypeOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveEntityType.customer",
+       "value": "Customer"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveEntityType.account",
+       "value": "account"
+      }
+     ],
+     "attributeNameOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveAttributeName.gender",
+       "value": "Gender"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveAttributeName.age",
+       "value": "age"
+      },
+      {
+       "id": 4,
+       "code": "InterestIncentiveAttributeName.clientType",
+       "value": "Client Type"
+      },
+      {
+       "id": 5,
+       "code": "InterestIncentiveAttributeName.clientClassification",
+       "value": "Client Classification"
+      }
+     ],
+     "conditionTypeOptions": [
+      {
+       "id": 1,
+       "code": "incentiveConditionType.lessthan",
+       "value": "lessthan"
+      },
+      {
+       "id": 2,
+       "code": "incentiveConditionType.equal",
+       "value": "equal"
+      },
+      {
+       "id": 3,
+       "code": "incentiveConditionType.greaterthan",
+       "value": "greaterthan"
+      },
+      {
+       "id": 4,
+       "code": "incentiveConditionType.notequal",
+       "value": "notEqual"
+      }
+     ],
+     "incentiveTypeOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveType.fixed",
+       "value": "Fixed"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveType.incentive",
+       "value": "Incentive"
+      }
+     ],
+     "genderOptions": [],
+     "clientTypeOptions": [],
+     "clientClassificationOptions": []
+    }
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/recurringdepositproducts/{b}",
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": true,
+    "preClosurePenalInterest": 1.0,
+    "preClosurePenalInterestOnType": {
+     "id": 1,
+     "code": "preClosurePenalInterestOnType.wholeTerm",
+     "value": "Whole term"
+    },
+    "minDepositTerm": 6,
+    "maxDepositTerm": 60,
+    "minDepositTermType": {
+     "id": 2,
+     "code": "deposit.term.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "maxDepositTermType": {
+     "id": 2,
+     "code": "deposit.term.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermType": {
+     "id": 2,
+     "code": "deposit.term.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "minDepositAmount": 500.0,
+    "depositAmount": 1000.0,
+    "maxDepositAmount": 100000.0,
+    "isMandatoryDeposit": false,
+    "allowWithdrawal": false,
+    "adjustAdvanceTowardsFuturePayments": false,
+    "id": 10,
+    "name": "RD two",
+    "shortName": "RD2",
+    "description": "Fixed",
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "nominalAnnualInterestRate": 5.0,
+    "interestCompoundingPeriodType": {
+     "id": 4,
+     "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+     "value": "Monthly"
+    },
+    "interestPostingPeriodType": {
+     "id": 4,
+     "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+     "value": "Monthly"
+    },
+    "interestCalculationType": {
+     "id": 1,
+     "code": "savingsInterestCalculationType.dailybalance",
+     "value": "Daily Balance"
+    },
+    "interestCalculationDaysInYearType": {
+     "id": 365,
+     "code": "savingsInterestCalculationDaysInYearType.days365",
+     "value": "365 Days"
+    },
+    "withHoldTax": false,
+    "accountingRule": {
+     "id": 1,
+     "code": "accountingRuleType.none",
+     "value": "NONE"
+    },
+    "charges": [],
+    "interestRateCharts": [
+     {
+      "id": 10,
+      "name": "Chart",
+      "description": "d",
+      "fromDate": [
+       2024,
+       1,
+       1
+      ],
+      "productId": 10,
+      "productName": "RD two",
+      "isPrimaryGroupingByAmount": false,
+      "chartSlabs": [
+       {
+        "id": 10,
+        "description": "s1",
+        "periodType": {
+         "id": 2,
+         "code": "periodFrequencyType.months",
+         "value": "Months"
+        },
+        "fromPeriod": 1,
+        "toPeriod": 12,
+        "annualInterestRate": 5.0,
+        "currency": {
+         "code": "USD",
+         "name": "US Dollar",
+         "decimalPlaces": 2,
+         "displaySymbol": "$",
+         "nameCode": "currency.USD",
+         "displayLabel": "US Dollar ($)"
+        }
+       }
+      ],
+      "periodTypes": [
+       {
+        "id": 0,
+        "code": "periodFrequencyType.days",
+        "value": "Days"
+       },
+       {
+        "id": 1,
+        "code": "periodFrequencyType.weeks",
+        "value": "Weeks"
+       },
+       {
+        "id": 2,
+        "code": "periodFrequencyType.months",
+        "value": "Months"
+       },
+       {
+        "id": 3,
+        "code": "periodFrequencyType.years",
+        "value": "Years"
+       },
+       {
+        "id": 4,
+        "code": "periodFrequencyType.whole_term",
+        "value": "Whole Term"
+       }
+      ],
+      "entityTypeOptions": [
+       {
+        "id": 2,
+        "code": "InterestIncentiveEntityType.customer",
+        "value": "Customer"
+       },
+       {
+        "id": 3,
+        "code": "InterestIncentiveEntityType.account",
+        "value": "account"
+       }
+      ],
+      "attributeNameOptions": [
+       {
+        "id": 2,
+        "code": "InterestIncentiveAttributeName.gender",
+        "value": "Gender"
+       },
+       {
+        "id": 3,
+        "code": "InterestIncentiveAttributeName.age",
+        "value": "age"
+       },
+       {
+        "id": 4,
+        "code": "InterestIncentiveAttributeName.clientType",
+        "value": "Client Type"
+       },
+       {
+        "id": 5,
+        "code": "InterestIncentiveAttributeName.clientClassification",
+        "value": "Client Classification"
+       }
+      ],
+      "conditionTypeOptions": [
+       {
+        "id": 1,
+        "code": "incentiveConditionType.lessthan",
+        "value": "lessthan"
+       },
+       {
+        "id": 2,
+        "code": "incentiveConditionType.equal",
+        "value": "equal"
+       },
+       {
+        "id": 3,
+        "code": "incentiveConditionType.greaterthan",
+        "value": "greaterthan"
+       },
+       {
+        "id": 4,
+        "code": "incentiveConditionType.notequal",
+        "value": "notEqual"
+       }
+      ],
+      "incentiveTypeOptions": [
+       {
+        "id": 2,
+        "code": "InterestIncentiveType.fixed",
+        "value": "Fixed"
+       },
+       {
+        "id": 3,
+        "code": "InterestIncentiveType.incentive",
+        "value": "Incentive"
+       }
+      ],
+      "genderOptions": [],
+      "clientTypeOptions": [],
+      "clientClassificationOptions": []
+     }
+    ],
+    "activeChart": {
+     "id": 10,
+     "name": "Chart",
+     "description": "d",
+     "fromDate": [
+      2024,
+      1,
+      1
+     ],
+     "productId": 10,
+     "productName": "RD two",
+     "isPrimaryGroupingByAmount": false,
+     "chartSlabs": [
+      {
+       "id": 10,
+       "description": "s1",
+       "periodType": {
+        "id": 2,
+        "code": "periodFrequencyType.months",
+        "value": "Months"
+       },
+       "fromPeriod": 1,
+       "toPeriod": 12,
+       "annualInterestRate": 5.0,
+       "currency": {
+        "code": "USD",
+        "name": "US Dollar",
+        "decimalPlaces": 2,
+        "displaySymbol": "$",
+        "nameCode": "currency.USD",
+        "displayLabel": "US Dollar ($)"
+       }
+      }
+     ],
+     "periodTypes": [
+      {
+       "id": 0,
+       "code": "periodFrequencyType.days",
+       "value": "Days"
+      },
+      {
+       "id": 1,
+       "code": "periodFrequencyType.weeks",
+       "value": "Weeks"
+      },
+      {
+       "id": 2,
+       "code": "periodFrequencyType.months",
+       "value": "Months"
+      },
+      {
+       "id": 3,
+       "code": "periodFrequencyType.years",
+       "value": "Years"
+      },
+      {
+       "id": 4,
+       "code": "periodFrequencyType.whole_term",
+       "value": "Whole Term"
+      }
+     ],
+     "entityTypeOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveEntityType.customer",
+       "value": "Customer"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveEntityType.account",
+       "value": "account"
+      }
+     ],
+     "attributeNameOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveAttributeName.gender",
+       "value": "Gender"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveAttributeName.age",
+       "value": "age"
+      },
+      {
+       "id": 4,
+       "code": "InterestIncentiveAttributeName.clientType",
+       "value": "Client Type"
+      },
+      {
+       "id": 5,
+       "code": "InterestIncentiveAttributeName.clientClassification",
+       "value": "Client Classification"
+      }
+     ],
+     "conditionTypeOptions": [
+      {
+       "id": 1,
+       "code": "incentiveConditionType.lessthan",
+       "value": "lessthan"
+      },
+      {
+       "id": 2,
+       "code": "incentiveConditionType.equal",
+       "value": "equal"
+      },
+      {
+       "id": 3,
+       "code": "incentiveConditionType.greaterthan",
+       "value": "greaterthan"
+      },
+      {
+       "id": 4,
+       "code": "incentiveConditionType.notequal",
+       "value": "notEqual"
+      }
+     ],
+     "incentiveTypeOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveType.fixed",
+       "value": "Fixed"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveType.incentive",
+       "value": "Incentive"
+      }
+     ],
+     "genderOptions": [],
+     "clientTypeOptions": [],
+     "clientClassificationOptions": []
+    }
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/recurringdepositproducts",
+   "sortby": "id",
+   "status": 200,
+   "response": [
+    {
+     "preClosurePenalApplicable": true,
+     "preClosurePenalInterest": 1.0,
+     "preClosurePenalInterestOnType": {
+      "id": 1,
+      "code": "preClosurePenalInterestOnType.wholeTerm",
+      "value": "Whole term"
+     },
+     "minDepositTerm": 6,
+     "maxDepositTerm": 60,
+     "minDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "maxDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "inMultiplesOfDepositTerm": 6,
+     "inMultiplesOfDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "minDepositAmount": 500.0,
+     "depositAmount": 1000.0,
+     "maxDepositAmount": 100000.0,
+     "isMandatoryDeposit": false,
+     "allowWithdrawal": false,
+     "adjustAdvanceTowardsFuturePayments": false,
+     "id": 1,
+     "name": "RCase 4",
+     "shortName": "R004",
+     "description": "Fixed",
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "inMultiplesOf": 0,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "nominalAnnualInterestRate": 5.0,
+     "interestCompoundingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestPostingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestCalculationType": {
+      "id": 1,
+      "code": "savingsInterestCalculationType.dailybalance",
+      "value": "Daily Balance"
+     },
+     "interestCalculationDaysInYearType": {
+      "id": 365,
+      "code": "savingsInterestCalculationDaysInYearType.days365",
+      "value": "365 Days"
+     },
+     "withHoldTax": false,
+     "accountingRule": {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     }
+    },
+    {
+     "preClosurePenalApplicable": true,
+     "preClosurePenalInterest": 1.0,
+     "preClosurePenalInterestOnType": {
+      "id": 1,
+      "code": "preClosurePenalInterestOnType.wholeTerm",
+      "value": "Whole term"
+     },
+     "minDepositTerm": 6,
+     "maxDepositTerm": 60,
+     "minDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "maxDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "inMultiplesOfDepositTerm": 6,
+     "inMultiplesOfDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "minDepositAmount": 500.0,
+     "depositAmount": 1000.0,
+     "maxDepositAmount": 100000.0,
+     "isMandatoryDeposit": false,
+     "allowWithdrawal": false,
+     "adjustAdvanceTowardsFuturePayments": false,
+     "id": 2,
+     "name": "RCase 5",
+     "shortName": "R005",
+     "description": "Fixed",
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "inMultiplesOf": 0,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "nominalAnnualInterestRate": 5.0,
+     "interestCompoundingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestPostingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestCalculationType": {
+      "id": 1,
+      "code": "savingsInterestCalculationType.dailybalance",
+      "value": "Daily Balance"
+     },
+     "interestCalculationDaysInYearType": {
+      "id": 365,
+      "code": "savingsInterestCalculationDaysInYearType.days365",
+      "value": "365 Days"
+     },
+     "withHoldTax": false,
+     "accountingRule": {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     }
+    },
+    {
+     "preClosurePenalApplicable": true,
+     "preClosurePenalInterest": 1.0,
+     "preClosurePenalInterestOnType": {
+      "id": 1,
+      "code": "preClosurePenalInterestOnType.wholeTerm",
+      "value": "Whole term"
+     },
+     "minDepositTerm": 6,
+     "maxDepositTerm": 60,
+     "minDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "maxDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "inMultiplesOfDepositTerm": 6,
+     "inMultiplesOfDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "minDepositAmount": 500.0,
+     "depositAmount": 1000.0,
+     "maxDepositAmount": 100000.0,
+     "isMandatoryDeposit": false,
+     "allowWithdrawal": false,
+     "adjustAdvanceTowardsFuturePayments": false,
+     "id": 3,
+     "name": "RCase 6",
+     "shortName": "R006",
+     "description": "Fixed",
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "inMultiplesOf": 0,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "nominalAnnualInterestRate": 5.0,
+     "interestCompoundingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestPostingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestCalculationType": {
+      "id": 1,
+      "code": "savingsInterestCalculationType.dailybalance",
+      "value": "Daily Balance"
+     },
+     "interestCalculationDaysInYearType": {
+      "id": 365,
+      "code": "savingsInterestCalculationDaysInYearType.days365",
+      "value": "365 Days"
+     },
+     "withHoldTax": false,
+     "accountingRule": {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     }
+    },
+    {
+     "preClosurePenalApplicable": true,
+     "preClosurePenalInterest": 1.0,
+     "preClosurePenalInterestOnType": {
+      "id": 1,
+      "code": "preClosurePenalInterestOnType.wholeTerm",
+      "value": "Whole term"
+     },
+     "minDepositTerm": 6,
+     "maxDepositTerm": 60,
+     "minDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "maxDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "inMultiplesOfDepositTerm": 6,
+     "inMultiplesOfDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "minDepositAmount": 500.0,
+     "depositAmount": 1000.0,
+     "maxDepositAmount": 100000.0,
+     "isMandatoryDeposit": true,
+     "allowWithdrawal": true,
+     "adjustAdvanceTowardsFuturePayments": true,
+     "id": 4,
+     "name": "RCase 7",
+     "shortName": "R007",
+     "description": "Fixed",
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "inMultiplesOf": 0,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "nominalAnnualInterestRate": 5.0,
+     "interestCompoundingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestPostingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestCalculationType": {
+      "id": 1,
+      "code": "savingsInterestCalculationType.dailybalance",
+      "value": "Daily Balance"
+     },
+     "interestCalculationDaysInYearType": {
+      "id": 365,
+      "code": "savingsInterestCalculationDaysInYearType.days365",
+      "value": "365 Days"
+     },
+     "withHoldTax": false,
+     "accountingRule": {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     }
+    },
+    {
+     "preClosurePenalApplicable": true,
+     "preClosurePenalInterest": 1.0,
+     "preClosurePenalInterestOnType": {
+      "id": 1,
+      "code": "preClosurePenalInterestOnType.wholeTerm",
+      "value": "Whole term"
+     },
+     "minDepositTerm": 6,
+     "maxDepositTerm": 60,
+     "minDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "maxDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "inMultiplesOfDepositTerm": 6,
+     "inMultiplesOfDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "minDepositAmount": 500.0,
+     "depositAmount": 1000.0,
+     "maxDepositAmount": 100000.0,
+     "isMandatoryDeposit": false,
+     "allowWithdrawal": false,
+     "adjustAdvanceTowardsFuturePayments": false,
+     "id": 5,
+     "name": "RCase 8",
+     "shortName": "R008",
+     "description": "Fixed",
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "inMultiplesOf": 0,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "nominalAnnualInterestRate": 5.0,
+     "interestCompoundingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestPostingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestCalculationType": {
+      "id": 1,
+      "code": "savingsInterestCalculationType.dailybalance",
+      "value": "Daily Balance"
+     },
+     "interestCalculationDaysInYearType": {
+      "id": 365,
+      "code": "savingsInterestCalculationDaysInYearType.days365",
+      "value": "365 Days"
+     },
+     "withHoldTax": false,
+     "accountingRule": {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     }
+    },
+    {
+     "preClosurePenalApplicable": true,
+     "preClosurePenalInterest": 1.0,
+     "preClosurePenalInterestOnType": {
+      "id": 1,
+      "code": "preClosurePenalInterestOnType.wholeTerm",
+      "value": "Whole term"
+     },
+     "minDepositTerm": 6,
+     "maxDepositTerm": 60,
+     "minDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "maxDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "inMultiplesOfDepositTerm": 6,
+     "inMultiplesOfDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "minDepositAmount": 500.0,
+     "depositAmount": 1000.0,
+     "maxDepositAmount": 100000.0,
+     "isMandatoryDeposit": false,
+     "allowWithdrawal": false,
+     "adjustAdvanceTowardsFuturePayments": false,
+     "id": 6,
+     "name": "RCase 9",
+     "shortName": "R009",
+     "description": "Fixed",
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "inMultiplesOf": 0,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "nominalAnnualInterestRate": 5.0,
+     "interestCompoundingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestPostingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestCalculationType": {
+      "id": 1,
+      "code": "savingsInterestCalculationType.dailybalance",
+      "value": "Daily Balance"
+     },
+     "interestCalculationDaysInYearType": {
+      "id": 365,
+      "code": "savingsInterestCalculationDaysInYearType.days365",
+      "value": "365 Days"
+     },
+     "withHoldTax": false,
+     "accountingRule": {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     }
+    },
+    {
+     "preClosurePenalApplicable": true,
+     "preClosurePenalInterest": 1.0,
+     "preClosurePenalInterestOnType": {
+      "id": 1,
+      "code": "preClosurePenalInterestOnType.wholeTerm",
+      "value": "Whole term"
+     },
+     "minDepositTerm": 6,
+     "maxDepositTerm": 60,
+     "minDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "maxDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "inMultiplesOfDepositTerm": 6,
+     "inMultiplesOfDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "minDepositAmount": 500.0,
+     "depositAmount": 1000.0,
+     "maxDepositAmount": 100000.0,
+     "isMandatoryDeposit": false,
+     "allowWithdrawal": false,
+     "adjustAdvanceTowardsFuturePayments": false,
+     "id": 7,
+     "name": "RCase 10",
+     "shortName": "R010",
+     "description": "Fixed",
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "inMultiplesOf": 0,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "nominalAnnualInterestRate": 5.0,
+     "interestCompoundingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestPostingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestCalculationType": {
+      "id": 1,
+      "code": "savingsInterestCalculationType.dailybalance",
+      "value": "Daily Balance"
+     },
+     "interestCalculationDaysInYearType": {
+      "id": 365,
+      "code": "savingsInterestCalculationDaysInYearType.days365",
+      "value": "365 Days"
+     },
+     "withHoldTax": false,
+     "accountingRule": {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     }
+    },
+    {
+     "preClosurePenalApplicable": true,
+     "preClosurePenalInterest": 1.0,
+     "preClosurePenalInterestOnType": {
+      "id": 1,
+      "code": "preClosurePenalInterestOnType.wholeTerm",
+      "value": "Whole term"
+     },
+     "minDepositTerm": 6,
+     "maxDepositTerm": 60,
+     "minDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "maxDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "inMultiplesOfDepositTerm": 6,
+     "inMultiplesOfDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "minDepositAmount": 500.0,
+     "depositAmount": 1000.0,
+     "maxDepositAmount": 100000.0,
+     "isMandatoryDeposit": false,
+     "allowWithdrawal": false,
+     "adjustAdvanceTowardsFuturePayments": false,
+     "id": 8,
+     "name": "RCase 11",
+     "shortName": "R011",
+     "description": "Fixed",
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "inMultiplesOf": 0,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "nominalAnnualInterestRate": 5.0,
+     "interestCompoundingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestPostingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestCalculationType": {
+      "id": 1,
+      "code": "savingsInterestCalculationType.dailybalance",
+      "value": "Daily Balance"
+     },
+     "interestCalculationDaysInYearType": {
+      "id": 365,
+      "code": "savingsInterestCalculationDaysInYearType.days365",
+      "value": "365 Days"
+     },
+     "withHoldTax": false,
+     "accountingRule": {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     }
+    },
+    {
+     "preClosurePenalApplicable": true,
+     "preClosurePenalInterest": 1.0,
+     "preClosurePenalInterestOnType": {
+      "id": 1,
+      "code": "preClosurePenalInterestOnType.wholeTerm",
+      "value": "Whole term"
+     },
+     "minDepositTerm": 6,
+     "maxDepositTerm": 60,
+     "minDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "maxDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "inMultiplesOfDepositTerm": 6,
+     "inMultiplesOfDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "minDepositAmount": 500.0,
+     "depositAmount": 1000.0,
+     "maxDepositAmount": 100000.0,
+     "isMandatoryDeposit": true,
+     "allowWithdrawal": true,
+     "adjustAdvanceTowardsFuturePayments": true,
+     "id": 9,
+     "name": "RD one",
+     "shortName": "RD1",
+     "description": "Fixed",
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "inMultiplesOf": 0,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "nominalAnnualInterestRate": 5.0,
+     "interestCompoundingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestPostingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestCalculationType": {
+      "id": 1,
+      "code": "savingsInterestCalculationType.dailybalance",
+      "value": "Daily Balance"
+     },
+     "interestCalculationDaysInYearType": {
+      "id": 365,
+      "code": "savingsInterestCalculationDaysInYearType.days365",
+      "value": "365 Days"
+     },
+     "withHoldTax": false,
+     "accountingRule": {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     }
+    },
+    {
+     "preClosurePenalApplicable": true,
+     "preClosurePenalInterest": 1.0,
+     "preClosurePenalInterestOnType": {
+      "id": 1,
+      "code": "preClosurePenalInterestOnType.wholeTerm",
+      "value": "Whole term"
+     },
+     "minDepositTerm": 6,
+     "maxDepositTerm": 60,
+     "minDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "maxDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "inMultiplesOfDepositTerm": 6,
+     "inMultiplesOfDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "minDepositAmount": 500.0,
+     "depositAmount": 1000.0,
+     "maxDepositAmount": 100000.0,
+     "isMandatoryDeposit": false,
+     "allowWithdrawal": false,
+     "adjustAdvanceTowardsFuturePayments": false,
+     "id": 10,
+     "name": "RD two",
+     "shortName": "RD2",
+     "description": "Fixed",
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "inMultiplesOf": 0,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "nominalAnnualInterestRate": 5.0,
+     "interestCompoundingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestPostingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestCalculationType": {
+      "id": 1,
+      "code": "savingsInterestCalculationType.dailybalance",
+      "value": "Daily Balance"
+     },
+     "interestCalculationDaysInYearType": {
+      "id": 365,
+      "code": "savingsInterestCalculationDaysInYearType.days365",
+      "value": "365 Days"
+     },
+     "withHoldTax": false,
+     "accountingRule": {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     }
+    }
+   ]
+  },
+  {
+   "method": "GET",
+   "path": "/v1/recurringdepositproducts/{a}?template=true",
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": true,
+    "preClosurePenalInterest": 1.0,
+    "preClosurePenalInterestOnType": {
+     "id": 1,
+     "code": "preClosurePenalInterestOnType.wholeTerm",
+     "value": "Whole term"
+    },
+    "minDepositTerm": 6,
+    "maxDepositTerm": 60,
+    "minDepositTermType": {
+     "id": 2,
+     "code": "deposit.term.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "maxDepositTermType": {
+     "id": 2,
+     "code": "deposit.term.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermType": {
+     "id": 2,
+     "code": "deposit.term.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "minDepositAmount": 500.0,
+    "depositAmount": 1000.0,
+    "maxDepositAmount": 100000.0,
+    "isMandatoryDeposit": true,
+    "allowWithdrawal": true,
+    "adjustAdvanceTowardsFuturePayments": true,
+    "preClosurePenalInterestOnTypeOptions": [
+     {
+      "id": 1,
+      "code": "preClosurePenalInterestOnType.wholeTerm",
+      "value": "Whole term"
+     },
+     {
+      "id": 2,
+      "code": "preClosurePenalInterestOnType.tillPrematureWithdrawal",
+      "value": "Till Premature Withdrawal"
+     }
+    ],
+    "periodFrequencyTypeOptions": [
+     {
+      "id": 0,
+      "code": "frequencyperiodFrequencyType.days",
+      "value": "Days"
+     },
+     {
+      "id": 1,
+      "code": "frequencyperiodFrequencyType.weeks",
+      "value": "Weeks"
+     },
+     {
+      "id": 2,
+      "code": "frequencyperiodFrequencyType.months",
+      "value": "Months"
+     },
+     {
+      "id": 3,
+      "code": "frequencyperiodFrequencyType.years",
+      "value": "Years"
+     },
+     {
+      "id": 5,
+      "code": "periodFrequencyType.invalid",
+      "value": "Invalid"
+     }
+    ],
+    "id": 9,
+    "name": "RD one",
+    "shortName": "RD1",
+    "description": "Fixed",
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "nominalAnnualInterestRate": 5.0,
+    "interestCompoundingPeriodType": {
+     "id": 4,
+     "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+     "value": "Monthly"
+    },
+    "interestPostingPeriodType": {
+     "id": 4,
+     "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+     "value": "Monthly"
+    },
+    "interestCalculationType": {
+     "id": 1,
+     "code": "savingsInterestCalculationType.dailybalance",
+     "value": "Daily Balance"
+    },
+    "interestCalculationDaysInYearType": {
+     "id": 365,
+     "code": "savingsInterestCalculationDaysInYearType.days365",
+     "value": "365 Days"
+    },
+    "withHoldTax": false,
+    "accountingRule": {
+     "id": 1,
+     "code": "accountingRuleType.none",
+     "value": "NONE"
+    },
+    "charges": [],
+    "interestRateCharts": [
+     {
+      "id": 9,
+      "name": "Chart",
+      "description": "d",
+      "fromDate": [
+       2024,
+       1,
+       1
+      ],
+      "productId": 9,
+      "productName": "RD one",
+      "isPrimaryGroupingByAmount": false,
+      "chartSlabs": [
+       {
+        "id": 9,
+        "description": "s1",
+        "periodType": {
+         "id": 2,
+         "code": "periodFrequencyType.months",
+         "value": "Months"
+        },
+        "fromPeriod": 1,
+        "toPeriod": 12,
+        "annualInterestRate": 5.0,
+        "currency": {
+         "code": "USD",
+         "name": "US Dollar",
+         "decimalPlaces": 2,
+         "displaySymbol": "$",
+         "nameCode": "currency.USD",
+         "displayLabel": "US Dollar ($)"
+        }
+       }
+      ],
+      "periodTypes": [
+       {
+        "id": 0,
+        "code": "periodFrequencyType.days",
+        "value": "Days"
+       },
+       {
+        "id": 1,
+        "code": "periodFrequencyType.weeks",
+        "value": "Weeks"
+       },
+       {
+        "id": 2,
+        "code": "periodFrequencyType.months",
+        "value": "Months"
+       },
+       {
+        "id": 3,
+        "code": "periodFrequencyType.years",
+        "value": "Years"
+       },
+       {
+        "id": 4,
+        "code": "periodFrequencyType.whole_term",
+        "value": "Whole Term"
+       }
+      ],
+      "entityTypeOptions": [
+       {
+        "id": 2,
+        "code": "InterestIncentiveEntityType.customer",
+        "value": "Customer"
+       },
+       {
+        "id": 3,
+        "code": "InterestIncentiveEntityType.account",
+        "value": "account"
+       }
+      ],
+      "attributeNameOptions": [
+       {
+        "id": 2,
+        "code": "InterestIncentiveAttributeName.gender",
+        "value": "Gender"
+       },
+       {
+        "id": 3,
+        "code": "InterestIncentiveAttributeName.age",
+        "value": "age"
+       },
+       {
+        "id": 4,
+        "code": "InterestIncentiveAttributeName.clientType",
+        "value": "Client Type"
+       },
+       {
+        "id": 5,
+        "code": "InterestIncentiveAttributeName.clientClassification",
+        "value": "Client Classification"
+       }
+      ],
+      "conditionTypeOptions": [
+       {
+        "id": 1,
+        "code": "incentiveConditionType.lessthan",
+        "value": "lessthan"
+       },
+       {
+        "id": 2,
+        "code": "incentiveConditionType.equal",
+        "value": "equal"
+       },
+       {
+        "id": 3,
+        "code": "incentiveConditionType.greaterthan",
+        "value": "greaterthan"
+       },
+       {
+        "id": 4,
+        "code": "incentiveConditionType.notequal",
+        "value": "notEqual"
+       }
+      ],
+      "incentiveTypeOptions": [
+       {
+        "id": 2,
+        "code": "InterestIncentiveType.fixed",
+        "value": "Fixed"
+       },
+       {
+        "id": 3,
+        "code": "InterestIncentiveType.incentive",
+        "value": "Incentive"
+       }
+      ],
+      "genderOptions": [],
+      "clientTypeOptions": [],
+      "clientClassificationOptions": []
+     }
+    ],
+    "activeChart": {
+     "id": 9,
+     "name": "Chart",
+     "description": "d",
+     "fromDate": [
+      2024,
+      1,
+      1
+     ],
+     "productId": 9,
+     "productName": "RD one",
+     "isPrimaryGroupingByAmount": false,
+     "chartSlabs": [
+      {
+       "id": 9,
+       "description": "s1",
+       "periodType": {
+        "id": 2,
+        "code": "periodFrequencyType.months",
+        "value": "Months"
+       },
+       "fromPeriod": 1,
+       "toPeriod": 12,
+       "annualInterestRate": 5.0,
+       "currency": {
+        "code": "USD",
+        "name": "US Dollar",
+        "decimalPlaces": 2,
+        "displaySymbol": "$",
+        "nameCode": "currency.USD",
+        "displayLabel": "US Dollar ($)"
+       }
+      }
+     ],
+     "periodTypes": [
+      {
+       "id": 0,
+       "code": "periodFrequencyType.days",
+       "value": "Days"
+      },
+      {
+       "id": 1,
+       "code": "periodFrequencyType.weeks",
+       "value": "Weeks"
+      },
+      {
+       "id": 2,
+       "code": "periodFrequencyType.months",
+       "value": "Months"
+      },
+      {
+       "id": 3,
+       "code": "periodFrequencyType.years",
+       "value": "Years"
+      },
+      {
+       "id": 4,
+       "code": "periodFrequencyType.whole_term",
+       "value": "Whole Term"
+      }
+     ],
+     "entityTypeOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveEntityType.customer",
+       "value": "Customer"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveEntityType.account",
+       "value": "account"
+      }
+     ],
+     "attributeNameOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveAttributeName.gender",
+       "value": "Gender"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveAttributeName.age",
+       "value": "age"
+      },
+      {
+       "id": 4,
+       "code": "InterestIncentiveAttributeName.clientType",
+       "value": "Client Type"
+      },
+      {
+       "id": 5,
+       "code": "InterestIncentiveAttributeName.clientClassification",
+       "value": "Client Classification"
+      }
+     ],
+     "conditionTypeOptions": [
+      {
+       "id": 1,
+       "code": "incentiveConditionType.lessthan",
+       "value": "lessthan"
+      },
+      {
+       "id": 2,
+       "code": "incentiveConditionType.equal",
+       "value": "equal"
+      },
+      {
+       "id": 3,
+       "code": "incentiveConditionType.greaterthan",
+       "value": "greaterthan"
+      },
+      {
+       "id": 4,
+       "code": "incentiveConditionType.notequal",
+       "value": "notEqual"
+      }
+     ],
+     "incentiveTypeOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveType.fixed",
+       "value": "Fixed"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveType.incentive",
+       "value": "Incentive"
+      }
+     ],
+     "genderOptions": [],
+     "clientTypeOptions": [],
+     "clientClassificationOptions": []
+    },
+    "currencyOptions": [
+     {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     }
+    ],
+    "interestCompoundingPeriodTypeOptions": [
+     {
+      "id": 1,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.daily",
+      "value": "Daily"
+     },
+     {
+      "id": 4,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     {
+      "id": 5,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.quarterly",
+      "value": "Quarterly"
+     },
+     {
+      "id": 6,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.biannual",
+      "value": "Semi-Annual"
+     },
+     {
+      "id": 7,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.annual",
+      "value": "Annually"
+     }
+    ],
+    "interestPostingPeriodTypeOptions": [
+     {
+      "id": 1,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.daily",
+      "value": "Daily"
+     },
+     {
+      "id": 4,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     {
+      "id": 5,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.quarterly",
+      "value": "Quarterly"
+     },
+     {
+      "id": 6,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.biannual",
+      "value": "BiAnnual"
+     },
+     {
+      "id": 7,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.annual",
+      "value": "Annually"
+     },
+     {
+      "id": 8,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.anniversaryMonthly",
+      "value": "Anniversary Monthly"
+     },
+     {
+      "id": 9,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.anniversaryQuarterly",
+      "value": "Anniversary Quarterly"
+     },
+     {
+      "id": 10,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.anniversaryBiAnnual",
+      "value": "Anniversary BiAnnual"
+     },
+     {
+      "id": 11,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.anniversaryAnnual",
+      "value": "Anniversary Annually"
+     }
+    ],
+    "interestCalculationTypeOptions": [
+     {
+      "id": 1,
+      "code": "savingsInterestCalculationType.dailybalance",
+      "value": "Daily Balance"
+     },
+     {
+      "id": 2,
+      "code": "savingsInterestCalculationType.averagedailybalance",
+      "value": "Average Daily Balance"
+     }
+    ],
+    "interestCalculationDaysInYearTypeOptions": [
+     {
+      "id": 360,
+      "code": "savingsInterestCalculationDaysInYearType.days360",
+      "value": "360 Days"
+     },
+     {
+      "id": 365,
+      "code": "savingsInterestCalculationDaysInYearType.days365",
+      "value": "365 Days"
+     }
+    ],
+    "lockinPeriodFrequencyTypeOptions": [
+     {
+      "id": 0,
+      "code": "savings.lockin.savingsPeriodFrequencyType.days",
+      "value": "Days"
+     },
+     {
+      "id": 1,
+      "code": "savings.lockin.savingsPeriodFrequencyType.weeks",
+      "value": "Weeks"
+     },
+     {
+      "id": 2,
+      "code": "savings.lockin.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     {
+      "id": 3,
+      "code": "savings.lockin.savingsPeriodFrequencyType.years",
+      "value": "Years"
+     }
+    ],
+    "withdrawalFeeTypeOptions": [
+     {
+      "id": 1,
+      "code": "savingsWithdrawalFeesType.flat",
+      "value": "Flat"
+     },
+     {
+      "id": 2,
+      "code": "savingsWithdrawalFeesType.percent.of.amount",
+      "value": "% of Amount"
+     }
+    ],
+    "paymentTypeOptions": [
+     {
+      "id": 1,
+      "name": "Money Transfer",
+      "description": "Money Transfer",
+      "isCashPayment": false,
+      "position": 1,
+      "isSystemDefined": false
+     },
+     {
+      "id": 2,
+      "name": "Repayment Adjustment Chargeback",
+      "description": "Repayment Adjustment Chargeback",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_CHARGEBACK",
+      "isSystemDefined": true
+     },
+     {
+      "id": 3,
+      "name": "Repayment Adjustment Refund",
+      "description": "Repayment Adjustment Refund",
+      "isCashPayment": false,
+      "position": 1,
+      "codeName": "REPAYMENT_ADJUSTMENT_REFUND",
+      "isSystemDefined": true
+     }
+    ],
+    "accountingRuleOptions": [
+     {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     },
+     {
+      "id": 2,
+      "code": "accountingRuleType.cash",
+      "value": "CASH BASED"
+     },
+     {
+      "id": 3,
+      "code": "accountingRuleType.accrual.periodic",
+      "value": "ACCRUAL PERIODIC"
+     },
+     {
+      "id": 4,
+      "code": "accountingRuleType.accrual.upfront",
+      "value": "ACCRUAL UPFRONT"
+     }
+    ],
+    "accountingMappingOptions": {},
+    "chartTemplate": {
+     "isPrimaryGroupingByAmount": false,
+     "chartSlabs": [],
+     "periodTypes": [
+      {
+       "id": 0,
+       "code": "periodFrequencyType.days",
+       "value": "Days"
+      },
+      {
+       "id": 1,
+       "code": "periodFrequencyType.weeks",
+       "value": "Weeks"
+      },
+      {
+       "id": 2,
+       "code": "periodFrequencyType.months",
+       "value": "Months"
+      },
+      {
+       "id": 3,
+       "code": "periodFrequencyType.years",
+       "value": "Years"
+      },
+      {
+       "id": 4,
+       "code": "periodFrequencyType.whole_term",
+       "value": "Whole Term"
+      }
+     ],
+     "entityTypeOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveEntityType.customer",
+       "value": "Customer"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveEntityType.account",
+       "value": "account"
+      }
+     ],
+     "attributeNameOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveAttributeName.gender",
+       "value": "Gender"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveAttributeName.age",
+       "value": "age"
+      },
+      {
+       "id": 4,
+       "code": "InterestIncentiveAttributeName.clientType",
+       "value": "Client Type"
+      },
+      {
+       "id": 5,
+       "code": "InterestIncentiveAttributeName.clientClassification",
+       "value": "Client Classification"
+      }
+     ],
+     "conditionTypeOptions": [
+      {
+       "id": 1,
+       "code": "incentiveConditionType.lessthan",
+       "value": "lessthan"
+      },
+      {
+       "id": 2,
+       "code": "incentiveConditionType.equal",
+       "value": "equal"
+      },
+      {
+       "id": 3,
+       "code": "incentiveConditionType.greaterthan",
+       "value": "greaterthan"
+      },
+      {
+       "id": 4,
+       "code": "incentiveConditionType.notequal",
+       "value": "notEqual"
+      }
+     ],
+     "incentiveTypeOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveType.fixed",
+       "value": "Fixed"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveType.incentive",
+       "value": "Incentive"
+      }
+     ],
+     "genderOptions": [],
+     "clientTypeOptions": [],
+     "clientClassificationOptions": []
+    },
+    "taxGroupOptions": []
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/recurringdepositproducts/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Fixed deposit product with identifier 99 does not exist",
+      "defaultUserMessage": "Fixed deposit product with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.fixeddepositproduct.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/recurringdepositproducts/abc",
+   "status": 404,
+   "response": {
+    "timestamp": "2026-11-20T10:30:52.832Z",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/fineract-provider/api/v1/recurringdepositproducts/abc"
+   },
+   "ignore": [
+    "path",
+    "timestamp"
+   ]
+  },
+  {
+   "method": "GET",
+   "path": "/v1/fixeddepositproducts/{a}",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Fixed deposit product with identifier 9 does not exist",
+      "defaultUserMessage": "Fixed deposit product with identifier 9 does not exist",
+      "userMessageGlobalisationCode": "error.msg.fixeddepositproduct.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 9
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/recurringdepositproducts/{a}",
+   "save": {
+    "cha": "interestRateCharts.0.id",
+    "sla": "interestRateCharts.0.chartSlabs.0.id"
+   },
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": true,
+    "preClosurePenalInterest": 1.0,
+    "preClosurePenalInterestOnType": {
+     "id": 1,
+     "code": "preClosurePenalInterestOnType.wholeTerm",
+     "value": "Whole term"
+    },
+    "minDepositTerm": 6,
+    "maxDepositTerm": 60,
+    "minDepositTermType": {
+     "id": 2,
+     "code": "deposit.term.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "maxDepositTermType": {
+     "id": 2,
+     "code": "deposit.term.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermType": {
+     "id": 2,
+     "code": "deposit.term.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "minDepositAmount": 500.0,
+    "depositAmount": 1000.0,
+    "maxDepositAmount": 100000.0,
+    "isMandatoryDeposit": true,
+    "allowWithdrawal": true,
+    "adjustAdvanceTowardsFuturePayments": true,
+    "id": 9,
+    "name": "RD one",
+    "shortName": "RD1",
+    "description": "Fixed",
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "nominalAnnualInterestRate": 5.0,
+    "interestCompoundingPeriodType": {
+     "id": 4,
+     "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+     "value": "Monthly"
+    },
+    "interestPostingPeriodType": {
+     "id": 4,
+     "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+     "value": "Monthly"
+    },
+    "interestCalculationType": {
+     "id": 1,
+     "code": "savingsInterestCalculationType.dailybalance",
+     "value": "Daily Balance"
+    },
+    "interestCalculationDaysInYearType": {
+     "id": 365,
+     "code": "savingsInterestCalculationDaysInYearType.days365",
+     "value": "365 Days"
+    },
+    "withHoldTax": false,
+    "accountingRule": {
+     "id": 1,
+     "code": "accountingRuleType.none",
+     "value": "NONE"
+    },
+    "charges": [],
+    "interestRateCharts": [
+     {
+      "id": 9,
+      "name": "Chart",
+      "description": "d",
+      "fromDate": [
+       2024,
+       1,
+       1
+      ],
+      "productId": 9,
+      "productName": "RD one",
+      "isPrimaryGroupingByAmount": false,
+      "chartSlabs": [
+       {
+        "id": 9,
+        "description": "s1",
+        "periodType": {
+         "id": 2,
+         "code": "periodFrequencyType.months",
+         "value": "Months"
+        },
+        "fromPeriod": 1,
+        "toPeriod": 12,
+        "annualInterestRate": 5.0,
+        "currency": {
+         "code": "USD",
+         "name": "US Dollar",
+         "decimalPlaces": 2,
+         "displaySymbol": "$",
+         "nameCode": "currency.USD",
+         "displayLabel": "US Dollar ($)"
+        }
+       }
+      ],
+      "periodTypes": [
+       {
+        "id": 0,
+        "code": "periodFrequencyType.days",
+        "value": "Days"
+       },
+       {
+        "id": 1,
+        "code": "periodFrequencyType.weeks",
+        "value": "Weeks"
+       },
+       {
+        "id": 2,
+        "code": "periodFrequencyType.months",
+        "value": "Months"
+       },
+       {
+        "id": 3,
+        "code": "periodFrequencyType.years",
+        "value": "Years"
+       },
+       {
+        "id": 4,
+        "code": "periodFrequencyType.whole_term",
+        "value": "Whole Term"
+       }
+      ],
+      "entityTypeOptions": [
+       {
+        "id": 2,
+        "code": "InterestIncentiveEntityType.customer",
+        "value": "Customer"
+       },
+       {
+        "id": 3,
+        "code": "InterestIncentiveEntityType.account",
+        "value": "account"
+       }
+      ],
+      "attributeNameOptions": [
+       {
+        "id": 2,
+        "code": "InterestIncentiveAttributeName.gender",
+        "value": "Gender"
+       },
+       {
+        "id": 3,
+        "code": "InterestIncentiveAttributeName.age",
+        "value": "age"
+       },
+       {
+        "id": 4,
+        "code": "InterestIncentiveAttributeName.clientType",
+        "value": "Client Type"
+       },
+       {
+        "id": 5,
+        "code": "InterestIncentiveAttributeName.clientClassification",
+        "value": "Client Classification"
+       }
+      ],
+      "conditionTypeOptions": [
+       {
+        "id": 1,
+        "code": "incentiveConditionType.lessthan",
+        "value": "lessthan"
+       },
+       {
+        "id": 2,
+        "code": "incentiveConditionType.equal",
+        "value": "equal"
+       },
+       {
+        "id": 3,
+        "code": "incentiveConditionType.greaterthan",
+        "value": "greaterthan"
+       },
+       {
+        "id": 4,
+        "code": "incentiveConditionType.notequal",
+        "value": "notEqual"
+       }
+      ],
+      "incentiveTypeOptions": [
+       {
+        "id": 2,
+        "code": "InterestIncentiveType.fixed",
+        "value": "Fixed"
+       },
+       {
+        "id": 3,
+        "code": "InterestIncentiveType.incentive",
+        "value": "Incentive"
+       }
+      ],
+      "genderOptions": [],
+      "clientTypeOptions": [],
+      "clientClassificationOptions": []
+     }
+    ],
+    "activeChart": {
+     "id": 9,
+     "name": "Chart",
+     "description": "d",
+     "fromDate": [
+      2024,
+      1,
+      1
+     ],
+     "productId": 9,
+     "productName": "RD one",
+     "isPrimaryGroupingByAmount": false,
+     "chartSlabs": [
+      {
+       "id": 9,
+       "description": "s1",
+       "periodType": {
+        "id": 2,
+        "code": "periodFrequencyType.months",
+        "value": "Months"
+       },
+       "fromPeriod": 1,
+       "toPeriod": 12,
+       "annualInterestRate": 5.0,
+       "currency": {
+        "code": "USD",
+        "name": "US Dollar",
+        "decimalPlaces": 2,
+        "displaySymbol": "$",
+        "nameCode": "currency.USD",
+        "displayLabel": "US Dollar ($)"
+       }
+      }
+     ],
+     "periodTypes": [
+      {
+       "id": 0,
+       "code": "periodFrequencyType.days",
+       "value": "Days"
+      },
+      {
+       "id": 1,
+       "code": "periodFrequencyType.weeks",
+       "value": "Weeks"
+      },
+      {
+       "id": 2,
+       "code": "periodFrequencyType.months",
+       "value": "Months"
+      },
+      {
+       "id": 3,
+       "code": "periodFrequencyType.years",
+       "value": "Years"
+      },
+      {
+       "id": 4,
+       "code": "periodFrequencyType.whole_term",
+       "value": "Whole Term"
+      }
+     ],
+     "entityTypeOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveEntityType.customer",
+       "value": "Customer"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveEntityType.account",
+       "value": "account"
+      }
+     ],
+     "attributeNameOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveAttributeName.gender",
+       "value": "Gender"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveAttributeName.age",
+       "value": "age"
+      },
+      {
+       "id": 4,
+       "code": "InterestIncentiveAttributeName.clientType",
+       "value": "Client Type"
+      },
+      {
+       "id": 5,
+       "code": "InterestIncentiveAttributeName.clientClassification",
+       "value": "Client Classification"
+      }
+     ],
+     "conditionTypeOptions": [
+      {
+       "id": 1,
+       "code": "incentiveConditionType.lessthan",
+       "value": "lessthan"
+      },
+      {
+       "id": 2,
+       "code": "incentiveConditionType.equal",
+       "value": "equal"
+      },
+      {
+       "id": 3,
+       "code": "incentiveConditionType.greaterthan",
+       "value": "greaterthan"
+      },
+      {
+       "id": 4,
+       "code": "incentiveConditionType.notequal",
+       "value": "notEqual"
+      }
+     ],
+     "incentiveTypeOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveType.fixed",
+       "value": "Fixed"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveType.incentive",
+       "value": "Incentive"
+      }
+     ],
+     "genderOptions": [],
+     "clientTypeOptions": [],
+     "clientClassificationOptions": []
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/recurringdepositproducts/{a}",
+   "body": {
+    "charts": [
+     {
+      "id": "{cha}",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en"
+     }
+    ],
+    "name": "Renamed"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 9,
+    "changes": {
+     "name": "Renamed"
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/recurringdepositproducts/{a}",
+   "body": {
+    "charts": [
+     {
+      "id": "{cha}",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en"
+     }
+    ],
+    "isMandatoryDeposit": false
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 9,
+    "changes": {
+     "isMandatoryDeposit": false
+    }
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/recurringdepositproducts/{a}",
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": true,
+    "preClosurePenalInterest": 1.0,
+    "preClosurePenalInterestOnType": {
+     "id": 1,
+     "code": "preClosurePenalInterestOnType.wholeTerm",
+     "value": "Whole term"
+    },
+    "minDepositTerm": 6,
+    "maxDepositTerm": 60,
+    "minDepositTermType": {
+     "id": 2,
+     "code": "deposit.term.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "maxDepositTermType": {
+     "id": 2,
+     "code": "deposit.term.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermType": {
+     "id": 2,
+     "code": "deposit.term.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "minDepositAmount": 500.0,
+    "depositAmount": 1000.0,
+    "maxDepositAmount": 100000.0,
+    "isMandatoryDeposit": false,
+    "allowWithdrawal": true,
+    "adjustAdvanceTowardsFuturePayments": true,
+    "id": 9,
+    "name": "Renamed",
+    "shortName": "RD1",
+    "description": "Fixed",
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "nominalAnnualInterestRate": 5.0,
+    "interestCompoundingPeriodType": {
+     "id": 4,
+     "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+     "value": "Monthly"
+    },
+    "interestPostingPeriodType": {
+     "id": 4,
+     "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+     "value": "Monthly"
+    },
+    "interestCalculationType": {
+     "id": 1,
+     "code": "savingsInterestCalculationType.dailybalance",
+     "value": "Daily Balance"
+    },
+    "interestCalculationDaysInYearType": {
+     "id": 365,
+     "code": "savingsInterestCalculationDaysInYearType.days365",
+     "value": "365 Days"
+    },
+    "withHoldTax": false,
+    "accountingRule": {
+     "id": 1,
+     "code": "accountingRuleType.none",
+     "value": "NONE"
+    },
+    "charges": [],
+    "interestRateCharts": [
+     {
+      "id": 9,
+      "name": "Chart",
+      "description": "d",
+      "fromDate": [
+       2024,
+       1,
+       1
+      ],
+      "productId": 9,
+      "productName": "Renamed",
+      "isPrimaryGroupingByAmount": false,
+      "chartSlabs": [
+       {
+        "id": 9,
+        "description": "s1",
+        "periodType": {
+         "id": 2,
+         "code": "periodFrequencyType.months",
+         "value": "Months"
+        },
+        "fromPeriod": 1,
+        "toPeriod": 12,
+        "annualInterestRate": 5.0,
+        "currency": {
+         "code": "USD",
+         "name": "US Dollar",
+         "decimalPlaces": 2,
+         "displaySymbol": "$",
+         "nameCode": "currency.USD",
+         "displayLabel": "US Dollar ($)"
+        }
+       }
+      ],
+      "periodTypes": [
+       {
+        "id": 0,
+        "code": "periodFrequencyType.days",
+        "value": "Days"
+       },
+       {
+        "id": 1,
+        "code": "periodFrequencyType.weeks",
+        "value": "Weeks"
+       },
+       {
+        "id": 2,
+        "code": "periodFrequencyType.months",
+        "value": "Months"
+       },
+       {
+        "id": 3,
+        "code": "periodFrequencyType.years",
+        "value": "Years"
+       },
+       {
+        "id": 4,
+        "code": "periodFrequencyType.whole_term",
+        "value": "Whole Term"
+       }
+      ],
+      "entityTypeOptions": [
+       {
+        "id": 2,
+        "code": "InterestIncentiveEntityType.customer",
+        "value": "Customer"
+       },
+       {
+        "id": 3,
+        "code": "InterestIncentiveEntityType.account",
+        "value": "account"
+       }
+      ],
+      "attributeNameOptions": [
+       {
+        "id": 2,
+        "code": "InterestIncentiveAttributeName.gender",
+        "value": "Gender"
+       },
+       {
+        "id": 3,
+        "code": "InterestIncentiveAttributeName.age",
+        "value": "age"
+       },
+       {
+        "id": 4,
+        "code": "InterestIncentiveAttributeName.clientType",
+        "value": "Client Type"
+       },
+       {
+        "id": 5,
+        "code": "InterestIncentiveAttributeName.clientClassification",
+        "value": "Client Classification"
+       }
+      ],
+      "conditionTypeOptions": [
+       {
+        "id": 1,
+        "code": "incentiveConditionType.lessthan",
+        "value": "lessthan"
+       },
+       {
+        "id": 2,
+        "code": "incentiveConditionType.equal",
+        "value": "equal"
+       },
+       {
+        "id": 3,
+        "code": "incentiveConditionType.greaterthan",
+        "value": "greaterthan"
+       },
+       {
+        "id": 4,
+        "code": "incentiveConditionType.notequal",
+        "value": "notEqual"
+       }
+      ],
+      "incentiveTypeOptions": [
+       {
+        "id": 2,
+        "code": "InterestIncentiveType.fixed",
+        "value": "Fixed"
+       },
+       {
+        "id": 3,
+        "code": "InterestIncentiveType.incentive",
+        "value": "Incentive"
+       }
+      ],
+      "genderOptions": [],
+      "clientTypeOptions": [],
+      "clientClassificationOptions": []
+     }
+    ],
+    "activeChart": {
+     "id": 9,
+     "name": "Chart",
+     "description": "d",
+     "fromDate": [
+      2024,
+      1,
+      1
+     ],
+     "productId": 9,
+     "productName": "Renamed",
+     "isPrimaryGroupingByAmount": false,
+     "chartSlabs": [
+      {
+       "id": 9,
+       "description": "s1",
+       "periodType": {
+        "id": 2,
+        "code": "periodFrequencyType.months",
+        "value": "Months"
+       },
+       "fromPeriod": 1,
+       "toPeriod": 12,
+       "annualInterestRate": 5.0,
+       "currency": {
+        "code": "USD",
+        "name": "US Dollar",
+        "decimalPlaces": 2,
+        "displaySymbol": "$",
+        "nameCode": "currency.USD",
+        "displayLabel": "US Dollar ($)"
+       }
+      }
+     ],
+     "periodTypes": [
+      {
+       "id": 0,
+       "code": "periodFrequencyType.days",
+       "value": "Days"
+      },
+      {
+       "id": 1,
+       "code": "periodFrequencyType.weeks",
+       "value": "Weeks"
+      },
+      {
+       "id": 2,
+       "code": "periodFrequencyType.months",
+       "value": "Months"
+      },
+      {
+       "id": 3,
+       "code": "periodFrequencyType.years",
+       "value": "Years"
+      },
+      {
+       "id": 4,
+       "code": "periodFrequencyType.whole_term",
+       "value": "Whole Term"
+      }
+     ],
+     "entityTypeOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveEntityType.customer",
+       "value": "Customer"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveEntityType.account",
+       "value": "account"
+      }
+     ],
+     "attributeNameOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveAttributeName.gender",
+       "value": "Gender"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveAttributeName.age",
+       "value": "age"
+      },
+      {
+       "id": 4,
+       "code": "InterestIncentiveAttributeName.clientType",
+       "value": "Client Type"
+      },
+      {
+       "id": 5,
+       "code": "InterestIncentiveAttributeName.clientClassification",
+       "value": "Client Classification"
+      }
+     ],
+     "conditionTypeOptions": [
+      {
+       "id": 1,
+       "code": "incentiveConditionType.lessthan",
+       "value": "lessthan"
+      },
+      {
+       "id": 2,
+       "code": "incentiveConditionType.equal",
+       "value": "equal"
+      },
+      {
+       "id": 3,
+       "code": "incentiveConditionType.greaterthan",
+       "value": "greaterthan"
+      },
+      {
+       "id": 4,
+       "code": "incentiveConditionType.notequal",
+       "value": "notEqual"
+      }
+     ],
+     "incentiveTypeOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveType.fixed",
+       "value": "Fixed"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveType.incentive",
+       "value": "Incentive"
+      }
+     ],
+     "genderOptions": [],
+     "clientTypeOptions": [],
+     "clientClassificationOptions": []
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/recurringdepositproducts/{a}",
+   "body": {
+    "charts": [
+     {
+      "id": "{cha}",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en"
+     }
+    ],
+    "allowWithdrawal": false,
+    "adjustAdvanceTowardsFuturePayments": false
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 9,
+    "changes": {
+     "allowWithdrawal": false,
+     "adjustAdvanceTowardsFuturePayments": false
+    }
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/recurringdepositproducts/{a}",
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": true,
+    "preClosurePenalInterest": 1.0,
+    "preClosurePenalInterestOnType": {
+     "id": 1,
+     "code": "preClosurePenalInterestOnType.wholeTerm",
+     "value": "Whole term"
+    },
+    "minDepositTerm": 6,
+    "maxDepositTerm": 60,
+    "minDepositTermType": {
+     "id": 2,
+     "code": "deposit.term.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "maxDepositTermType": {
+     "id": 2,
+     "code": "deposit.term.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermType": {
+     "id": 2,
+     "code": "deposit.term.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "minDepositAmount": 500.0,
+    "depositAmount": 1000.0,
+    "maxDepositAmount": 100000.0,
+    "isMandatoryDeposit": false,
+    "allowWithdrawal": false,
+    "adjustAdvanceTowardsFuturePayments": false,
+    "id": 9,
+    "name": "Renamed",
+    "shortName": "RD1",
+    "description": "Fixed",
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "nominalAnnualInterestRate": 5.0,
+    "interestCompoundingPeriodType": {
+     "id": 4,
+     "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+     "value": "Monthly"
+    },
+    "interestPostingPeriodType": {
+     "id": 4,
+     "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+     "value": "Monthly"
+    },
+    "interestCalculationType": {
+     "id": 1,
+     "code": "savingsInterestCalculationType.dailybalance",
+     "value": "Daily Balance"
+    },
+    "interestCalculationDaysInYearType": {
+     "id": 365,
+     "code": "savingsInterestCalculationDaysInYearType.days365",
+     "value": "365 Days"
+    },
+    "withHoldTax": false,
+    "accountingRule": {
+     "id": 1,
+     "code": "accountingRuleType.none",
+     "value": "NONE"
+    },
+    "charges": [],
+    "interestRateCharts": [
+     {
+      "id": 9,
+      "name": "Chart",
+      "description": "d",
+      "fromDate": [
+       2024,
+       1,
+       1
+      ],
+      "productId": 9,
+      "productName": "Renamed",
+      "isPrimaryGroupingByAmount": false,
+      "chartSlabs": [
+       {
+        "id": 9,
+        "description": "s1",
+        "periodType": {
+         "id": 2,
+         "code": "periodFrequencyType.months",
+         "value": "Months"
+        },
+        "fromPeriod": 1,
+        "toPeriod": 12,
+        "annualInterestRate": 5.0,
+        "currency": {
+         "code": "USD",
+         "name": "US Dollar",
+         "decimalPlaces": 2,
+         "displaySymbol": "$",
+         "nameCode": "currency.USD",
+         "displayLabel": "US Dollar ($)"
+        }
+       }
+      ],
+      "periodTypes": [
+       {
+        "id": 0,
+        "code": "periodFrequencyType.days",
+        "value": "Days"
+       },
+       {
+        "id": 1,
+        "code": "periodFrequencyType.weeks",
+        "value": "Weeks"
+       },
+       {
+        "id": 2,
+        "code": "periodFrequencyType.months",
+        "value": "Months"
+       },
+       {
+        "id": 3,
+        "code": "periodFrequencyType.years",
+        "value": "Years"
+       },
+       {
+        "id": 4,
+        "code": "periodFrequencyType.whole_term",
+        "value": "Whole Term"
+       }
+      ],
+      "entityTypeOptions": [
+       {
+        "id": 2,
+        "code": "InterestIncentiveEntityType.customer",
+        "value": "Customer"
+       },
+       {
+        "id": 3,
+        "code": "InterestIncentiveEntityType.account",
+        "value": "account"
+       }
+      ],
+      "attributeNameOptions": [
+       {
+        "id": 2,
+        "code": "InterestIncentiveAttributeName.gender",
+        "value": "Gender"
+       },
+       {
+        "id": 3,
+        "code": "InterestIncentiveAttributeName.age",
+        "value": "age"
+       },
+       {
+        "id": 4,
+        "code": "InterestIncentiveAttributeName.clientType",
+        "value": "Client Type"
+       },
+       {
+        "id": 5,
+        "code": "InterestIncentiveAttributeName.clientClassification",
+        "value": "Client Classification"
+       }
+      ],
+      "conditionTypeOptions": [
+       {
+        "id": 1,
+        "code": "incentiveConditionType.lessthan",
+        "value": "lessthan"
+       },
+       {
+        "id": 2,
+        "code": "incentiveConditionType.equal",
+        "value": "equal"
+       },
+       {
+        "id": 3,
+        "code": "incentiveConditionType.greaterthan",
+        "value": "greaterthan"
+       },
+       {
+        "id": 4,
+        "code": "incentiveConditionType.notequal",
+        "value": "notEqual"
+       }
+      ],
+      "incentiveTypeOptions": [
+       {
+        "id": 2,
+        "code": "InterestIncentiveType.fixed",
+        "value": "Fixed"
+       },
+       {
+        "id": 3,
+        "code": "InterestIncentiveType.incentive",
+        "value": "Incentive"
+       }
+      ],
+      "genderOptions": [],
+      "clientTypeOptions": [],
+      "clientClassificationOptions": []
+     }
+    ],
+    "activeChart": {
+     "id": 9,
+     "name": "Chart",
+     "description": "d",
+     "fromDate": [
+      2024,
+      1,
+      1
+     ],
+     "productId": 9,
+     "productName": "Renamed",
+     "isPrimaryGroupingByAmount": false,
+     "chartSlabs": [
+      {
+       "id": 9,
+       "description": "s1",
+       "periodType": {
+        "id": 2,
+        "code": "periodFrequencyType.months",
+        "value": "Months"
+       },
+       "fromPeriod": 1,
+       "toPeriod": 12,
+       "annualInterestRate": 5.0,
+       "currency": {
+        "code": "USD",
+        "name": "US Dollar",
+        "decimalPlaces": 2,
+        "displaySymbol": "$",
+        "nameCode": "currency.USD",
+        "displayLabel": "US Dollar ($)"
+       }
+      }
+     ],
+     "periodTypes": [
+      {
+       "id": 0,
+       "code": "periodFrequencyType.days",
+       "value": "Days"
+      },
+      {
+       "id": 1,
+       "code": "periodFrequencyType.weeks",
+       "value": "Weeks"
+      },
+      {
+       "id": 2,
+       "code": "periodFrequencyType.months",
+       "value": "Months"
+      },
+      {
+       "id": 3,
+       "code": "periodFrequencyType.years",
+       "value": "Years"
+      },
+      {
+       "id": 4,
+       "code": "periodFrequencyType.whole_term",
+       "value": "Whole Term"
+      }
+     ],
+     "entityTypeOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveEntityType.customer",
+       "value": "Customer"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveEntityType.account",
+       "value": "account"
+      }
+     ],
+     "attributeNameOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveAttributeName.gender",
+       "value": "Gender"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveAttributeName.age",
+       "value": "age"
+      },
+      {
+       "id": 4,
+       "code": "InterestIncentiveAttributeName.clientType",
+       "value": "Client Type"
+      },
+      {
+       "id": 5,
+       "code": "InterestIncentiveAttributeName.clientClassification",
+       "value": "Client Classification"
+      }
+     ],
+     "conditionTypeOptions": [
+      {
+       "id": 1,
+       "code": "incentiveConditionType.lessthan",
+       "value": "lessthan"
+      },
+      {
+       "id": 2,
+       "code": "incentiveConditionType.equal",
+       "value": "equal"
+      },
+      {
+       "id": 3,
+       "code": "incentiveConditionType.greaterthan",
+       "value": "greaterthan"
+      },
+      {
+       "id": 4,
+       "code": "incentiveConditionType.notequal",
+       "value": "notEqual"
+      }
+     ],
+     "incentiveTypeOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveType.fixed",
+       "value": "Fixed"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveType.incentive",
+       "value": "Incentive"
+      }
+     ],
+     "genderOptions": [],
+     "clientTypeOptions": [],
+     "clientClassificationOptions": []
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/recurringdepositproducts/{a}",
+   "body": {
+    "charts": [
+     {
+      "id": "{cha}",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en"
+     }
+    ],
+    "isMandatoryDeposit": "abc"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 9,
+    "changes": {}
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/recurringdepositproducts/{a}",
+   "body": {
+    "charts": [
+     {
+      "id": "{cha}",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en"
+     }
+    ],
+    "isMandatoryDeposit": null
+   },
+   "status": 500,
+   "response": {
+    "timestamp": "2026-11-20T10:30:53.796Z",
+    "status": 500,
+    "error": "Internal Server Error",
+    "path": "/fineract-provider/api/v1/recurringdepositproducts/9"
+   },
+   "ignore": [
+    "path",
+    "timestamp"
+   ]
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/recurringdepositproducts/{a}",
+   "body": {
+    "charts": [
+     {
+      "id": "{cha}",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en"
+     }
+    ],
+    "mandatoryRecommendedDepositAmount": 50,
+    "recurringFrequency": 2,
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 9,
+    "changes": {}
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/recurringdepositproducts/{a}",
+   "status": 200,
+   "response": {
+    "preClosurePenalApplicable": true,
+    "preClosurePenalInterest": 1.0,
+    "preClosurePenalInterestOnType": {
+     "id": 1,
+     "code": "preClosurePenalInterestOnType.wholeTerm",
+     "value": "Whole term"
+    },
+    "minDepositTerm": 6,
+    "maxDepositTerm": 60,
+    "minDepositTermType": {
+     "id": 2,
+     "code": "deposit.term.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "maxDepositTermType": {
+     "id": 2,
+     "code": "deposit.term.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "inMultiplesOfDepositTerm": 6,
+    "inMultiplesOfDepositTermType": {
+     "id": 2,
+     "code": "deposit.term.savingsPeriodFrequencyType.months",
+     "value": "Months"
+    },
+    "minDepositAmount": 500.0,
+    "depositAmount": 1000.0,
+    "maxDepositAmount": 100000.0,
+    "isMandatoryDeposit": false,
+    "allowWithdrawal": false,
+    "adjustAdvanceTowardsFuturePayments": false,
+    "id": 9,
+    "name": "Renamed",
+    "shortName": "RD1",
+    "description": "Fixed",
+    "currency": {
+     "code": "USD",
+     "name": "US Dollar",
+     "decimalPlaces": 2,
+     "inMultiplesOf": 0,
+     "displaySymbol": "$",
+     "nameCode": "currency.USD",
+     "displayLabel": "US Dollar ($)"
+    },
+    "nominalAnnualInterestRate": 5.0,
+    "interestCompoundingPeriodType": {
+     "id": 4,
+     "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+     "value": "Monthly"
+    },
+    "interestPostingPeriodType": {
+     "id": 4,
+     "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+     "value": "Monthly"
+    },
+    "interestCalculationType": {
+     "id": 1,
+     "code": "savingsInterestCalculationType.dailybalance",
+     "value": "Daily Balance"
+    },
+    "interestCalculationDaysInYearType": {
+     "id": 365,
+     "code": "savingsInterestCalculationDaysInYearType.days365",
+     "value": "365 Days"
+    },
+    "withHoldTax": false,
+    "accountingRule": {
+     "id": 1,
+     "code": "accountingRuleType.none",
+     "value": "NONE"
+    },
+    "charges": [],
+    "interestRateCharts": [
+     {
+      "id": 9,
+      "name": "Chart",
+      "description": "d",
+      "fromDate": [
+       2024,
+       1,
+       1
+      ],
+      "productId": 9,
+      "productName": "Renamed",
+      "isPrimaryGroupingByAmount": false,
+      "chartSlabs": [
+       {
+        "id": 9,
+        "description": "s1",
+        "periodType": {
+         "id": 2,
+         "code": "periodFrequencyType.months",
+         "value": "Months"
+        },
+        "fromPeriod": 1,
+        "toPeriod": 12,
+        "annualInterestRate": 5.0,
+        "currency": {
+         "code": "USD",
+         "name": "US Dollar",
+         "decimalPlaces": 2,
+         "displaySymbol": "$",
+         "nameCode": "currency.USD",
+         "displayLabel": "US Dollar ($)"
+        }
+       }
+      ],
+      "periodTypes": [
+       {
+        "id": 0,
+        "code": "periodFrequencyType.days",
+        "value": "Days"
+       },
+       {
+        "id": 1,
+        "code": "periodFrequencyType.weeks",
+        "value": "Weeks"
+       },
+       {
+        "id": 2,
+        "code": "periodFrequencyType.months",
+        "value": "Months"
+       },
+       {
+        "id": 3,
+        "code": "periodFrequencyType.years",
+        "value": "Years"
+       },
+       {
+        "id": 4,
+        "code": "periodFrequencyType.whole_term",
+        "value": "Whole Term"
+       }
+      ],
+      "entityTypeOptions": [
+       {
+        "id": 2,
+        "code": "InterestIncentiveEntityType.customer",
+        "value": "Customer"
+       },
+       {
+        "id": 3,
+        "code": "InterestIncentiveEntityType.account",
+        "value": "account"
+       }
+      ],
+      "attributeNameOptions": [
+       {
+        "id": 2,
+        "code": "InterestIncentiveAttributeName.gender",
+        "value": "Gender"
+       },
+       {
+        "id": 3,
+        "code": "InterestIncentiveAttributeName.age",
+        "value": "age"
+       },
+       {
+        "id": 4,
+        "code": "InterestIncentiveAttributeName.clientType",
+        "value": "Client Type"
+       },
+       {
+        "id": 5,
+        "code": "InterestIncentiveAttributeName.clientClassification",
+        "value": "Client Classification"
+       }
+      ],
+      "conditionTypeOptions": [
+       {
+        "id": 1,
+        "code": "incentiveConditionType.lessthan",
+        "value": "lessthan"
+       },
+       {
+        "id": 2,
+        "code": "incentiveConditionType.equal",
+        "value": "equal"
+       },
+       {
+        "id": 3,
+        "code": "incentiveConditionType.greaterthan",
+        "value": "greaterthan"
+       },
+       {
+        "id": 4,
+        "code": "incentiveConditionType.notequal",
+        "value": "notEqual"
+       }
+      ],
+      "incentiveTypeOptions": [
+       {
+        "id": 2,
+        "code": "InterestIncentiveType.fixed",
+        "value": "Fixed"
+       },
+       {
+        "id": 3,
+        "code": "InterestIncentiveType.incentive",
+        "value": "Incentive"
+       }
+      ],
+      "genderOptions": [],
+      "clientTypeOptions": [],
+      "clientClassificationOptions": []
+     }
+    ],
+    "activeChart": {
+     "id": 9,
+     "name": "Chart",
+     "description": "d",
+     "fromDate": [
+      2024,
+      1,
+      1
+     ],
+     "productId": 9,
+     "productName": "Renamed",
+     "isPrimaryGroupingByAmount": false,
+     "chartSlabs": [
+      {
+       "id": 9,
+       "description": "s1",
+       "periodType": {
+        "id": 2,
+        "code": "periodFrequencyType.months",
+        "value": "Months"
+       },
+       "fromPeriod": 1,
+       "toPeriod": 12,
+       "annualInterestRate": 5.0,
+       "currency": {
+        "code": "USD",
+        "name": "US Dollar",
+        "decimalPlaces": 2,
+        "displaySymbol": "$",
+        "nameCode": "currency.USD",
+        "displayLabel": "US Dollar ($)"
+       }
+      }
+     ],
+     "periodTypes": [
+      {
+       "id": 0,
+       "code": "periodFrequencyType.days",
+       "value": "Days"
+      },
+      {
+       "id": 1,
+       "code": "periodFrequencyType.weeks",
+       "value": "Weeks"
+      },
+      {
+       "id": 2,
+       "code": "periodFrequencyType.months",
+       "value": "Months"
+      },
+      {
+       "id": 3,
+       "code": "periodFrequencyType.years",
+       "value": "Years"
+      },
+      {
+       "id": 4,
+       "code": "periodFrequencyType.whole_term",
+       "value": "Whole Term"
+      }
+     ],
+     "entityTypeOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveEntityType.customer",
+       "value": "Customer"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveEntityType.account",
+       "value": "account"
+      }
+     ],
+     "attributeNameOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveAttributeName.gender",
+       "value": "Gender"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveAttributeName.age",
+       "value": "age"
+      },
+      {
+       "id": 4,
+       "code": "InterestIncentiveAttributeName.clientType",
+       "value": "Client Type"
+      },
+      {
+       "id": 5,
+       "code": "InterestIncentiveAttributeName.clientClassification",
+       "value": "Client Classification"
+      }
+     ],
+     "conditionTypeOptions": [
+      {
+       "id": 1,
+       "code": "incentiveConditionType.lessthan",
+       "value": "lessthan"
+      },
+      {
+       "id": 2,
+       "code": "incentiveConditionType.equal",
+       "value": "equal"
+      },
+      {
+       "id": 3,
+       "code": "incentiveConditionType.greaterthan",
+       "value": "greaterthan"
+      },
+      {
+       "id": 4,
+       "code": "incentiveConditionType.notequal",
+       "value": "notEqual"
+      }
+     ],
+     "incentiveTypeOptions": [
+      {
+       "id": 2,
+       "code": "InterestIncentiveType.fixed",
+       "value": "Fixed"
+      },
+      {
+       "id": 3,
+       "code": "InterestIncentiveType.incentive",
+       "value": "Incentive"
+      }
+     ],
+     "genderOptions": [],
+     "clientTypeOptions": [],
+     "clientClassificationOptions": []
+    }
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/recurringdepositproducts/99",
+   "body": {
+    "charts": [
+     {
+      "id": "{cha}",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en"
+     }
+    ],
+    "name": "x"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Recurring deposit product with identifier 99 does not exist",
+      "defaultUserMessage": "Recurring deposit product with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.recurringdepositproduct.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/recurringdepositproducts/{a}",
+   "body": {
+    "charts": [
+     {
+      "id": "{cha}",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en"
+     }
+    ],
+    "depositAmount": 300,
+    "locale": "en"
+   },
+   "status": 200,
+   "response": {
+    "resourceId": 9,
+    "changes": {
+     "depositAmount": 300,
+     "locale": "en"
+    }
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/recurringdepositproducts/99",
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Recurring deposit product with identifier 99 does not exist",
+      "defaultUserMessage": "Recurring deposit product with identifier 99 does not exist",
+      "userMessageGlobalisationCode": "error.msg.recurringdepositproduct.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 99
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/recurringdepositproducts/{b}",
+   "status": 200,
+   "response": {
+    "resourceId": 10
+   }
+  },
+  {
+   "method": "GET",
+   "path": "/v1/recurringdepositproducts",
+   "sortby": "id",
+   "status": 200,
+   "response": [
+    {
+     "preClosurePenalApplicable": true,
+     "preClosurePenalInterest": 1.0,
+     "preClosurePenalInterestOnType": {
+      "id": 1,
+      "code": "preClosurePenalInterestOnType.wholeTerm",
+      "value": "Whole term"
+     },
+     "minDepositTerm": 6,
+     "maxDepositTerm": 60,
+     "minDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "maxDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "inMultiplesOfDepositTerm": 6,
+     "inMultiplesOfDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "minDepositAmount": 500.0,
+     "depositAmount": 1000.0,
+     "maxDepositAmount": 100000.0,
+     "isMandatoryDeposit": false,
+     "allowWithdrawal": false,
+     "adjustAdvanceTowardsFuturePayments": false,
+     "id": 1,
+     "name": "RCase 4",
+     "shortName": "R004",
+     "description": "Fixed",
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "inMultiplesOf": 0,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "nominalAnnualInterestRate": 5.0,
+     "interestCompoundingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestPostingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestCalculationType": {
+      "id": 1,
+      "code": "savingsInterestCalculationType.dailybalance",
+      "value": "Daily Balance"
+     },
+     "interestCalculationDaysInYearType": {
+      "id": 365,
+      "code": "savingsInterestCalculationDaysInYearType.days365",
+      "value": "365 Days"
+     },
+     "withHoldTax": false,
+     "accountingRule": {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     }
+    },
+    {
+     "preClosurePenalApplicable": true,
+     "preClosurePenalInterest": 1.0,
+     "preClosurePenalInterestOnType": {
+      "id": 1,
+      "code": "preClosurePenalInterestOnType.wholeTerm",
+      "value": "Whole term"
+     },
+     "minDepositTerm": 6,
+     "maxDepositTerm": 60,
+     "minDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "maxDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "inMultiplesOfDepositTerm": 6,
+     "inMultiplesOfDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "minDepositAmount": 500.0,
+     "depositAmount": 1000.0,
+     "maxDepositAmount": 100000.0,
+     "isMandatoryDeposit": false,
+     "allowWithdrawal": false,
+     "adjustAdvanceTowardsFuturePayments": false,
+     "id": 2,
+     "name": "RCase 5",
+     "shortName": "R005",
+     "description": "Fixed",
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "inMultiplesOf": 0,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "nominalAnnualInterestRate": 5.0,
+     "interestCompoundingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestPostingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestCalculationType": {
+      "id": 1,
+      "code": "savingsInterestCalculationType.dailybalance",
+      "value": "Daily Balance"
+     },
+     "interestCalculationDaysInYearType": {
+      "id": 365,
+      "code": "savingsInterestCalculationDaysInYearType.days365",
+      "value": "365 Days"
+     },
+     "withHoldTax": false,
+     "accountingRule": {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     }
+    },
+    {
+     "preClosurePenalApplicable": true,
+     "preClosurePenalInterest": 1.0,
+     "preClosurePenalInterestOnType": {
+      "id": 1,
+      "code": "preClosurePenalInterestOnType.wholeTerm",
+      "value": "Whole term"
+     },
+     "minDepositTerm": 6,
+     "maxDepositTerm": 60,
+     "minDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "maxDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "inMultiplesOfDepositTerm": 6,
+     "inMultiplesOfDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "minDepositAmount": 500.0,
+     "depositAmount": 1000.0,
+     "maxDepositAmount": 100000.0,
+     "isMandatoryDeposit": false,
+     "allowWithdrawal": false,
+     "adjustAdvanceTowardsFuturePayments": false,
+     "id": 3,
+     "name": "RCase 6",
+     "shortName": "R006",
+     "description": "Fixed",
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "inMultiplesOf": 0,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "nominalAnnualInterestRate": 5.0,
+     "interestCompoundingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestPostingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestCalculationType": {
+      "id": 1,
+      "code": "savingsInterestCalculationType.dailybalance",
+      "value": "Daily Balance"
+     },
+     "interestCalculationDaysInYearType": {
+      "id": 365,
+      "code": "savingsInterestCalculationDaysInYearType.days365",
+      "value": "365 Days"
+     },
+     "withHoldTax": false,
+     "accountingRule": {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     }
+    },
+    {
+     "preClosurePenalApplicable": true,
+     "preClosurePenalInterest": 1.0,
+     "preClosurePenalInterestOnType": {
+      "id": 1,
+      "code": "preClosurePenalInterestOnType.wholeTerm",
+      "value": "Whole term"
+     },
+     "minDepositTerm": 6,
+     "maxDepositTerm": 60,
+     "minDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "maxDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "inMultiplesOfDepositTerm": 6,
+     "inMultiplesOfDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "minDepositAmount": 500.0,
+     "depositAmount": 1000.0,
+     "maxDepositAmount": 100000.0,
+     "isMandatoryDeposit": true,
+     "allowWithdrawal": true,
+     "adjustAdvanceTowardsFuturePayments": true,
+     "id": 4,
+     "name": "RCase 7",
+     "shortName": "R007",
+     "description": "Fixed",
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "inMultiplesOf": 0,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "nominalAnnualInterestRate": 5.0,
+     "interestCompoundingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestPostingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestCalculationType": {
+      "id": 1,
+      "code": "savingsInterestCalculationType.dailybalance",
+      "value": "Daily Balance"
+     },
+     "interestCalculationDaysInYearType": {
+      "id": 365,
+      "code": "savingsInterestCalculationDaysInYearType.days365",
+      "value": "365 Days"
+     },
+     "withHoldTax": false,
+     "accountingRule": {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     }
+    },
+    {
+     "preClosurePenalApplicable": true,
+     "preClosurePenalInterest": 1.0,
+     "preClosurePenalInterestOnType": {
+      "id": 1,
+      "code": "preClosurePenalInterestOnType.wholeTerm",
+      "value": "Whole term"
+     },
+     "minDepositTerm": 6,
+     "maxDepositTerm": 60,
+     "minDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "maxDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "inMultiplesOfDepositTerm": 6,
+     "inMultiplesOfDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "minDepositAmount": 500.0,
+     "depositAmount": 1000.0,
+     "maxDepositAmount": 100000.0,
+     "isMandatoryDeposit": false,
+     "allowWithdrawal": false,
+     "adjustAdvanceTowardsFuturePayments": false,
+     "id": 5,
+     "name": "RCase 8",
+     "shortName": "R008",
+     "description": "Fixed",
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "inMultiplesOf": 0,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "nominalAnnualInterestRate": 5.0,
+     "interestCompoundingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestPostingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestCalculationType": {
+      "id": 1,
+      "code": "savingsInterestCalculationType.dailybalance",
+      "value": "Daily Balance"
+     },
+     "interestCalculationDaysInYearType": {
+      "id": 365,
+      "code": "savingsInterestCalculationDaysInYearType.days365",
+      "value": "365 Days"
+     },
+     "withHoldTax": false,
+     "accountingRule": {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     }
+    },
+    {
+     "preClosurePenalApplicable": true,
+     "preClosurePenalInterest": 1.0,
+     "preClosurePenalInterestOnType": {
+      "id": 1,
+      "code": "preClosurePenalInterestOnType.wholeTerm",
+      "value": "Whole term"
+     },
+     "minDepositTerm": 6,
+     "maxDepositTerm": 60,
+     "minDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "maxDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "inMultiplesOfDepositTerm": 6,
+     "inMultiplesOfDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "minDepositAmount": 500.0,
+     "depositAmount": 1000.0,
+     "maxDepositAmount": 100000.0,
+     "isMandatoryDeposit": false,
+     "allowWithdrawal": false,
+     "adjustAdvanceTowardsFuturePayments": false,
+     "id": 6,
+     "name": "RCase 9",
+     "shortName": "R009",
+     "description": "Fixed",
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "inMultiplesOf": 0,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "nominalAnnualInterestRate": 5.0,
+     "interestCompoundingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestPostingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestCalculationType": {
+      "id": 1,
+      "code": "savingsInterestCalculationType.dailybalance",
+      "value": "Daily Balance"
+     },
+     "interestCalculationDaysInYearType": {
+      "id": 365,
+      "code": "savingsInterestCalculationDaysInYearType.days365",
+      "value": "365 Days"
+     },
+     "withHoldTax": false,
+     "accountingRule": {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     }
+    },
+    {
+     "preClosurePenalApplicable": true,
+     "preClosurePenalInterest": 1.0,
+     "preClosurePenalInterestOnType": {
+      "id": 1,
+      "code": "preClosurePenalInterestOnType.wholeTerm",
+      "value": "Whole term"
+     },
+     "minDepositTerm": 6,
+     "maxDepositTerm": 60,
+     "minDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "maxDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "inMultiplesOfDepositTerm": 6,
+     "inMultiplesOfDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "minDepositAmount": 500.0,
+     "depositAmount": 1000.0,
+     "maxDepositAmount": 100000.0,
+     "isMandatoryDeposit": false,
+     "allowWithdrawal": false,
+     "adjustAdvanceTowardsFuturePayments": false,
+     "id": 7,
+     "name": "RCase 10",
+     "shortName": "R010",
+     "description": "Fixed",
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "inMultiplesOf": 0,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "nominalAnnualInterestRate": 5.0,
+     "interestCompoundingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestPostingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestCalculationType": {
+      "id": 1,
+      "code": "savingsInterestCalculationType.dailybalance",
+      "value": "Daily Balance"
+     },
+     "interestCalculationDaysInYearType": {
+      "id": 365,
+      "code": "savingsInterestCalculationDaysInYearType.days365",
+      "value": "365 Days"
+     },
+     "withHoldTax": false,
+     "accountingRule": {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     }
+    },
+    {
+     "preClosurePenalApplicable": true,
+     "preClosurePenalInterest": 1.0,
+     "preClosurePenalInterestOnType": {
+      "id": 1,
+      "code": "preClosurePenalInterestOnType.wholeTerm",
+      "value": "Whole term"
+     },
+     "minDepositTerm": 6,
+     "maxDepositTerm": 60,
+     "minDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "maxDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "inMultiplesOfDepositTerm": 6,
+     "inMultiplesOfDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "minDepositAmount": 500.0,
+     "depositAmount": 1000.0,
+     "maxDepositAmount": 100000.0,
+     "isMandatoryDeposit": false,
+     "allowWithdrawal": false,
+     "adjustAdvanceTowardsFuturePayments": false,
+     "id": 8,
+     "name": "RCase 11",
+     "shortName": "R011",
+     "description": "Fixed",
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "inMultiplesOf": 0,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "nominalAnnualInterestRate": 5.0,
+     "interestCompoundingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestPostingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestCalculationType": {
+      "id": 1,
+      "code": "savingsInterestCalculationType.dailybalance",
+      "value": "Daily Balance"
+     },
+     "interestCalculationDaysInYearType": {
+      "id": 365,
+      "code": "savingsInterestCalculationDaysInYearType.days365",
+      "value": "365 Days"
+     },
+     "withHoldTax": false,
+     "accountingRule": {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     }
+    },
+    {
+     "preClosurePenalApplicable": true,
+     "preClosurePenalInterest": 1.0,
+     "preClosurePenalInterestOnType": {
+      "id": 1,
+      "code": "preClosurePenalInterestOnType.wholeTerm",
+      "value": "Whole term"
+     },
+     "minDepositTerm": 6,
+     "maxDepositTerm": 60,
+     "minDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "maxDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "inMultiplesOfDepositTerm": 6,
+     "inMultiplesOfDepositTermType": {
+      "id": 2,
+      "code": "deposit.term.savingsPeriodFrequencyType.months",
+      "value": "Months"
+     },
+     "minDepositAmount": 500.0,
+     "depositAmount": 300.0,
+     "maxDepositAmount": 100000.0,
+     "isMandatoryDeposit": false,
+     "allowWithdrawal": false,
+     "adjustAdvanceTowardsFuturePayments": false,
+     "id": 9,
+     "name": "Renamed",
+     "shortName": "RD1",
+     "description": "Fixed",
+     "currency": {
+      "code": "USD",
+      "name": "US Dollar",
+      "decimalPlaces": 2,
+      "inMultiplesOf": 0,
+      "displaySymbol": "$",
+      "nameCode": "currency.USD",
+      "displayLabel": "US Dollar ($)"
+     },
+     "nominalAnnualInterestRate": 5.0,
+     "interestCompoundingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.period.savingsCompoundingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestPostingPeriodType": {
+      "id": 4,
+      "code": "savings.interest.posting.period.savingsPostingInterestPeriodType.monthly",
+      "value": "Monthly"
+     },
+     "interestCalculationType": {
+      "id": 1,
+      "code": "savingsInterestCalculationType.dailybalance",
+      "value": "Daily Balance"
+     },
+     "interestCalculationDaysInYearType": {
+      "id": 365,
+      "code": "savingsInterestCalculationDaysInYearType.days365",
+      "value": "365 Days"
+     },
+     "withHoldTax": false,
+     "accountingRule": {
+      "id": 1,
+      "code": "accountingRuleType.none",
+      "value": "NONE"
+     }
+    }
+   ]
+  },
+  {
+   "method": "DELETE",
+   "path": "/v1/fixeddepositproducts/{a}",
+   "status": 200,
+   "response": {
+    "resourceId": 9
+   }
+  },
+  {
+   "method": "PUT",
+   "path": "/v1/recurringdepositproducts/{a}",
+   "body": {
+    "charts": [
+     {
+      "id": "{cha}",
+      "dateFormat": "dd MMMM yyyy",
+      "locale": "en"
+     }
+    ],
+    "name": "Again"
+   },
+   "status": 404,
+   "response": {
+    "developerMessage": "The requested resource is not available.",
+    "httpStatusCode": "404",
+    "defaultUserMessage": "The requested resource is not available.",
+    "userMessageGlobalisationCode": "error.msg.resource.not.found",
+    "errors": [
+     {
+      "developerMessage": "Recurring deposit product with identifier 9 does not exist",
+      "defaultUserMessage": "Recurring deposit product with identifier 9 does not exist",
+      "userMessageGlobalisationCode": "error.msg.recurringdepositproduct.id.invalid",
+      "parameterName": "id",
+      "args": [
+       {
+        "value": 9
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}

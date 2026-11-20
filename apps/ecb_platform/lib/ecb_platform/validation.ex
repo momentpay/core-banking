@@ -30,6 +30,20 @@ defmodule ECBPlatform.Validation do
   def param(%__MODULE__{} = v, parameter, value),
     do: %{v | parameter: parameter, value: value, ignore_null: false}
 
+  @doc """
+  Runs checks the way Fineract's `reset().parameter(..).value(..)` chains do: on a builder of their own, so that the
+  parameter and value they name are not left behind for the problems that are recorded without naming one.
+  """
+  @spec scoped(t, (t -> t)) :: t
+  def scoped(%__MODULE__{} = v, fun) do
+    %{parameter: parameter, value: value, ignore_null: ignore} = v
+    %{fun.(v) | parameter: parameter, value: value, ignore_null: ignore}
+  end
+
+  @doc "Names the parameter the next problems are about but keeps the value (Fineract's `parameter(..)` alone)."
+  @spec parameter(t, String.t()) :: t
+  def parameter(%__MODULE__{} = v, parameter), do: %{v | parameter: parameter}
+
   @doc "The checks that follow pass when the value is missing."
   @spec ignore_if_null(t) :: t
   def ignore_if_null(%__MODULE__{} = v), do: %{v | ignore_null: true}
@@ -316,7 +330,7 @@ defmodule ECBPlatform.Validation do
       add(
         v,
         "is.greater.than.max",
-        "The parameter `#{v.parameter}` value #{shown} must not be more than maximum value #{max}",
+        "The parameter `#{v.parameter}` value #{double_text(shown)} must not be more than maximum value #{max}",
         [shown, max]
       )
     else
@@ -325,6 +339,71 @@ defmodule ECBPlatform.Validation do
   end
 
   def not_greater_than_max(v, _max), do: v
+
+  # a double as Java writes it in a message: in full, with a decimal point
+  defp double_text(float) do
+    text = float |> Decimal.from_float() |> Decimal.to_string(:normal)
+    if String.contains?(text, "."), do: text, else: text <> ".0"
+  end
+
+  @doc "A decimal of at least `min` (Fineract's `notLessThanMin`)."
+  @spec not_less_than_min(t, Decimal.t() | nil) :: t
+  def not_less_than_min(%{value: %Decimal{} = value} = v, %Decimal{} = min) do
+    if Decimal.compare(value, min) == :lt do
+      shown = Decimal.to_float(value)
+
+      add(
+        v,
+        "is.less.than.min",
+        "The parameter `#{v.parameter}` value #{double_text(shown)} must not be less than the minimum value #{min}",
+        [shown, min]
+      )
+    else
+      v
+    end
+  end
+
+  def not_less_than_min(v, _min), do: v
+
+  @doc "A decimal between `min` and `max` (Fineract's `inMinAndMaxAmountRange`)."
+  @spec in_min_and_max_amount_range(t, Decimal.t(), Decimal.t()) :: t
+  def in_min_and_max_amount_range(
+        %{value: %Decimal{} = value} = v,
+        %Decimal{} = min,
+        %Decimal{} = max
+      ) do
+    if Decimal.compare(value, min) == :lt or Decimal.compare(value, max) == :gt do
+      shown = Decimal.to_float(value)
+
+      add(
+        v,
+        "amount.is.not.within.min.max.range",
+        "The parameter `#{v.parameter}` amount #{double_text(shown)} must be between #{min} and #{max} .",
+        [shown, min, max]
+      )
+    else
+      v
+    end
+  end
+
+  def in_min_and_max_amount_range(v, _min, _max), do: v
+
+  @doc """
+  The value must be given when another parameter has a given value (Fineract's `cantBeBlankWhenParameterProvidedIs`).
+  """
+  @spec must_be_provided_when(t, String.t(), term) :: t
+  def must_be_provided_when(%{value: value} = v, other, other_value) do
+    if value != nil and String.trim(to_string(value)) != "" do
+      v
+    else
+      add(
+        v,
+        "must.be.provided.when.#{other}.is.#{other_value}",
+        "The parameter `#{v.parameter}` must be provided when `#{other}` is #{other_value}",
+        [value, other, other_value]
+      )
+    end
+  end
 
   @doc """
   A date on or after `other` (a missing date passes; Fineract's `validateDateAfter` refuses only a date
@@ -509,14 +588,14 @@ defmodule ECBPlatform.Validation do
   A problem whose code is `validation.msg.<resource>.<code>` with no parameter in it and the text
   `Failed data validation due to: <code>.` (`failWithCodeNoParameterAddedToErrorCode`).
   """
-  @spec fail_without_parameter(t, String.t()) :: t
-  def fail_without_parameter(v, code) do
+  @spec fail_without_parameter(t, String.t(), [term]) :: t
+  def fail_without_parameter(v, code, extra \\ []) do
     error = %{
       code: "validation.msg.#{v.resource}.#{code}",
       developer_message: "Failed data validation due to: #{code}.",
       default_message: "Failed data validation due to: #{code}.",
       parameter: v.parameter,
-      args: [arg(v.value), []]
+      args: [arg(v.value), extra]
     }
 
     %{v | errors: [error | v.errors]}
@@ -529,9 +608,9 @@ defmodule ECBPlatform.Validation do
   message `Failed data validation due to: <code>.` and the value refused as its first argument, as
   Fineract's `failWithCode` does.
   """
-  @spec fail_with_code(t, String.t()) :: t
-  def fail_with_code(v, code),
-    do: add(v, code, "Failed data validation due to: #{code}.", [arg(v.value), []])
+  @spec fail_with_code(t, String.t(), [term]) :: t
+  def fail_with_code(v, code, extra \\ []),
+    do: add(v, code, "Failed data validation due to: #{code}.", [arg(v.value), extra])
 
   # a date in the arguments of an error is its text, as Fineract writes it
   defp arg(%Date{} = date), do: Date.to_iso8601(date)

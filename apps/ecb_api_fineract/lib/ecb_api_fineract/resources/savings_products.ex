@@ -115,16 +115,19 @@ defmodule ECBApiFineract.Resources.SavingsProducts do
     }
   end
 
-  defp option(nil), do: nil
-  defp option(option), do: Read.option(option)
+  @doc false
+  def option(nil), do: nil
+  def option(option), do: Read.option(option)
 
   defp currency(c), do: Charges.currency(c)
 
   # a charge as a product shows it: without the flag about overdue installments, which only loans have
-  defp charge(c), do: c |> Charges.charge_json() |> Map.delete("overdueInstallmentCharge")
+  @doc false
+  def charge(c), do: c |> Charges.charge_json() |> Map.delete("overdueInstallmentCharge")
 
   # the accounts a product that keeps accounts in the ledger is mapped to
-  defp with_accounting(body, product) do
+  @doc false
+  def with_accounting(body, product) do
     if SavingsProducts.accounting?(product) do
       d = SavingsProducts.accounting_details(product)
 
@@ -194,7 +197,8 @@ defmodule ECBApiFineract.Resources.SavingsProducts do
     )
   end
 
-  defp blank_currency,
+  @doc false
+  def blank_currency,
     do: %{
       "code" => "",
       "name" => "",
@@ -205,7 +209,8 @@ defmodule ECBApiFineract.Resources.SavingsProducts do
       "displayLabel" => ""
     }
 
-  defp template_options do
+  @doc false
+  def template_options do
     %{
       "currencyOptions" => Enum.map(Currencies.list().selected, &Charges.currency/1),
       "interestCompoundingPeriodTypeOptions" => options(SavingsEnums.compounding()),
@@ -245,7 +250,8 @@ defmodule ECBApiFineract.Resources.SavingsProducts do
   defp none_if_empty([]), do: nil
   defp none_if_empty(list), do: list
 
-  defp options(list), do: Enum.map(list, &Read.option/1)
+  @doc false
+  def options(list), do: Enum.map(list, &Read.option/1)
 
   # the accounts a product can be mapped to, by kind, leaving out a kind that has none
   defp account_options do
