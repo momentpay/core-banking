@@ -110889,6 +110889,2431 @@
           ]
         }
       ]
+    },
+    {
+      "name": "rdaccount0",
+      "reset": [
+        "savingsaccounts",
+        "savingsproducts",
+        "paymenttypes",
+        "clients",
+        "funds",
+        "glaccounts",
+        "staff",
+        "codes",
+        "configuration"
+      ],
+      "steps": [
+        {
+          "method": "PUT",
+          "path": "/v1/configurations/name/enable-business-date",
+          "body": {
+            "enabled": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/businessdate",
+          "body": {
+            "type": "BUSINESS_DATE",
+            "date": "2024-03-01",
+            "dateFormat": "yyyy-MM-dd",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Ann",
+            "lastname": "Lee",
+            "active": true,
+            "activationDate": "01 January 2024",
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/clients",
+          "body": {
+            "officeId": 1,
+            "legalFormId": 1,
+            "firstname": "Bob",
+            "lastname": "Ray",
+            "active": false,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/paymenttypes",
+          "body": {
+            "name": "Cash",
+            "description": "cash",
+            "isCashPayment": true,
+            "position": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositproducts",
+          "body": {
+            "name": "RD one",
+            "shortName": "RD1",
+            "description": "Recurring",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "inMultiplesOf": 0,
+            "nominalAnnualInterestRate": 5,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "minDepositTerm": 6,
+            "minDepositTermTypeId": 2,
+            "maxDepositTerm": 60,
+            "maxDepositTermTypeId": 2,
+            "inMultiplesOfDepositTerm": 6,
+            "inMultiplesOfDepositTermTypeId": 2,
+            "preClosurePenalApplicable": true,
+            "preClosurePenalInterest": 1,
+            "preClosurePenalInterestOnTypeId": 1,
+            "depositAmount": 1000,
+            "minDepositAmount": 500,
+            "maxDepositAmount": 100000,
+            "accountingRule": 1,
+            "charts": [
+              {
+                "name": "C",
+                "description": "d",
+                "fromDate": "01 January 2024",
+                "dateFormat": "dd MMMM yyyy",
+                "locale": "en",
+                "chartSlabs": [
+                  {
+                    "periodType": 2,
+                    "fromPeriod": 1,
+                    "toPeriod": 12,
+                    "annualInterestRate": 6,
+                    "currencyCode": "USD"
+                  },
+                  {
+                    "periodType": 2,
+                    "fromPeriod": 13,
+                    "toPeriod": null,
+                    "annualInterestRate": 7,
+                    "currencyCode": "USD"
+                  }
+                ]
+              }
+            ],
+            "locale": "en",
+            "isMandatoryDeposit": true,
+            "allowWithdrawal": true,
+            "adjustAdvanceTowardsFuturePayments": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/savingsproducts",
+          "body": {
+            "name": "Plain",
+            "shortName": "PL",
+            "currencyCode": "USD",
+            "digitsAfterDecimal": 2,
+            "nominalAnnualInterestRate": 0,
+            "interestCompoundingPeriodType": 1,
+            "interestPostingPeriodType": 4,
+            "interestCalculationType": 1,
+            "interestCalculationDaysInYearType": 365,
+            "accountingRule": 1,
+            "locale": "en"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts",
+          "sortby": "id"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/template"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/template?clientId=1&productId=1"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/template?productId=99"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/1"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/abc"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {}
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 0,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 99,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 2,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 0,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 99,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 2,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "31 February 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 0,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": -5,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100000000,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": "abc",
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 0,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 3,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 7,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 72,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 9,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 1,
+            "depositPeriodFrequencyId": 3,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 365,
+            "depositPeriodFrequencyId": 0,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": "",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": "abc",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": true,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 0,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": "x",
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 9,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 0,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 2,
+            "recurringFrequencyType": 1,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 3,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": true,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "expectedFirstDepositOnDate": "15 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "expectedFirstDepositOnDate": "01 February 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "expectedFirstDepositOnDate": "31 February 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "expectedFirstDepositOnDate": "01 March 2025"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "accountNo": "xxxxxxxxxxxxxxxxxxxxx"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "accountNo": ""
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "externalId": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "fieldOfficerId": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "fieldOfficerId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "nominalAnnualInterestRate": -1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "nominalAnnualInterestRate": 8
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "interestCompoundingPeriodType": 2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "interestPostingPeriodType": 2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "interestPostingPeriodType": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "interestCalculationType": 3
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "interestCalculationDaysInYearType": 364
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "lockinPeriodFrequency": -1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "lockinPeriodFrequency": 3
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "lockinPeriodFrequencyType": 9
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "preClosurePenalApplicable": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "preClosurePenalApplicable": false
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "preClosurePenalInterest": 2,
+            "preClosurePenalInterestOnTypeId": 2
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "withHoldTax": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "transferInterestToSavings": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "linkedAccountId": 0
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "maturityInstructionId": 9
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "maturityInstructionId": 200
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "maturityInstructionId": 300
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "maturityInstructionId": 100
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "minRequiredOpeningBalance": -1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "minRequiredOpeningBalance": 50
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "charges": [
+              {
+                "chargeId": 99,
+                "amount": 1
+              }
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "chartId": 99
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "depositAmount": 5000
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 January 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2025",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "allowWithdrawal": false
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "isMandatoryDeposit": false
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "adjustAdvanceTowardsFuturePayments": false
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "allowWithdrawal": "abc"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "a": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "accountNo": "RD-A"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "externalId": "ext-a"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 250,
+            "depositPeriod": 24,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 2,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "b": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 6,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 1,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "c": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 12,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "nominalAnnualInterestRate": 9,
+            "interestCompoundingPeriodType": 7,
+            "interestPostingPeriodType": 7,
+            "expectedFirstDepositOnDate": "15 March 2024"
+          },
+          "save": {
+            "d": "resourceId"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts",
+          "body": {
+            "clientId": 1,
+            "productId": 1,
+            "submittedOnDate": "01 March 2024",
+            "mandatoryRecommendedDepositAmount": 100,
+            "depositPeriod": 6,
+            "depositPeriodFrequencyId": 2,
+            "isCalendarInherited": false,
+            "recurringFrequency": 30,
+            "recurringFrequencyType": 0,
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          },
+          "save": {
+            "f": "resourceId"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{b}",
+          "ignore": [
+            "accountChart.chartSlabs.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{c}",
+          "ignore": [
+            "accountChart.chartSlabs.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{d}",
+          "ignore": [
+            "accountChart.chartSlabs.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{f}",
+          "ignore": [
+            "accountChart.chartSlabs.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}?associations=all",
+          "ignore": [
+            "accountChart.chartSlabs.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}?template=true",
+          "ignore": [
+            "accountChart.chartSlabs.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}?associations=repaymentSchedule",
+          "ignore": [
+            "accountChart.chartSlabs.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts",
+          "sortby": "id"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "mandatoryRecommendedDepositAmount": 150
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "depositPeriod": 24
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "depositPeriod": 7
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "bogus": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 0,
+            "recurringFrequencyType": 2
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 9
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": "x",
+            "recurringFrequencyType": 2
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "isMandatoryDeposit": false,
+            "allowWithdrawal": false,
+            "adjustAdvanceTowardsFuturePayments": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "isMandatoryDeposit": "abc"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "clientId": 2
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "productId": 1
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "submittedOnDate": "02 March 2024"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "expectedFirstDepositOnDate": "10 March 2024"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "expectedFirstDepositOnDate": "01 February 2024"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "nominalAnnualInterestRate": 7
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "accountNo": "RD-Z"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "externalId": "ext-z"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "preClosurePenalApplicable": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "depositPeriodFrequencyId": 3,
+            "depositPeriod": 1
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "depositAmount": 5000
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "minRequiredOpeningBalance": 20
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "fieldOfficerId": 99
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "lockinPeriodFrequency": 3,
+            "lockinPeriodFrequencyType": 2
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/99",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "mandatoryRecommendedDepositAmount": 1,
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/abc",
+          "body": {}
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/recurringdepositaccounts/{d}"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{d}"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/recurringdepositaccounts/99"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}?command=bogus",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 February 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 April 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "02 March 2024",
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024",
+            "note": "ok"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "mandatoryRecommendedDepositAmount": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}?command=undoapproval",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "note": "back"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "ignore": [
+            "accountChart.chartSlabs.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}?command=undoapproval",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{b}?command=reject",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{b}?command=reject",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "rejectedOnDate": "01 February 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{b}?command=reject",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "rejectedOnDate": "01 March 2024",
+            "note": "no"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{b}",
+          "ignore": [
+            "accountChart.chartSlabs.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{c}?command=withdrawnByApplicant",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "withdrawnOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{c}",
+          "ignore": [
+            "accountChart.chartSlabs.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{c}?command=withdrawnByApplicant",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "withdrawnOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{c}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 February 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 April 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 March 2024",
+            "bogus": 1
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}?associations=all",
+          "ignore": [
+            "accountChart.chartSlabs.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{a}?associations=transactions",
+          "ignore": [
+            "accountChart.chartSlabs.id"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/recurringdepositaccounts/{a}",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "recurringFrequency": 1,
+            "recurringFrequencyType": 2,
+            "mandatoryRecommendedDepositAmount": 1
+          }
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/recurringdepositaccounts/{a}"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{a}?command=undoapproval",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{f}?command=approve",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "approvedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/v1/recurringdepositaccounts/{f}?command=activate",
+          "body": {
+            "dateFormat": "dd MMMM yyyy",
+            "locale": "en",
+            "activatedOnDate": "01 March 2024"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts/{f}?associations=all",
+          "ignore": [
+            "accountChart.chartSlabs.id"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/recurringdepositaccounts",
+          "sortby": "id"
+        }
+      ]
     }
   ]
 }

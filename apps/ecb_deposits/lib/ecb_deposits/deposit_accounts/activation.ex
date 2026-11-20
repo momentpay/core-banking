@@ -7,7 +7,7 @@ defmodule ECBDeposits.DepositAccounts.Activation do
   import Ecto.Query
 
   alias ECBDeposits.{DepositAccounts, SavingsEnums}
-  alias ECBDeposits.DepositAccounts.Maturity
+  alias ECBDeposits.DepositAccounts.{Maturity, Recurring, RecurringSubmit}
   alias ECBDeposits.Savings.Postings
   alias ECBParty.Clients
   alias ECBPlatform.{BusinessDate, Params, TenantRepo, Validation}
@@ -17,9 +17,9 @@ defmodule ECBDeposits.DepositAccounts.Activation do
   @approved 200
   @active 300
 
-  @doc "Activates an approved fixed deposit account."
-  @spec activate!(struct, integer, Params.t()) :: Result.t()
-  def activate!(user, id, %Params{} = p) do
+  @doc "Activates an approved fixed (or recurring) deposit account."
+  @spec activate!(struct, integer, Params.t(), :fixed | :recurring) :: Result.t()
+  def activate!(user, id, %Params{} = p, kind \\ :fixed) do
     Params.check_supported!(p, ~w(locale dateFormat activatedOnDate))
     on = Params.date(p, "activatedOnDate")
 
@@ -29,14 +29,15 @@ defmodule ECBDeposits.DepositAccounts.Activation do
     |> Validation.not_null()
     |> Validation.raise_if_errors!()
 
-    account = ECBDeposits.DepositAccounts.Submit.writable!(id)
+    account = writable!(kind, id)
     client = Clients.fetch!(account.client_id)
 
     if client.status_enum != Clients.status(:active),
       do: ECBDeposits.Savings.Submit.not_active!(client.id)
 
-    require_approved!(account)
-    checks!(account, on, p)
+    require_approved!(account, kind)
+    checks!(account, on, p, kind)
+    if kind == :recurring, do: first_deposit_rule!(account, on, p)
 
     TenantRepo.update_all(from(a in "m_savings_account", where: a.id == ^id),
       set: [
@@ -49,25 +50,14 @@ defmodule ECBDeposits.DepositAccounts.Activation do
         closedon_userid: nil,
         activatedon_date: on,
         activatedon_userid: user.id,
-        start_interest_calculation_date: on,
+        start_interest_calculation_date: if(kind == :fixed, do: on),
         lockedin_until_date_derived: locked_until(account, on),
         last_modified_by: user.id,
         last_modified_on_utc: DateTime.utc_now()
       ]
     )
 
-    deposit = account.term.deposit_amount
-
-    if deposit != nil and Decimal.gt?(deposit, 0),
-      do: Postings.opening_deposit!(user, ECBDeposits.Savings.fetch!(id), on, deposit)
-
-    mature!(id, on)
-    ECBDeposits.DepositAccounts.FixedInterest.store_end!(id, BusinessDate.current())
-
-    # the projection to maturity leaves nothing earned on the account's summary until interest is asked for
-    TenantRepo.update_all(from(a in "m_savings_account", where: a.id == ^id),
-      set: [total_interest_earned_derived: nil, last_interest_calculation_date: nil]
-    )
+    finish!(kind, user, id, account, on)
 
     Result.new(
       resource_id: id,
@@ -81,6 +71,81 @@ defmodule ECBDeposits.DepositAccounts.Activation do
         "activatedOnDate" => DatePattern.format(on, Params.date_format(p))
       }
     )
+  end
+
+  defp writable!(:fixed, id), do: ECBDeposits.DepositAccounts.Submit.writable!(id)
+  defp writable!(:recurring, id), do: RecurringSubmit.writable!(id)
+
+  defp resource(:fixed), do: "fixeddepositaccount.activate"
+  defp resource(:recurring), do: "recurringdepositaccount.activate"
+
+  # a fixed deposit makes the deposit it promised and works its maturity out again from today
+  defp finish!(:fixed, user, id, account, on) do
+    deposit = account.term.deposit_amount
+
+    if deposit != nil and Decimal.gt?(deposit, 0),
+      do: Postings.opening_deposit!(user, ECBDeposits.Savings.fetch!(id), on, deposit)
+
+    mature!(id, on)
+
+    # the projection to maturity leaves nothing earned on the account's summary until interest is asked for
+    TenantRepo.update_all(from(a in "m_savings_account", where: a.id == ^id),
+      set: [total_interest_earned_derived: nil, last_interest_calculation_date: nil]
+    )
+  end
+
+  # a recurring deposit makes no deposit of its own: its schedule starts again from the day it was activated, when
+  # that is not the day it was applied for, and what is overdue is counted
+  defp finish!(:recurring, user, id, account, on) do
+    if account.submittedon_date != on, do: RecurringSubmit.regenerate!(user, id, check?: false)
+    update_overdue!(id)
+
+    TenantRepo.update_all(from(a in "m_savings_account", where: a.id == ^id),
+      set: [
+        total_interest_earned_derived: Decimal.new(0),
+        last_interest_calculation_date: BusinessDate.current()
+      ]
+    )
+  end
+
+  # the installments that were due before today (or before the term ended) and are not paid
+  defp update_overdue!(id) do
+    term = DepositAccounts.term(id)
+    today = BusinessDate.current()
+
+    until =
+      if term.maturity_date == nil or Date.compare(term.maturity_date, today) == :gt,
+        do: today,
+        else: term.maturity_date
+
+    overdue =
+      id
+      |> Recurring.schedule()
+      |> Enum.filter(&(&1.completed != true and Date.compare(until, &1.due) == :gt))
+
+    outstanding =
+      Enum.reduce(overdue, Decimal.new(0), fn i, sum ->
+        sum |> Decimal.add(i.amount || Decimal.new(0)) |> Decimal.sub(i.paid || Decimal.new(0))
+      end)
+
+    TenantRepo.update_all(
+      from(d in "m_deposit_account_recurring_detail", where: d.savings_account_id == ^id),
+      set: [no_of_overdue_installments: length(overdue), total_overdue_amount: outstanding]
+    )
+  end
+
+  # Fineract's check, which it words the other way about: a recurring deposit cannot be activated after the day its
+  # first deposit is expected
+  defp first_deposit_rule!(account, on, p) do
+    first = account.term.expected_first_deposit_on
+
+    if first != nil and Date.compare(on, first) == :gt do
+      "recurringdepositaccount"
+      |> Validation.new()
+      |> Validation.param("activatedOnDate", DatePattern.format(first, Params.date_format(p)))
+      |> Validation.fail_without_parameter("cannot.be.before.expected.first.deposit.date")
+      |> Validation.raise_if_errors!()
+    end
   end
 
   @doc "Works the maturity date and amount of a fixed deposit out again from the day it started."
@@ -122,42 +187,46 @@ defmodule ECBDeposits.DepositAccounts.Activation do
     :ok
   end
 
-  defp require_approved!(%{status_enum: @approved}), do: :ok
+  defp require_approved!(%{status_enum: @approved}, _kind), do: :ok
 
-  defp require_approved!(_account) do
-    "fixeddepositaccount.activate"
+  defp require_approved!(_account, kind) do
+    kind
+    |> resource()
     |> Validation.new()
     |> Validation.param("activatedOnDate", nil)
     |> Validation.fail_without_parameter("not.in.approved.state")
     |> Validation.raise_if_errors!()
   end
 
-  defp checks!(account, on, p) do
+  defp checks!(account, on, p, kind) do
     pattern = Params.date_format(p)
 
     cond do
       account.client_activation_date && Date.compare(account.client_activation_date, on) == :gt ->
         problem!(
+          kind,
           "cannot.be.before.client.activation.date",
           DatePattern.format(account.client_activation_date, pattern)
         )
 
       Date.compare(on, account.approvedon_date) == :lt ->
         problem!(
+          kind,
           "cannot.be.before.approval.date",
           DatePattern.format(account.approvedon_date, pattern)
         )
 
       Date.compare(on, BusinessDate.current()) == :gt ->
-        problem!("cannot.be.a.future.date", on)
+        problem!(kind, "cannot.be.a.future.date", on)
 
       true ->
         :ok
     end
   end
 
-  defp problem!(code, value) do
-    "fixeddepositaccount.activate"
+  defp problem!(kind, code, value) do
+    kind
+    |> resource()
     |> Validation.new()
     |> Validation.param("activatedOnDate", value)
     |> Validation.fail_without_parameter(code)

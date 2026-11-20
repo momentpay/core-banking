@@ -153,6 +153,58 @@ defmodule ECBDeposits.Handlers do
     end
   end
 
+  defmodule RecurringDepositAccount do
+    @moduledoc """
+    Every action on `RECURRINGDEPOSITACCOUNT`: applying, changing, the steps to activation. What follows the
+    activation (the deposits, interest, closing) is refused as not supported yet.
+    """
+    @behaviour ECBPlatform.Commands.Handler
+
+    alias ECBDeposits.DepositAccounts.{Activation, RecurringSubmit}
+    alias ECBDeposits.Savings.Transitions
+    alias ECBPlatform.Params
+
+    @impl true
+    def process(%{action_name: "CREATE"} = command, user),
+      do: {:ok, RecurringSubmit.create!(user, Params.parse!(command.json))}
+
+    def process(%{action_name: "UPDATE"} = command, user),
+      do: {:ok, RecurringSubmit.modify!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "DELETE"} = command, user),
+      do: {:ok, RecurringSubmit.delete!(user, command.entity_id)}
+
+    def process(%{action_name: "ACTIVATE"} = command, user),
+      do:
+        {:ok,
+         Activation.activate!(user, command.entity_id, Params.parse!(command.json), :recurring)}
+
+    def process(%{action_name: name} = command, user)
+        when name in ~w(APPROVE APPROVALUNDO REJECT WITHDRAW) do
+      id = RecurringSubmit.writable!(command.entity_id).id
+      params = Params.parse!(command.json)
+
+      {:ok,
+       case name do
+         "APPROVE" -> Transitions.approve!(user, id, params)
+         "APPROVALUNDO" -> Transitions.undo_approval!(user, id, params)
+         "REJECT" -> Transitions.reject!(user, id, params)
+         "WITHDRAW" -> Transitions.withdraw!(user, id, params)
+       end}
+    end
+
+    # the rest of a recurring deposit's life
+    def process(%{action_name: name} = command, _user) do
+      RecurringSubmit.writable!(command.entity_id)
+
+      raise ECBPlatform.Errors.DomainRuleViolation,
+        code: "error.msg.depositaccount.feature.not.supported.yet",
+        message:
+          "#{String.downcase(name)} of a recurring deposit account is not supported yet by E-CoreBank",
+        args: [String.downcase(name)]
+    end
+  end
+
   defmodule SavingsAccount do
     @moduledoc """
     Every action on `SAVINGSACCOUNT` so far: apply, change and delete an application, approve it, take the approval

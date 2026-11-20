@@ -94,7 +94,8 @@ defmodule ECBDeposits.DepositAccounts.Submit do
 
   # --- the chart in force -----------------------------------------------------------------------------
 
-  defp chart_for(product, on) do
+  @doc false
+  def chart_for(product, on) do
     today = BusinessDate.current()
 
     product.id
@@ -108,15 +109,17 @@ defmodule ECBDeposits.DepositAccounts.Submit do
     Date.compare(on, chart.from_date) != :lt and Date.compare(on, last) != :gt
   end
 
-  defp refuse_incentives!(nil), do: :ok
+  @doc false
+  def refuse_incentives!(nil), do: :ok
 
-  defp refuse_incentives!(chart) do
+  def refuse_incentives!(chart) do
     if Enum.any?(chart.slabs, &(&1.incentives != [])) do
       unsupported!("Interest rate charts with incentives", ["incentives"])
     end
   end
 
-  defp copy_chart!(account_id, chart) do
+  @doc false
+  def copy_chart!(account_id, chart) do
     {1, [%{id: chart_id}]} =
       TenantRepo.insert_all(
         "m_savings_account_interest_rate_chart",
@@ -153,7 +156,8 @@ defmodule ECBDeposits.DepositAccounts.Submit do
   # --- the term -------------------------------------------------------------------------------------
 
   # what the application says about the term and the pre-closure penalty, else what the product says
-  defp term_row(p, product) do
+  @doc false
+  def term_row(p, product) do
     {applicable, interest, basis} = pre_closure(p, product)
 
     %{
@@ -188,7 +192,8 @@ defmodule ECBDeposits.DepositAccounts.Submit do
     do: if(Params.exists?(p, key), do: Params.integer(p, key), else: fallback)
 
   # the pre-closure penalty: as the application says when it says whether there is one, else the product's
-  defp pre_closure(p, product) do
+  @doc false
+  def pre_closure(p, product) do
     cond do
       not Params.exists?(p, "preClosurePenalApplicable") ->
         {product[:pre_closure_penal_applicable] == true, product[:pre_closure_penal_interest],
@@ -253,7 +258,8 @@ defmodule ECBDeposits.DepositAccounts.Submit do
     |> Validation.raise_if_errors!()
   end
 
-  defp terms_ordered(v, term) do
+  @doc false
+  def terms_ordered(v, term) do
     if term.min_deposit_term && term.max_deposit_term &&
          TermChanges.days(term.min_deposit_term, term.min_deposit_term_type_enum) >
            TermChanges.days(term.max_deposit_term, term.max_deposit_term_type_enum) do
@@ -267,7 +273,8 @@ defmodule ECBDeposits.DepositAccounts.Submit do
     end
   end
 
-  defp deposit_period(v, term, on) do
+  @doc false
+  def deposit_period(v, term, on) do
     close = Maturity.date(on, term.deposit_period, term.deposit_period_frequency_enum)
 
     if between_min_and_max?(term, on, close) do
@@ -365,9 +372,10 @@ defmodule ECBDeposits.DepositAccounts.Submit do
   end
 
   # an application is not for a day that is to come, nor before the client was activated
-  defp new_application_state!(on, client) do
+  @doc false
+  def new_application_state!(on, client, resource \\ "fixeddepositaccount") do
     v =
-      "fixeddepositaccount.summital"
+      (resource <> ".summital")
       |> Validation.new()
       |> Validation.param("submittedOnDate", on)
 
@@ -404,7 +412,8 @@ defmodule ECBDeposits.DepositAccounts.Submit do
   end
 
   # Fineract refuses withholding tax on an account whose product has no tax group
-  defp refuse_withholding!(p, product) do
+  @doc false
+  def refuse_withholding!(p, product) do
     if Params.boolean(p, "withHoldTax") == true do
       if product.tax_group == nil,
         do: raise(UnsupportedParameter, parameters: ["withHoldTax"]),
@@ -412,7 +421,8 @@ defmodule ECBDeposits.DepositAccounts.Submit do
     end
   end
 
-  defp unsupported!(what, args) do
+  @doc false
+  def unsupported!(what, args) do
     raise DomainRuleViolation,
       code: "error.msg.depositaccount.feature.not.supported.yet",
       message: "#{what} not supported yet by E-CoreBank: " <> Enum.join(args, ", "),
@@ -438,7 +448,8 @@ defmodule ECBDeposits.DepositAccounts.Submit do
     |> Validation.raise_if_errors!()
   end
 
-  defp references(v, p, mode) do
+  @doc false
+  def references(v, p, mode) do
     client = Json.long(p, "clientId")
     group = Json.long(p, "groupId")
     v = if mode == :create, do: given_positive(v, "clientId", client), else: update_client(v, p)
@@ -494,7 +505,8 @@ defmodule ECBDeposits.DepositAccounts.Submit do
 
   defp scoped(v, fun), do: Validation.scoped(v, fun)
 
-  defp field_officer(v, p) do
+  @doc false
+  def field_officer(v, p) do
     if Params.exists?(p, "fieldOfficerId"),
       do:
         scoped(
@@ -507,7 +519,8 @@ defmodule ECBDeposits.DepositAccounts.Submit do
       else: v
   end
 
-  defp submitted_on(v, p, mode) do
+  @doc false
+  def submitted_on(v, p, mode) do
     if mode == :create or Params.exists?(p, "submittedOnDate"),
       do:
         scoped(
@@ -519,7 +532,8 @@ defmodule ECBDeposits.DepositAccounts.Submit do
       else: v
   end
 
-  defp text_fields(v, p) do
+  @doc false
+  def text_fields(v, p) do
     v =
       if Params.exists?(p, "accountNo"),
         do:
@@ -550,7 +564,8 @@ defmodule ECBDeposits.DepositAccounts.Submit do
     {"interestCalculationDaysInYearType", :days_in_year_ids}
   ]
 
-  defp interest_settings(v, p) do
+  @doc false
+  def interest_settings(v, p) do
     v =
       if Params.exists?(p, "nominalAnnualInterestRate"),
         do:
@@ -581,7 +596,8 @@ defmodule ECBDeposits.DepositAccounts.Submit do
   end
 
   # the lock-in period and its unit: a period alone checks nothing, a unit alone must be a unit
-  defp lockin(v, p) do
+  @doc false
+  def lockin(v, p) do
     freq? = Params.exists?(p, "lockinPeriodFrequency")
     freq = if freq?, do: Params.integer_with_locale(p, "lockinPeriodFrequency")
     type? = Params.exists?(p, "lockinPeriodFrequencyType")
@@ -657,7 +673,8 @@ defmodule ECBDeposits.DepositAccounts.Submit do
         )
   end
 
-  defp maturity_instruction(v, p) do
+  @doc false
+  def maturity_instruction(v, p) do
     if Params.exists?(p, "maturityInstructionId") do
       id = Params.integer(p, "maturityInstructionId")
 
@@ -685,9 +702,10 @@ defmodule ECBDeposits.DepositAccounts.Submit do
     end
   end
 
-  defp pre_closure(v, p, :create), do: ProductValidate.pre_closure_create(v, p)
+  @doc false
+  def pre_closure(v, p, :create), do: ProductValidate.pre_closure_create(v, p)
 
-  defp pre_closure(v, p, :update) do
+  def pre_closure(v, p, :update) do
     v
     |> optional(
       p,
@@ -709,13 +727,15 @@ defmodule ECBDeposits.DepositAccounts.Submit do
     )
   end
 
-  defp optional(v, p, key, reader, checks) do
+  @doc false
+  def optional(v, p, key, reader, checks) do
     if Params.exists?(p, key),
       do: scoped(v, &(&1 |> Validation.param(key, reader.(key)) |> checks.())),
       else: v
   end
 
-  defp term(v, p, mode) do
+  # `fixed?` is false for a recurring deposit: its amount is worked out and its period need not be given
+  defp term(v, p, mode, fixed? \\ true) do
     ids = DepositEnums.term_unit_ids()
     positive = &Validation.greater_than_zero/1
 
@@ -727,11 +747,15 @@ defmodule ECBDeposits.DepositAccounts.Submit do
       |> optional(p, "maxDepositTermTypeId", &Params.integer(p, &1), &Validation.one_of(&1, ids))
 
     v = in_multiples(v, p, mode, ids)
-    v = term_amount(v, p, mode)
-    period(v, p, mode, ids)
+    v = if fixed?, do: term_amount(v, p, mode), else: v
+    period(v, p, mode, ids, fixed?)
   end
 
-  defp in_multiples(v, p, :create, ids) do
+  @doc false
+  def recurring_term(v, p, mode), do: term(v, p, mode, false)
+
+  @doc false
+  def in_multiples(v, p, :create, ids) do
     if Params.exists?(p, "inMultiplesOfDepositTerm") do
       step = Params.integer(p, "inMultiplesOfDepositTerm")
 
@@ -755,7 +779,7 @@ defmodule ECBDeposits.DepositAccounts.Submit do
     end
   end
 
-  defp in_multiples(v, p, :update, ids) do
+  def in_multiples(v, p, :update, ids) do
     v
     |> optional(
       p,
@@ -799,9 +823,10 @@ defmodule ECBDeposits.DepositAccounts.Submit do
     end
   end
 
-  defp period(v, p, mode, ids) do
+  @doc false
+  def period(v, p, mode, ids, fixed? \\ true) do
     v =
-      if mode == :create or Params.exists?(p, "depositPeriod"),
+      if (fixed? and mode == :create) or Params.exists?(p, "depositPeriod"),
         do:
           scoped(
             v,
@@ -826,7 +851,8 @@ defmodule ECBDeposits.DepositAccounts.Submit do
       else: v
   end
 
-  defp withholding(v, p) do
+  @doc false
+  def withholding(v, p) do
     if Params.exists?(p, "withHoldTax"),
       do:
         scoped(
@@ -922,9 +948,11 @@ defmodule ECBDeposits.DepositAccounts.Submit do
     )
   end
 
-  defp client_of(account), do: Clients.fetch!(account.client_id)
+  @doc false
+  def client_of(account), do: Clients.fetch!(account.client_id)
 
-  defp row_for_rules(account) do
+  @doc false
+  def row_for_rules(account) do
     %{
       nominal_annual_interest_rate: account.nominal_annual_interest_rate,
       interest_posting_period_enum: account.interest_posting_period_enum,
@@ -938,7 +966,8 @@ defmodule ECBDeposits.DepositAccounts.Submit do
   end
 
   # the term of an account as the rules read it
-  defp term_columns(term) do
+  @doc false
+  def term_columns(term) do
     %{
       min_deposit_term: term.min_deposit_term,
       max_deposit_term: term.max_deposit_term,
@@ -960,7 +989,8 @@ defmodule ECBDeposits.DepositAccounts.Submit do
     end
   end
 
-  defp check_references!(p, changes) do
+  @doc false
+  def check_references!(p, changes) do
     if Map.has_key?(changes, "productId"),
       do: DepositProducts.fetch!(:fixed, Json.long(p, "productId"))
 
@@ -1008,7 +1038,8 @@ defmodule ECBDeposits.DepositAccounts.Submit do
   ]
 
   # answers the changes to show, the columns of the account and those of its term
-  defp changes(p, account) do
+  @doc false
+  def changes(p, account) do
     changes = %{}
 
     {changes, set} =
@@ -1028,13 +1059,56 @@ defmodule ECBDeposits.DepositAccounts.Submit do
     {changes, set} =
       Enum.reduce(@account_fields, {changes, set}, &account_change(&1, &2, p, account))
 
+    {changes, set} = lockin_change({changes, set}, p, account)
+
     term = account.term
     {changes, term_set} = Enum.reduce(@term_fields, {changes, []}, &term_change(&1, &2, p, term))
     {changes, set, penalty_reset(term_set, term)}
   end
 
+  # the lock-in period (zero is none) and its unit; the unit goes when the period does
+  defp lockin_change({changes, set}, p, account) do
+    old = account.lockin_period_frequency && Decimal.to_integer(account.lockin_period_frequency)
+    {changes, set, period} = lockin_period({changes, set}, p, old)
+
+    {changes, set} =
+      if Params.exists?(p, "lockinPeriodFrequencyType") and
+           Params.integer(p, "lockinPeriodFrequencyType") != account.lockin_period_frequency_enum do
+        type = Params.integer(p, "lockinPeriodFrequencyType")
+
+        {Map.put(changes, "lockinPeriodFrequencyType", type),
+         Keyword.put(set, :lockin_period_frequency_enum, type)}
+      else
+        {changes, set}
+      end
+
+    if period == nil,
+      do: {changes, Keyword.put(set, :lockin_period_frequency_enum, nil)},
+      else: {changes, set}
+  end
+
+  defp lockin_period({changes, set}, p, old) do
+    new =
+      if Params.exists?(p, "lockinPeriodFrequency") do
+        case Params.integer_with_locale(p, "lockinPeriodFrequency") do
+          0 -> nil
+          value -> value
+        end
+      else
+        old
+      end
+
+    if Params.exists?(p, "lockinPeriodFrequency") and new != old do
+      {changes |> Map.put("lockinPeriodFrequency", new) |> Map.put("locale", Params.locale(p)),
+       Keyword.put(set, :lockin_period_frequency, new), new}
+    else
+      {changes, set, new}
+    end
+  end
+
   # a penalty that does not apply has no rate and no basis
-  defp penalty_reset(term_set, term) do
+  @doc false
+  def penalty_reset(term_set, term) do
     applicable =
       Keyword.get(term_set, :pre_closure_penal_applicable, term.pre_closure_penal_applicable)
 
@@ -1047,7 +1121,8 @@ defmodule ECBDeposits.DepositAccounts.Submit do
         )
   end
 
-  defp account_change({key, column, kind}, {changes, set}, p, account) do
+  @doc false
+  def account_change({key, column, kind}, {changes, set}, p, account) do
     if Params.exists?(p, key) do
       new = read(p, key, kind)
       old = Map.get(account, column)
@@ -1060,60 +1135,60 @@ defmodule ECBDeposits.DepositAccounts.Submit do
     end
   end
 
-  defp term_change({key, column, kind}, {changes, set}, p, term) do
-    if Params.exists?(p, key) do
-      new = read(p, key, kind)
-      old = Map.get(term, term_field(column))
+  @doc false
+  def term_change({key, column, kind}, {changes, set}, p, term) do
+    new = if Params.exists?(p, key), do: read(p, key, kind)
 
-      if differs?(new, old) do
-        shown = shown(kind, new)
-        changes = Map.put(changes, key, shown)
-        changes = with_request(changes, p, key, kind)
-        {changes, Keyword.put(set, column, new)}
-      else
-        {changes, set}
-      end
+    if Params.exists?(p, key) and differs?(new, Map.get(term, term_field(column))) do
+      shown = if kind == :date, do: Params.string(p, key), else: shown(kind, new)
+      changes = changes |> Map.put(key, shown) |> with_request(p, key, kind)
+      {changes, Keyword.put(set, column, new)}
     else
       {changes, set}
     end
   end
 
   # a date shows the way it was written; the pre-closure penalty's numbers show the locale
-  defp with_request(changes, p, _key, :date),
+  @doc false
+  def with_request(changes, p, _key, :date),
     do: Map.merge(changes, %{"locale" => Params.locale(p), "dateFormat" => Params.date_format(p)})
 
-  defp with_request(changes, p, key, _kind)
-       when key in ["preClosurePenalInterest", "preClosurePenalInterestOnTypeId"],
-       do: Map.put(changes, "locale", Params.locale(p) || "")
+  def with_request(changes, p, key, _kind)
+      when key in ["preClosurePenalInterest", "preClosurePenalInterestOnTypeId"],
+      do: Map.put(changes, "locale", Params.locale(p) || "")
 
-  defp with_request(changes, _p, _key, _kind), do: changes
+  def with_request(changes, _p, _key, _kind), do: changes
 
-  defp shown(:unit, new), do: DepositEnums.term_unit(new)
-  defp shown(:pre_closure_on, new), do: DepositEnums.pre_closure_on(new)
-  defp shown(_kind, new), do: new
+  @doc false
+  def shown(:unit, new), do: DepositEnums.term_unit(new)
+  def shown(:pre_closure_on, new), do: DepositEnums.pre_closure_on(new)
+  def shown(_kind, new), do: new
 
-  defp term_field(:min_deposit_term_type_enum), do: :min_deposit_term_type
-  defp term_field(:max_deposit_term_type_enum), do: :max_deposit_term_type
-  defp term_field(:in_multiples_of_deposit_term_type_enum), do: :in_multiples_of_deposit_term_type
-  defp term_field(:deposit_period_frequency_enum), do: :deposit_period_frequency
-  defp term_field(:pre_closure_penal_interest_on_enum), do: :pre_closure_penal_interest_on
-  defp term_field(:expected_firstdepositon_date), do: :expected_first_deposit_on
-  defp term_field(:transfer_interest_to_linked_account), do: :transfer_interest
-  defp term_field(:on_account_closure_enum), do: :on_closure
-  defp term_field(:transfer_to_savings_account_id), do: :transfer_to_savings_id
-  defp term_field(other), do: other
+  @doc false
+  def term_field(:min_deposit_term_type_enum), do: :min_deposit_term_type
+  def term_field(:max_deposit_term_type_enum), do: :max_deposit_term_type
+  def term_field(:in_multiples_of_deposit_term_type_enum), do: :in_multiples_of_deposit_term_type
+  def term_field(:deposit_period_frequency_enum), do: :deposit_period_frequency
+  def term_field(:pre_closure_penal_interest_on_enum), do: :pre_closure_penal_interest_on
+  def term_field(:expected_firstdepositon_date), do: :expected_first_deposit_on
+  def term_field(:transfer_interest_to_linked_account), do: :transfer_interest
+  def term_field(:on_account_closure_enum), do: :on_closure
+  def term_field(:transfer_to_savings_account_id), do: :transfer_to_savings_id
+  def term_field(other), do: other
 
-  defp read(p, key, :text), do: Params.string(p, key)
-  defp read(p, key, :id), do: Json.long(p, key)
-  defp read(p, key, :decimal), do: Params.decimal_with_locale(p, key)
-  defp read(p, key, :date), do: Params.date(p, key)
-  defp read(p, key, :boolean), do: Params.boolean(p, key) == true
+  @doc false
+  def read(p, key, :text), do: Params.string(p, key)
+  def read(p, key, :id), do: Json.long(p, key)
+  def read(p, key, :decimal), do: Params.decimal_with_locale(p, key)
+  def read(p, key, :date), do: Params.date(p, key)
+  def read(p, key, :boolean), do: Params.boolean(p, key) == true
 
-  defp read(p, key, kind) when kind in [:integer, :unit, :pre_closure_on],
+  def read(p, key, kind) when kind in [:integer, :unit, :pre_closure_on],
     do: Params.integer(p, key)
 
-  defp differs?(%Decimal{} = new, %Decimal{} = old), do: not Decimal.eq?(new, old)
-  defp differs?(new, old), do: new != old
+  @doc false
+  def differs?(%Decimal{} = new, %Decimal{} = old), do: not Decimal.eq?(new, old)
+  def differs?(new, old), do: new != old
 
   # --- deleting ---------------------------------------------------------------------------------------
 
@@ -1147,7 +1222,8 @@ defmodule ECBDeposits.DepositAccounts.Submit do
     Result.new(resource_id: id, savings_id: id, office_id: client.office_id, client_id: client.id)
   end
 
-  defp delete_chart!(id) do
+  @doc false
+  def delete_chart!(id) do
     chart_ids =
       TenantRepo.all(
         from(c in "m_savings_account_interest_rate_chart",

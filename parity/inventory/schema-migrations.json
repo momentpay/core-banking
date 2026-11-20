@@ -353,6 +353,17 @@
         "m_deposit_account_on_hold_transaction",
         "m_mandatory_savings_schedule"
       ]
+    },
+    {
+      "kind": "schema",
+      "app": "ecb_deposits",
+      "version": "20261121120000",
+      "name": "create_calendar_tables",
+      "tables": [
+        "m_calendar",
+        "m_calendar_instance",
+        "m_calendar_history"
+      ]
     }
   ],
   "deferred_foreign_keys": [

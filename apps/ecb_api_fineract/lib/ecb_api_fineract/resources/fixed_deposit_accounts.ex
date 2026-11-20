@@ -57,7 +57,8 @@ defmodule ECBApiFineract.Resources.FixedDepositAccounts do
     end)
   end
 
-  defp page(accounts, offset, limit) do
+  @doc false
+  def page(accounts, offset, limit) do
     accounts = Enum.drop(accounts, offset || 0)
     if limit, do: Enum.take(accounts, limit), else: accounts
   end
@@ -71,7 +72,8 @@ defmodule ECBApiFineract.Resources.FixedDepositAccounts do
     end)
   end
 
-  defp one(a, q) do
+  @doc false
+  def one(a, q) do
     users = Savings.users(SavingsAccounts.user_ids(a))
 
     a
@@ -82,10 +84,12 @@ defmodule ECBApiFineract.Resources.FixedDepositAccounts do
     |> with_template(a, q["template"] == "true")
   end
 
-  defp associations(nil), do: []
-  defp associations(text), do: text |> String.split(",") |> Enum.map(&String.trim/1)
+  @doc false
+  def associations(nil), do: []
+  def associations(text), do: text |> String.split(",") |> Enum.map(&String.trim/1)
 
-  defp with_associations(body, a, associations) do
+  @doc false
+  def with_associations(body, a, associations) do
     if "all" in associations or "transactions" in associations do
       case SavingsTransactions.compact_list_json(a) do
         [] ->
@@ -100,15 +104,17 @@ defmodule ECBApiFineract.Resources.FixedDepositAccounts do
   end
 
   # a deposit's transactions know nothing of reversals or holds, and show the multiple of their currency
-  defp with_multiples(transaction, a) do
+  @doc false
+  def with_multiples(transaction, a) do
     transaction
     |> Map.drop(~w(isReversal originalTransactionId releaseTransactionId reasonForBlock))
     |> Map.update!("currency", &Map.put(&1, "inMultiplesOf", a.currency_multiplesof))
   end
 
-  defp with_template(body, _a, false), do: body
+  @doc false
+  def with_template(body, _a, false), do: body
 
-  defp with_template(body, a, true) do
+  def with_template(body, a, true) do
     body
     |> Map.merge(options())
     |> Map.merge(Map.delete(product_choices(), "maturityInstructionOptions"))
@@ -117,7 +123,8 @@ defmodule ECBApiFineract.Resources.FixedDepositAccounts do
     |> Map.put("chargeOptions", charge_options(a.product_id))
   end
 
-  defp list_item(a, users) do
+  @doc false
+  def list_item(a, users) do
     t = a.term
 
     %{
@@ -174,9 +181,10 @@ defmodule ECBApiFineract.Resources.FixedDepositAccounts do
   end
 
   # the lock-in period of the account, when it has one
-  defp maybe_lockin(body, %{lockin_period_frequency: nil}), do: body
+  @doc false
+  def maybe_lockin(body, %{lockin_period_frequency: nil}), do: body
 
-  defp maybe_lockin(body, a) do
+  def maybe_lockin(body, a) do
     body
     |> Map.put(
       "lockinPeriodFrequency",
@@ -188,7 +196,8 @@ defmodule ECBApiFineract.Resources.FixedDepositAccounts do
     )
   end
 
-  defp currency(a) do
+  @doc false
+  def currency(a) do
     %{
       code: a.currency_code,
       name: a.currency_name,
@@ -200,9 +209,10 @@ defmodule ECBApiFineract.Resources.FixedDepositAccounts do
   end
 
   # the deposit's own period units
-  defp period_frequency(nil), do: nil
+  @doc false
+  def period_frequency(nil), do: nil
 
-  defp period_frequency(id) do
+  def period_frequency(id) do
     case Enum.find(DepositEnums.term_units(), &(&1.id == id)) do
       nil -> nil
       u -> %{u | code: String.replace(u.code, "deposit.term.", "deposit.period.")}
@@ -210,7 +220,8 @@ defmodule ECBApiFineract.Resources.FixedDepositAccounts do
   end
 
   # a deposit's summary has no available balance and no overdraft figures
-  defp summary(a) do
+  @doc false
+  def summary(a) do
     a
     |> SavingsAccounts.summary()
     |> Map.drop([
@@ -235,14 +246,16 @@ defmodule ECBApiFineract.Resources.FixedDepositAccounts do
     end
   end
 
-  defp option(nil), do: nil
-  defp option(option), do: Read.option(option)
+  @doc false
+  def option(nil), do: nil
+  def option(option), do: Read.option(option)
 
   # --- the chart of an account ---------------------------------------------------------------------------
 
-  defp chart_json(nil, _a), do: nil
+  @doc false
+  def chart_json(nil, _a), do: nil
 
-  defp chart_json(chart, a) do
+  def chart_json(chart, a) do
     %{
       "id" => chart.id,
       "name" => chart.name,
@@ -288,7 +301,8 @@ defmodule ECBApiFineract.Resources.FixedDepositAccounts do
     end)
   end
 
-  defp template_body(client, product, product_id) do
+  @doc false
+  def template_body(client, product, product_id) do
     %{
       "preClosurePenalApplicable" => false,
       "withdrawalFeeForTransfers" => false,
@@ -307,9 +321,10 @@ defmodule ECBApiFineract.Resources.FixedDepositAccounts do
     |> Map.put("chargeOptions", charge_options(product_id))
   end
 
-  defp template_client(nil), do: {:ok, %{}}
+  @doc false
+  def template_client(nil), do: {:ok, %{}}
 
-  defp template_client(id) do
+  def template_client(id) do
     client = Clients.fetch!(id)
     {:ok, %{"clientId" => client.id, "clientName" => client.display_name}}
   end
@@ -356,11 +371,13 @@ defmodule ECBApiFineract.Resources.FixedDepositAccounts do
     end
   end
 
-  defp unhandled({:error, _}), do: {:error, %ECBPlatform.Errors.ServerError{}}
-  defp unhandled(ok), do: ok
+  @doc false
+  def unhandled({:error, _}), do: {:error, %ECBPlatform.Errors.ServerError{}}
+  def unhandled(ok), do: ok
 
   # the chart of the product in force today, as the template shows it
-  defp product_chart(charts, p) do
+  @doc false
+  def product_chart(charts, p) do
     case ECBDeposits.InterestCharts.active(charts) do
       nil ->
         nil
@@ -404,7 +421,8 @@ defmodule ECBApiFineract.Resources.FixedDepositAccounts do
   end
 
   # the choices that are always there, and those that come once a product is chosen
-  defp options do
+  @doc false
+  def options do
     %{
       "preClosurePenalInterestOnTypeOptions" =>
         Enum.map(DepositEnums.pre_closure_on(), &Read.option/1),
@@ -412,7 +430,8 @@ defmodule ECBApiFineract.Resources.FixedDepositAccounts do
     }
   end
 
-  defp product_choices do
+  @doc false
+  def product_choices do
     %{
       "maturityInstructionOptions" =>
         Enum.map(DepositEnums.maturity_instructions(), &Read.option/1),
@@ -427,10 +446,12 @@ defmodule ECBApiFineract.Resources.FixedDepositAccounts do
     }
   end
 
-  defp product_option(p),
+  @doc false
+  def product_option(p),
     do: %{"id" => p.id, "name" => p.name, "withHoldTax" => p.withhold_tax == true}
 
-  defp charge_options(_product_id) do
+  @doc false
+  def charge_options(_product_id) do
     ECBCatalog.Charges.applicable_to_savings(false) |> Enum.map(&SavingsProducts.charge/1)
   end
 

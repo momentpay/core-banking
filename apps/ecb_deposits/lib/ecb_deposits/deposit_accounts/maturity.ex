@@ -88,8 +88,17 @@ defmodule ECBDeposits.DepositAccounts.Maturity do
   """
   @spec interest(map) :: Decimal.t()
   def interest(a) do
-    up_to = Date.add(a.maturity, -1)
     deposit = %{id: 1, type: 1, date: a.start, amount: a.amount, manual: false, overdraft: nil}
+    interest_on([deposit], a)
+  end
+
+  @doc """
+  The interest the deposits (`%{id, type, date, amount, manual, overdraft}`) earn from the start of the term until the
+  day before the maturity date, with the settings `interest/1` takes.
+  """
+  @spec interest_on([map], map) :: Decimal.t()
+  def interest_on(deposits, a) do
+    up_to = Date.add(a.maturity, -1)
 
     %{
       start: a.start,
@@ -108,7 +117,7 @@ defmodule ECBDeposits.DepositAccounts.Maturity do
       at_period_end: at_period_end?(),
       as_on: [],
       business_date: BusinessDate.current(),
-      txs: Calc.balances([deposit], up_to)
+      txs: Calc.balances(deposits, up_to)
     }
     |> Calc.periods()
     |> Enum.reduce(Decimal.new(0), &Decimal.add(&1.interest, &2))

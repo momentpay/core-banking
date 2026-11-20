@@ -102,6 +102,26 @@ defmodule ECBDeposits.DepositAccounts do
     )
   end
 
+  @doc "The details of the installments of a recurring deposit account, or `nil`."
+  @spec recurring_detail(integer) :: map | nil
+  def recurring_detail(account_id) do
+    TenantRepo.one(
+      from(d in "m_deposit_account_recurring_detail",
+        where: d.savings_account_id == ^account_id,
+        select: %{
+          id: d.id,
+          amount: d.mandatory_recommended_deposit_amount,
+          mandatory: d.is_mandatory,
+          allow_withdrawal: d.allow_withdrawal,
+          adjust_advance: d.adjust_advance_towards_future_payments,
+          calendar_inherited: d.is_calendar_inherited,
+          overdue_amount: d.total_overdue_amount,
+          overdue_installments: d.no_of_overdue_installments
+        }
+      )
+    )
+  end
+
   @doc "The chart an account was opened on, with its slabs and their incentives, or `nil`."
   @spec chart(integer) :: map | nil
   def chart(account_id) do
