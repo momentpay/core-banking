@@ -178,6 +178,9 @@ defmodule ECBApiFineract.ApiRouter do
   get "/v1/savingsaccounts/external-id/:external_id/transactions/template",
     do: SavingsTransactions.template_by_external_id(conn, external_id)
 
+  get "/v1/savingsaccounts/external-id/:external_id/transactions/search",
+    do: SavingsTransactions.search_by_external_id(conn, external_id)
+
   get "/v1/savingsaccounts/external-id/:external_id/transactions/:transaction_id",
     do: SavingsTransactions.show_of_external_account(conn, external_id, transaction_id)
 
@@ -200,6 +203,11 @@ defmodule ECBApiFineract.ApiRouter do
     do: SavingsAccountCharges.delete(conn, id, charge_id)
 
   get "/v1/savingsaccounts/:id/transactions/template", do: SavingsTransactions.template(conn, id)
+
+  get "/v1/savingsaccounts/:id/transactions/search", do: SavingsTransactions.search(conn, id)
+
+  post "/v1/savingsaccounts/:id/transactions/query",
+    do: SavingsTransactions.advanced_query(conn, id)
 
   get "/v1/savingsaccounts/:id/transactions/external-id/:external_id",
     do: SavingsTransactions.show_by_external_id(conn, id, external_id)

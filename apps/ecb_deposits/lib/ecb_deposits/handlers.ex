@@ -27,7 +27,16 @@ defmodule ECBDeposits.Handlers do
     """
     @behaviour ECBPlatform.Commands.Handler
 
-    alias ECBDeposits.Savings.{InterestCommands, Postings, Submit, Transitions}
+    alias ECBDeposits.Savings.{
+      Blocks,
+      Holds,
+      InterestCommands,
+      Officers,
+      Postings,
+      Submit,
+      Transitions
+    }
+
     alias ECBPlatform.Params
 
     @impl true
@@ -78,6 +87,43 @@ defmodule ECBDeposits.Handlers do
 
     def process(%{action_name: "POSTINTEREST"} = command, user),
       do: {:ok, InterestCommands.post!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "ASSIGNSAVINGSOFFICER"} = command, user),
+      do: {:ok, Officers.assign!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "UNASSIGNSAVINGSOFFICER"} = command, user),
+      do: {:ok, Officers.unassign!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "BLOCK"} = command, user),
+      do: {:ok, Blocks.block!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "UNBLOCK"} = command, user),
+      do: {:ok, Blocks.unblock!(user, command.entity_id)}
+
+    def process(%{action_name: "BLOCKCREDITS"} = command, user),
+      do: {:ok, Blocks.block_credits!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "UNBLOCKCREDITS"} = command, user),
+      do: {:ok, Blocks.unblock_credits!(user, command.entity_id)}
+
+    def process(%{action_name: "BLOCKDEBITS"} = command, user),
+      do: {:ok, Blocks.block_debits!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "UNBLOCKDEBITS"} = command, user),
+      do: {:ok, Blocks.unblock_debits!(user, command.entity_id)}
+
+    def process(%{action_name: "HOLDAMOUNT"} = command, user),
+      do: {:ok, Holds.hold!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "RELEASEAMOUNT"} = command, user),
+      do:
+        {:ok,
+         Holds.release!(
+           user,
+           command.entity_id,
+           command.subentity_id,
+           Params.parse!(command.json)
+         )}
 
     def process(%{action_name: "ADJUSTTRANSACTION"} = command, user),
       do:

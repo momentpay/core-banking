@@ -25,6 +25,7 @@ defmodule ECBDeposits.Savings.Journal do
   @overdraft_control 11
   @income_from_interest 12
   @interest_payable 17
+  @escheat_liability 14
 
   @doc "Posts the entries of a deposit or a withdrawal: `tx` carries `id`, `type`, `date`, `amount`, `payment_detail_id` and, when the transaction takes the
   account into overdraft or pays it back, `overdraft`, the part of the amount that does."
@@ -91,6 +92,15 @@ defmodule ECBDeposits.Savings.Journal do
     insert!(user, account, tx, [
       {@debit, accounts[@savings_reference], tx.amount},
       {@credit, accounts[@income_from_interest], tx.amount}
+    ])
+  end
+
+  def post!(user, account, %{type: 19} = tx) do
+    accounts = accounts(account.product_id)
+
+    insert!(user, account, tx, [
+      {@debit, accounts[@savings_control], tx.amount},
+      {@credit, accounts[@escheat_liability], tx.amount}
     ])
   end
 

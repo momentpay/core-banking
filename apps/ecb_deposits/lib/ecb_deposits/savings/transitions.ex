@@ -8,7 +8,7 @@ defmodule ECBDeposits.Savings.Transitions do
   import Ecto.Query
 
   alias ECBDeposits.{Savings, SavingsEnums}
-  alias ECBDeposits.Savings.{Charges, Postings}
+  alias ECBDeposits.Savings.{Blocks, Charges, Holds, Officers, Postings}
   alias ECBParty.Clients
   alias ECBPlatform.{BusinessDate, Params, TenantRepo, Validation}
   alias ECBPlatform.Commands.Result
@@ -47,6 +47,9 @@ defmodule ECBDeposits.Savings.Transitions do
       approvedon_date: on,
       approvedon_userid: user.id
     )
+
+    # an officer the application has starts his history on the day of approval
+    if account.field_officer_id, do: Officers.add_history!(user, id, account.field_officer_id, on)
 
     note!(account, note, user, 500)
 
@@ -295,6 +298,8 @@ defmodule ECBDeposits.Savings.Transitions do
         else: &1
       )
     )
+    |> on_hold_state(account)
+    |> blocked_state(account)
     |> Postings.payment_type_details(p, type_id)
     |> Validation.raise_if_errors!()
 
@@ -324,6 +329,30 @@ defmodule ECBDeposits.Savings.Transitions do
       |> put_note(note)
 
     result(account, changes)
+  end
+
+  # an account with an amount on hold cannot be closed until it is released
+  defp on_hold_state(v, account) do
+    if Holds.on_hold?(account) do
+      v
+      |> Validation.param(nil, nil)
+      |> Validation.fail_without_parameter("amount.is.on.hold.release.the.amount.to.continue")
+      |> Map.update!(:errors, fn [e | rest] ->
+        [%{e | args: [hd(e.args), [account.id]]} | rest]
+      end)
+    else
+      v
+    end
+  end
+
+  # an account that is blocked in any way cannot be closed
+  defp blocked_state(v, account) do
+    if Blocks.blocked?(account),
+      do:
+        v
+        |> Validation.param("subStatus", nil)
+        |> Validation.fail_without_parameter("account.is.in.blocked.state"),
+      else: v
   end
 
   # asked for, the interest must have been posted on the day of closing

@@ -28,6 +28,16 @@ defmodule ECBDeposits.Application do
     {"SAVINGSACCOUNT", "ADJUSTTRANSACTION", ECBDeposits.Handlers.SavingsAccount},
     {"SAVINGSACCOUNT", "CALCULATEINTEREST", ECBDeposits.Handlers.SavingsAccount},
     {"SAVINGSACCOUNT", "POSTINTEREST", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "ASSIGNSAVINGSOFFICER", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "UNASSIGNSAVINGSOFFICER", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "BLOCK", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "UNBLOCK", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "BLOCKCREDITS", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "UNBLOCKCREDITS", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "BLOCKDEBITS", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "UNBLOCKDEBITS", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "HOLDAMOUNT", ECBDeposits.Handlers.SavingsAccount},
+    {"SAVINGSACCOUNT", "RELEASEAMOUNT", ECBDeposits.Handlers.SavingsAccount},
     {"SAVINGSACCOUNTCHARGE", "CREATE", ECBDeposits.Handlers.SavingsAccountCharge},
     {"SAVINGSACCOUNTCHARGE", "UPDATE", ECBDeposits.Handlers.SavingsAccountCharge},
     {"SAVINGSACCOUNTCHARGE", "DELETE", ECBDeposits.Handlers.SavingsAccountCharge},
@@ -42,6 +52,7 @@ defmodule ECBDeposits.Application do
     ECBPlatform.Jobs.register("SA_PINT", ECBDeposits.Savings.PostInterestJob)
     ECBPlatform.Jobs.register("SA_PDCH", ECBDeposits.Savings.PayDueChargesJob)
     ECBPlatform.Jobs.register("SA_AANF", ECBDeposits.Savings.ApplyAnnualFeeJob)
+    ECBPlatform.Jobs.register("SA_UDOR", ECBDeposits.Savings.DormancyJob)
 
     Supervisor.start_link([], strategy: :one_for_one, name: ECBDeposits.Supervisor)
   end

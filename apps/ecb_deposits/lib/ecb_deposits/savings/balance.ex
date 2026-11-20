@@ -16,6 +16,8 @@ defmodule ECBDeposits.Savings.Balance do
   @interest_posting 3
   @withdrawal_fee 4
   @annual_fee 5
+  @hold 20
+  @release 21
   @pay_charge 7
   @dividend 8
   @overdraft_interest 17
@@ -144,23 +146,39 @@ defmodule ECBDeposits.Savings.Balance do
   @spec check!(map, [map], keyword) :: :ok
   def check!(account, transactions, opts \\ []) do
     minimum = minimum(account)
-    rows = running(transactions)
+    # money put on hold and released is no credit or debit of the account
+    rows = transactions |> Enum.reject(&(&1.type in [@hold, @release])) |> running()
     final = rows |> List.last() |> then(&if(&1, do: elem(&1, 1), else: Decimal.new(0)))
     force? = Keyword.get(opts, :force?, false)
     exception? = Keyword.get(opts, :exception?, false)
 
-    violated? =
-      if account.allow_overdraft == true do
-        below?(final, minimum) and not forced?(force?, final)
-      else
-        not exception? and
-          Enum.any?(rows, fn {tx, balance} ->
-            Calc.direction(tx.type) == :debit and checked?(tx) and below?(balance, minimum) and
-              not forced?(force?, balance)
-          end)
-      end
+    violated? = violated?(account, rows, final, minimum, force?, exception?)
 
-    if violated?, do: insufficient!(final, opts[:amount]), else: :ok
+    if violated? or held?(account, final, minimum, opts[:hold]),
+      do: insufficient!(final, opts[:amount]),
+      else: :ok
+  end
+
+  defp violated?(%{allow_overdraft: true}, _rows, final, minimum, force?, _exception?),
+    do: below?(final, minimum) and not forced?(force?, final)
+
+  defp violated?(_account, rows, _final, minimum, force?, exception?) do
+    not exception? and
+      Enum.any?(rows, fn {tx, balance} ->
+        Calc.direction(tx.type) == :debit and checked?(tx) and below?(balance, minimum) and
+          not forced?(force?, balance)
+      end)
+  end
+
+  # what the account holds back (`hold`) must stay in it: `violatesMinBalanceWithHold`
+  defp held?(_account, _final, _minimum, hold) when hold in [nil, 0], do: false
+
+  defp held?(account, final, minimum, %Decimal{} = hold) do
+    cond do
+      not Decimal.gt?(hold, 0) -> false
+      account.enforce_min_required_balance == true -> below?(final, Decimal.add(minimum, hold))
+      true -> below?(final, hold)
+    end
   end
 
   # a charge that is not an activation or a withdrawal fee may take the balance below what is allowed

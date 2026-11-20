@@ -18,7 +18,8 @@ defmodule ECBApiFineract.Resources.SavingsAccounts do
   alias ECBDeposits.{Savings, SavingsEnums, SavingsProducts}
   alias ECBDeposits.Savings.Charges, as: AccountCharges
   alias ECBParty.Clients
-  alias ECBPlatform.Errors.{DomainRuleViolation, UnrecognizedQueryParameter}
+  alias ECBPlatform.BusinessDate
+  alias ECBPlatform.Errors.UnrecognizedQueryParameter
 
   @resource "SAVINGSACCOUNT"
 
@@ -31,13 +32,18 @@ defmodule ECBApiFineract.Resources.SavingsAccounts do
     "activate" => "ACTIVATE",
     "close" => "CLOSE",
     "calculateinterest" => "CALCULATEINTEREST",
-    "postinterest" => "POSTINTEREST"
+    "postinterest" => "POSTINTEREST",
+    "assignsavingsofficer" => "ASSIGNSAVINGSOFFICER",
+    "unassignsavingsofficer" => "UNASSIGNSAVINGSOFFICER",
+    "blockdebit" => "BLOCKDEBITS",
+    "unblockdebit" => "UNBLOCKDEBITS",
+    "blockcredit" => "BLOCKCREDITS",
+    "unblockcredit" => "UNBLOCKCREDITS",
+    "block" => "BLOCK",
+    "unblock" => "UNBLOCK"
   }
 
   # what Fineract has besides: refused, not taken for unknown ones
-  @not_built ~w(assignsavingsofficer unassignsavingsofficer blockdebit unblockdebit
-                blockcredit unblockcredit block unblock)
-
   # what Fineract lists as the commands it knows, in its order
   @command_names ~w(reject withdrawnByApplicant approve undoapproval activate calculateInterest postInterest close
                     assignSavingsOfficer unassignSavingsOfficer blockDebit unblockDebit blockCredit unblockCredit
@@ -179,7 +185,7 @@ defmodule ECBApiFineract.Resources.SavingsAccounts do
       "fieldOfficerId" => a.field_officer_id || 0,
       "fieldOfficerName" => a.field_officer_name,
       "status" => SavingsEnums.account_status(a.status_enum),
-      "subStatus" => SavingsEnums.sub_status_none(),
+      "subStatus" => SavingsEnums.sub_status(a.sub_status_enum),
       "timeline" => timeline(a, users),
       "currency" => currency(a),
       "nominalAnnualInterestRate" => a.nominal_annual_interest_rate,
@@ -203,6 +209,7 @@ defmodule ECBApiFineract.Resources.SavingsAccounts do
       "enforceMinRequiredBalance" => a.enforce_min_required_balance == true,
       "minBalanceForInterestCalculation" => nonzero(a.min_balance_for_interest_calculation),
       "lienAllowed" => a.is_lien_allowed == true,
+      "savingsAmountOnHold" => a.savings_on_hold,
       "maxAllowedLienLimit" => nonzero(a.max_allowed_lien_limit),
       "withHoldTax" => a.withhold_tax == true,
       "lastActiveTransactionDate" =>
@@ -210,7 +217,34 @@ defmodule ECBApiFineract.Resources.SavingsAccounts do
       "isDormancyTrackingActive" => a.dormancy_tracking_active == true,
       "summary" => summary(a)
     }
+    |> Map.merge(dormancy_days(a))
+    |> put_reason(a)
   end
+
+  # the days left until each stage of dormancy is reached, for an active account of a product that tracks it: each
+  # stage not yet reached by the account's sub status
+  defp dormancy_days(
+         %{dormancy_tracking_active: true, status_enum: 300, activatedon_date: activated} = a
+       )
+       when activated != nil do
+    last = a.last_transaction_date || activated
+    today = BusinessDate.current()
+    left = fn days -> days && Date.diff(Date.add(last, days), today) end
+
+    %{}
+    |> put_days("daysToEscheat", a.sub_status_enum < 300, left.(a.days_to_escheat))
+    |> put_days("daysToDormancy", a.sub_status_enum < 200, left.(a.days_to_dormancy))
+    |> put_days("daysToInactive", a.sub_status_enum < 100, left.(a.days_to_inactive))
+  end
+
+  defp dormancy_days(_a), do: %{}
+
+  defp put_days(map, name, true, days), do: Map.put(map, name, days)
+  defp put_days(map, _name, false, _days), do: map
+
+  # why the account is blocked, while it is
+  defp put_reason(body, %{reason_for_block: nil}), do: body
+  defp put_reason(body, a), do: Map.put(body, "reasonForBlock", a.reason_for_block)
 
   defp whole(nil), do: nil
   defp whole(%Decimal{} = d), do: Decimal.to_integer(d)
@@ -241,7 +275,13 @@ defmodule ECBApiFineract.Resources.SavingsAccounts do
 
   defp summary(a) do
     balance = a.account_balance_derived
-    on_hold = a.on_hold_funds_derived || Decimal.new(0)
+
+    on_hold =
+      Decimal.add(
+        a.on_hold_funds_derived || Decimal.new(0),
+        a.savings_on_hold || Decimal.new(0)
+      )
+
     earned = nonzero(a.total_interest_earned_derived)
     posted = a.total_interest_posted_derived || Decimal.new(0)
     overdraft_interest = a.total_overdraft_interest_derived || Decimal.new(0)
@@ -414,23 +454,14 @@ defmodule ECBApiFineract.Resources.SavingsAccounts do
       command = conn.query_params["command"]
       key = command && String.downcase(command)
 
-      cond do
-        Map.has_key?(@commands, key) ->
-          Write.execute(conn, @resource, Map.fetch!(@commands, key), id: id)
-
-        key in @not_built ->
-          Errors.render(conn, %DomainRuleViolation{
-            code: "error.msg.savingsaccount.feature.not.supported.yet",
-            message: "The savings account command #{command} is not supported yet by E-CoreBank",
-            args: [command]
-          })
-
-        true ->
-          Errors.render(conn, %UnrecognizedQueryParameter{
-            name: "command",
-            value: command,
-            allowed: @command_names
-          })
+      if Map.has_key?(@commands, key) do
+        Write.execute(conn, @resource, Map.fetch!(@commands, key), id: id)
+      else
+        Errors.render(conn, %UnrecognizedQueryParameter{
+          name: "command",
+          value: command,
+          allowed: @command_names
+        })
       end
     end)
   end

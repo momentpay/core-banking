@@ -81,7 +81,8 @@ defmodule ECBApiFineract.JobsTest do
                {"apitest", "SA_PINT"},
                {"apitest", "LA_OPEN"},
                {"apitest", "LA_DECL"},
-               {"apitest", "ACC_AATR"}
+               {"apitest", "ACC_AATR"},
+               {"apitest", "SA_UDOR"}
              ]
 
       assert next_run("LA_ARAG") == ~N[2024-05-03 00:01:00]
@@ -100,6 +101,7 @@ defmodule ECBApiFineract.JobsTest do
                {"apitest", "LA_OPEN"},
                {"apitest", "LA_DECL"},
                {"apitest", "ACC_AATR"},
+               {"apitest", "SA_UDOR"},
                {"apitest", "ACC_APTR"}
              ]
 

@@ -199,16 +199,10 @@ defmodule ECBApiFineract.SavingsAccountsTest do
       assert summary["interestNotPosted"] == 100
     end
 
-    test "the commands for interest, officers and blocks are refused, not taken for unknown" do
+    test "a command that does not exist is not recognized" do
       id = approved_account()
-
-      for name <- ["assignSavingsOfficer", "block"] do
-        conn = command(id, name, %{})
-        assert conn.status == 403, name
-
-        assert hd(body(conn)["errors"])["userMessageGlobalisationCode"] ==
-                 "error.msg.savingsaccount.feature.not.supported.yet"
-      end
+      conn = command(id, "frobnicate", %{})
+      assert conn.status == 400
     end
   end
 

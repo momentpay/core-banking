@@ -10,7 +10,7 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
   alias ECBDeposits.Savings.Transactions
   alias ECBOrg.PaymentTypes, as: OrgPaymentTypes
   alias ECBPlatform.BusinessDate
-  alias ECBPlatform.Errors.{DomainRuleViolation, UnrecognizedQueryParameter}
+  alias ECBPlatform.Errors.UnrecognizedQueryParameter
 
   @resource "SAVINGSACCOUNT"
 
@@ -55,6 +55,242 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
     do:
       Savings.get_by_external_id(external_id) ||
         raise(Savings.not_found_by_external_id_named(external_id))
+
+  # --- search -------------------------------------------------------------------------------
+
+  @doc "`GET /savingsaccounts/:id/transactions/search`"
+  def search(conn, raw_id) do
+    Write.with_path_id(conn, raw_id, fn id ->
+      Read.respond(conn, @resource, fn -> search_json(id, first_values(conn)) end)
+    end)
+  end
+
+  @doc "`GET /savingsaccounts/external-id/:external_id/transactions/search`"
+  def search_by_external_id(conn, external_id) do
+    Read.respond(conn, @resource, fn ->
+      a = account_by_external_id!(external_id)
+      search_json(a.id, first_values(conn))
+    end)
+  end
+
+  @doc "`POST /savingsaccounts/:id/transactions/query`: the advanced search is not built yet."
+  def advanced_query(conn, _raw_id) do
+    Errors.render(conn, %ECBPlatform.Errors.DomainRuleViolation{
+      code: "error.msg.savingsaccount.feature.not.supported.yet",
+      message:
+        "The advanced query of savings account transactions is not supported yet by E-CoreBank",
+      args: ["query"]
+    })
+  end
+
+  @languages ~w(aa ab ae af ak am an ar as av ay az ba be bg bh bi bm bn bo br bs ca ce ch co cr cs cu cv cy da de dv dz ee el en eo es et eu fa ff fi fj fo fr fy ga gd gl gn gu gv ha he hi ho hr ht hu hy hz ia id ie ig ii ik io is it iu ja jv ka kg ki kj kk kl km kn ko kr ks ku kv kw ky la lb lg li ln lo lt lu lv mg mh mi mk ml mn mr ms mt my na nb nd ne ng nl nn no nr nv ny oc oj om or os pa pi pl ps pt qu rm rn ro ru rw sa sc sd se sg si sk sl sm sn so sq sr ss st su sv sw ta te tg th ti tk tl tn to tr ts tt tw ty ug uk ur uz ve vi vo wa wo xh yi yo za zh zu)
+  @date_names ~w(fromDate toDate fromSubmittedDate toSubmittedDate)
+
+  # a parameter given more than once counts with its first value
+  defp first_values(conn) do
+    conn.query_string
+    |> URI.query_decoder()
+    |> Enum.reduce(%{}, fn {name, value}, acc -> Map.put_new(acc, name, value) end)
+  end
+
+  # what Spring or the web container answers on its own comes back as an error, not a crash
+  defp search_json(id, q) do
+    build_search(id, q)
+  rescue
+    error in [ECBPlatform.Errors.ServerError, Errors.PathNotFound] -> {:error, error}
+  end
+
+  defp build_search(id, q) do
+    # the values the web container turns into numbers and flags come first, as they do in Fineract
+    from_amount = number_param(q, "fromAmount")
+    to_amount = number_param(q, "toAmount")
+    credit = flag_param(q, "credit")
+    debit = flag_param(q, "debit")
+    direction = direction_param(q["sortOrder"])
+    size = int_query(q, "limit") || 50
+    page = int_query(q, "offset") || 0
+
+    validate_locale!(q["locale"])
+
+    [from_date, to_date, from_submitted, to_submitted] =
+      Enum.map(@date_names, &date_param(q[&1], q["dateFormat"]))
+
+    if page < 0 or size < 1, do: raise(ECBPlatform.Errors.ServerError)
+
+    orders = split_order(q["orderBy"])
+    if orders != [] and direction == nil, do: raise(ECBPlatform.Errors.ServerError)
+    sort = sort_for(orders, direction)
+
+    filters = %{
+      from_date: from_date,
+      to_date: to_date,
+      from_submitted: from_submitted,
+      to_submitted: to_submitted,
+      from_amount: from_amount,
+      to_amount: to_amount,
+      credit: credit,
+      debit: debit,
+      types: q["types"] && String.split(q["types"], ",")
+    }
+
+    {total, rows} = Transactions.search(id, filters, sort, page, size)
+
+    %{
+      "total" => total,
+      "content" => search_content(id, rows),
+      "pageable" => %{
+        "sort" => %{"orders" => Enum.map(page_orders(orders, direction), &order_json/1)},
+        "pageNumber" => page,
+        "pageSize" => size
+      }
+    }
+  end
+
+  defp search_content(_id, []), do: []
+
+  defp search_content(id, rows) do
+    a = Savings.fetch!(id)
+    Enum.map(rows, &json(&1, a, false))
+  end
+
+  defp sort_for([], _direction), do: nil
+
+  defp sort_for(orders, direction) do
+    columns = Transactions.columns()
+    dir = if direction == "ASC", do: :asc, else: :desc
+    Enum.map(orders, &{sort_column!(&1, columns), dir})
+  end
+
+  defp page_orders([], _direction),
+    do: Enum.map(~w(transaction_date created_on_utc id), &{&1, "DESC"})
+
+  defp page_orders(orders, direction), do: Enum.map(orders, &{&1, direction})
+
+  defp order_json({property, direction}),
+    do: %{
+      "direction" => direction,
+      "property" => property,
+      "ignoreCase" => false,
+      "nullHandling" => "NATIVE"
+    }
+
+  defp split_order(nil), do: []
+  defp split_order(""), do: []
+  defp split_order(text), do: String.split(text, ",")
+
+  # a column of the table by its own name, with spaces made underscores, or written in camel case
+  defp sort_column!(name, columns) do
+    plain = String.replace(name, " ", "")
+
+    found =
+      Enum.find_value([name, String.replace(name, " ", "_"), camel_to_snake(plain)], fn c ->
+        Enum.find(columns, &(String.downcase(&1) == String.downcase(c)))
+      end)
+
+    found ||
+      raise ECBPlatform.Errors.PlatformApiDataValidation,
+        errors: [
+          %{
+            code: "error.msg.invalid.column",
+            developer_message: "Column not exist in database",
+            default_message: "Column not exist in database",
+            parameter: "column",
+            value: name,
+            args: []
+          }
+        ]
+  end
+
+  defp camel_to_snake(text),
+    do: text |> String.replace(~r/([a-z0-9])([A-Z])/, "\\1_\\2") |> String.downcase()
+
+  defp direction_param(nil), do: nil
+
+  defp direction_param(text) do
+    case String.upcase(text) do
+      "ASC" -> "ASC"
+      "DESC" -> "DESC"
+      _ -> raise Errors.PathNotFound
+    end
+  end
+
+  defp number_param(q, name) do
+    case q[name] do
+      nil -> nil
+      text -> parse_number(text)
+    end
+  end
+
+  defp parse_number(text) do
+    case Decimal.parse(text) do
+      {number, ""} -> number
+      _ -> raise Errors.PathNotFound
+    end
+  end
+
+  defp int_query(q, name) do
+    case q[name] do
+      nil -> nil
+      text -> parse_int(text)
+    end
+  end
+
+  defp parse_int(text) do
+    case Integer.parse(text) do
+      {n, ""} -> n
+      _ -> raise Errors.PathNotFound
+    end
+  end
+
+  defp flag_param(q, name), do: q[name] && String.downcase(q[name]) == "true"
+
+  defp validate_locale!(nil), do: :ok
+
+  defp validate_locale!(text) do
+    language = text |> String.split(["_", "-"]) |> hd() |> String.downcase()
+
+    if language in @languages do
+      :ok
+    else
+      raise ECBPlatform.Errors.PlatformApiDataValidation,
+        errors: [
+          %{
+            code: "validation.msg.invalid.locale.format",
+            developer_message:
+              "The parameter `locale` has an invalid language value #{language} .",
+            default_message: "locale",
+            parameter: language,
+            args: []
+          }
+        ]
+    end
+  end
+
+  defp date_param(nil, _format), do: nil
+  defp date_param(text, nil), do: date_param(text, "yyyy-MM-dd")
+
+  defp date_param(text, format) do
+    alias ECBPlatform.Params.DatePattern
+
+    if not DatePattern.valid?(format), do: raise(ECBPlatform.Errors.ServerError)
+
+    case DatePattern.parse(text, format) do
+      {:ok, date} ->
+        date
+
+      :error ->
+        raise ECBPlatform.Errors.PlatformApiDataValidation,
+          errors: [
+            %{
+              code: "validation.msg.invalid.date.pattern",
+              developer_message: "The parameter date (#{text}) format is invalid",
+              default_message: "date",
+              parameter: text,
+              args: []
+            }
+          ]
+    end
+  end
 
   @doc "`GET /savingsaccounts/:id/transactions/:transaction_id`"
   def show(conn, raw_id, raw_tid) do
@@ -103,7 +339,12 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
     if q["template"] == "true",
       do:
         body
-        |> Map.drop(["isReversal", "originalTransactionId", "releaseTransactionId"])
+        |> Map.drop([
+          "isReversal",
+          "originalTransactionId",
+          "releaseTransactionId",
+          "reasonForBlock"
+        ])
         |> Map.put("paymentTypeOptions", payment_type_options()),
       else: body
   end
@@ -144,6 +385,9 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
       "isOverdraft" => false
     }
 
+    base =
+      if t.reason_for_block, do: Map.put(base, "reasonForBlock", t.reason_for_block), else: base
+
     # an account lists a transaction without external id with an explicit null; a single one leaves it out
     if full?,
       do:
@@ -152,6 +396,10 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
         |> Map.merge(flags(t, type, reversed?, reversal?)),
       else: base
   end
+
+  defp flip_entry(entry, false), do: entry
+  defp flip_entry("CREDIT", true), do: "DEBIT"
+  defp flip_entry("DEBIT", true), do: "CREDIT"
 
   defp payment_detail(%{payment_type_id: nil}), do: nil
 
@@ -226,6 +474,33 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
       flags: ["feeDeduction"],
       extra: ["payCharge", "chargeTransaction"]
     },
+    19 => %{
+      code: "savingsAccountTransactionType.escheat",
+      value: "Escheat",
+      enum: "ESCHEAT",
+      credit?: nil,
+      entry: "DEBIT",
+      flags: ["escheat"],
+      extra: []
+    },
+    20 => %{
+      code: "savingsAccountTransactionType.onHold",
+      value: "Amount on hold",
+      enum: "AMOUNT_HOLD",
+      credit?: nil,
+      entry: "DEBIT",
+      flags: ["amountHold"],
+      extra: []
+    },
+    21 => %{
+      code: "savingsAccountTransactionType.release",
+      value: "Release Amount",
+      enum: "AMOUNT_RELEASE",
+      credit?: nil,
+      entry: "CREDIT",
+      flags: ["amountRelease"],
+      extra: []
+    },
     17 => %{
       code: "savingsAccountTransactionType.overdraftInterest",
       value: "Overdraft Interest",
@@ -242,6 +517,7 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
   @extra_flags ~w(payCharge overDraftInterestPosting incomeFromInterest withdrawalFee chargeTransaction annualFee
                   depositOrWithdrawal)
 
+  defp entry_type(%{entry: entry}), do: entry
   defp entry_type(%{credit?: nil}), do: nil
   defp entry_type(%{credit?: true}), do: "CREDIT"
   defp entry_type(%{credit?: false}), do: "DEBIT"
@@ -290,7 +566,7 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
     Map.merge(interest, %{
       "debit" => live? and t.credit? == false,
       "credit" => live? and t.credit? == true,
-      "amountOnHold" => false,
+      "amountOnHold" => type == 20,
       "payCharge" => type == 7,
       "waivePenaltyCharge" => false,
       "waiveFeeCharge" => false,
@@ -299,7 +575,7 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
       "accrual" => false,
       "withdrawal" => type == 2,
       "penaltyCharge" => false,
-      "amountRelease" => false,
+      "amountRelease" => type == 21,
       "savingsAccountChargesPaid" => [],
       "manualTransaction" => false,
       "notReversed" => not reversed?,
@@ -323,9 +599,10 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
 
   # a reversal enters the books the other way round
   defp entry(type, reversal?) do
-    case Map.fetch!(@types, type).credit? do
-      nil -> nil
-      credit? -> if(credit? != reversal?, do: "CREDIT", else: "DEBIT")
+    case Map.fetch!(@types, type) do
+      %{entry: entry} -> flip_entry(entry, reversal?)
+      %{credit?: nil} -> nil
+      %{credit?: credit?} -> if(credit? != reversal?, do: "CREDIT", else: "DEBIT")
     end
   end
 
@@ -352,7 +629,7 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
           Write.execute(conn, @resource, "POSTINTEREST", id: id)
 
         command == "holdAmount" ->
-          not_supported(conn, command)
+          Write.execute(conn, @resource, "HOLDAMOUNT", id: id)
 
         true ->
           unknown_command(conn, conn.query_params["command"], @transaction_command_names)
@@ -381,7 +658,7 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
           )
 
         command == "releaseAmount" ->
-          not_supported(conn, command)
+          Write.execute(conn, @resource, "RELEASEAMOUNT", id: id, subentity_id: tid)
 
         true ->
           unknown_command(conn, conn.query_params["command"], @adjust_command_names)
@@ -397,13 +674,5 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
         name: "command",
         value: command,
         allowed: allowed
-      })
-
-  defp not_supported(conn, command),
-    do:
-      Errors.render(conn, %DomainRuleViolation{
-        code: "error.msg.savingsaccount.feature.not.supported.yet",
-        message: "The savings account command #{command} is not supported yet by E-CoreBank",
-        args: [command]
       })
 end

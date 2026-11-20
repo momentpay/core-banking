@@ -141,19 +141,38 @@ defmodule ECBDeposits.SavingsEnums do
 
   @doc "The sub status of an account that is neither dormant nor blocked."
   @spec sub_status_none() :: map
-  def sub_status_none do
-    %{
-      id: 0,
-      code: "SavingsAccountSubStatusEnum.none",
-      value: "None",
-      none: true,
-      inactive: false,
-      dormant: false,
-      escheat: false,
-      block: false,
-      blockCredit: false,
-      blockDebit: false
+  def sub_status_none, do: sub_status(0)
+
+  @sub_statuses %{
+    0 => {"none", "None"},
+    100 => {"inactive", "Inactive"},
+    200 => {"dormant", "Dormant"},
+    300 => {"escheat", "Escheat"},
+    400 => {"block", "Block"},
+    500 => {"blockCredit", "BlockCredit"},
+    600 => {"blockDebit", "BlockDebit"}
+  }
+
+  @doc "The sub status `id` (none, inactive, dormant, escheat, block, block credit or block debit) as Fineract shows it."
+  @spec sub_status(integer | nil) :: map
+  def sub_status(id) do
+    id = id || 0
+    {name, value} = Map.fetch!(@sub_statuses, id)
+
+    base = %{
+      id: id,
+      code: "SavingsAccountSubStatusEnum." <> name,
+      value: value,
+      none: id == 0,
+      inactive: id == 100,
+      dormant: id == 200,
+      escheat: id == 300,
+      block: id == 400,
+      blockCredit: id == 500,
+      blockDebit: id == 600
     }
+
+    base
   end
 
   @doc "The deposit type of an ordinary savings account."

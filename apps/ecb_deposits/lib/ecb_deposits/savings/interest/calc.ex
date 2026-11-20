@@ -15,7 +15,7 @@ defmodule ECBDeposits.Savings.Interest.Calc do
   @mode :half_even
   @digits 16
   @credit_types [1, 3, 8, 21]
-  @debit_types [2, 4, 5, 7, 17, 18, 19, 20]
+  @debit_types [2, 4, 5, 7, 17, 18, 20]
   @interest_types [3, 17]
   @charge_types [4, 5, 7]
 

@@ -46,8 +46,9 @@ defmodule ECBDeposits.Savings do
          a.total_fees_charge_derived, a.total_penalty_charge_derived, a.account_balance_derived, a.min_required_balance,
          a.enforce_min_required_balance, a.min_balance_for_interest_calculation, a.withhold_tax, a.tax_group_id,
          a.is_lien_allowed, a.max_allowed_lien_limit, a.on_hold_funds_derived, a.version,
-         a.start_interest_calculation_date, a.total_interest_earned_derived, a.last_interest_calculation_date,
+         a.start_interest_calculation_date, a.reason_for_block, a.total_savings_amount_on_hold AS savings_on_hold, a.total_interest_earned_derived, a.last_interest_calculation_date,
          a.interest_posted_till_date, p.is_dormancy_tracking_active AS dormancy_tracking_active,
+         p.days_to_inactive, p.days_to_dormancy, p.days_to_escheat,
          p.accounting_type AS accounting_type,
          (SELECT max(x.transaction_date) FROM m_savings_account_transaction x
            WHERE x.savings_account_id = a.id AND NOT x.is_reversed AND NOT x.is_reversal

@@ -11,7 +11,16 @@ defmodule ECBDeposits.Savings.Postings do
   """
   import Ecto.Query
 
-  alias ECBDeposits.Savings.{Balance, Charges, Interest, Journal, Transactions, Transitions}
+  alias ECBDeposits.Savings.{
+    Balance,
+    Blocks,
+    Charges,
+    Interest,
+    Journal,
+    Transactions,
+    Transitions
+  }
+
   alias ECBDeposits.Savings.Interest.Calc
   alias ECBPlatform.{BusinessDate, Configuration, Integrity, Params, TenantRepo, Validation}
   alias ECBPlatform.Commands.Result
@@ -45,8 +54,10 @@ defmodule ECBDeposits.Savings.Postings do
     account = Transitions.account!(id)
     {detail_id, changes} = payment_detail!(p)
 
+    Blocks.check_transaction!(account, :credit)
     check_open!(account, req, p)
     tx_id = add_tx!(user, account, @deposit, req, detail_id)
+    wake!(account)
     note!(user, account, tx_id, Params.string(p, "note"))
     result(account, tx_id, changes)
   end
@@ -58,16 +69,28 @@ defmodule ECBDeposits.Savings.Postings do
     {detail_id, changes} = payment_detail!(p)
     account = Transitions.account!(id)
 
+    Blocks.check_transaction!(account, :debit)
     check_open!(account, req, p)
     check_lock_in!(account, req, p)
 
     tx_id =
       add_tx!(user, account, @withdrawal, req, detail_id,
-        check: [force?: force?, amount: req.amount]
+        check: [force?: force?, amount: req.amount, hold: account.savings_on_hold]
       )
 
+    wake!(account)
     note!(user, account, tx_id, Params.string(p, "note"))
     result(account, tx_id, changes)
+  end
+
+  # an account that was inactive or dormant is active again once money moves in or out
+  defp wake!(account) do
+    TenantRepo.update_all(
+      from(a in "m_savings_account",
+        where: a.id == ^account.id and a.sub_status_enum in [100, 200]
+      ),
+      set: [sub_status_enum: 0]
+    )
   end
 
   @doc """
@@ -131,6 +154,9 @@ defmodule ECBDeposits.Savings.Postings do
         reversal: true,
         fees?: false
       )
+
+    # the reversal of an amount put on hold or released is not named in the answer
+    reversal_id = if tx.transaction_type_enum in [20, 21], do: nil, else: reversal_id
 
     Result.new(
       resource_id: reversal_id,
@@ -437,6 +463,16 @@ defmodule ECBDeposits.Savings.Postings do
     id
   end
 
+  @doc """
+  Escheats the balance of an account: a transaction of its own (type 19) that is dated `date`, takes the balance out
+  of the books and leaves the account's own totals alone, as Fineract's `SavingsAccount.escheat` does.
+  """
+  @spec escheat!(struct, map, Date.t()) :: integer
+  def escheat!(user, account, date) do
+    req = %{date: date, amount: account.account_balance_derived, external_id: nil}
+    add_tx!(user, account, 19, req, nil, fees: false)
+  end
+
   @doc "Waives what is outstanding of a charge: a transaction that takes nothing out, dated today."
   @spec waive_charge!(struct, map, map) :: integer
   def waive_charge!(user, account, charge) do
@@ -487,7 +523,12 @@ defmodule ECBDeposits.Savings.Postings do
 
     # the charge as it is now (an undo just before may have changed it)
     charge = Charges.get(charge.id) || charge
-    charge = if Charges.withdrawal_fee?(charge), do: %{charge | outstanding: amount}, else: charge
+
+    charge =
+      if Charges.withdrawal_fee?(charge) or Charges.no_activity?(charge),
+        do: %{charge | outstanding: amount},
+        else: charge
+
     Charges.save!(user, Charges.after_payment(charge, amount))
   end
 
@@ -755,6 +796,7 @@ defmodule ECBDeposits.Savings.Postings do
 
     case {Calc.direction(type), balance} do
       {_, nil} -> Decimal.new(0)
+      {nil, _} -> Decimal.new(0)
       {:credit, after_} -> part(Decimal.sub(after_, amount), amount)
       {:debit, after_} -> part(after_, amount)
     end

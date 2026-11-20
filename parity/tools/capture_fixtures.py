@@ -65,7 +65,13 @@ def fetch(path: str, method: str = "GET", body: str | None = None, auth: tuple[s
         with urllib.request.urlopen(req, context=CTX, timeout=60) as resp:  # noqa: S310 (local oracle)
             return resp.status, json.loads(resp.read().decode("utf-8") or "null")
     except urllib.error.HTTPError as err:
-        return err.code, json.loads(err.read().decode("utf-8") or "null")
+        text = err.read().decode("utf-8") or "null"
+        try:
+            return err.code, json.loads(text)
+        except ValueError:
+            # an answer that is not JSON (a plain page) is kept as the text it is
+            print(f"  not JSON: {method} {path} -> HTTP {err.code}: {text[:200]!r}")
+            return err.code, text
 
 
 def mark_today(value, keys: list[str]):
