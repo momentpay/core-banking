@@ -349,6 +349,10 @@ defmodule ECBApiFineract.Resources.SavingsTransactions do
       else: body
   end
 
+  @doc "The transactions of an account as a deposit account shows them: as one comes alone."
+  @spec compact_list_json(map) :: [map]
+  def compact_list_json(a), do: Enum.map(Transactions.list(a.id), &json(&1, a, false))
+
   @doc "The transactions of an account as an account shows them, every flag included."
   @spec list_json(map) :: [map]
   def list_json(a), do: Enum.map(Transactions.list(a.id), &json(&1, a, true))

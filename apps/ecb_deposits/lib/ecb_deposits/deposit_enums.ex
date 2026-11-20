@@ -68,6 +68,19 @@ defmodule ECBDeposits.DepositEnums do
     {3, "InterestIncentiveType.incentive", "Incentive"}
   ]
 
+  @maturity_instructions [
+    {100, "depositAccountClosureType.withdrawDeposit", "Withdraw Deposit"},
+    {200, "depositAccountClosureType.transferToSavings", "Transfer to Savings"},
+    {300, "depositAccountClosureType.reinvestPrincipalAndInterest", "Re-Invest Maturity Amount"},
+    {400, "depositAccountClosureType.reinvestPrincipalOnly", "Re-Invest Principal Only"}
+  ]
+
+  @doc "What an account may be told to do when it matures, as options."
+  def maturity_instructions, do: options(@maturity_instructions)
+
+  @doc "A maturity instruction as Fineract shows it."
+  def maturity_instruction(id), do: one(@maturity_instructions, id)
+
   @doc "The units of a deposit term, as options."
   def term_units, do: options(@term_units)
   @doc "The ids a term unit may have."

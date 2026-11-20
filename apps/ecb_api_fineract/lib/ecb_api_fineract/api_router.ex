@@ -26,6 +26,7 @@ defmodule ECBApiFineract.ApiRouter do
     DepositProducts,
     FamilyMembers,
     FinancialActivityAccounts,
+    FixedDepositAccounts,
     FloatingRates,
     Funds,
     GLAccounts,
@@ -187,6 +188,14 @@ defmodule ECBApiFineract.ApiRouter do
   get "/v1/recurringdepositproducts/:id", do: DepositProducts.show(conn, :recurring, id)
   put "/v1/recurringdepositproducts/:id", do: DepositProducts.update(conn, :recurring, id)
   delete "/v1/recurringdepositproducts/:id", do: DepositProducts.delete(conn, :recurring, id)
+
+  get "/v1/fixeddepositaccounts/template", do: FixedDepositAccounts.template(conn)
+  get "/v1/fixeddepositaccounts", do: FixedDepositAccounts.index(conn)
+  post "/v1/fixeddepositaccounts", do: FixedDepositAccounts.create(conn)
+  get "/v1/fixeddepositaccounts/:id", do: FixedDepositAccounts.show(conn, id)
+  put "/v1/fixeddepositaccounts/:id", do: FixedDepositAccounts.update(conn, id)
+  delete "/v1/fixeddepositaccounts/:id", do: FixedDepositAccounts.delete(conn, id)
+  post "/v1/fixeddepositaccounts/:id", do: FixedDepositAccounts.command(conn, id)
 
   get "/v1/savingsaccounts/template", do: SavingsAccounts.template(conn)
 

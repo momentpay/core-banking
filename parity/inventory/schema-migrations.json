@@ -338,6 +338,21 @@
         "m_interest_incentives",
         "m_deposit_product_interest_rate_chart"
       ]
+    },
+    {
+      "kind": "schema",
+      "app": "ecb_deposits",
+      "version": "20261121110000",
+      "name": "create_deposit_account_tables",
+      "tables": [
+        "m_deposit_account_term_and_preclosure",
+        "m_deposit_account_recurring_detail",
+        "m_savings_account_interest_rate_chart",
+        "m_savings_account_interest_rate_slab",
+        "m_savings_interest_incentives",
+        "m_deposit_account_on_hold_transaction",
+        "m_mandatory_savings_schedule"
+      ]
     }
   ],
   "deferred_foreign_keys": [
@@ -382,12 +397,6 @@
       "references": "m_group",
       "sql": "ALTER TABLE ONLY public.m_loan\n    ADD CONSTRAINT m_loan_ibfk_1 FOREIGN KEY (group_id) REFERENCES public.m_group(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
       "migration": "create_loan_account_tables"
-    },
-    {
-      "table": "m_guarantor_transaction",
-      "references": "m_deposit_account_on_hold_transaction",
-      "sql": "ALTER TABLE ONLY public.m_guarantor_transaction\n    ADD CONSTRAINT \"FK_guarantor_transaction_m_deposit_account_on_hold_transaction\" FOREIGN KEY (deposit_on_hold_transaction_id) REFERENCES public.m_deposit_account_on_hold_transaction(id) ON UPDATE RESTRICT ON DELETE RESTRICT;",
-      "migration": "create_guarantor_tables"
     },
     {
       "table": "m_guarantor_funding_details",

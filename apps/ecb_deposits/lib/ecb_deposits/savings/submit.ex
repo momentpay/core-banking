@@ -251,7 +251,8 @@ defmodule ECBDeposits.Savings.Submit do
     end
   end
 
-  defp client!(p) do
+  @doc false
+  def client!(p) do
     case Json.long(p, "clientId") do
       nil ->
         nil
@@ -263,14 +264,16 @@ defmodule ECBDeposits.Savings.Submit do
     end
   end
 
-  defp not_active!(id) do
+  @doc false
+  def not_active!(id) do
     raise DomainRuleViolation,
       code: "error.msg.client.not.active.exception",
       message: "The Client with id `#{id}` is not active",
       args: [id]
   end
 
-  defp staff!(p) do
+  @doc false
+  def staff!(p) do
     case Json.long(p, "fieldOfficerId") do
       nil -> nil
       id -> ECBOrg.Staff.fetch!(id)
@@ -279,7 +282,8 @@ defmodule ECBDeposits.Savings.Submit do
 
   # --- the row ------------------------------------------------------------------------------------
 
-  defp new_row(user, p, product, client, staff, on) do
+  @doc false
+  def new_row(user, p, product, client, staff, on) do
     now = DateTime.utc_now()
     allow_overdraft = given(p, "allowOverdraft", &Params.boolean/2, product.allow_overdraft)
     lock_type = lockin_type(p, product)
@@ -455,7 +459,8 @@ defmodule ECBDeposits.Savings.Submit do
     end
   end
 
-  defp insert!(row) do
+  @doc false
+  def insert!(row) do
     Integrity.translate(
       fn ->
         {1, [%{id: id}]} = TenantRepo.insert_all("m_savings_account", [row], returning: [:id])
@@ -472,7 +477,8 @@ defmodule ECBDeposits.Savings.Submit do
 
   # an account without a number of its own gets nine digits from its id, with the prefix the tenant's savings format
   # asks for
-  defp generate_account_no!(id, product, client) do
+  @doc false
+  def generate_account_no!(id, product, client) do
     format =
       TenantRepo.one(
         from(f in "c_account_number_format",
@@ -507,8 +513,9 @@ defmodule ECBDeposits.Savings.Submit do
     prefix <> String.pad_leading(Integer.to_string(id), max(9 - String.length(prefix), 0), "0")
   end
 
-  defp blank_to_nil(nil), do: nil
-  defp blank_to_nil(text), do: if(String.trim(text) == "", do: nil, else: text)
+  @doc false
+  def blank_to_nil(nil), do: nil
+  def blank_to_nil(text), do: if(String.trim(text) == "", do: nil, else: text)
 
   # --- changing an application -------------------------------------------------------------------
 

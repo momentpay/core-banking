@@ -162,7 +162,8 @@ defmodule ECBApiFineract.Resources.SavingsAccounts do
     })
   end
 
-  defp user_ids(a),
+  @doc false
+  def user_ids(a),
     do: [
       a.submittedon_userid,
       a.approvedon_userid,
@@ -273,7 +274,8 @@ defmodule ECBApiFineract.Resources.SavingsAccounts do
     |> Map.delete("inMultiplesOf")
   end
 
-  defp summary(a) do
+  @doc false
+  def summary(a) do
     balance = a.account_balance_derived
 
     on_hold =
@@ -306,7 +308,8 @@ defmodule ECBApiFineract.Resources.SavingsAccounts do
     }
   end
 
-  defp timeline(a, users) do
+  @doc false
+  def timeline(a, users) do
     %{"submittedOnDate" => a.submittedon_date}
     |> person("submittedBy", users[a.submittedon_userid])
     |> dated("rejectedOnDate", a.rejectedon_date)

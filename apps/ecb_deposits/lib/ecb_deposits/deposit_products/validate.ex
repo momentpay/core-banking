@@ -134,7 +134,8 @@ defmodule ECBDeposits.DepositProducts.Validate do
     end
   end
 
-  defp pre_closure_create(v, p) do
+  @doc false
+  def pre_closure_create(v, p) do
     if Params.exists?(p, "preClosurePenalApplicable") do
       applicable = Params.boolean(p, "preClosurePenalApplicable")
       if applicable == nil, do: raise(ECBPlatform.Errors.ServerError)

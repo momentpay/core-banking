@@ -55,6 +55,42 @@ defmodule ECBDeposits.Handlers do
       do: {:ok, Write.delete!(:recurring, command.entity_id)}
   end
 
+  defmodule FixedDepositAccount do
+    @moduledoc "Every action on `FIXEDDEPOSITACCOUNT`: applying, changing, the steps to activation."
+    @behaviour ECBPlatform.Commands.Handler
+
+    alias ECBDeposits.DepositAccounts.{Activation, Submit}
+    alias ECBDeposits.Savings.Transitions
+    alias ECBPlatform.Params
+
+    @impl true
+    def process(%{action_name: "CREATE"} = command, user),
+      do: {:ok, Submit.create!(user, Params.parse!(command.json))}
+
+    def process(%{action_name: "UPDATE"} = command, user),
+      do: {:ok, Submit.modify!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: "DELETE"} = command, user),
+      do: {:ok, Submit.delete!(user, command.entity_id)}
+
+    def process(%{action_name: "ACTIVATE"} = command, user),
+      do: {:ok, Activation.activate!(user, command.entity_id, Params.parse!(command.json))}
+
+    def process(%{action_name: name} = command, user)
+        when name in ~w(APPROVE APPROVALUNDO REJECT WITHDRAW) do
+      id = Submit.writable!(command.entity_id).id
+      params = Params.parse!(command.json)
+
+      {:ok,
+       case name do
+         "APPROVE" -> Transitions.approve!(user, id, params)
+         "APPROVALUNDO" -> Transitions.undo_approval!(user, id, params)
+         "REJECT" -> Transitions.reject!(user, id, params)
+         "WITHDRAW" -> Transitions.withdraw!(user, id, params)
+       end}
+    end
+  end
+
   defmodule SavingsAccount do
     @moduledoc """
     Every action on `SAVINGSACCOUNT` so far: apply, change and delete an application, approve it, take the approval
